@@ -1,5 +1,4 @@
 import asyncio
-import traceback
 
 from app import bot
 
