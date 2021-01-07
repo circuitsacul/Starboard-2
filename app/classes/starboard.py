@@ -2,7 +2,7 @@ from typing import Any
 
 import discord
 
-from ..bot import Bot
+from ..classes.bot import Bot
 from .. import errors
 
 

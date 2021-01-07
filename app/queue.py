@@ -1,5 +1,7 @@
 from typing import Any
 
+from discord import utils
+
 from . import errors
 
 
@@ -16,6 +18,9 @@ class LimitedQueue:
         if item in self.queue:
             return True
         return False
+
+    def get(self, **kwargs) -> Any:
+        return utils.get(self.queue, **kwargs)
 
     def add(self, item: Any) -> None:
         self.queue.add(item)

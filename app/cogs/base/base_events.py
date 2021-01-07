@@ -3,7 +3,7 @@ import traceback
 import discord
 from discord.ext import commands
 
-from ...bot import Bot
+from ...classes.bot import Bot
 from ... import errors
 
 
@@ -68,7 +68,10 @@ class BaseEvents(commands.Cog):
             )
             embed.add_field(
                 name=e.__class__.__name__,
-                value=f"```{''.join(traceback.format_tb(e.__traceback__))}```"
+                value=(
+                    f"{e}\n"
+                    f"```{''.join(traceback.format_tb(e.__traceback__))}```"
+                )
             )
             await ctx.send(embed=embed)
 

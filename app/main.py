@@ -1,5 +1,4 @@
 import os
-from typing import List
 from dotenv import load_dotenv
 
 import discord
@@ -8,24 +7,9 @@ from pretty_help import PrettyHelp
 
 from .database.database import Database
 from .cache import Cache
+from .classes.bot import Bot
 
 load_dotenv()
-
-
-class Bot(commands.AutoShardedBot):
-    def __init__(self, *args: list, **kwargs: list) -> None:
-        self.theme_color: int = kwargs.pop("theme_color")
-        self.error_color: int = kwargs.pop("error_color")
-        self.token: str = kwargs.pop("token")
-        self.custom_owner_ids: List[int] = kwargs.pop("owner_ids")
-        self.database: Database = kwargs.pop("database")
-
-        super().__init__(*args, **kwargs)
-
-        self.cache = Cache()
-
-    async def on_message(self, message: discord.Message) -> None:
-        pass
 
 
 EXTENSIONS = [
@@ -37,6 +21,7 @@ TOKEN = os.getenv("TOKEN")
 OWNER_IDS = [int(uid) for uid in os.getenv("OWNER_IDS").split(' ')]
 THEME = int(os.getenv("THEME"), 16)
 ERROR = int(os.getenv("ERROR"), 16)
+CACHE = Cache()
 HELP_COMMAND = PrettyHelp(
     color=THEME
 )
@@ -56,6 +41,7 @@ BOT = Bot(
     error_color=ERROR,
     owner_ids=OWNER_IDS,
     database=DATABASE,
+    cache=CACHE,
     help_command=HELP_COMMAND,
     command_prefix=commands.when_mentioned_or('sb!'),
     intents=INTENTS

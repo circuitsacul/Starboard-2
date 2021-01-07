@@ -1,8 +1,7 @@
 from discord.ext import commands
 
-from ...bot import Bot
-from ... import converters
-from ...classes import starboard
+from ...classes.bot import Bot
+from ...classes.guild import Guild
 
 
 class Base(commands.Cog):
@@ -14,12 +13,13 @@ class Base(commands.Cog):
     )
     async def test(
         self,
-        ctx: commands.Context,
-        starboard_id: converters.Number
+        ctx: commands.Context
     ) -> None:
-        await ctx.send(
-            dir(await starboard.Starboard.from_id(self.bot, starboard_id))
-        )
+        guild = self.bot.cache.get_guild(ctx.guild.id)
+        if guild is None:
+            guild = await Guild.from_guild(self.bot, ctx.guild)
+        await ctx.send(f"Starboards: {guild._starboards}")
+        await ctx.send(f"Starboards: {await guild.starboards}")
 
 
 def setup(bot: Bot) -> None:

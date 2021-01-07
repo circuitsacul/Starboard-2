@@ -2,7 +2,7 @@ from typing import Any
 
 import discord
 
-from ..bot import Bot
+from ..classes.bot import Bot
 from .. import errors
 from .starboard import Starboard
 
@@ -14,13 +14,13 @@ class Guild:
         self.guild = kwargs.pop('guild')
         self._sql_attributes = kwargs.copy()
 
-        self.id = int(kwargs.pop('id'))
+        self.id = kwargs.get('id')
 
-        self.log_channel = int(kwargs.pop('log_channel'))
-        self.level_channel = int(kwargs.pop('level_channel'))
-        self.ping_user = kwargs.pop('ping_user')
+        self.log_channel = kwargs.get('log_channel')
+        self.level_channel = kwargs.get('level_channel')
+        self.ping_user = kwargs.get('ping_user')
 
-        self.prefixes = kwargs.pop('prefixes')
+        self.prefixes = kwargs.get('prefixes')
 
         self._starboards = None
 
@@ -36,7 +36,7 @@ class Guild:
             self._starboards = [
                 Starboard(
                     self.bot,
-                    self.bot.get_channel(int(s['id'])),
+                    channel=self.bot.get_channel(int(s['id'])),
                     **s
                 )
                 for s in sql_starboards
@@ -61,7 +61,9 @@ class Guild:
                 f"No guild with id {guild.id}"
             )
 
-        return cls(bot, guild=guild, **sql_guild)
+        result = cls(bot, guild=guild, **sql_guild)
+        bot.cache.guilds.add(result)
+        return result
 
     @classmethod
     async def from_id(
@@ -83,4 +85,6 @@ class Guild:
 
         guild = bot.get_guild(guild_id)
 
-        return cls(bot, guild=guild, **sql_guild)
+        result = cls(bot, guild=guild, **sql_guild)
+        bot.cache.guilds.add(result)
+        return result
