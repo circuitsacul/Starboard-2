@@ -1,6 +1,12 @@
 GUILDS = \
     """CREATE TABLE IF NOT EXISTS guilds (
-        id NUMERIC PRIMARY KEY
+        id NUMERIC PRIMARY KEY,
+
+        log_channel NUMERIC DEFAULT NULL,
+        level_channel NUMERIC DEFAULT NULL,
+        ping_user BOOL NOT NULL DEFAULT false,
+
+        prefixes TEXT[] NOT NULL DEFAULT '{"sb!"}'
     )"""
 
 USERS = \

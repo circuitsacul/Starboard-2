@@ -25,7 +25,8 @@ class Bot(commands.AutoShardedBot):
 
 
 EXTENSIONS = [
-    'base.base_events'
+    'app.cogs.base.base_events',
+    'jishaku'
 ]
 TOKEN = os.getenv("TOKEN")
 OWNER_IDS = [int(uid) for uid in os.getenv("OWNER_IDS").split(' ')]
@@ -62,7 +63,7 @@ async def run() -> None:
 
     print("Loading Extensions...")
     for ext in EXTENSIONS:
-        BOT.load_extension("app.cogs." + ext)
+        BOT.load_extension(ext)
 
     print("Starting Bot...")
     await BOT.start(TOKEN)
