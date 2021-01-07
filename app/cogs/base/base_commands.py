@@ -1,7 +1,7 @@
+import discord
 from discord.ext import commands
 
 from ...classes.bot import Bot
-from ...classes.guild import Guild
 
 
 class Base(commands.Cog):
@@ -13,13 +13,11 @@ class Base(commands.Cog):
     )
     async def test(
         self,
-        ctx: commands.Context
+        ctx: commands.Context,
+        starboard: discord.TextChannel
     ) -> None:
-        guild = self.bot.cache.get_guild(ctx.guild.id)
-        if guild is None:
-            guild = await Guild.from_guild(self.bot, ctx.guild)
-        await ctx.send(f"Starboards: {guild._starboards}")
-        await ctx.send(f"Starboards: {await guild.starboards}")
+        guild = await self.bot.get_sql_guild(ctx.guild.id)
+        await ctx.send(await guild.get_starboard(starboard.id))
 
 
 def setup(bot: Bot) -> None:

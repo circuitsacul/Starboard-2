@@ -2,13 +2,12 @@ from typing import Any
 
 import discord
 
-from ..classes.bot import Bot
 from .. import errors
 from .starboard import Starboard
 
 
 class Guild:
-    def __init__(self, bot: Bot, **kwargs: dict) -> None:
+    def __init__(self, bot, **kwargs: dict) -> None:
         self.bot = bot
 
         self.guild = kwargs.pop('guild')
@@ -23,6 +22,12 @@ class Guild:
         self.prefixes = kwargs.get('prefixes')
 
         self._starboards = None
+
+    async def get_starboard(self, starboard_id: int) -> Starboard:
+        return discord.utils.get(await self.starboards, id=starboard_id)
+
+    async def add_starboard(self, channel_id: int) -> Starboard:
+        return await Starboard.create(self.bot, channel_id, self.id)
 
     @property
     async def starboards(self) -> list:
@@ -46,7 +51,7 @@ class Guild:
     @classmethod
     async def from_guild(
         cls: Any,
-        bot: Bot,
+        bot,
         guild: discord.Guild
     ) -> Any:
         async with bot.database.pool.acquire() as con:
@@ -68,7 +73,7 @@ class Guild:
     @classmethod
     async def from_id(
         cls: Any,
-        bot: Bot,
+        bot,
         guild_id: int
     ) -> Any:
         async with bot.database.pool.acquire() as con:

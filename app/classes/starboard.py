@@ -2,12 +2,11 @@ from typing import Any
 
 import discord
 
-from ..classes.bot import Bot
 from .. import errors
 
 
 class Starboard:
-    def __init__(self, bot: Bot, **kwargs: dict):
+    def __init__(self, bot, **kwargs: dict):
         self.bot = bot
 
         self.channel = kwargs.pop('channel')
@@ -30,9 +29,24 @@ class Starboard:
         self.recv_star = kwargs.pop('recv_star')
 
     @classmethod
+    async def create(
+        cls: Any,
+        bot,
+        channel_id: int,
+        guild_id: int
+    ) -> Any:
+        async with bot.database.pool.acquire() as con:
+            async with con.transaction():
+                await con.execute(
+                    """INSERT INTO starboards (id, guild_id)
+                    VALUES ($1, $2)""", channel_id, guild_id
+                )
+        return cls.from_id(bot, channel_id)
+
+    @classmethod
     async def from_channel(
         cls: Any,
-        bot: Bot,
+        bot,
         channel: discord.TextChannel
     ) -> Any:
         async with bot.database.pool.acquire() as con:
@@ -52,7 +66,7 @@ class Starboard:
     @classmethod
     async def from_id(
         cls: Any,
-        bot: Bot,
+        bot,
         channel_id: int
     ) -> Any:
         async with bot.database.pool.acquire() as con:
