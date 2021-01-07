@@ -28,6 +28,14 @@ class Starboard:
         self.star = kwargs.pop('star')
         self.recv_star = kwargs.pop('recv_star')
 
+    async def delete(self) -> None:
+        async with self.bot.database.pool.acquire() as con:
+            async with con.transaction():
+                await con.execute(
+                    """DELETE FROM starboards
+                    WHERE id=$1""", self.id
+                )
+
     @classmethod
     async def create(
         cls: Any,

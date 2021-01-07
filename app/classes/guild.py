@@ -36,6 +36,15 @@ class Guild:
         self._starboards.append(starboard)
         return starboard
 
+    async def remove_starboard(self, channel_id: int) -> None:
+        starboard = await self.get_starboard(channel_id)
+        if starboard is None:
+            raise errors.DoesNotExist(
+                f"<#{channel_id}> is not a starboard."
+            )
+        await starboard.delete()
+        self._starboards.remove(starboard)
+
     @property
     async def starboards(self) -> list:
         if self._starboards is None:
