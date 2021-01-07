@@ -32,16 +32,16 @@ STARBOARDS = \
 
         threshold SMALLINT NOT NULL DEFAULT 3,
         lower_threshold SMALLINT NOT NULL DEFAULT 0,
-        selfstar BOOL NOT NULL DEFAULT False,
-        unstar BOOL NOT NULL DEFAULT True,
-        xp BOOL NOT NULL DEFAULT True,
-        link_edits BOOL NOT NULL DEFAULT True,
-        link_deletes BOOL NOT NULL DEFAULT False,
-        star_emojis TEXT[] NOT NULL DEFAULT {"⭐"},
-        display_emoji TEXT DEFAULT "⭐",
+        selfstar BOOL NOT NULL DEFAULT false,
+        unstar BOOL NOT NULL DEFAULT true,
+        xp BOOL NOT NULL DEFAULT true,
+        link_edits BOOL NOT NULL DEFAULT true,
+        link_deletes BOOL NOT NULL DEFAULT false,
+        star_emojis TEXT[] DEFAULT '{⭐}',
+        display_emoji TEXT DEFAULT '⭐',
 
-        star BOOL NOT NULL DEFAULT True,
-        recv_star BOOL NOT NULL DEFAULT True,
+        star BOOL NOT NULL DEFAULT true,
+        recv_star BOOL NOT NULL DEFAULT true,
 
         FOREIGN KEY (guild_id) REFERENCES guilds (id)
             ON DELETE CASCADE
@@ -56,8 +56,8 @@ MESSAGES = \
 
         points SMALLINT DEFAULT NULL,
 
-        forced NUMERIC[] NOT NULL DEFAULT {},
-        trashed BOOL NOT NULL DEFAULT False,
+        forced NUMERIC[] NOT NULL DEFAULT '{}',
+        trashed BOOL NOT NULL DEFAULT false,
 
         FOREIGN KEY (guild_id) REFERENCES guilds (id)
             ON DELETE CASCADE,
@@ -92,8 +92,19 @@ REACTION_USERS = \
         reaction_id BIGINT NOT NULL,
         user_id NUMERIC NOT NULL,
 
-        FOREIGN KEY (reaction_id) REFERECES reactions (id)
+        FOREIGN KEY (reaction_id) REFERENCES reactions (id)
             ON DELETE CASCADE,
         FOREIGN KEY (user_id) REFERENCES users (id)
             ON DELETE SET NULL
     )"""
+
+ALL_TABLES = [
+    GUILDS,
+    USERS,
+    MEMBERS,
+    STARBOARDS,
+    MESSAGES,
+    STARBOARD_MESSAGES,
+    REACTIONS,
+    REACTION_USERS
+]
