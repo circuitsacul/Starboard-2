@@ -1,4 +1,5 @@
 import os
+from typing import List
 from dotenv import load_dotenv
 
 import discord
@@ -12,11 +13,11 @@ load_dotenv()
 
 class Bot(commands.AutoShardedBot):
     def __init__(self, *args: list, **kwargs: list) -> None:
-        self.theme_color = kwargs.pop("theme_color")
-        self.error_color = kwargs.pop("error_color")
-        self.token = kwargs.pop("token")
-        self.custom_owner_ids = kwargs.pop("owner_ids")
-        self.database = kwargs.pop("database")
+        self.theme_color: int = kwargs.pop("theme_color")
+        self.error_color: int = kwargs.pop("error_color")
+        self.token: str = kwargs.pop("token")
+        self.custom_owner_ids: List[int] = kwargs.pop("owner_ids")
+        self.database: Database = kwargs.pop("database")
 
         super().__init__(*args, **kwargs)
 
@@ -26,6 +27,7 @@ class Bot(commands.AutoShardedBot):
 
 EXTENSIONS = [
     'app.cogs.base.base_events',
+    'app.cogs.base.base_commands',
     'jishaku'
 ]
 TOKEN = os.getenv("TOKEN")
