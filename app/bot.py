@@ -7,6 +7,7 @@ from discord.ext import commands
 from pretty_help import PrettyHelp
 
 from .database.database import Database
+from .cache import Cache
 
 load_dotenv()
 
@@ -20,6 +21,8 @@ class Bot(commands.AutoShardedBot):
         self.database: Database = kwargs.pop("database")
 
         super().__init__(*args, **kwargs)
+
+        self.cache = Cache()
 
     async def on_message(self, message: discord.Message) -> None:
         pass

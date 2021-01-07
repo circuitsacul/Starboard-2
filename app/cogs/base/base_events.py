@@ -11,7 +11,8 @@ IGNORED_ERRORS = [
     commands.CommandNotFound
 ]
 EXPECTED_ERRORS = [
-    errors.ConversionError
+    errors.ConversionError,
+    errors.DoesNotExist
 ]
 
 
