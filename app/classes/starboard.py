@@ -2,12 +2,14 @@ from typing import Any
 
 import discord
 
-from .bot import Bot
-from . import errors
+from ..bot import Bot
+from .. import errors
 
 
 class Starboard:
-    def __init__(self, **kwargs: dict):
+    def __init__(self, bot: Bot, **kwargs: dict):
+        self.bot = bot
+
         self.channel = kwargs.pop('channel')
         self._sql_attributes = kwargs.copy()
 
@@ -45,7 +47,7 @@ class Starboard:
                 f"No starboard with id of {channel.id} was found."
             )
 
-        return cls(channel=channel, **sql_starboard)
+        return cls(bot, channel=channel, **sql_starboard)
 
     @classmethod
     async def from_id(
@@ -68,4 +70,4 @@ class Starboard:
         channel = bot.get_channel(channel_id)
         # Channel might be NoneType, but we can still continue
 
-        return cls(channel=channel, **sql_starboard)
+        return cls(bot, channel=channel, **sql_starboard)

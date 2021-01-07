@@ -2,7 +2,7 @@ from discord.ext import commands
 
 from ...bot import Bot
 from ... import converters
-from ... import classes
+from ...classes import starboard
 
 
 class Base(commands.Cog):
@@ -18,7 +18,7 @@ class Base(commands.Cog):
         starboard_id: converters.Number
     ) -> None:
         await ctx.send(
-            dir(await classes.Starboard.from_id(self.bot, starboard_id))
+            dir(await starboard.Starboard.from_id(self.bot, starboard_id))
         )
 
 
