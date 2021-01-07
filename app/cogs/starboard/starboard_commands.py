@@ -11,6 +11,42 @@ class Starboard(commands.Cog):
         self.bot = bot
 
     @commands.command(
+        name='starboards', aliases=['s']
+    )
+    @commands.guild_only()
+    async def list_starboards(
+        self,
+        ctx: commands.Context
+    ) -> None:
+        guild = await self.bot.get_sql_guild(ctx.guild.id)
+        starboards = await guild.starboards
+
+        if len(starboards) == 0:
+            await ctx.send(
+                "No starboards have been set. "
+                "Use `sb!add #channel` to add one."
+            )
+            return
+
+        description = ""
+        for s in starboards:
+            if s.channel is None:
+                name = f"Deleted Channel `{s.id}`"
+            else:
+                name = s.channel.mention
+            description += f"{name} {''.join(s.star_emojis)}"
+            if s is not starboards[-1]:
+                description += '\n'
+
+        embed = discord.Embed(
+            title="Starboards",
+            description=description,
+            color=self.bot.theme_color
+        )
+
+        await ctx.send(embed=embed)
+
+    @commands.command(
         name='addStarboard', aliases=['add', 'as'],
         brief="Adds a starboard"
     )
