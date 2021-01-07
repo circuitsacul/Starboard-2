@@ -41,7 +41,7 @@ class Starboard:
                     """INSERT INTO starboards (id, guild_id)
                     VALUES ($1, $2)""", channel_id, guild_id
                 )
-        return cls.from_id(bot, channel_id)
+        return await cls.from_id(bot, channel_id)
 
     @classmethod
     async def from_channel(

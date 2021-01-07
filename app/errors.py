@@ -4,3 +4,7 @@ class ConversionError(Exception):
 
 class DoesNotExist(Exception):
     pass
+
+
+class AlreadyExists(Exception):
+    pass

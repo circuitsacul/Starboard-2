@@ -15,6 +15,7 @@ load_dotenv()
 EXTENSIONS = [
     'app.cogs.base.base_events',
     'app.cogs.base.base_commands',
+    'app.cogs.starboard.starboard_commands',
     'jishaku'
 ]
 TOKEN = os.getenv("TOKEN")

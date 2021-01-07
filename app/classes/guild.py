@@ -27,7 +27,14 @@ class Guild:
         return discord.utils.get(await self.starboards, id=starboard_id)
 
     async def add_starboard(self, channel_id: int) -> Starboard:
-        return await Starboard.create(self.bot, channel_id, self.id)
+        exists = await self.get_starboard(channel_id) is not None
+        if exists:
+            raise errors.AlreadyExists(
+                f"<#{channel_id}> is already a starboard."
+            )
+        starboard = await Starboard.create(self.bot, channel_id, self.id)
+        self._starboards.append(starboard)
+        return starboard
 
     @property
     async def starboards(self) -> list:

@@ -12,7 +12,8 @@ IGNORED_ERRORS = [
 ]
 EXPECTED_ERRORS = [
     errors.ConversionError,
-    errors.DoesNotExist
+    errors.DoesNotExist,
+    errors.AlreadyExists
 ]
 
 
