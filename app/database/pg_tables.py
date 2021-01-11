@@ -50,6 +50,7 @@ STARBOARDS = \
         images_only BOOL NOT NULL DEFAULT False,
         remove_invalid BOOL NOT NULL DEFAULT True,
         no_xp BOOL NOT NULL DEFAULT False,
+        explore BOOL NOT NULL DEFAULT True,
 
         star_emojis TEXT[] DEFAULT '{⭐}',
         display_emoji TEXT DEFAULT '⭐',
@@ -60,17 +61,17 @@ STARBOARDS = \
 
 SETTING_OVERRIDES = \
     """CREATE TABLE IF NOT EXISTS setting_overrides (
-        id BIGINT PRIMARY KEY,
+        id SERIAL PRIMARY KEY,
+        guild_id NUMERIC NOT NULL,
+        index SMALLINT NOT NULL,
         name VARCHAR(32) NOT NULL,
 
         starboards NUMERIC[] NOT NULL,
-        channel_mode SMALLINT NOT NULL DEFAULT 0,
-        channels NUMERIC[] DEFAULT NULL,
+        in_channels NUMERIC[] DEFAULT '{}',
+        not_in_channels NUMERIC[] DEFAULT '{}',
 
-        has_any_role NUMERIC[] DEFAULT NULL,
-        has_all_roles NUMERIC[] DEFAULT NULL,
-        lacks_any_role NUMERIC[] DEFAULT NULL,
-        lacks_all_roles NUMERIC[] DEFAULT NULL,
+        has_roles NUMERIC[] DEFAULT '{}',
+        lacks_roles NUMERIC[] DEFAULT '{}',
 
         required SMALLINT DEFAULT NULL,
         required_remove SMALLINT DEFAULT NULL,
@@ -82,12 +83,16 @@ SETTING_OVERRIDES = \
         images_only BOOL DEFAULT NULL,
         remove_invalid BOOL DEFAULT NULL,
         no_xp BOOL DEFAULT NULL,
+        explore BOOL DEFAULT NULL,
 
         star BOOL DEFAULT NULL,
         recv_star BOOL DEFAULT NULL,
 
-        allow_command BOOL DEFAULT NULL,
-        qa BOOL DEFAULT NULL
+        allow_commands BOOL DEFAULT NULL,
+        qa BOOL DEFAULT NULL,
+
+        FOREIGN KEY (guild_id) REFERENCES guilds (id)
+            ON DELETE CASCADE
     )"""
 
 MESSAGES = \
