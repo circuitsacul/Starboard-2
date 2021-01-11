@@ -192,3 +192,4 @@ class Database:
             ORDER BY index DESC;
             """, starboard, channel, roles
         )
+        return setting_overrides
