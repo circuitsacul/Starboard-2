@@ -13,11 +13,15 @@ from app.classes.clusterbot import ClusterBot
 from app.database.database import Database
 from app.cache import Cache
 
-multiprocessing.set_start_method('spawn')
-
 load_dotenv()
 
 TOKEN = os.getenv('TOKEN')
+EXTENSIONS = [
+    'app.cogs.base.base_commands',
+    'app.cogs.base.base_events',
+    'app.cogs.starboard.starboard_commands',
+    'app.cogs.owner.eval'
+]
 
 log = logging.getLogger("Cluster#Launcher")
 log.setLevel(logging.DEBUG)
@@ -162,11 +166,14 @@ class Cluster:
             shard_count=max_shards,
             cluster_name=name,
             cache=Cache(),
-            database=Database(
+            db=Database(
                 os.getenv('DB_NAME'),
                 os.getenv('DB_USER'),
                 os.getenv('DB_PASSWORD')
-            )
+            ),
+            theme_color=os.getenv("THEME"),
+            error_color=os.getenv("ERROR"),
+            initial_extensions=EXTENSIONS
         )
         self.name = name
         self.log = logging.getLogger(f"Cluster#{name}")
@@ -201,7 +208,7 @@ class Cluster:
         stdout, stdin = multiprocessing.Pipe()
         kw = self.kwargs
         kw['pipe'] = stdin
-        await kw['database'].init_database()
+        await kw['db'].init_database()
         print("Launching...")
         self.process = multiprocessing.Process(
             target=ClusterBot, kwargs=kw, daemon=True

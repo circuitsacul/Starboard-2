@@ -12,7 +12,6 @@ from discord.ext import commands
 
 class ClusterBot(commands.AutoShardedBot):
     def __init__(self, **kwargs):
-        print("init called")
         self.theme_color = kwargs.pop('theme_color')
         self.error_color = kwargs.pop('error_color')
         self.db = kwargs.pop('db')
@@ -39,9 +38,11 @@ class ClusterBot(commands.AutoShardedBot):
             f'{kwargs["shard_count"]}'
         )
         self.log = log
-        self.load_extension("eval")
         self.loop.create_task(self.ensure_ipc())
-        print("running")
+
+        for ext in kwargs.pop('initial_extensions'):
+            self.load_extension(ext)
+
         self.run(kwargs['token'])
 
     async def on_ready(self):
@@ -52,15 +53,8 @@ class ClusterBot(commands.AutoShardedBot):
     async def on_shard_ready(self, shard_id):
         self.log.info(f'[Cluster#{self.cluster_name}] Shard {shard_id} ready')
 
-    async def on_command_error(self, ctx, exc):
-        if not isinstance(exc, (commands.CommandNotFound, commands.NotOwner)):
-            self.log.critical(''.join(
-                traceback.format_exception(type(exc), exc, exc.__traceback__)
-            ))
-            await ctx.send("check logs")
-
-    async def on_error(self, *args, **kwargs):
-        self.log.critical(traceback.format_exc())
+    async def on_message(self, message):
+        pass
 
     def cleanup_code(self, content):
         """Automatically removes code blocks from the code."""

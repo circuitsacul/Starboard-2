@@ -48,6 +48,7 @@ class BaseEvents(commands.Cog):
         ctx: commands.Context,
         e: Exception
     ) -> None:
+        print("########################################################"*100)
         try:
             e = e.original
         except AttributeError:
