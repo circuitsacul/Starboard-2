@@ -50,7 +50,6 @@ class ClusterBot(commands.AutoShardedBot):
     async def on_ready(self):
         self.log.info(f'[Cluster#{self.cluster_name}] Ready called.')
         self.pipe.send(1)
-        self.pipe.close()
 
     async def on_shard_ready(self, shard_id):
         self.log.info(f'[Cluster#{self.cluster_name}] Shard {shard_id} ready')

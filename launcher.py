@@ -208,13 +208,10 @@ class Cluster:
         stdout, stdin = multiprocessing.Pipe()
         kw = self.kwargs
         kw['pipe'] = stdin
-        print("Launching...")
         self.process = multiprocessing.Process(
             target=ClusterBot, kwargs=kw, daemon=True
         )
-        print("Starting...")
         self.process.start()
-        print("Launched")
         self.log.info(f"Process started with PID {self.process.pid}")
 
         if await self.launcher.loop.run_in_executor(None, stdout.recv) == 1:
