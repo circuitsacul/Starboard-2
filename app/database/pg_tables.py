@@ -48,11 +48,12 @@ STARBOARDS = \
         link_deletes BOOL NOT NULL DEFAULT False,
         link_edits BOOL NOT NULL DEFAULT True,
         images_only BOOL NOT NULL DEFAULT False,
-        remove_invalid BOOL NOT NULL DEFAULT True,
+        remove_reactions BOOL NOT NULL DEFAULT True,
         no_xp BOOL NOT NULL DEFAULT False,
         explore BOOL NOT NULL DEFAULT True,
 
         star_emojis TEXT[] DEFAULT '{⭐}',
+        react_emojis TEXT[] DEFAULT '{⭐}',
         display_emoji TEXT DEFAULT '⭐',
 
         FOREIGN KEY (guild_id) REFERENCES guilds (id)
@@ -81,12 +82,14 @@ SETTING_OVERRIDES = \
         link_deletes BOOL DEFAULT NULL,
         link_edits BOOL DEFAULT NULL,
         images_only BOOL DEFAULT NULL,
-        remove_invalid BOOL DEFAULT NULL,
+        remove_reactions BOOL DEFAULT NULL,
         no_xp BOOL DEFAULT NULL,
         explore BOOL DEFAULT NULL,
 
         star BOOL DEFAULT NULL,
         recv_star BOOL DEFAULT NULL,
+        gain_xp_roles BOOL DEFAULT NULL,
+        gain_pos_roles BOOL DEFAULT NULL,
 
         allow_commands BOOL DEFAULT NULL,
         qa BOOL DEFAULT NULL,

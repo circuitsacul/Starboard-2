@@ -1,6 +1,8 @@
 import discord
 from discord.ext import commands
 
+from ..database.database import Database
+
 
 class Bot(commands.AutoShardedBot):
     def __init__(self, *args: list, **kwargs: list) -> None:
@@ -8,7 +10,7 @@ class Bot(commands.AutoShardedBot):
         self.error_color = kwargs.pop("error_color")
         self.token = kwargs.pop("token")
         self.custom_owner_ids = kwargs.pop("owner_ids")
-        self.database = kwargs.pop("database")
+        self.db: Database = kwargs.pop("database")
         self.cache = kwargs.pop("cache")
 
         super().__init__(*args, **kwargs)

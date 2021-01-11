@@ -75,16 +75,20 @@ class Database:
         self,
         guild_id: int,
         check_first: bool = True
-    ) -> None:
+    ) -> bool:
         if check_first:
             exists = await self.get_guild(guild_id) is not None
             if exists:
-                return
+                return False
 
-        await self.execute(
-            """INSERT INTO guilds (id)
-            VALUES ($1)""", guild_id
-        )
+        try:
+            await self.execute(
+                """INSERT INTO guilds (id)
+                VALUES ($1)""", guild_id
+            )
+        except asyncpg.exceptions.ForeignKeyViolationError:
+            return False
+        return True
 
     async def get_user(
         self,
@@ -103,12 +107,16 @@ class Database:
         if check_first:
             exists = await self.get_user(user_id) is not None
             if exists:
-                return
+                return True
 
-        await self.execute(
-            """INSERT INTO users (id)
-            VALUES ($1)""", user_id
-        )
+        try:
+            await self.execute(
+                """INSERT INTO users (id)
+                VALUES ($1)""", user_id
+            )
+        except asyncpg.exceptions.ForeignKeyViolationError:
+            return True
+        return False
 
     async def get_member(
         self,
@@ -131,14 +139,18 @@ class Database:
             exists = await self.get_member(user_id, guild_id)\
                 is not None
             if exists:
-                return
+                return True
 
         await self.create_guild(guild_id)
         await self.create_user(user_id)
-        await self.execute(
-            """INSERT INTO members (user_id, guild_id)
-            VALUES ($1, $2)""", user_id, guild_id
-        )
+        try:
+            await self.execute(
+                """INSERT INTO members (user_id, guild_id)
+                VALUES ($1, $2)""", user_id, guild_id
+            )
+        except asyncpg.exceptions.ForeignKeyViolationError:
+            return True
+        return False
 
     async def get_starboard(
         self,
@@ -147,6 +159,15 @@ class Database:
         return await self.fetchrow(
             """SELECT * FROM starboards
             WHERE id=$1""", starboard_id
+        )
+
+    async def get_starboards(
+        self,
+        guild_id: int
+    ) -> List[dict]:
+        return await self.fetch(
+            """SELECT * FROM starboards
+            WHERE guild_id=$1""", guild_id
         )
 
     async def create_starboard(
@@ -160,13 +181,17 @@ class Database:
                 channel_id
             ) is not None
             if exists:
-                return
+                return True
 
         await self.create_guild(guild_id)
-        await self.execute(
-            """INSERT INTO starboards (id, guild_id)
-            VALUES ($1, $2)""", channel_id, guild_id
-        )
+        try:
+            await self.execute(
+                """INSERT INTO starboards (id, guild_id)
+                VALUES ($1, $2)""", channel_id, guild_id
+            )
+        except asyncpg.exceptions.ForeignKeyViolationError:
+            return True
+        return False
 
     async def get_setting_overrides(
         self,

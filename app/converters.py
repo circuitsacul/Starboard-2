@@ -1,6 +1,9 @@
+import discord
+import re
 from discord.ext import commands
 
 from . import errors
+from .classes.sql_object import SQLObject
 
 
 class Bool(commands.Converter):
@@ -63,5 +66,31 @@ class Starboard(commands.Converter):
         self,
         ctx: commands.Context,
         arg: str
-    ) -> None:
-        pass
+    ) -> SQLObject:
+        mention_pattern = "^<#[0-9]+>$"
+        digit_pattern = '^[0-9][0-9]*[0-9]$'
+
+        channel_id = None
+
+        by_name = discord.utils.get(ctx.guild.channels, name=arg)
+        if by_name is not None:
+            channel_id = by_name.id
+        elif re.match(mention_pattern, arg):
+            channel_id = int(arg[2:-1])
+        elif re.match(digit_pattern, arg):
+            channel_id = int(arg)
+
+        if channel_id is None:
+            raise commands.errors.ChannelNotFound(arg)
+
+        channel = ctx.guild.get_channel(channel_id)
+        if channel is None:
+            raise commands.errors.ChannelNotFound(arg)
+
+        sql_starboard = await ctx.bot.db.get_starboard(channel_id)
+        if sql_starboard is None:
+            raise errors.DoesNotExist(
+                f"{channel.mention} is not a starboard."
+            )
+
+        return SQLObject(channel, sql_starboard)
