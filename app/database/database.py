@@ -21,6 +21,7 @@ class Database:
     async def init_database(
         self
     ) -> None:
+        print("Opening Database")
         self.pool = await asyncpg.create_pool(
             database=self.name,
             user=self.user,
@@ -31,6 +32,7 @@ class Database:
             async with con.transaction():
                 for table in ALL_TABLES:
                     await con.execute(table)
+        print("Database opened")
 
     async def execute(
         self,
