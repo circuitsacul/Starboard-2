@@ -208,7 +208,6 @@ class Cluster:
         stdout, stdin = multiprocessing.Pipe()
         kw = self.kwargs
         kw['pipe'] = stdin
-        await kw['db'].init_database()
         print("Launching...")
         self.process = multiprocessing.Process(
             target=ClusterBot, kwargs=kw, daemon=True

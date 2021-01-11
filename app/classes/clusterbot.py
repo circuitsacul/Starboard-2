@@ -40,6 +40,8 @@ class ClusterBot(commands.AutoShardedBot):
         self.log = log
         self.loop.create_task(self.ensure_ipc())
 
+        self.loop.run_until_complete(self.db.init_database())
+
         for ext in kwargs.pop('initial_extensions'):
             self.load_extension(ext)
 
@@ -141,7 +143,7 @@ class ClusterBot(commands.AutoShardedBot):
                 raise
 
     async def ensure_ipc(self):
-        self.websocket = w = await websockets.connect('ws://localhost:42069')
+        self.websocket = w = await websockets.connect('ws://localhost:4000')
         await w.send(self.cluster_name.encode('utf-8'))
         try:
             await w.recv()

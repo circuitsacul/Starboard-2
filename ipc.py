@@ -34,7 +34,7 @@ async def serve(ws, path):
 signal.signal(signal.SIGINT, signal.SIG_DFL)
 signal.signal(signal.SIGTERM, signal.SIG_DFL)
 
-server = websockets.serve(serve, 'localhost', 42069)
+server = websockets.serve(serve, 'localhost', 4000)
 loop = asyncio.get_event_loop()
 loop.run_until_complete(server)
 loop.run_forever()
