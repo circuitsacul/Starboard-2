@@ -1,11 +1,16 @@
-from typing import Optional
+import discord
 
 from . import queue
 
 
 class Cache:
     def __init__(self) -> None:
-        self.guilds = queue.LimitedQueue(500)
+        self.messages = queue.LimitedDictQueue(20)
 
-    def get_guild(self, guild_id: int) -> Optional[dict]:
-        return self.guilds.get(id=guild_id)
+    def get_message(
+        self,
+        guild_id: int,
+        message_id: int
+    ) -> discord.Message:
+        queue = self.messages.get_queue(guild_id)
+        return queue.get(id=message_id)
