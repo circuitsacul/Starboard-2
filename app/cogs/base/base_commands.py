@@ -16,8 +16,7 @@ class Base(commands.Cog):
         ctx: commands.Context,
         starboard: discord.TextChannel
     ) -> None:
-        guild = await self.bot.get_sql_guild(ctx.guild.id)
-        await ctx.send(await guild.get_starboard(starboard.id))
+        pass
 
 
 def setup(bot: Bot) -> None:

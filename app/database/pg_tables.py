@@ -6,6 +6,8 @@ GUILDS = \
         level_channel NUMERIC DEFAULT NULL,
         ping_user BOOL NOT NULL DEFAULT false,
 
+        premium_end TIMESTAMP DEFAULT NULL,
+
         prefixes TEXT[] NOT NULL DEFAULT '{"sb!"}'
     )"""
 
@@ -25,6 +27,8 @@ MEMBERS = \
         xp SMALLINT NOT NULL DEFAULT 0,
         level SMALLINT NOT NULL DEFAULT 0,
 
+        roles NUMERIC [] NOT NULL DEFAULT '{}',
+
         FOREIGN KEY (user_id) REFERENCES users (id)
             ON DELETE CASCADE,
         FOREIGN KEY (guild_id) REFERENCES guilds (id)
@@ -36,21 +40,54 @@ STARBOARDS = \
         id NUMERIC PRIMARY KEY,
         guild_id NUMERIC NOT NULL,
 
-        threshold SMALLINT NOT NULL DEFAULT 3,
-        lower_threshold SMALLINT NOT NULL DEFAULT 0,
-        selfstar BOOL NOT NULL DEFAULT false,
-        unstar BOOL NOT NULL DEFAULT true,
-        xp BOOL NOT NULL DEFAULT true,
-        link_edits BOOL NOT NULL DEFAULT true,
-        link_deletes BOOL NOT NULL DEFAULT false,
+        required SMALLINT NOT NULL DEFAULT 3,
+        required_remove SMALLINT NOT NULL DEFAULT 0,
+        self_star BOOL NOT NULL DEFAULT False,
+        unstar BOOL NOT NULL DEFAULT False,
+        allow_bots BOOL NOT NULL DEFAULT True,
+        link_deletes BOOL NOT NULL DEFAULT False,
+        link_edits BOOL NOT NULL DEFAULT True,
+        images_only BOOL NOT NULL DEFAULT False,
+        remove_invalid BOOL NOT NULL DEFAULT True,
+        no_xp BOOL NOT NULL DEFAULT False,
+
         star_emojis TEXT[] DEFAULT '{⭐}',
         display_emoji TEXT DEFAULT '⭐',
 
-        star BOOL NOT NULL DEFAULT true,
-        recv_star BOOL NOT NULL DEFAULT true,
-
         FOREIGN KEY (guild_id) REFERENCES guilds (id)
             ON DELETE CASCADE
+    )"""
+
+SETTING_OVERRIDES = \
+    """CREATE TABLE IF NOT EXISTS setting_overrides (
+        id BIGINT PRIMARY KEY,
+        name VARCHAR(32) NOT NULL,
+
+        starboards NUMERIC[] NOT NULL,
+        channel_mode SMALLINT NOT NULL DEFAULT 0,
+        channels NUMERIC[] DEFAULT NULL,
+
+        has_any_role NUMERIC[] DEFAULT NULL,
+        has_all_roles NUMERIC[] DEFAULT NULL,
+        lacks_any_role NUMERIC[] DEFAULT NULL,
+        lacks_all_roles NUMERIC[] DEFAULT NULL,
+
+        required SMALLINT DEFAULT NULL,
+        required_remove SMALLINT DEFAULT NULL,
+        self_star BOOL DEFAULT NULL,
+        unstar BOOL DEFAULT NULL,
+        allow_bots BOOL DEFAULT NULL,
+        link_deletes BOOL DEFAULT NULL,
+        link_edits BOOL DEFAULT NULL,
+        images_only BOOL DEFAULT NULL,
+        remove_invalid BOOL DEFAULT NULL,
+        no_xp BOOL DEFAULT NULL,
+
+        star BOOL DEFAULT NULL,
+        recv_star BOOL DEFAULT NULL,
+
+        allow_command BOOL DEFAULT NULL,
+        qa BOOL DEFAULT NULL
     )"""
 
 MESSAGES = \
@@ -109,6 +146,7 @@ ALL_TABLES = [
     USERS,
     MEMBERS,
     STARBOARDS,
+    SETTING_OVERRIDES,
     MESSAGES,
     STARBOARD_MESSAGES,
     REACTIONS,

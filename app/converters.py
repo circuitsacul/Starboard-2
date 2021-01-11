@@ -1,4 +1,5 @@
 from discord.ext import commands
+
 from . import errors
 
 
@@ -55,3 +56,12 @@ class FloatingNumber(commands.Converter):
                 f"I couldn't interpret {arg} as a floating-point "
                 "number. Please pass something like `10.9` or `6`."
             )
+
+
+class Starboard(commands.Converter):
+    async def convert(
+        self,
+        ctx: commands.Context,
+        arg: str
+    ) -> None:
+        pass

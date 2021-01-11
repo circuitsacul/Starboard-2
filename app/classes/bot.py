@@ -1,8 +1,6 @@
 import discord
 from discord.ext import commands
 
-from .guild import Guild
-
 
 class Bot(commands.AutoShardedBot):
     def __init__(self, *args: list, **kwargs: list) -> None:
@@ -17,9 +15,3 @@ class Bot(commands.AutoShardedBot):
 
     async def on_message(self, message: discord.Message) -> None:
         pass
-
-    async def get_sql_guild(self, guild_id: int):
-        guild = self.cache.guilds.get(id=guild_id)
-        if guild is None:
-            guild = await Guild.from_id(self, guild_id)
-        return guild
