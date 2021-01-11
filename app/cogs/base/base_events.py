@@ -8,12 +8,13 @@ from ... import errors
 
 
 IGNORED_ERRORS = [
-    commands.CommandNotFound
+    commands.CommandNotFound,
 ]
 EXPECTED_ERRORS = [
     errors.ConversionError,
     errors.DoesNotExist,
-    errors.AlreadyExists
+    errors.AlreadyExists,
+    commands.MissingRequiredArgument
 ]
 
 
@@ -32,23 +33,11 @@ class BaseEvents(commands.Cog):
             await self.bot.process_commands(message)
 
     @commands.Cog.listener()
-    async def on_shard_ready(self, shard_id: int) -> None:
-        print(f" - Shard {shard_id} ready")
-
-    @commands.Cog.listener()
-    async def on_ready(self) -> None:
-        print(
-            f"Logged in as {self.bot.user.name} in "
-            f"{len(self.bot.guilds)} guilds!"
-        )
-
-    @commands.Cog.listener()
     async def on_command_error(
         self,
         ctx: commands.Context,
         e: Exception
     ) -> None:
-        print("########################################################"*100)
         try:
             e = e.original
         except AttributeError:
