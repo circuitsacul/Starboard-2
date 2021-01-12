@@ -1,6 +1,10 @@
 import traceback
+import os
 
 import discord
+import aiohttp
+from discord import Webhook, AsyncWebhookAdapter
+from dotenv import load_dotenv
 from discord.ext import commands
 
 from ... import errors
@@ -15,6 +19,17 @@ EXPECTED_ERRORS = [
     errors.AlreadyExists,
     commands.MissingRequiredArgument
 ]
+WEBHOOK_URL = os.getenv('UPTIME_WEBHOOK')
+
+load_dotenv()
+
+
+async def webhooklog(content: str) -> None:
+    async with aiohttp.ClientSession() as session:
+        webhook = Webhook.from_url(
+            WEBHOOK_URL, adapter=AsyncWebhookAdapter(session)
+        )
+        await webhook.send(content, username='Starboard Logs')
 
 
 class BaseEvents(commands.Cog):
@@ -31,6 +46,9 @@ class BaseEvents(commands.Cog):
     async def on_ready(self) -> None:
         self.bot.log.info(
             f"[Cluster#{self.bot.cluster_name}] Ready"
+        )
+        await webhooklog(
+            f":green_circle: Cluster **{self.bot.cluster_name}** ready!"
         )
         try:
             self.bot.pipe.send(1)

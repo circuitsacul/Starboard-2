@@ -147,7 +147,7 @@ class Launcher:
             for cluster in self.clusters:
                 if not cluster.process.is_alive():
                     webhooklog(
-                        f":black_circle: Cluster **{cluster.name}** "
+                        f":red_circle: Cluster **{cluster.name}** "
                         "is offline."
                     )
                     # if cluster.process.exitcode != 0:
@@ -244,14 +244,13 @@ class Cluster:
         if await self.launcher.loop.run_in_executor(None, stdout.recv) == 1:
             stdout.close()
             self.log.info("Process started successfully")
-            webhooklog(f":green_circle: Cluster **{self.name}** ready!")
 
         return True
 
     def stop(self, sign=signal.SIGINT):
         self.log.info(f"Shutting down with signal {sign!r}")
         webhooklog(
-            f":red_circle: Cluster **{self.name}** shutting down..."
+            f":brown_circle: Cluster **{self.name}** shutting down..."
         )
         try:
             self.process.kill()
@@ -269,4 +268,4 @@ if __name__ == "__main__":
     webhooklog(":white_circle: Bot logging in...")
     Launcher(loop).start()
     p.kill()
-    webhooklog(":black_circle: Bot logged out.")
+    webhooklog(":brown_circle: Bot logged out.")
