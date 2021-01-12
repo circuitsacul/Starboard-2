@@ -9,26 +9,25 @@ CLIENTS = {}
 async def dispatch(data):
     for cluster_name, client in CLIENTS.items():
         await client.send(data)
-        print(f'> Cluster[{cluster_name}]')
 
 
 async def serve(ws, path):
     cluster_name = await ws.recv()
     cluster_name = cluster_name.decode()
     if cluster_name in CLIENTS:
-        print(f"! Cluster[{cluster_name}] attempted reconnection")
+        print(f"IPC: Cluster[{cluster_name}] attempted reconnection")
         await ws.close(4029, "already connected")
         return
     CLIENTS[cluster_name] = ws
     try:
         await ws.send(b'{"status":"ok"}')
-        print(f'$ Cluster[{cluster_name}] connected successfully')
+        print(f'IPC: Cluster[{cluster_name}] connected successfully')
         async for msg in ws:
             print(f'< Cluster[{cluster_name}]: {msg}')
             await dispatch(msg)
     finally:
         CLIENTS.pop(cluster_name)
-        print(f'$ Cluster[{cluster_name}] disconnected')
+        print(f'IPC: Cluster[{cluster_name}] disconnected')
 
 
 def run():

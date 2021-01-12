@@ -29,7 +29,7 @@ log.setLevel(logging.DEBUG)
 hdlr = logging.StreamHandler()
 hdlr.setFormatter(logging.Formatter(
     "[%(asctime)s %(name)s/%(levelname)s] %(message)s"))
-fhdlr = logging.FileHandler("cluster-Launcher.log", encoding='utf-8')
+fhdlr = logging.FileHandler("logs/cluster-Launcher.log", encoding='utf-8')
 fhdlr.setFormatter(logging.Formatter(
     "[%(asctime)s %(name)s/%(levelname)s] %(message)s"))
 log.handlers = [hdlr, fhdlr]
@@ -75,7 +75,7 @@ class Launcher:
             f"Successfully got shard count of {content['shards']}"
             f"({data.status_code, data.reason})"
         )
-        # return 16
+        return 16
         return content['shards']
 
     def start(self):
@@ -185,7 +185,7 @@ class Cluster:
         hdlr = logging.StreamHandler()
         hdlr.setFormatter(logging.Formatter(
             "[%(asctime)s %(name)s/%(levelname)s] %(message)s"))
-        fhdlr = logging.FileHandler("cluster-Launcher.log", encoding='utf-8')
+        fhdlr = logging.FileHandler("logs/cluster-Launcher.log", encoding='utf-8')
         fhdlr.setFormatter(logging.Formatter(
             "[%(asctime)s %(name)s/%(levelname)s] %(message)s"))
         self.log.handlers = [hdlr, fhdlr]

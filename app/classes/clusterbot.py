@@ -31,7 +31,7 @@ class ClusterBot(commands.AutoShardedBot):
         log = logging.getLogger(f"Cluster#{self.cluster_name}")
         log.setLevel(logging.DEBUG)
         log.handlers = [logging.FileHandler(
-            f'cluster-{self.cluster_name}.log', encoding='utf-8', mode='a'
+            f'logs/cluster-{self.cluster_name}.log', encoding='utf-8', mode='a'
         )]
 
         log.info(
