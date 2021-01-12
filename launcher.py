@@ -36,12 +36,12 @@ log.handlers = [hdlr, fhdlr]
 
 
 CLUSTER_NAMES = (
-    'Alpha (1)', 'Beta (2)', 'Gamma (3)', 'Delta (4)',
-    'Epsilon (5)', 'Zeta (6)', 'Eta (7)', 'Theta (8)',
-    'Iota (9)', 'Kappa (10)', 'Lambda (11)', 'Mu (12)',
-    'Nu (13)', 'Xi (14)', 'Omicron (15)', 'Pi (16)',
-    'Rho (17)', 'Sigma (18)', 'Tau (19)', 'Upsilon (20)',
-    'Phi (21)', 'Chi (22)', 'Psi (23)', 'Omega (24)'
+    'Alpha_1', 'Beta_2', 'Gamma_3', 'Delta_4',
+    'Epsilon_5', 'Zeta_6', 'Eta_7', 'Theta_8',
+    'Iota_9', 'Kappa_10', 'Lambda_11', 'Mu_12',
+    'Nu_13', 'Xi_14', 'Omicron_15', 'Pi_16',
+    'Rho_17', 'Sigma_18', 'Tau_19', 'Upsilon_20',
+    'Phi_21', 'Chi_22', 'Psi_23', 'Omega_24'
 )
 NAMES = iter(CLUSTER_NAMES)
 
@@ -227,14 +227,17 @@ class Cluster:
     def stop(self, sign=signal.SIGINT):
         self.log.info(f"Shutting down with signal {sign!r}")
         try:
+            self.process.kill()
             os.kill(self.process.pid, sign)
         except ProcessLookupError:
             pass
 
 
 if __name__ == "__main__":
-    p = multiprocessing.Process(target=ipc.run)
+    p = multiprocessing.Process(
+        target=ipc.run, daemon=True
+    )
     p.start()
-    print("IPC Open")
     loop = asyncio.get_event_loop()
     Launcher(loop).start()
+    p.kill()
