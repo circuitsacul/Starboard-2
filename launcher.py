@@ -150,17 +150,17 @@ class Launcher:
                         f":black_circle: Cluster **{cluster.name}** "
                         "is offline."
                     )
-                    if cluster.process.exitcode != 0:
-                        # ignore safe exits
-                        log.info(
-                            f"Cluster#{cluster.name} exited with code "
-                            f"{cluster.process.exitcode}")
-                        log.info(f"Restarting cluster#{cluster.name}")
-                        await cluster.start()
-                    else:
-                        log.info(f"Cluster#{cluster.name} found dead")
-                        to_remove.append(cluster)
-                        cluster.stop()  # ensure stopped
+                    #if cluster.process.exitcode != 0:
+                    #    # ignore safe exits
+                    log.info(
+                        f"Cluster#{cluster.name} exited with code "
+                        f"{cluster.process.exitcode}")
+                    log.info(f"Restarting cluster#{cluster.name}")
+                    await cluster.start()
+                    #else:
+                    #    log.info(f"Cluster#{cluster.name} found dead")
+                    #    to_remove.append(cluster)
+                    #    cluster.stop()  # ensure stopped
             for rem in to_remove:
                 self.clusters.remove(rem)
             await asyncio.sleep(5)
