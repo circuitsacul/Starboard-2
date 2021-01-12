@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 
 import requests
 
-from app.classes.clusterbot import ClusterBot
+from app.classes.bot import Bot
 from app.database.database import Database
 from app.cache import Cache
 
@@ -219,7 +219,7 @@ class Cluster:
         kw = self.kwargs
         kw['pipe'] = stdin
         self.process = multiprocessing.Process(
-            target=ClusterBot, kwargs=kw, daemon=True
+            target=Bot, kwargs=kw, daemon=True
         )
         self.process.start()
         self.log.info(f"Process started with PID {self.process.pid}")

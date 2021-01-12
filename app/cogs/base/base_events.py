@@ -23,6 +23,22 @@ class BaseEvents(commands.Cog):
         self.bot = bot
 
     @commands.Cog.listener()
+    async def on_shard_ready(self, shard_id: int) -> None:
+        self.bot.log.info(
+            f"[Cluster#{self.bot.cluster_name}] Shard {shard_id} ready"
+        )
+
+    @commands.Cog.listener()
+    async def on_ready(self) -> None:
+        self.bot.log.info(
+            f"[Cluster#{self.bot.cluster_name}] Ready"
+        )
+        try:
+            self.bot.pipe.send(1)
+        except BrokenPipeError:
+            pass
+
+    @commands.Cog.listener()
     async def on_message(self, message: discord.Message) -> None:
         if message.author.bot:
             return
