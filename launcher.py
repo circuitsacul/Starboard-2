@@ -8,6 +8,7 @@ import time
 import ipc
 from dotenv import load_dotenv
 
+from discord import Webhook, RequestsWebhookAdapter
 import requests
 
 from app.classes.bot import Bot
@@ -16,6 +17,7 @@ from app.cache import Cache
 
 load_dotenv()
 
+WEBHOOK_URL = os.getenv("UPTIME_WEBHOOK")
 TOKEN = os.getenv('TOKEN')
 EXTENSIONS = [
     'app.cogs.base.base_commands',
@@ -39,14 +41,21 @@ log.handlers = [hdlr, fhdlr]
 
 
 CLUSTER_NAMES = (
-    'Alpha_1', 'Beta_2', 'Gamma_3', 'Delta_4',
-    'Epsilon_5', 'Zeta_6', 'Eta_7', 'Theta_8',
-    'Iota_9', 'Kappa_10', 'Lambda_11', 'Mu_12',
-    'Nu_13', 'Xi_14', 'Omicron_15', 'Pi_16',
-    'Rho_17', 'Sigma_18', 'Tau_19', 'Upsilon_20',
-    'Phi_21', 'Chi_22', 'Psi_23', 'Omega_24'
+    'Alpha (1)', 'Beta (2)', 'Gamma (3)', 'Delta (4)',
+    'Epsilon (5)', 'Zeta (6)', 'Eta (7)', 'Theta (8)',
+    'Iota (9)', 'Kappa_10', 'Lambda (11)', 'Mu (12)',
+    'Nu (13)', 'Xi (14)', 'Omicron (15)', 'Pi (16)',
+    'Rho (17)', 'Sigma (18)', 'Tau (19)', 'Upsilon (20)',
+    'Phi (21)', 'Chi (22)', 'Psi (23)', 'Omega (24)'
 )
 NAMES = iter(CLUSTER_NAMES)
+
+
+def webhooklog(content: str) -> None:
+    webhook = Webhook.from_url(
+        WEBHOOK_URL, adapter=RequestsWebhookAdapter()
+    )
+    webhook.send(content, username="Starboard Logs")
 
 
 class Launcher:
@@ -137,6 +146,10 @@ class Launcher:
             to_remove = []
             for cluster in self.clusters:
                 if not cluster.process.is_alive():
+                    webhooklog(
+                        f":black_circle: Cluster **{cluster.name}** "
+                        "is offline."
+                    )
                     if cluster.process.exitcode != 0:
                         # ignore safe exits
                         log.info(
@@ -215,6 +228,10 @@ class Cluster:
             self.process.terminate()
             self.process.close()
 
+        webhooklog(
+            f":yellow_circle: Cluster **{self.name}** logging in..."
+        )
+
         stdout, stdin = multiprocessing.Pipe()
         kw = self.kwargs
         kw['pipe'] = stdin
@@ -227,11 +244,15 @@ class Cluster:
         if await self.launcher.loop.run_in_executor(None, stdout.recv) == 1:
             stdout.close()
             self.log.info("Process started successfully")
+            webhooklog(f":green_circle: Cluster **{self.name}** ready!")
 
         return True
 
     def stop(self, sign=signal.SIGINT):
         self.log.info(f"Shutting down with signal {sign!r}")
+        webhooklog(
+            f":red_circle: Cluster **{self.name}** shutting down..."
+        )
         try:
             self.process.kill()
             os.kill(self.process.pid, sign)
@@ -245,5 +266,7 @@ if __name__ == "__main__":
     )
     p.start()
     loop = asyncio.get_event_loop()
+    webhooklog(":white_circle: Bot logging in...")
     Launcher(loop).start()
     p.kill()
+    webhooklog(":black_circle: Bot logged out.")
