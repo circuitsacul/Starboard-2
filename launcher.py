@@ -21,7 +21,8 @@ EXTENSIONS = [
     'app.cogs.base.base_commands',
     'app.cogs.base.base_events',
     'app.cogs.starboard.starboard_commands',
-    'app.cogs.owner.eval'
+    'app.cogs.owner.eval',
+    'app.cogs.owner.owner_commands'
 ]
 
 log = logging.getLogger("Cluster#Launcher")

@@ -23,7 +23,6 @@ async def serve(ws, path):
         await ws.send(b'{"status":"ok"}')
         print(f'IPC: Cluster[{cluster_name}] connected successfully')
         async for msg in ws:
-            print(f'< Cluster[{cluster_name}]: {msg}')
             await dispatch(msg)
     finally:
         CLIENTS.pop(cluster_name)
