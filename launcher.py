@@ -75,7 +75,6 @@ class Launcher:
             f"Successfully got shard count of {content['shards']}"
             f"({data.status_code, data.reason})"
         )
-        return 16
         return content['shards']
 
     def start(self):
