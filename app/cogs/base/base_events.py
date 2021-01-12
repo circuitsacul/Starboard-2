@@ -5,7 +5,7 @@ import discord
 import aiohttp
 from discord import Webhook, AsyncWebhookAdapter
 from dotenv import load_dotenv
-from discord.ext import commands
+from discord.ext import commands, flags
 
 from ... import errors
 from ...classes.bot import Bot
@@ -17,7 +17,8 @@ EXPECTED_ERRORS = [
     errors.ConversionError,
     errors.DoesNotExist,
     errors.AlreadyExists,
-    commands.MissingRequiredArgument
+    commands.MissingRequiredArgument,
+    flags.ArgumentParsingError
 ]
 WEBHOOK_URL = os.getenv('UPTIME_WEBHOOK')
 
@@ -90,12 +91,19 @@ class BaseEvents(commands.Cog):
                 ),
                 color=self.bot.error_color
             )
+            tb = ''.join(traceback.format_tb(e.__traceback__))
+            full_tb = (
+                f"{e}\b"
+                f"```{tb}```"
+            )
+            if len(full_tb) > 1024:
+                to_remove = (len(full_tb) - 1024) + 10
+                full_tb = (
+                    f"{e}\n```...{tb[to_remove:]}```"
+                )
             embed.add_field(
                 name=e.__class__.__name__,
-                value=(
-                    f"{e}\n"
-                    f"```{''.join(traceback.format_tb(e.__traceback__))}```"
-                )
+                value=full_tb
             )
             await ctx.send(embed=embed)
 

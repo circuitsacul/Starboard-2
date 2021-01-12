@@ -1,7 +1,7 @@
 from typing import Union
 
 import discord
-from discord.ext import commands
+from discord.ext import commands, flags
 
 from ... import converters, errors, utils
 from ...classes.bot import Bot
@@ -126,6 +126,20 @@ class Starboard(commands.Cog):
                 await ctx.send(f"{channel.mention} is no longer a starboard.")
             if confirmed is False:
                 await ctx.send("Cancelled.")
+
+    @flags.add_flag('--required', '--r', type=converters.myint)
+    @flags.add_flag('--requiredRemove', '--rr', type=converters.myint)
+    @flags.add_flag('--selfStar', '--ss', type=converters.mybool)
+    @flags.command(
+        name='starboardSettings', aliases=['sbs', 'sbsettings'],
+        brief="Change settings for a starboard"
+    )
+    async def set_starboard_settings(
+        self,
+        ctx: commands.Context,
+        **options: dict
+    ) -> None:
+        await ctx.send(str(options))
 
 
 def setup(bot: Bot) -> None:
