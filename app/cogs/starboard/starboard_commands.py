@@ -14,7 +14,8 @@ class Starboard(commands.Cog):
         self.bot = bot
 
     @commands.command(
-        name='starboards', aliases=['s']
+        name='starboards', aliases=['s'],
+        brief="List starboards"
     )
     @commands.guild_only()
     async def list_starboards(
