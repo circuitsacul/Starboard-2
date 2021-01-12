@@ -25,6 +25,7 @@ EXTENSIONS = [
     'app.cogs.owner.owner_commands',
     'jishaku'
 ]
+SHARDS = int(os.getenv("SHARDS"))
 
 log = logging.getLogger("Cluster#Launcher")
 log.setLevel(logging.DEBUG)
@@ -62,6 +63,9 @@ class Launcher:
         self.init = time.perf_counter()
 
     def get_shard_count(self):
+        if SHARDS != 0:
+            log.info(f"Launching with {SHARDS} shards")
+            return SHARDS
         data = requests.get(
             'https://discordapp.com/api/v7/gateway/bot', headers={
                 "Authorization": "Bot "+TOKEN,
@@ -75,7 +79,7 @@ class Launcher:
         content = data.json()
         log.info(
             f"Successfully got shard count of {content['shards']}"
-            f"({data.status_code, data.reason})"
+            f" ({data.status_code, data.reason})"
         )
         return content['shards']
 
