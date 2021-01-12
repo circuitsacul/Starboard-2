@@ -41,12 +41,12 @@ log.handlers = [hdlr, fhdlr]
 
 
 CLUSTER_NAMES = (
-    'Alpha (1)', 'Beta (2)', 'Gamma (3)', 'Delta (4)',
-    'Epsilon (5)', 'Zeta (6)', 'Eta (7)', 'Theta (8)',
-    'Iota (9)', 'Kappa_10', 'Lambda (11)', 'Mu (12)',
-    'Nu (13)', 'Xi (14)', 'Omicron (15)', 'Pi (16)',
-    'Rho (17)', 'Sigma (18)', 'Tau (19)', 'Upsilon (20)',
-    'Phi (21)', 'Chi (22)', 'Psi (23)', 'Omega (24)'
+    'Alpha (0)', 'Beta (1)', 'Gamma (2)', 'Delta (3)',
+    'Epsilon (4)', 'Zeta (5)', 'Eta (6)', 'Theta (7)',
+    'Iota (8)', 'Kappa (9)', 'Lambda (10)', 'Mu (11)',
+    'Nu (12)', 'Xi (13)', 'Omicron (14)', 'Pi (15)',
+    'Rho (16)', 'Sigma (17)', 'Tau (18)', 'Upsilon (19)',
+    'Phi (20)', 'Chi (21)', 'Psi (22)', 'Omega (23)'
 )
 NAMES = iter(CLUSTER_NAMES)
 
@@ -150,14 +150,14 @@ class Launcher:
                         f":black_circle: Cluster **{cluster.name}** "
                         "is offline."
                     )
-                    #if cluster.process.exitcode != 0:
+                    # if cluster.process.exitcode != 0:
                     #    # ignore safe exits
                     log.info(
                         f"Cluster#{cluster.name} exited with code "
                         f"{cluster.process.exitcode}")
                     log.info(f"Restarting cluster#{cluster.name}")
                     await cluster.start()
-                    #else:
+                    # else:
                     #    log.info(f"Cluster#{cluster.name} found dead")
                     #    to_remove.append(cluster)
                     #    cluster.stop()  # ensure stopped
