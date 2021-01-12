@@ -4,7 +4,6 @@ import json
 import logging
 import textwrap
 import traceback
-import multiprocessing
 import sys
 from contextlib import redirect_stdout
 
