@@ -4,6 +4,7 @@ import json
 import logging
 import textwrap
 import traceback
+import sys
 from contextlib import redirect_stdout
 
 import websockets
@@ -41,11 +42,17 @@ class ClusterBot(commands.AutoShardedBot):
         self.loop.create_task(self.ensure_ipc())
 
         self.loop.run_until_complete(self.db.init_database())
+        self.loop.create_task(self.exit_if_disconnected())
 
         for ext in kwargs.pop('initial_extensions'):
             self.load_extension(ext)
 
-        self.run(kwargs['token'])
+        try:
+            self.run(kwargs['token'])
+        except Exception as e:
+            raise e from e
+        else:
+            sys.exit(-1)
 
     async def on_ready(self):
         self.log.info(f'[Cluster#{self.cluster_name}] Ready called.')
@@ -154,3 +161,9 @@ class ClusterBot(commands.AutoShardedBot):
             )
             self.websocket = None
             raise
+
+    async def exit_if_disconnected(self):
+        while True:
+            if self.is_closed():
+                sys.exit(-1)
+            await asyncio.sleep(5)

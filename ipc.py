@@ -31,10 +31,15 @@ async def serve(ws, path):
         print(f'$ Cluster[{cluster_name}] disconnected')
 
 
-signal.signal(signal.SIGINT, signal.SIG_DFL)
-signal.signal(signal.SIGTERM, signal.SIG_DFL)
+def run():
+    signal.signal(signal.SIGINT, signal.SIG_DFL)
+    signal.signal(signal.SIGTERM, signal.SIG_DFL)
 
-server = websockets.serve(serve, 'localhost', 4000)
-loop = asyncio.get_event_loop()
-loop.run_until_complete(server)
-loop.run_forever()
+    server = websockets.serve(serve, 'localhost', 4000)
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(server)
+    loop.run_forever()
+
+
+if __name__ == '__main__':
+    run()

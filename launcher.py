@@ -5,6 +5,7 @@ import signal
 import os
 import sys
 import time
+import ipc
 from dotenv import load_dotenv
 
 import requests
@@ -91,7 +92,9 @@ class Launcher:
             print("press ^C again")
         self.loop.close()
 
-    def task_complete(self, task):
+    def task_complete(self, task: asyncio.Task):
+        if task.cancelled():
+            return
         if task.exception():
             task.print_stack()
             self.keep_alive = self.loop.create_task(self.rebooter())
@@ -117,7 +120,6 @@ class Launcher:
             self.keep_alive.cancel()
         for cluster in self.clusters:
             cluster.stop()
-        self.cleanup()
 
     async def rebooter(self):
         while self.alive:
@@ -229,5 +231,8 @@ class Cluster:
 
 
 if __name__ == "__main__":
+    p = multiprocessing.Process(target=ipc.run)
+    p.start()
+    print("IPC Open")
     loop = asyncio.get_event_loop()
     Launcher(loop).start()
