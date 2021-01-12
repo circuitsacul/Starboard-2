@@ -4,6 +4,7 @@ import json
 import logging
 import textwrap
 import traceback
+import multiprocessing
 import sys
 from contextlib import redirect_stdout
 
@@ -56,7 +57,10 @@ class ClusterBot(commands.AutoShardedBot):
 
     async def on_ready(self):
         self.log.info(f'[Cluster#{self.cluster_name}] Ready called.')
-        self.pipe.send(1)
+        try:
+            self.pipe.send(1)
+        except BrokenPipeError:
+            pass
 
     async def on_shard_ready(self, shard_id):
         self.log.info(f'[Cluster#{self.cluster_name}] Shard {shard_id} ready')
@@ -123,7 +127,7 @@ class ClusterBot(commands.AutoShardedBot):
                 if exc.code == 1000:
                     return
                 raise
-            data = json.loads(msg, encoding='utf-8')
+            data = json.loads(msg)
             if self.eval_wait and data.get('response'):
                 await self.responses.put(data)
             cmd = data.get('command')
