@@ -36,10 +36,12 @@ log.handlers = [hdlr, fhdlr]
 
 
 CLUSTER_NAMES = (
-    'Alpha', 'Beta', 'Charlie', 'Delta', 'Echo', 'Foxtrot', 'Golf', 'Hotel',
-    'India', 'Juliett', 'Kilo', 'Mike', 'November', 'Oscar', 'Papa', 'Quebec',
-    'Romeo', 'Sierra', 'Tango', 'Uniform', 'Victor', 'Whisky', 'X-ray',
-    'Yankee', 'Zulu'
+    'Alpha (1)', 'Beta (2)', 'Gamma (3)', 'Delta (4)',
+    'Epsilon (5)', 'Zeta (6)', 'Eta (7)', 'Theta (8)',
+    'Iota (9)', 'Kappa (10)', 'Lambda (11)', 'Mu (12)',
+    'Nu (13)', 'Xi (14)', 'Omicron (15)', 'Pi (16)',
+    'Rho (17)', 'Sigma (18)', 'Tau (19)', 'Upsilon (20)',
+    'Phi (21)', 'Chi (22)', 'Psi (23)', 'Omega (24)'
 )
 NAMES = iter(CLUSTER_NAMES)
 

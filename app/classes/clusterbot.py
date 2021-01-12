@@ -100,7 +100,7 @@ class ClusterBot(commands.AutoShardedBot):
         try:
             with redirect_stdout(stdout):
                 ret = await func()
-        except Exception as e:
+        except Exception:
             value = stdout.getvalue()
             f'{value}{traceback.format_exc()}'
         else:
