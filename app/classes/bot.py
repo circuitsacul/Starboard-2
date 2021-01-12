@@ -9,6 +9,7 @@ from contextlib import redirect_stdout
 
 import websockets
 from discord.ext import commands
+from pretty_help import PrettyHelp
 
 
 class Bot(commands.AutoShardedBot):
@@ -22,7 +23,12 @@ class Bot(commands.AutoShardedBot):
         self.cluster_name = kwargs.pop('cluster_name')
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
-        super().__init__(**kwargs, loop=loop)
+        super().__init__(
+            help_command=PrettyHelp(
+                color=self.theme_color
+            ),
+            **kwargs, loop=loop
+        )
         self.websocket = None
         self._last_result = None
         self.ws_task = None
