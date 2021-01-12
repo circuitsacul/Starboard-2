@@ -6,6 +6,7 @@ attrs==20.3.0
 braceexpand==0.1.6
 certifi==2020.12.5
 chardet==3.0.4
+discord-flags==2.1.1
 discord-pretty-help==1.2.0
 discord.py==1.6.0
 humanize==3.2.0
