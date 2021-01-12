@@ -1,19 +1,19 @@
 import asyncio
 import logging
 import multiprocessing
-import signal
 import os
+import signal
 import sys
 import time
-import ipc
+
+import requests
+from discord import RequestsWebhookAdapter, Webhook
 from dotenv import load_dotenv
 
-from discord import Webhook, RequestsWebhookAdapter
-import requests
-
+import ipc
+from app.cache import Cache
 from app.classes.bot import Bot
 from app.database.database import Database
-from app.cache import Cache
 
 load_dotenv()
 

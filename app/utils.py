@@ -1,7 +1,7 @@
+import asyncio
 from typing import List, Optional, Union
 
 import discord
-import asyncio
 from discord.ext import commands
 
 

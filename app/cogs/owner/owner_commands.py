@@ -1,7 +1,7 @@
 from discord.ext import commands
 
-from ...classes.bot import Bot
 from ... import utils
+from ...classes.bot import Bot
 
 
 class OwnerCommands(commands.Cog):

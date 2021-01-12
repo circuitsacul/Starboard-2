@@ -1,13 +1,13 @@
 import os
-from dotenv import load_dotenv
 
 import discord
 from discord.ext import commands
+from dotenv import load_dotenv
 from pretty_help import PrettyHelp
 
-from .database.database import Database
 from .cache import Cache
 from .classes.bot import Bot
+from .database.database import Database
 
 load_dotenv()
 

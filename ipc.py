@@ -1,7 +1,7 @@
 import asyncio
 import signal
-import websockets
 
+import websockets
 
 CLIENTS = {}
 

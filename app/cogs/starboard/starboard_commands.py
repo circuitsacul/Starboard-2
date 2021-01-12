@@ -3,10 +3,8 @@ from typing import Union
 import discord
 from discord.ext import commands
 
+from ... import converters, errors, utils
 from ...classes.bot import Bot
-from ... import utils
-from ... import errors
-from ... import converters
 
 
 class Starboard(commands.Cog):

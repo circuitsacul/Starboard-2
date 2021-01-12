@@ -2,9 +2,9 @@ import asyncio
 import io
 import json
 import logging
+import sys
 import textwrap
 import traceback
-import sys
 from contextlib import redirect_stdout
 
 import websockets

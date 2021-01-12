@@ -3,9 +3,8 @@ import traceback
 import discord
 from discord.ext import commands
 
-from ...classes.bot import Bot
 from ... import errors
-
+from ...classes.bot import Bot
 
 IGNORED_ERRORS = [
     commands.CommandNotFound,
