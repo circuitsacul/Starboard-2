@@ -1,4 +1,5 @@
 import asyncio
+import re
 from typing import List, Optional, Union
 
 import discord
@@ -11,6 +12,7 @@ import os
 import signal
 
 
+# Decoraters
 def timeout(seconds=10, error_message=os.strerror(errno.ETIME)):
     def decorator(func):
         def _handle_timeout(signum, frame):
@@ -26,6 +28,15 @@ def timeout(seconds=10, error_message=os.strerror(errno.ETIME)):
             return result
         return wraps(func)(wrapper)
     return decorator
+
+
+# Functions
+def safe_regex(string: str, pattern: str, max_time: float = 0.1) -> bool:
+    @timeout(seconds=max_time)
+    def run_regex(string: str, pattern: str) -> Optional[re.Match]:
+        re.match(pattern, string)
+
+    return run_regex(string, pattern) is not None
 
 
 def clean_emoji(
