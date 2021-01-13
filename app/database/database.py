@@ -208,7 +208,6 @@ class Database:
         no_xp: bool = None,
         explore: bool = None,
         star_emojis: List[str] = None,
-        react_emojis: List[str] = None,
         display_emoji: str = None
     ) -> None:
         s = await self.get_starboard(starboard_id)
@@ -230,9 +229,8 @@ class Database:
             no_xp = $9,
             explore = $10,
             star_emojis = $11,
-            react_emojis = $12,
-            display_emoji = $13
-            WHERE id = $14""",
+            display_emoji = $12
+            WHERE id = $13""",
             s['required'] if required is None else required,
             s['required_remove'] if required_remove is None else
             required_remove,
@@ -246,9 +244,55 @@ class Database:
             s['no_xp'] if no_xp is None else no_xp,
             s['explore'] if explore is None else explore,
             s['star_emojis'] if star_emojis is None else star_emojis,
-            s['react_emojis'] if react_emojis is None else react_emojis,
             s['display_emoji'] if display_emoji is None else display_emoji,
             starboard_id
+        )
+
+    async def add_star_emoji(
+        self,
+        starboard_id: int,
+        emoji: str
+    ) -> None:
+        if type(emoji) is not str:
+            raise ValueError(
+                "Expected a str for emoji"
+            )
+
+        starboard = await self.get_starboard(starboard_id)
+        if emoji in starboard['star_emojis']:
+            raise errors.AlreadyExists(
+                f"{emoji} is already a starEmoji on "
+                f"{starboard['id']}"
+            )
+
+        await self.edit_starboard(
+            starboard_id,
+            star_emojis=starboard['star_emojis'] + [emoji]
+        )
+
+    async def remove_star_emoji(
+        self,
+        starboard_id: int,
+        emoji: str
+    ) -> None:
+        if type(emoji) is not str:
+            raise ValueError(
+                "Expected a str for emoji"
+            )
+
+        starboard = await self.get_starboard(starboard_id)
+        if emoji not in starboard['star_emojis']:
+            raise errors.DoesNotExist(
+                f"{emoji} is already a starEmoji on "
+                f"{starboard['id']}"
+            )
+
+        new_emojis = starboard['star_emojis']
+        new_emojis.remove(emoji)
+
+        await self.edit_starboard(
+            starboard_id,
+            star_emojis=new_emojis
         )
 
     async def get_setting_overrides(

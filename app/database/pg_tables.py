@@ -53,7 +53,6 @@ STARBOARDS = \
         explore BOOL NOT NULL DEFAULT True,
 
         star_emojis TEXT[] DEFAULT '{⭐}',
-        react_emojis TEXT[] DEFAULT '{⭐}',
         display_emoji TEXT DEFAULT '⭐',
 
         FOREIGN KEY (guild_id) REFERENCES guilds (id)

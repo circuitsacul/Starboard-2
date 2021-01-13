@@ -20,7 +20,6 @@ OPTION_MAP = {
     'no_xp': 'noXp',
     'explore': 'allowRandom',
     'star_emojis': 'starEmojis',
-    'react_emojis': 'reactEmojis',
     'display_emoji': 'displayEmoji'
 }
 
@@ -75,13 +74,10 @@ class Starboard(commands.Cog):
             s = starboard.sql_attributes
             upvote_emoji_str = utils.pretty_emoji_string(
                 s['star_emojis'], ctx.guild)
-            react_emoji_str = utils.pretty_emoji_string(
-                s['react_emojis'], ctx.guild)
             embed = discord.Embed(
                 title=starboard.obj.name,
                 description=(
                     f"emojis: **{upvote_emoji_str}**\n"
-                    f"reactEmojis: **{react_emoji_str}**\n"
                     f"displayEmoji: **{s['display_emoji']}**\n\n"
                     f"requiredStars: **{s['required']}**\n"
                     f"requiredToRemove: **{s['required_remove']}**\n"
@@ -165,6 +161,7 @@ class Starboard(commands.Cog):
         name='settings', aliases=['cs', 'options', 'config'],
         brief="Change settings for a starboard"
     )
+    @commands.has_guild_permissions(manage_channels=True)
     async def set_starboard_settings(
         self,
         ctx: commands.Context,
@@ -220,6 +217,152 @@ class Starboard(commands.Cog):
         embed = discord.Embed(
             title=f"Updated Settings for {starboard.obj.name}",
             description=changes,
+            color=self.bot.theme_color
+        )
+        await ctx.send(embed=embed)
+
+    @starboards.group(
+        name='starEmojis', aliases=['emojis', 'se'],
+        brief="Modify starEmojis for a starboard",
+        invoke_without_command=True
+    )
+    @commands.has_guild_permissions(manage_guild=True)
+    async def star_emojis(
+        self,
+        ctx: commands.Context
+    ) -> None:
+        await ctx.send(
+            "Options:\n "
+            "- `starEmojis add <starboard> <emoji>`\n"
+            " - `starEmojis remove <starboard> <emoji>`\n"
+            " - `starEmojis clear <starboard>`"
+        )
+
+    @star_emojis.command(
+        name='add', aliases=['a'],
+        brief="Add a starEmoji"
+    )
+    @commands.has_guild_permissions(manage_guild=True)
+    async def add_star_emoji(
+        self,
+        ctx: commands.Context,
+        starboard: converters.Starboard,
+        emoji: converters.Emoji
+    ) -> None:
+        converted_emoji = utils.clean_emoji(emoji)
+
+        current_emojis = starboard.sql_attributes['star_emojis']
+
+        if converted_emoji in current_emojis:
+            raise errors.AlreadyExists(
+                f"{emoji} is already a starEmoji on "
+                f"{starboard.obj.mention}"
+            )
+
+        new_emojis = current_emojis + [converted_emoji]
+
+        await self.bot.db.add_star_emoji(
+            starboard.obj.id,
+            emoji=converted_emoji
+        )
+
+        pretty_orig_emojis = utils.pretty_emoji_string(
+            current_emojis, ctx.guild
+        )
+        pretty_new_emojis = utils.pretty_emoji_string(new_emojis, ctx.guild)
+
+        embed = discord.Embed(
+            title=f"Modified starEmojis for {starboard.obj.name}",
+            description=(
+                f"{pretty_orig_emojis}\n\n:arrow_right: "
+                f"\n\n{pretty_new_emojis}"
+            ),
+            color=self.bot.theme_color
+        )
+        await ctx.send(embed=embed)
+
+    @star_emojis.command(
+        name='remove', aliases=['r', 'del'],
+        brief="Removes a starEmoji"
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    async def remove_star_emoji(
+        self,
+        ctx: commands.Context,
+        starboard: converters.Starboard,
+        emoji: converters.Emoji
+    ) -> None:
+        converted_emoji = utils.clean_emoji(emoji)
+
+        current_emojis = starboard.sql_attributes['star_emojis']
+
+        if converted_emoji not in current_emojis:
+            raise errors.DoesNotExist(
+                f"{emoji} is not a starEmoji on "
+                f"{starboard.obj.mention}"
+            )
+
+        new_emojis = current_emojis.copy()
+        new_emojis.remove(converted_emoji)
+
+        await self.bot.db.remove_star_emoji(
+            starboard.obj.id,
+            emoji=converted_emoji
+        )
+
+        pretty_orig_emojis = utils.pretty_emoji_string(
+            current_emojis, ctx.guild
+        )
+        pretty_new_emojis = utils.pretty_emoji_string(
+            new_emojis, ctx.guild
+        )
+
+        embed = discord.Embed(
+            title=f"Modified starEmojis for {starboard.obj.name}",
+            description=(
+                f"{pretty_orig_emojis}\n\n"
+                ":arrow_right:\n\n"
+                f"{pretty_new_emojis}"
+            ),
+            color=self.bot.theme_color
+        )
+
+        await ctx.send(embed=embed)
+
+    @star_emojis.command(
+        name='clear', aliases=['removeAll'],
+        brief="Clears all starEmojis for a starboard"
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    async def clear_star_emojis(
+        self,
+        ctx: commands.Context,
+        starboard: converters.Starboard
+    ) -> None:
+        await ctx.send("Are you sure?")
+        if not await utils.confirm(ctx):
+            await ctx.send("Cancelled")
+            return
+
+        await self.bot.db.edit_starboard(
+            starboard.obj.id,
+            star_emojis=[]
+        )
+
+        pretty_orig_emojis = utils.pretty_emoji_string(
+            starboard.sql_attributes['star_emojis'], ctx.guild
+        )
+        pretty_new_emoijs = utils.pretty_emoji_string(
+            [], ctx.guild
+        )
+
+        embed = discord.Embed(
+            title=f"Cleared starEmojis for {starboard.obj.name}",
+            description=(
+                f"{pretty_orig_emojis}\n\n"
+                ":arrow_right:\n\n"
+                f"{pretty_new_emoijs}"
+            ),
             color=self.bot.theme_color
         )
         await ctx.send(embed=embed)

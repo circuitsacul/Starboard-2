@@ -38,6 +38,8 @@ def pretty_emoji_string(
     emojis: List[Union[str, int]],
     guild: discord.Guild
 ) -> str:
+    if len(emojis) == 0:
+        return "None"
     converted = convert_emojis(emojis, guild)
     return ' '.join(converted)
 
