@@ -7,7 +7,7 @@ import sys
 import time
 
 import requests
-from discord import RequestsWebhookAdapter, Webhook
+from discord import RequestsWebhookAdapter, Webhook, Intents
 from dotenv import load_dotenv
 
 import ipc
@@ -29,6 +29,10 @@ EXTENSIONS = [
     'app.cogs.owner.owner_commands',
     'jishaku'
 ]
+INTENTS = Intents(
+    messages=True, guilds=True,
+    emojis=True, reactions=True
+)
 SHARDS = config.SHARDS
 
 log = logging.getLogger("Cluster#Launcher")
@@ -184,6 +188,7 @@ class Cluster:
         self.launcher = launcher
         self.process = None
         self.kwargs = dict(
+            intents=INTENTS,
             token=TOKEN,
             command_prefix="sb!",
             shard_ids=shard_ids,
