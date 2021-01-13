@@ -5,6 +5,15 @@ import discord
 from discord.ext import commands
 
 
+def clean_emoji(
+    emoji: Union[str, int, discord.Emoji, discord.Reaction]
+) -> str:
+    if type(emoji) is discord.Emoji:
+        return str(emoji.id)
+    else:
+        return str(emoji)
+
+
 def convert_emojis(
     emojis: List[Union[str, int]],
     guild: discord.Guild

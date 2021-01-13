@@ -87,7 +87,7 @@ class Database:
                 """INSERT INTO guilds (id)
                 VALUES ($1)""", guild_id
             )
-        except asyncpg.exceptions.ForeignKeyViolationError:
+        except asyncpg.exceptions.UniqueViolationError:
             return False
         return True
 
@@ -115,7 +115,7 @@ class Database:
                 """INSERT INTO users (id)
                 VALUES ($1)""", user_id
             )
-        except asyncpg.exceptions.ForeignKeyViolationError:
+        except asyncpg.exceptions.UniqueViolationError:
             return True
         return False
 
@@ -149,7 +149,7 @@ class Database:
                 """INSERT INTO members (user_id, guild_id)
                 VALUES ($1, $2)""", user_id, guild_id
             )
-        except asyncpg.exceptions.ForeignKeyViolationError:
+        except asyncpg.exceptions.UniqueViolationError:
             return True
         return False
 
@@ -190,7 +190,7 @@ class Database:
                 """INSERT INTO starboards (id, guild_id)
                 VALUES ($1, $2)""", channel_id, guild_id
             )
-        except asyncpg.exceptions.ForeignKeyViolationError:
+        except asyncpg.exceptions.UniqueViolationError:
             return True
         return False
 
@@ -276,3 +276,209 @@ class Database:
             """, starboard, channel, roles
         )
         return setting_overrides
+
+    async def get_message(self, message_id: int) -> dict:
+        return await self.fetchrow(
+            """SELECT * FROM messages
+            WHERE id=$1""", message_id
+        )
+
+    async def create_message(
+        self,
+        message_id: int,
+        guild_id: int,
+        channel_id: int,
+        author_id: int,
+        is_nsfw: bool,
+        check_first: bool = True
+    ) -> bool:
+        if check_first:
+            exists = await self.get_message(
+                message_id
+            ) is not None
+            if exists:
+                return True
+
+        is_starboard_message = await self.get_starboard_message(
+            message_id
+        ) is not None
+        if is_starboard_message:
+            raise errors.AlreadyStarboardMessage(
+                f"Could not create message {message_id} "
+                "because it is already starboard message."
+            )
+
+        await self.create_guild(guild_id)
+        await self.create_user(author_id)
+
+        try:
+            await self.execute(
+                """INSERT INTO messages
+                (id, guild_id, channel_id, author_id, is_nsfw)
+                VALUES ($1, $2, $3, $4, $5)""",
+                message_id, guild_id, channel_id, author_id,
+                is_nsfw
+            )
+        except asyncpg.exceptions.UniqueViolationError:
+            return True
+        return False
+
+    async def get_starboard_message(
+        self,
+        message_id: int
+    ) -> Optional[dict]:
+        return await self.fetchrow(
+            """SELECT * FROM starboard_messages
+            WHERE id=$1""", message_id
+        )
+
+    async def get_starboard_messages(
+        self,
+        orig_id: int
+    ) -> List[dict]:
+        return await self.fetch(
+            """SELECT * FROM starboard_messages
+            WHERE orig_id=$1"""
+        )
+
+    async def get_starboard_message_from_starboard(
+        self,
+        orig_id: int,
+        starboard_id: int
+    ) -> Optional[dict]:
+        return await self.fetchrow(
+            """SELECT * FROM starboard_messages
+            WHERE orig_id=$1 AND starboard_id=$2""",
+            orig_id, starboard_id
+        )
+
+    async def create_starboard_message(
+        self,
+        message_id: int,
+        orig_id: int,
+        starboard_id: int,
+        check_first: bool = True
+    ) -> bool:
+        if check_first:
+            exists = await self.get_starboard_message(
+                message_id
+            )
+            if exists:
+                return True
+
+        already_orig_message = await self.get_message(
+            message_id
+        ) is not None
+        if already_orig_message:
+            raise errors.AlreadyOrigMessage(
+                f"Could not create starboard message {message_id} "
+                "because it is already a normal message."
+            )
+
+        try:
+            await self.execute(
+                """INSERT INTO starboard_messages
+                (id, orig_id, starboard_id)
+                VALUES ($1, $2, $3)""",
+                message_id, orig_id, starboard_id
+            )
+        except asyncpg.exceptions.UniqueViolationError:
+            return True
+        return False
+
+    async def get_reaction(
+        self,
+        emoji: str,
+        message_id: int
+    ) -> Optional[dict]:
+        return await self.fetchrow(
+            """SELECT * FROM reactions
+            WHERE emoji=$1 AND message_id=$2""",
+            emoji, message_id
+        )
+
+    async def create_reaction(
+        self,
+        emoji: str,
+        message_id: int,
+        check_first: bool = True
+    ) -> bool:
+        if check_first:
+            exists = await self.get_reaction(
+                emoji, message_id
+            )
+            if exists:
+                return True
+
+        try:
+            await self.execute(
+                """INSERT INTO reactions
+                (emoji, message_id)
+                VALUES ($1, $2)""",
+                emoji, message_id
+            )
+        except asyncpg.exceptions.UniqueViolationError:
+            return True
+        return False
+
+    async def get_reaction_user(
+        self,
+        emoji: str,
+        message_id: int,
+        user_id: int
+    ) -> Optional[dict]:
+        reaction = await self.get_reaction(
+            emoji, message_id
+        )
+        if reaction is None:
+            return None
+        return await self.fetchrow(
+            """SELECT * FROM reaction_users
+            WHERE reaction_id=$1 AND user_id=$2""",
+            reaction['id'], user_id
+        )
+
+    async def create_reaction_user(
+        self,
+        emoji: str,
+        message_id: int,
+        user_id: int,
+        check_first: bool = True
+    ) -> bool:
+        if check_first:
+            exists = await self.get_reaction_user(
+                emoji, message_id, user_id
+            )
+            if exists:
+                return True
+
+        await self.create_reaction(emoji, message_id)
+        await self.create_user(user_id)
+
+        reaction = await self.get_reaction(emoji, message_id)
+
+        try:
+            await self.execute(
+                """INSERT INTO reaction_users
+                (reaction_id, user_id)
+                VALUES ($1, $2)""",
+                reaction['id'], user_id
+            )
+        except asyncpg.exceptions.UniqueViolationError:
+            return True
+        return False
+
+    async def delete_reaction_user(
+        self,
+        emoji: str,
+        message_id: int,
+        user_id: int
+    ) -> None:
+        reaction = await self.get_reaction(
+            emoji, message_id
+        )
+        await self.execute(
+            """DELETE FROM reaction_users
+            WHERE reaction_id=$1 AND user_id=$2""",
+            reaction['id'], user_id
+        )

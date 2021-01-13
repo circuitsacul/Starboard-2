@@ -8,3 +8,10 @@ class DoesNotExist(Exception):
 
 class AlreadyExists(Exception):
     pass
+
+
+class AlreadyStarboardMessage(Exception):
+    pass
+
+class AlreadyOrigMessage(Exception):
+    pass

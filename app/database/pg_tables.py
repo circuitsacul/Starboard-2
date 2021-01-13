@@ -105,6 +105,8 @@ MESSAGES = \
         channel_id NUMERIC NOT NULL,
         author_id NUMERIC,
 
+        is_nsfw BOOL NOT NULL,
+
         points SMALLINT DEFAULT NULL,
 
         forced NUMERIC[] NOT NULL DEFAULT '{}',
@@ -130,7 +132,7 @@ STARBOARD_MESSAGES = \
 
 REACTIONS = \
     """CREATE TABLE IF NOT EXISTS reactions (
-        id BIGINT PRIMARY KEY,
+        id SERIAL PRIMARY KEY,
         emoji TEXT NOT NULL,
         message_id NUMERIC NOT NULL,
 
@@ -146,7 +148,7 @@ REACTION_USERS = \
         FOREIGN KEY (reaction_id) REFERENCES reactions (id)
             ON DELETE CASCADE,
         FOREIGN KEY (user_id) REFERENCES users (id)
-            ON DELETE SET NULL
+            ON DELETE CASCADE
     )"""
 
 ALL_TABLES = [

@@ -12,6 +12,7 @@ from discord.ext import commands
 from pretty_help import PrettyHelp
 
 from ..database.database import Database
+from ..cache import Cache
 
 
 class Bot(commands.AutoShardedBot):
@@ -19,7 +20,7 @@ class Bot(commands.AutoShardedBot):
         self.theme_color = kwargs.pop('theme_color')
         self.error_color = kwargs.pop('error_color')
         self.db: Database = kwargs.pop('db')
-        self.cache = kwargs.pop('cache')
+        self.cache: Cache = kwargs.pop('cache')
 
         self.pipe = kwargs.pop('pipe')
         self.cluster_name = kwargs.pop('cluster_name')
