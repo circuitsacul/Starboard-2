@@ -18,6 +18,7 @@ EXPECTED_ERRORS = [
     errors.DoesNotExist,
     errors.AlreadyExists,
     commands.MissingRequiredArgument,
+    commands.ChannelNotFound,
     flags.ArgumentParsingError
 ]
 WEBHOOK_URL = config.UPTIME_WEBHOOK
