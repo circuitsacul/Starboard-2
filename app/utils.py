@@ -10,8 +10,6 @@ import errno
 import os
 import signal
 
-from . import converters
-
 
 # Decoraters
 def timeout(seconds=10, error_message=os.strerror(errno.ETIME)):
