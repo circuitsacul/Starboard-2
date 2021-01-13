@@ -11,12 +11,14 @@ import websockets
 from discord.ext import commands
 from pretty_help import PrettyHelp
 
+from ..database.database import Database
+
 
 class Bot(commands.AutoShardedBot):
     def __init__(self, **kwargs):
         self.theme_color = kwargs.pop('theme_color')
         self.error_color = kwargs.pop('error_color')
-        self.db = kwargs.pop('db')
+        self.db: Database = kwargs.pop('db')
         self.cache = kwargs.pop('cache')
 
         self.pipe = kwargs.pop('pipe')
