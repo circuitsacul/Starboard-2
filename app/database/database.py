@@ -521,6 +521,8 @@ class Database:
         reaction = await self.get_reaction(
             emoji, message_id
         )
+        if reaction is None:
+            return
         await self.execute(
             """DELETE FROM reaction_users
             WHERE reaction_id=$1 AND user_id=$2""",
