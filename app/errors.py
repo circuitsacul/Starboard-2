@@ -13,5 +13,6 @@ class AlreadyExists(Exception):
 class AlreadyStarboardMessage(Exception):
     pass
 
+
 class AlreadyOrigMessage(Exception):
     pass
