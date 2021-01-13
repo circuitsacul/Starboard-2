@@ -11,7 +11,6 @@ OPTION_MAP = {
     'required': 'required',
     'required_remove': 'requiredRemove',
     'self_star': 'selfStar',
-    'unstar': 'allowUnstar',
     'allow_bots': 'allowBots',
     'link_deletes': 'linkDeletes',
     'link_edits': 'linkEdits',
@@ -82,7 +81,6 @@ class Starboard(commands.Cog):
                     f"requiredStars: **{s['required']}**\n"
                     f"requiredToRemove: **{s['required_remove']}**\n"
                     f"selfStar: **{s['self_star']}**\n"
-                    f"unstar: **{s['unstar']}**\n"
                     f"allowBots: **{s['allow_bots']}**\n"
                     f"linkDeletes: **{s['link_deletes']}**\n"
                     f"linkEdits: **{s['link_edits']}**\n"
@@ -145,7 +143,6 @@ class Starboard(commands.Cog):
     @flags.add_flag('--required', '-r', type=converters.myint)
     @flags.add_flag('--requiredRemove', '-rtl', type=converters.myint)
     @flags.add_flag('--selfStar', '-ss', type=converters.mybool)
-    @flags.add_flag('--allowUnstar', '--unstar', '-us', type=converters.mybool)
     @flags.add_flag('--allowBots', '-ab', type=converters.mybool)
     @flags.add_flag('--linkDeletes', '-ld', type=converters.mybool)
     @flags.add_flag('--linkEdits', '-le', type=converters.mybool)
@@ -184,7 +181,6 @@ class Starboard(commands.Cog):
             --required
             --requiredRemove
             --selfStar
-            --allowUnstar
             --allowBots
             --linkDeletes
             --linkEdits
