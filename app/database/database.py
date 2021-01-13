@@ -217,44 +217,39 @@ class Database:
                 f"Starboard {starboard_id} does not exist."
             )
 
-        async with self.pool.acquire() as con:
-            async with con.transaction():
-                await con.execute(
-                    """UPDATE starboards
-                    SET required = $1,
-                    required_remove = $2,
-                    self_star = $3,
-                    unstar = $4,
-                    allow_bots = $5,
-                    link_deletes = $6,
-                    images_only = $7,
-                    remove_reactions = $8,
-                    no_xp = $9,
-                    explore = $10,
-                    star_emojis = $11,
-                    react_emojis = $12,
-                    display_emoji = $13
-                    WHERE id = $14""",
-                    s['required'] if required is None else required,
-                    s['required_remove'] if required_remove is None else
-                    required_remove,
-                    s['self_star'] if self_star is None else self_star,
-                    s['unstar'] if unstar is None else unstar,
-                    s['allow_bots'] if allow_bots is None else allow_bots,
-                    s['link_deletes'] if link_deletes is None else
-                    link_deletes,
-                    s['images_only'] if images_only is None else images_only,
-                    s['remove_reactions'] if remove_reactions is None else
-                    remove_reactions,
-                    s['no_xp'] if no_xp is None else no_xp,
-                    s['explore'] if explore is None else explore,
-                    s['star_emojis'] if star_emojis is None else star_emojis,
-                    s['react_emojis'] if react_emojis is None else
-                    react_emojis,
-                    s['display_emoji'] if display_emoji is None else
-                    display_emoji,
-                    starboard_id
-                )
+        await self.execute(
+            """UPDATE starboards
+            SET required = $1,
+            required_remove = $2,
+            self_star = $3,
+            unstar = $4,
+            allow_bots = $5,
+            link_deletes = $6,
+            images_only = $7,
+            remove_reactions = $8,
+            no_xp = $9,
+            explore = $10,
+            star_emojis = $11,
+            react_emojis = $12,
+            display_emoji = $13
+            WHERE id = $14""",
+            s['required'] if required is None else required,
+            s['required_remove'] if required_remove is None else
+            required_remove,
+            s['self_star'] if self_star is None else self_star,
+            s['unstar'] if unstar is None else unstar,
+            s['allow_bots'] if allow_bots is None else allow_bots,
+            s['link_deletes'] if link_deletes is None else link_deletes,
+            s['images_only'] if images_only is None else images_only,
+            s['remove_reactions'] if remove_reactions is None else
+            remove_reactions,
+            s['no_xp'] if no_xp is None else no_xp,
+            s['explore'] if explore is None else explore,
+            s['star_emojis'] if star_emojis is None else star_emojis,
+            s['react_emojis'] if react_emojis is None else react_emojis,
+            s['display_emoji'] if display_emoji is None else display_emoji,
+            starboard_id
+        )
 
     async def get_setting_overrides(
         self,
