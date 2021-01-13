@@ -29,12 +29,13 @@ class Starboard(commands.Cog):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
 
-    @commands.command(
+    @commands.group(
         name='starboards', aliases=['s'],
-        brief="List starboards"
+        brief="List starboards",
+        invoke_without_command=True
     )
     @commands.guild_only()
-    async def list_starboards(
+    async def starboards(
         self,
         ctx: commands.Context,
         starboard: converters.Starboard = None
@@ -98,8 +99,8 @@ class Starboard(commands.Cog):
             )
             await ctx.send(embed=embed)
 
-    @commands.command(
-        name='addStarboard', aliases=['addsb', 'as', 'asb'],
+    @starboards.command(
+        name='add', aliases=['a'],
         brief="Adds a starboard"
     )
     @commands.has_guild_permissions(manage_channels=True)
@@ -116,8 +117,8 @@ class Starboard(commands.Cog):
         else:
             await ctx.send(f"Created starboard {channel.mention}")
 
-    @commands.command(
-        name='removeStarboard', aliases=['removesb', 'rs', 'rsb'],
+    @starboards.command(
+        name='remove', aliases=['delete', 'del', 'r'],
         brief="Removes a starboard"
     )
     @commands.has_guild_permissions(manage_channels=True)
@@ -159,8 +160,9 @@ class Starboard(commands.Cog):
         '--allowRandom', '--random', '-e',
         type=converters.mybool
     )
-    @flags.command(
-        name='starboardSettings', aliases=['sbs', 'sbsettings'],
+    @starboards.command(
+        cls=flags.FlagCommand,
+        name='settings', aliases=['cs', 'options', 'config'],
         brief="Change settings for a starboard"
     )
     async def set_starboard_settings(
@@ -172,14 +174,14 @@ class Starboard(commands.Cog):
         """Configure the default options for a starboard.
 
         Usage:
-            sb!sbs <starboard> **options
+            sb!s cs <starboard> **options
 
         Examples:
             Set requiredStars to 0 for #starboard:
-            sb!sbs #starboard --required 0
+            sb!s cs #starboard --required 0
 
             Set selfStar and allowRandom to False for #starboard:
-            sb!sbs #starboard --allowRandom False --selfStar False
+            sb!s cs #starboard --allowRandom False --selfStar False
 
         All options:
             --required
