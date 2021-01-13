@@ -5,6 +5,7 @@ from discord.ext import commands
 from dotenv import load_dotenv
 from pretty_help import PrettyHelp
 
+import config
 from .cache import Cache
 from .classes.bot import Bot
 from .database.database import Database
@@ -19,9 +20,9 @@ EXTENSIONS = [
     'jishaku'
 ]
 TOKEN = os.getenv("TOKEN")
-OWNER_IDS = [int(uid) for uid in os.getenv("OWNER_IDS").split(' ')]
-THEME = int(os.getenv("THEME"), 16)
-ERROR = int(os.getenv("ERROR"), 16)
+OWNER_IDS = config.OWNER_IDS
+THEME = config.THEME_COLOR
+ERROR = config.ERROR_COLOR
 CACHE = Cache()
 HELP_COMMAND = PrettyHelp(
     color=THEME

@@ -11,13 +11,14 @@ from discord import RequestsWebhookAdapter, Webhook
 from dotenv import load_dotenv
 
 import ipc
+import config
 from app.cache import Cache
 from app.classes.bot import Bot
 from app.database.database import Database
 
 load_dotenv()
 
-WEBHOOK_URL = os.getenv("UPTIME_WEBHOOK")
+WEBHOOK_URL = config.UPTIME_WEBHOOK
 TOKEN = os.getenv('TOKEN')
 EXTENSIONS = [
     'app.cogs.base.base_commands',
@@ -27,7 +28,7 @@ EXTENSIONS = [
     'app.cogs.owner.owner_commands',
     'jishaku'
 ]
-SHARDS = int(os.getenv("SHARDS"))
+SHARDS = config.SHARDS
 
 log = logging.getLogger("Cluster#Launcher")
 log.setLevel(logging.DEBUG)
@@ -193,8 +194,8 @@ class Cluster:
                 os.getenv('DB_USER'),
                 os.getenv('DB_PASSWORD')
             ),
-            theme_color=os.getenv("THEME"),
-            error_color=os.getenv("ERROR"),
+            theme_color=config.THEME_COLOR,
+            error_color=config.ERROR_COLOR,
             initial_extensions=EXTENSIONS
         )
         self.name = name

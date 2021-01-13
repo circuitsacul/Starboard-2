@@ -14,8 +14,8 @@ from pretty_help import PrettyHelp
 
 class Bot(commands.AutoShardedBot):
     def __init__(self, **kwargs):
-        self.theme_color = int(kwargs.pop('theme_color'), 16)
-        self.error_color = int(kwargs.pop('error_color'), 16)
+        self.theme_color = kwargs.pop('theme_color')
+        self.error_color = kwargs.pop('error_color')
         self.db = kwargs.pop('db')
         self.cache = kwargs.pop('cache')
 

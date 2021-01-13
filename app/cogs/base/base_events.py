@@ -7,6 +7,7 @@ from discord import Webhook, AsyncWebhookAdapter
 from dotenv import load_dotenv
 from discord.ext import commands, flags
 
+import config
 from ... import errors
 from ...classes.bot import Bot
 
@@ -20,7 +21,7 @@ EXPECTED_ERRORS = [
     commands.MissingRequiredArgument,
     flags.ArgumentParsingError
 ]
-WEBHOOK_URL = os.getenv('UPTIME_WEBHOOK')
+WEBHOOK_URL = config.UPTIME_WEBHOOK
 
 load_dotenv()
 
