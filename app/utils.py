@@ -5,11 +5,12 @@ from typing import List, Optional, Union
 import discord
 from discord.ext import commands
 
-
 from functools import wraps
 import errno
 import os
 import signal
+
+from . import converters
 
 
 # Decoraters
@@ -42,10 +43,18 @@ def safe_regex(string: str, pattern: str, max_time: float = 0.1) -> bool:
 def clean_emoji(
     emoji: Union[str, int, discord.Emoji, discord.Reaction]
 ) -> str:
+    animated_pattern = "^<:.*:[0-9]+>$"
+    custom_pattern = "^<a:.*:[0-9]+>$"
+
     if type(emoji) is discord.Emoji:
-        return str(emoji.id)
+        str_emoji = str(emoji.id)
     else:
-        return str(emoji)
+        str_emoji = str(emoji)
+
+    if re.match(animated_pattern, str_emoji) or \
+            re.match(custom_pattern, str_emoji):
+        return str_emoji.split(':')[-1][:-1]
+    return emoji
 
 
 def convert_emojis(
