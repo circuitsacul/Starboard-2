@@ -1,6 +1,8 @@
+from typing import Union
 import re
 
 import discord
+import emoji
 from discord.ext import commands, flags
 
 from . import errors
@@ -44,6 +46,42 @@ def myfloat(arg: str) -> float:
         raise flags.ArgumentParsingError(
             f"I couldn't interpret `{arg}` as a floating-point "
             "number. Please pass something like `10.9` or `6`."
+        )
+
+
+class Emoji(commands.Converter):
+    async def convert(
+        self,
+        ctx: commands.Context,
+        arg: str
+    ) -> Union[discord.Emoji, str]:
+        animated_pattern = "^<:.*:[0-9]+>$"
+        custom_pattern = "^<a:.*:[0-9]+>$"
+
+        emoji_id = None
+        if re.match(animated_pattern, arg):
+            emoji_id = int(arg.split(':')[-1][:-1])
+        elif re.match(custom_pattern, arg):
+            emoji_id = int(arg.split(':')[-1][:-1])
+
+        if emoji_id is not None:
+            result = discord.utils.get(ctx.guild.emojis, id=int(emoji_id))
+            return result
+        elif arg in emoji.UNICODE_EMOJI:
+            return arg
+
+        # If we make it to this point, the emoji doesn't exist
+
+        if emoji_id is not None:
+            # Means that the emoji is a custom emoji from another server
+            raise errors.DoesNotExist(
+                f"It looks like `{arg}` is a custom emoji, but "
+                "from another server. We can only add custom emojis "
+                "from this server."
+            )
+        # Just isn't emojis
+        raise errors.DoesNotExist(
+            f"I could not interpret `{arg}` as an emoji."
         )
 
 
