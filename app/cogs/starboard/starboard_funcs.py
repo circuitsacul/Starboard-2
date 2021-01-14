@@ -74,14 +74,21 @@ async def embed_message(
     ref_message = None
     ref_jump = None
     if message.reference is not None:
-        ref_message = await bot.cache.fetch_message(
-            bot, message.guild.id, message.channel.id,
-            message.reference.message_id
-        )
-        if ref_message is None:
-            ref_content = "*Message was deleted*"
+        if message.reference.resolved is None:
+            ref_message = await bot.cache.fetch_message(
+                bot, message.guild.id, message.channel.id,
+                message.reference.message_id
+            )
+            if ref_message is None:
+                ref_content = "*Message was deleted*"
+            else:
+                ref_content = ref_message.system_content
         else:
-            ref_content = ref_message.system_content
+            ref_message = message.reference.resolved
+            if type(message.reference.resolved) is discord.Message:
+                ref_content = message.reference.resolved.system_content
+            else:
+                ref_content = "*Message was deleted*"
 
         if ref_content == '':
             ref_content = '*File Only*'
@@ -92,7 +99,16 @@ async def embed_message(
             inline=False
         )
 
-        ref_jump = f"**[Replied to This Message]({ref_message.jump_url})**\n"
+        if type(ref_message) is discord.Message:
+            ref_jump = (
+                f"**[Replied to This Message]({ref_message.jump_url})**\n"
+            )
+        else:
+            ref_jump = (
+                "**[Replied to This Message (deleted)]"
+                f"(https://discord.com/channels/{ref_message.guild_id}/"
+                f"{ref_message.channel_id}/{ref_message.id})**\n"
+            )
 
     embed.add_field(
         name=ZERO_WIDTH_SPACE,
