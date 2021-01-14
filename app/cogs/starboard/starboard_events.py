@@ -29,8 +29,6 @@ class StarboardEvents(commands.Cog):
             sb_emojis += s['star_emojis']
 
         if emoji not in sb_emojis:
-            print(emoji, sb_emojis[0])
-            print(type(emoji), type(sb_emojis[0]))
             return
 
         # Create necessary data

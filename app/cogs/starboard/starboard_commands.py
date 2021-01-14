@@ -268,8 +268,6 @@ class Starboard(commands.Cog):
 
         new_emojis = current_emojis + [converted_emoji]
 
-        print(converted_emoji)
-
         await self.bot.db.add_star_emoji(
             starboard.obj.id,
             emoji=converted_emoji
