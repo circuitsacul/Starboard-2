@@ -13,9 +13,10 @@ class CacheEvents(commands.Cog):
         self, payload: discord.RawMessageDeleteEvent
     ) -> None:
         queue = self.bot.cache.messages.get_queue(payload.guild_id)
+        if not queue:
+            return
         cached = queue.get(id=payload.message_id)
         if cached:
-            print(2)
             queue.remove(cached)
 
     @commands.Cog.listener()
@@ -23,10 +24,11 @@ class CacheEvents(commands.Cog):
         self, payload: discord.RawBulkMessageDeleteEvent
     ) -> None:
         queue = self.bot.cache.messages.get_queue(payload.guild_id)
+        if not queue:
+            return
         for mid in payload.message_ids:
             cached = queue.get(id=mid)
             if cached:
-                print(1)
                 queue.remove(cached)
 
 

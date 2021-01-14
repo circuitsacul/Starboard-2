@@ -131,6 +131,8 @@ async def update_message(
     sql_message = await bot.db.get_message(
         message_id
     )
+    if not sql_message:
+        return
     sql_starboards = await bot.db.get_starboards(
         guild_id
     )

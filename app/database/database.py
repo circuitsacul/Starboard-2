@@ -45,9 +45,9 @@ class Database:
         sql: str,
         *args: list
     ) -> None:
-        s = time.time()
         async with self.pool.acquire() as con:
             async with con.transaction():
+                s = time.time()
                 await con.execute(sql, *args)
         self.log(sql, time.time()-s)
 
@@ -56,9 +56,9 @@ class Database:
         sql: str,
         *args: list
     ) -> List[dict]:
-        s = time.time()
         async with self.pool.acquire() as con:
             async with con.transaction():
+                s = time.time()
                 result = await con.fetch(sql, *args)
         self.log(sql, time.time()-s)
         return result
@@ -68,9 +68,9 @@ class Database:
         sql: str,
         *args: list
     ) -> Optional[dict]:
-        s = time.time()
         async with self.pool.acquire() as con:
             async with con.transaction():
+                s = time.time()
                 result = await con.fetchrow(sql, *args)
         self.log(sql, time.time()-s)
         return result

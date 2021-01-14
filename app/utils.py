@@ -4,7 +4,7 @@ import os
 import re
 import signal
 from functools import wraps
-from typing import List, Optional, Union
+from typing import List, Optional, Union, Tuple
 
 import discord
 from discord.ext import commands
@@ -30,7 +30,7 @@ def timeout(seconds=10, error_message=os.strerror(errno.ETIME)):
 
 # Functions
 def ms(seconds: int) -> int:
-    return round(seconds*1000, 1)
+    return round(seconds*1000, 2)
 
 
 def safe_regex(string: str, pattern: str, max_time: float = 0.1) -> bool:
@@ -116,3 +116,57 @@ async def confirm(
     elif message.content.lower().startswith('n'):
         return False
     return await confirm(ctx)
+
+
+async def paginator(
+    ctx: commands.Context,
+    pages: List[discord.Embed]
+) -> None:
+    left_emoji = "⬅️"
+    right_emoji = "➡️"
+    stop_emoji = "⏹️"
+
+    current_page = 0
+    total_pages = len(pages)
+    running = True
+    message = None
+    while running:
+        page = pages[current_page]
+        page.set_footer(
+            text=f"{current_page+1}/{total_pages}"
+        )
+        if not message:
+            message = await ctx.send(embed=page)
+            for e in [left_emoji, right_emoji, stop_emoji]:
+                await message.add_reaction(e)
+        else:
+            await message.edit(embed=page)
+
+        def check(payload: discord.RawReactionActionEvent) -> bool:
+            if payload.user_id != ctx.message.author.id:
+                return False
+            if payload.message_id != message.id:
+                return False
+            if payload.emoji.name not in [left_emoji, right_emoji, stop_emoji]:
+                return False
+            return True
+
+        payload = await ctx.bot.wait_for('raw_reaction_add', check=check)
+        try:
+            await message.remove_reaction(payload.emoji.name, ctx.message.author)
+        except discord.Forbidden:
+            pass
+        if payload.emoji.name == left_emoji:
+            current_page -= 1
+        elif payload.emoji.name == right_emoji:
+            current_page += 1
+        elif payload.emoji.name == stop_emoji:
+            running = False
+
+        if current_page > total_pages-1:
+            current_page = 0
+        elif current_page < 0:
+            current_page = total_pages-1
+    
+    if message:
+        await message.delete()
