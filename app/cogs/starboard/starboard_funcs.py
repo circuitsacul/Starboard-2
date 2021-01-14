@@ -71,9 +71,36 @@ async def embed_message(
         icon_url=message.author.avatar_url
     )
 
+    ref_message = None
+    ref_jump = None
+    if message.reference is not None:
+        ref_message = await bot.cache.fetch_message(
+            bot, message.guild.id, message.channel.id,
+            message.reference.message_id
+        )
+        if ref_message is None:
+            ref_content = "*Message was deleted*"
+        else:
+            ref_content = ref_message.system_content
+
+        if ref_content == '':
+            ref_content = '*File Only*'
+
+        embed.add_field(
+            name='Replied To',
+            value=ref_content,
+            inline=False
+        )
+
+        ref_jump = f"**[Replied to This Message]({ref_message.jump_url})**\n"
+
     embed.add_field(
         name=ZERO_WIDTH_SPACE,
-        value=f"[Jump to Message!]({message.jump_url})"
+        value=str(
+            str(ref_jump if ref_message else '') +
+            f"**[Jump to Message!]({message.jump_url})**",
+        ),
+        inline=False
     )
 
     return embed, []

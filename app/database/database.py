@@ -1,3 +1,4 @@
+import time
 from typing import Optional, List
 
 import asyncpg
@@ -19,6 +20,12 @@ class Database:
 
         self.pool: asyncpg.pool.Pool = None
 
+        self.sql_times: dict = {}
+
+    def log(self, sql: str, time: float) -> None:
+        self.sql_times.setdefault(sql, [])
+        self.sql_times[sql].append(time)
+
     async def init_database(
         self
     ) -> None:
@@ -38,18 +45,22 @@ class Database:
         sql: str,
         *args: list
     ) -> None:
+        s = time.time()
         async with self.pool.acquire() as con:
             async with con.transaction():
                 await con.execute(sql, *args)
+        self.log(sql, time.time()-s)
 
     async def fetch(
         self,
         sql: str,
         *args: list
     ) -> List[dict]:
+        s = time.time()
         async with self.pool.acquire() as con:
             async with con.transaction():
                 result = await con.fetch(sql, *args)
+        self.log(sql, time.time()-s)
         return result
 
     async def fetchrow(
@@ -57,9 +68,11 @@ class Database:
         sql: str,
         *args: list
     ) -> Optional[dict]:
+        s = time.time()
         async with self.pool.acquire() as con:
             async with con.transaction():
                 result = await con.fetchrow(sql, *args)
+        self.log(sql, time.time()-s)
         return result
 
     async def get_guild(

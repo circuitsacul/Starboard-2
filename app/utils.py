@@ -30,6 +30,10 @@ def timeout(seconds=10, error_message=os.strerror(errno.ETIME)):
 
 
 # Functions
+def ms(seconds: int) -> int:
+    return round(seconds*1000, 1)
+
+
 def safe_regex(string: str, pattern: str, max_time: float = 0.1) -> bool:
     @timeout(seconds=max_time)
     def run_regex(string: str, pattern: str) -> Optional[re.Match]:

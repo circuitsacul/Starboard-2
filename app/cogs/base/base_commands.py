@@ -1,11 +1,8 @@
 import discord
 from discord.ext import commands
 
+from app.utils import ms
 from ...classes.bot import Bot
-
-
-def ms(seconds: int) -> int:
-    return round(seconds*1000, 1)
 
 
 class Base(commands.Cog):
