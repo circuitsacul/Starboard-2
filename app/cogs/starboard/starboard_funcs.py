@@ -72,6 +72,7 @@ async def embed_message(
 
     ref_message = None
     ref_jump = None
+    ref_author = None
     if message.reference is not None:
         if message.reference.resolved is None:
             ref_message = await bot.cache.fetch_message(
@@ -81,11 +82,13 @@ async def embed_message(
             if ref_message is None:
                 ref_content = "*Message was deleted*"
             else:
+                ref_author = str(ref_message.author)
                 ref_content = ref_message.system_content
         else:
             ref_message = message.reference.resolved
             if type(message.reference.resolved) is discord.Message:
                 ref_content = message.reference.resolved.system_content
+                ref_author = str(ref_message.author)
             else:
                 ref_content = "*Message was deleted*"
 
@@ -93,7 +96,7 @@ async def embed_message(
             ref_content = '*File Only*'
 
         embed.add_field(
-            name='Replied To',
+            name=f'Replied To {ref_author or "Unknown"}',
             value=ref_content,
             inline=False
         )
