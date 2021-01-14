@@ -138,8 +138,11 @@ async def update_message(
     sql_starboards = await bot.db.get_starboards(
         guild_id
     )
+    sql_author = await bot.db.get_user(
+        sql_message['author_id']
+    )
     for s in sql_starboards:
-        await handle_starboard(bot, s, sql_message)
+        await handle_starboard(bot, s, sql_message, sql_author)
 
 
 async def calculate_points(
@@ -180,7 +183,7 @@ async def calculate_points(
 
 async def handle_starboard(
     bot: Bot, sql_starboard: dict,
-    sql_message: dict
+    sql_message: dict, sql_author: dict
 ) -> None:
     points = await calculate_points(
         bot, sql_message, sql_starboard
@@ -193,6 +196,11 @@ async def handle_starboard(
         add = True
     elif points <= sql_starboard['required_remove']:
         delete = True
+
+    if not sql_starboard['allow_bots']:
+        if sql_author['is_bot']:
+            delete = True
+            add = False
 
     sql_starboard_message = await bot.db.fetchrow(
         """SELECT * FROM starboard_messages
