@@ -16,7 +16,6 @@ class StarboardEvents(commands.Cog):
         self,
         payload: discord.RawReactionActionEvent
     ) -> None:
-        start = time.time()
         # Check if bot
         if payload.member.bot:
             return
@@ -77,15 +76,12 @@ class StarboardEvents(commands.Cog):
                 self.bot, payload.message_id,
                 payload.guild_id
             )
-        end = time.time()
-        print("Total Add Time:", end-start)
 
     @commands.Cog.listener()
     async def on_raw_reaction_remove(
         self,
         payload: discord.RawReactionActionEvent
     ) -> None:
-        start = time.time()
         emoji = utils.clean_emoji(payload.emoji)
 
         orig_message = await starboard_funcs.orig_message(
@@ -112,8 +108,6 @@ class StarboardEvents(commands.Cog):
                 self.bot, payload.message_id,
                 payload.guild_id
             )
-        end = time.time()
-        print("Total Remove:", end-start)
 
 
 def setup(bot: Bot) -> None:

@@ -251,16 +251,10 @@ async def handle_starboard(
                         emoji = discord.utils.get(guild.emojis, id=emoji_id)
                     await m.add_reaction(emoji)
         elif starboard_message is not None and message:
-            start = time.time()
             await starboard_message.edit(
                 content=plain_text, embed=embed
             )
-            end = time.time()
-            print("Edit time:", end-start)
         elif starboard_message is not None:
-            start = time.time()
             await starboard_message.edit(
                 content=plain_text
             )
-            end = time.time()
-            print("Edit time:", end-start)
