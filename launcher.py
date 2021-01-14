@@ -27,6 +27,7 @@ EXTENSIONS = [
     'app.cogs.starboard.starboard_events',
     'app.cogs.owner.eval',
     'app.cogs.owner.owner_commands',
+    'app.cogs.cache.cache_events',
     'jishaku'
 ]
 INTENTS = Intents(
