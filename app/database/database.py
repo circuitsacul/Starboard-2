@@ -216,6 +216,7 @@ class Database:
         self_star: bool = None,
         allow_bots: bool = None,
         link_deletes: bool = None,
+        link_edits: bool = None,
         images_only: bool = None,
         remove_reactions: bool = None,
         no_xp: bool = None,
@@ -237,13 +238,14 @@ class Database:
             self_star = $4,
             allow_bots = $5,
             link_deletes = $6,
-            images_only = $7,
-            remove_reactions = $8,
-            no_xp = $9,
-            explore = $10,
-            star_emojis = $11,
-            display_emoji = $12
-            WHERE id = $13""",
+            link_edits = $7,
+            images_only = $8,
+            remove_reactions = $9,
+            no_xp = $10,
+            explore = $11,
+            star_emojis = $12,
+            display_emoji = $13
+            WHERE id = $14""",
             s['required'] if required is None else required,
             s['required_remove'] if required_remove is None else
             required_remove,
@@ -251,6 +253,7 @@ class Database:
             s['self_star'] if self_star is None else self_star,
             s['allow_bots'] if allow_bots is None else allow_bots,
             s['link_deletes'] if link_deletes is None else link_deletes,
+            s['link_edits'] if link_edits is None else link_edits,
             s['images_only'] if images_only is None else images_only,
             s['remove_reactions'] if remove_reactions is None else
             remove_reactions,

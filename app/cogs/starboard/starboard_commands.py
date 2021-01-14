@@ -153,7 +153,7 @@ class Starboard(commands.Cog):
     @flags.add_flag('--removeReactions', '-rr', type=converters.mybool)
     @flags.add_flag('--noXp', '-nxp', type=converters.mybool)
     @flags.add_flag(
-        '--allowRandom', '--random', '-e',
+        '--allowRandom', '--random', '-rand',
         type=converters.mybool
     )
     @starboards.command(
@@ -190,7 +190,8 @@ class Starboard(commands.Cog):
             --linkEdits
             --imagesOnly
             --removeReactions
-            --noXp"""
+            --noXp
+            --allowRandom"""
         await self.bot.db.edit_starboard(
             starboard.obj.id,
             options['required'],
@@ -202,7 +203,8 @@ class Starboard(commands.Cog):
             options['linkEdits'],
             options['imagesOnly'],
             options['removeReactions'],
-            options['noXp']
+            options['noXp'],
+            options['allowRandom']
         )
 
         changes = ""

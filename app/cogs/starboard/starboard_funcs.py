@@ -201,6 +201,7 @@ async def handle_starboard(
     )
 
     add = False
+    edit = sql_starboard['link_edits']
     delete = False
 
     if points >= sql_starboard['required']:
@@ -271,9 +272,14 @@ async def handle_starboard(
                         emoji = discord.utils.get(guild.emojis, id=emoji_id)
                     await m.add_reaction(emoji)
         elif starboard_message is not None and message:
-            await starboard_message.edit(
-                content=plain_text, embed=embed
-            )
+            if edit:
+                await starboard_message.edit(
+                    content=plain_text, embed=embed
+                )
+            else:
+                await starboard_message.edit(
+                    content=plain_text
+                )
         elif starboard_message is not None:
             await starboard_message.edit(
                 content=plain_text
