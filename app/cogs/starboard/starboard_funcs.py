@@ -181,6 +181,12 @@ async def handle_starboard(
             int(sql_starboard_message['starboard_id']),
             int(sql_starboard_message['id'])
         )
+        if starboard_message is None:
+            await bot.db.execute(
+                """DELETE FROM starboard_messages
+                WHERE id=$1""", sql_starboard_message['id']
+            )
+        sql_starboard_message = None
     else:
         starboard_message = None
 

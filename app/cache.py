@@ -30,7 +30,10 @@ class Cache:
         if not cached:
             guild = bot.get_guild(guild_id)
             channel = guild.get_channel(channel_id)
-            message = await channel.fetch_message(message_id)
+            try:
+                message = await channel.fetch_message(message_id)
+            except discord.errors.NotFound:
+                return None
             self.messages.add(guild.id, message)
             return message
         return cached
