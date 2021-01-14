@@ -121,6 +121,8 @@ async def embed_message(
         inline=False
     )
 
+    embed.timestamp = message.created_at
+
     return embed, []
 
 
