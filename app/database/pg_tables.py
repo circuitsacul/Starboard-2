@@ -42,6 +42,7 @@ STARBOARDS = \
 
         required SMALLINT NOT NULL DEFAULT 3,
         required_remove SMALLINT NOT NULL DEFAULT 0,
+        autoreact BOOL NOT NULL DEFAULT True,
         self_star BOOL NOT NULL DEFAULT False,
         allow_bots BOOL NOT NULL DEFAULT True,
         link_deletes BOOL NOT NULL DEFAULT False,

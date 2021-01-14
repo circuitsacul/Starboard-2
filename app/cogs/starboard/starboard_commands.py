@@ -10,6 +10,7 @@ from ...classes.bot import Bot
 OPTION_MAP = {
     'required': 'required',
     'required_remove': 'requiredRemove',
+    'autoreact': 'autoReact',
     'self_star': 'selfStar',
     'allow_bots': 'allowBots',
     'link_deletes': 'linkDeletes',
@@ -80,6 +81,7 @@ class Starboard(commands.Cog):
                     f"displayEmoji: **{s['display_emoji']}**\n\n"
                     f"requiredStars: **{s['required']}**\n"
                     f"requiredToRemove: **{s['required_remove']}**\n"
+                    f"autoReact: **{s['autoreact']}**\n"
                     f"selfStar: **{s['self_star']}**\n"
                     f"allowBots: **{s['allow_bots']}**\n"
                     f"linkDeletes: **{s['link_deletes']}**\n"
@@ -142,6 +144,7 @@ class Starboard(commands.Cog):
 
     @flags.add_flag('--required', '-r', type=converters.myint)
     @flags.add_flag('--requiredRemove', '-rtl', type=converters.myint)
+    @flags.add_flag('--autoReact', '-ar', type=converters.mybool)
     @flags.add_flag('--selfStar', '-ss', type=converters.mybool)
     @flags.add_flag('--allowBots', '-ab', type=converters.mybool)
     @flags.add_flag('--linkDeletes', '-ld', type=converters.mybool)
@@ -180,6 +183,7 @@ class Starboard(commands.Cog):
         All options:
             --required
             --requiredRemove
+            --autoReact
             --selfStar
             --allowBots
             --linkDeletes
@@ -191,7 +195,14 @@ class Starboard(commands.Cog):
             starboard.obj.id,
             options['required'],
             options['requiredRemove'],
-            options['selfStar']
+            options['autoReact'],
+            options['selfStar'],
+            options['allowBots'],
+            options['linkDeletes'],
+            options['linkEdits'],
+            options['imagesOnly'],
+            options['removeReactions'],
+            options['noXp']
         )
 
         changes = ""
@@ -256,6 +267,8 @@ class Starboard(commands.Cog):
             )
 
         new_emojis = current_emojis + [converted_emoji]
+
+        print(converted_emoji)
 
         await self.bot.db.add_star_emoji(
             starboard.obj.id,

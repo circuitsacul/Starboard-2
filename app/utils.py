@@ -44,6 +44,12 @@ def clean_emoji(
     animated_pattern = "^<:.*:[0-9]+>$"
     custom_pattern = "^<a:.*:[0-9]+>$"
 
+    if type(emoji) is discord.partial_emoji.PartialEmoji:
+        if emoji.id is None:
+            return emoji.name
+        else:
+            return str(emoji.id)
+
     if type(emoji) is discord.Emoji:
         str_emoji = str(emoji.id)
     else:
@@ -52,7 +58,7 @@ def clean_emoji(
     if re.match(animated_pattern, str_emoji) or \
             re.match(custom_pattern, str_emoji):
         return str_emoji.split(':')[-1][:-1]
-    return emoji
+    return str_emoji
 
 
 def convert_emojis(

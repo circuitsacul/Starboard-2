@@ -1,4 +1,5 @@
 import discord
+import time
 from discord.ext import commands
 
 from app.classes.bot import Bot
@@ -15,6 +16,7 @@ class StarboardEvents(commands.Cog):
         self,
         payload: discord.RawReactionActionEvent
     ) -> None:
+        start = time.time()
         # Check if bot
         if payload.member.bot:
             return
@@ -27,6 +29,8 @@ class StarboardEvents(commands.Cog):
             sb_emojis += s['star_emojis']
 
         if emoji not in sb_emojis:
+            print(emoji, sb_emojis[0])
+            print(type(emoji), type(sb_emojis[0]))
             return
 
         # Create necessary data
@@ -45,6 +49,13 @@ class StarboardEvents(commands.Cog):
                 int(sql_message['channel_id']),
                 int(sql_message['id'])
             )
+            await self.bot.db.create_reaction_user(
+                emoji, sql_message['id'], payload.user_id
+            )
+            await starboard_funcs.update_message(
+                self.bot, sql_message['id'],
+                sql_message['guild_id']
+            )
         else:
             # Get the message as well as add it to the database
             message = await self.bot.cache.fetch_message(
@@ -61,16 +72,22 @@ class StarboardEvents(commands.Cog):
                 message.channel.id, message.author.id,
                 message.channel.is_nsfw()
             )
-
-        await self.bot.db.create_reaction_user(
-            emoji, message.id, payload.user_id
-        )
+            await self.bot.db.create_reaction_user(
+                emoji, message.id, payload.user_id
+            )
+            await starboard_funcs.update_message(
+                self.bot, payload.message_id,
+                payload.guild_id
+            )
+        end = time.time()
+        print("Total Add Time:", end-start)
 
     @commands.Cog.listener()
     async def on_raw_reaction_remove(
         self,
         payload: discord.RawReactionActionEvent
     ) -> None:
+        start = time.time()
         emoji = utils.clean_emoji(payload.emoji)
 
         orig_message = await starboard_funcs.orig_message(
@@ -82,11 +99,23 @@ class StarboardEvents(commands.Cog):
             await self.bot.db.delete_reaction_user(
                 emoji, int(orig_message['id']), payload.user_id
             )
+
+            await starboard_funcs.update_message(
+                self.bot, orig_message['id'],
+                payload.guild_id
+            )
         else:
             # Delete from the message since it is the original
             await self.bot.db.delete_reaction_user(
                 emoji, payload.message_id, payload.user_id
             )
+
+            await starboard_funcs.update_message(
+                self.bot, payload.message_id,
+                payload.guild_id
+            )
+        end = time.time()
+        print("Total Remove:", end-start)
 
 
 def setup(bot: Bot) -> None:
