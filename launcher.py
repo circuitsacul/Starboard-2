@@ -7,11 +7,11 @@ import sys
 import time
 
 import requests
-from discord import RequestsWebhookAdapter, Webhook, Intents
+from discord import Intents, RequestsWebhookAdapter, Webhook
 from dotenv import load_dotenv
 
-import ipc
 import config
+import ipc
 from app.cache import Cache
 from app.classes.bot import Bot
 from app.database.database import Database
