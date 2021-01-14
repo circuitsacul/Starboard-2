@@ -257,3 +257,10 @@ async def handle_starboard(
             )
             end = time.time()
             print("Edit time:", end-start)
+        elif starboard_message is not None:
+            start = time.time()
+            await starboard_message.edit(
+                content=plain_text
+            )
+            end = time.time()
+            print("Edit time:", end-start)
