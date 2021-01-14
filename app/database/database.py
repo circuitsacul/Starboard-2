@@ -116,6 +116,7 @@ class Database:
     async def create_user(
         self,
         user_id: int,
+        is_bot: bool,
         check_first: bool = True
     ) -> None:
         if check_first:
@@ -125,8 +126,8 @@ class Database:
 
         try:
             await self.execute(
-                """INSERT INTO users (id)
-                VALUES ($1)""", user_id
+                """INSERT INTO users (id, is_bot)
+                VALUES ($1, $2)""", user_id, is_bot
             )
         except asyncpg.exceptions.UniqueViolationError:
             return True
@@ -156,7 +157,6 @@ class Database:
                 return True
 
         await self.create_guild(guild_id)
-        await self.create_user(user_id)
         try:
             await self.execute(
                 """INSERT INTO members (user_id, guild_id)
@@ -366,7 +366,6 @@ class Database:
             )
 
         await self.create_guild(guild_id)
-        await self.create_user(author_id)
 
         try:
             await self.execute(
@@ -510,7 +509,6 @@ class Database:
                 return True
 
         await self.create_reaction(emoji, message_id)
-        await self.create_user(user_id)
 
         reaction = await self.get_reaction(emoji, message_id)
 

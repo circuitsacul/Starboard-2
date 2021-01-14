@@ -13,7 +13,8 @@ GUILDS = \
 
 USERS = \
     """CREATE TABLE IF NOT EXISTS users (
-        id NUMERIC PRIMARY KEY
+        id NUMERIC PRIMARY KEY,
+        is_bot BOOL NOT NULL
     )"""
 
 MEMBERS = \

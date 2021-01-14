@@ -30,6 +30,9 @@ class StarboardEvents(commands.Cog):
             return
 
         # Create necessary data
+        await self.bot.db.create_user(
+            payload.member.id, payload.member.bot
+        )
         await self.bot.db.create_member(
             payload.member.id, payload.guild_id
         )
@@ -60,6 +63,9 @@ class StarboardEvents(commands.Cog):
                 payload.message_id
             )
 
+            await self.bot.db.create_user(
+                message.author.id, message.author.bot
+            )
             await self.bot.db.create_member(
                 message.author.id, payload.guild_id
             )
