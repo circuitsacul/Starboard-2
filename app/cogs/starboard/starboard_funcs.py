@@ -189,6 +189,17 @@ async def handle_starboard(
         bot, sql_message, sql_starboard
     )
 
+    sql_starboard_message = await bot.db.fetchrow(
+        """SELECT * FROM starboard_messages
+        WHERE orig_id=$1 AND starboard_id=$2""",
+        sql_message['id'], sql_starboard['id']
+    )
+    message = await bot.cache.fetch_message(
+        bot, int(sql_message['guild_id']),
+        int(sql_message['channel_id']),
+        int(sql_message['id'])
+    )
+
     add = False
     delete = False
 
@@ -197,16 +208,13 @@ async def handle_starboard(
     elif points <= sql_starboard['required_remove']:
         delete = True
 
-    if not sql_starboard['allow_bots']:
-        if sql_author['is_bot']:
-            delete = True
-            add = False
+    if (not sql_starboard['allow_bots']) and sql_author['is_bot']:
+        delete = True
+        add = False
 
-    sql_starboard_message = await bot.db.fetchrow(
-        """SELECT * FROM starboard_messages
-        WHERE orig_id=$1 AND starboard_id=$2""",
-        sql_message['id'], sql_starboard['id']
-    )
+    if sql_starboard['link_deletes'] and (message is None):
+        delete = True
+        add = False
 
     if sql_starboard_message is not None:
         starboard_message = await bot.cache.fetch_message(
@@ -230,11 +238,6 @@ async def handle_starboard(
         )
         await starboard_message.delete()
     elif not delete:
-        message = await bot.cache.fetch_message(
-            bot, int(sql_message['guild_id']),
-            int(sql_message['channel_id']),
-            int(sql_message['id'])
-        )
         embed = None
         if message is not None:
             embed, _ = await embed_message(
