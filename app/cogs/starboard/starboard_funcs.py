@@ -169,6 +169,9 @@ async def calculate_points(
         if reactions[int(r['reaction_id'])] \
                 not in starboard['star_emojis']:
             continue
+        if starboard['self_star'] is False:
+            if r['user_id'] == message['author_id']:
+                continue
         used_users.add(r['user_id'])
         points += 1
 
