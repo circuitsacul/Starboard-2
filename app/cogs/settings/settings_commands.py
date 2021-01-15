@@ -9,6 +9,27 @@ class Settings(commands.Cog):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
 
+    @commands.command(
+        name='settings', aliases=['guildSettings', 'options'],
+        brief="View guild settings"
+    )
+    async def guild_settings(self, ctx: commands.Context) -> None:
+        guild = await self.bot.db.get_guild(ctx.guild.id)
+        log_channel = "**None**" if guild['log_channel'] is None\
+            else f"<#{guild['log_channel']}>"
+        level_channel = "**None**" if guild['level_channel'] is None\
+            else f"<#{guild['level_channel']}>"
+        embed = discord.Embed(
+            title=f"Settings for {ctx.guild.name}",
+            description=(
+                f"logChannel: {log_channel}\n"
+                f"levelChannel: {level_channel}\n"
+                f"pingOnLevelUp: **{guild['ping_user']}**"
+            ),
+            color=self.bot.theme_color
+        )
+        await ctx.send(embed=embed)
+
     @commands.group(
         name='prefixes', aliases=['pfx', 'prefix', 'p'],
         brief="List and manage prefixes",
@@ -132,30 +153,35 @@ class Settings(commands.Cog):
     @commands.has_guild_permissions(manage_guild=True)
     async def set_logchannel(
         self, ctx: commands.Context,
-        channel: discord.TextChannel
+        channel: discord.TextChannel = None
     ) -> None:
-        perms = channel.permissions_for(ctx.guild.me)
-        missing_perms = []
-        if not perms.read_messages:
-            missing_perms.append('Read Messages')
-        if not perms.send_messages:
-            missing_perms.apppend('Send Messages')
-        if not perms.embed_links:
-            missing_perms.append('Embed Links')
-        if missing_perms != []:
-            raise commands.BotMissingPermissions(missing_perms)
+        if channel:
+            perms = channel.permissions_for(ctx.guild.me)
+            missing_perms = []
+            if not perms.read_messages:
+                missing_perms.append('Read Messages')
+            if not perms.send_messages:
+                missing_perms.apppend('Send Messages')
+            if not perms.embed_links:
+                missing_perms.append('Embed Links')
+            if missing_perms != []:
+                raise commands.BotMissingPermissions(missing_perms)
 
         await self.bot.db.execute(
             """UPDATE guilds
             SET log_channel=$1
-            WHERE id=$2""", channel.id, ctx.guild.id
+            WHERE id=$2""", channel.id if channel else None,
+            ctx.guild.id
         )
-        await ctx.send(f"Set the log channel to {channel.mention}")
-        self.bot.dispatch(
-            'guild_log',
-            "This channel has been set as a log channel. I'll send "
-            "errors and important info here.", 'info', ctx.guild
-        )
+        if channel:
+            await ctx.send(f"Set the log channel to {channel.mention}")
+            self.bot.dispatch(
+                'guild_log',
+                "This channel has been set as a log channel. I'll send "
+                "errors and important info here.", 'info', ctx.guild
+            )
+        else:
+            await ctx.send("Unset the log channel.")
 
 
 def setup(bot: Bot) -> None:
