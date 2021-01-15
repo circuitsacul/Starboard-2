@@ -1,9 +1,9 @@
-import re
-from typing import Union
-
 import discord
 import emoji
 from discord.ext import commands, flags
+
+import re
+from typing import Union
 
 from . import errors
 from .classes.sql_object import SQLObject
