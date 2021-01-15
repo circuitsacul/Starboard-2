@@ -20,6 +20,8 @@ EXPECTED_ERRORS = [
     errors.AlreadyExists,
     commands.MissingRequiredArgument,
     commands.ChannelNotFound,
+    commands.RoleNotFound,
+    commands.NotOwner,
     discord.InvalidArgument,
     flags.ArgumentParsingError
 ]

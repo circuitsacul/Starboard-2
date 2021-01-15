@@ -7,13 +7,15 @@ from contextlib import redirect_stdout
 
 from discord.ext import commands
 
+from app import checks
+
 
 class Eval(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
     @commands.command()
-    @commands.is_owner()
+    @checks.is_owner()
     async def evall(self, ctx, *, body: str):
         self.bot.eval_wait = True
         try:
@@ -36,7 +38,7 @@ class Eval(commands.Cog):
             self.bot.eval_wait = False
 
     @commands.command(hidden=True, name='eval')
-    @commands.is_owner()
+    @checks.is_owner()
     async def _eval(self, ctx, *, body: str):
         """Evaluates a code"""
 

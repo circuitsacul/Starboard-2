@@ -4,7 +4,7 @@ import discord
 from asyncpg.exceptions import InterfaceError
 from discord.ext import commands
 
-from ... import utils
+from ... import checks, utils
 from ...classes.bot import Bot
 
 
@@ -13,7 +13,7 @@ class OwnerCommands(commands.Cog):
         self.bot = bot
 
     @commands.command(name='sqltimes')
-    @commands.is_owner()
+    @checks.is_owner()
     async def get_sql_times(
         self, ctx: commands.Context,
         sort_by: str = 'total'
@@ -65,7 +65,7 @@ class OwnerCommands(commands.Cog):
         )
 
     @commands.command(name='restart')
-    @commands.is_owner()
+    @checks.is_owner()
     async def restart_bot(
         self,
         ctx: commands.Context
@@ -84,7 +84,7 @@ class OwnerCommands(commands.Cog):
         description='Time postgres queries',
         hidden=True
     )
-    @commands.is_owner()
+    @checks.is_owner()
     async def time_postgres(
         self,
         ctx: commands.Context,
