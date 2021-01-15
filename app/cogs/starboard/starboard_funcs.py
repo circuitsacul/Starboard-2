@@ -115,7 +115,7 @@ async def embed_message(
         name=ZERO_WIDTH_SPACE,
         value=str(
             str(ref_jump if ref_message else '') +
-            f"**[View Message]({message.jump_url})**",
+            f"**[Jump to Message]({message.jump_url})**",
         ),
         inline=False
     )
