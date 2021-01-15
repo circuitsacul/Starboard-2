@@ -96,18 +96,18 @@ async def embed_message(
             ref_content = '*File Only*'
 
         embed.add_field(
-            name=f'Replied To {ref_author or "Unknown"}',
+            name=f'Replying to {ref_author or "Unknown"}',
             value=ref_content,
             inline=False
         )
 
         if type(ref_message) is discord.Message:
             ref_jump = (
-                f"**[Replied to This Message]({ref_message.jump_url})**\n"
+                f"**[Replying to {ref_author}]({ref_message.jump_url})**\n"
             )
         else:
             ref_jump = (
-                "**[Replied to This Message (deleted)]"
+                "**[Replying to Unknown (deleted)]"
                 f"(https://discord.com/channels/{ref_message.guild_id}/"
                 f"{ref_message.channel_id}/{ref_message.id})**\n"
             )
@@ -116,7 +116,7 @@ async def embed_message(
         name=ZERO_WIDTH_SPACE,
         value=str(
             str(ref_jump if ref_message else '') +
-            f"**[Jump to Message!]({message.jump_url})**",
+            f"**[View Message]({message.jump_url})**",
         ),
         inline=False
     )
