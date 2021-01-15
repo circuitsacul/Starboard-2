@@ -72,10 +72,17 @@ class Bot(commands.AutoShardedBot):
         self, bot,
         message: discord.Message
     ) -> List[str]:
-        guild = await self.db.get_guild(message.guild.id)
+        if message.guild:
+            guild = await self.db.get_guild(message.guild.id)
+            if not guild:
+                prefixes = ['sb!']
+            else:
+                prefixes = guild['prefixes']
+        else:
+            prefixes = ['sb!']
         return [
             f"<@{self.user.id}> ", f"<@!{self.user.id}> "
-        ] + guild['prefixes']
+        ] + prefixes
 
     def cleanup_code(self, content):
         """Automatically removes code blocks from the code."""
