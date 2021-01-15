@@ -113,3 +113,16 @@ class BaseEvents(commands.Cog):
 
 def setup(bot: Bot) -> None:
     bot.add_cog(BaseEvents(bot))
+
+    @bot.before_invoke
+    async def create_data(
+        message: discord.Message
+    ) -> None:
+        await bot.db.create_guild(message.guild.id)
+        await bot.db.create_user(
+            message.author.id,
+            message.author.bot
+        )
+        await bot.db.create_member(
+            message.author.id, message.guild.id
+        )
