@@ -1,3 +1,5 @@
+import datetime
+
 import discord
 from discord.ext import commands
 
@@ -8,10 +10,16 @@ class LoggingEvents(commands.Cog):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
 
+        self.type_map = {
+            'error': {'color': self.bot.error_color, 'title':  'Error'},
+            'info': {'color': self.bot.theme_color, 'title': 'Info'}
+        }
+
     @commands.Cog.listener()
-    async def on_log_error(
+    async def on_guild_log(
         self,
         message: str,
+        log_type: str,
         guild: discord.Guild
     ) -> None:
         sql_guild = await self.bot.db.get_guild(guild.id)
@@ -20,10 +28,11 @@ class LoggingEvents(commands.Cog):
             return
 
         embed = discord.Embed(
-            title="Error",
+            title=self.type_map[log_type]['title'],
             description=message,
-            color=self.bot.error_color
+            color=self.type_map[log_type]['color']
         )
+        embed.timestamp = datetime.datetime.utcnow()
         await log_channel.send(embed=embed)
 
 

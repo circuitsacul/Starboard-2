@@ -125,6 +125,38 @@ class Settings(commands.Cog):
         )
         await ctx.send("Cleared all prefixes and added `sb!`.")
 
+    @commands.command(
+        name='logChannel', aliases=['log', 'lc'],
+        brief="Sets the channel where logs are sent to"
+    )
+    @commands.has_guild_permissions(manage_guild=True)
+    async def set_logchannel(
+        self, ctx: commands.Context,
+        channel: discord.TextChannel
+    ) -> None:
+        perms = channel.permissions_for(ctx.guild.me)
+        missing_perms = []
+        if not perms.read_messages:
+            missing_perms.append('Read Messages')
+        if not perms.send_messages:
+            missing_perms.apppend('Send Messages')
+        if not perms.embed_links:
+            missing_perms.append('Embed Links')
+        if missing_perms != []:
+            raise commands.BotMissingPermissions(missing_perms)
+
+        await self.bot.db.execute(
+            """UPDATE guilds
+            SET log_channel=$1
+            WHERE id=$2""", channel.id, ctx.guild.id
+        )
+        await ctx.send(f"Set the log channel to {channel.mention}")
+        self.bot.dispatch(
+            'guild_log',
+            "This channel has been set as a log channel. I'll send "
+            "errors and important info here.", 'info', ctx.guild
+        )
+
 
 def setup(bot: Bot) -> None:
     bot.add_cog(Settings(bot))
