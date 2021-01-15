@@ -6,7 +6,6 @@ from discord.ext import commands, flags
 from ... import converters, errors, utils
 from ...classes.bot import Bot
 
-
 OPTION_MAP = {
     'required': 'required',
     'required_remove': 'requiredRemove',

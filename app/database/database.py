@@ -1,10 +1,10 @@
 import time
-from typing import Optional, List
+from typing import List, Optional
 
 import asyncpg
 
-from .pg_tables import ALL_TABLES
 from .. import errors
+from .pg_tables import ALL_TABLES
 
 
 class Database:

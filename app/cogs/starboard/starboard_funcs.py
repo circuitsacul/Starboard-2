@@ -1,10 +1,9 @@
-from typing import Optional, Tuple, List
+from typing import List, Optional, Tuple
 
 import discord
 
 from app import utils
 from app.classes.bot import Bot
-
 
 EMPTY = discord.embeds._EmptyEmbed
 ZERO_WIDTH_SPACE = "\u200B"

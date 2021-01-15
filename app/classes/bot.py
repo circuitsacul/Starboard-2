@@ -11,8 +11,8 @@ import websockets
 from discord.ext import commands
 from pretty_help import PrettyHelp
 
-from ..database.database import Database
 from ..cache import Cache
+from ..database.database import Database
 
 
 class Bot(commands.AutoShardedBot):

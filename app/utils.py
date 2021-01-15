@@ -4,7 +4,7 @@ import os
 import re
 import signal
 from functools import wraps
-from typing import List, Optional, Union, Tuple
+from typing import List, Optional, Union
 
 import discord
 from discord.ext import commands
@@ -153,7 +153,9 @@ async def paginator(
 
         payload = await ctx.bot.wait_for('raw_reaction_add', check=check)
         try:
-            await message.remove_reaction(payload.emoji.name, ctx.message.author)
+            await message.remove_reaction(
+                payload.emoji.name, ctx.message.author
+            )
         except discord.Forbidden:
             pass
         if payload.emoji.name == left_emoji:
@@ -167,6 +169,6 @@ async def paginator(
             current_page = 0
         elif current_page < 0:
             current_page = total_pages-1
-    
+
     if message:
         await message.delete()

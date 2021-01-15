@@ -1,12 +1,13 @@
 import traceback
 
-import discord
 import aiohttp
-from discord import Webhook, AsyncWebhookAdapter
-from dotenv import load_dotenv
+import discord
+from discord import AsyncWebhookAdapter, Webhook
 from discord.ext import commands, flags
+from dotenv import load_dotenv
 
 import config
+
 from ... import errors
 from ...classes.bot import Bot
 
