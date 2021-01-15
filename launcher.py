@@ -6,6 +6,7 @@ import signal
 import sys
 import time
 
+import pygame
 import requests
 from discord import Intents, RequestsWebhookAdapter, Webhook
 from dotenv import load_dotenv
