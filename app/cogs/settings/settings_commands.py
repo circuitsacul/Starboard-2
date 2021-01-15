@@ -30,7 +30,7 @@ class Settings(commands.Cog):
     @flags.add_flag('--space', action="store_true")
     @prefixes.command(
         cls=flags.FlagCommand,
-        name='add',
+        name='add', aliases=['a'],
         brief="Adds a prefix"
     )
     @commands.has_guild_permissions(manage_messages=True)
@@ -61,7 +61,7 @@ class Settings(commands.Cog):
         await ctx.send(f"Added `{prefix}` to the prefixes.")
 
     @prefixes.command(
-        name='remove',
+        name='remove', aliases=['rm', 'r'],
         brief="Removes a prefix"
     )
     @commands.has_guild_permissions(manage_messages=True)
