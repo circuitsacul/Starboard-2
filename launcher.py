@@ -28,6 +28,7 @@ EXTENSIONS = [
     'app.cogs.owner.eval',
     'app.cogs.owner.owner_commands',
     'app.cogs.cache.cache_events',
+    'app.cogs.settings.settings_commands',
     'jishaku'
 ]
 INTENTS = Intents(
@@ -191,7 +192,6 @@ class Cluster:
         self.kwargs = dict(
             intents=INTENTS,
             token=TOKEN,
-            command_prefix="sb!",
             shard_ids=shard_ids,
             shard_count=max_shards,
             cluster_name=name,

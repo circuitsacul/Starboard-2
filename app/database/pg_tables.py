@@ -8,7 +8,7 @@ GUILDS = \
 
         premium_end TIMESTAMP DEFAULT NULL,
 
-        prefixes TEXT[] NOT NULL DEFAULT '{"sb!"}'
+        prefixes VARCHAR(8)[] NOT NULL DEFAULT '{"sb!"}'
     )"""
 
 USERS = \

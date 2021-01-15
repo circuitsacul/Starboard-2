@@ -20,6 +20,7 @@ EXPECTED_ERRORS = [
     errors.AlreadyExists,
     commands.MissingRequiredArgument,
     commands.ChannelNotFound,
+    discord.InvalidArgument,
     flags.ArgumentParsingError
 ]
 WEBHOOK_URL = config.UPTIME_WEBHOOK

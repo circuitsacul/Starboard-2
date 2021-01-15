@@ -6,7 +6,9 @@ import sys
 import textwrap
 import traceback
 from contextlib import redirect_stdout
+from typing import List
 
+import discord
 import websockets
 from discord.ext import commands
 from pretty_help import PrettyHelp
@@ -30,6 +32,7 @@ class Bot(commands.AutoShardedBot):
             help_command=PrettyHelp(
                 color=self.theme_color
             ),
+            command_prefix=self._prefix_callable,
             **kwargs, loop=loop
         )
         self.websocket = None
@@ -64,6 +67,15 @@ class Bot(commands.AutoShardedBot):
 
     async def on_message(self, message):
         pass
+
+    async def _prefix_callable(
+        self, bot,
+        message: discord.Message
+    ) -> List[str]:
+        guild = await self.db.get_guild(message.guild.id)
+        return [
+            f"<@{self.user.id}> ", f"<@!{self.user.id}> "
+        ] + guild['prefixes']
 
     def cleanup_code(self, content):
         """Automatically removes code blocks from the code."""
