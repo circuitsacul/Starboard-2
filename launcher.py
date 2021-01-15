@@ -16,6 +16,8 @@ from app.cache import Cache
 from app.classes.bot import Bot
 from app.database.database import Database
 
+# Test
+
 load_dotenv()
 
 WEBHOOK_URL = config.UPTIME_WEBHOOK
