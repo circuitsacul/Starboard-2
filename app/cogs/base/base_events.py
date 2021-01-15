@@ -29,6 +29,8 @@ load_dotenv()
 
 
 async def webhooklog(content: str) -> None:
+    if not WEBHOOK_URL:
+        return
     async with aiohttp.ClientSession() as session:
         webhook = Webhook.from_url(
             WEBHOOK_URL, adapter=AsyncWebhookAdapter(session)

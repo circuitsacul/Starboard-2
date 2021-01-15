@@ -61,6 +61,8 @@ NAMES = iter(CLUSTER_NAMES)
 
 
 def webhooklog(content: str) -> None:
+    if not WEBHOOK_URL:
+        return
     webhook = Webhook.from_url(
         WEBHOOK_URL, adapter=RequestsWebhookAdapter()
     )
