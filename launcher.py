@@ -29,7 +29,6 @@ EXTENSIONS = [
     'app.cogs.owner.owner_commands',
     'app.cogs.cache.cache_events',
     'app.cogs.settings.settings_commands',
-    'app.cogs.logging.logging_events',
     'jishaku'
 ]
 INTENTS = Intents(
