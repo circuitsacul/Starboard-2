@@ -20,6 +20,7 @@ from ..database.database import Database
 class Bot(commands.AutoShardedBot):
     def __init__(self, **kwargs):
         self.theme_color = kwargs.pop('theme_color')
+        self.dark_theme_color = kwargs.pop('dark_theme_color')
         self.error_color = kwargs.pop('error_color')
         self.db: Database = kwargs.pop('db')
         self.cache: Cache = kwargs.pop('cache')
@@ -67,6 +68,14 @@ class Bot(commands.AutoShardedBot):
 
     async def on_message(self, message):
         pass
+
+    async def on_error(
+        self,
+        event: str,
+        *args, **kwargs
+    ) -> None:
+        _, error, _ = sys.exc_info()
+        self.dispatch('log_error', 'Error', error, args, kwargs)
 
     async def _prefix_callable(
         self, bot,

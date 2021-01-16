@@ -204,6 +204,7 @@ class Cluster:
                 os.getenv('DB_PASSWORD')
             ),
             theme_color=config.THEME_COLOR,
+            dark_theme_color=config.DARK_THEME_COLOR,
             error_color=config.ERROR_COLOR,
             initial_extensions=EXTENSIONS
         )

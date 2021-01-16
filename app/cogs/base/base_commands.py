@@ -10,6 +10,10 @@ class Base(commands.Cog):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
 
+    @commands.command()
+    async def test(self, ctx):
+        raise Exception('test')
+
     @commands.command(
         name='ping', aliases=['latency'],
         brief="Shows current clusters and shards latency"
