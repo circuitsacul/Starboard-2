@@ -62,7 +62,7 @@ class Starboard(commands.Cog):
                 emoji_str = utils.pretty_emoji_string(
                     s['star_emojis'], ctx.guild)
                 embed.add_field(
-                    name=c.name,
+                    name=c.name if c else f"Deleted Channel {s['id']}",
                     value=(
                         f"emojis: {emoji_str}\n"
                         f"requiredStars: {s['required']}\n"
@@ -122,10 +122,12 @@ class Starboard(commands.Cog):
         ctx: commands.Context,
         channel: Union[discord.TextChannel, int]
     ) -> None:
-        starboard = await self.bot.db.get_starboard(channel.id)
+        cid = channel.id if type(channel) is not int else channel
+        cname = channel.mention if type(channel) is not int else channel
+        starboard = await self.bot.db.get_starboard(cid)
         if not starboard:
             raise errors.DoesNotExist(
-                f"{channel.mention} is not a starboard."
+                f"{cname} is not a starboard."
             )
         else:
             await ctx.send(
@@ -135,9 +137,9 @@ class Starboard(commands.Cog):
             if confirmed is True:
                 await self.bot.db.execute(
                     """DELETE FROM starboards WHERE id=$1""",
-                    channel.id
+                    cid
                 )
-                await ctx.send(f"{channel.mention} is no longer a starboard.")
+                await ctx.send(f"{cname} is no longer a starboard.")
             if confirmed is False:
                 await ctx.send("Cancelled.")
 
