@@ -6,6 +6,8 @@ GUILDS = \
         level_channel NUMERIC DEFAULT NULL,
         ping_user BOOL NOT NULL DEFAULT false,
 
+        allow_commands BOOL NOT NULL DEFAULT true,
+
         premium_end TIMESTAMP DEFAULT NULL,
 
         prefixes VARCHAR(8)[] NOT NULL DEFAULT '{"sb!"}'
