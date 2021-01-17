@@ -16,7 +16,8 @@ GUILDS = \
 USERS = \
     """CREATE TABLE IF NOT EXISTS users (
         id NUMERIC PRIMARY KEY,
-        is_bot BOOL NOT NULL
+        is_bot BOOL NOT NULL,
+        votes SMALLINT NOT NULL DEFAULT 0
     )"""
 
 MEMBERS = \
