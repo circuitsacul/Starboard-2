@@ -24,7 +24,6 @@ EXPECTED_ERRORS = [
     commands.ChannelNotFound,
     commands.RoleNotFound,
     commands.NotOwner,
-    discord.InvalidArgument,
     flags.ArgumentParsingError
 ]
 WEBHOOK_URL = config.UPTIME_WEBHOOK
@@ -150,8 +149,18 @@ class BaseEvents(commands.Cog):
             pass
         if type(e) in IGNORED_ERRORS:
             return
-        if type(e) in EXPECTED_ERRORS:
+        elif type(e) in EXPECTED_ERRORS:
             await ctx.send(e)
+        elif type(e) == discord.errors.Forbidden:
+            try:
+                await ctx.message.author.send(
+                    "I can't send messages in "
+                    f"{ctx.message.channel.mention}, "
+                    "or I'm missing the `Embed Links` "
+                    "permission there."
+                )
+            except discord.Forbidden:
+                pass
         else:
             embed = discord.Embed(
                 title="Something's Not Right",

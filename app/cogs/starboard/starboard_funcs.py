@@ -254,10 +254,23 @@ async def handle_starboard(
         )
 
         if starboard_message is None and add and message:
-            starboard = bot.get_channel(
+            guild = bot.get_guild(sql_starboard['guild_id'])
+            starboard = guild.get_channel(
                 int(sql_starboard['id'])
             )
-            m = await starboard.send(plain_text, embed=embed)
+            try:
+                m = await starboard.send(plain_text, embed=embed)
+            except discord.Forbidden:
+                bot.dispatch(
+                    'guild_log',
+                    (
+                        "I tried to send a starboard message to "
+                        f"{starboard.mention}, but I'm missing the "
+                        "proper permissions. Please make sure I have "
+                        "the `Send Messages` permission."
+                    ), 'error', guild
+                )
+                return
             await bot.db.create_starboard_message(
                 m.id, message.id, sql_starboard['id']
             )
@@ -269,7 +282,20 @@ async def handle_starboard(
                         emoji_id = None
                     if emoji_id:
                         emoji = discord.utils.get(guild.emojis, id=emoji_id)
-                    await m.add_reaction(emoji)
+                    try:
+                        await m.add_reaction(emoji)
+                    except discord.Forbidden:
+                        bot.dispatch(
+                            'guild_log',
+                            (
+                                "I tried to autoreact to a message on the "
+                                "starboard, but I'm missing the proper "
+                                "permissions. If you don't want me to "
+                                "autoreact to messages, set the AutoReact "
+                                "setting to False with `sb!s cs "
+                                f"{starboard.mention} --autoReact False`"
+                            ), 'error', guild
+                        )
         elif starboard_message is not None and message:
             if edit:
                 await starboard_message.edit(
