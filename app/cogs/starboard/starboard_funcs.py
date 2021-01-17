@@ -42,10 +42,8 @@ async def embed_message(
             ) if embed.description != embed.Empty else ''
 
             for field in embed.fields:
-                name = f"\n**{utils.escmd(field.name)}**\n" \
-                    if field.name != embed.Empty else ''
-                value = f"{field.value}\n"\
-                    if field.value != embed.Empty else ''
+                name = f"\n**{utils.escmd(field.name)}**\n"
+                value = f"{field.value}\n"
 
                 content += name + value
             if embed.footer.text is not embed.Empty:
