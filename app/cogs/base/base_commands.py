@@ -62,6 +62,42 @@ class Base(commands.Cog):
         )
         await ctx.send(embed=embed)
 
+    @commands.command(
+        name='vote', aliases=['votes'],
+        brief="View vote links and number of times you've voted"
+    )
+    async def vote(
+        self,
+        ctx: commands.Context,
+        user: discord.User = None
+    ) -> None:
+        user = user or ctx.message.author
+        sql_user = await self.bot.db.get_user(user.id)
+        count = sql_user['votes']
+        embed = discord.Embed(
+            title="Vote for Starboard",
+            color=self.bot.theme_color
+        ).add_field(
+            name="Votes",
+            value=f"You have voted **{count}** time"
+            f"{'s' if count != 1 else ''}"
+            f"{'!' if count != 0 else ' :('}"
+            if user.id == ctx.message.author.id else
+            f"**{user.name}** has voted **{count}** time"
+            f"{'s' if count != 1 else ''}"
+            f"{'!' if count != 0 else ' :('}",
+            inline=False
+        ).add_field(
+            name="Vote Links",
+            value='\n'.join(config.VOTE_LINKS),
+            inline=False
+        ).add_field(
+            name="Review Links",
+            value='\n'.join(config.REVIEW_LINKS),
+            inline=False
+        )
+        await ctx.send(embed=embed)
+
 
 def setup(bot: Bot) -> None:
     bot.add_cog(Base(bot))
