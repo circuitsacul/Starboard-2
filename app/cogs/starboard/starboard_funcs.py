@@ -5,14 +5,7 @@ import discord
 from app import utils
 from app.classes.bot import Bot
 
-EMPTY = discord.embeds._EmptyEmbed
 ZERO_WIDTH_SPACE = "\u200B"
-
-
-def escmd(text: str) -> str:
-    if type(text) is not str:
-        return
-    return discord.utils.escape_markdown(text)
 
 
 async def orig_message(
@@ -42,20 +35,21 @@ async def embed_message(
     for embed in message.embeds:
         if embed.type == 'rich':
             content += (
-                f"\n__**{escmd(embed.title)}**__\n"
-            ) if embed.title != EMPTY else ''
+                f"\n__**{utils.escmd(embed.title)}**__\n"
+            ) if embed.title != embed.Empty else ''
             content += (
                 f"{embed.description}\n"
-            ) if embed.description != EMPTY else ''
+            ) if embed.description != embed.Empty else ''
 
             for field in embed.fields:
-                name = f"\n**{escmd(field.name)}**\n" \
-                    if field.name != EMPTY else ''
-                value = f"{field.value}\n" if field.value != EMPTY else ''
+                name = f"\n**{utils.escmd(field.name)}**\n" \
+                    if field.name != embed.Empty else ''
+                value = f"{field.value}\n"\
+                    if field.value != embed.Empty else ''
 
                 content += name + value
             if embed.footer.text is not embed.Empty:
-                content += f"\n{escmd(embed.footer.text)}\n"
+                content += f"\n{utils.escmd(embed.footer.text)}\n"
 
     if len(content) > 2048:
         to_remove = len(content + ' ...') - 2048

@@ -29,6 +29,12 @@ def timeout(seconds=10, error_message=os.strerror(errno.ETIME)):
 
 
 # Functions
+def escmd(text: str) -> str:
+    if type(text) is not str:
+        return
+    return discord.utils.escape_markdown(text)
+
+
 def ms(seconds: int) -> int:
     return round(seconds*1000, 2)
 
