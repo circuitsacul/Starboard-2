@@ -29,6 +29,13 @@ def timeout(seconds=10, error_message=os.strerror(errno.ETIME)):
 
 
 # Functions
+def jump_link(message_id: int, channel_id: int, guild_id: int) -> str:
+    return (
+        f"https://discord.com/channels/{guild_id}/{channel_id}"
+        f"/{message_id}"
+    )
+
+
 def escmd(text: str) -> str:
     if type(text) is not str:
         return

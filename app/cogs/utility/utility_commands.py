@@ -1,3 +1,4 @@
+import discord
 from discord.ext import commands
 
 from app.classes.bot import Bot
@@ -139,6 +140,40 @@ class Utility(commands.Cog):
             False
         )
         await ctx.send("Message untrashed")
+
+    @commands.command(
+        name='trashcan', aliases=['trashed'],
+        brief="Shows a list of trashed messages"
+    )
+    @commands.has_guild_permissions(manage_messages=True)
+    async def show_trashcan(
+        self, ctx: commands.Context
+    ) -> None:
+        trashed_messages = await self.bot.db.fetch(
+            """SELECT * FROM messages
+            WHERE guild_id=$1 AND trashed=True""",
+            ctx.guild.id
+        )
+        if len(trashed_messages) == 0:
+            await ctx.send("You have no trashed messages.")
+            return
+        p = commands.Paginator(prefix='', suffix='', max_size=500)
+        for m in trashed_messages:
+            link = utils.jump_link(
+                m['id'], m['channel_id'],
+                m['guild_id']
+            )
+            p.add_line(
+                f"**[{m['channel_id']}-{m['id']}]({link})**"
+            )
+        embeds = [
+            discord.Embed(
+                title="Trashed Messages",
+                description=page,
+                color=self.bot.theme_color
+            ) for page in p.pages
+        ]
+        await utils.paginator(ctx, embeds)
 
 
 def setup(bot: Bot) -> None:
