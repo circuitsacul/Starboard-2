@@ -357,6 +357,10 @@ async def handle_starboard(
         delete = True
         add = False
 
+    if sql_message['is_nsfw'] and not sql_starboard['allow_nsfw']:
+        add = False
+        delete = True
+
     if sql_starboard['id'] in sql_message['forced']:
         add = True
         delete = False

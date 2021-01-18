@@ -12,6 +12,7 @@ OPTION_MAP = {
     'autoreact': 'autoReact',
     'self_star': 'selfStar',
     'allow_bots': 'allowBots',
+    'allow_nsfw': 'allowNSFW',
     'link_deletes': 'linkDeletes',
     'link_edits': 'linkEdits',
     'images_only': 'imagesOnly',
@@ -64,8 +65,9 @@ class Starboard(commands.Cog):
                 embed.add_field(
                     name=c.name if c else f"Deleted Channel {s['id']}",
                     value=(
-                        f"emojis: {emoji_str}\n"
-                        f"requiredStars: {s['required']}\n"
+                        f"emojis: **{emoji_str}**\n"
+                        f"requiredStars: **{s['required']}**\n"
+                        f"allowNSFW: **{s['allow_nsfw']}**"
                     )
                 )
             await ctx.send(embed=embed)
@@ -83,6 +85,7 @@ class Starboard(commands.Cog):
                     f"autoReact: **{s['autoreact']}**\n"
                     f"selfStar: **{s['self_star']}**\n"
                     f"allowBots: **{s['allow_bots']}**\n"
+                    f"allowNSFW: **{s['allow_nsfw']}**\n"
                     f"linkDeletes: **{s['link_deletes']}**\n"
                     f"linkEdits: **{s['link_edits']}**\n"
                     f"imagesOnly: **{s['images_only']}**\n"
@@ -148,6 +151,7 @@ class Starboard(commands.Cog):
     @flags.add_flag('--autoReact', '-ar', type=converters.mybool)
     @flags.add_flag('--selfStar', '-ss', type=converters.mybool)
     @flags.add_flag('--allowBots', '-ab', type=converters.mybool)
+    @flags.add_flag('--allowNSFW', '-nsfw', type=converters.mybool)
     @flags.add_flag('--linkDeletes', '-ld', type=converters.mybool)
     @flags.add_flag('--linkEdits', '-le', type=converters.mybool)
     @flags.add_flag('--imagesOnly', '-ri', '-io', type=converters.mybool)
@@ -200,6 +204,7 @@ class Starboard(commands.Cog):
             options['autoReact'],
             options['selfStar'],
             options['allowBots'],
+            options['allowNSFW'],
             options['linkDeletes'],
             options['linkEdits'],
             options['imagesOnly'],
