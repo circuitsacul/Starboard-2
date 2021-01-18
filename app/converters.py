@@ -85,6 +85,56 @@ class Emoji(commands.Converter):
         )
 
 
+class MessageLink(commands.Converter):
+    async def convert(
+        self,
+        ctx: commands.Context,
+        arg: str
+    ) -> None:
+        link_pattern = "^https://discord.com/channels/[0-9]+/[0-9]+/[0-9]+"
+        special_id_pattern = "^[0-9]+-[0-9]*[0-9]$"
+
+        channel_id: int = None
+        message_id: int = None
+
+        if re.match(link_pattern, arg):
+            split = arg.split('/')
+            channel_id = int(split[-2])
+            message_id = int(split[-1])
+        elif re.match(special_id_pattern, arg):
+            split = arg.split('-')
+            channel_id = int(split[0])
+            message_id = int(split[1])
+        else:
+            raise discord.InvalidArgument(
+                f"The argument, `{arg}`, does not appear to be "
+                "a message link."
+            )
+
+        channel = ctx.guild.get_channel(channel_id)
+        if not channel:
+            raise discord.InvalidArgument(
+                "I couldn't find a channel with the id "
+                f"`{channel_id}`. Please make sure the message "
+                "link is valid, and is in this server."
+            )
+        try:
+            message = await channel.fetch_message(message_id)
+        except discord.NotFound:
+            raise discord.InvalidArgument(
+                "I couldn't find a message that matches "
+                f"the link `{arg}`. Please make sure the "
+                "message link is valid."
+            )
+        except discord.Forbidden:
+            raise discord.Forbidden(
+                "I don't have permission to read message history "
+                f"in {channel.mention}, so I can't fetch the message "
+                f"`{arg}`"
+            )
+        return message
+
+
 class Starboard(commands.Converter):
     async def convert(
         self,

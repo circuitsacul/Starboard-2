@@ -195,6 +195,8 @@ async def handle_starboard(
     edit = sql_starboard['link_edits']
     delete = False
 
+    forced = False
+
     if points >= sql_starboard['required']:
         add = True
     elif points <= sql_starboard['required_remove']:
@@ -207,6 +209,11 @@ async def handle_starboard(
     if sql_starboard['link_deletes'] and (message is None):
         delete = True
         add = False
+
+    if sql_starboard['id'] in sql_message['forced']:
+        add = True
+        delete = False
+        forced = True
 
     if sql_starboard_message is not None:
         starboard_message = await bot.cache.fetch_message(
@@ -243,6 +250,7 @@ async def handle_starboard(
 
         plain_text = (
             f"**{display_emoji} {points} | <#{sql_message['channel_id']}>**"
+            f"{' 🔒' if forced else ''}"
         )
 
         if starboard_message is None and add and message:

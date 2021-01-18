@@ -24,6 +24,8 @@ EXPECTED_ERRORS = [
     commands.ChannelNotFound,
     commands.RoleNotFound,
     commands.NotOwner,
+    discord.Forbidden,
+    discord.InvalidArgument,
     flags.ArgumentParsingError
 ]
 WEBHOOK_URL = config.UPTIME_WEBHOOK
