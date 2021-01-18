@@ -10,10 +10,13 @@ class Settings(commands.Cog):
         self.bot = bot
 
     @commands.command(
-        name='settings', aliases=['guildSettings', 'options'],
+        name='settings', aliases=['options'],
         brief="View guild settings"
     )
     async def guild_settings(self, ctx: commands.Context) -> None:
+        """Lists the settings for the curent server.
+        A list of commands to change these settings can
+        be viewed by running sb!help Settings"""
         guild = await self.bot.db.get_guild(ctx.guild.id)
         log_channel = "**None**" if guild['log_channel'] is None\
             else f"<#{guild['log_channel']}>"
@@ -37,6 +40,9 @@ class Settings(commands.Cog):
     )
     @commands.has_guild_permissions(manage_messages=True)
     async def prefixes(self, ctx: commands.Context) -> None:
+        """Lists prefixes for the current server.
+        Run sb!help prefixes to view commands for
+        modifying the prefixes."""
         guild = await self.bot.db.get_guild(ctx.guild.id)
         embed = discord.Embed(
             title=f"Prefixes for {ctx.guild.name}",
@@ -61,6 +67,17 @@ class Settings(commands.Cog):
         prefix: str,
         **options
     ) -> None:
+        """Adds a prefix.
+
+        Usage:
+            prefixes add <prefix> <options>
+        Options:
+            --space: Wether or not to add a space at
+                the end of the prefix.
+        Examples:
+            sb!prefixes add star --space
+            sb!prefixes add sb?
+        """
         if options['space'] is True:
             prefix += ' '
         if len(prefix) > 8:
@@ -91,6 +108,7 @@ class Settings(commands.Cog):
         ctx: commands.Context,
         prefix: str
     ) -> None:
+        """Removes a prefix"""
         to_remove = prefix
         guild = await self.bot.db.get_guild(ctx.guild.id)
         if prefix not in guild['prefixes']:
@@ -135,6 +153,8 @@ class Settings(commands.Cog):
     )
     @commands.has_guild_permissions(manage_messages=True)
     async def reset_prefixes(self, ctx: commands.Context) -> None:
+        """Deletes all prefixes, then adds the default sb!
+        prefix back."""
         await ctx.send("Are you sure you want to reset prefixes?")
         if not await utils.confirm(ctx):
             await ctx.send("Cancelled")
@@ -155,6 +175,12 @@ class Settings(commands.Cog):
         self, ctx: commands.Context,
         channel: discord.TextChannel = None
     ) -> None:
+        """Set the log channel of the current server.
+        This is where all errors and important info
+        will be sent.
+
+        Options:
+            channel: What channel to set the log channel to"""
         if channel:
             perms = channel.permissions_for(ctx.guild.me)
             missing_perms = []

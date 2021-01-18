@@ -39,6 +39,9 @@ class Starboard(commands.Cog):
         ctx: commands.Context,
         starboard: converters.Starboard = None
     ) -> None:
+        """Lists all starboards, and shows the important
+        settings. All settings can be viewed by running
+        sb!starboards <starboard>"""
         if starboard is None:
             starboards = await self.bot.db.get_starboards(ctx.guild.id)
             if len(starboards) == 0:
@@ -107,6 +110,7 @@ class Starboard(commands.Cog):
         ctx: commands.Context,
         channel: discord.TextChannel
     ) -> None:
+        """Adds a starboard"""
         existed = await self.bot.db.create_starboard(channel.id, ctx.guild.id)
         if existed:
             raise errors.AlreadyExists(
@@ -125,6 +129,9 @@ class Starboard(commands.Cog):
         ctx: commands.Context,
         channel: Union[discord.TextChannel, int]
     ) -> None:
+        """Deletes a starboard. Will not actually
+        delete the channel, or the messages in the
+        channel. This action is irreversable."""
         cid = channel.id if type(channel) is not int else channel
         cname = channel.mention if type(channel) is not int else channel
         starboard = await self.bot.db.get_starboard(cid)
@@ -246,6 +253,7 @@ class Starboard(commands.Cog):
         self,
         ctx: commands.Context
     ) -> None:
+        """Modify the star emojis for a starboard"""
         await ctx.send(
             "Options:\n "
             "- `starEmojis add <starboard> <emoji>`\n"
@@ -264,6 +272,7 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         emoji: converters.Emoji
     ) -> None:
+        """Adds a starEmoji to a starboard"""
         converted_emoji = utils.clean_emoji(emoji)
 
         current_emojis = starboard.sql_attributes['star_emojis']
@@ -307,6 +316,7 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         emoji: converters.Emoji
     ) -> None:
+        """Removes a starEmoji from a starboard"""
         converted_emoji = utils.clean_emoji(emoji)
 
         current_emojis = starboard.sql_attributes['star_emojis']
@@ -354,6 +364,7 @@ class Starboard(commands.Cog):
         ctx: commands.Context,
         starboard: converters.Starboard
     ) -> None:
+        """Removes all starEmojis from a starboard"""
         await ctx.send("Are you sure?")
         if not await utils.confirm(ctx):
             await ctx.send("Cancelled")

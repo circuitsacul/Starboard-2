@@ -23,6 +23,21 @@ class Utility(commands.Cog):
         message_link: converters.MessageLink,
         *starboards: converters.Starboard
     ) -> None:
+        """Forces a message to all or some starboards.
+
+        A forced message will appear on the starboard,
+        event if the channel is blacklisted, the
+        message author is blacklisted, or the number of
+        reaction on the message is less than the starboards
+        required setting.
+
+        Usage:
+            force <message link> [starboard1, starboard2, ...]
+        Examples:
+            force <message link> #starboard #super-starboard
+            force <message link> #super-starboard
+            force <message link>
+        """
         starboards = [int(s.sql_attributes['id']) for s in starboards]
         if len(starboards) == 0:
             await ctx.send("Force this message to all starboards?")
@@ -65,6 +80,14 @@ class Utility(commands.Cog):
         message_link: converters.MessageLink,
         *starboards: converters.Starboard
     ) -> None:
+        """Unforces a message
+
+        Usage:
+            unforce <message link> [starboard1, starboard2, ...]
+        Examples:
+            unforce <message link> #starboard #super-starboard
+            unforce <message link> #super-starboard
+            unforce <message link>"""
         starboards = [int(s.sql_attributes['id']) for s in starboards]
 
         orig_sql_message = await starboard_funcs.orig_message(
@@ -109,6 +132,11 @@ class Utility(commands.Cog):
         self, ctx: commands.Context,
         message_link: converters.MessageLink
     ) -> None:
+        """Trashes a message for all starboards.
+
+        A trashed message cannot be starred, added to
+        more starboards, or be viewed on any of the
+        current starboards."""
         orig_sql_message = await starboard_funcs.orig_message(
             self.bot, message_link.id
         )
@@ -132,6 +160,7 @@ class Utility(commands.Cog):
         self, ctx: commands.Context,
         message_link: converters.MessageLink
     ) -> None:
+        """Untrashes a message for all starboards"""
         orig_sql_message = await starboard_funcs.orig_message(
             self.bot, message_link.id
         )
@@ -153,6 +182,7 @@ class Utility(commands.Cog):
     async def show_trashcan(
         self, ctx: commands.Context
     ) -> None:
+        """Shows all messages that have been trashed."""
         trashed_messages = await self.bot.db.fetch(
             """SELECT * FROM messages
             WHERE guild_id=$1 AND trashed=True""",
@@ -191,6 +221,25 @@ class Utility(commands.Cog):
         self, ctx: commands.Context,
         limit: int, **flags
     ) -> None:
+        """Works similar to a normal purge command,
+        but instead of deleting the messages, each
+        message is trashed. See sb!help trash for
+        info on trashing.
+
+        Can only trash up to 200 messages at once.
+
+        Usage:
+            purge <limit> <options>
+        Options:
+            --by: Only trash messages by this author
+            --notby: Do not trash message by this author
+            --contains: Only trash messages that contain
+                this phrase.
+        Examples:
+            trash 50 --by @Circuit
+            trash 50 --contains bad-word
+            trash 50 --notby @Cool Person
+            trash 50"""
         if limit > 200:
             raise discord.InvalidArgument(
                 "Can only purge up to 200 messages at once"
@@ -248,6 +297,7 @@ class Utility(commands.Cog):
         self, ctx: commands.Context,
         message: converters.MessageLink
     ) -> None:
+        """Shows useful info on a message."""
         orig = await starboard_funcs.orig_message(
             self.bot, message.id
         )

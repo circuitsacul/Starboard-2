@@ -26,6 +26,21 @@ class Fun(commands.Cog):
     )
     @commands.guild_only()
     async def random_message(self, ctx: commands.Context, **options):
+        """Pulls a random message from one of the starboards
+        on the current server. Does NOT work cross-server.
+
+        Options:
+            --by: Only show messages authored by this person
+            --in: Only show messages that were originaly sent
+                in this channel
+            --sb: Only show messages from this starboard
+            --points: Only show messages that have at least
+                this many points
+
+        Examples:
+            sb!random --by @Circuit --sb super-starboard
+            sb!random --points 15
+        """
         author_id = options['by'].id if options['by'] else None
         channel_id = options['in'].id if options['in'] else None
         starboard_id = options['starboard'].id if options['starboard']\
@@ -82,6 +97,7 @@ class Fun(commands.Cog):
         self, ctx: commands.Context,
         message: converters.MessageLink
     ) -> None:
+        """Tells you how starworthy a message is."""
         r = Random(message.id)
         worthiness: float = r.randrange(0, 100)
         await ctx.send(f"That message is {worthiness}% starworthy")

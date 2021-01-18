@@ -16,6 +16,8 @@ class Base(commands.Cog):
         brief="Shows current clusters and shards latency"
     )
     async def ping(self, ctx: commands.Context) -> None:
+        """Sends the latency of the current cluster
+        and shard."""
         cluster = self.bot.cluster_name
         shard = self.bot.get_shard(ctx.guild.shard_id)
 
@@ -40,6 +42,7 @@ class Base(commands.Cog):
         brief="Lists important/useful links"
     )
     async def links(self, ctx: commands.Context) -> None:
+        """Shows important/useful links"""
         embed = discord.Embed(
             title="Important Links",
             color=self.bot.theme_color
@@ -67,6 +70,8 @@ class Base(commands.Cog):
         ctx: commands.Context,
         user: discord.User = None
     ) -> None:
+        """Shows the number of times you or another user
+        has voted, and also lists voting links"""
         user = user or ctx.message.author
         sql_user = await self.bot.db.get_user(user.id)
         count = sql_user['votes']
