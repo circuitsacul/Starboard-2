@@ -8,6 +8,20 @@ from app.classes.bot import Bot
 ZERO_WIDTH_SPACE = "\u200B"
 
 
+async def sbemojis(
+    bot: Bot,
+    guild_id: int
+) -> List[str]:
+    starboards = await bot.db.get_starboards(guild_id)
+    _emojis = await bot.db.fetchval(
+        """SELECT star_emojis FROM starboards
+        WHERE id=any($1::numeric[])""",
+        [s['id'] for s in starboards]
+    )
+    emojis = [item for sublist in _emojis for item in sublist]
+    return emojis
+
+
 async def orig_message(
     bot: Bot,
     message_id: int

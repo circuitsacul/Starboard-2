@@ -10,6 +10,13 @@ GUILDS = \
 
         premium_end TIMESTAMP DEFAULT NULL,
 
+        qa_enabled BOOL NOT NULL DEFAULT true,
+        qa_force TEXT NOT NULL DEFAULT '🔒',
+        qa_unforce TEXT NOT NULL DEFAULT '🔓',
+        qa_trash TEXT NOT NULL DEFAULT '🗑️',
+        qa_recount TEXT NOT NULL DEFAULT '🔃',
+        qa_save TEXT NOT NULL DEFAULT '📥',
+
         prefixes VARCHAR(8)[] NOT NULL DEFAULT '{"sb!"}'
     )"""
 
