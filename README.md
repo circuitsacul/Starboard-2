@@ -24,19 +24,15 @@ A complete rewrite of Starboard
 ### New Commands
  - `sb!trashcan`: Shows a list of trashed messages
  - `sb!purge`: Trashes a large number of messages at once
-
  - `sb!logChannel`: Sets a channel for the bot to log problems/important info to
-
  - `sb!starboards changeSettings`: Change one or more settings for a starboard.
  - Example: `sb!s cs #starboard --required 1 --requiredRemove 0 --selfStar False`
-
  - `sb!starworthy`: A fun command that gives you a ~~random~~ percentage for how "star worthy" a command is.
 
 ### Removed Commands
  - `sb!freeze`: Removed, since it seems to really have no use
  - `sb!unfreeze`: Same as above
  - `sb!frozen`: Same as above
-
  - `sb!starboards <setting>`: Removed in favor of `sb!starboards changeSettings`
 
 ### Changed Commands
@@ -44,5 +40,4 @@ A complete rewrite of Starboard
  - `sb!unforce`: Same as above
  - `sb!trash`: Instead of excepting a message_id and a channel_id, it now accepts a message link.
  - `sb!untrash`: Same as above
-
  - `sb!random`: Added `--starboard` option, fix bugs.
