@@ -23,7 +23,7 @@ class Utility(commands.Cog):
         message_link: converters.MessageLink,
         *starboards: converters.Starboard
     ) -> None:
-        starboards = [int(s['id']) for s in starboards]
+        starboards = [int(s.sql_attributes['id']) for s in starboards]
         if len(starboards) == 0:
             await ctx.send("Force this message to all starboards?")
             if not await utils.confirm(ctx):
@@ -161,7 +161,7 @@ class Utility(commands.Cog):
         if len(trashed_messages) == 0:
             await ctx.send("You have no trashed messages.")
             return
-        p = commands.Paginator(prefix='', suffix='', max_size=500)
+        p = commands.Paginator(prefix='', suffix='', max_size=2000)
         for m in trashed_messages:
             link = utils.jump_link(
                 m['id'], m['channel_id'],
