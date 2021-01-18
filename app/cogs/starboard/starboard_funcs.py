@@ -29,7 +29,12 @@ async def orig_message(
 async def embed_message(
     bot: Bot, message: discord.Message
 ) -> Tuple[discord.Embed, List[discord.File]]:
+    nsfw = message.channel.is_nsfw()
     content = message.system_content
+
+    urls = []
+    extra_attachments = []
+    image_used = False
 
     embed: discord.Embed
     for embed in message.embeds:
@@ -48,6 +53,60 @@ async def embed_message(
                 content += name + value
             if embed.footer.text is not embed.Empty:
                 content += f"\n{utils.escmd(embed.footer.text)}\n"
+            if embed.image.url is not embed.Empty:
+                urls.append({
+                    'name': 'Embed Image',
+                    'url': embed.image.url,
+                    'display_url': embed.image.url,
+                    'type': 'image',
+                    'spoiler': False
+                })
+            if embed.thumbnail.url is not embed.Empty:
+                urls.append({
+                    'name': 'Embed Thumnail',
+                    'url': embed.thumbnail.url,
+                    'display_url': embed.thumbnail.url,
+                    'type': 'image',
+                    'spoiler': False
+                })
+        elif embed.type == 'image':
+            if embed.url is not embed.Empty:
+                urls.append({
+                    'name': 'Image',
+                    'display_url': embed.thumbnail.url,
+                    'url': embed.url,
+                    'type': 'image',
+                    'spoiler': False
+                })
+        elif embed.type == 'gifv':
+            if embed.url is not embed.Empty:
+                urls.append({
+                    'name': 'GIF',
+                    'display_url': embed.thumbnail.url,
+                    'url': embed.url,
+                    'type': 'gif',
+                    'spoiler': False
+                })
+        elif embed.type == 'video':
+            if embed.url is not embed.Empty:
+                urls.append({
+                    'name': 'Video',
+                    'display_url': embed.thumbnail.url,
+                    'url': embed.url,
+                    'type': 'video',
+                    'spoiler': False
+                })
+
+    for attachment in message.attachments:
+        f = await attachment.to_file()
+        urls.append({
+            'name': attachment.filename,
+            'display_url': attachment.url,
+            'url': attachment.url,
+            'type': 'upload',
+            'spoiler': attachment.is_spoiler(),
+            'file': f
+        })
 
     if len(content) > 2048:
         to_remove = len(content + ' ...') - 2048
@@ -112,9 +171,47 @@ async def embed_message(
         inline=False
     )
 
+    image_types = [
+        'png', 'jpg', 'jpeg',
+        'gif', 'gifv', 'svg',
+        'webp'
+    ]
+    for data in urls:
+        if data['type'] == 'upload':
+            is_image = False
+            for t in image_types:
+                if data['url'].endswith(t):
+                    is_image = True
+                    break
+            added = False
+            if is_image and not nsfw and not data['spoiler']:
+                if not image_used:
+                    embed.set_image(url=data['display_url'])
+                    image_used = True
+                    added = True
+            if not added:
+                f: discord.File = data['file']
+                if nsfw:
+                    f.filename = 'SPOILER_' + f.filename
+                extra_attachments.append(f)
+        elif not nsfw:
+            if not image_used:
+                embed.set_image(url=data['display_url'])
+                image_used = True
+
+    embed.add_field(
+        name=ZERO_WIDTH_SPACE,
+        value=str(
+            '\n'.join(
+                f"**[{d['name']}]({d['url']})**"
+                for d in urls
+            )
+        )
+    )
+
     embed.timestamp = message.created_at
 
-    return embed, []
+    return embed, extra_attachments
 
 
 async def update_message(
@@ -200,7 +297,10 @@ async def handle_trashed_message(
             f"{sql_message['id']}```"
         )
     )
-    await starboard_message.edit(embed=embed)
+    try:
+        await starboard_message.edit(embed=embed)
+    except discord.errors.NotFound:
+        pass
 
 
 async def handle_starboard(
@@ -266,11 +366,15 @@ async def handle_starboard(
             """DELETE FROM starboard_messages
             WHERE id=$1""", starboard_message.id
         )
-        await starboard_message.delete()
+        try:
+            await starboard_message.delete()
+        except discord.errors.NotFound:
+            pass
     elif not delete:
         embed = None
+        attachments = []
         if message is not None:
-            embed, _ = await embed_message(
+            embed, attachments = await embed_message(
                 bot, message
             )
 
@@ -290,7 +394,9 @@ async def handle_starboard(
                 int(sql_starboard['id'])
             )
             try:
-                m = await starboard.send(plain_text, embed=embed)
+                m = await starboard.send(
+                    plain_text, embed=embed, files=attachments
+                )
             except discord.Forbidden:
                 bot.dispatch(
                     'guild_log',
@@ -328,15 +434,21 @@ async def handle_starboard(
                             ), 'error', guild
                         )
         elif starboard_message is not None and message:
-            if edit:
-                await starboard_message.edit(
-                    content=plain_text, embed=embed
-                )
-            else:
+            try:
+                if edit:
+                    await starboard_message.edit(
+                        content=plain_text, embed=embed
+                    )
+                else:
+                    await starboard_message.edit(
+                        content=plain_text
+                    )
+            except discord.errors.NotFound:
+                pass
+        elif starboard_message is not None:
+            try:
                 await starboard_message.edit(
                     content=plain_text
                 )
-        elif starboard_message is not None:
-            await starboard_message.edit(
-                content=plain_text
-            )
+            except discord.errors.NotFound:
+                pass
