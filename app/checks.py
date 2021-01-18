@@ -1,6 +1,7 @@
 from discord.ext import commands
 
 import config
+from app import errors
 
 
 def is_owner() -> callable:
@@ -11,3 +12,13 @@ def is_owner() -> callable:
             )
         return True
     return commands.check(predicate)
+
+
+# Global Checks
+async def not_disabled(ctx: commands.Context) -> bool:
+    if ctx.channel.permissions_for(ctx.message.author).administrator:
+        return True
+    guild = await ctx.bot.db.get_guild(ctx.guild.id)
+    if not guild['allow_commands']:
+        raise errors.AllCommandsDisabled()
+    return True

@@ -15,6 +15,7 @@ from ...classes.bot import Bot
 
 IGNORED_ERRORS = [
     commands.CommandNotFound,
+    errors.AllCommandsDisabled
 ]
 EXPECTED_ERRORS = [
     errors.ConversionError,

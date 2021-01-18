@@ -15,6 +15,7 @@ from pretty_help import PrettyHelp
 
 from ..cache import Cache
 from ..database.database import Database
+from app import checks
 
 
 class Bot(commands.AutoShardedBot):
@@ -58,6 +59,8 @@ class Bot(commands.AutoShardedBot):
 
         for ext in kwargs.pop('initial_extensions'):
             self.load_extension(ext)
+
+        self.add_check(checks.not_disabled)
 
         try:
             self.run(kwargs['token'])

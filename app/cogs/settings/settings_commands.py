@@ -3,6 +3,7 @@ from discord.ext import commands, flags
 
 from app import errors, utils
 from app.classes.bot import Bot
+from app import converters
 
 
 class Settings(commands.Cog):
@@ -27,7 +28,8 @@ class Settings(commands.Cog):
             description=(
                 f"logChannel: {log_channel}\n"
                 f"levelChannel: {level_channel}\n"
-                f"pingOnLevelUp: **{guild['ping_user']}**"
+                f"pingOnLevelUp: **{guild['ping_user']}**\n"
+                f"allowCommands: **{guild['allow_commands']}**"
             ),
             color=self.bot.theme_color
         )
@@ -208,6 +210,22 @@ class Settings(commands.Cog):
             )
         else:
             await ctx.send("Unset the log channel.")
+
+    @commands.command(
+        name='allowCommands', aliases=['ac'],
+        brief="Wether or not to allow commands from non-admins"
+    )
+    @commands.has_guild_permissions(administrator=True)
+    async def set_allow_commands(
+        self, ctx: commands.Context,
+        value: converters.mybool
+    ) -> None:
+        await self.bot.db.execute(
+            """UPDATE guilds
+            SET allow_commands=$1
+            WHERE id=$2""", value, ctx.guild.id
+        )
+        await ctx.send(f"Set allowCommands to **{value}**")
 
 
 def setup(bot: Bot) -> None:

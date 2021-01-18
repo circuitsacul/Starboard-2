@@ -1,3 +1,6 @@
+from discord.ext import commands
+
+
 class ConversionError(Exception):
     pass
 
@@ -15,4 +18,8 @@ class AlreadyStarboardMessage(Exception):
 
 
 class AlreadyOrigMessage(Exception):
+    pass
+
+
+class AllCommandsDisabled(commands.CheckFailure):
     pass
