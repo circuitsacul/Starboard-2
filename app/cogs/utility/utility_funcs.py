@@ -39,3 +39,18 @@ async def handle_forcing(
     )
 
     await starboard_funcs.update_message(bot, message_id, guild_id)
+
+
+async def handle_trashing(
+    bot: Bot,
+    message_id: int,
+    guild_id: int,
+    trash: bool
+) -> None:
+    await bot.db.execute(
+        """UPDATE messages
+        SET trashed=$1
+        WHERE id=$2""",
+        trash, message_id
+    )
+    await starboard_funcs.update_message(bot, message_id, guild_id)

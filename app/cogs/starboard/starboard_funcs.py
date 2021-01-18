@@ -132,8 +132,12 @@ async def update_message(
     sql_author = await bot.db.get_user(
         sql_message['author_id']
     )
-    for s in sql_starboards:
-        await handle_starboard(bot, s, sql_message, sql_author)
+    if not sql_message['trashed']:
+        for s in sql_starboards:
+            await handle_starboard(bot, s, sql_message, sql_author)
+    else:
+        for s in sql_starboards:
+            await handle_trashed_message(bot, s, sql_message, sql_author)
 
 
 async def calculate_points(
@@ -170,6 +174,33 @@ async def calculate_points(
         points += 1
 
     return points
+
+
+async def handle_trashed_message(
+    bot: Bot, sql_starboard: dict,
+    sql_message: dict, sql_author: dict
+) -> None:
+    sql_starboard_message = await bot.db.fetchrow(
+        """SELECT * FROM starboard_messages
+        WHERE orig_id=$1 AND starboard_id=$2""",
+        sql_message['id'], sql_starboard['id']
+    )
+    starboard_message = await bot.cache.fetch_message(
+        bot, sql_message['guild_id'],
+        sql_starboard_message['starboard_id'],
+        sql_starboard_message['id']
+    )
+    if starboard_message is None:
+        return
+    embed = discord.Embed(
+        title='Trashed Message',
+        description=(
+            "This message was trashed by a moderator. To untrash it, "
+            f"run ```\nsb!untrash {sql_message['channel_id']}-"
+            f"{sql_message['id']}```"
+        )
+    )
+    await starboard_message.edit(embed=embed)
 
 
 async def handle_starboard(

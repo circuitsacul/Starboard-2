@@ -4,6 +4,7 @@ from app.classes.bot import Bot
 from app import converters
 from app import utils
 from app.cogs.starboard import starboard_funcs
+from app import errors
 from . import utility_funcs
 
 
@@ -93,6 +94,51 @@ class Utility(commands.Cog):
         else:
             converted = [f"<#{s}>" for s in starboards]
             await ctx.send(f"Message unforced from {', '.join(converted)}")
+
+    @commands.command(
+        name='trash',
+        brief="Trashes a message so it can't be viewed"
+    )
+    @commands.has_guild_permissions(manage_messages=True)
+    async def trash_message(
+        self, ctx: commands.Context,
+        message_link: converters.MessageLink
+    ) -> None:
+        orig_sql_message = await starboard_funcs.orig_message(
+            self.bot, message_link.id
+        )
+        if not orig_sql_message:
+            raise errors.DoesNotExist(
+                "That message has not been starred, so I "
+                "can't trash it."
+            )
+        await utility_funcs.handle_trashing(
+            self.bot, orig_sql_message['id'], orig_sql_message['guild_id'],
+            True
+        )
+        await ctx.send("Message trashed")
+
+    @commands.command(
+        name='untrash',
+        brief="Untrashes a message"
+    )
+    @commands.has_guild_permissions(manage_messages=True)
+    async def untrash_message(
+        self, ctx: commands.Context,
+        message_link: converters.MessageLink
+    ) -> None:
+        orig_sql_message = await starboard_funcs.orig_message(
+            self.bot, message_link.id
+        )
+        if not orig_sql_message:
+            raise errors.DoesNotExist(
+                "That message does not exist in the database."
+            )
+        await utility_funcs.handle_trashing(
+            self.bot, orig_sql_message['id'], orig_sql_message['guild_id'],
+            False
+        )
+        await ctx.send("Message untrashed")
 
 
 def setup(bot: Bot) -> None:
