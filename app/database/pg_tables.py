@@ -109,8 +109,6 @@ MESSAGES = \
 
         is_nsfw BOOL NOT NULL,
 
-        points SMALLINT DEFAULT NULL,
-
         forced NUMERIC[] NOT NULL DEFAULT '{}',
         trashed BOOL NOT NULL DEFAULT false,
 
@@ -125,6 +123,8 @@ STARBOARD_MESSAGES = \
         id NUMERIC PRIMARY KEY,
         orig_id NUMERIC NOT NULL,
         starboard_id NUMERIC NOT NULL,
+
+        points SMALLINT NOT NULL DEFAULT 0,
 
         FOREIGN KEY (orig_id) REFERENCES messages (id)
             ON DELETE CASCADE,

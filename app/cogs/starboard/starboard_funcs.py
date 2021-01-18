@@ -199,15 +199,16 @@ async def embed_message(
                 embed.set_image(url=data['display_url'])
                 image_used = True
 
-    embed.add_field(
-        name=ZERO_WIDTH_SPACE,
-        value=str(
-            '\n'.join(
-                f"**[{d['name']}]({d['url']})**"
-                for d in urls
+    if len(urls) != 0:
+        embed.add_field(
+            name=ZERO_WIDTH_SPACE,
+            value=str(
+                '\n'.join(
+                    f"**[{d['name']}]({d['url']})**"
+                    for d in urls
+                )
             )
         )
-    )
 
     embed.timestamp = message.created_at
 
@@ -235,6 +236,17 @@ async def update_message(
     else:
         for s in sql_starboards:
             await handle_trashed_message(bot, s, sql_message, sql_author)
+
+
+async def set_points(
+    bot: Bot, points: int,
+    message_id: int
+) -> None:
+    await bot.db.execute(
+        """UPDATE starboard_messages
+        SET points=$1 WHERE id=$2""",
+        points, message_id
+    )
 
 
 async def calculate_points(
@@ -316,6 +328,10 @@ async def handle_starboard(
         WHERE orig_id=$1 AND starboard_id=$2""",
         sql_message['id'], sql_starboard['id']
     )
+    if sql_starboard_message is not None:
+        await set_points(
+            bot, points, sql_starboard_message['id']
+        )
     message = await bot.cache.fetch_message(
         bot, int(sql_message['guild_id']),
         int(sql_message['channel_id']),
@@ -411,6 +427,7 @@ async def handle_starboard(
             await bot.db.create_starboard_message(
                 m.id, message.id, sql_starboard['id']
             )
+            await set_points(bot, points, m.id)
             if sql_starboard['autoreact'] is True:
                 for emoji in sql_starboard['star_emojis']:
                     try:
