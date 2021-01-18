@@ -17,9 +17,9 @@ A complete rewrite of Starboard
 
 ### New Features
  - Added `displayEmoji` option to each starboard, which defaults to :star:.
- - Original: `<points> | <channel>`
- - Now: `<displayEmoji> <points> | <channel>`
- - Example: **:star: 5 | #general**
+   - Original: `<points> | <channel>`<br>
+     Now: `<displayEmoji> <points> | <channel>`<br>
+     Example: **:star: 5 | #general**<br>
 
 ### New Commands
  - `sb!trashcan`: Shows a list of trashed messages
