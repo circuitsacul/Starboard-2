@@ -7,7 +7,12 @@ import sys
 import time
 
 import requests
-from discord import Intents, RequestsWebhookAdapter, Webhook
+from discord import (
+    Intents,
+    RequestsWebhookAdapter,
+    Webhook,
+    AllowedMentions
+)
 from dotenv import load_dotenv
 
 import config
@@ -38,6 +43,7 @@ INTENTS = Intents(
     emojis=True, reactions=True,
     members=True
 )
+NO_MENTIONS = AllowedMentions.none()
 SHARDS = config.SHARDS
 
 log = logging.getLogger("Cluster#Launcher")
@@ -196,6 +202,8 @@ class Cluster:
         self.process = None
         self.kwargs = dict(
             intents=INTENTS,
+            allowed_mentions=NO_MENTIONS,
+            case_insensitive=True,
             token=TOKEN,
             shard_ids=shard_ids,
             shard_count=max_shards,
