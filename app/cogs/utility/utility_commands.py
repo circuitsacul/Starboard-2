@@ -219,7 +219,7 @@ class Utility(commands.Cog):
     @commands.has_guild_permissions(manage_messages=True)
     async def purgetrash(
         self, ctx: commands.Context,
-        limit: int, **flags
+        limit: converters.myint, **flags
     ) -> None:
         """Works similar to a normal purge command,
         but instead of deleting the messages, each
