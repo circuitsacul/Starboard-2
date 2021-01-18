@@ -1,5 +1,5 @@
 import discord
-from discord.ext import commands
+from discord.ext import commands, flags
 
 from app.classes.bot import Bot
 from app import converters
@@ -178,6 +178,66 @@ class Utility(commands.Cog):
             ) for page in p.pages
         ]
         await utils.paginator(ctx, embeds)
+
+    @flags.add_flag("--by", type=discord.User)
+    @flags.add_flag("--notby", type=discord.User)
+    @flags.add_flag("--contains", type=str)
+    @flags.command(
+        name='purge',
+        brief="Trashes a large number of messages at once"
+    )
+    @commands.has_guild_permissions(manage_messages=True)
+    async def purgetrash(
+        self, ctx: commands.Context,
+        limit: int, **flags
+    ) -> None:
+        if limit > 200:
+            raise discord.InvalidArgument(
+                "Can only purge up to 200 messages at once"
+            )
+        elif limit < 1:
+            raise discord.InvalidArgument(
+                "Must purge at least 1 message"
+            )
+
+        purged = {}
+        total = 0
+
+        def check(m: discord.Message) -> bool:
+            if flags['by'] and m.author.id != flags['by'].id:
+                return False
+            if flags['notby'] and m.author.id == flags['notby'].id:
+                return False
+            if flags['contains'] and flags['contains'] not in m.content:
+                return False
+            return True
+
+        async for m in ctx.channel.history(limit=limit):
+            if not check(m):
+                continue
+            sql_message = await starboard_funcs.orig_message(
+                self.bot, m.id
+            )
+            if not sql_message:
+                continue
+            await utility_funcs.handle_trashing(
+                self.bot, sql_message['id'],
+                sql_message['guild_id'], True
+            )
+            purged.setdefault(m.author, 0)
+            purged[m.author] += 1
+            total += 1
+
+        embed = discord.Embed(
+            title=f"Purged {total} Messages",
+            description='\n'.join([
+                f"{u.name}: {c}"
+                for u, c in purged.items()
+            ]),
+            color=self.bot.theme_color
+        )
+
+        await ctx.send(embed=embed)
 
 
 def setup(bot: Bot) -> None:
