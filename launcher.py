@@ -30,11 +30,13 @@ EXTENSIONS = [
     'app.cogs.cache.cache_events',
     'app.cogs.settings.settings_commands',
     'app.cogs.utility.utility_commands',
+    'app.cogs.fun.fun_commands',
     'jishaku'
 ]
 INTENTS = Intents(
     messages=True, guilds=True,
-    emojis=True, reactions=True
+    emojis=True, reactions=True,
+    members=True
 )
 SHARDS = config.SHARDS
 
