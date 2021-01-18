@@ -239,6 +239,68 @@ class Utility(commands.Cog):
 
         await ctx.send(embed=embed)
 
+    @commands.command(
+        name='messageInfo', aliases=['mi'],
+        brief="Shows information on a message"
+    )
+    @commands.guild_only()
+    async def message_info(
+        self, ctx: commands.Context,
+        message: converters.MessageLink
+    ) -> None:
+        orig = await starboard_funcs.orig_message(
+            self.bot, message.id
+        )
+        if not orig:
+            raise errors.DoesNotExist(
+                "That message does not exist in the database."
+            )
+        jump = utils.jump_link(
+            orig['id'], orig['channel_id'],
+            orig['guild_id']
+        )
+        embed = discord.Embed(
+            title="Message Info",
+            color=self.bot.theme_color,
+            description=(
+                f"[Jump to Message]({jump})\n"
+                f"Channel: <#{orig['channel_id']}>\n"
+                f"ID: {orig['id']} (`{orig['channel_id']}-{orig['id']}`)\n"
+                f"Author: <@{orig['author_id']}> | `{orig['author_id']}`\n"
+                f"Trashed: {orig['trashed']}"
+            )
+        )
+        for s in await self.bot.db.get_starboards(ctx.guild.id):
+            s_obj = ctx.guild.get_channel(int(s['id']))
+            if not s_obj:
+                continue
+            sb_message = await self.bot.db.fetchrow(
+                """SELECT * FROM starboard_messages
+                WHERE orig_id=$1 AND starboard_id=$2""",
+                orig['id'], s['id']
+            )
+            if not sb_message:
+                jump = "Not On Starboard"
+                points = 0
+                forced = False
+            else:
+                _jump = utils.jump_link(
+                    sb_message['id'], sb_message['starboard_id'],
+                    orig['guild_id']
+                )
+                jump = f"[Jump]({_jump})"
+                points = sb_message['points']
+                forced = s['id'] in orig['forced']
+            embed.add_field(
+                name=s_obj.name,
+                value=(
+                    f"<#{s['id']}>: {jump}\nPoints: {s['required_remove']}"
+                    f"/**{points}**/{s['required']}\nForced: {forced}"
+                )
+            )
+
+        await ctx.send(embed=embed)
+
 
 def setup(bot: Bot) -> None:
     bot.add_cog(Utility(bot))
