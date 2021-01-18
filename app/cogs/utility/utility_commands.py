@@ -65,18 +65,16 @@ class Utility(commands.Cog):
         message_link: converters.MessageLink,
         *starboards: converters.Starboard
     ) -> None:
-        starboards = [int(s['id']) for s in starboards]
-        if len(starboards) == 0:
-            await ctx.send("Unforce this message form all starboards?")
-            if not await utils.confirm(ctx):
-                await ctx.send("Cancelling")
-                return
+        starboards = [int(s.sql_attributes['id']) for s in starboards]
+
         orig_sql_message = await starboard_funcs.orig_message(
             self.bot, message_link.id
         )
         if not orig_sql_message:
-            return
-        if orig_sql_message['id'] != message_link.id:
+            await ctx.send(
+                "That message does not exist in the database"
+            )
+        if orig_sql_message['id'] != message_link.id and len(starboards) == 0:
             await ctx.send(
                 "The message you passed appears to be a starboard "
                 "message. Would you like to unforce this message "
@@ -84,6 +82,12 @@ class Utility(commands.Cog):
             )
             if await utils.confirm(ctx):
                 starboards = [message_link.channel.id]
+
+        if len(starboards) == 0:
+            await ctx.send("Unforce this message from all starboards?")
+            if not await utils.confirm(ctx):
+                await ctx.send("Cancelling")
+                return
         await utility_funcs.handle_forcing(
             self.bot,
             orig_sql_message['id'],
