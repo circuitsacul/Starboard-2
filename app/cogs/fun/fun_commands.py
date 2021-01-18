@@ -55,6 +55,11 @@ class Fun(commands.Cog):
                 AND trashed=False
                 AND ($3::numeric is NULL or author_id=$3::numeric)
                 AND ($4::numeric is NULL or channel_id=$4::numeric)
+            )
+            AND EXISTS (
+                SELECT * FROM starboards
+                WHERE id=starboard_id
+                AND explore=True
             )""",
             starboard_id, options['points'], author_id, channel_id
         )
