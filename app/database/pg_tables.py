@@ -67,8 +67,7 @@ STARBOARDS = \
         no_xp BOOL NOT NULL DEFAULT False,
         explore BOOL NOT NULL DEFAULT True,
 
-        require_regex TEXT DEFAULT NULL,
-        exclude_regex TEXT DEFAULT NULL,
+        regex TEXT NOT NULL DEFAULT '',
 
         star_emojis TEXT[] DEFAULT '{⭐}',
         display_emoji TEXT DEFAULT '⭐',

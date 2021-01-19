@@ -338,6 +338,7 @@ async def handle_starboard(
     points = await calculate_points(
         bot, sql_message, sql_starboard
     )
+    guild = bot.get_guild(sql_starboard['guild_id'])
 
     sql_starboard_message = await bot.db.fetchrow(
         """SELECT * FROM starboard_messages
@@ -376,6 +377,27 @@ async def handle_starboard(
     if sql_message['is_nsfw'] and not sql_starboard['allow_nsfw']:
         add = False
         delete = True
+
+    if message is not None:
+        if sql_starboard['regex'] != '':
+            try:
+                if not utils.safe_regex(
+                    message.system_content,
+                    sql_starboard['regex']
+                ):
+                    add = False
+                    delete = True
+            except TimeoutError:
+                jump = message.jump_url
+                bot.dispatch(
+                    'guild_log',
+                    (
+                        f"I tried to match `{sql_starboard['regex']}` to "
+                        f"[a message]({jump}), but it took too long. "
+                        "Try improving the efficiency of your regex. If "
+                        "you need help, feel free to join the support server."
+                    ), 'error', guild
+                )
 
     if sql_starboard['id'] in sql_message['forced']:
         add = True
@@ -425,7 +447,6 @@ async def handle_starboard(
         )
 
         if starboard_message is None and add and message:
-            guild = bot.get_guild(sql_starboard['guild_id'])
             starboard = guild.get_channel(
                 int(sql_starboard['id'])
             )

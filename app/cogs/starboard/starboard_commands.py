@@ -20,7 +20,8 @@ OPTION_MAP = {
     'no_xp': 'noXp',
     'explore': 'allowRandom',
     'star_emojis': 'starEmojis',
-    'display_emoji': 'displayEmoji'
+    'display_emoji': 'displayEmoji',
+    'regex': 'regex'
 }
 
 
@@ -94,7 +95,8 @@ class Starboard(commands.Cog):
                     f"imagesOnly: **{s['images_only']}**\n"
                     f"removeReactions: **{s['remove_reactions']}**\n"
                     f"noXp: **{s['no_xp']}**\n"
-                    f"allowRandom: **{s['explore']}**"
+                    f"allowRandom: **{s['explore']}**\n"
+                    f"regex: `{s['regex']}`"
                 ),
                 color=self.bot.theme_color
             )
@@ -168,6 +170,7 @@ class Starboard(commands.Cog):
         '--allowRandom', '--random', '-rand',
         type=converters.mybool
     )
+    @flags.add_flag('--regex', type=str)
     @starboards.command(
         cls=flags.FlagCommand,
         name='settings', aliases=['cs', 'options', 'config'],
@@ -203,7 +206,8 @@ class Starboard(commands.Cog):
             --imagesOnly
             --removeReactions
             --noXp
-            --allowRandom"""
+            --allowRandom
+            --regex"""
         await self.bot.db.edit_starboard(
             starboard.obj.id,
             options['required'],
@@ -217,7 +221,8 @@ class Starboard(commands.Cog):
             options['imagesOnly'],
             options['removeReactions'],
             options['noXp'],
-            options['allowRandom']
+            options['allowRandom'],
+            regex=options['regex']
         )
 
         changes = ""

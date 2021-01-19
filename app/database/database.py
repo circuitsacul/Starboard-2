@@ -235,7 +235,8 @@ class Database:
         no_xp: bool = None,
         explore: bool = None,
         star_emojis: List[str] = None,
-        display_emoji: str = None
+        display_emoji: str = None,
+        regex: str = None
     ) -> None:
         s = await self.get_starboard(starboard_id)
         if not s:
@@ -258,8 +259,9 @@ class Database:
             no_xp = $11,
             explore = $12,
             star_emojis = $13,
-            display_emoji = $14
-            WHERE id = $15""",
+            display_emoji = $14,
+            regex = $15
+            WHERE id = $16""",
             s['required'] if required is None else required,
             s['required_remove'] if required_remove is None else
             required_remove,
@@ -276,6 +278,7 @@ class Database:
             s['explore'] if explore is None else explore,
             s['star_emojis'] if star_emojis is None else star_emojis,
             s['display_emoji'] if display_emoji is None else display_emoji,
+            s['regex'] if regex is None else regex,
             starboard_id
         )
 
