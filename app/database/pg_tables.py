@@ -71,6 +71,26 @@ STARBOARDS = \
             ON DELETE CASCADE
     )"""
 
+PERMROLES = \
+    """CREATE TABLE IF NOT EXISTS permroles (
+        guild_id NUMERIC NOT NULL,
+        role_id NUMERIC NOT NULL,
+        index SMALLINT NOT NULL,
+
+        starboards NUMERIC[] DEFAULT '{}',
+        channels NUMERIC[] DEFAULT '{}',
+
+        recv_stars BOOL DEFAULT NULL,
+        give_stars BOOL DEFAULT NULL,
+        gain_xp BOOL DEFAULT NULL,
+        pos_roles BOOL DEFAULT NULL,
+        xp_roles BOOL DEFAULT NULL,
+        overrides BOOL DEFAULT NULL
+
+        FOREIGN KEY (guild_id) REFERENCES guilds (id)
+            ON DELETE CASCADE
+    )"""
+
 MESSAGES = \
     """CREATE TABLE IF NOT EXISTS messages (
         id NUMERIC PRIMARY KEY,
@@ -129,6 +149,7 @@ ALL_TABLES = [
     USERS,
     MEMBERS,
     STARBOARDS,
+    PERMROLES,
     MESSAGES,
     STARBOARD_MESSAGES,
     REACTIONS,

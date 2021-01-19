@@ -326,31 +326,31 @@ class Database:
             star_emojis=new_emojis
         )
 
-    async def get_setting_overrides(
-        self,
-        starboard: int = [],
-        channel: int = [],
-        roles: List[int] = []
-    ) -> Optional[dict]:
-        setting_overrides = await self.fetch(
-            """SELECT * FROM setting_overrides
-            WHERE $1::numeric = any(starboards)
-            AND in_channels = '{}' or $2::numeric = any(in_channels)
-            AND not_in_channels = '{}' or $2::numeric != all (not_in_channels)
-            AND (EXISTS(
-                    (SELECT $3::numeric[])
-                    INTERSECT
-                    SELECT has_roles
-                ))
-            AND (NOT EXISTS(
-                    (SELECT $3::numeric[])
-                    INTERSECT
-                    SELECT lacks_roles
-                ))
-            ORDER BY index DESC;
-            """, starboard, channel, roles
-        )
-        return setting_overrides
+#    async def get_setting_overrides(
+#        self,
+#        starboard: int = [],
+#        channel: int = [],
+#        roles: List[int] = []
+#    ) -> Optional[dict]:
+#        setting_overrides = await self.fetch(
+#            """SELECT * FROM setting_overrides
+#            WHERE $1::numeric = any(starboards)
+#            AND in_channels = '{}' or $2::numeric = any(in_channels)
+#            AND not_in_channels = '{}' or $2::numeric != all (not_in_channels)
+#            AND (EXISTS(
+#                    (SELECT $3::numeric[])
+#                    INTERSECT
+#                    SELECT has_roles
+#                ))
+#            AND (NOT EXISTS(
+#                    (SELECT $3::numeric[])
+#                    INTERSECT
+#                    SELECT lacks_roles
+#                ))
+#            ORDER BY index DESC;
+#            """, starboard, channel, roles
+#        )
+#        return setting_overrides
 
     async def get_message(self, message_id: int) -> dict:
         return await self.fetchrow(
