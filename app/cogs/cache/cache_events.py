@@ -35,10 +35,12 @@ class CacheEvents(commands.Cog):
     async def on_message_edit(
         self, before: discord.Message, after: discord.Message
     ) -> None:
-        queue = self.bot.cache.messages.get_queue(after.guild.id)
+        if not before.guild:
+            return
+        queue = self.bot.cache.messages.get_queue(before.guild.id)
         if not queue:
             return
-        cached = queue.get(id=after.id)
+        cached = queue.get(id=before.id)
         if cached:
             queue.remove(cached)
             queue.add(after)

@@ -308,6 +308,8 @@ async def handle_trashed_message(
         WHERE orig_id=$1 AND starboard_id=$2""",
         sql_message['id'], sql_starboard['id']
     )
+    if not sql_starboard_message:
+        return
     starboard_message = await bot.cache.fetch_message(
         bot, sql_message['guild_id'],
         sql_starboard_message['starboard_id'],

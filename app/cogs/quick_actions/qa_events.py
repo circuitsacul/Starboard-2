@@ -16,7 +16,8 @@ class QAEvents(commands.Cog):
         self.qa_map = {
             'qa_force': qa_force,
             'qa_unforce': qa_unforce,
-            'qa_trash': qa_trash
+            'qa_trash': qa_trash,
+            'qa_save': qa_save
         }
 
     @commands.Cog.listener()
@@ -29,6 +30,9 @@ class QAEvents(commands.Cog):
 
         if payload.member.bot:
             return
+        if not payload.guild_id:
+            return
+
         await self.bot.db.create_guild(payload.guild_id)
 
         sql_guild = await self.bot.db.get_guild(payload.guild_id)
@@ -74,12 +78,12 @@ class QAEvents(commands.Cog):
 
         if qa_type in self.qa_map:
             await self.qa_map[qa_type](
-                self.bot, orig_message
+                self.bot, orig_message, payload.member
             )
 
 
 async def qa_force(
-    bot: Bot, orig_message: dict
+    bot: Bot, orig_message: dict, member: discord.Member
 ) -> None:
     await utility_funcs.handle_forcing(
         bot, orig_message['id'], orig_message['guild_id'],
@@ -88,7 +92,7 @@ async def qa_force(
 
 
 async def qa_unforce(
-    bot: Bot, orig_message: dict
+    bot: Bot, orig_message: dict, member: discord.Member
 ) -> None:
     await utility_funcs.handle_forcing(
         bot, orig_message['id'], orig_message['guild_id'],
@@ -97,12 +101,27 @@ async def qa_unforce(
 
 
 async def qa_trash(
-    bot: Bot, orig_message: dict
+    bot: Bot, orig_message: dict, member: discord.Member
 ) -> None:
     await utility_funcs.handle_trashing(
         bot, orig_message['id'], orig_message['guild_id'],
         not orig_message['trashed']
     )
+
+
+async def qa_save(
+    bot: Bot, orig_message: dict, member: discord.Member
+) -> None:
+    message = await bot.cache.fetch_message(
+        bot, orig_message['guild_id'], orig_message['channel_id'],
+        orig_message['id']
+    )
+    if not message:
+        return
+    embed, attachments = await starboard_funcs.embed_message(
+        bot, message
+    )
+    await member.send(embed=embed, files=attachments)
 
 
 def setup(bot: Bot) -> None:
