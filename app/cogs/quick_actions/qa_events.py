@@ -122,7 +122,10 @@ async def qa_save(
     bot: Bot, orig_message: dict, member: discord.Member
 ) -> None:
     if orig_message['trashed']:
-        await member.send("You cannot save a trashed message.")
+        try:
+            await member.send("You cannot save a trashed message.")
+        except discord.Forbidden:
+            pass
         return
     message = await bot.cache.fetch_message(
         bot, orig_message['guild_id'], orig_message['channel_id'],
@@ -133,7 +136,10 @@ async def qa_save(
     embed, attachments = await starboard_funcs.embed_message(
         bot, message
     )
-    await member.send(embed=embed, files=attachments)
+    try:
+        await member.send(embed=embed, files=attachments)
+    except discord.Forbidden:
+        pass
 
 
 def setup(bot: Bot) -> None:
