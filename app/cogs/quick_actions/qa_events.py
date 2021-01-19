@@ -27,10 +27,19 @@ class QAEvents(commands.Cog):
         qa_type: Optional[str]
         emoji: str
         message: Optional[discord.Message]
+        orig_message: Optional[dict]
 
-        if payload.member.bot:
-            return
         if not payload.guild_id:
+            user = await self.bot.fetch_user(payload.user_id)
+            if payload.emoji.name == "❌":
+                m = await user.fetch_message(
+                    payload.message_id
+                )
+                if m.author.id != self.bot.user.id:
+                    return
+                await m.delete()
+            return
+        if payload.member.bot:
             return
 
         await self.bot.db.create_guild(payload.guild_id)
@@ -112,6 +121,9 @@ async def qa_trash(
 async def qa_save(
     bot: Bot, orig_message: dict, member: discord.Member
 ) -> None:
+    if orig_message['trashed']:
+        await member.send("You cannot save a trashed message.")
+        return
     message = await bot.cache.fetch_message(
         bot, orig_message['guild_id'], orig_message['channel_id'],
         orig_message['id']

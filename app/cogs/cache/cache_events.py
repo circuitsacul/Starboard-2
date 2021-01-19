@@ -12,6 +12,8 @@ class CacheEvents(commands.Cog):
     async def on_raw_message_delete(
         self, payload: discord.RawMessageDeleteEvent
     ) -> None:
+        if not payload.guild_id:
+            return
         queue = self.bot.cache.messages.get_queue(payload.guild_id)
         if not queue:
             return
@@ -23,6 +25,8 @@ class CacheEvents(commands.Cog):
     async def on_raw_bulk_message_delete(
         self, payload: discord.RawBulkMessageDeleteEvent
     ) -> None:
+        if not payload.guild_id:
+            return
         queue = self.bot.cache.messages.get_queue(payload.guild_id)
         if not queue:
             return

@@ -107,6 +107,45 @@ class Fun(commands.Cog):
         worthiness: float = r.randrange(0, 100)
         await ctx.send(f"That message is {worthiness}% starworthy")
 
+    @commands.command(
+        name='save',
+        brief="Saves a message to your DM's"
+    )
+    @commands.guild_only()
+    async def save(
+        self, ctx: commands.Context,
+        message: converters.MessageLink
+    ) -> None:
+        """Saves a message to your DM's"""
+        orig_sql_message = await starboard_funcs.orig_message(
+            self.bot, message.id
+        )
+        m = message
+        if orig_sql_message:
+            if orig_sql_message['trashed']:
+                await ctx.send("You cannot save a trashed message")
+                return
+            orig_message = await self.bot.cache.fetch_message(
+                self.bot, int(orig_sql_message['guild_id']),
+                int(orig_sql_message['channel_id']),
+                int(orig_sql_message['id'])
+            )
+            if not orig_message:
+                await ctx.send(
+                    "That message was deleted, so you can't save it."
+                )
+                return
+            m = orig_message
+        embed, attachments = await starboard_funcs.embed_message(
+            self.bot, m
+        )
+        try:
+            await ctx.author.send(
+                embed=embed, files=attachments
+            )
+        except discord.Forbidden:
+            await ctx.send("I can't DM you, so you can't save that message.")
+
 
 def setup(bot: Bot) -> None:
     bot.add_cog(Fun(bot))

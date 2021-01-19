@@ -17,6 +17,8 @@ class StarboardEvents(commands.Cog):
         payload: discord.RawReactionActionEvent
     ) -> None:
         # Check if bot
+        if not payload.guild_id:
+            return
         if payload.member.bot:
             return
 
@@ -88,6 +90,8 @@ class StarboardEvents(commands.Cog):
         self,
         payload: discord.RawReactionActionEvent
     ) -> None:
+        if not payload.guild_id:
+            return
         emoji = utils.clean_emoji(payload.emoji)
 
         orig_message = await starboard_funcs.orig_message(
