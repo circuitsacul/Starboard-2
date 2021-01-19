@@ -49,9 +49,9 @@ def ms(seconds: int) -> int:
 def safe_regex(string: str, pattern: str, max_time: float = 0.1) -> bool:
     @timeout(seconds=max_time)
     def run_regex(string: str, pattern: str) -> Optional[re.Match]:
-        re.match(pattern, string)
+        return re.match(pattern, string)
 
-    return run_regex(string, pattern) is not None
+    return run_regex(string, pattern)
 
 
 def clean_emoji(
