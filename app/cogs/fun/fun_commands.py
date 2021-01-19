@@ -1,5 +1,5 @@
 import random
-from random import Random
+# from random import Random
 
 import discord
 from discord.ext import commands, flags
@@ -93,19 +93,21 @@ class Fun(commands.Cog):
         )
         await ctx.send(plain_text, embed=embed, files=attachments)
 
-    @commands.command(
-        name='starworthy', aliases=['worthy'],
-        brief="Tells you how starworthy a message is"
-    )
-    @commands.guild_only()
-    async def starworthy(
-        self, ctx: commands.Context,
-        message: converters.MessageLink
-    ) -> None:
-        """Tells you how starworthy a message is."""
-        r = Random(message.id)
-        worthiness: float = r.randrange(0, 100)
-        await ctx.send(f"That message is {worthiness}% starworthy")
+    # Removed, as it is a copy of the command of another bot. Feel free to
+    # Uncomment if you selfhost the bot.
+    # @commands.command(
+    #    name='starworthy', aliases=['worthy'],
+    #    brief="Tells you how starworthy a message is"
+    # )
+    # @commands.guild_only()
+    # async def starworthy(
+    #    self, ctx: commands.Context,
+    #    message: converters.MessageLink
+    # ) -> None:
+    #    """Tells you how starworthy a message is."""
+    #    r = Random(message.id)
+    #    worthiness: float = r.randrange(0, 100)
+    #    await ctx.send(f"That message is {worthiness}% starworthy")
 
     @commands.command(
         name='save',
