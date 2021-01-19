@@ -7,6 +7,7 @@ A complete rewrite of Starboard
  - `None` no longer shows up as the point count on some messages when using `sb!random`
  - Fix duplicate starboard-messages in the database
  - Store data more efficiently
+ - Cluster the bot
 
 ### New settings
  - `autoReact`: Wether or not the bot automatically adds reactions to it's own messages
