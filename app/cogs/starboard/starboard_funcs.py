@@ -331,6 +331,30 @@ async def handle_trashed_message(
         pass
 
 
+def try_regex(
+    bot: Bot,
+    pattern: str,
+    message: discord.Message
+) -> Optional[bool]:
+    string = message.system_content
+    jump = message.jump_url
+    try:
+        if utils.safe_regex(string, pattern):
+            return True
+    except TimeoutError:
+        bot.dispatch(
+            'guild_log',
+            (
+                f"I tried to match `{pattern}` to "
+                f"[a message]({jump}), but it took too long. "
+                "Try improving the efficiency of your regex. If "
+                "you need help, feel free to join the support server."
+            ), 'error', message.guild
+        )
+        return None
+    return False
+
+
 async def handle_starboard(
     bot: Bot, sql_starboard: dict,
     sql_message: dict, sql_author: dict
@@ -380,24 +404,13 @@ async def handle_starboard(
 
     if message is not None:
         if sql_starboard['regex'] != '':
-            try:
-                if not utils.safe_regex(
-                    message.system_content,
-                    sql_starboard['regex']
-                ):
-                    add = False
-                    delete = True
-            except TimeoutError:
-                jump = message.jump_url
-                bot.dispatch(
-                    'guild_log',
-                    (
-                        f"I tried to match `{sql_starboard['regex']}` to "
-                        f"[a message]({jump}), but it took too long. "
-                        "Try improving the efficiency of your regex. If "
-                        "you need help, feel free to join the support server."
-                    ), 'error', guild
-                )
+            if try_regex(bot, sql_starboard['regex'], message) is False:
+                add = False
+                delete = True
+        if sql_starboard['exclude_regex'] != '':
+            if try_regex(bot, sql_starboard['exclude_regex'], message) is True:
+                add = False
+                delete = True
 
     if sql_starboard['id'] in sql_message['forced']:
         add = True
