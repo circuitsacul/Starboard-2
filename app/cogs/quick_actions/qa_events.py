@@ -131,7 +131,8 @@ async def qa_trash(
 async def qa_save(
     bot: Bot, orig_message: dict, member: discord.Member
 ) -> bool:
-    if orig_message['trashed'] or member.guild_permissions.manage_messages:
+    if orig_message['trashed']\
+            and not member.guild_permissions.manage_messages:
         try:
             await member.send("You cannot save a trashed message.")
         except discord.Forbidden:
