@@ -46,7 +46,7 @@ def ms(seconds: int) -> int:
     return round(seconds*1000, 2)
 
 
-def safe_regex(string: str, pattern: str, max_time: float = 0.1) -> bool:
+def safe_regex(string: str, pattern: str, max_time: float = 0.01) -> bool:
     @timeout(seconds=max_time)
     def run_regex(string: str, pattern: str) -> Optional[re.Match]:
         return re.match(pattern, string)
