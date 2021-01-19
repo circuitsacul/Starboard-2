@@ -80,6 +80,7 @@ PERMROLES = \
         starboards NUMERIC[] DEFAULT '{}',
         channels NUMERIC[] DEFAULT '{}',
 
+        allow_commands BOOL DEFAULT NULL,
         recv_stars BOOL DEFAULT NULL,
         give_stars BOOL DEFAULT NULL,
         gain_xp BOOL DEFAULT NULL,
