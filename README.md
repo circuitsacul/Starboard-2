@@ -12,7 +12,7 @@ A complete rewrite of Starboard
  - `autoReact`: Wether or not the bot automatically adds reactions to it's own messages
  - `removeReactions`: Wether or not the bot will remove invalid reaction (e.g. self-stars)
  - `noXp`: Wether or not to allow people to gain XP from this starboard
- - `explore`: Wether or not to allow `sb!random` to pull from this starboard
+ - `allowRandom`: Wether or not to allow `sb!random` to pull from this starboard
  - `allowNSFW`: Wether or not messages from NSFW channels are allowed. Defaults to False. You'll need to enable this setting on any NSFW starboards you have.
 
 ### New Features
