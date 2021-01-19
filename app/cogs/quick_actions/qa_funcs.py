@@ -1,7 +1,7 @@
 from typing import Optional
 
 
-async def get_qa_type(
+def get_qa_type(
     emoji: str, guild: dict
 ) -> Optional[str]:
     if emoji == guild['qa_force']:

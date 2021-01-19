@@ -52,7 +52,7 @@ class QAEvents(commands.Cog):
             self.bot, payload.guild_id
         ):
             return
-        qa_type = await qa_funcs.get_qa_type(emoji, sql_guild)
+        qa_type = qa_funcs.get_qa_type(emoji, sql_guild)
         if qa_type is None:
             return
 

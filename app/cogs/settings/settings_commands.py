@@ -3,7 +3,16 @@ from discord.ext import commands, flags
 
 from app import errors, utils
 from app.classes.bot import Bot
+from app.cogs.quick_actions import qa_funcs
 from app import converters
+
+
+async def raise_if_exists(
+    emoji: str, ctx: commands.Context
+) -> None:
+    guild = await ctx.bot.db.get_guild(ctx.guild.id)
+    if qa_funcs.get_qa_type(emoji, guild) is not None:
+        raise errors.AlreadyExists("That is already a QuickAction!")
 
 
 class Settings(commands.Cog):
@@ -29,11 +38,188 @@ class Settings(commands.Cog):
                 f"logChannel: {log_channel}\n"
                 f"levelChannel: {level_channel}\n"
                 f"pingOnLevelUp: **{guild['ping_user']}**\n"
-                f"allowCommands: **{guild['allow_commands']}**"
+                f"allowCommands: **{guild['allow_commands']}**\n"
+                f"quickActionsOn: **{guild['qa_enabled']}**"
             ),
             color=self.bot.theme_color
         )
         await ctx.send(embed=embed)
+
+    @commands.group(
+        name='quickactions', aliases=['qa'],
+        brief="Modify quickActions",
+        invoke_without_command=True
+    )
+    @commands.has_guild_permissions(manage_messages=True)
+    async def quickactions(self, ctx: commands.Context) -> None:
+        """Modify the emojis for quickActions"""
+        guild = await self.bot.db.get_guild(ctx.guild.id)
+        embed = discord.Embed(
+            title="QuickActions",
+            description=(
+                f"force: {guild['qa_force']}\n"
+                f"unforce: {guild['qa_unforce']}\n"
+                f"trash: {guild['qa_trash']}\n"
+                f"recount: {guild['qa_recount']}\n"
+                f"save: {guild['qa_save']}\n"
+            ),
+            color=self.bot.theme_color
+        ).set_footer(
+            text="To modify these, run sb!help qa"
+        )
+        await ctx.send(embed=embed)
+
+    @quickactions.command(
+        name='enable', aliases=['on', 'enabled'],
+        brief="Enables quickActions"
+    )
+    @commands.has_guild_permissions(manage_messages=True)
+    async def enable_quickactions(self, ctx: commands.Context) -> None:
+        """Enable quickActions"""
+        await self.bot.db.execute(
+            """UPDATE guilds SET qa_enabled=True WHERE id=$1""",
+            ctx.guild.id
+        )
+        await ctx.send("Enabled quickActions")
+
+    @quickactions.command(
+        name='disable', aliases=['off', 'disabled'],
+        brief="Disables quickActions"
+    )
+    @commands.has_guild_permissions(manage_messages=True)
+    async def disable_quickactions(self, ctx: commands.Context) -> None:
+        """Disable quickActions"""
+        await self.bot.db.execute(
+            """UPDATE guilds SET qa_enabled=False WHERE id=$1""",
+            ctx.guild.id
+        )
+        await ctx.send("Disabled quickActions")
+
+    @quickactions.command(
+        name='reset',
+        brief="Resets quickActions to their default"
+    )
+    @commands.has_guild_permissions(manage_messages=True)
+    async def reset_quickactions(self, ctx: commands.Context) -> None:
+        """Reset quickAction emojis"""
+        await self.bot.db.execute(
+            """UPDATE guilds
+            SET qa_force='🔒',
+            qa_unforce='🔓',
+            qa_trash='🗑️',
+            qa_recount='🔃',
+            qa_save='📥'
+            WHERE id=$1""", ctx.guild.id
+        )
+        await ctx.send("Reset quickActions")
+
+    @quickactions.command(
+        name='force',
+        brief="Sets the force quickAction emoji"
+    )
+    @commands.has_guild_permissions(manage_messages=True)
+    async def force_quickaction(
+        self,
+        ctx: commands.Context,
+        emoji: converters.Emoji
+    ) -> None:
+        """Sets the quickAction emoji for forcing messages"""
+        clean = utils.clean_emoji(emoji)
+        await raise_if_exists(clean, ctx)
+        await self.bot.db.execute(
+            """UPDATE guilds
+            SET qa_force=$1
+            WHERE id=$2""",
+            clean, ctx.guild.id
+        )
+        await ctx.send(f"Set the force emoji to {emoji}")
+
+    @quickactions.command(
+        name='unforce',
+        brief="Set the unforce quickAction emoji"
+    )
+    @commands.has_guild_permissions(manage_messages=True)
+    async def unforce_quickaction(
+        self,
+        ctx: commands.Context,
+        emoji: converters.Emoji
+    ) -> None:
+        """Sets the quickAction emoji for unforcing
+        messages"""
+        clean = utils.clean_emoji(emoji)
+        await raise_if_exists(clean, ctx)
+        await self.bot.db.execute(
+            """UPDATE guilds
+            SET qa_unforce=$1
+            WHERE id=$2""",
+            clean, ctx.guild.id
+        )
+        await ctx.send(f"Set the unforce emoji to {emoji}")
+
+    @quickactions.command(
+        name='trash',
+        brief="Sets the trash quickAction emoji"
+    )
+    @commands.has_guild_permissions(manage_messages=True)
+    async def trash_quickaction(
+        self,
+        ctx: commands.Context,
+        emoji: converters.Emoji
+    ) -> None:
+        """Sets the quickAction emoji for trashing
+        messages"""
+        clean = utils.clean_emoji(emoji)
+        await raise_if_exists(clean, ctx)
+        await self.bot.db.execute(
+            """UPDATE guilds
+            SET qa_trash=$1
+            WHERE id=$2""",
+            clean, ctx.guild.id
+        )
+        await ctx.send(f"Set the trash emoji to {emoji}")
+
+    @quickactions.command(
+        name='recount',
+        brief="Sets the recount quickAction emoji"
+    )
+    @commands.has_guild_permissions(manage_messages=True)
+    async def recount_quickaction(
+        self,
+        ctx: commands.Context,
+        emoji: converters.Emoji
+    ) -> None:
+        """Sets the quickAction emoji for recounting message
+        reactions"""
+        clean = utils.clean_emoji(emoji)
+        await raise_if_exists(clean, ctx)
+        await self.bot.db.execute(
+            """UPDATE guilds
+            SET qa_recount=$1
+            WHERE id=$2""",
+            clean, ctx.guild.id
+        )
+        await ctx.send(f"Set the recount emoji to {emoji}")
+
+    @quickactions.command(
+        name='save',
+        brief="Sets the save quickAction emoji"
+    )
+    @commands.has_guild_permissions(manage_messages=True)
+    async def save_quickaction(
+        self,
+        ctx: commands.Context,
+        emoji: converters.Emoji
+    ) -> None:
+        """Set the quickAction emoji for saving messages"""
+        clean = utils.clean_emoji(emoji)
+        await raise_if_exists(clean, ctx)
+        await self.bot.db.execute(
+            """UPDATE guilds
+            SET qa_save=$1
+            WHERE id=$2""",
+            clean, ctx.guild.id
+        )
+        await ctx.send(f"Set the save emoji to {emoji}")
 
     @commands.group(
         name='prefixes', aliases=['pfx', 'prefix', 'p'],
