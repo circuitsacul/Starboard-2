@@ -93,6 +93,7 @@ class MessageLink(commands.Converter):
     ) -> None:
         link_pattern = "^https://discord.com/channels/[0-9]+/[0-9]+/[0-9]+"
         special_id_pattern = "^[0-9]+-[0-9]*[0-9]$"
+        normal_id_pattern = "^[0-9][0-9]+[0-9]$"
 
         channel_id: int = None
         message_id: int = None
@@ -106,6 +107,9 @@ class MessageLink(commands.Converter):
                     "I can't read the messae history of this channel, "
                     "so I don't know what message you want me to force."
                 )
+        elif re.match(normal_id_pattern, arg):
+            channel_id = ctx.channel.id
+            message_id = int(arg)
         elif re.match(link_pattern, arg):
             split = arg.split('/')
             channel_id = int(split[-2])
