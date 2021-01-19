@@ -27,7 +27,6 @@ A complete rewrite of Starboard
  - `sb!logChannel`: Sets a channel for the bot to log problems/important info to
  - `sb!starboards changeSettings`: Change one or more settings for a starboard.
  - Example: `sb!s cs #starboard --required 1 --requiredRemove 0 --selfStar False`
- - `sb!starworthy`: A fun command that gives you a ~~random~~ percentage for how "star worthy" a command is.
 
 ### Removed Commands
  - `sb!freeze`: Removed, since it seems to really have no use
