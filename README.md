@@ -41,3 +41,6 @@ A complete rewrite of Starboard
  - `sb!trash`: Instead of excepting a message_id and a channel_id, it now accepts a message link.
  - `sb!untrash`: Same as above
  - `sb!random`: Added `--starboard` option, fix bugs.
+
+## Credits
+Thanks to [TheNoob27's starboard](https://top.gg/bot/655390915325591629) for being the main inspiration for this bot, as well as many of this bots features, such as XP Roles and QuickActions, and the general design of the bot.
