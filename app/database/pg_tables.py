@@ -92,7 +92,7 @@ PERMROLES = \
         gain_xp BOOL DEFAULT NULL,
         pos_roles BOOL DEFAULT NULL,
         xp_roles BOOL DEFAULT NULL,
-        overrides BOOL DEFAULT NULL
+        overrides BOOL DEFAULT NULL,
 
         FOREIGN KEY (guild_id) REFERENCES guilds (id)
             ON DELETE CASCADE
