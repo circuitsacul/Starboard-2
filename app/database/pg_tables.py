@@ -71,44 +71,6 @@ STARBOARDS = \
             ON DELETE CASCADE
     )"""
 
-SETTING_OVERRIDES = \
-    """CREATE TABLE IF NOT EXISTS setting_overrides (
-        id SERIAL PRIMARY KEY,
-        guild_id NUMERIC NOT NULL,
-        index SMALLINT NOT NULL,
-        name VARCHAR(32) NOT NULL,
-
-        starboards NUMERIC[] NOT NULL,
-        in_channels NUMERIC[] DEFAULT '{}',
-        not_in_channels NUMERIC[] DEFAULT '{}',
-
-        has_roles NUMERIC[] DEFAULT '{}',
-        lacks_roles NUMERIC[] DEFAULT '{}',
-
-        required SMALLINT DEFAULT NULL,
-        required_remove SMALLINT DEFAULT NULL,
-        self_star BOOL DEFAULT NULL,
-        allow_bots BOOL DEFAULT NULL,
-        allow_nsfw BOOL DEFAULT NULL,
-        link_deletes BOOL DEFAULT NULL,
-        link_edits BOOL DEFAULT NULL,
-        images_only BOOL DEFAULT NULL,
-        remove_reactions BOOL DEFAULT NULL,
-        no_xp BOOL DEFAULT NULL,
-        explore BOOL DEFAULT NULL,
-
-        star BOOL DEFAULT NULL,
-        recv_star BOOL DEFAULT NULL,
-        gain_xp_roles BOOL DEFAULT NULL,
-        gain_pos_roles BOOL DEFAULT NULL,
-
-        allow_commands BOOL DEFAULT NULL,
-        qa BOOL DEFAULT NULL,
-
-        FOREIGN KEY (guild_id) REFERENCES guilds (id)
-            ON DELETE CASCADE
-    )"""
-
 MESSAGES = \
     """CREATE TABLE IF NOT EXISTS messages (
         id NUMERIC PRIMARY KEY,
@@ -167,7 +129,6 @@ ALL_TABLES = [
     USERS,
     MEMBERS,
     STARBOARDS,
-    SETTING_OVERRIDES,
     MESSAGES,
     STARBOARD_MESSAGES,
     REACTIONS,
