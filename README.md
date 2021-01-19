@@ -7,12 +7,13 @@ A complete rewrite of Starboard
  - `None` no longer shows up as the point count on some messages when using `sb!random`
  - Fix duplicate starboard-messages in the database
  - Store data more efficiently
+ - Cluster the bot
 
 ### New settings
  - `autoReact`: Wether or not the bot automatically adds reactions to it's own messages
  - `removeReactions`: Wether or not the bot will remove invalid reaction (e.g. self-stars)
  - `noXp`: Wether or not to allow people to gain XP from this starboard
- - `explore`: Wether or not to allow `sb!random` to pull from this starboard
+ - `allowRandom`: Wether or not to allow `sb!random` to pull from this starboard
  - `allowNSFW`: Wether or not messages from NSFW channels are allowed. Defaults to False. You'll need to enable this setting on any NSFW starboards you have.
 
 ### New Features
@@ -27,7 +28,6 @@ A complete rewrite of Starboard
  - `sb!logChannel`: Sets a channel for the bot to log problems/important info to
  - `sb!starboards changeSettings`: Change one or more settings for a starboard.
  - Example: `sb!s cs #starboard --required 1 --requiredRemove 0 --selfStar False`
- - `sb!starworthy`: A fun command that gives you a ~~random~~ percentage for how "star worthy" a command is.
 
 ### Removed Commands
  - `sb!freeze`: Removed, since it seems to really have no use
