@@ -63,11 +63,6 @@ class QAEvents(commands.Cog):
         if not message:
             return
 
-        try:
-            await message.remove_reaction(payload.emoji, payload.member)
-        except (discord.errors.Forbidden, discord.errors.NotFound):
-            pass
-
         orig_message = await starboard_funcs.orig_message(
             self.bot, payload.message_id
         )
@@ -85,43 +80,58 @@ class QAEvents(commands.Cog):
                 payload.message_id
             )
 
+        status: bool = True
         if qa_type in self.qa_map:
-            await self.qa_map[qa_type](
+            status = await self.qa_map[qa_type](
                 self.bot, orig_message, payload.member
             )
+        if status is True:
+            try:
+                await message.remove_reaction(payload.emoji, payload.member)
+            except (discord.errors.Forbidden, discord.errors.NotFound):
+                pass
 
 
 async def qa_force(
     bot: Bot, orig_message: dict, member: discord.Member
-) -> None:
+) -> bool:
+    if not member.guild_permissions.manage_messages:
+        return False
     await utility_funcs.handle_forcing(
         bot, orig_message['id'], orig_message['guild_id'],
         [], True
     )
+    return True
 
 
 async def qa_unforce(
     bot: Bot, orig_message: dict, member: discord.Member
-) -> None:
+) -> bool:
+    if not member.guild_permissions.manage_messages:
+        return False
     await utility_funcs.handle_forcing(
         bot, orig_message['id'], orig_message['guild_id'],
         [], False
     )
+    return True
 
 
 async def qa_trash(
     bot: Bot, orig_message: dict, member: discord.Member
-) -> None:
+) -> bool:
+    if not member.guild_permissions.manage_messages:
+        return False
     await utility_funcs.handle_trashing(
         bot, orig_message['id'], orig_message['guild_id'],
         not orig_message['trashed']
     )
+    return True
 
 
 async def qa_save(
     bot: Bot, orig_message: dict, member: discord.Member
-) -> None:
-    if orig_message['trashed']:
+) -> bool:
+    if orig_message['trashed'] or member.guild_permissions.manage_messages:
         try:
             await member.send("You cannot save a trashed message.")
         except discord.Forbidden:
@@ -140,6 +150,7 @@ async def qa_save(
         await member.send(embed=embed, files=attachments)
     except discord.Forbidden:
         pass
+    return True
 
 
 def setup(bot: Bot) -> None:
