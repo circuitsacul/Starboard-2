@@ -48,6 +48,9 @@ class Utility(commands.Cog):
             self.bot, message_link.id
         )
         if orig_sql_message is None:
+            await self.bot.db.create_user(
+                message_link.author.id, message_link.author.bot
+            )
             await self.bot.db.create_message(
                 message_link.id, message_link.guild.id,
                 message_link.channel.id,
