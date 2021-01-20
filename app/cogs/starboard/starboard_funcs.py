@@ -50,6 +50,18 @@ async def embed_message(
     extra_attachments = []
     image_used = False
 
+    for attachment in message.attachments:
+        f = await attachment.to_file()
+        urls.append({
+            'name': attachment.filename,
+            'display_url': attachment.url,
+            'url': attachment.url,
+            'type': 'upload',
+            'spoiler': attachment.is_spoiler(),
+            'file': f,
+            'show_link': True
+        })
+
     embed: discord.Embed
     for embed in message.embeds:
         if embed.type == 'rich' or embed.type == 'article':
@@ -124,18 +136,6 @@ async def embed_message(
                     'spoiler': False,
                     'show_link': True
                 })
-
-    for attachment in message.attachments:
-        f = await attachment.to_file()
-        urls.append({
-            'name': attachment.filename,
-            'display_url': attachment.url,
-            'url': attachment.url,
-            'type': 'upload',
-            'spoiler': attachment.is_spoiler(),
-            'file': f,
-            'show_link': True
-        })
 
     if len(content) > 2048:
         to_remove = len(content + ' ...') - 2048
