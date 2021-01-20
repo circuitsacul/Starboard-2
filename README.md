@@ -21,13 +21,14 @@ A complete rewrite of Starboard
    - Original: `<points> | <channel>`<br>
      Now: `<displayEmoji> <points> | <channel>`<br>
      Example: **:star: 5 | #general**<br>
+ - You can now disable specific commands
 
 ### New Commands
  - `sb!trashcan`: Shows a list of trashed messages
  - `sb!purge`: Trashes a large number of messages at once
  - `sb!logChannel`: Sets a channel for the bot to log problems/important info to
  - `sb!starboards changeSettings`: Change one or more settings for a starboard.
- - Example: `sb!s cs #starboard --required 1 --requiredRemove 0 --selfStar False`
+ - `sb!commands [enable/disable] [command]`: List/enable/disable commands
 
 ### Removed Commands
  - `sb!freeze`: Removed, since it seems to really have no use
