@@ -245,9 +245,9 @@ class Starboard(commands.Cog):
                 continue
             changes += (
                 f"{OPTION_MAP[option]}: "
-                f"`{value if value is not None else 'None'}` "
+                f"`{value if value not in [None, ''] else 'None'}` "
                 f":arrow_right: "
-                f"`{new_val if new_val is not None else 'None'}`\n"
+                f"`{new_val if new_val not in [None, ''] else 'None'}`\n"
             )
 
         if len(changes) == 0:
