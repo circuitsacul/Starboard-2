@@ -52,10 +52,19 @@ async def embed_message(
 
     embed: discord.Embed
     for embed in message.embeds:
-        if embed.type == 'rich':
-            content += (
-                f"\n__**{utils.escmd(embed.title)}**__\n"
-            ) if embed.title != embed.Empty else ''
+        if embed.type == 'rich' or embed.type == 'article':
+            if embed.title != embed.Empty:
+                if embed.url == embed.Empty:
+                    content += (
+                        f"\n\n__**{utils.escmd(embed.title)}**__\n"
+                    )
+                else:
+                    content += (
+                        f"\n\n__**[{utils.escmd(embed.title)}]({embed.url})"
+                        "**__\n"
+                    )
+            else:
+                content += '\n'
             content += (
                 f"{embed.description}\n"
             ) if embed.description != embed.Empty else ''
@@ -77,7 +86,7 @@ async def embed_message(
                 })
             if embed.thumbnail.url is not embed.Empty:
                 urls.append({
-                    'name': 'Embed Thumnail',
+                    'name': 'Embed Thumbnail',
                     'url': embed.thumbnail.url,
                     'display_url': embed.thumbnail.url,
                     'type': 'image',
