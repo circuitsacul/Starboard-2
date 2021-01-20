@@ -44,4 +44,4 @@ A complete rewrite of Starboard
  - `sb!random`: Added `--starboard` option, fix bugs.
 
 ## Credits
-Thanks to [TheNoob27's starboard](https://top.gg/bot/655390915325591629) for being the main inspiration for this bot, as well as many of this bots features, such as XP Roles and QuickActions, and the general design of the bot.
+Thanks to [TheNoob27's starboard](https://top.gg/bot/655390915325591629) for being the main inspiration for many features as well as the general design of this bot.
