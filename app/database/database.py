@@ -263,7 +263,7 @@ class Database:
             display_emoji = $14,
             regex = $15,
             exclude_regex = $16
-            WHERE id = $16""",
+            WHERE id = $17""",
             s['required'] if required is None else required,
             s['required_remove'] if required_remove is None else
             required_remove,

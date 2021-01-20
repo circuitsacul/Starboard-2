@@ -97,8 +97,8 @@ class Starboard(commands.Cog):
                     f"removeReactions: **{s['remove_reactions']}**\n"
                     f"noXp: **{s['no_xp']}**\n"
                     f"allowRandom: **{s['explore']}**\n"
-                    f"regex: `{s['regex']}`\n"
-                    f"excludeReges: `{s['exclude_regex']}`"
+                    f"regex: `{s['regex'] or 'None'}`\n"
+                    f"excludeRegex: `{s['exclude_regex'] or 'None'}`"
                 ),
                 color=self.bot.theme_color
             )
@@ -227,7 +227,7 @@ class Starboard(commands.Cog):
             options['noXp'],
             options['allowRandom'],
             regex=options['regex'],
-            exclude_regex=options['exclude_regex']
+            exclude_regex=options['excludeRegex']
         )
 
         changes = ""
@@ -239,8 +239,8 @@ class Starboard(commands.Cog):
             if new_val is None:
                 continue
             changes += (
-                f"{OPTION_MAP[option]}: **{value}** "
-                f":arrow_right: **{new_val}**\n"
+                f"{OPTION_MAP[option]}: `{value or 'None'}` "
+                f":arrow_right: `{new_val or 'None'}`\n"
             )
 
         if len(changes) == 0:
