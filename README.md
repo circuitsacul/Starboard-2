@@ -15,19 +15,18 @@ A complete rewrite of Starboard
  - `noXp`: Wether or not to allow people to gain XP from this starboard
  - `allowRandom`: Wether or not to allow `sb!random` to pull from this starboard
  - `allowNSFW`: Wether or not messages from NSFW channels are allowed. Defaults to False. You'll need to enable this setting on any NSFW starboards you have.
+ - `color`: Allows you to set the embed color of starboard messages
+ - `displayEmoji`: Allows you to set what emoji shows up next to the number of points on a starboard message.
 
 ### New Features
- - Added `displayEmoji` option to each starboard, which defaults to :star:.
-   - Original: `<points> | <channel>`<br>
-     Now: `<displayEmoji> <points> | <channel>`<br>
-     Example: **:star: 5 | #general**<br>
+ - You can now disable specific commands.
 
 ### New Commands
  - `sb!trashcan`: Shows a list of trashed messages
  - `sb!purge`: Trashes a large number of messages at once
  - `sb!logChannel`: Sets a channel for the bot to log problems/important info to
  - `sb!starboards changeSettings`: Change one or more settings for a starboard.
- - Example: `sb!s cs #starboard --required 1 --requiredRemove 0 --selfStar False`
+ - `sb!commands [enable/disable] [command]`: List/enable/disable commands
 
 ### Removed Commands
  - `sb!freeze`: Removed, since it seems to really have no use
@@ -43,4 +42,4 @@ A complete rewrite of Starboard
  - `sb!random`: Added `--starboard` option, fix bugs.
 
 ## Credits
-Thanks to [TheNoob27's starboard](https://top.gg/bot/655390915325591629) for being the main inspiration for this bot, as well as many of this bots features, such as XP Roles and QuickActions, and the general design of the bot.
+Thanks to TheNoob27 and [his starboard](https://top.gg/bot/655390915325591629) for inspiring me to create this bot and allowing me to base much of this bot on his.
