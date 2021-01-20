@@ -15,13 +15,11 @@ A complete rewrite of Starboard
  - `noXp`: Wether or not to allow people to gain XP from this starboard
  - `allowRandom`: Wether or not to allow `sb!random` to pull from this starboard
  - `allowNSFW`: Wether or not messages from NSFW channels are allowed. Defaults to False. You'll need to enable this setting on any NSFW starboards you have.
+ - `color`: Allows you to set the embed color of starboard messages
+ - `displayEmoji`: Allows you to set what emoji shows up next to the number of points on a starboard message.
 
 ### New Features
- - Added `displayEmoji` option to each starboard, which defaults to :star:.
-   - Original: `<points> | <channel>`<br>
-     Now: `<displayEmoji> <points> | <channel>`<br>
-     Example: **:star: 5 | #general**<br>
- - You can now disable specific commands
+ - You can now disable specific commands.
 
 ### New Commands
  - `sb!trashcan`: Shows a list of trashed messages
