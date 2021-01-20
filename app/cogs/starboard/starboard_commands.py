@@ -85,22 +85,22 @@ class Starboard(commands.Cog):
                 title=starboard.obj.name,
                 description=(
                     f"emojis: **{upvote_emoji_str}**\n"
-                    f"displayEmoji: **{s['display_emoji']}**\n\n"
+                    f"displayEmoji: **{s['display_emoji']}**\n"
+                    f"color: **{s['color']}**\n\n"
                     f"requiredStars: **{s['required']}**\n"
                     f"requiredToRemove: **{s['required_remove']}**\n"
-                    f"autoReact: **{s['autoreact']}**\n"
                     f"selfStar: **{s['self_star']}**\n"
-                    f"allowBots: **{s['allow_bots']}**\n"
                     f"allowNSFW: **{s['allow_nsfw']}**\n"
+                    f"allowBots: **{s['allow_bots']}**\n"
+                    f"imagesOnly: **{s['images_only']}**\n"
+                    f"regex: `{s['regex'] or 'None'}`\n"
+                    f"excludeRegex: `{s['exclude_regex'] or 'None'}`\n\n"
+                    f"autoReact: **{s['autoreact']}**\n"
                     f"linkDeletes: **{s['link_deletes']}**\n"
                     f"linkEdits: **{s['link_edits']}**\n"
-                    f"imagesOnly: **{s['images_only']}**\n"
                     f"removeReactions: **{s['remove_reactions']}**\n"
                     f"noXp: **{s['no_xp']}**\n"
                     f"allowRandom: **{s['explore']}**\n"
-                    f"color: **{s['color']}**\n"
-                    f"regex: `{s['regex'] or 'None'}`\n"
-                    f"excludeRegex: `{s['exclude_regex'] or 'None'}`"
                 ),
                 color=self.bot.theme_color
             )
