@@ -204,6 +204,8 @@ class BaseEvents(commands.Cog):
         guild: discord.Guild
     ) -> None:
         sql_guild = await self.bot.db.get_guild(guild.id)
+        if sql_guild['log_channel'] is None:
+            return
         log_channel = guild.get_channel(int(sql_guild['log_channel']))
         if not log_channel:
             return
