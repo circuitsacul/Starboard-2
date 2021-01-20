@@ -21,6 +21,7 @@ EXPECTED_ERRORS = [
     errors.ConversionError,
     errors.DoesNotExist,
     errors.AlreadyExists,
+    errors.CommandDisabled,
     commands.MissingRequiredArgument,
     commands.ChannelNotFound,
     commands.RoleNotFound,

@@ -7,6 +7,7 @@ GUILDS = \
         ping_user BOOL NOT NULL DEFAULT false,
 
         allow_commands BOOL NOT NULL DEFAULT true,
+        disabled_commands TEXT[] NOT NULL DEFAULT '{}',
 
         premium_end TIMESTAMP DEFAULT NULL,
 

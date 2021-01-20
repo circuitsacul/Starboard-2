@@ -182,3 +182,12 @@ class Starboard(commands.Converter):
             )
 
         return SQLObject(channel, sql_starboard)
+
+
+class Command(commands.Converter):
+    async def convert(
+        self,
+        ctx: commands.Context,
+        arg: str
+    ) -> commands.Command:
+        return ctx.bot.get_command(arg)

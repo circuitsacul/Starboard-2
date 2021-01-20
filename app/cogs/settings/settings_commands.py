@@ -19,6 +19,75 @@ class Settings(commands.Cog):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
 
+    @commands.group(
+        name='commands', aliases=['disabled'],
+        brief="Lists disabled commands",
+        invoke_without_command=True
+    )
+    @commands.guild_only()
+    async def disabled_cmds(self, ctx: commands.Context) -> None:
+        """Lists all commands that have been disabled"""
+        guild = await self.bot.db.get_guild(ctx.guild.id)
+        if len(guild['disabled_commands']) == 0:
+            await ctx.send("No disabled commands.")
+            return
+        string = ''
+        for c in guild['disabled_commands']:
+            string += f"`{c}`\n"
+        embed = discord.Embed(
+            title="Disabled Commands",
+            description=string,
+            color=self.bot.theme_color
+        )
+        await ctx.send(embed=embed)
+
+    @disabled_cmds.command(
+        name="disable", aliases=['remove'],
+        brief="Disables a command"
+    )
+    @commands.has_guild_permissions(manage_guild=True)
+    async def disable_command(
+        self, ctx: commands.Context,
+        command: converters.Command
+    ) -> None:
+        """Disables a command, so only someone with
+        manage_guild permissions can use them"""
+        guild = await self.bot.db.get_guild(ctx.guild.id)
+        name = command.qualified_name
+        new_commands = guild['disabled_commands']
+        if name in new_commands:
+            raise errors.AlreadyExists("That command is already disabled")
+        new_commands.append(name)
+        await self.bot.db.execute(
+            """UPDATE guilds
+            SET disabled_commands=$1::text[]
+            WHERE id=$2""", new_commands, ctx.guild.id
+        )
+        await ctx.send(f"Disabled `{name}`")
+
+    @disabled_cmds.command(
+        name='enable', aliases=['add'],
+        brief="Enables a command"
+    )
+    @commands.has_guild_permissions(manage_guild=True)
+    async def enable_command(
+        self, ctx: commands.Context,
+        command: converters.Command
+    ) -> None:
+        """Enables a command"""
+        guild = await self.bot.db.get_guild(ctx.guild.id)
+        name = command.qualified_name
+        new_commands = guild['disabled_commands']
+        if name not in new_commands:
+            raise errors.DoesNotExist("That command is not disabled")
+        new_commands.remove(name)
+        await self.bot.db.execute(
+            """UPDATE guilds
+            SET disabled_commands=$1::text[]
+            WHERE id=$2""", new_commands, ctx.guild.id
+        )
+        await ctx.send(f"Enabled `{name}`")
+
     @commands.command(
         name='settings', aliases=['options'],
         brief="View guild settings"
@@ -39,7 +108,8 @@ class Settings(commands.Cog):
                 f"levelChannel: {level_channel}\n"
                 f"pingOnLevelUp: **{guild['ping_user']}**\n"
                 f"allowCommands: **{guild['allow_commands']}**\n"
-                f"quickActionsOn: **{guild['qa_enabled']}**"
+                f"quickActionsOn: **{guild['qa_enabled']}**\n"
+                f"disabledCommands: **{len(guild['disabled_commands'])}**"
             ),
             color=self.bot.theme_color
         )

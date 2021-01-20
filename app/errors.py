@@ -23,3 +23,7 @@ class AlreadyOrigMessage(Exception):
 
 class AllCommandsDisabled(commands.CheckFailure):
     pass
+
+
+class CommandDisabled(commands.CheckFailure):
+    pass

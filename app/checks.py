@@ -16,9 +16,15 @@ def is_owner() -> callable:
 
 # Global Checks
 async def not_disabled(ctx: commands.Context) -> bool:
-    if ctx.channel.permissions_for(ctx.message.author).administrator:
+    if ctx.channel.permissions_for(ctx.message.author).manage_guild:
         return True
     guild = await ctx.bot.db.get_guild(ctx.guild.id)
     if not guild['allow_commands']:
         raise errors.AllCommandsDisabled()
+    name = ctx.command.qualified_name
+    if name in guild['disabled_commands']:
+        raise errors.CommandDisabled(
+            f"The command {name} has been disabled "
+            "by the moderators of this server."
+        )
     return True
