@@ -4,6 +4,21 @@ from app.classes.bot import Bot
 from app.cogs.starboard import starboard_funcs
 
 
+async def handle_freezing(
+    bot: Bot,
+    message_id: int,
+    guild_id: int,
+    freeze: bool
+) -> None:
+    await bot.db.execute(
+        """UPDATE messages
+        SET frozen=$1
+        WHERE id=$2""",
+        freeze, message_id
+    )
+    await starboard_funcs.update_message(bot, message_id, guild_id)
+
+
 async def handle_forcing(
     bot: Bot,
     message_id: int,

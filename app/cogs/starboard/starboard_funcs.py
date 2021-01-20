@@ -376,9 +376,6 @@ async def handle_starboard(
     bot: Bot, sql_starboard: dict,
     sql_message: dict, sql_author: dict
 ) -> None:
-    points = await calculate_points(
-        bot, sql_message, sql_starboard
-    )
     guild = bot.get_guild(sql_starboard['guild_id'])
 
     sql_starboard_message = await bot.db.fetchrow(
@@ -386,6 +383,12 @@ async def handle_starboard(
         WHERE orig_id=$1 AND starboard_id=$2""",
         sql_message['id'], sql_starboard['id']
     )
+    if not sql_message['frozen'] or sql_starboard_message is None:
+        points = await calculate_points(
+            bot, sql_message, sql_starboard
+        )
+    else:
+        points = sql_starboard_message['points']
     if sql_starboard_message is not None:
         await set_points(
             bot, points, sql_starboard_message['id']
@@ -401,6 +404,7 @@ async def handle_starboard(
     delete = False
 
     forced = False
+    frozen = False
 
     if points >= sql_starboard['required']:
         add = True
@@ -428,6 +432,11 @@ async def handle_starboard(
             if try_regex(bot, sql_starboard['exclude_regex'], message) is True:
                 add = False
                 delete = True
+
+    if sql_message['frozen']:
+        add = False
+        delete = False
+        frozen = True
 
     if sql_starboard['id'] in sql_message['forced']:
         add = True
@@ -473,7 +482,7 @@ async def handle_starboard(
 
         plain_text = (
             f"**{display_emoji} {points} | <#{sql_message['channel_id']}>**"
-            f"{' 🔒' if forced else ''}"
+            f"{' 🔒' if forced else ''}{' ❄️' if frozen else ''}"
         )
 
         if starboard_message is None and add and message:

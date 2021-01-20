@@ -12,6 +12,7 @@ GUILDS = \
         premium_end TIMESTAMP DEFAULT NULL,
 
         qa_enabled BOOL NOT NULL DEFAULT true,
+        qa_freeze TEXT NOT NULL DEFAULT '❄️',
         qa_force TEXT NOT NULL DEFAULT '🔒',
         qa_unforce TEXT NOT NULL DEFAULT '🔓',
         qa_trash TEXT NOT NULL DEFAULT '🗑️',
@@ -112,6 +113,7 @@ MESSAGES = \
 
         forced NUMERIC[] NOT NULL DEFAULT '{}',
         trashed BOOL NOT NULL DEFAULT false,
+        frozen BOOL NOT NULL DEFAULT false,
 
         FOREIGN KEY (guild_id) REFERENCES guilds (id)
             ON DELETE CASCADE,

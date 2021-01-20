@@ -129,6 +129,7 @@ class Settings(commands.Cog):
             description=(
                 f"force: {guild['qa_force']}\n"
                 f"unforce: {guild['qa_unforce']}\n"
+                f"freeze: {guild['qa_freeze']}\n"
                 f"trash: {guild['qa_trash']}\n"
                 f"recount: {guild['qa_recount']}\n"
                 f"save: {guild['qa_save']}\n"
@@ -176,6 +177,7 @@ class Settings(commands.Cog):
             """UPDATE guilds
             SET qa_force='🔒',
             qa_unforce='🔓',
+            qa_freeze='❄️',
             qa_trash='🗑️',
             qa_recount='🔃',
             qa_save='📥'
@@ -227,8 +229,30 @@ class Settings(commands.Cog):
         await ctx.send(f"Set the unforce emoji to {emoji}")
 
     @quickactions.command(
+        name='freeze', aliases=['unfreeze'],
+        brief="Sets the freeze/unfreeze emoji"
+    )
+    @commands.has_guild_permissions(manage_messages=True)
+    async def freeze_quickaction(
+        self,
+        ctx: commands.Context,
+        emoji: converters.Emoji
+    ) -> None:
+        """Sets the quickAction emoji for freezing
+        and unfreezing messags"""
+        clean = utils.clean_emoji(emoji)
+        await raise_if_exists(clean, ctx)
+        await self.bot.db.execute(
+            """UPDATE guilds
+            SET qa_freeze=$1
+            WHERE id=$2""",
+            clean, ctx.guild.id
+        )
+        await ctx.send(f"Set the freeze/unfreeze emoji to {emoji}")
+
+    @quickactions.command(
         name='trash',
-        brief="Sets the trash quickAction emoji"
+        brief="Sets the trash/untrash quickAction emoji"
     )
     @commands.has_guild_permissions(manage_messages=True)
     async def trash_quickaction(
@@ -237,7 +261,7 @@ class Settings(commands.Cog):
         emoji: converters.Emoji
     ) -> None:
         """Sets the quickAction emoji for trashing
-        messages"""
+        and untrashing messages"""
         clean = utils.clean_emoji(emoji)
         await raise_if_exists(clean, ctx)
         await self.bot.db.execute(
@@ -246,7 +270,7 @@ class Settings(commands.Cog):
             WHERE id=$2""",
             clean, ctx.guild.id
         )
-        await ctx.send(f"Set the trash emoji to {emoji}")
+        await ctx.send(f"Set the trash/untrash emoji to {emoji}")
 
     @quickactions.command(
         name='recount',

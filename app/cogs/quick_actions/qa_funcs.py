@@ -8,6 +8,8 @@ def get_qa_type(
         return 'qa_force'
     elif emoji == guild['qa_unforce']:
         return 'qa_unforce'
+    elif emoji == guild['qa_freeze']:
+        return 'qa_freeze'
     elif emoji == guild['qa_trash']:
         return 'qa_trash'
     elif emoji == guild['qa_recount']:

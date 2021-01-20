@@ -17,7 +17,8 @@ class QAEvents(commands.Cog):
             'qa_force': qa_force,
             'qa_unforce': qa_unforce,
             'qa_trash': qa_trash,
-            'qa_save': qa_save
+            'qa_save': qa_save,
+            'qa_freeze': qa_freeze
         }
 
     @commands.Cog.listener()
@@ -90,6 +91,18 @@ class QAEvents(commands.Cog):
                 await message.remove_reaction(payload.emoji, payload.member)
             except (discord.errors.Forbidden, discord.errors.NotFound):
                 pass
+
+
+async def qa_freeze(
+    bot: Bot, orig_message: dict, member: discord.Member
+) -> bool:
+    if not member.guild_permissions.manage_messages:
+        return False
+    await utility_funcs.handle_freezing(
+        bot, orig_message['id'], orig_message['guild_id'],
+        not orig_message['frozen']
+    )
+    return True
 
 
 async def qa_force(

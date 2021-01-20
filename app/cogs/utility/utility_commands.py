@@ -14,6 +14,55 @@ class Utility(commands.Cog):
         self.bot = bot
 
     @commands.command(
+        name='freeze',
+        brief="Freeze a message"
+    )
+    @commands.has_guild_permissions(manage_messages=True)
+    async def freeze_message(
+        self, ctx: commands.Context,
+        message_link: converters.MessageLink
+    ) -> None:
+        """Freezes a message, so the point count will
+        not update."""
+        orig_message = await starboard_funcs.orig_message(
+            self.bot, message_link.id
+        )
+        if not orig_message:
+            raise errors.DoesNotExist(
+                "I couldn't freeze the message because "
+                "it does not exist in the database."
+            )
+        await utility_funcs.handle_freezing(
+            self.bot, orig_message['id'], orig_message['guild_id'],
+            True
+        )
+        await ctx.send("Message frozen")
+
+    @commands.command(
+        name='unfreeze',
+        brief="Unfreezes a message"
+    )
+    @commands.has_guild_permissions(manage_messages=True)
+    async def unfreeze_message(
+        self, ctx: commands.Context,
+        message_link: converters.MessageLink
+    ) -> None:
+        """Unfreezes a message"""
+        orig_message = await starboard_funcs.orig_message(
+            self.bot, message_link.id
+        )
+        if not orig_message:
+            raise errors.DoesNotExist(
+                "I can't unfreeze that messsage because "
+                "it does not exist in the database."
+            )
+        await utility_funcs.handle_freezing(
+            self.bot, orig_message['id'], orig_message['guild_id'],
+            False
+        )
+        await ctx.send("Message unfrozen")
+
+    @commands.command(
         name='force',
         brief="Forced a message to certain starboards"
     )
