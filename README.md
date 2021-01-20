@@ -44,4 +44,4 @@ A complete rewrite of Starboard
  - `sb!random`: Added `--starboard` option, fix bugs.
 
 ## Credits
-Thanks to TheNoob27 and [his Starboard](https://top.gg/bot/655390915325591629) for inspiring me to create this bot and allowing me to base much of this bot on his.
+Thanks to TheNoob27 and [his starboard](https://top.gg/bot/655390915325591629) for inspiring me to create this bot and allowing me to base much of this bot on his.
