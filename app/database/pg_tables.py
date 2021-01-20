@@ -71,6 +71,8 @@ STARBOARDS = \
         regex TEXT NOT NULL DEFAULT '',
         exclude_regex TEXT NOT NULL DEFAULT '',
 
+        color TEXT DEFAULT NULL,
+
         star_emojis TEXT[] DEFAULT '{⭐}',
         display_emoji TEXT DEFAULT '⭐',
 

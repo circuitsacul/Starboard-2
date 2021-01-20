@@ -41,7 +41,7 @@ async def orig_message(
 
 
 async def embed_message(
-    bot: Bot, message: discord.Message
+    bot: Bot, message: discord.Message, color: str = None
 ) -> Tuple[discord.Embed, List[discord.File]]:
     nsfw = message.channel.is_nsfw()
     content = message.system_content
@@ -127,7 +127,7 @@ async def embed_message(
         content = content[:-to_remove]
 
     embed = discord.Embed(
-        color=bot.theme_color,
+        color=bot.theme_color if color is None else int(color, 16),
         description=content
     ).set_author(
         name=str(message.author),
@@ -446,7 +446,7 @@ async def handle_starboard(
         attachments = []
         if message is not None:
             embed, attachments = await embed_message(
-                bot, message
+                bot, message, color=sql_starboard['color']
             )
 
         guild = bot.get_guild(int(sql_message['guild_id']))

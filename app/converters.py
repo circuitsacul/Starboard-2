@@ -9,6 +9,18 @@ from . import errors
 from .classes.sql_object import SQLObject
 
 
+def myhex(arg: str) -> str:
+    arg = arg.replace('#', '').upper()
+    try:
+        int(arg, 16)
+    except ValueError:
+        raise flags.ArgumentParsingError(
+            f"I couldn't interpret `{arg}` as a hex value. "
+            "Please pass something like `#FFE16C`."
+        )
+    return arg
+
+
 def mybool(arg: str) -> bool:
     yes = [
         'y', 'yes', 'on', 'enabled', 'enable', 'true', 't'

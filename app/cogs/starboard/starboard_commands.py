@@ -22,7 +22,8 @@ OPTION_MAP = {
     'star_emojis': 'starEmojis',
     'display_emoji': 'displayEmoji',
     'regex': 'regex',
-    'exclude_regex': 'excludeRegex'
+    'exclude_regex': 'excludeRegex',
+    'color': 'color'
 }
 
 
@@ -97,6 +98,7 @@ class Starboard(commands.Cog):
                     f"removeReactions: **{s['remove_reactions']}**\n"
                     f"noXp: **{s['no_xp']}**\n"
                     f"allowRandom: **{s['explore']}**\n"
+                    f"color: **{s['color']}**\n"
                     f"regex: `{s['regex'] or 'None'}`\n"
                     f"excludeRegex: `{s['exclude_regex'] or 'None'}`"
                 ),
@@ -172,6 +174,7 @@ class Starboard(commands.Cog):
         '--allowRandom', '--random', '-rand',
         type=converters.mybool
     )
+    @flags.add_flag('--color', type=converters.myhex)
     @flags.add_flag('--regex', type=str)
     @flags.add_flag('--excludeRegex', '--eregex', type=str)
     @starboards.command(
@@ -210,6 +213,7 @@ class Starboard(commands.Cog):
             --removeReactions
             --noXp
             --allowRandom
+            --color
             --regex
             --excludeRegex"""
         await self.bot.db.edit_starboard(
@@ -227,7 +231,8 @@ class Starboard(commands.Cog):
             options['noXp'],
             options['allowRandom'],
             regex=options['regex'],
-            exclude_regex=options['excludeRegex']
+            exclude_regex=options['excludeRegex'],
+            color=options['color']
         )
 
         changes = ""
@@ -239,8 +244,10 @@ class Starboard(commands.Cog):
             if new_val is None:
                 continue
             changes += (
-                f"{OPTION_MAP[option]}: `{value or 'None'}` "
-                f":arrow_right: `{new_val or 'None'}`\n"
+                f"{OPTION_MAP[option]}: "
+                f"`{value if value is not None else 'None'}` "
+                f":arrow_right: "
+                f"`{new_val if new_val is not None else 'None'}`\n"
             )
 
         if len(changes) == 0:

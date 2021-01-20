@@ -237,7 +237,8 @@ class Database:
         star_emojis: List[str] = None,
         display_emoji: str = None,
         regex: str = None,
-        exclude_regex: str = None
+        exclude_regex: str = None,
+        color: int = None
     ) -> None:
         s = await self.get_starboard(starboard_id)
         if not s:
@@ -262,8 +263,9 @@ class Database:
             star_emojis = $13,
             display_emoji = $14,
             regex = $15,
-            exclude_regex = $16
-            WHERE id = $17""",
+            exclude_regex = $16,
+            color = $17
+            WHERE id = $18""",
             s['required'] if required is None else required,
             s['required_remove'] if required_remove is None else
             required_remove,
@@ -282,6 +284,7 @@ class Database:
             s['display_emoji'] if display_emoji is None else display_emoji,
             s['regex'] if regex is None else regex,
             s['exclude_regex'] if exclude_regex is None else exclude_regex,
+            s['color'] if color is None else color,
             starboard_id
         )
 
