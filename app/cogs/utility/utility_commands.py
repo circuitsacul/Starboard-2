@@ -7,11 +7,45 @@ from app import utils
 from app.cogs.starboard import starboard_funcs
 from app import errors
 from . import utility_funcs
+from . import debugger
 
 
 class Utility(commands.Cog):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
+
+    @commands.command(
+        name='debug',
+        brief="Looks for problems with your current setup"
+    )
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.cooldown(1, 10)
+    async def debug(
+        self, ctx: commands.Context
+    ) -> None:
+        result = await debugger.debug_guild(self.bot, ctx.guild)
+        embed = discord.Embed(title="Debugging", color=self.bot.theme_color)
+        embed.add_field(
+            name='Errors',
+            value='\n\n'.join(result['errors']) or 'No errors',
+            inline=False
+        )
+        embed.add_field(
+            name='Warnings',
+            value='\n\n'.join(result['warns']) or 'No warnings',
+            inline=False
+        )
+        embed.add_field(
+            name='Light Warnings',
+            value='\n\n'.join(result['light_warns']) or 'No Light Warnings',
+            inline=False
+        )
+        embed.add_field(
+            name='Suggestions',
+            value='\n\n'.join(result['suggestions']) or 'No suggestions',
+            inline=False
+        )
+        await ctx.send(embed=embed)
 
     @commands.command(
         name='freeze',
