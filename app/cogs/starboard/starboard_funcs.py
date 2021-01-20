@@ -82,7 +82,8 @@ async def embed_message(
                     'url': embed.image.url,
                     'display_url': embed.image.url,
                     'type': 'image',
-                    'spoiler': False
+                    'spoiler': False,
+                    'show_link': False
                 })
             if embed.thumbnail.url is not embed.Empty:
                 urls.append({
@@ -90,7 +91,8 @@ async def embed_message(
                     'url': embed.thumbnail.url,
                     'display_url': embed.thumbnail.url,
                     'type': 'image',
-                    'spoiler': False
+                    'spoiler': False,
+                    'show_link': False
                 })
         elif embed.type == 'image':
             if embed.url is not embed.Empty:
@@ -99,7 +101,8 @@ async def embed_message(
                     'display_url': embed.thumbnail.url,
                     'url': embed.url,
                     'type': 'image',
-                    'spoiler': False
+                    'spoiler': False,
+                    'show_link': True
                 })
         elif embed.type == 'gifv':
             if embed.url is not embed.Empty:
@@ -108,7 +111,8 @@ async def embed_message(
                     'display_url': embed.thumbnail.url,
                     'url': embed.url,
                     'type': 'gif',
-                    'spoiler': False
+                    'spoiler': False,
+                    'show_link': True
                 })
         elif embed.type == 'video':
             if embed.url is not embed.Empty:
@@ -117,7 +121,8 @@ async def embed_message(
                     'display_url': embed.thumbnail.url,
                     'url': embed.url,
                     'type': 'video',
-                    'spoiler': False
+                    'spoiler': False,
+                    'show_link': True
                 })
 
     for attachment in message.attachments:
@@ -128,7 +133,8 @@ async def embed_message(
             'url': attachment.url,
             'type': 'upload',
             'spoiler': attachment.is_spoiler(),
-            'file': f
+            'file': f,
+            'show_link': True
         })
 
     if len(content) > 2048:
@@ -222,15 +228,17 @@ async def embed_message(
                 embed.set_image(url=data['display_url'])
                 image_used = True
 
-    if len(urls) != 0:
+    to_show = str(
+        '\n'.join(
+            f"**[{d['name']}]({d['url']})**"
+            for d in urls if d['show_link']
+        )
+    )
+
+    if len(to_show) != 0:
         embed.add_field(
             name=ZERO_WIDTH_SPACE,
-            value=str(
-                '\n'.join(
-                    f"**[{d['name']}]({d['url']})**"
-                    for d in urls
-                )
-            )
+            value=to_show
         )
 
     embed.timestamp = message.created_at
