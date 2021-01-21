@@ -1,8 +1,8 @@
 import discord
 from discord.ext import commands
 
-from app.utils import ms
 import config
+from app.utils import ms
 
 from ...classes.bot import Bot
 

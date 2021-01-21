@@ -1,13 +1,15 @@
 import random
 
-# from random import Random
-
 import discord
 from discord.ext import commands, flags
 
-from app.classes.bot import Bot
 from app import converters
+from app.classes.bot import Bot
 from app.cogs.starboard import starboard_funcs
+
+# from random import Random
+
+
 
 
 class Fun(commands.Cog):

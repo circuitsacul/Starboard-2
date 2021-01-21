@@ -1,14 +1,11 @@
 import discord
 from discord.ext import commands, flags
 
+from app import converters, errors, utils
 from app.classes.bot import Bot
-from app import converters
-from app import utils
 from app.cogs.starboard import starboard_funcs
-from app import errors
-from . import utility_funcs
-from . import debugger
-from . import cleaner
+
+from . import cleaner, debugger, utility_funcs
 
 
 class Utility(commands.Cog):

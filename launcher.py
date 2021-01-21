@@ -7,7 +7,7 @@ import sys
 import time
 
 import requests
-from discord import Intents, RequestsWebhookAdapter, Webhook, AllowedMentions
+from discord import AllowedMentions, Intents, RequestsWebhookAdapter, Webhook
 from dotenv import load_dotenv
 
 import config

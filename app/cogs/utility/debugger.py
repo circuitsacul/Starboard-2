@@ -1,6 +1,7 @@
 from typing import List
 
 import discord
+
 from app.classes.bot import Bot
 
 

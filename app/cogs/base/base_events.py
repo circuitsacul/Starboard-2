@@ -1,6 +1,6 @@
-from typing import List, Any
 import datetime
 import traceback
+from typing import Any, List
 
 import aiohttp
 import discord

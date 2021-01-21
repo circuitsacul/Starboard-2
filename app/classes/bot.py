@@ -13,9 +13,10 @@ import websockets
 from discord.ext import commands
 from pretty_help import PrettyHelp
 
+from app import checks
+
 from ..cache import Cache
 from ..database.database import Database
-from app import checks
 
 
 class Bot(commands.AutoShardedBot):
