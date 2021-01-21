@@ -4,8 +4,7 @@ from typing import List
 import discord
 from discord.ext import commands, flags
 
-from app import converters
-from app import utils
+from app import converters, utils
 from app.classes.bot import Bot
 from app.cogs.starboard import starboard_funcs
 
@@ -19,10 +18,7 @@ class Fun(commands.Cog):
     @flags.add_flag("--by", type=discord.User)
     @flags.add_flag("--in", type=discord.TextChannel)
     @flags.add_flag("--starboard", "--sb", type=converters.Starboard)
-    @flags.command(
-        name="moststarred",
-        brief="Shows the most starred messages"
-    )
+    @flags.command(name="moststarred", brief="Shows the most starred messages")
     @commands.guild_only()
     @commands.cooldown(1, 3, type=commands.BucketType.user)
     async def moststarred(self, ctx: commands.Context, **options) -> None:
@@ -36,10 +32,11 @@ class Fun(commands.Cog):
         Example:
             sb!moststarred --by @Circuit --in #general --starboard #starboard
         """
-        starboard_id = options['starboard'].id if options['starboard'] else\
-            None
-        author_id = options['by'].id if options['by'] else None
-        channel_id = options['in'].id if options['in'] else None
+        starboard_id = (
+            options["starboard"].id if options["starboard"] else None
+        )
+        author_id = options["by"].id if options["by"] else None
+        channel_id = options["in"].id if options["in"] else None
 
         messages = await self.bot.db.fetch(
             """SELECT * FROM starboard_messages
@@ -55,7 +52,7 @@ class Fun(commands.Cog):
             starboard_id,
             author_id,
             channel_id,
-            ctx.guild.id
+            ctx.guild.id,
         )
         if len(messages) == 0:
             await ctx.send("Nothing to show.")
@@ -63,19 +60,19 @@ class Fun(commands.Cog):
         embeds: List[discord.Embed] = []
         text_pages: List[str] = []
         for m in messages[0:10]:
-            orig = await self.bot.db.get_message(m['orig_id'])
+            orig = await self.bot.db.get_message(m["orig_id"])
             obj = await self.bot.cache.fetch_message(
-                self.bot, ctx.guild.id, int(orig['channel_id']),
-                int(orig['id'])
+                self.bot,
+                ctx.guild.id,
+                int(orig["channel_id"]),
+                int(orig["id"]),
             )
             text_pages.append(
                 f"**:star: {m['points']} | {obj.channel.mention}**"
             )
             if not obj:
                 continue
-            e, _ = await starboard_funcs.embed_message(
-                self.bot, obj
-            )
+            e, _ = await starboard_funcs.embed_message(self.bot, obj)
             embeds.append(e)
 
         await utils.paginator(ctx, embeds, text_pages=text_pages)

@@ -133,7 +133,7 @@ async def confirm(ctx: commands.Context) -> Optional[bool]:
 async def paginator(
     ctx: commands.Context,
     embed_pages: List[discord.Embed],
-    text_pages: Optional[List[str]] = None
+    text_pages: Optional[List[str]] = None,
 ) -> None:
     if not text_pages:
         text_pages = ["" for _ in embed_pages]

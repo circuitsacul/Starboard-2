@@ -247,9 +247,11 @@ async def update_message(bot: Bot, message_id: int, guild_id: int) -> None:
     all_tasks = []
     if not sql_message["trashed"]:
         for s in sql_starboards:
-            all_tasks.append(asyncio.create_task(handle_starboard(
-                bot, s, sql_message, sql_author
-            )))
+            all_tasks.append(
+                asyncio.create_task(
+                    handle_starboard(bot, s, sql_message, sql_author)
+                )
+            )
         for t in all_tasks:
             await t
     else:

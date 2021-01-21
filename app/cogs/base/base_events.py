@@ -42,33 +42,23 @@ async def uptime_log(content: str) -> None:
         webhook = Webhook.from_url(
             UPTIME, adapter=AsyncWebhookAdapter(session)
         )
-        await webhook.send(
-            content, username="Starboard Uptime"
-        )
+        await webhook.send(content, username="Starboard Uptime")
 
 
 async def error_log(content: str) -> None:
     if not ERROR:
         return
     async with aiohttp.ClientSession() as session:
-        webhook = Webhook.from_url(
-            ERROR, adapter=AsyncWebhookAdapter(session)
-        )
-        await webhook.send(
-            content, username="Starboard Errors"
-        )
+        webhook = Webhook.from_url(ERROR, adapter=AsyncWebhookAdapter(session))
+        await webhook.send(content, username="Starboard Errors")
 
 
 async def join_leave_log(embed: discord.Embed) -> None:
     if not GUILD:
         return
     async with aiohttp.ClientSession() as session:
-        webhook = Webhook.from_url(
-            GUILD, adapter=AsyncWebhookAdapter(session)
-        )
-        await webhook.send(
-            embed=embed, username="Starboard Guild Log"
-        )
+        webhook = Webhook.from_url(GUILD, adapter=AsyncWebhookAdapter(session))
+        await webhook.send(embed=embed, username="Starboard Guild Log")
 
 
 class BaseEvents(commands.Cog):
