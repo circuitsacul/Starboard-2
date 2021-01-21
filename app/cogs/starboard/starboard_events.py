@@ -13,8 +13,7 @@ class StarboardEvents(commands.Cog):
 
     @commands.Cog.listener()
     async def on_guild_channel_delete(
-        self,
-        channel: discord.abc.GuildChannel
+        self, channel: discord.abc.GuildChannel
     ) -> None:
         if not isinstance(channel, discord.TextChannel):
             return
@@ -22,20 +21,18 @@ class StarboardEvents(commands.Cog):
         if not starboard:
             return
         await self.bot.db.execute(
-            """DELETE FROM starboards WHERE id=$1""",
-            channel.id
+            """DELETE FROM starboards WHERE id=$1""", channel.id
         )
         self.bot.dispatch(
-            'guild_log', (
-                f"`{channel.name}` was deleted, so I removed "
-                "that starboard."
-            ), 'info', channel.guild
+            "guild_log",
+            (f"`{channel.name}` was deleted, so I removed " "that starboard."),
+            "info",
+            channel.guild,
         )
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(
-        self,
-        payload: discord.RawReactionActionEvent
+        self, payload: discord.RawReactionActionEvent
     ) -> None:
         # Check if bot
         if not payload.guild_id:
@@ -48,18 +45,14 @@ class StarboardEvents(commands.Cog):
         starboards = await self.bot.db.get_starboards(payload.guild_id)
         sb_emojis = []
         for s in starboards:
-            sb_emojis += s['star_emojis']
+            sb_emojis += s["star_emojis"]
 
         if emoji not in sb_emojis:
             return
 
         # Create necessary data
-        await self.bot.db.create_user(
-            payload.member.id, payload.member.bot
-        )
-        await self.bot.db.create_member(
-            payload.member.id, payload.guild_id
-        )
+        await self.bot.db.create_user(payload.member.id, payload.member.bot)
+        await self.bot.db.create_member(payload.member.id, payload.guild_id)
 
         # Add reaction
         sql_message = await starboard_funcs.orig_message(
@@ -68,23 +61,24 @@ class StarboardEvents(commands.Cog):
         if sql_message is not None:
             # Get the message since it already exists
             message = await self.bot.cache.fetch_message(
-                self.bot, int(sql_message['guild_id']),
-                int(sql_message['channel_id']),
-                int(sql_message['id'])
+                self.bot,
+                int(sql_message["guild_id"]),
+                int(sql_message["channel_id"]),
+                int(sql_message["id"]),
             )
             await self.bot.db.create_reaction_user(
-                emoji, sql_message['id'], payload.user_id
+                emoji, sql_message["id"], payload.user_id
             )
             await starboard_funcs.update_message(
-                self.bot, sql_message['id'],
-                sql_message['guild_id']
+                self.bot, sql_message["id"], sql_message["guild_id"]
             )
         else:
             # Get the message as well as add it to the database
             message = await self.bot.cache.fetch_message(
-                self.bot, payload.guild_id,
+                self.bot,
+                payload.guild_id,
                 payload.channel_id,
-                payload.message_id
+                payload.message_id,
             )
 
             await self.bot.db.create_user(
@@ -94,22 +88,22 @@ class StarboardEvents(commands.Cog):
                 message.author.id, payload.guild_id
             )
             await self.bot.db.create_message(
-                message.id, message.guild.id,
-                message.channel.id, message.author.id,
-                message.channel.is_nsfw()
+                message.id,
+                message.guild.id,
+                message.channel.id,
+                message.author.id,
+                message.channel.is_nsfw(),
             )
             await self.bot.db.create_reaction_user(
                 emoji, message.id, payload.user_id
             )
             await starboard_funcs.update_message(
-                self.bot, payload.message_id,
-                payload.guild_id
+                self.bot, payload.message_id, payload.guild_id
             )
 
     @commands.Cog.listener()
     async def on_raw_reaction_remove(
-        self,
-        payload: discord.RawReactionActionEvent
+        self, payload: discord.RawReactionActionEvent
     ) -> None:
         if not payload.guild_id:
             return
@@ -122,12 +116,11 @@ class StarboardEvents(commands.Cog):
         if orig_message is not None:
             # Delete from the original message
             await self.bot.db.delete_reaction_user(
-                emoji, int(orig_message['id']), payload.user_id
+                emoji, int(orig_message["id"]), payload.user_id
             )
 
             await starboard_funcs.update_message(
-                self.bot, orig_message['id'],
-                payload.guild_id
+                self.bot, orig_message["id"], payload.guild_id
             )
         else:
             # Delete from the message since it is the original
@@ -136,8 +129,7 @@ class StarboardEvents(commands.Cog):
             )
 
             await starboard_funcs.update_message(
-                self.bot, payload.message_id,
-                payload.guild_id
+                self.bot, payload.message_id, payload.guild_id
             )
 
 

@@ -13,10 +13,7 @@ import config
 from ... import errors
 from ...classes.bot import Bot
 
-IGNORED_ERRORS = [
-    commands.CommandNotFound,
-    errors.AllCommandsDisabled
-]
+IGNORED_ERRORS = [commands.CommandNotFound, errors.AllCommandsDisabled]
 EXPECTED_ERRORS = [
     errors.ConversionError,
     errors.DoesNotExist,
@@ -29,7 +26,7 @@ EXPECTED_ERRORS = [
     commands.CommandOnCooldown,
     discord.Forbidden,
     discord.InvalidArgument,
-    flags.ArgumentParsingError
+    flags.ArgumentParsingError,
 ]
 WEBHOOK_URL = config.UPTIME_WEBHOOK
 
@@ -43,7 +40,7 @@ async def webhooklog(content: str) -> None:
         webhook = Webhook.from_url(
             WEBHOOK_URL, adapter=AsyncWebhookAdapter(session)
         )
-        await webhook.send(content, username='Starboard Logs')
+        await webhook.send(content, username="Starboard Logs")
 
 
 class BaseEvents(commands.Cog):
@@ -51,8 +48,8 @@ class BaseEvents(commands.Cog):
         self.bot = bot
 
         self.type_map = {
-            'error': {'color': self.bot.error_color, 'title':  'Error'},
-            'info': {'color': self.bot.theme_color, 'title': 'Info'}
+            "error": {"color": self.bot.error_color, "title": "Error"},
+            "info": {"color": self.bot.theme_color, "title": "Info"},
         }
 
         self.error_log_channel = None
@@ -66,7 +63,7 @@ class BaseEvents(commands.Cog):
         embed = discord.Embed(
             title=f"Joined **{guild.name}**",
             description=f"**{guild.member_count} members**",
-            color=self.bot.theme_color
+            color=self.bot.theme_color,
         )
         embed.timestamp = datetime.datetime.utcnow()
         await self.guild_log_channel.send(embed=embed)
@@ -79,7 +76,7 @@ class BaseEvents(commands.Cog):
         embed = discord.Embed(
             title=f"Left **{guild.name}**",
             description=f"**{guild.member_count} members**",
-            color=self.bot.dark_theme_color
+            color=self.bot.dark_theme_color,
         )
         embed.timestamp = datetime.datetime.utcnow()
         await self.guild_log_channel.send(embed=embed)
@@ -90,13 +87,13 @@ class BaseEvents(commands.Cog):
         title: str,
         error: Exception,
         args: List[Any] = [],
-        kwargs: dict = {}
+        kwargs: dict = {},
     ) -> None:
         if not self.error_log_channel:
             log_guild = self.bot.get_guild(config.LOG_GUILD)
             self.error_log_channel = log_guild.get_channel(config.ERROR_LOG)
 
-        p = commands.Paginator(prefix='```python')
+        p = commands.Paginator(prefix="```python")
 
         p.add_line(title)
         p.add_line(empty=True)
@@ -121,9 +118,7 @@ class BaseEvents(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self) -> None:
-        self.bot.log.info(
-            f"[Cluster#{self.bot.cluster_name}] Ready"
-        )
+        self.bot.log.info(f"[Cluster#{self.bot.cluster_name}] Ready")
         await webhooklog(
             f":green_circle: Cluster **{self.bot.cluster_name}** ready!"
         )
@@ -136,17 +131,14 @@ class BaseEvents(commands.Cog):
     async def on_message(self, message: discord.Message) -> None:
         if message.author.bot:
             return
-        if message.content.replace('!', '') == \
-                self.bot.user.mention:
+        if message.content.replace("!", "") == self.bot.user.mention:
             await message.channel.send("My prefix is `sb!`")
         else:
             await self.bot.process_commands(message)
 
     @commands.Cog.listener()
     async def on_command_error(
-        self,
-        ctx: commands.Context,
-        e: Exception
+        self, ctx: commands.Context, e: Exception
     ) -> None:
         try:
             e = e.original
@@ -175,47 +167,35 @@ class BaseEvents(commands.Cog):
                     "problem persists, please report "
                     "this in the support server."
                 ),
-                color=self.bot.error_color
+                color=self.bot.error_color,
             )
-            tb = ''.join(traceback.format_tb(e.__traceback__))
-            full_tb = (
-                f"{e}\b"
-                f"```{tb}```"
-            )
+            tb = "".join(traceback.format_tb(e.__traceback__))
+            full_tb = f"{e}\b" f"```{tb}```"
             if len(full_tb) > 1024:
                 to_remove = (len(full_tb) - 1024) + 10
-                full_tb = (
-                    f"{e}\n```...{tb[to_remove:]}```"
-                )
-            embed.add_field(
-                name=e.__class__.__name__,
-                value=full_tb
-            )
+                full_tb = f"{e}\n```...{tb[to_remove:]}```"
+            embed.add_field(name=e.__class__.__name__, value=full_tb)
             await ctx.send(embed=embed)
 
             self.bot.dispatch(
-                'log_error', "Command Error",
-                e, ctx.args, ctx.kwargs
+                "log_error", "Command Error", e, ctx.args, ctx.kwargs
             )
 
     @commands.Cog.listener()
     async def on_guild_log(
-        self,
-        message: str,
-        log_type: str,
-        guild: discord.Guild
+        self, message: str, log_type: str, guild: discord.Guild
     ) -> None:
         sql_guild = await self.bot.db.get_guild(guild.id)
-        if sql_guild['log_channel'] is None:
+        if sql_guild["log_channel"] is None:
             return
-        log_channel = guild.get_channel(int(sql_guild['log_channel']))
+        log_channel = guild.get_channel(int(sql_guild["log_channel"]))
         if not log_channel:
             return
 
         embed = discord.Embed(
-            title=self.type_map[log_type]['title'],
+            title=self.type_map[log_type]["title"],
             description=message,
-            color=self.type_map[log_type]['color']
+            color=self.type_map[log_type]["color"],
         )
         embed.timestamp = datetime.datetime.utcnow()
         await log_channel.send(embed=embed)
@@ -225,14 +205,7 @@ def setup(bot: Bot) -> None:
     bot.add_cog(BaseEvents(bot))
 
     @bot.before_invoke
-    async def create_data(
-        message: discord.Message
-    ) -> None:
+    async def create_data(message: discord.Message) -> None:
         await bot.db.create_guild(message.guild.id)
-        await bot.db.create_user(
-            message.author.id,
-            message.author.bot
-        )
-        await bot.db.create_member(
-            message.author.id, message.guild.id
-        )
+        await bot.db.create_user(message.author.id, message.author.bot)
+        await bot.db.create_member(message.author.id, message.guild.id)

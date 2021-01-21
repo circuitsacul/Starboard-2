@@ -7,12 +7,7 @@ import sys
 import time
 
 import requests
-from discord import (
-    Intents,
-    RequestsWebhookAdapter,
-    Webhook,
-    AllowedMentions
-)
+from discord import Intents, RequestsWebhookAdapter, Webhook, AllowedMentions
 from dotenv import load_dotenv
 
 import config
@@ -24,26 +19,24 @@ from app.database.database import Database
 load_dotenv()
 
 WEBHOOK_URL = config.UPTIME_WEBHOOK
-TOKEN = os.getenv('TOKEN')
+TOKEN = os.getenv("TOKEN")
 EXTENSIONS = [
-    'app.cogs.base.base_commands',
-    'app.cogs.base.base_events',
-    'app.cogs.starboard.starboard_commands',
-    'app.cogs.starboard.starboard_events',
-    'app.cogs.owner.eval',
-    'app.cogs.owner.owner_commands',
-    'app.cogs.cache.cache_events',
-    'app.cogs.settings.settings_commands',
-    'app.cogs.utility.utility_commands',
-    'app.cogs.fun.fun_commands',
-    'app.cogs.quick_actions.qa_events',
-    'app.cogs.stats.stats_events',
-    'jishaku'
+    "app.cogs.base.base_commands",
+    "app.cogs.base.base_events",
+    "app.cogs.starboard.starboard_commands",
+    "app.cogs.starboard.starboard_events",
+    "app.cogs.owner.eval",
+    "app.cogs.owner.owner_commands",
+    "app.cogs.cache.cache_events",
+    "app.cogs.settings.settings_commands",
+    "app.cogs.utility.utility_commands",
+    "app.cogs.fun.fun_commands",
+    "app.cogs.quick_actions.qa_events",
+    "app.cogs.stats.stats_events",
+    "jishaku",
 ]
 INTENTS = Intents(
-    messages=True, guilds=True,
-    emojis=True, reactions=True,
-    members=True
+    messages=True, guilds=True, emojis=True, reactions=True, members=True
 )
 NO_MENTIONS = AllowedMentions.none()
 SHARDS = config.SHARDS
@@ -51,21 +44,41 @@ SHARDS = config.SHARDS
 log = logging.getLogger("Cluster#Launcher")
 log.setLevel(logging.DEBUG)
 hdlr = logging.StreamHandler()
-hdlr.setFormatter(logging.Formatter(
-    "[%(asctime)s %(name)s/%(levelname)s] %(message)s"))
-fhdlr = logging.FileHandler("logs/cluster-Launcher.log", encoding='utf-8')
-fhdlr.setFormatter(logging.Formatter(
-    "[%(asctime)s %(name)s/%(levelname)s] %(message)s"))
+hdlr.setFormatter(
+    logging.Formatter("[%(asctime)s %(name)s/%(levelname)s] %(message)s")
+)
+fhdlr = logging.FileHandler("logs/cluster-Launcher.log", encoding="utf-8")
+fhdlr.setFormatter(
+    logging.Formatter("[%(asctime)s %(name)s/%(levelname)s] %(message)s")
+)
 log.handlers = [hdlr, fhdlr]
 
 
 CLUSTER_NAMES = (
-    'Alpha (0)', 'Beta (1)', 'Gamma (2)', 'Delta (3)',
-    'Epsilon (4)', 'Zeta (5)', 'Eta (6)', 'Theta (7)',
-    'Iota (8)', 'Kappa (9)', 'Lambda (10)', 'Mu (11)',
-    'Nu (12)', 'Xi (13)', 'Omicron (14)', 'Pi (15)',
-    'Rho (16)', 'Sigma (17)', 'Tau (18)', 'Upsilon (19)',
-    'Phi (20)', 'Chi (21)', 'Psi (22)', 'Omega (23)'
+    "Alpha (0)",
+    "Beta (1)",
+    "Gamma (2)",
+    "Delta (3)",
+    "Epsilon (4)",
+    "Zeta (5)",
+    "Eta (6)",
+    "Theta (7)",
+    "Iota (8)",
+    "Kappa (9)",
+    "Lambda (10)",
+    "Mu (11)",
+    "Nu (12)",
+    "Xi (13)",
+    "Omicron (14)",
+    "Pi (15)",
+    "Rho (16)",
+    "Sigma (17)",
+    "Tau (18)",
+    "Upsilon (19)",
+    "Phi (20)",
+    "Chi (21)",
+    "Psi (22)",
+    "Omega (23)",
 )
 NAMES = iter(CLUSTER_NAMES)
 
@@ -73,9 +86,7 @@ NAMES = iter(CLUSTER_NAMES)
 def webhooklog(content: str) -> None:
     if not WEBHOOK_URL:
         return
-    webhook = Webhook.from_url(
-        WEBHOOK_URL, adapter=RequestsWebhookAdapter()
-    )
+    webhook = Webhook.from_url(WEBHOOK_URL, adapter=RequestsWebhookAdapter())
     webhook.send(content, username="Starboard Logs")
 
 
@@ -97,13 +108,14 @@ class Launcher:
             log.info(f"Launching with {SHARDS} shards")
             return SHARDS
         data = requests.get(
-            'https://discordapp.com/api/v7/gateway/bot', headers={
-                "Authorization": "Bot "+TOKEN,
+            "https://discordapp.com/api/v7/gateway/bot",
+            headers={
+                "Authorization": "Bot " + TOKEN,
                 "User-Agent": (
                     "DiscordBot (https://github.com/Rapptz/discord.py "
                     "1.3.0a) Python/3.7 aiohttp/3.6.1"
-                )
-            }
+                ),
+            },
         )
         data.raise_for_status()
         content = data.json()
@@ -111,7 +123,7 @@ class Launcher:
             f"Successfully got shard count of {content['shards']}"
             f" ({data.status_code, data.reason})"
         )
-        return content['shards']
+        return content["shards"]
 
     def start(self):
         self.fut = asyncio.ensure_future(self.startup(), loop=self.loop)
@@ -125,7 +137,7 @@ class Launcher:
 
     def cleanup(self):
         self.loop.stop()
-        if sys.platform == 'win32':
+        if sys.platform == "win32":
             print("press ^C again")
         self.loop.close()
 
@@ -139,11 +151,12 @@ class Launcher:
 
     async def startup(self):
         shards = list(range(self.get_shard_count()))
-        size = [shards[x:x + 4] for x in range(0, len(shards), 4)]
+        size = [shards[x : x + 4] for x in range(0, len(shards), 4)]
         log.info(f"Preparing {len(size)} clusters")
         for shard_ids in size:
             self.cluster_queue.append(
-                Cluster(self, next(NAMES), shard_ids, len(shards)))
+                Cluster(self, next(NAMES), shard_ids, len(shards))
+            )
 
         await self.start_cluster()
         self.keep_alive = self.loop.create_task(self.rebooter())
@@ -175,7 +188,8 @@ class Launcher:
                     #    # ignore safe exits
                     log.info(
                         f"Cluster#{cluster.name} exited with code "
-                        f"{cluster.process.exitcode}")
+                        f"{cluster.process.exitcode}"
+                    )
                     log.info(f"Restarting cluster#{cluster.name}")
                     await cluster.start()
                     # else:
@@ -212,25 +226,32 @@ class Cluster:
             cluster_name=name,
             cache=Cache(),
             db=Database(
-                os.getenv('DB_NAME'),
-                os.getenv('DB_USER'),
-                os.getenv('DB_PASSWORD')
+                os.getenv("DB_NAME"),
+                os.getenv("DB_USER"),
+                os.getenv("DB_PASSWORD"),
             ),
             theme_color=config.THEME_COLOR,
             dark_theme_color=config.DARK_THEME_COLOR,
             error_color=config.ERROR_COLOR,
-            initial_extensions=EXTENSIONS
+            initial_extensions=EXTENSIONS,
         )
         self.name = name
         self.log = logging.getLogger(f"Cluster#{name}")
         self.log.setLevel(logging.DEBUG)
         hdlr = logging.StreamHandler()
-        hdlr.setFormatter(logging.Formatter(
-            "[%(asctime)s %(name)s/%(levelname)s] %(message)s"))
+        hdlr.setFormatter(
+            logging.Formatter(
+                "[%(asctime)s %(name)s/%(levelname)s] %(message)s"
+            )
+        )
         fhdlr = logging.FileHandler(
-            "logs/cluster-Launcher.log", encoding='utf-8')
-        fhdlr.setFormatter(logging.Formatter(
-            "[%(asctime)s %(name)s/%(levelname)s] %(message)s"))
+            "logs/cluster-Launcher.log", encoding="utf-8"
+        )
+        fhdlr.setFormatter(
+            logging.Formatter(
+                "[%(asctime)s %(name)s/%(levelname)s] %(message)s"
+            )
+        )
         self.log.handlers = [hdlr, fhdlr]
         self.log.info(
             f"Initialized with shard ids {shard_ids}, "
@@ -252,13 +273,11 @@ class Cluster:
             self.process.terminate()
             self.process.close()
 
-        webhooklog(
-            f":yellow_circle: Cluster **{self.name}** logging in..."
-        )
+        webhooklog(f":yellow_circle: Cluster **{self.name}** logging in...")
 
         stdout, stdin = multiprocessing.Pipe()
         kw = self.kwargs
-        kw['pipe'] = stdin
+        kw["pipe"] = stdin
         self.process = multiprocessing.Process(
             target=Bot, kwargs=kw, daemon=True
         )
@@ -273,9 +292,7 @@ class Cluster:
 
     def stop(self, sign=signal.SIGINT):
         self.log.info(f"Shutting down with signal {sign!r}")
-        webhooklog(
-            f":brown_circle: Cluster **{self.name}** shutting down..."
-        )
+        webhooklog(f":brown_circle: Cluster **{self.name}** shutting down...")
         try:
             self.process.kill()
             os.kill(self.process.pid, sign)
@@ -284,9 +301,7 @@ class Cluster:
 
 
 if __name__ == "__main__":
-    p = multiprocessing.Process(
-        target=ipc.run, daemon=True
-    )
+    p = multiprocessing.Process(target=ipc.run, daemon=True)
     p.start()
     loop = asyncio.get_event_loop()
     webhooklog(":white_circle: Bot logging in...")

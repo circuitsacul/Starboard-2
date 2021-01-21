@@ -1,4 +1,5 @@
 import random
+
 # from random import Random
 
 import discord
@@ -13,16 +14,16 @@ class Fun(commands.Cog):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
 
-    @flags.add_flag('--by', type=discord.User, default=None)
-    @flags.add_flag('--in', type=discord.TextChannel, default=None)
+    @flags.add_flag("--by", type=discord.User, default=None)
+    @flags.add_flag("--in", type=discord.TextChannel, default=None)
     @flags.add_flag(
-        '--starboard', '--sb',
-        type=converters.Starboard, default=None
+        "--starboard", "--sb", type=converters.Starboard, default=None
     )
-    @flags.add_flag('--points', type=int, default=0)
+    @flags.add_flag("--points", type=int, default=0)
     @flags.command(
-        name='random', aliases=['explore', 'rand'],
-        brief="Shows a random starred message from the server"
+        name="random",
+        aliases=["explore", "rand"],
+        brief="Shows a random starred message from the server",
     )
     @commands.guild_only()
     async def random_message(self, ctx: commands.Context, **options):
@@ -41,10 +42,11 @@ class Fun(commands.Cog):
             sb!random --by @Circuit --sb super-starboard
             sb!random --points 15
         """
-        author_id = options['by'].id if options['by'] else None
-        channel_id = options['in'].id if options['in'] else None
-        starboard_id = options['starboard'].id if options['starboard']\
-            else None
+        author_id = options["by"].id if options["by"] else None
+        channel_id = options["in"].id if options["in"] else None
+        starboard_id = (
+            options["starboard"].id if options["starboard"] else None
+        )
         good_messages = await self.bot.db.fetch(
             """SELECT * FROM starboard_messages
             WHERE ($1::numeric is NULL or starboard_id=$1::numeric)
@@ -61,7 +63,10 @@ class Fun(commands.Cog):
                 WHERE id=starboard_id
                 AND explore=True
             )""",
-            starboard_id, options['points'], author_id, channel_id
+            starboard_id,
+            options["points"],
+            author_id,
+            channel_id,
         )
         if len(good_messages) == 0:
             await ctx.send(
@@ -69,20 +74,22 @@ class Fun(commands.Cog):
             )
             return
         choice = random.choice(good_messages)
-        orig_sql_message = await self.bot.db.get_message(choice['orig_id'])
-        sql_starboard = await self.bot.db.get_starboard(choice['starboard_id'])
+        orig_sql_message = await self.bot.db.get_message(choice["orig_id"])
+        sql_starboard = await self.bot.db.get_starboard(choice["starboard_id"])
         orig_message = await self.bot.cache.fetch_message(
-            self.bot, ctx.guild.id, orig_sql_message['channel_id'],
-            orig_sql_message['id']
+            self.bot,
+            ctx.guild.id,
+            orig_sql_message["channel_id"],
+            orig_sql_message["id"],
         )
         if not orig_message:
             await ctx.send("Something went wrong. Please try again.")
             return
 
-        display_emoji = sql_starboard['display_emoji']
-        points = choice['points']
-        channel_id = orig_sql_message['channel_id']
-        forced = sql_starboard['id'] in orig_sql_message['forced']
+        display_emoji = sql_starboard["display_emoji"]
+        points = choice["points"]
+        channel_id = orig_sql_message["channel_id"]
+        forced = sql_starboard["id"] in orig_sql_message["forced"]
 
         embed, attachments = await starboard_funcs.embed_message(
             self.bot, orig_message
@@ -109,14 +116,10 @@ class Fun(commands.Cog):
     #    worthiness: float = r.randrange(0, 100)
     #    await ctx.send(f"That message is {worthiness}% starworthy")
 
-    @commands.command(
-        name='save',
-        brief="Saves a message to your DM's"
-    )
+    @commands.command(name="save", brief="Saves a message to your DM's")
     @commands.guild_only()
     async def save(
-        self, ctx: commands.Context,
-        message: converters.MessageLink
+        self, ctx: commands.Context, message: converters.MessageLink
     ) -> None:
         """Saves a message to your DM's"""
         orig_sql_message = await starboard_funcs.orig_message(
@@ -124,13 +127,14 @@ class Fun(commands.Cog):
         )
         m = message
         if orig_sql_message:
-            if orig_sql_message['trashed']:
+            if orig_sql_message["trashed"]:
                 await ctx.send("You cannot save a trashed message")
                 return
             orig_message = await self.bot.cache.fetch_message(
-                self.bot, int(orig_sql_message['guild_id']),
-                int(orig_sql_message['channel_id']),
-                int(orig_sql_message['id'])
+                self.bot,
+                int(orig_sql_message["guild_id"]),
+                int(orig_sql_message["channel_id"]),
+                int(orig_sql_message["id"]),
             )
             if not orig_message:
                 await ctx.send(
@@ -138,13 +142,9 @@ class Fun(commands.Cog):
                 )
                 return
             m = orig_message
-        embed, attachments = await starboard_funcs.embed_message(
-            self.bot, m
-        )
+        embed, attachments = await starboard_funcs.embed_message(self.bot, m)
         try:
-            await ctx.author.send(
-                embed=embed, files=attachments
-            )
+            await ctx.author.send(embed=embed, files=attachments)
         except discord.Forbidden:
             await ctx.send("I can't DM you, so you can't save that message.")
 

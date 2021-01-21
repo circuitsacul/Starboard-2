@@ -1,5 +1,4 @@
-GUILDS = \
-    """CREATE TABLE IF NOT EXISTS guilds (
+GUILDS = """CREATE TABLE IF NOT EXISTS guilds (
         id NUMERIC PRIMARY KEY,
 
         log_channel NUMERIC DEFAULT NULL,
@@ -25,15 +24,13 @@ GUILDS = \
         xp_cooldown_per SMALLINT DEFAULT 60
     )"""
 
-USERS = \
-    """CREATE TABLE IF NOT EXISTS users (
+USERS = """CREATE TABLE IF NOT EXISTS users (
         id NUMERIC PRIMARY KEY,
         is_bot BOOL NOT NULL,
         votes SMALLINT NOT NULL DEFAULT 0
     )"""
 
-MEMBERS = \
-    """CREATE TABLE IF NOT EXISTS members (
+MEMBERS = """CREATE TABLE IF NOT EXISTS members (
         user_id NUMERIC NOT NULL,
         guild_id NUMERIC NOT NULL,
 
@@ -51,8 +48,7 @@ MEMBERS = \
             ON DELETE CASCADE
     )"""
 
-STARBOARDS = \
-    """CREATE TABLE IF NOT EXISTS starboards (
+STARBOARDS = """CREATE TABLE IF NOT EXISTS starboards (
         id NUMERIC PRIMARY KEY,
         guild_id NUMERIC NOT NULL,
 
@@ -81,8 +77,7 @@ STARBOARDS = \
             ON DELETE CASCADE
     )"""
 
-PERMROLES = \
-    """CREATE TABLE IF NOT EXISTS permroles (
+PERMROLES = """CREATE TABLE IF NOT EXISTS permroles (
         guild_id NUMERIC NOT NULL,
         role_id NUMERIC NOT NULL,
         index SMALLINT NOT NULL,
@@ -102,8 +97,7 @@ PERMROLES = \
             ON DELETE CASCADE
     )"""
 
-MESSAGES = \
-    """CREATE TABLE IF NOT EXISTS messages (
+MESSAGES = """CREATE TABLE IF NOT EXISTS messages (
         id NUMERIC PRIMARY KEY,
         guild_id NUMERIC NOT NULL,
         channel_id NUMERIC NOT NULL,
@@ -121,8 +115,7 @@ MESSAGES = \
             ON DELETE SET NULL
     )"""
 
-STARBOARD_MESSAGES = \
-    """CREATE TABLE IF NOT EXISTS starboard_messages (
+STARBOARD_MESSAGES = """CREATE TABLE IF NOT EXISTS starboard_messages (
         id NUMERIC PRIMARY KEY,
         orig_id NUMERIC NOT NULL,
         starboard_id NUMERIC NOT NULL,
@@ -135,8 +128,7 @@ STARBOARD_MESSAGES = \
             ON DELETE CASCADE
     )"""
 
-REACTIONS = \
-    """CREATE TABLE IF NOT EXISTS reactions (
+REACTIONS = """CREATE TABLE IF NOT EXISTS reactions (
         id SERIAL PRIMARY KEY,
         emoji TEXT NOT NULL,
         message_id NUMERIC NOT NULL,
@@ -145,8 +137,7 @@ REACTIONS = \
             ON DELETE CASCADE
     )"""
 
-REACTION_USERS = \
-    """CREATE TABLE IF NOT EXISTS reaction_users (
+REACTION_USERS = """CREATE TABLE IF NOT EXISTS reaction_users (
         reaction_id BIGINT NOT NULL,
         user_id NUMERIC NOT NULL,
 
@@ -165,5 +156,5 @@ ALL_TABLES = [
     MESSAGES,
     STARBOARD_MESSAGES,
     REACTIONS,
-    REACTION_USERS
+    REACTION_USERS,
 ]

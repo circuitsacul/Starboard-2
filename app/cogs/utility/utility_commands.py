@@ -16,69 +16,59 @@ class Utility(commands.Cog):
         self.bot = bot
 
     @commands.command(
-        name='clean',
-        brief="Cleans things like #deleted-channel and @deleted-role"
+        name="clean",
+        brief="Cleans things like #deleted-channel and @deleted-role",
     )
     @commands.has_guild_permissions(manage_guild=True)
     @commands.cooldown(1, 5)
-    async def clean(
-        self, ctx: commands.Context
-    ) -> None:
+    async def clean(self, ctx: commands.Context) -> None:
         result = await cleaner.clean_guild(ctx.guild, self.bot)
-        string = '\n'.join(
-            f"{name}: {count}" for name, count in result
-            if count != 0
+        string = "\n".join(
+            f"{name}: {count}" for name, count in result if count != 0
         )
         if string == "":
             string = "Nothing to remove"
         embed = discord.Embed(
             title="Database Cleaning",
             description=string,
-            color=self.bot.theme_color
+            color=self.bot.theme_color,
         )
         await ctx.send(embed=embed)
 
     @commands.command(
-        name='debug',
-        brief="Looks for problems with your current setup"
+        name="debug", brief="Looks for problems with your current setup"
     )
     @commands.has_guild_permissions(manage_guild=True)
     @commands.cooldown(2, 5)
-    async def debug(
-        self, ctx: commands.Context
-    ) -> None:
+    async def debug(self, ctx: commands.Context) -> None:
         result = await debugger.debug_guild(self.bot, ctx.guild)
         embed = discord.Embed(title="Debugging", color=self.bot.theme_color)
         embed.add_field(
-            name='Errors',
-            value='\n\n'.join(result['errors']) or 'No errors',
-            inline=False
+            name="Errors",
+            value="\n\n".join(result["errors"]) or "No errors",
+            inline=False,
         )
         embed.add_field(
-            name='Warnings',
-            value='\n\n'.join(result['warns']) or 'No warnings',
-            inline=False
+            name="Warnings",
+            value="\n\n".join(result["warns"]) or "No warnings",
+            inline=False,
         )
         embed.add_field(
-            name='Light Warnings',
-            value='\n\n'.join(result['light_warns']) or 'No Light Warnings',
-            inline=False
+            name="Light Warnings",
+            value="\n\n".join(result["light_warns"]) or "No Light Warnings",
+            inline=False,
         )
         embed.add_field(
-            name='Suggestions',
-            value='\n\n'.join(result['suggestions']) or 'No suggestions',
-            inline=False
+            name="Suggestions",
+            value="\n\n".join(result["suggestions"]) or "No suggestions",
+            inline=False,
         )
         await ctx.send(embed=embed)
 
-    @commands.command(
-        name='freeze',
-        brief="Freeze a message"
-    )
+    @commands.command(name="freeze", brief="Freeze a message")
     @commands.has_guild_permissions(manage_messages=True)
     async def freeze_message(
-        self, ctx: commands.Context,
-        message_link: converters.MessageLink
+        self, ctx: commands.Context, message_link: converters.MessageLink
     ) -> None:
         """Freezes a message, so the point count will
         not update."""
@@ -91,19 +81,14 @@ class Utility(commands.Cog):
                 "it does not exist in the database."
             )
         await utility_funcs.handle_freezing(
-            self.bot, orig_message['id'], orig_message['guild_id'],
-            True
+            self.bot, orig_message["id"], orig_message["guild_id"], True
         )
         await ctx.send("Message frozen")
 
-    @commands.command(
-        name='unfreeze',
-        brief="Unfreezes a message"
-    )
+    @commands.command(name="unfreeze", brief="Unfreezes a message")
     @commands.has_guild_permissions(manage_messages=True)
     async def unfreeze_message(
-        self, ctx: commands.Context,
-        message_link: converters.MessageLink
+        self, ctx: commands.Context, message_link: converters.MessageLink
     ) -> None:
         """Unfreezes a message"""
         orig_message = await starboard_funcs.orig_message(
@@ -115,20 +100,19 @@ class Utility(commands.Cog):
                 "it does not exist in the database."
             )
         await utility_funcs.handle_freezing(
-            self.bot, orig_message['id'], orig_message['guild_id'],
-            False
+            self.bot, orig_message["id"], orig_message["guild_id"], False
         )
         await ctx.send("Message unfrozen")
 
     @commands.command(
-        name='force',
-        brief="Forced a message to certain starboards"
+        name="force", brief="Forced a message to certain starboards"
     )
     @commands.has_guild_permissions(manage_messages=True)
     async def force_message(
-        self, ctx: commands.Context,
+        self,
+        ctx: commands.Context,
         message_link: converters.MessageLink,
-        *starboards: converters.Starboard
+        *starboards: converters.Starboard,
     ) -> None:
         """Forces a message to all or some starboards.
 
@@ -145,7 +129,7 @@ class Utility(commands.Cog):
             force <message link> #super-starboard
             force <message link>
         """
-        starboards = [int(s.sql_attributes['id']) for s in starboards]
+        starboards = [int(s.sql_attributes["id"]) for s in starboards]
         if len(starboards) == 0:
             await ctx.send("Force this message to all starboards?")
             if not await utils.confirm(ctx):
@@ -159,20 +143,20 @@ class Utility(commands.Cog):
                 message_link.author.id, message_link.author.bot
             )
             await self.bot.db.create_message(
-                message_link.id, message_link.guild.id,
+                message_link.id,
+                message_link.guild.id,
                 message_link.channel.id,
                 message_link.author.id,
                 message_link.channel.is_nsfw(),
             )
-            orig_sql_message = await self.bot.db.get_message(
-                message_link.id
-            )
+            orig_sql_message = await self.bot.db.get_message(message_link.id)
 
         await utility_funcs.handle_forcing(
             self.bot,
-            orig_sql_message['id'],
-            orig_sql_message['guild_id'],
-            starboards, True
+            orig_sql_message["id"],
+            orig_sql_message["guild_id"],
+            starboards,
+            True,
         )
         if len(starboards) == 0:
             await ctx.send("Message forced to all starboards")
@@ -181,14 +165,14 @@ class Utility(commands.Cog):
             await ctx.send(f"Message forced to {', '.join(converted)}")
 
     @commands.command(
-        name='unforce',
-        brief="Unforces a message from certain starboards"
+        name="unforce", brief="Unforces a message from certain starboards"
     )
     @commands.has_guild_permissions(manage_messages=True)
     async def unforce_message(
-        self, ctx: commands.Context,
+        self,
+        ctx: commands.Context,
         message_link: converters.MessageLink,
-        *starboards: converters.Starboard
+        *starboards: converters.Starboard,
     ) -> None:
         """Unforces a message
 
@@ -198,16 +182,14 @@ class Utility(commands.Cog):
             unforce <message link> #starboard #super-starboard
             unforce <message link> #super-starboard
             unforce <message link>"""
-        starboards = [int(s.sql_attributes['id']) for s in starboards]
+        starboards = [int(s.sql_attributes["id"]) for s in starboards]
 
         orig_sql_message = await starboard_funcs.orig_message(
             self.bot, message_link.id
         )
         if not orig_sql_message:
-            await ctx.send(
-                "That message does not exist in the database"
-            )
-        if orig_sql_message['id'] != message_link.id and len(starboards) == 0:
+            await ctx.send("That message does not exist in the database")
+        if orig_sql_message["id"] != message_link.id and len(starboards) == 0:
             await ctx.send(
                 "The message you passed appears to be a starboard "
                 "message. Would you like to unforce this message "
@@ -223,9 +205,10 @@ class Utility(commands.Cog):
                 return
         await utility_funcs.handle_forcing(
             self.bot,
-            orig_sql_message['id'],
-            orig_sql_message['guild_id'],
-            starboards, False
+            orig_sql_message["id"],
+            orig_sql_message["guild_id"],
+            starboards,
+            False,
         )
         if len(starboards) == 0:
             await ctx.send("Message unforced from all starboards")
@@ -234,13 +217,11 @@ class Utility(commands.Cog):
             await ctx.send(f"Message unforced from {', '.join(converted)}")
 
     @commands.command(
-        name='trash',
-        brief="Trashes a message so it can't be viewed"
+        name="trash", brief="Trashes a message so it can't be viewed"
     )
     @commands.has_guild_permissions(manage_messages=True)
     async def trash_message(
-        self, ctx: commands.Context,
-        message_link: converters.MessageLink
+        self, ctx: commands.Context, message_link: converters.MessageLink
     ) -> None:
         """Trashes a message for all starboards.
 
@@ -252,23 +233,20 @@ class Utility(commands.Cog):
         )
         if not orig_sql_message:
             raise errors.DoesNotExist(
-                "That message has not been starred, so I "
-                "can't trash it."
+                "That message has not been starred, so I " "can't trash it."
             )
         await utility_funcs.handle_trashing(
-            self.bot, orig_sql_message['id'], orig_sql_message['guild_id'],
-            True
+            self.bot,
+            orig_sql_message["id"],
+            orig_sql_message["guild_id"],
+            True,
         )
         await ctx.send("Message trashed")
 
-    @commands.command(
-        name='untrash',
-        brief="Untrashes a message"
-    )
+    @commands.command(name="untrash", brief="Untrashes a message")
     @commands.has_guild_permissions(manage_messages=True)
     async def untrash_message(
-        self, ctx: commands.Context,
-        message_link: converters.MessageLink
+        self, ctx: commands.Context, message_link: converters.MessageLink
     ) -> None:
         """Untrashes a message for all starboards"""
         orig_sql_message = await starboard_funcs.orig_message(
@@ -279,43 +257,40 @@ class Utility(commands.Cog):
                 "That message does not exist in the database."
             )
         await utility_funcs.handle_trashing(
-            self.bot, orig_sql_message['id'], orig_sql_message['guild_id'],
-            False
+            self.bot,
+            orig_sql_message["id"],
+            orig_sql_message["guild_id"],
+            False,
         )
         await ctx.send("Message untrashed")
 
     @commands.command(
-        name='trashcan', aliases=['trashed'],
-        brief="Shows a list of trashed messages"
+        name="trashcan",
+        aliases=["trashed"],
+        brief="Shows a list of trashed messages",
     )
     @commands.has_guild_permissions(manage_messages=True)
-    async def show_trashcan(
-        self, ctx: commands.Context
-    ) -> None:
+    async def show_trashcan(self, ctx: commands.Context) -> None:
         """Shows all messages that have been trashed."""
         trashed_messages = await self.bot.db.fetch(
             """SELECT * FROM messages
             WHERE guild_id=$1 AND trashed=True""",
-            ctx.guild.id
+            ctx.guild.id,
         )
         if len(trashed_messages) == 0:
             await ctx.send("You have no trashed messages.")
             return
-        p = commands.Paginator(prefix='', suffix='', max_size=2000)
+        p = commands.Paginator(prefix="", suffix="", max_size=2000)
         for m in trashed_messages:
-            link = utils.jump_link(
-                m['id'], m['channel_id'],
-                m['guild_id']
-            )
-            p.add_line(
-                f"**[{m['channel_id']}-{m['id']}]({link})**"
-            )
+            link = utils.jump_link(m["id"], m["channel_id"], m["guild_id"])
+            p.add_line(f"**[{m['channel_id']}-{m['id']}]({link})**")
         embeds = [
             discord.Embed(
                 title="Trashed Messages",
                 description=page,
-                color=self.bot.theme_color
-            ) for page in p.pages
+                color=self.bot.theme_color,
+            )
+            for page in p.pages
         ]
         await utils.paginator(ctx, embeds)
 
@@ -323,13 +298,11 @@ class Utility(commands.Cog):
     @flags.add_flag("--notby", type=discord.User)
     @flags.add_flag("--contains", type=str)
     @flags.command(
-        name='purge',
-        brief="Trashes a large number of messages at once"
+        name="purge", brief="Trashes a large number of messages at once"
     )
     @commands.has_guild_permissions(manage_messages=True)
     async def purgetrash(
-        self, ctx: commands.Context,
-        limit: converters.myint, **flags
+        self, ctx: commands.Context, limit: converters.myint, **flags
     ) -> None:
         """Works similar to a normal purge command,
         but instead of deleting the messages, each
@@ -355,33 +328,28 @@ class Utility(commands.Cog):
                 "Can only purge up to 200 messages at once"
             )
         elif limit < 1:
-            raise discord.InvalidArgument(
-                "Must purge at least 1 message"
-            )
+            raise discord.InvalidArgument("Must purge at least 1 message")
 
         purged = {}
         total = 0
 
         def check(m: discord.Message) -> bool:
-            if flags['by'] and m.author.id != flags['by'].id:
+            if flags["by"] and m.author.id != flags["by"].id:
                 return False
-            if flags['notby'] and m.author.id == flags['notby'].id:
+            if flags["notby"] and m.author.id == flags["notby"].id:
                 return False
-            if flags['contains'] and flags['contains'] not in m.content:
+            if flags["contains"] and flags["contains"] not in m.content:
                 return False
             return True
 
         async for m in ctx.channel.history(limit=limit):
             if not check(m):
                 continue
-            sql_message = await starboard_funcs.orig_message(
-                self.bot, m.id
-            )
+            sql_message = await starboard_funcs.orig_message(self.bot, m.id)
             if not sql_message:
                 continue
             await utility_funcs.handle_trashing(
-                self.bot, sql_message['id'],
-                sql_message['guild_id'], True
+                self.bot, sql_message["id"], sql_message["guild_id"], True
             )
             purged.setdefault(m.author, 0)
             purged[m.author] += 1
@@ -389,35 +357,31 @@ class Utility(commands.Cog):
 
         embed = discord.Embed(
             title=f"Purged {total} Messages",
-            description='\n'.join([
-                f"{u.name}: {c}"
-                for u, c in purged.items()
-            ]),
-            color=self.bot.theme_color
+            description="\n".join(
+                [f"{u.name}: {c}" for u, c in purged.items()]
+            ),
+            color=self.bot.theme_color,
         )
 
         await ctx.send(embed=embed)
 
     @commands.command(
-        name='messageInfo', aliases=['mi'],
-        brief="Shows information on a message"
+        name="messageInfo",
+        aliases=["mi"],
+        brief="Shows information on a message",
     )
     @commands.guild_only()
     async def message_info(
-        self, ctx: commands.Context,
-        message: converters.MessageLink
+        self, ctx: commands.Context, message: converters.MessageLink
     ) -> None:
         """Shows useful info on a message."""
-        orig = await starboard_funcs.orig_message(
-            self.bot, message.id
-        )
+        orig = await starboard_funcs.orig_message(self.bot, message.id)
         if not orig:
             raise errors.DoesNotExist(
                 "That message does not exist in the database."
             )
         jump = utils.jump_link(
-            orig['id'], orig['channel_id'],
-            orig['guild_id']
+            orig["id"], orig["channel_id"], orig["guild_id"]
         )
         embed = discord.Embed(
             title="Message Info",
@@ -428,16 +392,17 @@ class Utility(commands.Cog):
                 f"ID: {orig['id']} (`{orig['channel_id']}-{orig['id']}`)\n"
                 f"Author: <@{orig['author_id']}> | `{orig['author_id']}`\n"
                 f"Trashed: {orig['trashed']}"
-            )
+            ),
         )
         for s in await self.bot.db.get_starboards(ctx.guild.id):
-            s_obj = ctx.guild.get_channel(int(s['id']))
+            s_obj = ctx.guild.get_channel(int(s["id"]))
             if not s_obj:
                 continue
             sb_message = await self.bot.db.fetchrow(
                 """SELECT * FROM starboard_messages
                 WHERE orig_id=$1 AND starboard_id=$2""",
-                orig['id'], s['id']
+                orig["id"],
+                s["id"],
             )
             if not sb_message:
                 jump = "Not On Starboard"
@@ -445,18 +410,19 @@ class Utility(commands.Cog):
                 forced = False
             else:
                 _jump = utils.jump_link(
-                    sb_message['id'], sb_message['starboard_id'],
-                    orig['guild_id']
+                    sb_message["id"],
+                    sb_message["starboard_id"],
+                    orig["guild_id"],
                 )
                 jump = f"[Jump]({_jump})"
-                points = sb_message['points']
-                forced = s['id'] in orig['forced']
+                points = sb_message["points"]
+                forced = s["id"] in orig["forced"]
             embed.add_field(
                 name=s_obj.name,
                 value=(
                     f"<#{s['id']}>: {jump}\nPoints: {s['required_remove']}"
                     f"/**{points}**/{s['required']}\nForced: {forced}"
-                )
+                ),
             )
 
         await ctx.send(embed=embed)

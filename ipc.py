@@ -21,23 +21,23 @@ async def serve(ws, path):
     CLIENTS[cluster_name] = ws
     try:
         await ws.send(b'{"status":"ok"}')
-        print(f'IPC: Cluster[{cluster_name}] connected successfully')
+        print(f"IPC: Cluster[{cluster_name}] connected successfully")
         async for msg in ws:
             await dispatch(msg)
     finally:
         CLIENTS.pop(cluster_name)
-        print(f'IPC: Cluster[{cluster_name}] disconnected')
+        print(f"IPC: Cluster[{cluster_name}] disconnected")
 
 
 def run():
     signal.signal(signal.SIGINT, signal.SIG_DFL)
     signal.signal(signal.SIGTERM, signal.SIG_DFL)
 
-    server = websockets.serve(serve, 'localhost', 4000)
+    server = websockets.serve(serve, "localhost", 4000)
     loop = asyncio.get_event_loop()
     loop.run_until_complete(server)
     loop.run_forever()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     run()

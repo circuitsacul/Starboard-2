@@ -10,7 +10,7 @@ from .classes.sql_object import SQLObject
 
 
 def myhex(arg: str) -> str:
-    arg = arg.replace('#', '').upper()
+    arg = arg.replace("#", "").upper()
     try:
         int(arg, 16)
     except ValueError:
@@ -22,12 +22,8 @@ def myhex(arg: str) -> str:
 
 
 def mybool(arg: str) -> bool:
-    yes = [
-        'y', 'yes', 'on', 'enabled', 'enable', 'true', 't'
-    ]
-    no = [
-        'n', 'no', 'off', 'disabled', 'disable', 'false', 'f'
-    ]
+    yes = ["y", "yes", "on", "enabled", "enable", "true", "t"]
+    no = ["n", "no", "off", "disabled", "disable", "false", "f"]
 
     if arg.lower() in yes:
         return True
@@ -63,18 +59,16 @@ def myfloat(arg: str) -> float:
 
 class Emoji(commands.Converter):
     async def convert(
-        self,
-        ctx: commands.Context,
-        arg: str
+        self, ctx: commands.Context, arg: str
     ) -> Union[discord.Emoji, str]:
         animated_pattern = "^<:.*:[0-9]+>$"
         custom_pattern = "^<a:.*:[0-9]+>$"
 
         emoji_id = None
         if re.match(animated_pattern, arg):
-            emoji_id = int(arg.split(':')[-1][:-1])
+            emoji_id = int(arg.split(":")[-1][:-1])
         elif re.match(custom_pattern, arg):
-            emoji_id = int(arg.split(':')[-1][:-1])
+            emoji_id = int(arg.split(":")[-1][:-1])
 
         if emoji_id is not None:
             result = discord.utils.get(ctx.guild.emojis, id=int(emoji_id))
@@ -98,11 +92,7 @@ class Emoji(commands.Converter):
 
 
 class MessageLink(commands.Converter):
-    async def convert(
-        self,
-        ctx: commands.Context,
-        arg: str
-    ) -> None:
+    async def convert(self, ctx: commands.Context, arg: str) -> None:
         link_pattern = "^https://discord.com/channels/[0-9]+/[0-9]+/[0-9]+"
         special_id_pattern = "^[0-9]+-[0-9]*[0-9]$"
         normal_id_pattern = "^[0-9][0-9]+[0-9]$"
@@ -111,7 +101,7 @@ class MessageLink(commands.Converter):
         message_id: int = None
         message: discord.Message = None
 
-        if arg == '^':
+        if arg == "^":
             try:
                 message = (await ctx.channel.history(limit=2).flatten())[1]
             except discord.Forbidden:
@@ -123,11 +113,11 @@ class MessageLink(commands.Converter):
             channel_id = ctx.channel.id
             message_id = int(arg)
         elif re.match(link_pattern, arg):
-            split = arg.split('/')
+            split = arg.split("/")
             channel_id = int(split[-2])
             message_id = int(split[-1])
         elif re.match(special_id_pattern, arg):
-            split = arg.split('-')
+            split = arg.split("-")
             channel_id = int(split[0])
             message_id = int(split[1])
         else:
@@ -162,13 +152,9 @@ class MessageLink(commands.Converter):
 
 
 class Starboard(commands.Converter):
-    async def convert(
-        self,
-        ctx: commands.Context,
-        arg: str
-    ) -> SQLObject:
+    async def convert(self, ctx: commands.Context, arg: str) -> SQLObject:
         mention_pattern = "^<#[0-9]+>$"
-        digit_pattern = '^[0-9][0-9]*[0-9]$'
+        digit_pattern = "^[0-9][0-9]*[0-9]$"
 
         channel_id = None
 
@@ -189,17 +175,13 @@ class Starboard(commands.Converter):
 
         sql_starboard = await ctx.bot.db.get_starboard(channel_id)
         if sql_starboard is None:
-            raise errors.DoesNotExist(
-                f"{channel.mention} is not a starboard."
-            )
+            raise errors.DoesNotExist(f"{channel.mention} is not a starboard.")
 
         return SQLObject(channel, sql_starboard)
 
 
 class Command(commands.Converter):
     async def convert(
-        self,
-        ctx: commands.Context,
-        arg: str
+        self, ctx: commands.Context, arg: str
     ) -> commands.Command:
         return ctx.bot.get_command(arg)

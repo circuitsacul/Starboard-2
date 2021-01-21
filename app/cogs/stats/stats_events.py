@@ -20,12 +20,12 @@ class StatsEvents(commands.Cog):
         await self.bot.websocket.send(
             json.dumps(
                 {
-                    'command': 'set_stats',
-                    'guild_count': len(self.bot.guilds),
-                    'member_count': member_count,
-                    'cluster': self.bot.cluster_name
+                    "command": "set_stats",
+                    "guild_count": len(self.bot.guilds),
+                    "member_count": member_count,
+                    "cluster": self.bot.cluster_name,
                 }
-            ).encode('utf-8')
+            ).encode("utf-8")
         )
 
 

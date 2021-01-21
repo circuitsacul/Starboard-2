@@ -31,9 +31,7 @@ class LimitedQueue:
         if self.has(item):
             self.queue.remove(item)
         else:
-            raise errors.DoesNotExist(
-                f"Item {item} not in queue"
-            )
+            raise errors.DoesNotExist(f"Item {item} not in queue")
 
 
 class LimitedDictQueue:
