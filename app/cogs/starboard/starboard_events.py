@@ -109,6 +109,13 @@ class StarboardEvents(commands.Cog):
             return
         emoji = utils.clean_emoji(payload.emoji)
 
+        sb_emojis = []
+        starboards = await self.bot.db.get_starboards(payload.guild_id)
+        for s in starboards:
+            sb_emojis += s['star_emojis']
+        if emoji not in sb_emojis:
+            return
+
         orig_message = await starboard_funcs.orig_message(
             self.bot, payload.message_id
         )
