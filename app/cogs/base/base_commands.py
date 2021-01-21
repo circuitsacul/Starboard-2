@@ -12,6 +12,29 @@ class Base(commands.Cog):
         self.bot = bot
 
     @commands.command(
+        name='stats', aliases=['botinfo'],
+        brief="Shows bot statistics"
+    )
+    async def botinfo(self, ctx: commands.Context) -> None:
+        """Sends guildCount and memberCount for each
+        cluster"""
+        clusters = [c for _, c in self.bot.stats.items()]
+        total_guilds = sum([c['guilds'] for c in clusters])
+        total_members = sum([c['members'] for c in clusters])
+
+        embed = discord.Embed(
+            title="Bot Stats",
+            description=(
+                f"guilds: **{total_guilds}**\n"
+                f"users: **{total_members}**\n"
+                f"clusters: **{len(clusters)}**\n"
+                f"shards: **{self.bot.shard_count}**"
+            ),
+            color=self.bot.theme_color
+        )
+        await ctx.send(embed=embed)
+
+    @commands.command(
         name='ping', aliases=['latency'],
         brief="Shows current clusters and shards latency"
     )
