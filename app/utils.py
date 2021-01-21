@@ -130,24 +130,32 @@ async def confirm(ctx: commands.Context) -> Optional[bool]:
     return await confirm(ctx)
 
 
-async def paginator(ctx: commands.Context, pages: List[discord.Embed]) -> None:
+async def paginator(
+    ctx: commands.Context,
+    embed_pages: List[discord.Embed],
+    text_pages: Optional[List[str]] = None
+) -> None:
+    if not text_pages:
+        text_pages = ["" for _ in embed_pages]
+
     left_emoji = "⬅️"
     right_emoji = "➡️"
     stop_emoji = "⏹️"
 
     current_page = 0
-    total_pages = len(pages)
+    total_pages = len(embed_pages)
     running = True
     message = None
     while running:
-        page = pages[current_page]
+        page = embed_pages[current_page]
+        plain_text = text_pages[current_page]
         page.set_footer(text=f"{current_page+1}/{total_pages}")
         if not message:
-            message = await ctx.send(embed=page)
+            message = await ctx.send(plain_text, embed=page)
             for e in [left_emoji, right_emoji, stop_emoji]:
                 await message.add_reaction(e)
         else:
-            await message.edit(embed=page)
+            await message.edit(content=plain_text, embed=page)
 
         def check(payload: discord.RawReactionActionEvent) -> bool:
             if payload.user_id != ctx.message.author.id:
