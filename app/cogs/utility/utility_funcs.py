@@ -1,7 +1,46 @@
-from typing import List
+from typing import List, Optional, Tuple
+
+import discord
 
 from app.classes.bot import Bot
 from app.cogs.starboard import starboard_funcs
+
+
+async def handle_purging(
+    bot: Bot,
+    channel: discord.TextChannel,
+    limit: int,
+    trash: bool,
+    by: Optional[discord.Member],
+    notby: Optional[discord.Member],
+    contains: Optional[str],
+) -> Tuple[int, dict]:
+    purged = {}
+    total = 0
+
+    def check(m: discord.Message) -> bool:
+        if by and m.author.id != by.id:
+            return False
+        if notby and m.author.id == notby.id:
+            return False
+        if contains and contains not in m.content:
+            return False
+        return True
+
+    async for m in channel.history(limit=limit + 1):
+        if not check(m):
+            continue
+        sql_message = await starboard_funcs.orig_message(bot, m.id)
+        if not sql_message:
+            continue
+        await handle_trashing(
+            bot, sql_message["id"], sql_message["guild_id"], trash
+        )
+        purged.setdefault(m.author, 0)
+        purged[m.author] += 1
+        total += 1
+
+    return total, purged
 
 
 async def handle_freezing(
