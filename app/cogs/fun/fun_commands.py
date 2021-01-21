@@ -56,6 +56,9 @@ class Fun(commands.Cog):
             channel_id,
             ctx.guild.id
         )
+        if len(messages) == 0:
+            await ctx.send("Nothing to show.")
+            return
         embeds: List[discord.Embed] = []
         text_pages: List[str] = []
         for m in messages[0:10]:
