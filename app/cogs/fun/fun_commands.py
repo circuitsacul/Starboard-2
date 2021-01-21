@@ -67,12 +67,19 @@ class Fun(commands.Cog):
                 int(orig["channel_id"]),
                 int(orig["id"]),
             )
+            sql_starboard = await self.bot.db.get_starboard(m['starboard_id'])
+            display_emoji = utils.pretty_emoji_string(
+                [sql_starboard['display_emoji']], ctx.guild
+            )
+            color = sql_starboard['color']
             text_pages.append(
-                f"**:star: {m['points']} | {obj.channel.mention}**"
+                f"**{display_emoji} {m['points']} | {obj.channel.mention}**"
             )
             if not obj:
                 continue
-            e, _ = await starboard_funcs.embed_message(self.bot, obj)
+            e, _ = await starboard_funcs.embed_message(
+                self.bot, obj, color=color
+            )
             embeds.append(e)
 
         await utils.paginator(ctx, embeds, text_pages=text_pages)
