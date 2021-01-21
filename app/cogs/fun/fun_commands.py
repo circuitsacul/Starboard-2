@@ -1,9 +1,11 @@
 import random
+from typing import List
 
 import discord
 from discord.ext import commands, flags
 
 from app import converters
+from app import utils
 from app.classes.bot import Bot
 from app.cogs.starboard import starboard_funcs
 
@@ -13,6 +15,62 @@ from app.cogs.starboard import starboard_funcs
 class Fun(commands.Cog):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
+
+    @flags.add_flag("--by", type=discord.User)
+    @flags.add_flag("--in", type=discord.TextChannel)
+    @flags.add_flag("--starboard", "--sb", type=converters.Starboard)
+    @flags.command(
+        name="moststarred",
+        brief="Shows the most starred messages"
+    )
+    @commands.guild_only()
+    @commands.cooldown(1, 3)
+    async def moststarred(self, ctx: commands.Context, **options) -> None:
+        """See a list of the moststarred messages.
+
+        Options:
+            --by: Search for messages by this person
+            --in: Search for messages sent in this channel
+            --starboard: Search for messages that appeard on this starboard
+
+        Example:
+            sb!moststarred --by @Circuit --in #general --starboard #super-starboard"""
+        starboard_id = options['starboard'].id if options['starboard'] else\
+            None
+        author_id = options['by'].id if options['by'] else None
+        channel_id = options['in'].id if options['in'] else None
+
+        messages = await self.bot.db.fetch(
+            """SELECT * FROM starboard_messages
+            WHERE ($1::numeric is NULL or starboard_id=$1::numeric)
+            AND EXISTS(
+                SELECT * FROM messages
+                WHERE id=orig_id
+                AND guild_id=$4
+                AND ($2::numeric is NULL or author_id=$2::numeric)
+                AND ($3::numeric is NULL or channel_id=$3::numeric)
+                AND trashed=False
+            ) ORDER BY points DESC""",
+            starboard_id,
+            author_id,
+            channel_id,
+            ctx.guild.id
+        )
+        embeds: List[discord.Embed] = []
+        for m in messages[0:10]:
+            orig = await self.bot.db.get_message(m['orig_id'])
+            obj = await self.bot.cache.fetch_message(
+                self.bot, ctx.guild.id, int(orig['channel_id']),
+                int(orig['id'])
+            )
+            if not obj:
+                continue
+            e, _ = await starboard_funcs.embed_message(
+                self.bot, obj
+            )
+            embeds.append(e)
+
+        await utils.paginator(ctx, embeds)
 
     @flags.add_flag("--by", type=discord.User, default=None)
     @flags.add_flag("--in", type=discord.TextChannel, default=None)
