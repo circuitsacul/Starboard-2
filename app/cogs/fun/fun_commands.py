@@ -24,7 +24,7 @@ class Fun(commands.Cog):
         brief="Shows the most starred messages"
     )
     @commands.guild_only()
-    @commands.cooldown(1, 3)
+    @commands.cooldown(1, 3, type=commands.BucketType.user)
     async def moststarred(self, ctx: commands.Context, **options) -> None:
         """See a list of the moststarred messages.
 
@@ -91,6 +91,7 @@ class Fun(commands.Cog):
         brief="Shows a random starred message from the server",
     )
     @commands.guild_only()
+    @commands.cooldown(3, 5, type=commands.BucketType.user)
     async def random_message(self, ctx: commands.Context, **options):
         """Pulls a random message from one of the starboards
         on the current server. Does NOT work cross-server.

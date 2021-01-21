@@ -17,7 +17,7 @@ class Utility(commands.Cog):
         brief="Cleans things like #deleted-channel and @deleted-role",
     )
     @commands.has_guild_permissions(manage_guild=True)
-    @commands.cooldown(1, 5)
+    @commands.cooldown(1, 5, type=commands.BucketType.guild)
     async def clean(self, ctx: commands.Context) -> None:
         result = await cleaner.clean_guild(ctx.guild, self.bot)
         string = "\n".join(
@@ -36,7 +36,7 @@ class Utility(commands.Cog):
         name="debug", brief="Looks for problems with your current setup"
     )
     @commands.has_guild_permissions(manage_guild=True)
-    @commands.cooldown(2, 5)
+    @commands.cooldown(2, 5, type=commands.BucketType.guild)
     async def debug(self, ctx: commands.Context) -> None:
         result = await debugger.debug_guild(self.bot, ctx.guild)
         embed = discord.Embed(title="Debugging", color=self.bot.theme_color)
