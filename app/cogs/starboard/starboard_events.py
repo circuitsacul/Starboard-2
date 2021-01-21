@@ -12,6 +12,27 @@ class StarboardEvents(commands.Cog):
         self.bot = bot
 
     @commands.Cog.listener()
+    async def on_guild_channel_delete(
+        self,
+        channel: discord.abc.GuildChannel
+    ) -> None:
+        if not isinstance(channel, discord.TextChannel):
+            return
+        starboard = await self.bot.db.get_starboard(channel.id)
+        if not starboard:
+            return
+        await self.bot.db.execute(
+            """DELETE FROM starboards WHERE id=$1""",
+            channel.id
+        )
+        self.bot.dispatch(
+            'guild_log', (
+                f"`{channel.name}` was deleted, so I removed "
+                "that starboard."
+            ), 'info', channel.guild
+        )
+
+    @commands.Cog.listener()
     async def on_raw_reaction_add(
         self,
         payload: discord.RawReactionActionEvent
