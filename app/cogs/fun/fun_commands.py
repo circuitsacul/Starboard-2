@@ -157,13 +157,15 @@ class Fun(commands.Cog):
             await ctx.send("Something went wrong. Please try again.")
             return
 
-        display_emoji = sql_starboard["display_emoji"]
+        display_emoji = utils.pretty_emoji_string(
+            sql_starboard["display_emoji"], ctx.guild
+        )
         points = choice["points"]
         channel_id = orig_sql_message["channel_id"]
         forced = sql_starboard["id"] in orig_sql_message["forced"]
 
         embed, attachments = await starboard_funcs.embed_message(
-            self.bot, orig_message
+            self.bot, orig_message, color=sql_starboard['color']
         )
         plain_text = (
             f"**{display_emoji} {points} | <#{channel_id}>**"
