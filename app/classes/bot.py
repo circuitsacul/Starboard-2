@@ -174,7 +174,6 @@ class Bot(commands.AutoShardedBot):
                 data = await self.exec(content)
                 ret = {'response': str(data)}
             elif cmd == 'set_stats':
-                print(data)
                 self.log.info("received command [set_stats]")
                 self.stats[data['cluster']] = {
                     'guilds': data['guild_count'],
