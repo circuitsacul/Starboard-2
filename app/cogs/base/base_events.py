@@ -26,6 +26,7 @@ EXPECTED_ERRORS = [
     commands.ChannelNotFound,
     commands.RoleNotFound,
     commands.NotOwner,
+    commands.CommandOnCooldown,
     discord.Forbidden,
     discord.InvalidArgument,
     flags.ArgumentParsingError
