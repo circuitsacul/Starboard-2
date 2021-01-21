@@ -8,6 +8,7 @@ from app.cogs.starboard import starboard_funcs
 from app import errors
 from . import utility_funcs
 from . import debugger
+from . import cleaner
 
 
 class Utility(commands.Cog):
@@ -15,11 +16,34 @@ class Utility(commands.Cog):
         self.bot = bot
 
     @commands.command(
+        name='clean',
+        brief="Cleans things like #deleted-channel and @deleted-role"
+    )
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.cooldown(1, 5)
+    async def clean(
+        self, ctx: commands.Context
+    ) -> None:
+        result = await cleaner.clean_guild(ctx.guild, self.bot)
+        string = '\n'.join(
+            f"{name}: {count}" for name, count in result
+            if count != 0
+        )
+        if string == "":
+            string = "Nothing to remove"
+        embed = discord.Embed(
+            title="Database Cleaning",
+            description=string,
+            color=self.bot.theme_color
+        )
+        await ctx.send(embed=embed)
+
+    @commands.command(
         name='debug',
         brief="Looks for problems with your current setup"
     )
     @commands.has_guild_permissions(manage_guild=True)
-    @commands.cooldown(1, 10)
+    @commands.cooldown(2, 5)
     async def debug(
         self, ctx: commands.Context
     ) -> None:
