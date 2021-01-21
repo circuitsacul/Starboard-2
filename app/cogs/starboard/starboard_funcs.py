@@ -142,7 +142,7 @@ async def embed_message(
             if embed.url is not embed.Empty:
                 urls.append(
                     {
-                        "name": "Video",
+                        "name": embed.title,
                         "display_url": embed.thumbnail.url,
                         "url": embed.url,
                         "type": "video",
