@@ -10,8 +10,6 @@ ERROR_COLOR = int('F54251', 16)  # Color for error messages
 
 
 # Logging
-LOG_GUILD = 778289112381784115
-
 UPTIME_WEBHOOK = ""  # webhook to log bots uptime to
 GUILD_WEBHOOK = ""  #webhook to log guild join/leaves to
 ERROR_WEBHOOK = ""  #webhook to log bot errors to
