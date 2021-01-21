@@ -98,11 +98,28 @@ class MessageLink(commands.MessageConverter):
                 message = (await ctx.channel.history(limit=2).flatten())[1]
             except discord.Forbidden:
                 raise discord.Forbidden(
-                    "I can't read the messae history of this channel, "
+                    "I can't read the message history of this channel, "
                     "so I don't know what message you want me to force."
                 )
         else:
-            message = await super().convert(ctx, arg)
+            try:
+                message = await super().convert(ctx, arg)
+            except commands.MessageNotFound as e:
+                raise discord.InvalidArgument(
+                    f"I couldn't find the message `{e.argument}`. "
+                    "Please make sure that the message link/id is valid, "
+                    "and that it is in this server."
+                )
+            except commands.ChannelNotFound as e:
+                raise discord.InvalidArgument(
+                    f"I couldn't find the channel `{e.argument}`. "
+                    "Please make sure the message link/id is valid, "
+                    "and that it is in this server."
+                )
+            except commands.ChannelNotReadable as e:
+                raise discord.Forbidden(
+                    f"I can't read messages in the channel `{e.argument}`."
+                )
         return message
 
 
