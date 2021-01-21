@@ -34,7 +34,7 @@ class Fun(commands.Cog):
             --starboard: Search for messages that appeard on this starboard
 
         Example:
-            sb!moststarred --by @Circuit --in #general --starboard #super-starboard"""
+            sb!moststarred --by @Circuit --in #general --starboard #starboard"""
         starboard_id = options['starboard'].id if options['starboard'] else\
             None
         author_id = options['by'].id if options['by'] else None
@@ -57,11 +57,15 @@ class Fun(commands.Cog):
             ctx.guild.id
         )
         embeds: List[discord.Embed] = []
+        text_pages: List[str] = []
         for m in messages[0:10]:
             orig = await self.bot.db.get_message(m['orig_id'])
             obj = await self.bot.cache.fetch_message(
                 self.bot, ctx.guild.id, int(orig['channel_id']),
                 int(orig['id'])
+            )
+            text_pages.append(
+                f"**:star: {m['points']} | {obj.channel.mention}**"
             )
             if not obj:
                 continue
@@ -70,7 +74,7 @@ class Fun(commands.Cog):
             )
             embeds.append(e)
 
-        await utils.paginator(ctx, embeds)
+        await utils.paginator(ctx, embeds, text_pages=text_pages)
 
     @flags.add_flag("--by", type=discord.User, default=None)
     @flags.add_flag("--in", type=discord.TextChannel, default=None)
