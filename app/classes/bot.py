@@ -20,6 +20,8 @@ from app import checks
 
 class Bot(commands.AutoShardedBot):
     def __init__(self, **kwargs):
+        self.stats = {}
+
         self.theme_color = kwargs.pop('theme_color')
         self.dark_theme_color = kwargs.pop('dark_theme_color')
         self.error_color = kwargs.pop('error_color')
@@ -162,6 +164,7 @@ class Bot(commands.AutoShardedBot):
             cmd = data.get('command')
             if not cmd:
                 continue
+            ret = {}
             if cmd == 'ping':
                 ret = {'response': 'pong'}
                 self.log.info("received command [ping]")
@@ -170,6 +173,14 @@ class Bot(commands.AutoShardedBot):
                 content = data['content']
                 data = await self.exec(content)
                 ret = {'response': str(data)}
+            elif cmd == 'set_stats':
+                print(data)
+                self.log.info("received command [set_stats]")
+                self.stats[data['cluster']] = {
+                    'guilds': data['guild_count'],
+                    'members': data['member_count']
+                }
+                continue
             else:
                 ret = {'response': 'unknown command'}
             ret['author'] = self.cluster_name

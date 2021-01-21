@@ -37,6 +37,7 @@ EXTENSIONS = [
     'app.cogs.utility.utility_commands',
     'app.cogs.fun.fun_commands',
     'app.cogs.quick_actions.qa_events',
+    'app.cogs.stats.stats_events',
     'jishaku'
 ]
 INTENTS = Intents(
