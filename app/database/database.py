@@ -2,6 +2,7 @@ import time
 from typing import Any, List, Optional
 
 import asyncpg
+import discord
 
 from .. import errors
 from .pg_tables import ALL_TABLES
@@ -203,6 +204,58 @@ class Database:
                 f"Starboard {starboard_id} does not exist."
             )
 
+        settings = {
+            "required": s["required"] if required is None else required,
+            "required_remove": s['required_remove'] if required_remove
+            is None else required_remove,
+            "autoreact": s['autoreact'] if autoreact is None else autoreact,
+            "self_star": s['self_star'] if self_star is None else self_star,
+            "allow_bots": s['allow_bots'] if allow_bots is None else
+            allow_bots,
+            "allow_nsfw": s['allow_nsfw'] if allow_nsfw is None else
+            allow_nsfw,
+            "link_deletes": s['link_deletes'] if link_deletes is None else
+            link_deletes,
+            "link_edits": s['link_edits'] if link_edits is None else
+            link_edits,
+            "images_only": s['images_only'] if images_only is None else
+            images_only,
+            "remove_reactions": s['remove_reactions'] if remove_reactions is
+            None else remove_reactions,
+            "no_xp": s['no_xp'] if no_xp is None else no_xp,
+            "explore": s['explore'] if explore is None else explore,
+            "star_emojis": s['star_emojis'] if star_emojis is None else
+            star_emojis,
+            "display_emoji": s['display_emoji'] if display_emoji is None else
+            display_emoji,
+            "regex": s['regex'] if regex is None else regex,
+            "exclude_regex": s['exclude_regex'] if exclude_regex is None else
+            exclude_regex,
+            "color": s["color"] if color is None else color
+        }
+
+        if settings['required'] <= settings['required_remove']:
+            raise discord.InvalidArgument(
+                "requiredStars cannot be less than or equal to "
+                "requiredToRemove"
+            )
+        if settings['required'] < 1:
+            raise discord.InvalidArgument(
+                "requiredStars cannot be less than 1"
+            )
+        if settings['required'] > 500:
+            raise discord.InvalidArgument(
+                "requiredStars cannot be greater than 500"
+            )
+        if settings['required_remove'] < -1:
+            raise discord.InvalidArgument(
+                "requiredToRemove cannot be less than -1"
+            )
+        if settings['required_remove'] > 495:
+            raise discord.InvalidArgument(
+                "requiredToRemove cannot be greater tahn 495"
+            )
+
         await self.execute(
             """UPDATE starboards
             SET required = $1,
@@ -223,27 +276,23 @@ class Database:
             exclude_regex = $16,
             color = $17
             WHERE id = $18""",
-            s["required"] if required is None else required,
-            s["required_remove"]
-            if required_remove is None
-            else required_remove,
-            s["autoreact"] if autoreact is None else autoreact,
-            s["self_star"] if self_star is None else self_star,
-            s["allow_bots"] if allow_bots is None else allow_bots,
-            s["allow_nsfw"] if allow_nsfw is None else allow_nsfw,
-            s["link_deletes"] if link_deletes is None else link_deletes,
-            s["link_edits"] if link_edits is None else link_edits,
-            s["images_only"] if images_only is None else images_only,
-            s["remove_reactions"]
-            if remove_reactions is None
-            else remove_reactions,
-            s["no_xp"] if no_xp is None else no_xp,
-            s["explore"] if explore is None else explore,
-            s["star_emojis"] if star_emojis is None else star_emojis,
-            s["display_emoji"] if display_emoji is None else display_emoji,
-            s["regex"] if regex is None else regex,
-            s["exclude_regex"] if exclude_regex is None else exclude_regex,
-            s["color"] if color is None else color,
+            settings['required'],
+            settings['required_remove'],
+            settings['autoreact'],
+            settings['self_star'],
+            settings['allow_bots'],
+            settings['allow_nsfw'],
+            settings['link_deletes'],
+            settings['link_edits'],
+            settings['images_only'],
+            settings['remove_reactions'],
+            settings['no_xp'],
+            settings['explore'],
+            settings['star_emojis'],
+            settings['display_emoji'],
+            settings['regex'],
+            settings['exclude_regex'],
+            settings['color'],
             starboard_id,
         )
 
