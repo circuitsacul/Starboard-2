@@ -388,7 +388,8 @@ class Utility(commands.Cog):
                 f"Channel: <#{orig['channel_id']}>\n"
                 f"ID: {orig['id']} (`{orig['channel_id']}-{orig['id']}`)\n"
                 f"Author: <@{orig['author_id']}> | `{orig['author_id']}`\n"
-                f"Trashed: {orig['trashed']}"
+                f"Trashed: {orig['trashed']}\n"
+                f"Frozen: {orig['frozen']}"
             ),
         )
         for s in await self.bot.db.get_starboards(ctx.guild.id):
@@ -417,8 +418,8 @@ class Utility(commands.Cog):
             embed.add_field(
                 name=s_obj.name,
                 value=(
-                    f"<#{s['id']}>: {jump}\nPoints: {s['required_remove']}"
-                    f"/**{points}**/{s['required']}\nForced: {forced}"
+                    f"<#{s['id']}>: {jump}\nPoints: "
+                    f"**{points}**/{s['required']}\nForced: {forced}"
                 ),
             )
 
