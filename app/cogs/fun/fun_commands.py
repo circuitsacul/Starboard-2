@@ -34,7 +34,8 @@ class Fun(commands.Cog):
             --starboard: Search for messages that appeard on this starboard
 
         Example:
-            sb!moststarred --by @Circuit --in #general --starboard #starboard"""
+            sb!moststarred --by @Circuit --in #general --starboard #starboard
+        """
         starboard_id = options['starboard'].id if options['starboard'] else\
             None
         author_id = options['by'].id if options['by'] else None
