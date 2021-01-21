@@ -1,0 +1,26 @@
+SHARDS = 0  # Leave 0 for it to adjust automatically
+
+OWNER_IDS = []  # List of owner ids
+BOT_ID = 0  # Your bots id
+BOT_PERM_INT = 0  # The permission int for the bot invite
+
+THEME_COLOR = int('FFE16C', 16)  # Main bot color
+DARK_THEME_COLOR = int('0xff7b1c', 16)  # Darker version of bot color
+ERROR_COLOR = int('F54251', 16)  # Color for error messages
+
+
+# Logging
+LOG_GUILD = 778289112381784115
+
+UPTIME_WEBHOOK = ""  # webhook to log bots uptime to
+GUILD_WEBHOOK = ""  #webhook to log guild join/leaves to
+ERROR_WEBHOOK = ""  #webhook to log bot errors to
+
+
+# Links
+VOTE_LINKS = []  # List of vote links
+REVIEW_LINKS = []  # List of review links
+PATREON_LINK = ""  # Link to your patreon
+DONATE_LINKS = []  # List of doantion links
+SUPPORT_INVITE = ""  # Invite to support server
+BOT_INVITE = ""  # Bot invite
