@@ -166,19 +166,25 @@ async def paginator(
                 return False
             return True
 
-        payload = await ctx.bot.wait_for("raw_reaction_add", check=check)
         try:
-            await message.remove_reaction(
-                payload.emoji.name, ctx.message.author
+            payload = await ctx.bot.wait_for(
+                "raw_reaction_add", check=check, timeout=30
             )
-        except discord.Forbidden:
-            pass
-        if payload.emoji.name == left_emoji:
-            current_page -= 1
-        elif payload.emoji.name == right_emoji:
-            current_page += 1
-        elif payload.emoji.name == stop_emoji:
+        except asyncio.TimeoutError:
             running = False
+        else:
+            try:
+                await message.remove_reaction(
+                    payload.emoji.name, ctx.message.author
+                )
+            except discord.Forbidden:
+                pass
+            if payload.emoji.name == left_emoji:
+                current_page -= 1
+            elif payload.emoji.name == right_emoji:
+                current_page += 1
+            elif payload.emoji.name == stop_emoji:
+                running = False
 
         if current_page > total_pages - 1:
             current_page = 0
