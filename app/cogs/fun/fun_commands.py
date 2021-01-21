@@ -10,8 +10,6 @@ from app.cogs.starboard import starboard_funcs
 # from random import Random
 
 
-
-
 class Fun(commands.Cog):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
