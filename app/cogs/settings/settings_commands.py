@@ -131,6 +131,7 @@ class Settings(commands.Cog):
         embed = discord.Embed(
             title="QuickActions",
             description=(
+                f"enabled: **{guild['qa_enabled']}**\n"
                 f"force: {guild['qa_force']}\n"
                 f"unforce: {guild['qa_unforce']}\n"
                 f"freeze: {guild['qa_freeze']}\n"
