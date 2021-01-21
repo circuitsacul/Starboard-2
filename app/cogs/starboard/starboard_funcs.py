@@ -10,16 +10,11 @@ ZERO_WIDTH_SPACE = "\u200B"
 
 
 def get_plain_text(
-    starboard: dict,
-    orig_message: dict,
-    points: int,
-    guild: discord.Guild
+    starboard: dict, orig_message: dict, points: int, guild: discord.Guild
 ) -> str:
-    forced = starboard['id'] in orig_message['forced']
-    frozen = orig_message['frozen']
-    emoji = utils.pretty_emoji_string(
-        [starboard['display_emoji']], guild
-    )
+    forced = starboard["id"] in orig_message["forced"]
+    frozen = orig_message["frozen"]
+    emoji = utils.pretty_emoji_string([starboard["display_emoji"]], guild)
     channel = f"<#{orig_message['channel_id']}>"
     return (
         f"**{emoji} {points} | {channel}**"
@@ -475,10 +470,7 @@ async def handle_starboard(
 
         guild = bot.get_guild(int(sql_message["guild_id"]))
 
-        plain_text = get_plain_text(
-            sql_starboard, sql_message, points,
-            guild
-        )
+        plain_text = get_plain_text(sql_starboard, sql_message, points, guild)
 
         if starboard_message is None and add and message:
             starboard = guild.get_channel(int(sql_starboard["id"]))
