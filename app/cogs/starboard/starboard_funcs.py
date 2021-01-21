@@ -9,6 +9,24 @@ from app.classes.bot import Bot
 ZERO_WIDTH_SPACE = "\u200B"
 
 
+def get_plain_text(
+    starboard: dict,
+    orig_message: dict,
+    points: int,
+    guild: discord.Guild
+) -> str:
+    forced = starboard['id'] in orig_message['forced']
+    frozen = orig_message['frozen']
+    emoji = utils.pretty_emoji_string(
+        [starboard['display_emoji']], guild
+    )
+    channel = f"<#{orig_message['channel_id']}>"
+    return (
+        f"**{emoji} {points} | {channel}**"
+        f"{' 🔒' if forced else ''}{' ❄️' if frozen else ''}"
+    )
+
+
 async def sbemojis(bot: Bot, guild_id: int) -> List[str]:
     starboards = await bot.db.get_starboards(guild_id)
     _emojis = await bot.db.fetchval(
@@ -385,9 +403,6 @@ async def handle_starboard(
     edit = sql_starboard["link_edits"]
     delete = False
 
-    forced = False
-    frozen = False
-
     if points >= sql_starboard["required"]:
         add = True
     elif points <= sql_starboard["required_remove"]:
@@ -418,12 +433,10 @@ async def handle_starboard(
     if sql_message["frozen"]:
         add = False
         delete = False
-        frozen = True
 
     if sql_starboard["id"] in sql_message["forced"]:
         add = True
         delete = False
-        forced = True
 
     if sql_starboard_message is not None:
         starboard_message = await bot.cache.fetch_message(
@@ -461,13 +474,10 @@ async def handle_starboard(
             )
 
         guild = bot.get_guild(int(sql_message["guild_id"]))
-        display_emoji = utils.pretty_emoji_string(
-            sql_starboard["display_emoji"], guild
-        )
 
-        plain_text = (
-            f"**{display_emoji} {points} | <#{sql_message['channel_id']}>**"
-            f"{' 🔒' if forced else ''}{' ❄️' if frozen else ''}"
+        plain_text = get_plain_text(
+            sql_starboard, sql_message, points,
+            guild
         )
 
         if starboard_message is None and add and message:

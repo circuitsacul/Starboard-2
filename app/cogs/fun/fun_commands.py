@@ -68,12 +68,11 @@ class Fun(commands.Cog):
                 int(orig["id"]),
             )
             sql_starboard = await self.bot.db.get_starboard(m['starboard_id'])
-            display_emoji = utils.pretty_emoji_string(
-                [sql_starboard['display_emoji']], ctx.guild
-            )
             color = sql_starboard['color']
             text_pages.append(
-                f"**{display_emoji} {m['points']} | {obj.channel.mention}**"
+                starboard_funcs.get_plain_text(
+                    sql_starboard, orig, m['points'], ctx.guild
+                )
             )
             if not obj:
                 continue
@@ -157,19 +156,14 @@ class Fun(commands.Cog):
             await ctx.send("Something went wrong. Please try again.")
             return
 
-        display_emoji = utils.pretty_emoji_string(
-            sql_starboard["display_emoji"], ctx.guild
-        )
         points = choice["points"]
-        channel_id = orig_sql_message["channel_id"]
-        forced = sql_starboard["id"] in orig_sql_message["forced"]
 
         embed, attachments = await starboard_funcs.embed_message(
             self.bot, orig_message, color=sql_starboard['color']
         )
-        plain_text = (
-            f"**{display_emoji} {points} | <#{channel_id}>**"
-            f"{' 🔒' if forced else ''}"
+        plain_text = starboard_funcs.get_plain_text(
+            sql_starboard, orig_sql_message,
+            points, ctx.guild
         )
         await ctx.send(plain_text, embed=embed, files=attachments)
 
