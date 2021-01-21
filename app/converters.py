@@ -91,16 +91,8 @@ class Emoji(commands.Converter):
         )
 
 
-class MessageLink(commands.Converter):
+class MessageLink(commands.MessageConverter):
     async def convert(self, ctx: commands.Context, arg: str) -> None:
-        link_pattern = "^https://discord.com/channels/[0-9]+/[0-9]+/[0-9]+"
-        special_id_pattern = "^[0-9]+-[0-9]*[0-9]$"
-        normal_id_pattern = "^[0-9][0-9]+[0-9]$"
-
-        channel_id: int = None
-        message_id: int = None
-        message: discord.Message = None
-
         if arg == "^":
             try:
                 message = (await ctx.channel.history(limit=2).flatten())[1]
@@ -109,45 +101,8 @@ class MessageLink(commands.Converter):
                     "I can't read the messae history of this channel, "
                     "so I don't know what message you want me to force."
                 )
-        elif re.match(normal_id_pattern, arg):
-            channel_id = ctx.channel.id
-            message_id = int(arg)
-        elif re.match(link_pattern, arg):
-            split = arg.split("/")
-            channel_id = int(split[-2])
-            message_id = int(split[-1])
-        elif re.match(special_id_pattern, arg):
-            split = arg.split("-")
-            channel_id = int(split[0])
-            message_id = int(split[1])
         else:
-            raise discord.InvalidArgument(
-                f"The argument, `{arg}`, does not appear to be "
-                "a message link."
-            )
-
-        if not message:
-            channel = ctx.guild.get_channel(channel_id)
-            if not channel:
-                raise discord.InvalidArgument(
-                    "I couldn't find a channel with the id "
-                    f"`{channel_id}`. Please make sure the message "
-                    "link is valid, and is in this server."
-                )
-            try:
-                message = await channel.fetch_message(message_id)
-            except discord.NotFound:
-                raise discord.InvalidArgument(
-                    "I couldn't find a message that matches "
-                    f"the link `{arg}`. Please make sure the "
-                    "message link is valid."
-                )
-            except discord.Forbidden:
-                raise discord.Forbidden(
-                    "I don't have permission to read message history "
-                    f"in {channel.mention}, so I can't fetch the message "
-                    f"`{arg}`"
-                )
+            message = await super().convert(ctx, arg)
         return message
 
 
