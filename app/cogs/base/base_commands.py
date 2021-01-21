@@ -10,6 +10,29 @@ from ...classes.bot import Bot
 class Base(commands.Cog):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
+        self._about_starboard = (
+            "A Starboard is a bot that allows users of a server"
+            ' to "vote" to "pin" a message. The main idea is this:\n'
+            " - You set a channel as the starboard, typically called "
+            "`#starboard`\n"
+            " - You set an emoji for voting to pin messages, usually :star:\n"
+            " - You set a limit (called requiredStars on this bot) that "
+            "tells Starboard how many reactions (of the emoji you set) a "
+            "message needs before it is sent to the starboard.\n\n"
+            "Once a message reaches the requiredStars limit in  reactions, "
+            "Starboard will essentially copy the message and repost it in "
+            "your starboard."
+        )
+
+    @commands.command(name="about", brief="Explains what a starboard is")
+    async def about_starboard(self, ctx: commands.Context) -> None:
+        """Explains what a starboard is"""
+        embed = discord.Embed(
+            title="About Starboard",
+            description=self._about_starboard,
+            color=self.bot.theme_color,
+        )
+        await ctx.send(embed=embed)
 
     @commands.command(
         name="stats", aliases=["botinfo"], brief="Shows bot statistics"
