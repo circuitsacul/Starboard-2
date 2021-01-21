@@ -47,17 +47,25 @@ class Base(commands.Cog):
             title="Important Links",
             color=self.bot.theme_color
         ).add_field(
-            name="Invite Links",
+            name="Discord",
             value=(
                 f"**[Support Server]({config.SUPPORT_INVITE})**\n"
                 f"**[Invite Starboard]({config.BOT_INVITE})**\n"
+            ), inline=False
+        ).add_field(
+            name="Support Starboard",
+            value=str(
+                '**' + '\n'.join(config.DONATE_LINKS)
+                + f"\n[Become a Patron]({config.PATREON_LINK})**"
             )
         ).add_field(
             name="Vote Links",
-            value='\n'.join(config.VOTE_LINKS)
+            value='\n'.join(config.VOTE_LINKS),
+            inline=False
         ).add_field(
             name="Review Links",
-            value='\n'.join(config.REVIEW_LINKS)
+            value='\n'.join(config.REVIEW_LINKS),
+            inline=False
         )
         await ctx.send(embed=embed)
 
@@ -73,8 +81,17 @@ class Base(commands.Cog):
         """Shows the number of times you or another user
         has voted, and also lists voting links"""
         user = user or ctx.message.author
+        if user.bot:
+            await ctx.send(
+                f"{user} is a bot. How many times do you "
+                "think they've voted?"
+            )
+            return
         sql_user = await self.bot.db.get_user(user.id)
-        count = sql_user['votes']
+        if sql_user:
+            count = sql_user['votes']
+        else:
+            count = 0
         embed = discord.Embed(
             title="Vote for Starboard",
             color=self.bot.theme_color
