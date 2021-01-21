@@ -28,19 +28,47 @@ EXPECTED_ERRORS = [
     discord.InvalidArgument,
     flags.ArgumentParsingError,
 ]
-WEBHOOK_URL = config.UPTIME_WEBHOOK
+UPTIME = config.UPTIME_WEBHOOK
+ERROR = config.ERROR_WEBHOOK
+GUILD = config.GUILD_WEBHOOK
 
 load_dotenv()
 
 
-async def webhooklog(content: str) -> None:
-    if not WEBHOOK_URL:
+async def uptime_log(content: str) -> None:
+    if not UPTIME:
         return
     async with aiohttp.ClientSession() as session:
         webhook = Webhook.from_url(
-            WEBHOOK_URL, adapter=AsyncWebhookAdapter(session)
+            UPTIME, adapter=AsyncWebhookAdapter(session)
         )
-        await webhook.send(content, username="Starboard Logs")
+        await webhook.send(
+            content, username="Starboard Uptime"
+        )
+
+
+async def error_log(content: str) -> None:
+    if not ERROR:
+        return
+    async with aiohttp.ClientSession() as session:
+        webhook = Webhook.from_url(
+            ERROR, adapter=AsyncWebhookAdapter(session)
+        )
+        await webhook.send(
+            content, username="Starboard Errors"
+        )
+
+
+async def join_leave_log(embed: discord.Embed) -> None:
+    if not GUILD:
+        return
+    async with aiohttp.ClientSession() as session:
+        webhook = Webhook.from_url(
+            GUILD, adapter=AsyncWebhookAdapter(session)
+        )
+        await webhook.send(
+            embed=embed, username="Starboard Guild Log"
+        )
 
 
 class BaseEvents(commands.Cog):
@@ -52,34 +80,25 @@ class BaseEvents(commands.Cog):
             "info": {"color": self.bot.theme_color, "title": "Info"},
         }
 
-        self.error_log_channel = None
-        self.guild_log_channel = None
-
     @commands.Cog.listener()
     async def on_guild_join(self, guild: discord.Guild) -> None:
-        if not self.guild_log_channel:
-            log_guild = self.bot.get_guild(config.LOG_GUILD)
-            self.guild_log_channel = log_guild.get_channel(config.SERVER_LOG)
         embed = discord.Embed(
             title=f"Joined **{guild.name}**",
             description=f"**{guild.member_count} members**",
             color=self.bot.theme_color,
         )
         embed.timestamp = datetime.datetime.utcnow()
-        await self.guild_log_channel.send(embed=embed)
+        await join_leave_log(embed)
 
     @commands.Cog.listener()
     async def on_guild_remove(self, guild: discord.Guild) -> None:
-        if not self.guild_log_channel:
-            log_guild = self.bot.get_guild(config.LOG_GUILD)
-            self.guild_log_channel = log_guild.get_channel(config.SERVER_LOG)
         embed = discord.Embed(
             title=f"Left **{guild.name}**",
             description=f"**{guild.member_count} members**",
             color=self.bot.dark_theme_color,
         )
         embed.timestamp = datetime.datetime.utcnow()
-        await self.guild_log_channel.send(embed=embed)
+        await join_leave_log(embed)
 
     @commands.Cog.listener()
     async def on_log_error(
@@ -89,10 +108,6 @@ class BaseEvents(commands.Cog):
         args: List[Any] = [],
         kwargs: dict = {},
     ) -> None:
-        if not self.error_log_channel:
-            log_guild = self.bot.get_guild(config.LOG_GUILD)
-            self.error_log_channel = log_guild.get_channel(config.ERROR_LOG)
-
         p = commands.Paginator(prefix="```python")
 
         p.add_line(title)
@@ -108,7 +123,7 @@ class BaseEvents(commands.Cog):
             p.add_line(line=line)
 
         for page in p.pages:
-            await self.error_log_channel.send(page)
+            await error_log(page)
 
     @commands.Cog.listener()
     async def on_shard_ready(self, shard_id: int) -> None:
@@ -119,7 +134,7 @@ class BaseEvents(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self) -> None:
         self.bot.log.info(f"[Cluster#{self.bot.cluster_name}] Ready")
-        await webhooklog(
+        await uptime_log(
             f":green_circle: Cluster **{self.bot.cluster_name}** ready!"
         )
         try:

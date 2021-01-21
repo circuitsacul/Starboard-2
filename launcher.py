@@ -87,7 +87,7 @@ def webhooklog(content: str) -> None:
     if not WEBHOOK_URL:
         return
     webhook = Webhook.from_url(WEBHOOK_URL, adapter=RequestsWebhookAdapter())
-    webhook.send(content, username="Starboard Logs")
+    webhook.send(content, username="Starboard Uptime")
 
 
 class Launcher:
