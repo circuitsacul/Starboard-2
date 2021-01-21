@@ -1,3 +1,4 @@
+import asyncio
 from typing import List, Optional, Tuple
 
 import discord
@@ -243,9 +244,14 @@ async def update_message(bot: Bot, message_id: int, guild_id: int) -> None:
         return
     sql_starboards = await bot.db.get_starboards(guild_id)
     sql_author = await bot.db.get_user(sql_message["author_id"])
+    all_tasks = []
     if not sql_message["trashed"]:
         for s in sql_starboards:
-            await handle_starboard(bot, s, sql_message, sql_author)
+            all_tasks.append(asyncio.create_task(handle_starboard(
+                bot, s, sql_message, sql_author
+            )))
+        for t in all_tasks:
+            await t
     else:
         for s in sql_starboards:
             await handle_trashed_message(bot, s, sql_message, sql_author)
