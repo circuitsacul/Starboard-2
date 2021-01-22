@@ -112,7 +112,7 @@ class StarboardEvents(commands.Cog):
         sb_emojis = []
         starboards = await self.bot.db.get_starboards(payload.guild_id)
         for s in starboards:
-            sb_emojis += s['star_emojis']
+            sb_emojis += s["star_emojis"]
         if emoji not in sb_emojis:
             return
 
