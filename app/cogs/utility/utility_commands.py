@@ -305,7 +305,10 @@ class Utility(commands.Cog):
         p = commands.Paginator(prefix="", suffix="", max_size=2000)
         for m in trashed_messages:
             link = utils.jump_link(m["id"], m["channel_id"], m["guild_id"])
-            p.add_line(f"**[{m['channel_id']}-{m['id']}]({link})**")
+            p.add_line(
+                f"**[{m['channel_id']}-{m['id']}]({link})**: "
+                f"`{utils.escmd(m['trash_reason'])}`"
+            )
         embeds = [
             discord.Embed(
                 title="Trashed Messages",
