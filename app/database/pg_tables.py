@@ -109,6 +109,8 @@ MESSAGES = """CREATE TABLE IF NOT EXISTS messages (
         trashed BOOL NOT NULL DEFAULT false,
         frozen BOOL NOT NULL DEFAULT false,
 
+        trash_reason TEXT DEFAULT NULL,
+
         FOREIGN KEY (guild_id) REFERENCES guilds (id)
             ON DELETE CASCADE,
         FOREIGN KEY (author_id) REFERENCES users (id)

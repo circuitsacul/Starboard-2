@@ -133,6 +133,7 @@ async def qa_trash(
         orig_message["id"],
         orig_message["guild_id"],
         not orig_message["trashed"],
+        "Used QuickActions to trash"
     )
     return True
 

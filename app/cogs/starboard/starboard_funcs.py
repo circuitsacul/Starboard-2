@@ -337,7 +337,8 @@ async def handle_trashed_message(
         description=(
             "This message was trashed by a moderator. To untrash it, "
             f"run ```\nuntrash {sql_message['channel_id']}-"
-            f"{sql_message['id']}```"
+            f"{sql_message['id']}```\nReason:```\n"
+            f"{utils.escmd(sql_message['trash_reason'])}```"
         ),
     )
     try:
