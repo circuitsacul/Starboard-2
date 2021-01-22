@@ -44,12 +44,13 @@ class Starboard(commands.Cog):
         """Lists all starboards, and shows the important
         settings. All settings can be viewed by running
         sb!starboards <starboard>"""
+        p = utils.escmd(ctx.prefix)
         if starboard is None:
             starboards = await self.bot.db.get_starboards(ctx.guild.id)
             if len(starboards) == 0:
                 await ctx.send(
                     "You do not have any starboards. "
-                    "Add starboards with `sb!s add "
+                    f"Add starboards with `{p}s add "
                     "#channel`."
                 )
                 return
@@ -59,7 +60,7 @@ class Starboard(commands.Cog):
                 description=(
                     "This lists the starboards and their "
                     "most important settings. To view all "
-                    "settings, run `sb!starboards #starboard`."
+                    f"settings, run `{p}starboards #starboard`."
                 ),
                 color=self.bot.theme_color,
             )

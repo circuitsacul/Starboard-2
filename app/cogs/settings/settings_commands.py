@@ -127,6 +127,7 @@ class Settings(commands.Cog):
     @commands.has_guild_permissions(manage_messages=True)
     async def quickactions(self, ctx: commands.Context) -> None:
         """Modify the emojis for quickActions"""
+        p = ctx.prefix
         guild = await self.bot.db.get_guild(ctx.guild.id)
         embed = discord.Embed(
             title="QuickActions",
@@ -140,7 +141,7 @@ class Settings(commands.Cog):
                 f"save: {guild['qa_save']}\n"
             ),
             color=self.bot.theme_color,
-        ).set_footer(text="To modify these, run sb!help qa")
+        ).set_footer(text=f"To modify these, run {p}help qa")
         await ctx.send(embed=embed)
 
     @quickactions.command(
@@ -320,7 +321,7 @@ class Settings(commands.Cog):
             title=f"Prefixes for {ctx.guild.name}",
             description=(
                 f"{self.bot.user.mention}\n"
-                + "\n".join(f"`{p}`" for p in guild["prefixes"])
+                + "\n".join(f"`{utils.escmd(p)}`" for p in guild["prefixes"])
             ),
             color=self.bot.theme_color,
         )

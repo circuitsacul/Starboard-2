@@ -93,7 +93,7 @@ class Bot(commands.AutoShardedBot):
                 prefixes = guild["prefixes"]
         else:
             prefixes = ["sb!"]
-        return [f"<@{self.user.id}> ", f"<@!{self.user.id}> "] + prefixes
+        return prefixes + [f"<@{self.user.id}> ", f"<@!{self.user.id}> "]
 
     def cleanup_code(self, content):
         """Automatically removes code blocks from the code."""

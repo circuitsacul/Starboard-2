@@ -336,7 +336,7 @@ async def handle_trashed_message(
         title="Trashed Message",
         description=(
             "This message was trashed by a moderator. To untrash it, "
-            f"run ```\nsb!untrash {sql_message['channel_id']}-"
+            f"run ```\nuntrash {sql_message['channel_id']}-"
             f"{sql_message['id']}```"
         ),
     )
@@ -513,7 +513,7 @@ async def handle_starboard(
                                 "starboard, but I'm missing the proper "
                                 "permissions. If you don't want me to "
                                 "autoreact to messages, set the AutoReact "
-                                "setting to False with `sb!s cs "
+                                "setting to False with `starboards cs "
                                 f"{starboard.mention} --autoReact False`"
                             ),
                             "error",

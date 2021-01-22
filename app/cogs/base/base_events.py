@@ -10,6 +10,8 @@ from dotenv import load_dotenv
 
 import config
 
+from app import utils
+
 from ... import errors
 from ...classes.bot import Bot
 
@@ -137,7 +139,8 @@ class BaseEvents(commands.Cog):
         if message.author.bot:
             return
         if message.content.replace("!", "") == self.bot.user.mention:
-            await message.channel.send("My prefix is `sb!`")
+            p = utils.escmd((await self.bot.get_prefix(message))[0])
+            await message.channel.send(f"My prefix is `{utils.escmd(p)}`")
         else:
             await self.bot.process_commands(message)
 

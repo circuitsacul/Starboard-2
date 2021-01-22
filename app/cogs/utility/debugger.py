@@ -68,7 +68,7 @@ async def debug_guild(bot: Bot, guild: discord.Guild) -> dict:
             if obj is None:
                 result["warns"].append(
                     f"A starboard was deleted from this server, "
-                    "but not from the database. Run `sb!s remove "
+                    "but not from the database. Run `starboards remove "
                     f"{s['id']}` to remove it."
                 )
                 continue
@@ -126,7 +126,7 @@ async def debug_guild(bot: Bot, guild: discord.Guild) -> dict:
     sql_guild = await bot.db.get_guild(guild.id)
     if not sql_guild["log_channel"]:
         result["suggestions"].append(
-            "Add a logChannel (`sb!logChannel <channel>`), where I will "
+            "Add a logChannel (`logChannel <channel>`), where I will "
             "send important information and errors."
         )
     else:
