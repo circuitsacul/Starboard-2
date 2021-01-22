@@ -152,6 +152,19 @@ class Starboard(commands.Converter):
         return SQLObject(channel, sql_starboard)
 
 
+class ASChannel(commands.TextChannelConverter):
+    async def convert(self, ctx: commands.Context, arg: str) -> SQLObject:
+        channel = await super().convert(ctx, arg)
+
+        sql_aschannel = await ctx.bot.db.get_aschannel(channel.id)
+        if not sql_aschannel:
+            raise errors.DoesNotExist(
+                f"{channel.mention} is not an AutoStar channel."
+            )
+
+        return SQLObject(channel, sql_aschannel)
+
+
 class Command(commands.Converter):
     async def convert(
         self, ctx: commands.Context, arg: str

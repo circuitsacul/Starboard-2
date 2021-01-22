@@ -77,6 +77,23 @@ STARBOARDS = """CREATE TABLE IF NOT EXISTS starboards (
             ON DELETE CASCADE
     )"""
 
+ASCHANNELS = \
+    """CREATE TABLE IF NOT EXISTS aschannels (
+        id NUMERIC PRIMARY KEY,
+        guild_id NUMERIC NOT NULL,
+
+        emojis TEXT[] DEFAULT '{⭐}',
+        min_chars SMALLINT NOT NULL DEFAULT 0,
+        require_image BOOL NOT NULL DEFAULT False,
+        regex TEXT NOT NULL DEFAULT '',
+        exclude_regex TEXT NOT NULL DEFAULT '',
+
+        delete_invalid BOOL NOT NULL DEFAULT False,
+
+        FOREIGN KEY (guild_id) REFERENCES guilds (id)
+            ON DELETE CASCADE
+    )"""
+
 PERMROLES = """CREATE TABLE IF NOT EXISTS permroles (
         guild_id NUMERIC NOT NULL,
         role_id NUMERIC NOT NULL,
@@ -154,6 +171,7 @@ ALL_TABLES = [
     USERS,
     MEMBERS,
     STARBOARDS,
+    ASCHANNELS,
     PERMROLES,
     MESSAGES,
     STARBOARD_MESSAGES,
