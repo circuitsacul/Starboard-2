@@ -49,7 +49,7 @@ class Starboard(commands.Cog):
             if len(starboards) == 0:
                 await ctx.send(
                     "You do not have any starboards. "
-                    "Add starboards with `sb!addStarboard "
+                    "Add starboards with `sb!s add "
                     "#channel`."
                 )
                 return
