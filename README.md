@@ -1,4 +1,6 @@
 # Starboard-2
+:warning: This repo is under constant, daily development, and I'm making breaking changes on a daily basis. Until I finish the basics of this bot, I will not include database migrations. I would highly recommend waiting until I finish (maybe a month) before trying to self-host this bot. :warning:
+
 A complete rewrite of Starboard
 
 ## Changes from Starboard-1
