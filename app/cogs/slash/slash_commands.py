@@ -1,3 +1,4 @@
+import discord
 from discord.ext import commands
 from discord_slash import SlashContext, cog_ext
 
@@ -20,6 +21,24 @@ class SlashCommands(commands.Cog):
     )
     async def ping(self, ctx: SlashContext) -> None:
         await ctx.send(content="Pong!")
+
+    @commands.command(
+        name="slash", brief="Check if slash commands are enabled"
+    )
+    @commands.guild_only()
+    async def check_slash(self, ctx: commands.Context) -> None:
+        slash_auth = config.SLASH_AUTH + f"&guild_id={ctx.guild.id}"
+        embed = discord.Embed(
+            title="Slash Commands",
+            description=(
+                "Try running `/ping` to see if slash commands "
+                "are working. If not, a server admin can use "
+                f"[this link]({slash_auth}) to give me "
+                "the proper permissions."
+            ),
+            color=self.bot.theme_color,
+        )
+        await ctx.send(embed=embed)
 
 
 def setup(bot: Bot) -> None:
