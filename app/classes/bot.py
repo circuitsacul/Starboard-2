@@ -2,8 +2,8 @@ import asyncio
 import io
 import json
 import logging
-import sys
 import os
+import sys
 import textwrap
 import traceback
 from contextlib import redirect_stdout
@@ -12,14 +12,13 @@ from typing import List
 import discord
 import websockets
 from discord.ext import commands
-from pretty_help import PrettyHelp
 from dotenv import load_dotenv
+from pretty_help import PrettyHelp
 
 from app import checks
 
 from ..cache import Cache
 from ..database.database import Database
-
 
 load_dotenv()
 

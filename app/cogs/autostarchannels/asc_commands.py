@@ -1,9 +1,8 @@
 import discord
 from discord.ext import commands
 
+from app import converters, utils
 from app.classes.bot import Bot
-from app import converters
-from app import utils
 
 
 class AutoStarChannels(commands.Cog):

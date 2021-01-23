@@ -9,7 +9,6 @@ from discord.ext import commands, flags
 from dotenv import load_dotenv
 
 import config
-
 from app import utils
 
 from ... import errors
