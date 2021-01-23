@@ -11,14 +11,14 @@ class AutoStarChannels(commands.Cog):
         self.bot = bot
 
     @commands.group(
-        name="aschannels", aliases=["autostarchannels", "asc"],
+        name="aschannels",
+        aliases=["autostarchannels", "asc"],
         brief="List AutoStar Channels",
-        invoke_without_command=True
+        invoke_without_command=True,
     )
     @commands.guild_only()
     async def aschannels(
-        self, ctx: commands.Context,
-        aschannel: converters.ASChannel = None
+        self, ctx: commands.Context, aschannel: converters.ASChannel = None
     ) -> None:
         """Lists all AutoStarChannels, or shows settings for a
         specific AutoStarChannel."""
@@ -40,27 +40,25 @@ class AutoStarChannels(commands.Cog):
                     f"important settings. Use `{p}asc <aschannel>` to "
                     "view all settings."
                 ),
-                color=self.bot.theme_color
+                color=self.bot.theme_color,
             )
             for asc in aschannels:
-                c = ctx.guild.get_channel(int(asc['id']))
-                emoji_str = utils.pretty_emoji_string(
-                    asc['emojis'], ctx.guild
-                )
+                c = ctx.guild.get_channel(int(asc["id"]))
+                emoji_str = utils.pretty_emoji_string(asc["emojis"], ctx.guild)
                 embed.add_field(
                     name=c or f"Deleted Channel {asc['id']}",
                     value=(
                         f"emojis: **{emoji_str}**\n"
                         f"minChars: **{asc['min_chars']}**\n"
                         f"requireImage: **{asc['require_image']}**\n"
-                    )
+                    ),
                 )
 
             await ctx.send(embed=embed)
         else:
             a = aschannel.sql_attributes
             c = aschannel.obj
-            emoji_str = utils.pretty_emoji_string(a['emojis'], ctx.guild)
+            emoji_str = utils.pretty_emoji_string(a["emojis"], ctx.guild)
             embed = discord.Embed(
                 title=f"{c.name}",
                 description=(
@@ -72,27 +70,23 @@ class AutoStarChannels(commands.Cog):
                     "excludeRegex: "
                     f"`{utils.escmd(a['exclude_regex']) or 'None'}`"
                 ),
-                color=self.bot.theme_color
+                color=self.bot.theme_color,
             )
             await ctx.send(embed=embed)
 
     @aschannels.command(
-        name="add", aliases=["a", "+"],
-        brief="Adds an AutoStarChannel"
+        name="add", aliases=["a", "+"], brief="Adds an AutoStarChannel"
     )
     @commands.has_guild_permissions(manage_channels=True)
     async def add_aschannel(
         self, ctx: commands.Context, channel: discord.TextChannel
     ) -> None:
         """Creates an AutoStarChannel"""
-        await self.bot.db.create_aschannel(
-            channel.id, ctx.guild.id
-        )
+        await self.bot.db.create_aschannel(channel.id, ctx.guild.id)
         await ctx.send(f"Created AutoStarChannel {channel.mention}")
 
     @aschannels.command(
-        name="remove", aliases=["r", "-"],
-        brief="Removes an AutoStarChannel"
+        name="remove", aliases=["r", "-"], brief="Removes an AutoStarChannel"
     )
     @commands.has_guild_permissions(manage_channels=True)
     async def remove_aschannel(
@@ -101,7 +95,8 @@ class AutoStarChannels(commands.Cog):
         """Deletes an AutoStarChannel"""
         await self.bot.db.execute(
             """DELETE FROM aschannels
-            WHERE id=$1""", aschannel.obj.id
+            WHERE id=$1""",
+            aschannel.obj.id,
         )
         await ctx.send(f"Deleted AutoStarChannel {aschannel.obj.mention}.")
 

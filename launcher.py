@@ -152,7 +152,7 @@ class Launcher:
 
     async def startup(self):
         shards = list(range(self.get_shard_count()))
-        size = [shards[x: x + 4] for x in range(0, len(shards), 4)]
+        size = [shards[x : x + 4] for x in range(0, len(shards), 4)]
         log.info(f"Preparing {len(size)} clusters")
         for shard_ids in size:
             self.cluster_queue.append(

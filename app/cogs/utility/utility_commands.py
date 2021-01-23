@@ -214,26 +214,25 @@ class Utility(commands.Cog):
             await ctx.send(f"Message unforced from {', '.join(converted)}")
 
     @commands.command(
-        name="trashreason", aliases=['reason'],
-        brief="Sets the reason for trashing a message"
+        name="trashreason",
+        aliases=["reason"],
+        brief="Sets the reason for trashing a message",
     )
     @commands.has_guild_permissions(manage_messages=True)
     async def set_trash_reason(
         self,
         ctx: commands.Context,
         message: converters.MessageLink,
-        *, reason: str = None
+        *,
+        reason: str = None,
     ) -> None:
-        orig_message = await starboard_funcs.orig_message(
-            self.bot, message.id
-        )
+        orig_message = await starboard_funcs.orig_message(self.bot, message.id)
         if not orig_message:
             raise errors.DoesNotExist(
                 "That message does not exist in the database."
             )
         await utility_funcs.set_trash_reason(
-            self.bot, orig_message['id'], ctx.guild.id,
-            reason or "None given"
+            self.bot, orig_message["id"], ctx.guild.id, reason or "None given"
         )
         await ctx.send(f"Set the reason to {reason}")
 
@@ -242,8 +241,11 @@ class Utility(commands.Cog):
     )
     @commands.has_guild_permissions(manage_messages=True)
     async def trash_message(
-        self, ctx: commands.Context, message_link: converters.MessageLink,
-        *, reason=None
+        self,
+        ctx: commands.Context,
+        message_link: converters.MessageLink,
+        *,
+        reason=None,
     ) -> None:
         """Trashes a message for all starboards.
 
@@ -261,7 +263,8 @@ class Utility(commands.Cog):
             self.bot,
             orig_sql_message["id"],
             orig_sql_message["guild_id"],
-            True, reason or "No reason given"
+            True,
+            reason or "No reason given",
         )
         await ctx.send("Message trashed")
 

@@ -9,9 +9,7 @@ from .pg_tables import ALL_TABLES
 
 
 class Database:
-    def __init__(
-        self, bot, database: str, user: str, password: str
-    ) -> None:
+    def __init__(self, bot, database: str, user: str, password: str) -> None:
         self.bot = bot
 
         self.name = database
@@ -151,14 +149,14 @@ class Database:
         return await self.fetchrow(
             """SELECT * FROM aschannels
             WHERE id=$1""",
-            aschannel_id
+            aschannel_id,
         )
 
     async def get_aschannels(self, guild_id: int) -> List[dict]:
         return await self.fetch(
             """SELECT * FROM aschannels
             WHERE guild_id=$1""",
-            guild_id
+            guild_id,
         )
 
     async def create_aschannel(
@@ -174,7 +172,8 @@ class Database:
             await self.execute(
                 """INSERT INTO aschannels (id, guild_id)
                 VALUES ($1, $2)""",
-                channel_id, guild_id
+                channel_id,
+                guild_id,
             )
         except asyncpg.exceptions.ForeignKeyViolationError:
             return True
@@ -188,7 +187,7 @@ class Database:
         regex: str = None,
         exclude_regex: str = None,
         delete_invalid: bool = None,
-        emojis: List[str] = None
+        emojis: List[str] = None,
     ) -> None:
         asc = await self.get_aschannel(aschannel_id)
         if not asc:
@@ -198,20 +197,21 @@ class Database:
 
         settings = {
             "min_chars": asc["min_chars"] if min_chars is None else min_chars,
-            "require_image": asc["require_image"] if require_image is None else
-            require_image,
+            "require_image": asc["require_image"]
+            if require_image is None
+            else require_image,
             "regex": asc["regex"] if regex is None else regex,
-            "exclude_regex": asc["exclude_regex"] if exclude_regex is None else
-            exclude_regex,
-            "delete_invalid": asc["delete_invalid"] if delete_invalid is None
+            "exclude_regex": asc["exclude_regex"]
+            if exclude_regex is None
+            else exclude_regex,
+            "delete_invalid": asc["delete_invalid"]
+            if delete_invalid is None
             else delete_invalid,
-            "emojis": asc["emojis"] if emojis is None else emojis
+            "emojis": asc["emojis"] if emojis is None else emojis,
         }
 
         if settings["min_chars"] < 0:
-            raise discord.InvalidArgument(
-                "minChars cannot be less than 0."
-            )
+            raise discord.InvalidArgument("minChars cannot be less than 0.")
         if settings["min_chars"] > 1999:
             raise discord.InvalidArgument(
                 "minChars cannot be greater than 1999."
@@ -226,13 +226,13 @@ class Database:
             delete_invalid=$5,
             emojis=$6
             WHERE id=$7""",
-            settings['min_chars'],
-            settings['require_image'],
-            settings['regex'],
-            settings['exclude_regex'],
-            settings['delete_invalid'],
-            settings['emojis'],
-            aschannel_id
+            settings["min_chars"],
+            settings["require_image"],
+            settings["regex"],
+            settings["exclude_regex"],
+            settings["delete_invalid"],
+            settings["emojis"],
+            aschannel_id,
         )
 
     async def get_starboard(self, starboard_id: int) -> Optional[dict]:

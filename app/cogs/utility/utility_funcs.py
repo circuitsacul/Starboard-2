@@ -34,8 +34,11 @@ async def handle_purging(
         if not sql_message:
             continue
         await handle_trashing(
-            bot, sql_message["id"], sql_message["guild_id"], trash,
-            reason="Message Purging" if trash else None
+            bot,
+            sql_message["id"],
+            sql_message["guild_id"],
+            trash,
+            reason="Message Purging" if trash else None,
         )
         purged.setdefault(m.author, 0)
         purged[m.author] += 1
@@ -95,21 +98,20 @@ async def handle_forcing(
 
 
 async def set_trash_reason(
-    bot: Bot, message_id: int, guild_id: int,
-    reason: str
+    bot: Bot, message_id: int, guild_id: int, reason: str
 ) -> None:
     await bot.db.execute(
         """UPDATE messages
         SET trash_reason=$1
         WHERE id=$2""",
-        reason, message_id
+        reason,
+        message_id,
     )
     await starboard_funcs.update_message(bot, message_id, guild_id)
 
 
 async def handle_trashing(
-    bot: Bot, message_id: int, guild_id: int, trash: bool,
-    reason: str = None
+    bot: Bot, message_id: int, guild_id: int, trash: bool, reason: str = None
 ) -> None:
     await bot.db.execute(
         """UPDATE messages

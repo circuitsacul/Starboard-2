@@ -33,8 +33,10 @@ class Bot(commands.AutoShardedBot):
         self.error_color = kwargs.pop("error_color")
         # self.db: Database = kwargs.pop("db")
         self.db: Database = Database(
-            self, os.getenv("DB_NAME"), os.getenv("DB_PASSWORD"),
-            os.getenv("DB_PASSWORD")
+            self,
+            os.getenv("DB_NAME"),
+            os.getenv("DB_PASSWORD"),
+            os.getenv("DB_PASSWORD"),
         )
         self.cache: Cache = kwargs.pop("cache")
 

@@ -77,8 +77,7 @@ STARBOARDS = """CREATE TABLE IF NOT EXISTS starboards (
             ON DELETE CASCADE
     )"""
 
-ASCHANNELS = \
-    """CREATE TABLE IF NOT EXISTS aschannels (
+ASCHANNELS = """CREATE TABLE IF NOT EXISTS aschannels (
         id NUMERIC PRIMARY KEY,
         guild_id NUMERIC NOT NULL,
 
