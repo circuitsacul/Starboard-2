@@ -27,6 +27,7 @@ EXPECTED_ERRORS = [
     commands.CommandOnCooldown,
     discord.Forbidden,
     discord.InvalidArgument,
+    commands.BadArgument,
     flags.ArgumentParsingError,
 ]
 UPTIME = config.UPTIME_WEBHOOK
