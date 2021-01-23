@@ -3,6 +3,7 @@ import io
 import json
 import logging
 import sys
+import os
 import textwrap
 import traceback
 from contextlib import redirect_stdout
@@ -12,11 +13,15 @@ import discord
 import websockets
 from discord.ext import commands
 from pretty_help import PrettyHelp
+from dotenv import load_dotenv
 
 from app import checks
 
 from ..cache import Cache
 from ..database.database import Database
+
+
+load_dotenv()
 
 
 class Bot(commands.AutoShardedBot):
@@ -26,7 +31,11 @@ class Bot(commands.AutoShardedBot):
         self.theme_color = kwargs.pop("theme_color")
         self.dark_theme_color = kwargs.pop("dark_theme_color")
         self.error_color = kwargs.pop("error_color")
-        self.db: Database = kwargs.pop("db")
+        # self.db: Database = kwargs.pop("db")
+        self.db: Database = Database(
+            self, os.getenv("DB_NAME"), os.getenv("DB_PASSWORD"),
+            os.getenv("DB_PASSWORD")
+        )
         self.cache: Cache = kwargs.pop("cache")
 
         self.pipe = kwargs.pop("pipe")

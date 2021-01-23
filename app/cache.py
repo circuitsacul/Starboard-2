@@ -7,7 +7,7 @@ from . import queue
 
 class Cache:
     def __init__(self) -> None:
-        self.messages = queue.LimitedDictQueue(20)
+        self.messages = queue.LimitedDictQueue(max_length=20)
 
     def get_message(
         self, guild_id: int, message_id: int

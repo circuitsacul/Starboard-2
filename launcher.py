@@ -14,7 +14,6 @@ import config
 import ipc
 from app.cache import Cache
 from app.classes.bot import Bot
-from app.database.database import Database
 
 load_dotenv()
 
@@ -34,6 +33,7 @@ EXTENSIONS = [
     "app.cogs.quick_actions.qa_events",
     "app.cogs.stats.stats_events",
     "app.cogs.autostarchannels.asc_commands",
+    "app.cogs.autostarchannels.asc_events",
     "jishaku",
 ]
 INTENTS = Intents(
@@ -152,7 +152,7 @@ class Launcher:
 
     async def startup(self):
         shards = list(range(self.get_shard_count()))
-        size = [shards[x : x + 4] for x in range(0, len(shards), 4)]
+        size = [shards[x: x + 4] for x in range(0, len(shards), 4)]
         log.info(f"Preparing {len(size)} clusters")
         for shard_ids in size:
             self.cluster_queue.append(
@@ -226,11 +226,6 @@ class Cluster:
             shard_count=max_shards,
             cluster_name=name,
             cache=Cache(),
-            db=Database(
-                os.getenv("DB_NAME"),
-                os.getenv("DB_USER"),
-                os.getenv("DB_PASSWORD"),
-            ),
             theme_color=config.THEME_COLOR,
             dark_theme_color=config.DARK_THEME_COLOR,
             error_color=config.ERROR_COLOR,

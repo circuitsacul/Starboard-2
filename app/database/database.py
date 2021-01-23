@@ -9,7 +9,11 @@ from .pg_tables import ALL_TABLES
 
 
 class Database:
-    def __init__(self, database: str, user: str, password: str) -> None:
+    def __init__(
+        self, bot, database: str, user: str, password: str
+    ) -> None:
+        self.bot = bot
+
         self.name = database
         self.user = user
         self.password = password

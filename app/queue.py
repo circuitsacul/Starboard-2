@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Optional
 
 from discord import utils
 
@@ -6,7 +6,7 @@ from . import errors
 
 
 class LimitedQueue:
-    def __init__(self, max_length: int) -> None:
+    def __init__(self, max_length: Optional[int] = None) -> None:
         self.max_length = max_length
         self.queue = set()
 
@@ -24,7 +24,7 @@ class LimitedQueue:
 
     def add(self, item: Any) -> None:
         self.queue.add(item)
-        if len(self.queue) > self.max_length:
+        if self.max_length and len(self.queue) > self.max_length:
             self.queue.pop()
 
     def remove(self, item: Any) -> None:
@@ -35,11 +35,11 @@ class LimitedQueue:
 
 
 class LimitedDictQueue:
-    def __init__(self, max_length: int) -> None:
+    def __init__(self, max_length: Optional[int] = None) -> None:
         self.max_length = max_length
         self.queues = {}
 
-    def get_queue(self, key: Any) -> LimitedQueue:
+    def get_queue(self, key: Any) -> Optional[LimitedQueue]:
         return self.queues.get(key)
 
     def del_queue(self, key: Any) -> None:
@@ -52,7 +52,7 @@ class LimitedDictQueue:
     def add(self, key: Any, item: Any) -> None:
         queue = self.get_queue(key)
         if queue is None:
-            queue = LimitedQueue(self.max_length)
+            queue = LimitedQueue(max_length=self.max_length)
             self.queues[key] = queue
         queue.add(item)
 
