@@ -1,3 +1,5 @@
+SLASH_GUILD_IDS = None  # Leave None for most cases.
+
 SHARDS = 0  # Leave 0 for it to adjust automatically
 
 OWNER_IDS = []  # List of owner ids

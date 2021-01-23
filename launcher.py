@@ -34,6 +34,7 @@ EXTENSIONS = [
     "app.cogs.stats.stats_events",
     "app.cogs.autostarchannels.asc_commands",
     "app.cogs.autostarchannels.asc_events",
+    "app.cogs.slash.slash_commands",
     "jishaku",
 ]
 INTENTS = Intents(

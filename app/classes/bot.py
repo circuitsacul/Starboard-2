@@ -12,6 +12,7 @@ from typing import List
 import discord
 import websockets
 from discord.ext import commands
+from discord_slash import SlashCommand
 from dotenv import load_dotenv
 from pretty_help import PrettyHelp
 
@@ -72,6 +73,10 @@ class Bot(commands.AutoShardedBot):
         self.loop.create_task(self.ensure_ipc())
 
         self.loop.run_until_complete(self.db.init_database())
+
+        self.slash = SlashCommand(
+            self, override_type=True, auto_register=True, auto_delete=True
+        )
 
         for ext in kwargs.pop("initial_extensions"):
             self.load_extension(ext)
