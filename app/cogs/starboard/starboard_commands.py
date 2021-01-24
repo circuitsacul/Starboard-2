@@ -24,6 +24,7 @@ OPTION_MAP = {
     "regex": "regex",
     "exclude_regex": "excludeRegex",
     "color": "color",
+    "ping": "ping",
 }
 
 
@@ -169,6 +170,7 @@ class Starboard(commands.Cog):
     @flags.add_flag("--color", type=converters.myhex)
     @flags.add_flag("--regex", type=str)
     @flags.add_flag("--excludeRegex", "--eregex", type=str)
+    @flags.add_flag("--ping", "-ping", type=converters.mybool)
     @starboards.command(
         cls=flags.FlagCommand,
         name="settings",
@@ -206,26 +208,28 @@ class Starboard(commands.Cog):
             --removeReactions
             --noXp
             --allowRandom
+            --ping
             --color
             --regex
             --excludeRegex"""
         await self.bot.db.edit_starboard(
             starboard.obj.id,
-            options["required"],
-            options["requiredRemove"],
-            options["autoReact"],
-            options["selfStar"],
-            options["allowBots"],
-            options["allowNSFW"],
-            options["linkDeletes"],
-            options["linkEdits"],
-            options["imagesOnly"],
-            options["removeReactions"],
-            options["noXp"],
-            options["allowRandom"],
+            required=options["required"],
+            required_remove=options["requiredRemove"],
+            autoreact=options["autoReact"],
+            self_star=options["selfStar"],
+            allow_bots=options["allowBots"],
+            allow_nsfw=options["allowNSFW"],
+            link_deletes=options["linkDeletes"],
+            link_edits=options["linkEdits"],
+            images_only=options["imagesOnly"],
+            remove_reactions=options["removeReactions"],
+            no_xp=options["noXp"],
+            explore=options["allowRandom"],
             regex=options["regex"],
             exclude_regex=options["excludeRegex"],
             color=options["color"],
+            ping=options["ping"],
         )
 
         changes = ""

@@ -64,6 +64,7 @@ STARBOARDS = """CREATE TABLE IF NOT EXISTS starboards (
         remove_reactions BOOL NOT NULL DEFAULT True,
         no_xp BOOL NOT NULL DEFAULT False,
         explore BOOL NOT NULL DEFAULT True,
+        ping BOOL NOT NULL DEFAULT False,
 
         regex TEXT NOT NULL DEFAULT '',
         exclude_regex TEXT NOT NULL DEFAULT '',

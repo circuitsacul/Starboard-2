@@ -16,9 +16,11 @@ def get_plain_text(
     frozen = orig_message["frozen"]
     emoji = utils.pretty_emoji_string([starboard["display_emoji"]], guild)
     channel = f"<#{orig_message['channel_id']}>"
-    return (
-        f"**{emoji} {points} | {channel}**"
-        f"{' 🔒' if forced else ''}{' ❄️' if frozen else ''}"
+    mention = starboard["ping"]
+    return str(
+        f"**{emoji} {points} | {channel}"
+        + (f" | <@{orig_message['author_id']}>" if mention else "")
+        + f"{' 🔒' if forced else ''}{' ❄️' if frozen else ''}**"
     )
 
 
@@ -477,7 +479,10 @@ async def handle_starboard(
             starboard = guild.get_channel(int(sql_starboard["id"]))
             try:
                 m = await starboard.send(
-                    plain_text, embed=embed, files=attachments
+                    plain_text,
+                    embed=embed,
+                    files=attachments,
+                    allowed_mentions=discord.AllowedMentions(users=True),
                 )
             except discord.Forbidden:
                 bot.dispatch(

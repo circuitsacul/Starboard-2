@@ -286,6 +286,7 @@ class Database:
         explore: bool = None,
         star_emojis: List[str] = None,
         display_emoji: str = None,
+        ping: bool = None,
         regex: str = None,
         exclude_regex: str = None,
         color: int = None,
@@ -333,6 +334,7 @@ class Database:
             "exclude_regex": s["exclude_regex"]
             if exclude_regex is None
             else exclude_regex,
+            "ping": s["ping"] if ping is None else ping,
             "color": s["color"] if color is None else color,
         }
 
@@ -376,8 +378,9 @@ class Database:
             display_emoji = $14,
             regex = $15,
             exclude_regex = $16,
-            color = $17
-            WHERE id = $18""",
+            color = $17,
+            ping = $18
+            WHERE id = $19""",
             settings["required"],
             settings["required_remove"],
             settings["autoreact"],
@@ -395,6 +398,7 @@ class Database:
             settings["regex"],
             settings["exclude_regex"],
             settings["color"],
+            settings["ping"],
             starboard_id,
         )
 
