@@ -20,7 +20,7 @@ class SlashCommands(commands.Cog):
         guild_ids=config.SLASH_GUILD_IDS,
     )
     async def ping(self, ctx: SlashContext) -> None:
-        await ctx.send(content="Pong!")
+        await ctx.send(content="Pong!", complete_hidden=True)
 
     @commands.command(
         name="slash", brief="Check if slash commands are enabled"
