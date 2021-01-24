@@ -3,6 +3,7 @@ from discord.ext import commands
 
 from app import utils
 from app.classes.bot import Bot
+from app.cogs.utility import utility_funcs
 
 from . import starboard_funcs
 
@@ -29,6 +30,25 @@ class StarboardEvents(commands.Cog):
             "info",
             channel.guild,
         )
+
+    @commands.Cog.listener()
+    async def on_raw_message_delete(
+        self, payload: discord.RawMessageDeleteEvent
+    ) -> None:
+        sb_message = await self.bot.db.get_starboard_message(
+            payload.message_id
+        )
+        if sb_message:
+            # Trash the message
+            await utility_funcs.handle_trashing(
+                self.bot,
+                sb_message["orig_id"],
+                payload.guild_id,
+                True,
+                reason=(
+                    "Starboard message was deleted, " "so I autotrashed it."
+                ),
+            )
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(
