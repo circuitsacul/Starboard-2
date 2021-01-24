@@ -169,4 +169,7 @@ class Command(commands.Converter):
     async def convert(
         self, ctx: commands.Context, arg: str
     ) -> commands.Command:
-        return ctx.bot.get_command(arg)
+        cmd = ctx.bot.get_command(arg)
+        if not cmd:
+            raise errors.DoesNotExist(f"No commands called `{arg}` found.")
+        return cmd
