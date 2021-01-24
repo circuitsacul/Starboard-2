@@ -38,10 +38,26 @@ def jump_link(message_id: int, channel_id: int, guild_id: int) -> str:
     )
 
 
+def escesc(text: str) -> str:
+    """Escapes \\ by adding another \\ behind it. Run before
+    running escmd, escmask, or discord.utils.escape_markdown.
+    """
+    text = text.replace("\\", "\\\\")
+    return text
+
+
 def escmd(text: str) -> str:
     if type(text) is not str:
         return
     return discord.utils.escape_markdown(text)
+
+
+def escmask(text: str) -> str:
+    """Escapes link markdown by adding \\ before \"[\" and \"]\""""
+    text = escesc(text)
+    text = text.replace("]", "\\]")
+    text = text.replace("[", "\\[")
+    return text
 
 
 def ms(seconds: int) -> int:

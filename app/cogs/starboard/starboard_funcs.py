@@ -46,7 +46,7 @@ async def embed_message(
     bot: Bot, message: discord.Message, color: str = None
 ) -> Tuple[discord.Embed, List[discord.File]]:
     nsfw = message.channel.is_nsfw()
-    content = message.system_content
+    content = utils.escmask(message.system_content)
 
     urls = []
     extra_attachments = []
