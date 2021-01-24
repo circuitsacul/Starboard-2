@@ -1,3 +1,4 @@
+import asyncio
 import datetime
 import traceback
 from typing import Any, List
@@ -37,40 +38,59 @@ GUILD = config.GUILD_WEBHOOK
 load_dotenv()
 
 
-async def uptime_log(content: str) -> None:
-    if not UPTIME:
-        return
-    async with aiohttp.ClientSession() as session:
-        webhook = Webhook.from_url(
-            UPTIME, adapter=AsyncWebhookAdapter(session)
-        )
-        await webhook.send(content, username="Starboard Uptime")
-
-
-async def error_log(content: str) -> None:
-    if not ERROR:
-        return
-    async with aiohttp.ClientSession() as session:
-        webhook = Webhook.from_url(ERROR, adapter=AsyncWebhookAdapter(session))
-        await webhook.send(content, username="Starboard Errors")
-
-
-async def join_leave_log(embed: discord.Embed) -> None:
-    if not GUILD:
-        return
-    async with aiohttp.ClientSession() as session:
-        webhook = Webhook.from_url(GUILD, adapter=AsyncWebhookAdapter(session))
-        await webhook.send(embed=embed, username="Starboard Guild Log")
-
-
 class BaseEvents(commands.Cog):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
+
+        self.session: aiohttp.ClientSession = None
+        self.guild_webhook: Webhook = None
+        self.error_webhook: Webhook = None
+        self.uptime_webhook: Webhook = None
 
         self.type_map = {
             "error": {"color": self.bot.error_color, "title": "Error"},
             "info": {"color": self.bot.theme_color, "title": "Info"},
         }
+
+    def cog_unload(self):
+        asyncio.ensure_future(self.session.close())
+
+    async def get_session(self) -> None:
+        if self.session:
+            return
+        self.session = aiohttp.ClientSession()
+
+    async def uptime_log(self, content: str) -> None:
+        if not UPTIME:
+            return
+        await self.get_session()
+        if not self.uptime_webhook:
+            self.uptime_webhook = Webhook.from_url(
+                UPTIME, adapter=AsyncWebhookAdapter(self.session)
+            )
+        await self.uptime_webhook.send(content, username="Starboard Uptime")
+
+    async def error_log(self, content: str) -> None:
+        if not ERROR:
+            return
+        await self.get_session()
+        if not self.error_webhook:
+            self.error_webhook = Webhook.from_url(
+                ERROR, adapter=AsyncWebhookAdapter(self.session)
+            )
+        await self.error_webhook.send(content, username="Starboard Errors")
+
+    async def join_leave_log(self, embed: discord.Embed) -> None:
+        if not GUILD:
+            return
+        await self.get_session()
+        if not self.guild_webhook:
+            self.guild_webhook = Webhook.from_url(
+                GUILD, adapter=AsyncWebhookAdapter(self.session)
+            )
+        await self.guild_webhook.send(
+            embed=embed, username="Starboard Guild Log"
+        )
 
     @commands.Cog.listener()
     async def on_guild_join(self, guild: discord.Guild) -> None:
@@ -80,7 +100,7 @@ class BaseEvents(commands.Cog):
             color=self.bot.theme_color,
         )
         embed.timestamp = datetime.datetime.utcnow()
-        await join_leave_log(embed)
+        await self.join_leave_log(embed)
 
     @commands.Cog.listener()
     async def on_guild_remove(self, guild: discord.Guild) -> None:
@@ -90,7 +110,7 @@ class BaseEvents(commands.Cog):
             color=self.bot.dark_theme_color,
         )
         embed.timestamp = datetime.datetime.utcnow()
-        await join_leave_log(embed)
+        await self.join_leave_log(embed)
 
     @commands.Cog.listener()
     async def on_log_error(
@@ -115,7 +135,7 @@ class BaseEvents(commands.Cog):
             p.add_line(line=line)
 
         for page in p.pages:
-            await error_log(page)
+            await self.error_log(page)
 
     @commands.Cog.listener()
     async def on_shard_ready(self, shard_id: int) -> None:
@@ -126,7 +146,7 @@ class BaseEvents(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self) -> None:
         self.bot.log.info(f"[Cluster#{self.bot.cluster_name}] Ready")
-        await uptime_log(
+        await self.uptime_log(
             f":green_circle: Cluster **{self.bot.cluster_name}** ready!"
         )
         try:
