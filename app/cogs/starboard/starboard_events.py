@@ -45,9 +45,7 @@ class StarboardEvents(commands.Cog):
                 sb_message["orig_id"],
                 payload.guild_id,
                 True,
-                reason=(
-                    "Starboard message was deleted, " "so I autotrashed it."
-                ),
+                reason=("Starboard message was deleted, so I autotrashed it."),
             )
 
     @commands.Cog.listener()
