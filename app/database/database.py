@@ -179,62 +179,6 @@ class Database:
             return True
         return False
 
-    async def edit_aschannel(
-        self,
-        aschannel_id: int,
-        min_chars: int = None,
-        require_image: bool = None,
-        regex: str = None,
-        exclude_regex: str = None,
-        delete_invalid: bool = None,
-        emojis: List[str] = None,
-    ) -> None:
-        asc = await self.get_aschannel(aschannel_id)
-        if not asc:
-            raise errors.DoesNotExist(
-                f"AutoStarChannel {aschannel_id} does not exist."
-            )
-
-        settings = {
-            "min_chars": asc["min_chars"] if min_chars is None else min_chars,
-            "require_image": asc["require_image"]
-            if require_image is None
-            else require_image,
-            "regex": asc["regex"] if regex is None else regex,
-            "exclude_regex": asc["exclude_regex"]
-            if exclude_regex is None
-            else exclude_regex,
-            "delete_invalid": asc["delete_invalid"]
-            if delete_invalid is None
-            else delete_invalid,
-            "emojis": asc["emojis"] if emojis is None else emojis,
-        }
-
-        if settings["min_chars"] < 0:
-            raise discord.InvalidArgument("minChars cannot be less than 0.")
-        if settings["min_chars"] > 1999:
-            raise discord.InvalidArgument(
-                "minChars cannot be greater than 1999."
-            )
-
-        await self.execute(
-            """UPDATE aschannels
-            SET min_chars=$1,
-            require_image=$2,
-            regex=$3,
-            exclude_regex=$4,
-            delete_invalid=$5,
-            emojis=$6
-            WHERE id=$7""",
-            settings["min_chars"],
-            settings["require_image"],
-            settings["regex"],
-            settings["exclude_regex"],
-            settings["delete_invalid"],
-            settings["emojis"],
-            aschannel_id,
-        )
-
     async def get_starboard(self, starboard_id: int) -> Optional[dict]:
         return await self.fetchrow(
             """SELECT * FROM starboards
@@ -430,6 +374,82 @@ class Database:
         new_emojis.remove(emoji)
 
         await self.edit_starboard(starboard_id, star_emojis=new_emojis)
+
+    async def edit_aschannel(
+        self,
+        aschannel_id: int,
+        emojis: List[str] = None,
+        min_chars: int = None,
+        require_image: bool = None,
+        regex: str = None,
+        exclude_regex: str = None,
+        delete_invalid: str = None,
+    ) -> None:
+        asc = await self.get_aschannel(aschannel_id)
+        if not asc:
+            raise errors.DoesNotExist(
+                f"No AutoStarChannel found with id {aschannel_id}"
+            )
+
+        settings = {
+            "emojis": asc["emojis"] if emojis is None else emojis,
+            "min_chars": asc["min_chars"] if min_chars is None else min_chars,
+            "require_image": asc["require_image"]
+            if require_image is None
+            else require_image,
+            "delete_invalid": asc["delete_invalid"]
+            if delete_invalid is None
+            else delete_invalid,
+            "regex": asc["regex"] if regex is None else regex,
+            "exclude_regex": asc["exclude_regex"]
+            if exclude_regex is None
+            else exclude_regex,
+        }
+
+        if settings["min_chars"] < 0:
+            raise discord.InvalidArgument("minChars cannot be less than 0")
+        if settings["min_chars"] > 2000:
+            raise discord.InvalidArgument(
+                "minChars cannot be grater than 2,000"
+            )
+
+        await self.execute(
+            """UPDATE aschannels
+            SET emojis=$2::text[],
+            min_chars=$3,
+            require_image=$4,
+            delete_invalid=$5,
+            regex=$6,
+            exclude_regex=$7
+            WHERE id=$1""",
+            aschannel_id,
+            settings["emojis"],
+            settings["min_chars"],
+            settings["require_image"],
+            settings["delete_invalid"],
+            settings["regex"],
+            settings["exclude_regex"],
+        )
+
+    async def add_asemoji(self, aschannel_id: int, emoji: str) -> None:
+        aschannel = await self.get_aschannel(aschannel_id)
+        if emoji in aschannel["emojis"]:
+            raise errors.AlreadyExists(
+                f"{emoji} is already an emoji on {aschannel_id}"
+            )
+        new_emojis: List = aschannel["emojis"]
+        new_emojis.append(emoji)
+        await self.edit_aschannel(aschannel_id, emojis=new_emojis)
+
+    async def remove_asemojis(self, aschannel_id: int, emoji: str) -> None:
+        aschannel = await self.get_aschannel(aschannel_id)
+        if emoji not in aschannel["emojis"]:
+            raise errors.DoesNotExist(
+                f"{emoji} is not an emoji on {aschannel_id}"
+            )
+        new_emojis: List = aschannel["emojis"]
+        new_emojis.remove(emoji)
+        await self.edit_aschannel(aschannel_id, emojis=new_emojis)
 
     #    async def get_setting_overrides(
     #        self,

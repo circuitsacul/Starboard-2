@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 
-from app import converters, utils
+from app import converters, errors, utils
 from app.classes.bot import Bot
 
 
@@ -98,6 +98,90 @@ class AutoStarChannels(commands.Cog):
             aschannel.obj.id,
         )
         await ctx.send(f"Deleted AutoStarChannel {aschannel.obj.mention}.")
+
+    @aschannels.group(
+        name="emojis",
+        aliases=["e"],
+        brief="Modify the emojis for AutoStarChannels",
+        invoke_without_command=True,
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    async def asemojis(self, ctx: commands.Context) -> None:
+        p = utils.escmd(ctx.prefix)
+        await ctx.send(
+            "Options:\n"
+            f" - {p}asc emojis add <aschannel> <emoji>\n"
+            f" - {p}asc emojis remove <aschannel> <emoji>\n"
+            f" - {p}asc emojis clear <aschannel>\n"
+        )
+
+    @asemojis.command(
+        name="add", aliases=["a"], brief="Adds an emoji to an AutoStarChannel"
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    async def add_asemoji(
+        self,
+        ctx: commands.Context,
+        aschannel: converters.ASChannel,
+        emoji: converters.Emoji,
+    ) -> None:
+        clean = utils.clean_emoji(emoji)
+        try:
+            await self.bot.db.add_asemoji(aschannel.obj.id, clean)
+        except errors.AlreadyExists:
+            # Raise a more user-friendly error message
+            raise errors.AlreadyExists(
+                f"{emoji} is already an emoji on {aschannel.obj.mention}"
+            )
+        old = utils.pretty_emoji_string(aschannel.sql["emojis"], ctx.guild)
+        new = utils.pretty_emoji_string(
+            aschannel.sql["emojis"] + [emoji], ctx.guild
+        )
+        await ctx.send(embed=utils.cs_embed({"emojis": (old, new)}, self.bot))
+
+    @asemojis.command(
+        name="remove",
+        aliases=["r", "d", "del", "delete"],
+        brief="Removes an emojis from an AutoStarChannel",
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    async def remove_asemoji(
+        self,
+        ctx: commands.Context,
+        aschannel: converters.ASChannel,
+        emoji: converters.Emoji,
+    ) -> None:
+        clean = utils.clean_emoji(emoji)
+        try:
+            await self.bot.db.remove_asemojis(aschannel.obj.id, clean)
+        except errors.DoesNotExist:
+            raise errors.DoesNotExist(
+                f"{emoji} is not an emoji on {aschannel.obj.mention}"
+            )
+        _new = aschannel.sql["emojis"]
+        _new.remove(emoji)
+        old = utils.pretty_emoji_string(aschannel.sql["emojis"], ctx.guild)
+        new = utils.pretty_emoji_string(_new, ctx.guild)
+        await ctx.send(embed=utils.cs_embed({"emojis": (old, new)}, self.bot))
+
+    @asemojis.command(
+        name="clear",
+        aliases=["reset"],
+        brief="Removes all emojis from an AutoStarChannel",
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    async def clear_asemojis(
+        self, ctx: commands.Context, aschannel: converters.ASChannel
+    ) -> None:
+        await ctx.send("Are you sure?")
+        if not await utils.confirm(ctx):
+            await ctx.send("Canncelled")
+            return
+        await self.bot.db.edit_aschannel(aschannel.obj.id, emojis=[])
+        old = utils.pretty_emoji_string(aschannel.sql["emojis"], ctx.guild)
+        await ctx.send(
+            embed=utils.cs_embed({"emojis": (old, "None")}, self.bot)
+        )
 
 
 def setup(bot: Bot) -> None:
