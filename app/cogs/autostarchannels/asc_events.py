@@ -18,7 +18,7 @@ class AutoStarEvents(commands.Cog):
         aschannel = await self.bot.db.get_aschannel(message.channel.id)
         if not aschannel:
             return
-        await asc_funcs.handle_message(message, aschannel)
+        await asc_funcs.handle_message(self.bot, message, aschannel)
 
 
 def setup(bot: Bot) -> None:
