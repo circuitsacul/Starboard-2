@@ -16,6 +16,28 @@ class AutoStarEvents(commands.Cog):
         )
 
     @commands.Cog.listener()
+    async def on_guild_channel_delete(
+        self, channel: discord.abc.GuildChannel
+    ) -> None:
+        if not isinstance(channel, discord.TextChannel):
+            return
+        aschannel = await self.bot.db.get_aschannel(channel.id)
+        if not aschannel:
+            return
+        await self.bot.db.execute(
+            """DELETE FROM aschannels WHERE id=$1""", channel.id
+        )
+        self.bot.dispatch(
+            "guild_log",
+            (
+                f"`{channel.name}` was deleted so I removed that "
+                "AutoStarChannel."
+            ),
+            "info",
+            channel.guild,
+        )
+
+    @commands.Cog.listener()
     async def on_message(self, message: discord.Message) -> None:
         if message.author.bot:
             return
