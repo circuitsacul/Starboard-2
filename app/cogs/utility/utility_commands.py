@@ -39,28 +39,41 @@ class Utility(commands.Cog):
     @commands.cooldown(2, 5, type=commands.BucketType.guild)
     async def debug(self, ctx: commands.Context) -> None:
         result = await debugger.debug_guild(self.bot, ctx.guild)
-        embed = discord.Embed(title="Debugging", color=self.bot.theme_color)
-        embed.add_field(
-            name="Errors",
-            value="\n\n".join(result["errors"]) or "No errors",
-            inline=False,
+
+        p = commands.Paginator(prefix="", suffix="")
+
+        p.add_line(
+            f"{len(result['errors'])} errors, "
+            f"{len(result['warns'])} warnings, "
+            f"{len(result['light_warns'])} light warnings, "
+            f"and {len(result['suggestions'])} suggestions."
         )
-        embed.add_field(
-            name="Warnings",
-            value="\n\n".join(result["warns"]) or "No warnings",
-            inline=False,
-        )
-        embed.add_field(
-            name="Light Warnings",
-            value="\n\n".join(result["light_warns"]) or "No Light Warnings",
-            inline=False,
-        )
-        embed.add_field(
-            name="Suggestions",
-            value="\n\n".join(result["suggestions"]) or "No suggestions",
-            inline=False,
-        )
-        await ctx.send(embed=embed)
+        if result["errors"]:
+            p.add_line("\n\n**Errors:**")
+            for e in result["errors"]:
+                p.add_line(f"\n{e}")
+        if result["warns"]:
+            p.add_line("\n\n**Warnings:**")
+            for e in result["warns"]:
+                p.add_line(f"\n{e}")
+        if result["light_warns"]:
+            p.add_line("\n\n**Light Warnings:**")
+            for e in result["light_warns"]:
+                p.add_line(f"\n{e}")
+        if result["suggestions"]:
+            p.add_line("\n\n**Suggestions:**")
+            for e in result["suggestions"]:
+                p.add_line(f"\n{e}")
+
+        embeds = [
+            discord.Embed(
+                title="Debugging Results",
+                description=page,
+                color=self.bot.theme_color,
+            )
+            for page in p.pages
+        ]
+        await utils.paginator(ctx, embeds)
 
     @commands.command(name="freeze", brief="Freeze a message")
     @commands.has_guild_permissions(manage_messages=True)
