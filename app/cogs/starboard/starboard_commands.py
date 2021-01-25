@@ -98,6 +98,7 @@ class Starboard(commands.Cog):
                     f"imagesOnly: **{s['images_only']}**\n"
                     f"regex: `{s['regex'] or 'None'}`\n"
                     f"excludeRegex: `{s['exclude_regex'] or 'None'}`\n\n"
+                    f"ping: **{s['ping']}**\n"
                     f"autoReact: **{s['autoreact']}**\n"
                     f"linkDeletes: **{s['link_deletes']}**\n"
                     f"linkEdits: **{s['link_edits']}**\n"
