@@ -137,7 +137,11 @@ class AutoStarChannels(commands.Cog):
         new = utils.pretty_emoji_string(
             aschannel.sql["emojis"] + [emoji], ctx.guild
         )
-        await ctx.send(embed=utils.cs_embed({"emojis": (old, new)}, self.bot))
+        await ctx.send(
+            embed=utils.cs_embed(
+                {"emojis": (old, new)}, self.bot, noticks=True
+            )
+        )
 
     @asemojis.command(
         name="remove",
@@ -159,10 +163,14 @@ class AutoStarChannels(commands.Cog):
                 f"{emoji} is not an emoji on {aschannel.obj.mention}"
             )
         _new = aschannel.sql["emojis"]
-        _new.remove(emoji)
         old = utils.pretty_emoji_string(aschannel.sql["emojis"], ctx.guild)
+        _new.remove(clean)
         new = utils.pretty_emoji_string(_new, ctx.guild)
-        await ctx.send(embed=utils.cs_embed({"emojis": (old, new)}, self.bot))
+        await ctx.send(
+            embed=utils.cs_embed(
+                {"emojis": (old, new)}, self.bot, noticks=True
+            )
+        )
 
     @asemojis.command(
         name="clear",

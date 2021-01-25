@@ -33,20 +33,23 @@ def timeout(seconds=10, error_message=os.strerror(errno.ETIME)):
 
 
 # Functions
-def cs_embed(changes: Dict[str, Tuple[Any, Any]], bot: Bot) -> discord.Embed:
-    text = cs_text(changes)
+def cs_embed(
+    changes: Dict[str, Tuple[Any, Any]], bot: Bot, noticks: bool = False
+) -> discord.Embed:
+    text = cs_text(changes, noticks=noticks)
     return discord.Embed(
         title="Changed Settings", description=text, color=bot.theme_color
     )
 
 
-def cs_text(changes: Dict[str, Tuple[Any, Any]]) -> str:
+def cs_text(changes: Dict[str, Tuple[Any, Any]], noticks: bool = False) -> str:
+    t = "" if noticks else "`"
     text = "\n".join(
         [
             f"{name}: "
-            f"`{o[0] if o[0] not in [None, ''] else 'None'}`"
+            f"{t}{o[0] if o[0] not in [None, ''] else 'None'}{t}"
             " **-->** "
-            f"`{o[1] if o[1] not in [None, ''] else 'None'}`"
+            f"{t}{o[1] if o[1] not in [None, ''] else 'None'}{t}"
             for name, o in changes.items()
         ]
     )
@@ -123,15 +126,16 @@ def clean_emoji(
 
 
 def convert_emojis(
-    emojis: List[Union[str, int]], guild: discord.Guild
+    emojis: List[Union[str, int, discord.Emoji]], guild: discord.Guild
 ) -> List[str]:
     result: List[str] = []
     for e in emojis:
         eid = None
-        try:
-            eid = int(e)
-        except ValueError:
-            pass
+        if type(e) is not discord.Emoji:
+            try:
+                eid = int(e)
+            except ValueError:
+                pass
 
         if eid is not None:
             e_obj = discord.utils.get(guild.emojis, id=eid)
@@ -142,7 +146,7 @@ def convert_emojis(
 
 
 def pretty_emoji_string(
-    emojis: List[Union[str, int]], guild: discord.Guild
+    emojis: List[Union[str, int, discord.Emoji]], guild: discord.Guild
 ) -> str:
     if len(emojis) == 0:
         return "None"
