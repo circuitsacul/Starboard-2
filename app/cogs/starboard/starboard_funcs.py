@@ -45,7 +45,7 @@ async def orig_message(bot: Bot, message_id: int) -> Optional[dict]:
 
 
 async def embed_message(
-    bot: Bot, message: discord.Message, color: str = None
+    bot: Bot, message: discord.Message, color: str = None, files: bool = True
 ) -> Tuple[discord.Embed, List[discord.File]]:
     nsfw = message.channel.is_nsfw()
     content = utils.escmask(message.system_content)
@@ -55,7 +55,10 @@ async def embed_message(
     image_used = False
 
     for attachment in message.attachments:
-        f = await attachment.to_file()
+        if files:
+            f = await attachment.to_file()
+        else:
+            f = None
         urls.append(
             {
                 "name": attachment.filename,
@@ -231,9 +234,10 @@ async def embed_message(
                     added = True
             if not added:
                 f: discord.File = data["file"]
-                if nsfw:
-                    f.filename = "SPOILER_" + f.filename
-                extra_attachments.append(f)
+                if f is not None:
+                    if nsfw:
+                        f.filename = "SPOILER_" + f.filename
+                    extra_attachments.append(f)
         elif not nsfw:
             if not image_used:
                 embed.set_image(url=data["display_url"])
@@ -464,18 +468,14 @@ async def handle_starboard(
         except discord.errors.NotFound:
             pass
     elif not delete:
-        embed = None
-        attachments = []
-        if message is not None:
-            embed, attachments = await embed_message(
-                bot, message, color=sql_starboard["color"]
-            )
-
         guild = bot.get_guild(int(sql_message["guild_id"]))
 
         plain_text = get_plain_text(sql_starboard, sql_message, points, guild)
 
         if starboard_message is None and add and message:
+            embed, attachments = await embed_message(
+                bot, message, color=sql_starboard["color"]
+            )
             starboard = guild.get_channel(int(sql_starboard["id"]))
             try:
                 m = await starboard.send(
@@ -528,6 +528,9 @@ async def handle_starboard(
         elif starboard_message is not None and message:
             try:
                 if edit:
+                    embed, _ = await embed_message(
+                        bot, message, color=sql_starboard["color"], files=False
+                    )
                     await starboard_message.edit(
                         content=plain_text, embed=embed
                     )
