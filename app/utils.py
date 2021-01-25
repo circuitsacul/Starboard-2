@@ -4,10 +4,12 @@ import os
 import re
 import signal
 from functools import wraps
-from typing import List, Optional, Union
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 import discord
 from discord.ext import commands
+
+from app.classes.bot import Bot
 
 
 # Decoraters
@@ -31,6 +33,28 @@ def timeout(seconds=10, error_message=os.strerror(errno.ETIME)):
 
 
 # Functions
+def cs_embed(changes: Dict[str, Tuple[Any, Any]], bot: Bot) -> discord.Embed:
+    text = cs_text(changes)
+    return discord.Embed(
+        title="Changed Settings", description=text, color=bot.theme_color
+    )
+
+
+def cs_text(changes: Dict[str, Tuple[Any, Any]]) -> str:
+    text = "\n".join(
+        [
+            f"{name}: "
+            f"`{o[0] if o[0] not in [None, ''] else 'None'}`"
+            " **-->** "
+            f"`{o[1] if o[1] not in [None, ''] else 'None'}`"
+            for name, o in changes.items()
+        ]
+    )
+    if text == "":
+        text = "No changed settings"
+    return text
+
+
 def jump_link(message_id: int, channel_id: int, guild_id: int) -> str:
     return (
         f"https://discord.com/channels/{guild_id}/{channel_id}"

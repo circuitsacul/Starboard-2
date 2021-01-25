@@ -126,7 +126,7 @@ class Utility(commands.Cog):
             force <message link> #super-starboard
             force <message link>
         """
-        starboards = [int(s.sql_attributes["id"]) for s in starboards]
+        starboards = [int(s.sql["id"]) for s in starboards]
         if len(starboards) == 0:
             await ctx.send("Force this message to all starboards?")
             if not await utils.confirm(ctx):
@@ -179,7 +179,7 @@ class Utility(commands.Cog):
             unforce <message link> #starboard #super-starboard
             unforce <message link> #super-starboard
             unforce <message link>"""
-        starboards = [int(s.sql_attributes["id"]) for s in starboards]
+        starboards = [int(s.sql["id"]) for s in starboards]
 
         orig_sql_message = await starboard_funcs.orig_message(
             self.bot, message_link.id

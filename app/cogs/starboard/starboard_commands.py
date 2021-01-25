@@ -1,7 +1,7 @@
 from typing import Union
 
 import discord
-from discord.ext import commands, flags
+from discord.ext import commands
 
 from ... import converters, errors, utils
 from ...classes.bot import Bot
@@ -80,7 +80,7 @@ class Starboard(commands.Cog):
                 )
             await ctx.send(embed=embed)
         else:
-            s = starboard.sql_attributes
+            s = starboard.sql
             upvote_emoji_str = utils.pretty_emoji_string(
                 s["star_emojis"], ctx.guild
             )
@@ -154,109 +154,374 @@ class Starboard(commands.Cog):
             if confirmed is False:
                 await ctx.send("Cancelled.")
 
-    @flags.add_flag("--required", "-r", type=converters.myint)
-    @flags.add_flag("--requiredRemove", "-rtm", type=converters.myint)
-    @flags.add_flag("--autoReact", "-ar", type=converters.mybool)
-    @flags.add_flag("--selfStar", "-ss", type=converters.mybool)
-    @flags.add_flag("--allowBots", "-ab", type=converters.mybool)
-    @flags.add_flag("--allowNSFW", "-nsfw", type=converters.mybool)
-    @flags.add_flag("--linkDeletes", "-ld", type=converters.mybool)
-    @flags.add_flag("--linkEdits", "-le", type=converters.mybool)
-    @flags.add_flag("--imagesOnly", "-ri", "-io", type=converters.mybool)
-    @flags.add_flag("--removeReactions", "-rr", type=converters.mybool)
-    @flags.add_flag("--noXp", "-nxp", type=converters.mybool)
-    @flags.add_flag(
-        "--allowRandom", "--random", "-rand", type=converters.mybool
-    )
-    @flags.add_flag("--color", type=converters.myhex)
-    @flags.add_flag("--regex", type=str)
-    @flags.add_flag("--excludeRegex", "--eregex", type=str)
-    @flags.add_flag("--ping", "-ping", type=converters.mybool)
     @starboards.command(
-        cls=flags.FlagCommand,
-        name="settings",
-        aliases=["cs", "options", "config"],
-        brief="Change settings for a starboard",
+        name="displayEmoji",
+        aliases=["de"],
+        brief="Set the emoji to show next to the points",
     )
     @commands.has_guild_permissions(manage_channels=True)
-    async def set_starboard_settings(
+    async def set_display_emoji(
         self,
         ctx: commands.Context,
         starboard: converters.Starboard,
-        **options: dict,
+        emoji: converters.Emoji,
     ) -> None:
-        """Configure the default options for a starboard.
-
-        Usage:
-            sb!s cs <starboard> **options
-
-        Examples:
-            Set requiredStars to 0 for #starboard:
-            sb!s cs #starboard --required 0
-
-            Set selfStar and allowRandom to False for #starboard:
-            sb!s cs #starboard --allowRandom False --selfStar False
-
-        All options:
-            --required
-            --requiredRemove
-            --autoReact
-            --selfStar
-            --allowBots
-            --linkDeletes
-            --linkEdits
-            --imagesOnly
-            --removeReactions
-            --noXp
-            --allowRandom
-            --ping
-            --color
-            --regex
-            --excludeRegex"""
-        await self.bot.db.edit_starboard(
-            starboard.obj.id,
-            required=options["required"],
-            required_remove=options["requiredRemove"],
-            autoreact=options["autoReact"],
-            self_star=options["selfStar"],
-            allow_bots=options["allowBots"],
-            allow_nsfw=options["allowNSFW"],
-            link_deletes=options["linkDeletes"],
-            link_edits=options["linkEdits"],
-            images_only=options["imagesOnly"],
-            remove_reactions=options["removeReactions"],
-            no_xp=options["noXp"],
-            explore=options["allowRandom"],
-            regex=options["regex"],
-            exclude_regex=options["excludeRegex"],
-            color=options["color"],
-            ping=options["ping"],
+        clean = utils.clean_emoji(emoji)
+        await self.bot.db.edit_starboard(starboard.obj.id, display_emoji=clean)
+        orig = utils.pretty_emoji_string(
+            starboard.sql["display_emoji"], ctx.guild
+        )
+        await ctx.send(
+            embed=utils.cs_embed({"displayEmoji": (orig, emoji)}, self.bot)
         )
 
-        changes = ""
-        for option, value in starboard.sql_attributes.items():
-            pretty_option = OPTION_MAP.get(option)
-            if pretty_option is None:
-                continue
-            new_val = options.get(OPTION_MAP[option])
-            if new_val is None:
-                continue
-            changes += (
-                f"{OPTION_MAP[option]}: "
-                f"`{value if value not in [None, ''] else 'None'}` "
-                f":arrow_right: "
-                f"`{new_val if new_val not in [None, ''] else 'None'}`\n"
+    @starboards.command(
+        name="color",
+        aliases=["colour"],
+        brief="Sets the embed color of starboard messages",
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    async def set_color(
+        self,
+        ctx: commands.Context,
+        starboard: converters.Starboard,
+        color: converters.myhex,
+    ) -> None:
+        await self.bot.db.edit_starboard(starboard.obj.id, color=color)
+        await ctx.send(
+            embed=utils.cs_embed(
+                {"color": (starboard.sql["color"], color)}, self.bot
             )
-
-        if len(changes) == 0:
-            changes = "No updated settings"
-
-        embed = discord.Embed(
-            title=f"Updated Settings for {starboard.obj.name}",
-            description=changes,
-            color=self.bot.theme_color,
         )
-        await ctx.send(embed=embed)
+
+    @starboards.command(
+        name="required",
+        aliases=["requiredStars", "requiredPoints"],
+        brief="Sets the number of reactions a message needs",
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    async def set_required(
+        self,
+        ctx: commands.Context,
+        starboard: converters.Starboard,
+        required: converters.myint,
+    ) -> None:
+        await self.bot.db.edit_starboard(starboard.obj.id, required=required)
+        await ctx.send(
+            embed=utils.cs_embed(
+                {"required": (starboard.sql["required"], required)}, self.bot
+            )
+        )
+
+    @starboards.command(
+        name="requiredRemove",
+        aliases=["rtm"],
+        brief="How few stars a message has before it is removed",
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    async def set_required_remove(
+        self,
+        ctx: commands.Context,
+        starboard: converters.Starboard,
+        required_remove: converters.myint,
+    ) -> None:
+        await self.bot.db.edit_starboard(
+            starboard.obj.id, required_remove=required_remove
+        )
+        await ctx.send(
+            embed=utils.cs_embed(
+                {
+                    "requiredRemove": (
+                        starboard.sql["required_remove"],
+                        required_remove,
+                    )
+                },
+                self.bot,
+            )
+        )
+
+    @starboards.command(
+        name="selfStar",
+        aliases=["ss"],
+        brief="Whether or not users can star their own messages",
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    async def set_self_star(
+        self,
+        ctx: commands.Context,
+        starboard: converters.Starboard,
+        self_star: converters.mybool,
+    ) -> None:
+        await self.bot.db.edit_starboard(starboard.obj.id, self_star=self_star)
+        await ctx.send(
+            embed=utils.cs_embed(
+                {"selfStar": (starboard.sql["self_star"], self_star)}, self.bot
+            )
+        )
+
+    @starboards.command(
+        name="allowNsfw",
+        aliases=["nsfw"],
+        brief="Whether not to allow messages from NSFW channels",
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    async def set_allow_nsfw(
+        self,
+        ctx: commands.Context,
+        starboard: converters.Starboard,
+        allow_nsfw: converters.mybool,
+    ) -> None:
+        await self.bot.db.edit_starboard(
+            starboard.obj.id, allow_nsfw=allow_nsfw
+        )
+        await ctx.send(
+            embed=utils.cs_embed(
+                {"allowNSFW": (starboard.sql["allow_nsfw"], allow_nsfw)},
+                self.bot,
+            )
+        )
+
+    @starboards.command(
+        name="allowBots",
+        aliases=["ab"],
+        brief="Whether or not bot messages can appear on the starboard",
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    async def set_allow_Bots(
+        self,
+        ctx: commands.Context,
+        starboard: converters.Starboard,
+        allow_bots: converters.mybool,
+    ) -> None:
+        await self.bot.db.edit_starboard(
+            starboard.obj.id, allow_bots=allow_bots
+        )
+        await ctx.send(
+            embed=utils.cs_embed(
+                {"allowBots": (starboard.sql["allow_bots"], allow_bots)},
+                self.bot,
+            )
+        )
+
+    @starboards.command(
+        name="imagesOnly",
+        aliases=["requireImage", "io"],
+        brief="Whether images are required for messages to be on the starboard",
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    async def set_images_only(
+        self,
+        ctx: commands.Context,
+        starboard: converters.Starboard,
+        images_only: converters.mybool,
+    ) -> None:
+        await self.bot.db.edit_starboard(
+            starboard.obj.id, images_only=images_only
+        )
+        await ctx.send(
+            embed=utils.cs_embed(
+                {"imagesOnly": (starboard.sql["images_only"], images_only)},
+                self.bot,
+            )
+        )
+
+    @starboards.command(
+        name="regex",
+        aliases=["reg"],
+        brief="A regex string that all messages must match",
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    async def set_regex(
+        self,
+        ctx: commands.Context,
+        starboard: converters.Starboard,
+        regex: str,
+    ) -> None:
+        await self.bot.db.edit_starboard(starboard.obj.id, regex=regex)
+        await ctx.send(
+            embed=utils.cs_embed(
+                {"regex": (starboard.sql["regex"], regex)}, self.bot
+            )
+        )
+
+    @starboards.command(
+        name="excludeRegex",
+        aliases=["eregex", "ereg"],
+        brief="A regex string that all messages must not match",
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    async def set_eregex(
+        self,
+        ctx: commands.context,
+        starboard: converters.Starboard,
+        exclude_regex: str,
+    ) -> None:
+        await self.bot.db.edit_starboard(
+            starboard.obj.id, exclude_regex=exclude_regex
+        )
+        await ctx.send(
+            embed=utils.cs_embed(
+                {
+                    "excludeRegex": (
+                        starboard.sql["exclude_regex"],
+                        exclude_regex,
+                    )
+                },
+                self.bot,
+            )
+        )
+
+    @starboards.command(
+        name="ping",
+        aliases=["mentionAuthor"],
+        brief="Whether or not to mention the author of a starboard message",
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    async def set_ping(
+        self,
+        ctx: commands.Context,
+        starboard: converters.Starboard,
+        ping: converters.mybool,
+    ) -> None:
+        await self.bot.db.edit_starboard(starboard.obj.id, ping=ping)
+        await ctx.send(
+            embed=utils.cs_embed(
+                {"ping": (starboard.sql["ping"], ping)}, self.bot
+            )
+        )
+
+    @starboards.command(
+        name="autoReact",
+        aliases=["ar"],
+        brief="Whether to automatically react to starboard messages",
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    async def set_auto_react(
+        self,
+        ctx: commands.Context,
+        starboard: converters.Starboard,
+        auto_react: converters.mybool,
+    ) -> None:
+        await self.bot.db.edit_starboard(
+            starboard.obj.id, autoreact=auto_react
+        )
+        await ctx.send(
+            embed=utils.cs_embed(
+                {"autoReact": (starboard.sql["autoreact"], auto_react)},
+                self.bot,
+            )
+        )
+
+    @starboards.command(
+        name="linkDeletes",
+        aliases=["ld"],
+        brief="Whether to delete the starboard message if the original is",
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    async def set_link_deletes(
+        self,
+        ctx: commands.Context,
+        starboard: converters.Starboard,
+        link_deletes: converters.mybool,
+    ) -> None:
+        await self.bot.db.edit_starboard(
+            starboard.obj.id, link_deletes=link_deletes
+        )
+        await ctx.send(
+            embed=utils.cs_embed(
+                {"linkDeletes": (starboard.sql["link_deletes"], link_deletes)},
+                self.bot,
+            )
+        )
+
+    @starboards.command(
+        name="linkEdits",
+        aliases=["le"],
+        brief="Whether to update starboard messages with edited content",
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    async def set_link_edits(
+        self,
+        ctx: commands.Context,
+        starboard: converters.Starboard,
+        link_edits: converters.mybool,
+    ) -> None:
+        await self.bot.db.edit_starboard(
+            starboard.obj.id, link_edits=link_edits
+        )
+        await ctx.send(
+            embed=utils.cs_embed(
+                {"linkEdits": (starboard.sql["link_edits"], link_edits)},
+                self.bot,
+            )
+        )
+
+    @starboards.command(
+        name="removeReactions",
+        aliases=["rr"],
+        brief="Whether or not to remove invalid reactions (self stars)",
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    async def set_remove_reactions(
+        self,
+        ctx: commands.Context,
+        starboard: converters.Starboard,
+        remove_reactions: converters.mybool,
+    ) -> None:
+        await self.bot.db.edit_starboard(
+            starboard.obj.id, remove_reactions=remove_reactions
+        )
+        await ctx.send(
+            embed=utils.cs_embed(
+                {
+                    "removeReactions": (
+                        starboard.sql["remove_reactions"],
+                        remove_reactions,
+                    )
+                },
+                self.bot,
+            )
+        )
+
+    @starboards.command(
+        name="noXp",
+        brief="Set to True to disable gaining XP for this starboard",
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    async def set_no_xp(
+        self,
+        ctx: commands.Context,
+        starboard: converters.Starboard,
+        no_xp: converters.mybool,
+    ) -> None:
+        await self.bot.db.edit_starboard(starboard.obj.id, no_xp=no_xp)
+        await ctx.send(
+            embed=utils.cs_embed(
+                {"noXp": (starboard.sql["no_xp"], no_xp)}, self.bot
+            )
+        )
+
+    @starboards.command(
+        name="allowRandom",
+        aliases=["rand", "explore"],
+        brief="Whether or not the random command can pull from this starboard",
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    async def set_allow_random(
+        self,
+        ctx: commands.Context,
+        starboard: converters.Starboard,
+        allow_random: converters.mybool,
+    ) -> None:
+        await self.bot.db.edit_starboard(
+            starboard.obj.id, allow_random=allow_random
+        )
+        await ctx.send(
+            embed=utils.cs_embed(
+                {"allowRandom": (starboard.sql["allow_random"], allow_random)},
+                self.bot,
+            )
+        )
 
     @starboards.group(
         name="starEmojis",
@@ -285,7 +550,7 @@ class Starboard(commands.Cog):
         """Adds a starEmoji to a starboard"""
         converted_emoji = utils.clean_emoji(emoji)
 
-        current_emojis = starboard.sql_attributes["star_emojis"]
+        current_emojis = starboard.sql["star_emojis"]
 
         if converted_emoji in current_emojis:
             raise errors.AlreadyExists(
@@ -327,7 +592,7 @@ class Starboard(commands.Cog):
         """Removes a starEmoji from a starboard"""
         converted_emoji = utils.clean_emoji(emoji)
 
-        current_emojis = starboard.sql_attributes["star_emojis"]
+        current_emojis = starboard.sql["star_emojis"]
 
         if converted_emoji not in current_emojis:
             raise errors.DoesNotExist(
@@ -376,7 +641,7 @@ class Starboard(commands.Cog):
         await self.bot.db.edit_starboard(starboard.obj.id, star_emojis=[])
 
         pretty_orig_emojis = utils.pretty_emoji_string(
-            starboard.sql_attributes["star_emojis"], ctx.guild
+            starboard.sql["star_emojis"], ctx.guild
         )
         pretty_new_emoijs = utils.pretty_emoji_string([], ctx.guild)
 

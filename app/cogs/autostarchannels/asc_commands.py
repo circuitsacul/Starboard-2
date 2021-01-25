@@ -55,7 +55,7 @@ class AutoStarChannels(commands.Cog):
 
             await ctx.send(embed=embed)
         else:
-            a = aschannel.sql_attributes
+            a = aschannel.sql
             c = aschannel.obj
             emoji_str = utils.pretty_emoji_string(a["emojis"], ctx.guild)
             embed = discord.Embed(
