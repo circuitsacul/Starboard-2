@@ -306,7 +306,7 @@ class Starboard(commands.Cog):
     @starboards.command(
         name="imagesOnly",
         aliases=["requireImage", "io"],
-        brief="Whether images are required for messages to be on the starboard",
+        brief="Whether messages must include an image",
     )
     @commands.has_guild_permissions(manage_channels=True)
     async def set_images_only(
