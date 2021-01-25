@@ -183,6 +183,125 @@ class AutoStarChannels(commands.Cog):
             embed=utils.cs_embed({"emojis": (old, "None")}, self.bot)
         )
 
+    @aschannels.command(
+        name="minChars",
+        aliases=["min", "mc"],
+        brief="The minimum number of characters for messages",
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    async def set_min_chars(
+        self,
+        ctx: commands.Context,
+        aschannel: converters.ASChannel,
+        min_chars: converters.myint,
+    ) -> None:
+        await self.bot.db.edit_aschannel(aschannel.obj.id, min_chars=min_chars)
+        await ctx.send(
+            embed=utils.cs_embed(
+                {"minChars": (aschannel.sql["min_chars"], min_chars)}, self.bot
+            )
+        )
+
+    @aschannels.command(
+        name="requireImage",
+        aliases=["imagesOnly", "ri"],
+        brief="Whether or not messages must include an image",
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    async def set_require_image(
+        self,
+        ctx: commands.Context,
+        aschannel: converters.ASChannel,
+        require_image: converters.mybool,
+    ) -> None:
+        await self.bot.db.edit_aschannel(
+            aschannel.obj.id, require_image=require_image
+        )
+        await ctx.send(
+            embed=utils.cs_embed(
+                {
+                    "requireImage": (
+                        aschannel.sql["require_image"],
+                        require_image,
+                    )
+                },
+                self.bot,
+            )
+        )
+
+    @aschannels.command(
+        name="regex",
+        aliases=["reg"],
+        brief="A regex string that all messages must match",
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    async def set_regex(
+        self,
+        ctx: commands.Context,
+        aschannel: converters.ASChannel,
+        regex: str,
+    ) -> None:
+        await self.bot.db.edit_aschannel(aschannel.obj.id, regex=regex)
+        await ctx.send(
+            embed=utils.cs_embed(
+                {"regex": (aschannel.sql["regex"], regex)}, self.bot
+            )
+        )
+
+    @aschannels.command(
+        name="excludeRegex",
+        alaises=["eregex", "ereg"],
+        brief="A regex string that all messages must not match",
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    async def set_eregex(
+        self,
+        ctx: commands.Context,
+        aschannel: converters.ASChannel,
+        exclude_regex: str,
+    ) -> None:
+        await self.bot.db.edit_aschannel(
+            aschannel.obj.id, exclude_regex=exclude_regex
+        )
+        await ctx.send(
+            embed=utils.cs_embed(
+                {
+                    "excludeRegex": (
+                        aschannel.sql["exclude_regex"],
+                        exclude_regex,
+                    )
+                },
+                self.bot,
+            )
+        )
+
+    @aschannels.command(
+        name="deleteInvalid",
+        aliases=["di"],
+        brief="Whether or not to delete invalid messages",
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    async def set_delete_invalid(
+        self,
+        ctx: commands.Context,
+        aschannel: converters.ASChannel,
+        delete_invalid: converters.mybool,
+    ) -> None:
+        await self.bot.db.edit_aschannel(
+            aschannel.obj.id, delete_invalid=delete_invalid
+        )
+        await ctx.send(
+            embed=utils.cs_embed(
+                {
+                    "deleteInvalid": (
+                        aschannel.sql["delete_invalid"],
+                        delete_invalid,
+                    )
+                },
+                self.bot,
+            )
+        )
+
 
 def setup(bot: Bot) -> None:
     bot.add_cog(AutoStarChannels(bot))
