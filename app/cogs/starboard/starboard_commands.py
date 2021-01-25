@@ -91,7 +91,7 @@ class Starboard(commands.Cog):
                     f"displayEmoji: **{s['display_emoji']}**\n"
                     f"color: **{s['color']}**\n\n"
                     f"requiredStars: **{s['required']}**\n"
-                    f"requiredToRemove: **{s['required_remove']}**\n"
+                    f"requiredRemove: **{s['required_remove']}**\n"
                     f"selfStar: **{s['self_star']}**\n"
                     f"allowNSFW: **{s['allow_nsfw']}**\n"
                     f"allowBots: **{s['allow_bots']}**\n"

@@ -341,7 +341,7 @@ class Database:
         if settings["required"] <= settings["required_remove"]:
             raise discord.InvalidArgument(
                 "requiredStars cannot be less than or equal to "
-                "requiredToRemove"
+                "requiredRemove"
             )
         if settings["required"] < 1:
             raise discord.InvalidArgument(
@@ -353,11 +353,11 @@ class Database:
             )
         if settings["required_remove"] < -1:
             raise discord.InvalidArgument(
-                "requiredToRemove cannot be less than -1"
+                "requiredRemove cannot be less than -1"
             )
         if settings["required_remove"] > 495:
             raise discord.InvalidArgument(
-                "requiredToRemove cannot be greater tahn 495"
+                "requiredRemove cannot be greater tahn 495"
             )
 
         await self.execute(
