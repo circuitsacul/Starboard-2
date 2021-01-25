@@ -15,6 +15,8 @@ def is_owner() -> callable:
 
 # Global Checks
 async def not_disabled(ctx: commands.Context) -> bool:
+    if ctx.guild is None:
+        return True
     if ctx.channel.permissions_for(ctx.message.author).manage_guild:
         return True
     guild = await ctx.bot.db.get_guild(ctx.guild.id)

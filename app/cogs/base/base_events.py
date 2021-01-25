@@ -234,6 +234,8 @@ def setup(bot: Bot) -> None:
 
     @bot.before_invoke
     async def create_data(message: discord.Message) -> None:
+        if message.guild is None:
+            return
         await bot.db.create_guild(message.guild.id)
         await bot.db.create_user(message.author.id, message.author.bot)
         await bot.db.create_member(message.author.id, message.guild.id)
