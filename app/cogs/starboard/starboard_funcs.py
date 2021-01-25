@@ -56,7 +56,10 @@ async def embed_message(
 
     for attachment in message.attachments:
         if files:
-            f = await attachment.to_file()
+            try:
+                f = await attachment.to_file()
+            except (discord.Forbidden, discord.HTTPException):
+                f = None
         else:
             f = None
         urls.append(
