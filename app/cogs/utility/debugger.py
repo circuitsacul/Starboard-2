@@ -63,14 +63,15 @@ async def debug_guild(bot: Bot, guild: discord.Guild) -> dict:
     if len(sql_starboards) == 0:
         result["warns"].append("You have no starboards set.")
     else:
+        if None in starboards:
+            result["warns"].append(
+                "There are some starboards where the original "
+                "channel was deleted. This can be resolved by "
+                "running the `clean` command."
+            )
         for x, s in enumerate(sql_starboards):
             obj = starboards[x]
             if obj is None:
-                result["warns"].append(
-                    f"A starboard was deleted from this server, "
-                    "but not from the database. Run `starboards remove "
-                    f"{s['id']}` to remove it."
-                )
                 continue
             if len(s["star_emojis"]) == 0:
                 result["errors"].append(
@@ -121,6 +122,74 @@ async def debug_guild(bot: Bot, guild: discord.Guild) -> dict:
                     f"{obj.mention}, so I can't autoreact to starboard "
                     "messages there."
                 )
+
+    # Check AutoStarChannels
+    sql_aschannels = await bot.db.get_aschannels(guild.id)
+    aschannels = [guild.get_channel(int(asc["id"])) for asc in sql_aschannels]
+    if None in aschannels:
+        result["warns"].append(
+            "There are some AutoStarChannels where the original channel "
+            "was deleted. This can be resolved by running the `clean` "
+            "command."
+        )
+    for x, asc in enumerate(sql_aschannels):
+        obj = aschannels[x]
+        if obj is None:
+            continue
+        if len(asc["emojis"]) == 0:
+            result["light_warns"].append(
+                f"The AutoStarChannel {obj.mention} has no emojis set. "
+                "This means that none of the messages there will receive "
+                "any reactions automatically."
+            )
+        if not asc["delete_invalid"]:
+            # Only check setting is deleteInvalid is False, because if it
+            # is True then it will be clear why messages are being deleted.
+            if asc["min_chars"] != 0:
+                result["light_warns"].append(
+                    f"The AutoStarChannel {obj.mention} has minChars set to "
+                    f"{asc['min_chars']}, so messages less than that will be "
+                    "ignored."
+                )
+            if asc["require_image"]:
+                result["light_warns"].append(
+                    f"The AutoStarChannel {obj.mention} has requireImage "
+                    "enabled, so all messages must include an image or "
+                    "they will be ignored."
+                )
+            if asc["regex"]:
+                result["light_warns"].append(
+                    f"The AutoStarChannel {obj.mention} has a regex string "
+                    f"(`{asc['regex']}`) that all messages must match or "
+                    "they will be ignored."
+                )
+            if asc["exclude_regex"]:
+                result["light_warns"].append(
+                    f"The AutoStarChannel {obj.mention} has a regex string "
+                    f"(`{asc['exclude_regex']}`) that all messages must not "
+                    "match or they will be ignored."
+                )
+
+        perms = obj.permissions_for(guild.me)
+        if not perms.read_messages:
+            result["errors"].append(
+                f"I'm missing the `Read Messages` permission in {obj.mention}"
+                ", which is an AutoStarChannel. Without this permission, I "
+                "won't be able to autoreact to messages there."
+            )
+        if not perms.add_reactions:
+            result["errors"].append(
+                f"I'm missing the `Add Reactions` permission in {obj.mention}"
+                ", which is an AutoStarChannel. Without this permision, I "
+                "won't be able to autoreact to messages there."
+            )
+        if not perms.manage_messages and asc["delete_invalid"]:
+            result["errors"].append(
+                f"I'm missing the `Manage Messages` permission in "
+                f"{obj.mention}, which is an AutoStarChannel. Without that "
+                "permission, I won't be able to delete messages that don't "
+                "meet the requirements."
+            )
 
     # Suggestions
     sql_guild = await bot.db.get_guild(guild.id)
