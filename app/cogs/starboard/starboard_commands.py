@@ -155,7 +155,7 @@ class Starboard(commands.Cog):
                 await ctx.send("Cancelled.")
 
     @flags.add_flag("--required", "-r", type=converters.myint)
-    @flags.add_flag("--requiredRemove", "-rtl", type=converters.myint)
+    @flags.add_flag("--requiredRemove", "-rtm", type=converters.myint)
     @flags.add_flag("--autoReact", "-ar", type=converters.mybool)
     @flags.add_flag("--selfStar", "-ss", type=converters.mybool)
     @flags.add_flag("--allowBots", "-ab", type=converters.mybool)
