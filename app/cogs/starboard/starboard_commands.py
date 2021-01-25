@@ -525,7 +525,7 @@ class Starboard(commands.Cog):
 
     @starboards.group(
         name="starEmojis",
-        aliases=["emojis", "se"],
+        aliases=["emojis", "se", "e"],
         brief="Modify starEmojis for a starboard",
         invoke_without_command=True,
     )
@@ -569,15 +569,13 @@ class Starboard(commands.Cog):
         )
         pretty_new_emojis = utils.pretty_emoji_string(new_emojis, ctx.guild)
 
-        embed = discord.Embed(
-            title=f"Modified starEmojis for {starboard.obj.name}",
-            description=(
-                f"{pretty_orig_emojis}\n\n:arrow_right: "
-                f"\n\n{pretty_new_emojis}"
-            ),
-            color=self.bot.theme_color,
+        await ctx.send(
+            embed=utils.cs_embed(
+                {"starEmojis": (pretty_orig_emojis, pretty_new_emojis)},
+                self.bot,
+                noticks=True,
+            )
         )
-        await ctx.send(embed=embed)
 
     @star_emojis.command(
         name="remove", aliases=["r", "del"], brief="Removes a starEmoji"
@@ -611,17 +609,13 @@ class Starboard(commands.Cog):
         )
         pretty_new_emojis = utils.pretty_emoji_string(new_emojis, ctx.guild)
 
-        embed = discord.Embed(
-            title=f"Modified starEmojis for {starboard.obj.name}",
-            description=(
-                f"{pretty_orig_emojis}\n\n"
-                ":arrow_right:\n\n"
-                f"{pretty_new_emojis}"
-            ),
-            color=self.bot.theme_color,
+        await ctx.send(
+            embed=utils.cs_embed(
+                {"starEmojis": (pretty_orig_emojis, pretty_new_emojis)},
+                self.bot,
+                noticks=True,
+            )
         )
-
-        await ctx.send(embed=embed)
 
     @star_emojis.command(
         name="clear",
