@@ -23,7 +23,7 @@ class SlashCommands(commands.Cog):
         await ctx.send(content="Pong!", complete_hidden=True)
 
     @commands.command(
-        name="slash", brief="Check if slash commands are enabled"
+        name="slash", brief="Get a link for authorizing slash commands"
     )
     @commands.guild_only()
     async def check_slash(self, ctx: commands.Context) -> None:
