@@ -14,6 +14,7 @@ from .database_functions import (
     users,
 )
 from .pg_tables import ALL_TABLES
+from .pg_indexes import ALL_INDEXES
 
 
 class Database:
@@ -50,6 +51,8 @@ class Database:
             async with con.transaction():
                 for table in ALL_TABLES:
                     await con.execute(table)
+                for index in ALL_INDEXES:
+                    await con.execute(index)
 
     async def execute(self, sql: str, *args: list) -> None:
         async with self.pool.acquire() as con:
