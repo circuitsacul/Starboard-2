@@ -125,6 +125,9 @@ class AutoStarChannels(commands.Cog):
         aschannel: converters.ASChannel,
         emoji: converters.Emoji,
     ) -> None:
+        """Adds an emoji to an AutoStarChannel, so messages sent
+        there will automatically receive this as a reaction from
+        Starboard."""
         clean = utils.clean_emoji(emoji)
         try:
             await self.bot.db.add_asemoji(aschannel.obj.id, clean)
@@ -155,6 +158,7 @@ class AutoStarChannels(commands.Cog):
         aschannel: converters.ASChannel,
         emoji: converters.Emoji,
     ) -> None:
+        """Removes an emoji from an AutoStarChannel"""
         clean = utils.clean_emoji(emoji)
         try:
             await self.bot.db.remove_asemojis(aschannel.obj.id, clean)
@@ -181,6 +185,7 @@ class AutoStarChannels(commands.Cog):
     async def clear_asemojis(
         self, ctx: commands.Context, aschannel: converters.ASChannel
     ) -> None:
+        """Removes all emojis from an AutoStarChannel"""
         await ctx.send("Are you sure?")
         if not await utils.confirm(ctx):
             await ctx.send("Canncelled")
@@ -203,6 +208,10 @@ class AutoStarChannels(commands.Cog):
         aschannel: converters.ASChannel,
         min_chars: converters.myint,
     ) -> None:
+        """Sets the minChars setting for an AutoStarChannel.
+
+        All messages must be at least this many characters long
+        in order for them to be autoreacted to."""
         await self.bot.db.edit_aschannel(aschannel.obj.id, min_chars=min_chars)
         await ctx.send(
             embed=utils.cs_embed(
@@ -222,6 +231,11 @@ class AutoStarChannels(commands.Cog):
         aschannel: converters.ASChannel,
         require_image: converters.mybool,
     ) -> None:
+        """Sets the imagesOnly setting for an AutoStarChannel.
+
+        All messages must include an uploaded attachment in order
+        for them to be autoreacted to. This does not include links
+        to images."""
         await self.bot.db.edit_aschannel(
             aschannel.obj.id, require_image=require_image
         )
@@ -249,6 +263,12 @@ class AutoStarChannels(commands.Cog):
         aschannel: converters.ASChannel,
         regex: str,
     ) -> None:
+        """Sets the regex setting for an AutoStarChannel.
+
+        All messages must match this regex string in order to be
+        autoreacted to. If the regex string takes longer than 0.01
+        seconds, the bot will assume success and will send a
+        warning to your log channel."""
         await self.bot.db.edit_aschannel(aschannel.obj.id, regex=regex)
         await ctx.send(
             embed=utils.cs_embed(
@@ -268,6 +288,12 @@ class AutoStarChannels(commands.Cog):
         aschannel: converters.ASChannel,
         exclude_regex: str,
     ) -> None:
+        """Sets the excludeRegex setting for an AutoStarChannel.
+
+        All messages must NOT match this regex string in order
+        to be autoreacted to. If the regex string takes longer than
+        0.01 seconds, the bot will assume that it did not match
+        (success) and will send a warning to your log channel."""
         await self.bot.db.edit_aschannel(
             aschannel.obj.id, exclude_regex=exclude_regex
         )
@@ -295,6 +321,11 @@ class AutoStarChannels(commands.Cog):
         aschannel: converters.ASChannel,
         delete_invalid: converters.mybool,
     ) -> None:
+        """Sets the deleteInvalid setting for an AutoStarChannel.
+
+        If this is set to True, any messages that do not meet
+        the requirements of of the AutoStarChannel will be deleted.
+        If it is set to False, then the bot will simply ignore them."""
         await self.bot.db.edit_aschannel(
             aschannel.obj.id, delete_invalid=delete_invalid
         )
