@@ -75,7 +75,7 @@ async def handle_forcing(
         starboards = _starboards
     else:
         starboards = [
-            s["id"] for s in await bot.db.starboardsget_starboards(guild_id)
+            s["id"] for s in await bot.db.starboards.get_starboards(guild_id)
         ]
     if force:
         for s in starboards:
