@@ -49,3 +49,8 @@ class SBMessages:
         except asyncpg.exceptions.UniqueViolationError:
             return True
         return False
+
+    async def delete(self, message_id: int) -> None:
+        await self.bot.db.execute(
+            """DELETE FROM starboard_messages WHERE id=$1""", message_id
+        )

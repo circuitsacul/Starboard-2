@@ -450,21 +450,13 @@ async def handle_starboard(
             int(sql_starboard_message["id"]),
         )
         if starboard_message is None:
-            await bot.db.execute(
-                """DELETE FROM starboard_messages
-                WHERE id=$1""",
-                sql_starboard_message["id"],
-            )
+            await bot.db.sb_messages.delete(sql_starboard_message["id"])
         sql_starboard_message = None
     else:
         starboard_message = None
 
     if delete and starboard_message is not None:
-        await bot.db.execute(
-            """DELETE FROM starboard_messages
-            WHERE id=$1""",
-            starboard_message.id,
-        )
+        await bot.db.sb_messages.delete(starboard_message.id)
         try:
             await starboard_message.delete()
         except discord.errors.NotFound:
