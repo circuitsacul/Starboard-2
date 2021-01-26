@@ -94,13 +94,22 @@ ASCHANNELS = """CREATE TABLE IF NOT EXISTS aschannels (
             ON DELETE CASCADE
     )"""
 
-PERMROLES = """CREATE TABLE IF NOT EXISTS permroles (
+PERMGROUPS = """CREATE TABLE IF NOT EXISTS permgroups (
+        id SERIAL PRIMARY KEY,
         guild_id NUMERIC NOT NULL,
-        role_id NUMERIC NOT NULL,
         index SMALLINT NOT NULL,
 
         starboards NUMERIC[] DEFAULT '{}',
         channels NUMERIC[] DEFAULT '{}',
+
+        FOREIGN KEY (guild_id) REFERENCES guilds (id)
+            ON DELETE CASCADE
+)"""
+
+PERMROLES = """CREATE TABLE IF NOT EXISTS permroles (
+        permgroup_id NUMERIC NOT NULL,
+        role_id NUMERIC NOT NULL,
+        index SMALLINT NOT NULL,
 
         allow_commands BOOL DEFAULT NULL,
         recv_stars BOOL DEFAULT NULL,
