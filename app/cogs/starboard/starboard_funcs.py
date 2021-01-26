@@ -237,12 +237,11 @@ async def embed_message(
                     embed.set_image(url=data["display_url"])
                     image_used = True
                     added = True
-            if not added:
+            if not added and data["file"] is not None:
                 f: discord.File = data["file"]
-                if f is not None:
-                    if nsfw:
-                        f.filename = "SPOILER_" + f.filename
-                    extra_attachments.append(f)
+                if nsfw:
+                    f.filename = "SPOILER_" + f.filename
+                extra_attachments.append(f)
         elif not nsfw:
             if not image_used:
                 embed.set_image(url=data["display_url"])
