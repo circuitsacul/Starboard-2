@@ -1,4 +1,8 @@
 # Starboard-2
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)](https://codeclimate.com/github/codeclimate/codeclimate/maintainability)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/CircuitsBots/Starboard-2/graphs/commit-activity)
+
 :warning: This repo is under constant, daily development, and I'm making breaking changes on a daily basis. Until I finish the basics of this bot, I will not include database migrations. I would highly recommend waiting until I finish (maybe a month) before trying to self-host this bot. :warning:
 
 A complete rewrite of Starboard
