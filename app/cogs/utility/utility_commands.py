@@ -149,17 +149,19 @@ class Utility(commands.Cog):
             self.bot, message_link.id
         )
         if orig_sql_message is None:
-            await self.bot.db.create_user(
+            await self.bot.db.users.create_user(
                 message_link.author.id, message_link.author.bot
             )
-            await self.bot.db.create_message(
+            await self.bot.db.messages.create_message(
                 message_link.id,
                 message_link.guild.id,
                 message_link.channel.id,
                 message_link.author.id,
                 message_link.channel.is_nsfw(),
             )
-            orig_sql_message = await self.bot.db.get_message(message_link.id)
+            orig_sql_message = await self.bot.db.messages.get_message(
+                message_link.id
+            )
 
         await utility_funcs.handle_forcing(
             self.bot,
@@ -459,7 +461,7 @@ class Utility(commands.Cog):
                 f"Frozen: {orig['frozen']}"
             ),
         )
-        for s in await self.bot.db.get_starboards(ctx.guild.id):
+        for s in await self.bot.db.starboards.get_starboards(ctx.guild.id):
             s_obj = ctx.guild.get_channel(int(s["id"]))
             if not s_obj:
                 continue

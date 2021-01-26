@@ -58,7 +58,7 @@ async def debug_guild(bot: Bot, guild: discord.Guild) -> dict:
         )
 
     # Check starboard
-    sql_starboards = await bot.db.get_starboards(guild.id)
+    sql_starboards = await bot.db.starboards.get_starboards(guild.id)
     starboards = [guild.get_channel(int(s["id"])) for s in sql_starboards]
     if len(sql_starboards) == 0:
         result["warns"].append("You have no starboards set.")
@@ -124,7 +124,7 @@ async def debug_guild(bot: Bot, guild: discord.Guild) -> dict:
                 )
 
     # Check AutoStarChannels
-    sql_aschannels = await bot.db.get_aschannels(guild.id)
+    sql_aschannels = await bot.db.aschannels.get_aschannels(guild.id)
     aschannels = [guild.get_channel(int(asc["id"])) for asc in sql_aschannels]
     if None in aschannels:
         result["warns"].append(
@@ -192,7 +192,7 @@ async def debug_guild(bot: Bot, guild: discord.Guild) -> dict:
             )
 
     # Suggestions
-    sql_guild = await bot.db.get_guild(guild.id)
+    sql_guild = await bot.db.guilds.get_guild(guild.id)
     if not sql_guild["log_channel"]:
         result["suggestions"].append(
             "Add a logChannel (`logChannel <channel>`), where I will "

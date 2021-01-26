@@ -135,7 +135,7 @@ class Base(commands.Cog):
                 "think they've voted?"
             )
             return
-        sql_user = await self.bot.db.get_user(user.id)
+        sql_user = await self.bot.db.users.get_user(user.id)
         if sql_user:
             count = sql_user["votes"]
         else:

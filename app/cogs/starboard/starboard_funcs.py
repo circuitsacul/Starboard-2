@@ -25,7 +25,7 @@ def get_plain_text(
 
 
 async def sbemojis(bot: Bot, guild_id: int) -> List[str]:
-    starboards = await bot.db.get_starboards(guild_id)
+    starboards = await bot.db.starboards.get_starboards(guild_id)
     _emojis = await bot.db.fetchval(
         """SELECT star_emojis FROM starboards
         WHERE id=any($1::numeric[])""",
@@ -36,12 +36,14 @@ async def sbemojis(bot: Bot, guild_id: int) -> List[str]:
 
 
 async def orig_message(bot: Bot, message_id: int) -> Optional[dict]:
-    starboard_message = await bot.db.get_starboard_message(message_id)
+    starboard_message = await bot.db.sb_messages.get_starboard_message(
+        message_id
+    )
 
     if starboard_message is not None:
-        return await bot.db.get_message(starboard_message["orig_id"])
+        return await bot.db.messages.get_message(starboard_message["orig_id"])
 
-    return await bot.db.get_message(message_id)
+    return await bot.db.messages.get_message(message_id)
 
 
 async def embed_message(
@@ -261,11 +263,11 @@ async def embed_message(
 
 
 async def update_message(bot: Bot, message_id: int, guild_id: int) -> None:
-    sql_message = await bot.db.get_message(message_id)
+    sql_message = await bot.db.messages.get_message(message_id)
     if not sql_message:
         return
-    sql_starboards = await bot.db.get_starboards(guild_id)
-    sql_author = await bot.db.get_user(sql_message["author_id"])
+    sql_starboards = await bot.db.starboards.get_starboards(guild_id)
+    sql_author = await bot.db.users.get_user(sql_message["author_id"])
     all_tasks = []
     if not sql_message["trashed"]:
         for s in sql_starboards:
@@ -500,7 +502,7 @@ async def handle_starboard(
                     guild,
                 )
                 return
-            await bot.db.create_starboard_message(
+            await bot.db.sb_messages.create_starboard_message(
                 m.id, message.id, sql_starboard["id"]
             )
             await set_points(bot, points, m.id)

@@ -58,14 +58,16 @@ class Fun(commands.Cog):
         embeds: List[discord.Embed] = []
         text_pages: List[str] = []
         for m in messages[0:10]:
-            orig = await self.bot.db.get_message(m["orig_id"])
+            orig = await self.bot.db.messages.get_message(m["orig_id"])
             obj = await self.bot.cache.fetch_message(
                 self.bot,
                 ctx.guild.id,
                 int(orig["channel_id"]),
                 int(orig["id"]),
             )
-            sql_starboard = await self.bot.db.get_starboard(m["starboard_id"])
+            sql_starboard = await self.bot.db.starboards.get_starboard(
+                m["starboard_id"]
+            )
             color = sql_starboard["color"]
             text_pages.append(
                 starboard_funcs.get_plain_text(
@@ -142,8 +144,12 @@ class Fun(commands.Cog):
             )
             return
         choice = random.choice(good_messages)
-        orig_sql_message = await self.bot.db.get_message(choice["orig_id"])
-        sql_starboard = await self.bot.db.get_starboard(choice["starboard_id"])
+        orig_sql_message = await self.bot.db.messages.get_message(
+            choice["orig_id"]
+        )
+        sql_starboard = await self.bot.db.starboards.get_starboard(
+            choice["starboard_id"]
+        )
         orig_message = await self.bot.cache.fetch_message(
             self.bot,
             ctx.guild.id,

@@ -18,7 +18,7 @@ class StarboardEvents(commands.Cog):
     ) -> None:
         if not isinstance(channel, discord.TextChannel):
             return
-        starboard = await self.bot.db.get_starboard(channel.id)
+        starboard = await self.bot.db.starboards.get_starboard(channel.id)
         if not starboard:
             return
         await self.bot.db.execute(
@@ -35,7 +35,7 @@ class StarboardEvents(commands.Cog):
     async def on_raw_message_delete(
         self, payload: discord.RawMessageDeleteEvent
     ) -> None:
-        sb_message = await self.bot.db.get_starboard_message(
+        sb_message = await self.bot.db.sb_messages.get_starboard_message(
             payload.message_id
         )
         if sb_message:
@@ -60,7 +60,9 @@ class StarboardEvents(commands.Cog):
 
         # Check if is starEmoji
         emoji = utils.clean_emoji(payload.emoji)
-        starboards = await self.bot.db.get_starboards(payload.guild_id)
+        starboards = await self.bot.db.starboards.get_starboards(
+            payload.guild_id
+        )
         sb_emojis = []
         for s in starboards:
             sb_emojis += s["star_emojis"]
@@ -69,8 +71,12 @@ class StarboardEvents(commands.Cog):
             return
 
         # Create necessary data
-        await self.bot.db.create_user(payload.member.id, payload.member.bot)
-        await self.bot.db.create_member(payload.member.id, payload.guild_id)
+        await self.bot.db.users.create_user(
+            payload.member.id, payload.member.bot
+        )
+        await self.bot.db.members.create_member(
+            payload.member.id, payload.guild_id
+        )
 
         # Add reaction
         sql_message = await starboard_funcs.orig_message(
@@ -84,7 +90,7 @@ class StarboardEvents(commands.Cog):
                 int(sql_message["channel_id"]),
                 int(sql_message["id"]),
             )
-            await self.bot.db.create_reaction_user(
+            await self.bot.db.reactions.create_reaction_user(
                 emoji, sql_message["id"], payload.user_id
             )
             await starboard_funcs.update_message(
@@ -99,20 +105,20 @@ class StarboardEvents(commands.Cog):
                 payload.message_id,
             )
 
-            await self.bot.db.create_user(
+            await self.bot.db.users.create_user(
                 message.author.id, message.author.bot
             )
-            await self.bot.db.create_member(
+            await self.bot.db.members.create_member(
                 message.author.id, payload.guild_id
             )
-            await self.bot.db.create_message(
+            await self.bot.db.messages.create_message(
                 message.id,
                 message.guild.id,
                 message.channel.id,
                 message.author.id,
                 message.channel.is_nsfw(),
             )
-            await self.bot.db.create_reaction_user(
+            await self.bot.db.reactions.create_reaction_user(
                 emoji, message.id, payload.user_id
             )
             await starboard_funcs.update_message(
@@ -128,7 +134,9 @@ class StarboardEvents(commands.Cog):
         emoji = utils.clean_emoji(payload.emoji)
 
         sb_emojis = []
-        starboards = await self.bot.db.get_starboards(payload.guild_id)
+        starboards = await self.bot.db.starboards.get_starboards(
+            payload.guild_id
+        )
         for s in starboards:
             sb_emojis += s["star_emojis"]
         if emoji not in sb_emojis:
@@ -140,7 +148,7 @@ class StarboardEvents(commands.Cog):
 
         if orig_message is not None:
             # Delete from the original message
-            await self.bot.db.delete_reaction_user(
+            await self.bot.db.reactions.delete_reaction_user(
                 emoji, int(orig_message["id"]), payload.user_id
             )
 
@@ -149,7 +157,7 @@ class StarboardEvents(commands.Cog):
             )
         else:
             # Delete from the message since it is the original
-            await self.bot.db.delete_reaction_user(
+            await self.bot.db.reactions.delete_reaction_user(
                 emoji, payload.message_id, payload.user_id
             )
 

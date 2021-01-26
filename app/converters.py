@@ -145,7 +145,7 @@ class Starboard(commands.Converter):
         if channel is None:
             raise commands.errors.ChannelNotFound(arg)
 
-        sql_starboard = await ctx.bot.db.get_starboard(channel_id)
+        sql_starboard = await ctx.bot.db.starboards.get_starboard(channel_id)
         if sql_starboard is None:
             raise errors.DoesNotExist(f"{channel.mention} is not a starboard.")
 
@@ -156,7 +156,7 @@ class ASChannel(commands.TextChannelConverter):
     async def convert(self, ctx: commands.Context, arg: str) -> SQLObject:
         channel = await super().convert(ctx, arg)
 
-        sql_aschannel = await ctx.bot.db.get_aschannel(channel.id)
+        sql_aschannel = await ctx.bot.db.aschannels.get_aschannel(channel.id)
         if not sql_aschannel:
             raise errors.DoesNotExist(
                 f"{channel.mention} is not an AutoStar channel."

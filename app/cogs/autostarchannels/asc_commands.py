@@ -23,7 +23,9 @@ class AutoStarChannels(commands.Cog):
         specific AutoStarChannel."""
         if not aschannel:
             p = utils.escmd(ctx.prefix)
-            aschannels = await self.bot.db.get_aschannels(ctx.guild.id)
+            aschannels = await self.bot.db.aschannels.get_aschannels(
+                ctx.guild.id
+            )
 
             if len(aschannels) == 0:
                 await ctx.send(
@@ -81,7 +83,7 @@ class AutoStarChannels(commands.Cog):
         self, ctx: commands.Context, channel: discord.TextChannel
     ) -> None:
         """Creates an AutoStarChannel"""
-        await self.bot.db.create_aschannel(channel.id, ctx.guild.id)
+        await self.bot.db.aschannels.create_aschannel(channel.id, ctx.guild.id)
         await ctx.send(f"Created AutoStarChannel {channel.mention}")
 
     @aschannels.command(
@@ -130,7 +132,7 @@ class AutoStarChannels(commands.Cog):
         Starboard."""
         clean = utils.clean_emoji(emoji)
         try:
-            await self.bot.db.add_asemoji(aschannel.obj.id, clean)
+            await self.bot.db.aschannels.add_asemoji(aschannel.obj.id, clean)
         except errors.AlreadyExists:
             # Raise a more user-friendly error message
             raise errors.AlreadyExists(
@@ -161,7 +163,9 @@ class AutoStarChannels(commands.Cog):
         """Removes an emoji from an AutoStarChannel"""
         clean = utils.clean_emoji(emoji)
         try:
-            await self.bot.db.remove_asemojis(aschannel.obj.id, clean)
+            await self.bot.db.aschannels.remove_asemojis(
+                aschannel.obj.id, clean
+            )
         except errors.DoesNotExist:
             raise errors.DoesNotExist(
                 f"{emoji} is not an emoji on {aschannel.obj.mention}"
@@ -190,7 +194,9 @@ class AutoStarChannels(commands.Cog):
         if not await utils.confirm(ctx):
             await ctx.send("Canncelled")
             return
-        await self.bot.db.edit_aschannel(aschannel.obj.id, emojis=[])
+        await self.bot.db.aschannels.edit_aschannel(
+            aschannel.obj.id, emojis=[]
+        )
         old = utils.pretty_emoji_string(aschannel.sql["emojis"], ctx.guild)
         await ctx.send(
             embed=utils.cs_embed({"emojis": (old, "None")}, self.bot)
@@ -212,7 +218,9 @@ class AutoStarChannels(commands.Cog):
 
         All messages must be at least this many characters long
         in order for them to be autoreacted to."""
-        await self.bot.db.edit_aschannel(aschannel.obj.id, min_chars=min_chars)
+        await self.bot.db.aschannels.edit_aschannel(
+            aschannel.obj.id, min_chars=min_chars
+        )
         await ctx.send(
             embed=utils.cs_embed(
                 {"minChars": (aschannel.sql["min_chars"], min_chars)}, self.bot
@@ -236,7 +244,7 @@ class AutoStarChannels(commands.Cog):
         All messages must include an uploaded attachment in order
         for them to be autoreacted to. This does not include links
         to images."""
-        await self.bot.db.edit_aschannel(
+        await self.bot.db.aschannels.edit_aschannel(
             aschannel.obj.id, require_image=require_image
         )
         await ctx.send(
@@ -269,7 +277,9 @@ class AutoStarChannels(commands.Cog):
         autoreacted to. If the regex string takes longer than 0.01
         seconds, the bot will assume success and will send a
         warning to your log channel."""
-        await self.bot.db.edit_aschannel(aschannel.obj.id, regex=regex)
+        await self.bot.db.aschannels.edit_aschannel(
+            aschannel.obj.id, regex=regex
+        )
         await ctx.send(
             embed=utils.cs_embed(
                 {"regex": (aschannel.sql["regex"], regex)}, self.bot
@@ -294,7 +304,7 @@ class AutoStarChannels(commands.Cog):
         to be autoreacted to. If the regex string takes longer than
         0.01 seconds, the bot will assume that it did not match
         (success) and will send a warning to your log channel."""
-        await self.bot.db.edit_aschannel(
+        await self.bot.db.aschannels.edit_aschannel(
             aschannel.obj.id, exclude_regex=exclude_regex
         )
         await ctx.send(
@@ -326,7 +336,7 @@ class AutoStarChannels(commands.Cog):
         If this is set to True, any messages that do not meet
         the requirements of of the AutoStarChannel will be deleted.
         If it is set to False, then the bot will simply ignore them."""
-        await self.bot.db.edit_aschannel(
+        await self.bot.db.aschannels.edit_aschannel(
             aschannel.obj.id, delete_invalid=delete_invalid
         )
         await ctx.send(
