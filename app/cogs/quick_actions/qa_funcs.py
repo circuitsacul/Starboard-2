@@ -2,17 +2,17 @@ from typing import Optional
 
 
 def get_qa_type(emoji: str, guild: dict) -> Optional[str]:
+    qa_type: Optional[str] = None
     if emoji == guild["qa_force"]:
-        return "qa_force"
+        qa_type = "qa_force"
     elif emoji == guild["qa_unforce"]:
-        return "qa_unforce"
+        qa_type = "qa_unforce"
     elif emoji == guild["qa_freeze"]:
-        return "qa_freeze"
+        qa_type = "qa_freeze"
     elif emoji == guild["qa_trash"]:
-        return "qa_trash"
+        qa_type = "qa_trash"
     elif emoji == guild["qa_recount"]:
-        return "qa_recount"
+        qa_type = "qa_recount"
     elif emoji == guild["qa_save"]:
-        return "qa_save"
-    else:
-        return None
+        qa_type = "qa_save"
+    return qa_type
