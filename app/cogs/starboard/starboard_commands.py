@@ -659,16 +659,13 @@ class Starboard(commands.Cog):
         )
         pretty_new_emoijs = utils.pretty_emoji_string([], ctx.guild)
 
-        embed = discord.Embed(
-            title=f"Cleared starEmojis for {starboard.obj.name}",
-            description=(
-                f"{pretty_orig_emojis}\n\n"
-                ":arrow_right:\n\n"
-                f"{pretty_new_emoijs}"
-            ),
-            color=self.bot.theme_color,
+        await ctx.send(
+            embed=utils.cs_embed(
+                {"starEmojis": (pretty_orig_emojis, pretty_new_emoijs)},
+                self.bot,
+                noticks=True,
+            )
         )
-        await ctx.send(embed=embed)
 
 
 def setup(bot: Bot) -> None:
