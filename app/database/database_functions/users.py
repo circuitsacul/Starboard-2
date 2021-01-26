@@ -7,18 +7,18 @@ class Users:
     def __init__(self, bot) -> None:
         self.bot = bot
 
-    async def get_user(self, user_id: int) -> Optional[dict]:
+    async def get(self, user_id: int) -> Optional[dict]:
         return await self.bot.db.fetchrow(
             """SELECT * FROM users
             WHERE id=$1""",
             user_id,
         )
 
-    async def create_user(
+    async def create(
         self, user_id: int, is_bot: bool, check_first: bool = True
     ) -> None:
         if check_first:
-            exists = await self.get_user(user_id) is not None
+            exists = await self.get(user_id) is not None
             if exists:
                 return True
 

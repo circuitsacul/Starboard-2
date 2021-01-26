@@ -10,29 +10,29 @@ class Starboards:
     def __init__(self, bot) -> None:
         self.bot = bot
 
-    async def get_starboard(self, starboard_id: int) -> Optional[dict]:
+    async def get(self, starboard_id: int) -> Optional[dict]:
         return await self.bot.db.fetchrow(
             """SELECT * FROM starboards
             WHERE id=$1""",
             starboard_id,
         )
 
-    async def get_starboards(self, guild_id: int) -> List[dict]:
+    async def get_many(self, guild_id: int) -> List[dict]:
         return await self.bot.db.fetch(
             """SELECT * FROM starboards
             WHERE guild_id=$1""",
             guild_id,
         )
 
-    async def create_starboard(
+    async def create(
         self, channel_id: int, guild_id: int, check_first: bool = True
     ) -> bool:
         if check_first:
-            exists = await self.get_starboard(channel_id) is not None
+            exists = await self.get(channel_id) is not None
             if exists:
                 return True
 
-        await self.bot.db.guilds.create_guild(guild_id)
+        await self.bot.db.guilds.create(guild_id)
         try:
             await self.bot.db.execute(
                 """INSERT INTO starboards (id, guild_id)
@@ -44,7 +44,7 @@ class Starboards:
             return True
         return False
 
-    async def edit_starboard(
+    async def edit(
         self,
         starboard_id: int = None,
         required: int = None,
@@ -66,7 +66,7 @@ class Starboards:
         exclude_regex: str = None,
         color: int = None,
     ) -> None:
-        s = await self.get_starboard(starboard_id)
+        s = await self.get(starboard_id)
         if not s:
             raise errors.DoesNotExist(
                 f"Starboard {starboard_id} does not exist."
@@ -181,13 +181,13 @@ class Starboards:
         if type(emoji) is not str:
             raise ValueError("Expected a str for emoji")
 
-        starboard = await self.get_starboard(starboard_id)
+        starboard = await self.get(starboard_id)
         if emoji in starboard["star_emojis"]:
             raise errors.AlreadyExists(
                 f"{emoji} is already a starEmoji on " f"{starboard['id']}"
             )
 
-        await self.edit_starboard(
+        await self.edit(
             starboard_id, star_emojis=starboard["star_emojis"] + [emoji]
         )
 
@@ -195,7 +195,7 @@ class Starboards:
         if type(emoji) is not str:
             raise ValueError("Expected a str for emoji")
 
-        starboard = await self.get_starboard(starboard_id)
+        starboard = await self.get(starboard_id)
         if emoji not in starboard["star_emojis"]:
             raise errors.DoesNotExist(
                 f"{emoji} is already a starEmoji on " f"{starboard['id']}"
@@ -204,4 +204,4 @@ class Starboards:
         new_emojis = starboard["star_emojis"]
         new_emojis.remove(emoji)
 
-        await self.edit_starboard(starboard_id, star_emojis=new_emojis)
+        await self.edit(starboard_id, star_emojis=new_emojis)

@@ -21,12 +21,10 @@ class AutoStarEvents(commands.Cog):
     ) -> None:
         if not isinstance(channel, discord.TextChannel):
             return
-        aschannel = await self.bot.db.aschannels.get_aschannel(channel.id)
+        aschannel = await self.bot.db.aschannels.get(channel.id)
         if not aschannel:
             return
-        await self.bot.db.execute(
-            """DELETE FROM aschannels WHERE id=$1""", channel.id
-        )
+        await self.bot.db.aschannels.delete(channel.id)
         self.bot.dispatch(
             "guild_log",
             (
@@ -41,9 +39,7 @@ class AutoStarEvents(commands.Cog):
     async def on_message(self, message: discord.Message) -> None:
         if message.author.bot:
             return
-        aschannel = await self.bot.db.aschannels.get_aschannel(
-            message.channel.id
-        )
+        aschannel = await self.bot.db.aschannels.get(message.channel.id)
         if not aschannel:
             return
 

@@ -213,7 +213,7 @@ class BaseEvents(commands.Cog):
     async def on_guild_log(
         self, message: str, log_type: str, guild: discord.Guild
     ) -> None:
-        sql_guild = await self.bot.db.guilds.get_guild(guild.id)
+        sql_guild = await self.bot.db.guilds.get(guild.id)
         if sql_guild["log_channel"] is None:
             return
         log_channel = guild.get_channel(int(sql_guild["log_channel"]))
@@ -236,6 +236,6 @@ def setup(bot: Bot) -> None:
     async def create_data(message: discord.Message) -> None:
         if message.guild is None:
             return
-        await bot.db.guilds.create_guild(message.guild.id)
-        await bot.db.users.create_user(message.author.id, message.author.bot)
-        await bot.db.members.create_member(message.author.id, message.guild.id)
+        await bot.db.guilds.create(message.guild.id)
+        await bot.db.users.create(message.author.id, message.author.bot)
+        await bot.db.members.create(message.author.id, message.guild.id)

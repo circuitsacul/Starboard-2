@@ -47,9 +47,7 @@ class Starboard(commands.Cog):
         sb!starboards <starboard>"""
         p = utils.escmd(ctx.prefix)
         if starboard is None:
-            starboards = await self.bot.db.starboards.get_starboards(
-                ctx.guild.id
-            )
+            starboards = await self.bot.db.starboards.get_many(ctx.guild.id)
             if len(starboards) == 0:
                 await ctx.send(
                     "You do not have any starboards. "
@@ -118,9 +116,7 @@ class Starboard(commands.Cog):
         self, ctx: commands.Context, channel: discord.TextChannel
     ) -> None:
         """Adds a starboard"""
-        existed = await self.bot.db.starboards.create_starboard(
-            channel.id, ctx.guild.id
-        )
+        existed = await self.bot.db.starboards.create(channel.id, ctx.guild.id)
         if existed:
             raise errors.AlreadyExists(
                 f"{channel.mention} is already a starboard."
@@ -142,7 +138,7 @@ class Starboard(commands.Cog):
         channel. This action is irreversable."""
         cid = channel.id if type(channel) is not int else channel
         cname = channel.mention if type(channel) is not int else channel
-        starboard = await self.bot.db.starboards.get_starboard(cid)
+        starboard = await self.bot.db.starboards.get(cid)
         if not starboard:
             raise errors.DoesNotExist(f"{cname} is not a starboard.")
         else:
@@ -171,7 +167,7 @@ class Starboard(commands.Cog):
         emoji: converters.Emoji,
     ) -> None:
         clean = utils.clean_emoji(emoji)
-        await self.bot.db.starboards.edit_starboard(
+        await self.bot.db.starboards.edit(
             starboard.obj.id, display_emoji=clean
         )
         orig = utils.pretty_emoji_string(
@@ -193,9 +189,7 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         color: converters.myhex,
     ) -> None:
-        await self.bot.db.starboards.edit_starboard(
-            starboard.obj.id, color=color
-        )
+        await self.bot.db.starboards.edit(starboard.obj.id, color=color)
         await ctx.send(
             embed=utils.cs_embed(
                 {"color": (starboard.sql["color"], color)}, self.bot
@@ -214,9 +208,7 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         required: converters.myint,
     ) -> None:
-        await self.bot.db.starboards.edit_starboard(
-            starboard.obj.id, required=required
-        )
+        await self.bot.db.starboards.edit(starboard.obj.id, required=required)
         await ctx.send(
             embed=utils.cs_embed(
                 {"required": (starboard.sql["required"], required)}, self.bot
@@ -235,7 +227,7 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         required_remove: converters.myint,
     ) -> None:
-        await self.bot.db.starboards.edit_starboard(
+        await self.bot.db.starboards.edit(
             starboard.obj.id, required_remove=required_remove
         )
         await ctx.send(
@@ -262,7 +254,7 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         self_star: converters.mybool,
     ) -> None:
-        await self.bot.db.starboards.edit_starboard(
+        await self.bot.db.starboards.edit(
             starboard.obj.id, self_star=self_star
         )
         await ctx.send(
@@ -283,7 +275,7 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         allow_nsfw: converters.mybool,
     ) -> None:
-        await self.bot.db.starboards.edit_starboard(
+        await self.bot.db.starboards.edit(
             starboard.obj.id, allow_nsfw=allow_nsfw
         )
         await ctx.send(
@@ -305,7 +297,7 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         allow_bots: converters.mybool,
     ) -> None:
-        await self.bot.db.starboards.edit_starboard(
+        await self.bot.db.starboards.edit(
             starboard.obj.id, allow_bots=allow_bots
         )
         await ctx.send(
@@ -327,7 +319,7 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         images_only: converters.mybool,
     ) -> None:
-        await self.bot.db.starboards.edit_starboard(
+        await self.bot.db.starboards.edit(
             starboard.obj.id, images_only=images_only
         )
         await ctx.send(
@@ -349,9 +341,7 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         regex: str,
     ) -> None:
-        await self.bot.db.starboards.edit_starboard(
-            starboard.obj.id, regex=regex
-        )
+        await self.bot.db.starboards.edit(starboard.obj.id, regex=regex)
         await ctx.send(
             embed=utils.cs_embed(
                 {"regex": (starboard.sql["regex"], regex)}, self.bot
@@ -370,7 +360,7 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         exclude_regex: str,
     ) -> None:
-        await self.bot.db.starboards.edit_starboard(
+        await self.bot.db.starboards.edit(
             starboard.obj.id, exclude_regex=exclude_regex
         )
         await ctx.send(
@@ -397,9 +387,7 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         ping: converters.mybool,
     ) -> None:
-        await self.bot.db.starboards.edit_starboard(
-            starboard.obj.id, ping=ping
-        )
+        await self.bot.db.starboards.edit(starboard.obj.id, ping=ping)
         await ctx.send(
             embed=utils.cs_embed(
                 {"ping": (starboard.sql["ping"], ping)}, self.bot
@@ -418,7 +406,7 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         auto_react: converters.mybool,
     ) -> None:
-        await self.bot.db.starboards.edit_starboard(
+        await self.bot.db.starboards.edit(
             starboard.obj.id, autoreact=auto_react
         )
         await ctx.send(
@@ -440,7 +428,7 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         link_deletes: converters.mybool,
     ) -> None:
-        await self.bot.db.starboards.edit_starboard(
+        await self.bot.db.starboards.edit(
             starboard.obj.id, link_deletes=link_deletes
         )
         await ctx.send(
@@ -462,7 +450,7 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         link_edits: converters.mybool,
     ) -> None:
-        await self.bot.db.starboards.edit_starboard(
+        await self.bot.db.starboards.edit(
             starboard.obj.id, link_edits=link_edits
         )
         await ctx.send(
@@ -484,7 +472,7 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         remove_reactions: converters.mybool,
     ) -> None:
-        await self.bot.db.starboards.edit_starboard(
+        await self.bot.db.starboards.edit(
             starboard.obj.id, remove_reactions=remove_reactions
         )
         await ctx.send(
@@ -510,9 +498,7 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         no_xp: converters.mybool,
     ) -> None:
-        await self.bot.db.starboards.edit_starboard(
-            starboard.obj.id, no_xp=no_xp
-        )
+        await self.bot.db.starboards.edit(starboard.obj.id, no_xp=no_xp)
         await ctx.send(
             embed=utils.cs_embed(
                 {"noXp": (starboard.sql["no_xp"], no_xp)}, self.bot
@@ -531,7 +517,7 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         allow_random: converters.mybool,
     ) -> None:
-        await self.bot.db.starboards.edit_starboard(
+        await self.bot.db.starboards.edit(
             starboard.obj.id, explore=allow_random
         )
         await ctx.send(
@@ -650,9 +636,7 @@ class Starboard(commands.Cog):
             await ctx.send("Cancelled")
             return
 
-        await self.bot.db.starboards.edit_starboard(
-            starboard.obj.id, star_emojis=[]
-        )
+        await self.bot.db.starboards.edit(starboard.obj.id, star_emojis=[])
 
         pretty_orig_emojis = utils.pretty_emoji_string(
             starboard.sql["star_emojis"], ctx.guild

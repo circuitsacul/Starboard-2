@@ -101,7 +101,7 @@ class Bot(commands.AutoShardedBot):
         self, bot, message: discord.Message
     ) -> List[str]:
         if message.guild:
-            guild = await self.db.guilds.get_guild(message.guild.id)
+            guild = await self.db.guilds.get(message.guild.id)
             if not guild:
                 prefixes = ["sb!"]
             else:

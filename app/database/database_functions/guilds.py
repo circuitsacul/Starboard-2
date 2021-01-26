@@ -7,7 +7,7 @@ class Guilds:
     def __init__(self, bot) -> None:
         self.bot = bot
 
-    async def get_guild(self, guild_id: int) -> Optional[dict]:
+    async def get(self, guild_id: int) -> Optional[dict]:
         sql_guild = await self.bot.db.fetchrow(
             """SELECT * FROM guilds
             WHERE id=$1""",
@@ -15,11 +15,9 @@ class Guilds:
         )
         return sql_guild
 
-    async def create_guild(
-        self, guild_id: int, check_first: bool = True
-    ) -> bool:
+    async def create(self, guild_id: int, check_first: bool = True) -> bool:
         if check_first:
-            exists = await self.get_guild(guild_id) is not None
+            exists = await self.get(guild_id) is not None
             if exists:
                 return False
 

@@ -7,14 +7,14 @@ class Messages:
     def __init__(self, bot) -> None:
         self.bot = bot
 
-    async def get_message(self, message_id: int) -> dict:
+    async def get(self, message_id: int) -> dict:
         return await self.bot.db.fetchrow(
             """SELECT * FROM messages
             WHERE id=$1""",
             message_id,
         )
 
-    async def create_message(
+    async def create(
         self,
         message_id: int,
         guild_id: int,
@@ -24,13 +24,12 @@ class Messages:
         check_first: bool = True,
     ) -> bool:
         if check_first:
-            exists = await self.get_message(message_id) is not None
+            exists = await self.get(message_id) is not None
             if exists:
                 return True
 
         is_starboard_message = (
-            await self.bot.db.sb_messages.get_starboard_message(message_id)
-            is not None
+            await self.bot.db.sb_messages.get(message_id) is not None
         )
         if is_starboard_message:
             raise errors.AlreadyStarboardMessage(
@@ -38,7 +37,7 @@ class Messages:
                 "because it is already starboard message."
             )
 
-        await self.bot.db.guilds.create_guild(guild_id)
+        await self.bot.db.guilds.create(guild_id)
 
         try:
             await self.bot.db.execute(

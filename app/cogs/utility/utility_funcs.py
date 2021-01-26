@@ -67,7 +67,7 @@ async def handle_forcing(
     _starboards: List[int],
     force: bool,
 ) -> None:
-    sql_message = await bot.db.messages.get_message(message_id)
+    sql_message = await bot.db.messages.get(message_id)
     if not sql_message:
         return
     new_forced: List = sql_message["forced"]
@@ -75,7 +75,7 @@ async def handle_forcing(
         starboards = _starboards
     else:
         starboards = [
-            s["id"] for s in await bot.db.starboards.get_starboards(guild_id)
+            s["id"] for s in await bot.db.starboards.get_many(guild_id)
         ]
     if force:
         for s in starboards:

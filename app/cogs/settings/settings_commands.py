@@ -7,7 +7,7 @@ from app.cogs.quick_actions import qa_funcs
 
 
 async def raise_if_exists(emoji: str, ctx: commands.Context) -> None:
-    guild = await ctx.bot.db.guilds.get_guild(ctx.guild.id)
+    guild = await ctx.bot.db.guilds.get(ctx.guild.id)
     if qa_funcs.get_qa_type(emoji, guild) is not None:
         raise errors.AlreadyExists("That is already a QuickAction!")
 
@@ -25,7 +25,7 @@ class Settings(commands.Cog):
     @commands.guild_only()
     async def disabled_cmds(self, ctx: commands.Context) -> None:
         """Lists all commands that have been disabled"""
-        guild = await self.bot.db.guilds.get_guild(ctx.guild.id)
+        guild = await self.bot.db.guilds.get(ctx.guild.id)
         if len(guild["disabled_commands"]) == 0:
             await ctx.send("No disabled commands.")
             return
@@ -48,7 +48,7 @@ class Settings(commands.Cog):
     ) -> None:
         """Disables a command, so only someone with
         manage_guild permissions can use them"""
-        guild = await self.bot.db.guilds.get_guild(ctx.guild.id)
+        guild = await self.bot.db.guilds.get(ctx.guild.id)
         name = command.qualified_name
         new_commands = guild["disabled_commands"]
         if name in new_commands:
@@ -71,7 +71,7 @@ class Settings(commands.Cog):
         self, ctx: commands.Context, command: converters.Command
     ) -> None:
         """Enables a command"""
-        guild = await self.bot.db.guilds.get_guild(ctx.guild.id)
+        guild = await self.bot.db.guilds.get(ctx.guild.id)
         name = command.qualified_name
         new_commands = guild["disabled_commands"]
         if name not in new_commands:
@@ -93,7 +93,7 @@ class Settings(commands.Cog):
         """Lists the settings for the curent server.
         A list of commands to change these settings can
         be viewed by running sb!help Settings"""
-        guild = await self.bot.db.guilds.get_guild(ctx.guild.id)
+        guild = await self.bot.db.guilds.get(ctx.guild.id)
         log_channel = (
             "**None**"
             if guild["log_channel"] is None
@@ -128,7 +128,7 @@ class Settings(commands.Cog):
     async def quickactions(self, ctx: commands.Context) -> None:
         """Modify the emojis for quickActions"""
         p = ctx.prefix
-        guild = await self.bot.db.guilds.get_guild(ctx.guild.id)
+        guild = await self.bot.db.guilds.get(ctx.guild.id)
         embed = discord.Embed(
             title="QuickActions",
             description=(
@@ -316,7 +316,7 @@ class Settings(commands.Cog):
         """Lists prefixes for the current server.
         Run sb!help prefixes to view commands for
         modifying the prefixes."""
-        guild = await self.bot.db.guils.get_guild(ctx.guild.id)
+        guild = await self.bot.db.guils.get(ctx.guild.id)
         embed = discord.Embed(
             title=f"Prefixes for {ctx.guild.name}",
             description=(
@@ -352,7 +352,7 @@ class Settings(commands.Cog):
             raise discord.InvalidArgument(
                 f"`{prefix}` is too long (max length is 8 characters)."
             )
-        guild = await self.bot.db.guilds.get_guild(ctx.guild.id)
+        guild = await self.bot.db.guilds.get(ctx.guild.id)
         if prefix in guild["prefixes"]:
             raise errors.AlreadyExists(f"`{prefix}` is already a prefix.")
         new_prefixes = guild["prefixes"] + [prefix]
@@ -373,7 +373,7 @@ class Settings(commands.Cog):
     async def remove_prefix(self, ctx: commands.Context, prefix: str) -> None:
         """Removes a prefix"""
         to_remove = prefix
-        guild = await self.bot.db.guilds.get_guild(ctx.guild.id)
+        guild = await self.bot.db.guilds.get(ctx.guild.id)
         if prefix not in guild["prefixes"]:
             matches = 0
             match = None

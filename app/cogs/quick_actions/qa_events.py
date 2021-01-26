@@ -42,9 +42,9 @@ class QAEvents(commands.Cog):
         if payload.member.bot:
             return
 
-        await self.bot.db.guilds.create_guild(payload.guild_id)
+        await self.bot.db.guilds.create(payload.guild_id)
 
-        sql_guild = await self.bot.db.guilds.get_guild(payload.guild_id)
+        sql_guild = await self.bot.db.guilds.get(payload.guild_id)
         if not sql_guild["qa_enabled"]:
             return
         emoji = utils.clean_emoji(payload.emoji)
@@ -66,16 +66,14 @@ class QAEvents(commands.Cog):
         if not orig_message:
             guild = self.bot.get_guild(payload.guild_id)
             channel = guild.get_channel(payload.channel_id)
-            await self.bot.db.messages.create_message(
+            await self.bot.db.messages.create(
                 payload.message_id,
                 payload.guild_id,
                 payload.channel_id,
                 payload.member.id,
                 channel.is_nsfw(),
             )
-            orig_message = await self.bot.db.messages.get_message(
-                payload.message_id
-            )
+            orig_message = await self.bot.db.messages.get(payload.message_id)
 
         status: bool = True
         if qa_type in self.qa_map:
