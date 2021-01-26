@@ -8,8 +8,6 @@ from app import converters, utils
 from app.classes.bot import Bot
 from app.cogs.starboard import starboard_funcs
 
-# from random import Random
-
 
 class Fun(commands.Cog):
     def __init__(self, bot: Bot) -> None:
@@ -178,7 +176,7 @@ class Fun(commands.Cog):
     #    message: converters.MessageLink
     # ) -> None:
     #    """Tells you how starworthy a message is."""
-    #    r = Random(message.id)
+    #    r = random.Random(message.id)
     #    worthiness: float = r.randrange(0, 100)
     #    await ctx.send(f"That message is {worthiness}% starworthy")
 
