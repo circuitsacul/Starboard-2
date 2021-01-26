@@ -40,7 +40,7 @@ class ASChannels:
                 channel_id,
                 guild_id,
             )
-        except asyncpg.exceptions.ForeignKeyViolationError:
+        except asyncpg.exceptions.UniqueViolationError:
             return True
         return False
 
