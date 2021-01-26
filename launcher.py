@@ -2,46 +2,21 @@ import asyncio
 import logging
 import multiprocessing
 import os
-import signal
 import sys
 import time
 
 import requests
-from discord import AllowedMentions, Intents, RequestsWebhookAdapter, Webhook
 from dotenv import load_dotenv
 
 import config
 import ipc
-from app.cache import Cache
-from app.classes.bot import Bot
+from app.classes.cluster import Cluster
+from app.utils import webhooklog
 
 load_dotenv()
 
 WEBHOOK_URL = config.UPTIME_WEBHOOK
 TOKEN = os.getenv("TOKEN")
-EXTENSIONS = [
-    "app.cogs.base.base_commands",
-    "app.cogs.base.base_events",
-    "app.cogs.starboard.starboard_commands",
-    "app.cogs.starboard.starboard_events",
-    "app.cogs.owner.eval",
-    "app.cogs.owner.owner_commands",
-    "app.cogs.cache.cache_events",
-    "app.cogs.settings.settings_commands",
-    "app.cogs.utility.utility_commands",
-    "app.cogs.fun.fun_commands",
-    "app.cogs.quick_actions.qa_events",
-    "app.cogs.stats.stats_events",
-    "app.cogs.autostarchannels.asc_commands",
-    "app.cogs.autostarchannels.asc_events",
-    "app.cogs.slash.slash_commands",
-    "app.cogs.slash.slash_events",
-    "jishaku",
-]
-INTENTS = Intents(
-    messages=True, guilds=True, emojis=True, reactions=True, members=True
-)
-NO_MENTIONS = AllowedMentions.none()
 SHARDS = config.SHARDS
 
 log = logging.getLogger("Cluster#Launcher")
@@ -84,13 +59,6 @@ CLUSTER_NAMES = (
     "Omega (23)",
 )
 NAMES = iter(CLUSTER_NAMES)
-
-
-def webhooklog(content: str) -> None:
-    if not WEBHOOK_URL:
-        return
-    webhook = Webhook.from_url(WEBHOOK_URL, adapter=RequestsWebhookAdapter())
-    webhook.send(content, username="Starboard Uptime")
 
 
 class Launcher:
@@ -185,7 +153,8 @@ class Launcher:
                 if not cluster.process.is_alive():
                     webhooklog(
                         f":red_circle: Cluster **{cluster.name}** "
-                        "is offline."
+                        "is offline.",
+                        WEBHOOK_URL,
                     )
                     # if cluster.process.exitcode != 0:
                     #    # ignore safe exits
@@ -215,94 +184,11 @@ class Launcher:
             log.info("All clusters launched")
 
 
-class Cluster:
-    def __init__(self, launcher, name, shard_ids, max_shards):
-        self.launcher = launcher
-        self.process = None
-        self.kwargs = dict(
-            intents=INTENTS,
-            allowed_mentions=NO_MENTIONS,
-            case_insensitive=True,
-            token=TOKEN,
-            shard_ids=shard_ids,
-            shard_count=max_shards,
-            cluster_name=name,
-            cache=Cache(),
-            theme_color=config.THEME_COLOR,
-            dark_theme_color=config.DARK_THEME_COLOR,
-            error_color=config.ERROR_COLOR,
-            initial_extensions=EXTENSIONS,
-        )
-        self.name = name
-        self.log = logging.getLogger(f"Cluster#{name}")
-        self.log.setLevel(logging.DEBUG)
-        hdlr = logging.StreamHandler()
-        hdlr.setFormatter(
-            logging.Formatter(
-                "[%(asctime)s %(name)s/%(levelname)s] %(message)s"
-            )
-        )
-        fhdlr = logging.FileHandler(
-            "logs/cluster-Launcher.log", encoding="utf-8"
-        )
-        fhdlr.setFormatter(
-            logging.Formatter(
-                "[%(asctime)s %(name)s/%(levelname)s] %(message)s"
-            )
-        )
-        self.log.handlers = [hdlr, fhdlr]
-        self.log.info(
-            f"Initialized with shard ids {shard_ids}, "
-            f"total shards {max_shards}"
-        )
-
-    def wait_close(self):
-        return self.process.join()
-
-    async def start(self, *, force=False):
-        if self.process and self.process.is_alive():
-            if not force:
-                self.log.warning(
-                    "Start called with already running cluster, "
-                    "pass `force=True` to override"
-                )
-                return
-            self.log.info("Terminating existing process")
-            self.process.terminate()
-            self.process.close()
-
-        webhooklog(f":yellow_circle: Cluster **{self.name}** logging in...")
-
-        stdout, stdin = multiprocessing.Pipe()
-        kw = self.kwargs
-        kw["pipe"] = stdin
-        self.process = multiprocessing.Process(
-            target=Bot, kwargs=kw, daemon=True
-        )
-        self.process.start()
-        self.log.info(f"Process started with PID {self.process.pid}")
-
-        if await self.launcher.loop.run_in_executor(None, stdout.recv) == 1:
-            stdout.close()
-            self.log.info("Process started successfully")
-
-        return True
-
-    def stop(self, sign=signal.SIGINT):
-        self.log.info(f"Shutting down with signal {sign!r}")
-        webhooklog(f":brown_circle: Cluster **{self.name}** shutting down...")
-        try:
-            self.process.kill()
-            os.kill(self.process.pid, sign)
-        except ProcessLookupError:
-            pass
-
-
 if __name__ == "__main__":
     p = multiprocessing.Process(target=ipc.run, daemon=True)
     p.start()
     loop = asyncio.get_event_loop()
-    webhooklog(":white_circle: Bot logging in...")
+    webhooklog(":white_circle: Bot logging in...", WEBHOOK_URL)
     Launcher(loop).start()
     p.kill()
-    webhooklog(":brown_circle: Bot logged out.")
+    webhooklog(":brown_circle: Bot logged out.", WEBHOOK_URL)

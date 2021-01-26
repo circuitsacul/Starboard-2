@@ -8,6 +8,7 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 
 import discord
 from discord.ext import commands
+from discord import Webhook, RequestsWebhookAdapter
 
 from app.classes.bot import Bot
 
@@ -33,6 +34,13 @@ def timeout(seconds=10, error_message=os.strerror(errno.ETIME)):
 
 
 # Functions
+def webhooklog(content: str, url: str) -> None:
+    if not url:
+        return
+    webhook = Webhook.from_url(url, adapter=RequestsWebhookAdapter())
+    webhook.send(content, username="Starboard Uptime")
+
+
 def cs_embed(
     changes: Dict[str, Tuple[Any, Any]], bot: Bot, noticks: bool = False
 ) -> discord.Embed:
