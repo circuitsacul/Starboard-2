@@ -147,9 +147,7 @@ class Starboard(commands.Cog):
             )
             confirmed = await utils.confirm(ctx)
             if confirmed is True:
-                await self.bot.db.execute(
-                    """DELETE FROM starboards WHERE id=$1""", cid
-                )
+                await self.bot.db.starboards.delete(cid)
                 await ctx.send(f"{cname} is no longer a starboard.")
             if confirmed is False:
                 await ctx.send("Cancelled.")

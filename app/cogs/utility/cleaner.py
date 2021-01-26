@@ -26,11 +26,7 @@ async def clean_starboards(guild: discord.Guild, bot: Bot) -> int:
     for ss in sql_starboards:
         obj = guild.get_channel(int(ss["id"]))
         if not obj:
-            await bot.db.execute(
-                """DELETE FROM starboards
-                WHERE id=$1""",
-                ss["id"],
-            )
+            await bot.db.starboards.delete(ss["id"])
             removed += 1
 
     return removed

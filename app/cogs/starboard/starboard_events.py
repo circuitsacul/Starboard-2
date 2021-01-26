@@ -21,9 +21,7 @@ class StarboardEvents(commands.Cog):
         starboard = await self.bot.db.starboards.get(channel.id)
         if not starboard:
             return
-        await self.bot.db.execute(
-            """DELETE FROM starboards WHERE id=$1""", channel.id
-        )
+        await self.bot.db.starboards.delete(channel.id)
         self.bot.dispatch(
             "guild_log",
             (f"`{channel.name}` was deleted, so I removed " "that starboard."),

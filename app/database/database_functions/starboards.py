@@ -44,6 +44,11 @@ class Starboards:
             return True
         return False
 
+    async def delete(self, starboard_id: int) -> None:
+        await self.bot.db.execute(
+            """DELETE FROM starboards WHERE id=$1""", starboard_id
+        )
+
     async def edit(
         self,
         starboard_id: int = None,
