@@ -162,6 +162,12 @@ def pretty_emoji_string(
     return " ".join(converted)
 
 
+def pretty_channel_string(
+    channels: List[discord.abc.GuildChannel], guild: discord.Guild
+) -> str:
+    return ", ".join([c.mention if c else "None" for c in channels])
+
+
 async def confirm(ctx: commands.Context) -> Optional[bool]:
     def check(m) -> bool:
         if m.author.id != ctx.message.author.id:
