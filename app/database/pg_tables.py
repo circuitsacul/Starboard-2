@@ -66,6 +66,9 @@ STARBOARDS = """CREATE TABLE IF NOT EXISTS starboards (
         explore BOOL NOT NULL DEFAULT True,
         ping BOOL NOT NULL DEFAULT False,
 
+        channel_bl NUMERIC[] NOT NULL DEFAULT '{}',
+        channel_wl NUMERIC[] NOT NULL DEFAULT '{}',
+
         regex TEXT NOT NULL DEFAULT '',
         exclude_regex TEXT NOT NULL DEFAULT '',
 
