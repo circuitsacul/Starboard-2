@@ -70,6 +70,8 @@ class Starboards:
         regex: str = None,
         exclude_regex: str = None,
         color: int = None,
+        channel_bl: List[int] = None,
+        channel_wl: List[int] = None,
     ) -> None:
         s = await self.get(starboard_id)
         if not s:
@@ -116,6 +118,12 @@ class Starboards:
             else exclude_regex,
             "ping": s["ping"] if ping is None else ping,
             "color": s["color"] if color is None else color,
+            "channel_bl": s["channel_bl"]
+            if channel_bl is None
+            else channel_bl,
+            "channel_wl": s["channel_wl"]
+            if channel_wl is None
+            else channel_wl,
         }
 
         if settings["required"] <= settings["required_remove"]:
@@ -159,8 +167,10 @@ class Starboards:
             regex = $15,
             exclude_regex = $16,
             color = $17,
-            ping = $18
-            WHERE id = $19""",
+            ping = $18,
+            channel_bl = $19,
+            channel_wl = $20
+            WHERE id = $21""",
             settings["required"],
             settings["required_remove"],
             settings["autoreact"],
@@ -179,6 +189,8 @@ class Starboards:
             settings["exclude_regex"],
             settings["color"],
             settings["ping"],
+            settings["channel_bl"],
+            settings["channel_wl"],
             starboard_id,
         )
 
