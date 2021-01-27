@@ -27,6 +27,7 @@ EXTENSIONS = [
     "app.cogs.autostarchannels.asc_events",
     "app.cogs.slash.slash_commands",
     "app.cogs.slash.slash_events",
+    "app.cogs.blacklist.bl_commands",
     "jishaku",
 ]
 INTENTS = Intents(
