@@ -403,6 +403,15 @@ async def handle_starboard(
         int(sql_message["id"]),
     )
 
+    blacklisted = (
+        sql_message["channel_id"] in sql_starboard["channel_bl"]
+        if not sql_starboard["channel_wl"]
+        else True
+    )
+    whitelisted = sql_message["channel_id"] in sql_starboard["channel_wl"]
+    if whitelisted:
+        blacklisted = False
+
     add = False
     edit = sql_starboard["link_edits"]
     delete = False
@@ -420,7 +429,15 @@ async def handle_starboard(
         delete = True
         add = False
 
-    if sql_message["is_nsfw"] and not sql_starboard["allow_nsfw"]:
+    if blacklisted:
+        add = False
+        delete = True
+
+    if (
+        sql_message["is_nsfw"]
+        and not sql_starboard["allow_nsfw"]
+        and not whitelisted
+    ):
         add = False
         delete = True
 
