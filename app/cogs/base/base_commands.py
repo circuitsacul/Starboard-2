@@ -65,7 +65,7 @@ class Base(commands.Cog):
         """Sends the latency of the current cluster
         and shard."""
         cluster = self.bot.cluster_name
-        shard = self.bot.get_shard(ctx.guild.shard_id)
+        shard = self.bot.get_shard(ctx.guild.shard_id if ctx.guild else 0)
 
         embed = discord.Embed(title="Pong!", color=self.bot.theme_color)
         embed.add_field(
