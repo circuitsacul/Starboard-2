@@ -82,7 +82,7 @@ class Blacklist(commands.Cog):
         starboard: converters.Starboard,
         channel: discord.TextChannel,
     ) -> None:
-        new_bl = starboard.sql["channel_wl"]
+        new_bl = starboard.sql["channel_bl"]
         if channel.id not in new_bl:
             raise errors.DoesNotExist(
                 f"{channel.mention} is not blacklisted on "
