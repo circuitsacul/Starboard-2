@@ -35,6 +35,7 @@ INTENTS = Intents(
 )
 NO_MENTIONS = AllowedMentions.none()
 TOKEN = os.getenv("TOKEN")
+UPTIME_HOOK = os.getenv("UPTIME_HOOK")
 
 
 class Cluster:
@@ -95,7 +96,7 @@ class Cluster:
 
         webhooklog(
             f":yellow_circle: Cluster **{self.name}** logging in...",
-            config.UPTIME_WEBHOOK,
+            UPTIME_HOOK,
         )
 
         stdout, stdin = multiprocessing.Pipe()
@@ -117,7 +118,7 @@ class Cluster:
         self.log.info(f"Shutting down with signal {sign!r}")
         webhooklog(
             f":brown_circle: Cluster **{self.name}** shutting down...",
-            config.UPTIME_WEBHOOK,
+            UPTIME_HOOK,
         )
         try:
             self.process.kill()

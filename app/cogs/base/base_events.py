@@ -1,5 +1,6 @@
 import asyncio
 import datetime
+import os
 import traceback
 from typing import Any, List
 
@@ -9,11 +10,12 @@ from discord import AsyncWebhookAdapter, Webhook
 from discord.ext import commands, flags
 from dotenv import load_dotenv
 
-import config
 from app import utils
 
 from ... import errors
 from ...classes.bot import Bot
+
+load_dotenv()
 
 IGNORED_ERRORS = [commands.CommandNotFound, errors.AllCommandsDisabled]
 EXPECTED_ERRORS = [
@@ -31,11 +33,9 @@ EXPECTED_ERRORS = [
     commands.BadArgument,
     flags.ArgumentParsingError,
 ]
-UPTIME = config.UPTIME_WEBHOOK
-ERROR = config.ERROR_WEBHOOK
-GUILD = config.GUILD_WEBHOOK
-
-load_dotenv()
+UPTIME = os.getenv("UPTIME_HOOK")
+ERROR = os.getenv("ERROR_HOOK")
+GUILD = os.getenv("GUILD_HOOK")
 
 
 class BaseEvents(commands.Cog):

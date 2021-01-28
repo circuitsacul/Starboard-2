@@ -11,12 +11,6 @@ DARK_THEME_COLOR = int('0xff7b1c', 16)  # Darker version of bot color
 ERROR_COLOR = int('F54251', 16)  # Color for error messages
 
 
-# Logging
-UPTIME_WEBHOOK = ""  # webhook to log bots uptime to
-GUILD_WEBHOOK = ""  #webhook to log guild join/leaves to
-ERROR_WEBHOOK = ""  #webhook to log bot errors to
-
-
 # Links
 VOTE_LINKS = []  # List of vote links
 REVIEW_LINKS = []  # List of review links

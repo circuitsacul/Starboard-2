@@ -15,7 +15,7 @@ from app.utils import webhooklog
 
 load_dotenv()
 
-WEBHOOK_URL = config.UPTIME_WEBHOOK
+WEBHOOK_URL = os.getenv("UPTIME_HOOK")
 TOKEN = os.getenv("TOKEN")
 SHARDS = config.SHARDS
 
