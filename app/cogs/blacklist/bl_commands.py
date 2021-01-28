@@ -143,7 +143,10 @@ class Blacklist(commands.Cog):
         new_wl = starboard.sql["channel_wl"]
         new_wl.append(channel.id)
         await self.bot.db.starboards.edit(starboard.obj.id, channel_wl=new_wl)
-        await ctx.send(f"Added {channel.mention} for {starboard.obj.mention}")
+        await ctx.send(
+            f"Added {channel.mention} to the whitelist for "
+            f"{starboard.obj.mention}"
+        )
 
     @whitelist.command(
         name="remove",
