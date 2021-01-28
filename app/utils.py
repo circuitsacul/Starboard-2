@@ -162,10 +162,8 @@ def pretty_emoji_string(
     return " ".join(converted)
 
 
-def pretty_channel_string(
-    channels: List[discord.abc.GuildChannel], guild: discord.Guild
-) -> str:
-    return ", ".join([c.mention if c else "None" for c in channels])
+def pretty_channel_string(channels: List[int], guild: discord.Guild) -> str:
+    return ", ".join([f"<#{c}>" for c in channels]) or "None"
 
 
 async def confirm(ctx: commands.Context) -> Optional[bool]:
