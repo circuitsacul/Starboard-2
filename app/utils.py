@@ -4,7 +4,7 @@ import os
 import re
 import signal
 from functools import wraps
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, List, Optional, Tuple, Union, Iterable
 
 import discord
 from discord.ext import commands
@@ -39,6 +39,10 @@ def webhooklog(content: str, url: str) -> None:
         return
     webhook = Webhook.from_url(url, adapter=RequestsWebhookAdapter())
     webhook.send(content, username="Starboard Uptime")
+
+
+def get_intersect(list1: Iterable[Any], list2: Iterable[Any]) -> List[Any]:
+    return [value for value in list1 if value in list2]
 
 
 def cs_embed(
