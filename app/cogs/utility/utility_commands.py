@@ -13,6 +13,22 @@ class Utility(commands.Cog):
         self.bot = bot
 
     @commands.command(
+        name="scan", brief="Recounts the reactions on lots of messages at once"
+    )
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.max_concurrency(1, per=commands.BucketType.guild)
+    async def scan_recount(self, ctx: commands.Context, limit: int) -> None:
+        if limit < 1:
+            await ctx.send("Must recount at least 1 message.")
+            return
+        if limit > 1000:
+            await ctx.send("Can only recount up to 1,000 messages.")
+            return
+        async with ctx.typing():
+            await recounter.scan_recount(self.bot, ctx.channel, limit)
+        await ctx.send("Finished")
+
+    @commands.command(
         name="recount",
         aliases=["refresh"],
         brief="Recounts the reactions on a message",
@@ -37,7 +53,7 @@ class Utility(commands.Cog):
             message = await self.bot.cache.fetch_message(
                 self.bot,
                 ctx.guild.id,
-                ctx.channel.id,
+                int(orig_sql_message["channel_id"]),
                 int(orig_sql_message["id"]),
             )
         await recounter.recount_reactions(self.bot, message)
