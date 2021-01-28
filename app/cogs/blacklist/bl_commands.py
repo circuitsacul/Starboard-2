@@ -97,6 +97,21 @@ class Blacklist(commands.Cog):
             f"{starboard.obj.mention}."
         )
 
+    @blacklist.command(
+        name="clear", brief="Removes everything from the blacklist"
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    async def clear_channel_blacklist(
+        self, ctx: commands.Context, starboard: converters.Starboard
+    ) -> None:
+        await ctx.send("Are you sure?")
+        if not await utils.confirm(ctx):
+            await ctx.send("Cancelled")
+            return
+
+        await self.bot.db.starboards.edit(starboard.obj.id, channel_bl=[])
+        await ctx.send(f"Cleared the blacklist for {starboard.obj.mention}.")
+
 
 def setup(bot: Bot) -> None:
     bot.add_cog(Blacklist(bot))
