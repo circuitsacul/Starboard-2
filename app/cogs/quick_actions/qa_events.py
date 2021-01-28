@@ -7,6 +7,7 @@ from app import utils
 from app.classes.bot import Bot
 from app.cogs.starboard import starboard_funcs
 from app.cogs.utility import utility_funcs
+from app.cogs.utility import recounter
 
 from . import qa_funcs
 
@@ -20,6 +21,7 @@ class QAEvents(commands.Cog):
             "qa_trash": qa_trash,
             "qa_save": qa_save,
             "qa_freeze": qa_freeze,
+            "qa_recount": qa_recount,
         }
 
     @commands.Cog.listener()
@@ -85,6 +87,23 @@ class QAEvents(commands.Cog):
                 await message.remove_reaction(payload.emoji, payload.member)
             except (discord.errors.Forbidden, discord.errors.NotFound):
                 pass
+
+
+async def qa_recount(
+    bot: Bot, orig_message: dict, member: discord.Member
+) -> bool:
+    if not member.guild_permissions.manage_messages:
+        return False
+    message = await bot.cache.fetch_message(
+        bot,
+        int(orig_message["guild_id"]),
+        int(orig_message["channel_id"]),
+        int(orig_message["id"]),
+    )
+    if not message:
+        return
+    await recounter.recount_reactions(bot, message)
+    return True
 
 
 async def qa_freeze(
