@@ -5,12 +5,42 @@ from app import converters, errors, utils
 from app.classes.bot import Bot
 from app.cogs.starboard import starboard_funcs
 
-from . import cleaner, debugger, utility_funcs
+from . import cleaner, debugger, utility_funcs, recounter
 
 
 class Utility(commands.Cog):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
+
+    @commands.command(
+        name="recount",
+        aliases=["refresh"],
+        brief="Recounts the reactions on a message",
+    )
+    @commands.has_guild_permissions(manage_messages=True)
+    @commands.cooldown(3, 6, type=commands.BucketType.guild)
+    async def recount(
+        self, ctx: commands.Context, message: converters.MessageLink
+    ) -> None:
+        orig_sql_message = await starboard_funcs.orig_message(
+            self.bot, message.id
+        )
+        if not orig_sql_message:
+            await self.bot.db.messages.create(
+                message.id,
+                ctx.guild.id,
+                ctx.channel.id,
+                ctx.author.id,
+                ctx.channel.is_nsfw(),
+            )
+        else:
+            message = await self.bot.cache.fetch_message(
+                self.bot,
+                ctx.guild.id,
+                ctx.channel.id,
+                int(orig_sql_message["id"]),
+            )
+        await recounter.recount_reactions(self.bot, message)
 
     @commands.command(
         name="clean",
