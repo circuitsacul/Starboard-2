@@ -13,8 +13,8 @@ from .database_functions import (
     starboards,
     users,
 )
-from .pg_tables import ALL_TABLES
 from .pg_indexes import ALL_INDEXES
+from .pg_tables import ALL_TABLES
 
 
 class Database:

@@ -4,11 +4,11 @@ import os
 import re
 import signal
 from functools import wraps
-from typing import Any, Dict, List, Optional, Tuple, Union, Iterable
+from typing import Any, Dict, Iterable, List, Optional, Tuple, Union
 
 import discord
+from discord import RequestsWebhookAdapter, Webhook
 from discord.ext import commands
-from discord import Webhook, RequestsWebhookAdapter
 
 from app.classes.bot import Bot
 

@@ -1,10 +1,8 @@
 import discord
 from discord.ext import commands
 
+from app import converters, errors, utils
 from app.classes.bot import Bot
-from app import converters
-from app import utils
-from app import errors
 
 
 class Blacklist(commands.Cog):
@@ -14,7 +12,7 @@ class Blacklist(commands.Cog):
     @commands.group(
         name="blacklist",
         aliases=["bl"],
-        brief="Lists the channel blacklist for a starboard",
+        brief="Lists the channel blacklist/whitelist for a starboard",
         invoke_without_command=True,
     )
     @commands.guild_only()
@@ -59,7 +57,7 @@ class Blacklist(commands.Cog):
         starboard: converters.Starboard,
         channel: discord.TextChannel,
     ) -> None:
-        new_bl = starboard.sql["channel_bl"].copy()
+        new_bl = starboard.sql["channel_bl"]
         if channel.id in new_bl:
             raise errors.AlreadyExists(
                 f"{channel.mention} is already blacklisted on "
@@ -84,7 +82,7 @@ class Blacklist(commands.Cog):
         starboard: converters.Starboard,
         channel: discord.TextChannel,
     ) -> None:
-        new_bl = starboard.sql["channel_wl"].copy()
+        new_bl = starboard.sql["channel_wl"]
         if channel.id not in new_bl:
             raise errors.DoesNotExist(
                 f"{channel.mention} is not blacklisted on "
@@ -111,6 +109,80 @@ class Blacklist(commands.Cog):
 
         await self.bot.db.starboards.edit(starboard.obj.id, channel_bl=[])
         await ctx.send(f"Cleared the blacklist for {starboard.obj.mention}.")
+
+    @commands.group(
+        name="whitelist",
+        aliases=["wl"],
+        brief="View the channel blacklist/whitelist for a starboard",
+        invoke_without_command=True,
+    )
+    async def whitelist(
+        self, ctx: commands.Context, starboard: converters.Starboard
+    ) -> None:
+        # Invoke the blacklist command, since the output is the same.
+        cmd = self.bot.get_command("blacklist")
+        await ctx.invoke(cmd, starboard)
+
+    @whitelist.command(
+        name="add",
+        aliases=["addChannel", "a", "ac"],
+        brief="Adds a channel to the whitelist",
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    async def whitelist_channel(
+        self,
+        ctx: commands.Context,
+        starboard: converters.Starboard,
+        channel: discord.TextChannel,
+    ) -> None:
+        if channel.id in starboard.sql["channel_wl"]:
+            raise errors.AlreadyExists(
+                f"{channel.mention} is already whitelisted on "
+                f"{starboard.obj.mention}."
+            )
+        new_wl = starboard.sql["channel_wl"]
+        new_wl.append(channel.id)
+        await self.bot.db.starboards.edit(starboard.obj.id, channel_wl=new_wl)
+        await ctx.send(f"Added {channel.mention} for {starboard.obj.mention}")
+
+    @whitelist.command(
+        name="remove",
+        aliases=["removeChannel", "r", "rc"],
+        brief="Removes a channel from the whitelist",
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    async def unwhitelist_channel(
+        self,
+        ctx: commands.Context,
+        starboard: converters.Starboard,
+        channel: discord.TextChannel,
+    ) -> None:
+        if channel.id not in starboard.sql["channel_wl"]:
+            raise errors.DoesNotExist(
+                f"{channel.mention} is not whitelisted on "
+                f"{starboard.obj.mention}."
+            )
+        new_wl = starboard.sql["channel_wl"]
+        new_wl.remove(channel.id)
+        await self.bot.db.starboards.edit(starboard.obj.id, channel_wl=new_wl)
+        await ctx.send(
+            f"Removed {channel.mention} from the whitelist on "
+            f"{starboard.obj.mention}."
+        )
+
+    @whitelist.command(
+        name="clear", brief="Clears the whitelist for a starboard"
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    async def clear_channel_whitelist(
+        self, ctx: commands.Context, starboard: converters.Starboard
+    ) -> None:
+        await ctx.send("Are you sure?")
+        if not await utils.confirm(ctx):
+            await ctx.send("Cancelled")
+            return
+        await self.bot.db.starboards.edit(starboard.obj.id, channel_wl=[])
+        await ctx.send(f"Cleared the whitelist for {starboard.obj.mention}.")
 
 
 def setup(bot: Bot) -> None:
