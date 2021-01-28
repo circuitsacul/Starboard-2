@@ -5,6 +5,7 @@ import textwrap
 import traceback
 from contextlib import redirect_stdout
 
+import discord
 from discord.ext import commands
 
 from app import checks
@@ -75,7 +76,7 @@ class Eval(commands.Cog):
             value = stdout.getvalue()
             try:
                 await ctx.message.add_reaction("\u2705")
-            except Exception:
+            except (discord.Forbidden, discord.NotFound):
                 pass
 
             if ret is None:
