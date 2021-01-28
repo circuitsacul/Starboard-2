@@ -32,6 +32,10 @@ class ASChannels:
             if exists:
                 return True
 
+        is_starboard = await self.bot.db.starboards.get(channel_id) is not None
+        if is_starboard:
+            raise errors.AlreadyExists("That channel is already a starboard!")
+
         await self.bot.db.guilds.create(guild_id)
         try:
             await self.bot.db.execute(
