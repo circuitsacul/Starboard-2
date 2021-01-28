@@ -123,6 +123,21 @@ async def debug_guild(bot: Bot, guild: discord.Guild) -> dict:
                     "messages there."
                 )
 
+            # Check channel blacklisting/whitelisting
+            blacklisted = len(s["channel_bl"])
+            whitelisted = len(s["channel_wl"])
+
+            if blacklisted != 0 and whitelisted == 0:
+                result["light_warns"].append(
+                    f"<#{s['id']}> has {blacklisted} blacklisted channels, "
+                    "so messages from those channels can be starred."
+                )
+            if whitelisted != 0:
+                result["light_warns"].append(
+                    f"<#{s['id']}> has {whitelisted} whitelisted channels, "
+                    "so only messages from those channels can be starred."
+                )
+
     # Check AutoStarChannels
     sql_aschannels = await bot.db.aschannels.get_many(guild.id)
     aschannels = [guild.get_channel(int(asc["id"])) for asc in sql_aschannels]
