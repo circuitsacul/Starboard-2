@@ -7,11 +7,50 @@ from discord.ext import commands, flags
 from app import converters, utils
 from app.classes.bot import Bot
 from app.cogs.starboard import starboard_funcs
+from . import fun_funcs
 
 
 class Fun(commands.Cog):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
+
+    @commands.command(
+        name="leaderboard",
+        aliases=["lb"],
+        brief="Shows the servers top 200 users",
+    )
+    @commands.guild_only()
+    async def guild_leaderboard(self, ctx: commands.Context) -> None:
+        leaderboard = await fun_funcs.get_guild_leaderboard(
+            self.bot, ctx.guild
+        )
+        p = commands.Paginator(max_size=500)
+
+        def build_string(u: dict) -> str:
+            def setlen(text: str, new_length: int) -> str:
+                length = len(text)
+                if new_length > length:
+                    return text + " " * (new_length - length)
+                else:
+                    return text[0 : new_length - 3] + "..."
+
+            return (
+                f"#{u['rank']}: {setlen(u['name'], 20)} "
+                f"Level: {u['level']:04} XP: {u['xp']:04}"
+            )
+
+        for _uid, u in leaderboard.items():
+            p.add_line(build_string(u))
+
+        embeds = [
+            discord.Embed(
+                title=f"Leaderboard for {ctx.guild.name}",
+                description=page,
+                color=self.bot.theme_color,
+            )
+            for page in p.pages
+        ]
+        await utils.paginator(ctx, embeds)
 
     @commands.command(
         name="rank",
@@ -30,6 +69,7 @@ class Fun(commands.Cog):
         sql_member = await self.bot.db.members.get(user.id, ctx.guild.id)
 
         # Guild Stats
+        rank = await fun_funcs.get_rank(self.bot, ctx.guild, user.id)
         if sql_member:
             stars_given = sql_member["stars_given"]
             stars_recv = sql_member["stars_received"]
@@ -41,6 +81,7 @@ class Fun(commands.Cog):
         embed = discord.Embed(
             title=f"{user}",
             description=(
+                f"Rank: **#{rank}**\n"
                 f"Stars Given: **{stars_given}**\n"
                 f"Stars Received: **{stars_recv}**\n"
                 f"XP: **{xp}**\n"
@@ -97,7 +138,6 @@ class Fun(commands.Cog):
         for m in messages[0:10]:
             orig = await self.bot.db.messages.get(m["orig_id"])
             obj = await self.bot.cache.fetch_message(
-                self.bot,
                 ctx.guild.id,
                 int(orig["channel_id"]),
                 int(orig["id"]),
@@ -184,7 +224,6 @@ class Fun(commands.Cog):
             choice["starboard_id"]
         )
         orig_message = await self.bot.cache.fetch_message(
-            self.bot,
             ctx.guild.id,
             orig_sql_message["channel_id"],
             orig_sql_message["id"],
@@ -234,7 +273,6 @@ class Fun(commands.Cog):
                 await ctx.send("You cannot save a trashed message")
                 return
             orig_message = await self.bot.cache.fetch_message(
-                self.bot,
                 int(orig_sql_message["guild_id"]),
                 int(orig_sql_message["channel_id"]),
                 int(orig_sql_message["id"]),

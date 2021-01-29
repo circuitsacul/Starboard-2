@@ -57,7 +57,7 @@ class QAEvents(commands.Cog):
             return
 
         message = await self.bot.cache.fetch_message(
-            self.bot, payload.guild_id, payload.channel_id, payload.message_id
+            payload.guild_id, payload.channel_id, payload.message_id
         )
         if not message:
             return
@@ -95,7 +95,6 @@ async def qa_recount(
     if not member.guild_permissions.manage_messages:
         return False
     message = await bot.cache.fetch_message(
-        bot,
         int(orig_message["guild_id"]),
         int(orig_message["channel_id"]),
         int(orig_message["id"]),
@@ -170,7 +169,6 @@ async def qa_save(
             pass
         return
     message = await bot.cache.fetch_message(
-        bot,
         orig_message["guild_id"],
         orig_message["channel_id"],
         orig_message["id"],

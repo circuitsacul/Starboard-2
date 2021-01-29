@@ -6,7 +6,6 @@ import signal
 from discord import AllowedMentions, Intents
 
 import config
-from app.cache import Cache
 from app.classes.bot import Bot
 from app.utils import webhooklog
 
@@ -51,7 +50,6 @@ class Cluster:
             shard_ids=shard_ids,
             shard_count=max_shards,
             cluster_name=name,
-            cache=Cache(),
             theme_color=config.THEME_COLOR,
             dark_theme_color=config.DARK_THEME_COLOR,
             error_color=config.ERROR_COLOR,

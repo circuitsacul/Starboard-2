@@ -51,7 +51,6 @@ class Utility(commands.Cog):
             )
         else:
             message = await self.bot.cache.fetch_message(
-                self.bot,
                 ctx.guild.id,
                 int(orig_sql_message["channel_id"]),
                 int(orig_sql_message["id"]),

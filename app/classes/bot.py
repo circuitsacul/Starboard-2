@@ -38,7 +38,7 @@ class Bot(commands.AutoShardedBot):
             os.getenv("DB_PASSWORD"),
             os.getenv("DB_PASSWORD"),
         )
-        self.cache: Cache = kwargs.pop("cache")
+        self.cache = Cache(self)
 
         self.pipe = kwargs.pop("pipe")
         self.cluster_name = kwargs.pop("cluster_name")

@@ -7,12 +7,14 @@ from app import utils
 
 
 class Cache:
-    def __init__(self) -> None:
+    def __init__(self, bot) -> None:
         self.messages = queue.LimitedDictQueue(max_length=20)
+        self.bot = bot
 
     async def get_members(
         self, uids: List[int], guild: discord.Guild
     ) -> Dict[int, Optional[discord.Member]]:
+        await self.bot.wait_until_ready()
         not_found: List[int] = []
         result: Dict[int, Optional[discord.Member]] = {}
 
@@ -40,11 +42,11 @@ class Cache:
         return queue.get(id=message_id)
 
     async def fetch_message(
-        self, bot, guild_id: int, channel_id: int, message_id: int
+        self, guild_id: int, channel_id: int, message_id: int
     ) -> discord.Message:
         cached = self.get_message(guild_id, message_id)
         if not cached:
-            guild = bot.get_guild(guild_id)
+            guild = self.bot.get_guild(guild_id)
             channel = guild.get_channel(channel_id)
             try:
                 message = await channel.fetch_message(message_id)

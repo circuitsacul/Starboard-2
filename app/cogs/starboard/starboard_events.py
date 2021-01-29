@@ -75,7 +75,6 @@ class StarboardEvents(commands.Cog):
         if sql_message is not None:
             # Get the message since it already exists
             message = await self.bot.cache.fetch_message(
-                self.bot,
                 int(sql_message["guild_id"]),
                 int(sql_message["channel_id"]),
                 int(sql_message["id"]),
@@ -89,7 +88,6 @@ class StarboardEvents(commands.Cog):
         else:
             # Get the message as well as add it to the database
             message = await self.bot.cache.fetch_message(
-                self.bot,
                 payload.guild_id,
                 payload.channel_id,
                 payload.message_id,

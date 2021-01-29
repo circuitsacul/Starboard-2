@@ -174,7 +174,6 @@ async def embed_message(
     if message.reference is not None:
         if message.reference.resolved is None:
             ref_message = await bot.cache.fetch_message(
-                bot,
                 message.guild.id,
                 message.channel.id,
                 message.reference.message_id,
@@ -333,7 +332,6 @@ async def handle_trashed_message(
     if not sql_starboard_message:
         return
     starboard_message = await bot.cache.fetch_message(
-        bot,
         sql_message["guild_id"],
         sql_starboard_message["starboard_id"],
         sql_starboard_message["id"],
@@ -397,7 +395,6 @@ async def handle_starboard(
     if sql_starboard_message is not None:
         await set_points(bot, points, sql_starboard_message["id"])
     message = await bot.cache.fetch_message(
-        bot,
         int(sql_message["guild_id"]),
         int(sql_message["channel_id"]),
         int(sql_message["id"]),
@@ -461,7 +458,6 @@ async def handle_starboard(
 
     if sql_starboard_message is not None:
         starboard_message = await bot.cache.fetch_message(
-            bot,
             int(sql_message["guild_id"]),
             int(sql_starboard_message["starboard_id"]),
             int(sql_starboard_message["id"]),

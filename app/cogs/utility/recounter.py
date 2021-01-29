@@ -45,6 +45,6 @@ async def scan_recount(
             )
         else:
             message = await bot.cache.fetch_message(
-                bot, message.guild.id, int(orig["channel_id"]), int(orig["id"])
+                message.guild.id, int(orig["channel_id"]), int(orig["id"])
             )
         await recount_reactions(bot, message, min=2)
