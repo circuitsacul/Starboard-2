@@ -21,6 +21,7 @@ EXTENSIONS = [
     "app.cogs.settings.settings_commands",
     "app.cogs.utility.utility_commands",
     "app.cogs.fun.fun_commands",
+    "app.cogs.leveling.leveling_events",
     "app.cogs.quick_actions.qa_events",
     "app.cogs.stats.stats_events",
     "app.cogs.autostarchannels.asc_commands",

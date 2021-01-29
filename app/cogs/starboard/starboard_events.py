@@ -115,6 +115,14 @@ class StarboardEvents(commands.Cog):
                 self.bot, payload.message_id, payload.guild_id
             )
 
+        self.bot.dispatch(
+            "star_update",
+            payload.member.id,
+            message.author.id,
+            payload.guild_id,
+            1,
+        )
+
     @commands.Cog.listener()
     async def on_raw_reaction_remove(
         self, payload: discord.RawReactionActionEvent
@@ -133,25 +141,23 @@ class StarboardEvents(commands.Cog):
         orig_message = await starboard_funcs.orig_message(
             self.bot, payload.message_id
         )
+        if orig_message is None:
+            return
 
-        if orig_message is not None:
-            # Delete from the original message
-            await self.bot.db.reactions.delete_reaction_user(
-                emoji, int(orig_message["id"]), payload.user_id
-            )
+        await self.bot.db.reactions.delete_reaction_user(
+            emoji, int(orig_message["id"]), payload.user_id
+        )
+        await starboard_funcs.update_message(
+            self.bot, orig_message["id"], payload.guild_id
+        )
 
-            await starboard_funcs.update_message(
-                self.bot, orig_message["id"], payload.guild_id
-            )
-        else:
-            # Delete from the message since it is the original
-            await self.bot.db.reactions.delete_reaction_user(
-                emoji, payload.message_id, payload.user_id
-            )
-
-            await starboard_funcs.update_message(
-                self.bot, payload.message_id, payload.guild_id
-            )
+        self.bot.dispatch(
+            "star_update",
+            payload.user_id,
+            orig_message["author_id"],
+            payload.guild_id,
+            -1,
+        )
 
 
 def setup(bot: Bot) -> None:
