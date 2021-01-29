@@ -6,27 +6,6 @@ from discord.ext import commands
 from ... import converters, errors, utils
 from ...classes.bot import Bot
 
-OPTION_MAP = {
-    "required": "required",
-    "required_remove": "requiredRemove",
-    "autoreact": "autoReact",
-    "self_star": "selfStar",
-    "allow_bots": "allowBots",
-    "allow_nsfw": "allowNSFW",
-    "link_deletes": "linkDeletes",
-    "link_edits": "linkEdits",
-    "images_only": "imagesOnly",
-    "remove_reactions": "removeReactions",
-    "no_xp": "noXp",
-    "explore": "allowRandom",
-    "star_emojis": "starEmojis",
-    "display_emoji": "displayEmoji",
-    "regex": "regex",
-    "exclude_regex": "excludeRegex",
-    "color": "color",
-    "ping": "ping",
-}
-
 
 class Starboard(commands.Cog):
     def __init__(self, bot: Bot) -> None:
