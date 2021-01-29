@@ -429,6 +429,58 @@ class Settings(commands.Cog):
         await ctx.send("Cleared all prefixes and added `sb!`.")
 
     @commands.command(
+        name="levelChannel",
+        aliases=["lvlc"],
+        brief="Sets the channel for level up messages",
+    )
+    @commands.has_guild_permissions(manage_guild=True)
+    async def set_level_channel(
+        self, ctx: commands.Context, channel: discord.TextChannel = None
+    ) -> None:
+        if channel:
+            perms = channel.permissions_for(ctx.guild.me)
+            missing_perms = []
+            if not perms.read_messages:
+                missing_perms.append("Read Messages")
+            if not perms.send_messages:
+                missing_perms.append("Send Messages")
+            if not perms.embed_links:
+                missing_perms.append("Embed Links")
+            if missing_perms:
+                raise commands.BotMissingPermissions(missing_perms)
+
+        await self.bot.db.execute(
+            """UPDATE guilds
+            SET level_channel=$1
+            WHERE id=$2""",
+            channel.id if channel else None,
+            ctx.guild.id,
+        )
+        if channel:
+            await ctx.send(f"Set the LevelUpChannel to {channel.mention}.")
+        else:
+            await ctx.send("Unset the LevelUpChannel.")
+
+    @commands.command(
+        name="levelUpPing",
+        aliases=["levelPing", "pingOnLevelUp"],
+        brief="Whether or not to ping users when they level up",
+    )
+    @commands.has_guild_permissions(manage_guild=True)
+    async def set_level_ping(
+        self, ctx: commands.Context, ping: converters.mybool
+    ) -> None:
+        await self.bot.db.execute(
+            """UPDATE guilds SET ping_user=$1 WHERE id=$2""",
+            ping,
+            ctx.guild.id,
+        )
+        if ping:
+            await ctx.send("I will now ping users when the level up.")
+        else:
+            await ctx.send("I will not ping users when the level up.")
+
+    @commands.command(
         name="logChannel",
         aliases=["log", "lc"],
         brief="Sets the channel where logs are sent to",

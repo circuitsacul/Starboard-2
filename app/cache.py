@@ -1,13 +1,35 @@
-from typing import Optional
+from typing import Optional, List, Dict
 
 import discord
 
 from . import queue
+from app import utils
 
 
 class Cache:
     def __init__(self) -> None:
         self.messages = queue.LimitedDictQueue(max_length=20)
+
+    async def get_members(
+        self, uids: List[int], guild: discord.Guild
+    ) -> Dict[int, Optional[discord.Member]]:
+        not_found: List[int] = []
+        result: Dict[int, Optional[discord.Member]] = {}
+
+        for uid in uids:
+            cached = guild.get_member(uid)
+            if cached:
+                result[uid] = cached
+            else:
+                not_found.append(uid)
+
+        # only query 50 members at a time
+        for group in utils.chunk_list(not_found, 50):
+            query = await guild.query_members(limit=None, user_ids=group)
+            for r in query:
+                result[r.id] = r
+
+        return result
 
     def get_message(
         self, guild_id: int, message_id: int

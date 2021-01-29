@@ -3,6 +3,7 @@ import errno
 import os
 import re
 import signal
+import typing
 from functools import wraps
 from typing import Any, Dict, Iterable, List, Optional, Tuple, Union
 
@@ -10,7 +11,8 @@ import discord
 from discord import RequestsWebhookAdapter, Webhook
 from discord.ext import commands
 
-from app.classes.bot import Bot
+if typing.TYPE_CHECKING:
+    from app.classes.bot import Bot
 
 
 # Decoraters
@@ -45,8 +47,14 @@ def get_intersect(list1: Iterable[Any], list2: Iterable[Any]) -> List[Any]:
     return [value for value in list1 if value in list2]
 
 
+def chunk_list(lst: List[Any], max_size: int) -> List[Any]:
+    """Use list(chunk_list(...)) or for lst in chunk_list(...)"""
+    for i in range(0, len(lst), max_size):
+        yield list[i : i + max_size]
+
+
 def cs_embed(
-    changes: Dict[str, Tuple[Any, Any]], bot: Bot, noticks: bool = False
+    changes: Dict[str, Tuple[Any, Any]], bot: "Bot", noticks: bool = False
 ) -> discord.Embed:
     text = cs_text(changes, noticks=noticks)
     return discord.Embed(

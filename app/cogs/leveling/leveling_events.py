@@ -1,3 +1,5 @@
+from typing import Optional
+
 from discord.ext import commands
 
 from app.classes.bot import Bot
@@ -14,8 +16,8 @@ class LevelingEvents(commands.Cog):
     async def on_star_update(
         self, giver_id: int, receiver_id: int, guild_id: int, points: int
     ) -> None:
-        if giver_id == receiver_id:
-            return
+        # if giver_id == receiver_id:
+        #    return
 
         # TODO(Circuit): Make this take the rate/per of a guild
         bucket = self.cooldown.get_bucket((giver_id, receiver_id), 3, 60)
@@ -35,7 +37,7 @@ class LevelingEvents(commands.Cog):
             sql_giver["guild_id"],
         )
 
-        leveled_up = None
+        leveled_up: Optional[int] = None
 
         async with self.bot.db.pool.acquire() as con:
             await con.execute(
@@ -65,8 +67,12 @@ class LevelingEvents(commands.Cog):
                 )
 
         if leveled_up:
-            # TODO: Send to guild level up channel
-            pass
+            guild = self.bot.get_guild(guild_id)
+            _users = await self.bot.cache.get_members([receiver_id], guild)
+            if receiver_id not in _users:
+                return
+            user = _users[receiver_id]
+            self.bot.dispatch("level_up", guild, user, leveled_up)
 
 
 def setup(bot: Bot) -> None:

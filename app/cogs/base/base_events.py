@@ -228,6 +228,28 @@ class BaseEvents(commands.Cog):
         embed.timestamp = datetime.datetime.utcnow()
         await log_channel.send(embed=embed)
 
+    @commands.Cog.listener()
+    async def on_level_up(
+        self, guild: discord.Guild, user: discord.User, level: int
+    ) -> None:
+        sql_guild = await self.bot.db.guilds.get(guild.id)
+        if sql_guild["level_channel"] is None:
+            return
+        level_channel = guild.get_channel(int(sql_guild["level_channel"]))
+        if not level_channel:
+            return
+        embed = discord.Embed(
+            title=f"{user.name} Leveled up!",
+            description=f"They are now level **{level}**!",
+            color=self.bot.theme_color,
+        ).set_author(name=str(user), icon_url=user.avatar_url)
+        embed.timestamp = datetime.datetime.utcnow()
+        await level_channel.send(
+            content=f"{user.mention}" if sql_guild["ping_user"] else "",
+            embed=embed,
+            allowed_mentions=discord.AllowedMentions(users=True),
+        )
+
 
 def setup(bot: Bot) -> None:
     bot.add_cog(BaseEvents(bot))
