@@ -35,7 +35,7 @@ class Base(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(
-        name="stats", aliases=["botinfo"], brief="Shows bot statistics"
+        name="botstats", aliases=["botinfo"], brief="Shows bot statistics"
     )
     async def botinfo(self, ctx: commands.Context) -> None:
         """Sends guildCount and memberCount for each

@@ -13,6 +13,43 @@ class Fun(commands.Cog):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
 
+    @commands.command(
+        name="rank",
+        aliases=["stats"],
+        brief="Shows statistics for yourself or another user",
+    )
+    @commands.guild_only()
+    async def user_stats(
+        self, ctx: commands.Context, user: discord.Member = None
+    ) -> None:
+        user = user or ctx.message.author
+        sql_user = await self.bot.db.users.get(user.id)
+        if not sql_user:
+            await ctx.send(f"**{user}** has no stats to show.")
+            return
+        sql_member = await self.bot.db.members.get(user.id, ctx.guild.id)
+
+        # Guild Stats
+        if sql_member:
+            stars_given = sql_member["stars_given"]
+            stars_recv = sql_member["stars_received"]
+            xp = sql_member["xp"]
+            level = sql_member["level"]
+        else:
+            stars_given = stars_recv = xp = level = 0
+
+        embed = discord.Embed(
+            title=f"{user}",
+            description=(
+                f"Stars Given: **{stars_given}**\n"
+                f"Stars Received: **{stars_recv}**\n"
+                f"XP: **{xp}**\n"
+                f"Level: **{level}**"
+            ),
+            color=self.bot.theme_color,
+        )
+        await ctx.send(embed=embed)
+
     @flags.add_flag("--by", type=discord.User)
     @flags.add_flag("--in", type=discord.TextChannel)
     @flags.add_flag("--starboard", "--sb", type=converters.Starboard)
