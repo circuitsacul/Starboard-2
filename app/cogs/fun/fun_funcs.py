@@ -31,4 +31,4 @@ async def get_guild_leaderboard(bot: Bot, guild: discord.Guild) -> dict:
 async def get_rank(bot: Bot, guild: discord.Guild, user_id: int) -> int:
     lb = await get_guild_leaderboard(bot, guild)
     u = lb.get(user_id)
-    return None if not u else u["xp"]
+    return None if not u else u["rank"]
