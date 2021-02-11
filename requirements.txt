@@ -5,7 +5,7 @@ async-timeout==3.0.1
 asyncpg==0.21.0
 attrs==20.3.0
 black==20.8b1
-bleach==3.2.3
+bleach==3.3.0
 braceexpand==0.1.6
 certifi==2020.12.5
 cfgv==3.2.0
