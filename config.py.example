@@ -18,3 +18,4 @@ PATREON_LINK = ""  # Link to your patreon
 DONATE_LINKS = []  # List of doantion links
 SUPPORT_INVITE = ""  # Invite to support server
 BOT_INVITE = ""  # Bot invite
+SLASH_AUTH = ""  # Link to authorize slash commands
