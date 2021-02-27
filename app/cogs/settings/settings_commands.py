@@ -316,7 +316,7 @@ class Settings(commands.Cog):
         """Lists prefixes for the current server.
         Run sb!help prefixes to view commands for
         modifying the prefixes."""
-        guild = await self.bot.db.guils.get(ctx.guild.id)
+        guild = await self.bot.db.guilds.get(ctx.guild.id)
         embed = discord.Embed(
             title=f"Prefixes for {ctx.guild.name}",
             description=(

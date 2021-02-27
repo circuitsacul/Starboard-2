@@ -35,7 +35,7 @@ class Bot(commands.AutoShardedBot):
         self.db: Database = Database(
             self,
             os.getenv("DB_NAME"),
-            os.getenv("DB_PASSWORD"),
+            os.getenv("DB_USER"),
             os.getenv("DB_PASSWORD"),
         )
         self.cache = Cache(self)
