@@ -50,7 +50,7 @@ def get_intersect(list1: Iterable[Any], list2: Iterable[Any]) -> List[Any]:
 def chunk_list(lst: List[Any], max_size: int) -> List[Any]:
     """Use list(chunk_list(...)) or for lst in chunk_list(...)"""
     for i in range(0, len(lst), max_size):
-        yield list[i: i + max_size]
+        yield list[i : i + max_size]
 
 
 def cs_embed(
