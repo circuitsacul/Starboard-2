@@ -7,6 +7,7 @@ from discord.ext import commands, flags
 from app import converters, utils
 from app.classes.bot import Bot
 from app.cogs.starboard import starboard_funcs
+
 from . import fun_funcs
 
 

@@ -1,7 +1,7 @@
 import discord
 
-from app.classes.bot import Bot
 from app import utils
+from app.classes.bot import Bot
 from app.cogs.starboard import starboard_funcs
 
 

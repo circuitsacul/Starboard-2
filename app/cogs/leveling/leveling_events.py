@@ -2,8 +2,9 @@ from typing import Optional
 
 from discord.ext import commands
 
-from app.classes.bot import Bot
 from app import cooldowns
+from app.classes.bot import Bot
+
 from . import leveling_funcs
 
 

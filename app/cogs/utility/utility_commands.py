@@ -5,7 +5,7 @@ from app import converters, errors, utils
 from app.classes.bot import Bot
 from app.cogs.starboard import starboard_funcs
 
-from . import cleaner, debugger, utility_funcs, recounter
+from . import cleaner, debugger, recounter, utility_funcs
 
 
 class Utility(commands.Cog):

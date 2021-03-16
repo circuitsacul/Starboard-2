@@ -1,9 +1,10 @@
-from typing import Optional, List, Dict
+from typing import Dict, List, Optional
 
 import discord
 
-from . import queue
 from app import utils
+
+from . import queue
 
 
 class Cache:
