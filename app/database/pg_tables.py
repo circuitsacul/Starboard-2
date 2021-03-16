@@ -57,7 +57,6 @@ STARBOARDS = """CREATE TABLE IF NOT EXISTS starboards (
         autoreact BOOL NOT NULL DEFAULT True,
         self_star BOOL NOT NULL DEFAULT False,
         allow_bots BOOL NOT NULL DEFAULT True,
-        allow_nsfw BOOL NOT NULL DEFAULT False,
         link_deletes BOOL NOT NULL DEFAULT False,
         link_edits BOOL NOT NULL DEFAULT True,
         images_only BOOL NOT NULL DEFAULT False,

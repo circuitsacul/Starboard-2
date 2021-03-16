@@ -21,7 +21,6 @@ A complete rewrite of Starboard
  - `removeReactions`: Whether or not the bot will remove invalid reactions (e.g. self-stars)
  - `noXp`: Whether or not to allow people to gain XP from this starboard
  - `allowRandom`: Whether or not to allow `sb!random` to pull from this starboard
- - `allowNSFW`: Whether or not messages from NSFW channels are allowed. Defaults to False. You'll need to enable this setting on any NSFW starboards you have.
  - `color`: Allows you to set the embed color of starboard messages
  - `displayEmoji`: Allows you to set what emoji shows up next to the number of points on a starboard message.
 

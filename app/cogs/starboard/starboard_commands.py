@@ -54,7 +54,6 @@ class Starboard(commands.Cog):
                     value=(
                         f"emojis: **{emoji_str}**\n"
                         f"requiredStars: **{s['required']}**\n"
-                        f"allowNSFW: **{s['allow_nsfw']}**"
                     ),
                 )
             await ctx.send(embed=embed)
@@ -72,7 +71,6 @@ class Starboard(commands.Cog):
                     f"requiredStars: **{s['required']}**\n"
                     f"requiredRemove: **{s['required_remove']}**\n"
                     f"selfStar: **{s['self_star']}**\n"
-                    f"allowNSFW: **{s['allow_nsfw']}**\n"
                     f"allowBots: **{s['allow_bots']}**\n"
                     f"imagesOnly: **{s['images_only']}**\n"
                     f"regex: `{s['regex'] or 'None'}`\n"
@@ -237,28 +235,6 @@ class Starboard(commands.Cog):
         await ctx.send(
             embed=utils.cs_embed(
                 {"selfStar": (starboard.sql["self_star"], self_star)}, self.bot
-            )
-        )
-
-    @starboards.command(
-        name="allowNsfw",
-        aliases=["nsfw"],
-        brief="Whether not to allow messages from NSFW channels",
-    )
-    @commands.has_guild_permissions(manage_channels=True)
-    async def set_allow_nsfw(
-        self,
-        ctx: commands.Context,
-        starboard: converters.Starboard,
-        allow_nsfw: converters.mybool,
-    ) -> None:
-        await self.bot.db.starboards.edit(
-            starboard.obj.id, allow_nsfw=allow_nsfw
-        )
-        await ctx.send(
-            embed=utils.cs_embed(
-                {"allowNSFW": (starboard.sql["allow_nsfw"], allow_nsfw)},
-                self.bot,
             )
         )
 

@@ -392,6 +392,9 @@ async def handle_starboard(
     bot: Bot, sql_starboard: dict, sql_message: dict, sql_author: dict
 ) -> None:
     guild = bot.get_guild(sql_starboard["guild_id"])
+    starboard: discord.TextChannel = guild.get_channel(
+        int(sql_starboard["id"])
+    )
 
     sql_starboard_message = await bot.db.fetchrow(
         """SELECT * FROM starboard_messages
@@ -441,11 +444,7 @@ async def handle_starboard(
         add = False
         delete = True
 
-    if (
-        sql_message["is_nsfw"]
-        and not sql_starboard["allow_nsfw"]
-        and not whitelisted
-    ):
+    if sql_message["is_nsfw"] and not starboard.is_nsfw() and not whitelisted:
         add = False
         delete = True
 
@@ -494,7 +493,7 @@ async def handle_starboard(
             embed, attachments = await embed_message(
                 bot, message, color=sql_starboard["color"]
             )
-            starboard = guild.get_channel(int(sql_starboard["id"]))
+            # starboard = guild.get_channel(int(sql_starboard["id"]))
             try:
                 m = await starboard.send(
                     plain_text,
