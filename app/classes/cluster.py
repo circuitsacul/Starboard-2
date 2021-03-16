@@ -54,6 +54,7 @@ class Cluster:
             dark_theme_color=config.DARK_THEME_COLOR,
             error_color=config.ERROR_COLOR,
             initial_extensions=EXTENSIONS,
+            chunk_guilds_at_startup=False,
         )
         self.name = name
         self.log = logging.getLogger(f"Cluster#{name}")
