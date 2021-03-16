@@ -53,6 +53,7 @@ async def embed_message(
     urls = []
     extra_attachments = []
     image_used = False
+    thumbnail_used = False
 
     for attachment in message.attachments:
         if files:
@@ -71,12 +72,13 @@ async def embed_message(
                 "spoiler": attachment.is_spoiler(),
                 "file": f,
                 "show_link": True,
+                "thumbnail_only": False,
             }
         )
 
     embed: discord.Embed
     for embed in message.embeds:
-        if embed.type == "rich" or embed.type == "article":
+        if embed.type in ["rich", "article", "link"]:
             if embed.title != embed.Empty:
                 if embed.url == embed.Empty:
                     content += f"\n\n__**{utils.escmd(embed.title)}**__\n"
@@ -109,6 +111,7 @@ async def embed_message(
                         "type": "image",
                         "spoiler": False,
                         "show_link": False,
+                        "thumbnail_only": False,
                     }
                 )
             if embed.thumbnail.url is not embed.Empty:
@@ -120,6 +123,7 @@ async def embed_message(
                         "type": "image",
                         "spoiler": False,
                         "show_link": False,
+                        "thumbnail_only": True,
                     }
                 )
         elif embed.type == "image":
@@ -132,6 +136,7 @@ async def embed_message(
                         "type": "image",
                         "spoiler": False,
                         "show_link": True,
+                        "thumbnail_only": False,
                     }
                 )
         elif embed.type == "gifv":
@@ -144,6 +149,7 @@ async def embed_message(
                         "type": "gif",
                         "spoiler": False,
                         "show_link": True,
+                        "thumbnail_only": True,
                     }
                 )
         elif embed.type == "video":
@@ -156,6 +162,7 @@ async def embed_message(
                         "type": "video",
                         "spoiler": False,
                         "show_link": True,
+                        "thumbnail_only": False,
                     }
                 )
 
@@ -240,7 +247,11 @@ async def embed_message(
                     f.filename = "SPOILER_" + f.filename
                 extra_attachments.append(f)
         elif not nsfw:
-            if not image_used:
+            if data["thumbnail_only"]:
+                if not thumbnail_used:
+                    embed.set_thumbnail(url=data["display_url"])
+                    thumbnail_used = True
+            elif not image_used:
                 embed.set_image(url=data["display_url"])
                 image_used = True
 
