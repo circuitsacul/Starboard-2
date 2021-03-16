@@ -122,7 +122,7 @@ PERMROLES = """CREATE TABLE IF NOT EXISTS permroles (
         xp_roles BOOL DEFAULT NULL,
         overrides BOOL DEFAULT NULL,
 
-        FOREIGN KEY (guild_id) REFERENCES guilds (id)
+        FOREIGN KEY (permgroup_id) REFERENCES permgroups (id)
             ON DELETE CASCADE
     )"""
 
