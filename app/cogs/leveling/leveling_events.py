@@ -16,8 +16,8 @@ class LevelingEvents(commands.Cog):
     async def on_star_update(
         self, giver_id: int, receiver_id: int, guild_id: int, points: int
     ) -> None:
-        # if giver_id == receiver_id:
-        #    return
+        if giver_id == receiver_id:
+            return
 
         # TODO(Circuit): Make this take the rate/per of a guild
         bucket = self.cooldown.get_bucket((giver_id, receiver_id), 3, 60)
