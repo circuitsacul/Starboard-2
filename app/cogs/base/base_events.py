@@ -146,6 +146,11 @@ class BaseEvents(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self) -> None:
+        await self.bot.change_presence(
+            activity=discord.Activity(
+                type=discord.ActivityType.watching, name="@Starboard for help"
+            )
+        )
         self.bot.log.info(f"[Cluster#{self.bot.cluster_name}] Ready")
         await self.uptime_log(
             f":green_circle: Cluster **{self.bot.cluster_name}** ready!"
