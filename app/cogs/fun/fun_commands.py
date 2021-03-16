@@ -110,7 +110,7 @@ class Fun(commands.Cog):
             sb!moststarred --by @Circuit --in #general --starboard #starboard
         """
         starboard_id = (
-            options["starboard"].id if options["starboard"] else None
+            options["starboard"].obj.id if options["starboard"] else None
         )
         author_id = options["by"].id if options["by"] else None
         channel_id = options["in"].id if options["in"] else None
@@ -191,7 +191,7 @@ class Fun(commands.Cog):
         author_id = options["by"].id if options["by"] else None
         channel_id = options["in"].id if options["in"] else None
         starboard_id = (
-            options["starboard"].id if options["starboard"] else None
+            options["starboard"].obj.id if options["starboard"] else None
         )
         good_messages = await self.bot.db.fetch(
             """SELECT * FROM starboard_messages
