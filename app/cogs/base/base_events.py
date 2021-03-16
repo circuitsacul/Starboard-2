@@ -8,6 +8,7 @@ import aiohttp
 import discord
 from discord import AsyncWebhookAdapter, Webhook
 from discord.ext import commands, flags
+from discord.ext.commands.errors import NoPrivateMessage
 from dotenv import load_dotenv
 
 from app import utils
@@ -31,6 +32,7 @@ EXPECTED_ERRORS = [
     discord.Forbidden,
     discord.InvalidArgument,
     commands.BadArgument,
+    commands.NoPrivateMessage,
     flags.ArgumentParsingError,
 ]
 UPTIME = os.getenv("UPTIME_HOOK")
