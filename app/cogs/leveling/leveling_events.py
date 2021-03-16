@@ -72,7 +72,8 @@ class LevelingEvents(commands.Cog):
             if receiver_id not in _users:
                 return
             user = _users[receiver_id]
-            self.bot.dispatch("level_up", guild, user, leveled_up)
+            if not user.bot:
+                self.bot.dispatch("level_up", guild, user, leveled_up)
 
 
 def setup(bot: Bot) -> None:

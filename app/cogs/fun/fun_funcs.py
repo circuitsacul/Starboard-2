@@ -18,6 +18,8 @@ async def get_guild_leaderboard(bot: Bot, guild: discord.Guild) -> dict:
         obj = user_lookup.get(int(u["user_id"]))
         if not obj:
             continue
+        if obj.bot:
+            continue
 
         leaderboard[obj.id] = {
             "name": str(obj),
