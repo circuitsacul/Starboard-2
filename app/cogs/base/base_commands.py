@@ -107,12 +107,12 @@ class Base(commands.Cog):
             )
             .add_field(
                 name="Vote Links",
-                value="\n".join(config.VOTE_LINKS),
+                value=str("**" + "\n".join(config.VOTE_LINKS) + "**"),
                 inline=False,
             )
             .add_field(
                 name="Review Links",
-                value="\n".join(config.REVIEW_LINKS),
+                value=str("**" + "\n".join(config.REVIEW_LINKS) + "**"),
                 inline=False,
             )
         )
@@ -142,11 +142,9 @@ class Base(commands.Cog):
             count = 0
         embed = (
             discord.Embed(
-                title="Vote for Starboard", color=self.bot.theme_color
-            )
-            .add_field(
-                name="Votes",
-                value=f"You have voted **{count}** time"
+                title="Vote for Starboard",
+                color=self.bot.theme_color,
+                description=f"You have voted **{count}** time"
                 f"{'s' if count != 1 else ''}"
                 f"{'!' if count != 0 else ' :('}"
                 if user.id == ctx.message.author.id
@@ -157,12 +155,12 @@ class Base(commands.Cog):
             )
             .add_field(
                 name="Vote Links",
-                value="\n".join(config.VOTE_LINKS),
+                value="**" + "\n".join(config.VOTE_LINKS) + "**",
                 inline=False,
             )
             .add_field(
                 name="Review Links",
-                value="\n".join(config.REVIEW_LINKS),
+                value="**" + "\n".join(config.REVIEW_LINKS) + "**",
                 inline=False,
             )
         )
