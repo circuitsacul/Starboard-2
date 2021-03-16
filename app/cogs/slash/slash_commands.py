@@ -9,10 +9,6 @@ from app.classes.bot import Bot
 class SlashCommands(commands.Cog):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
-        self.bot.slash.get_cog_commands(self)
-
-    def cog_unload(self) -> None:
-        self.bot.slash.get_cog_commands(self)
 
     @cog_ext.cog_slash(
         name="ping",
@@ -20,7 +16,7 @@ class SlashCommands(commands.Cog):
         guild_ids=config.SLASH_GUILD_IDS,
     )
     async def ping(self, ctx: SlashContext) -> None:
-        await ctx.send(content="Pong!", complete_hidden=True)
+        await ctx.send(content="Pong!", hidden=True)
 
     @commands.command(
         name="slash", brief="Get a link for authorizing slash commands"

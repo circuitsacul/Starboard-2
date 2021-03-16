@@ -74,9 +74,7 @@ class Bot(commands.AutoShardedBot):
 
         self.loop.run_until_complete(self.db.init_database())
 
-        self.slash = SlashCommand(
-            self, override_type=True, auto_register=True, auto_delete=True
-        )
+        self.slash = SlashCommand(self, override_type=True)
 
         for ext in kwargs.pop("initial_extensions"):
             self.load_extension(ext)
