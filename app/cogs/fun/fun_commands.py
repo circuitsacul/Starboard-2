@@ -36,7 +36,7 @@ class Fun(commands.Cog):
 
             return (
                 f"#{u['rank']}: {setlen(u['name'], 20)} "
-                f"Level: {u['level']:04} XP: {u['xp']:04}"
+                f"Level: {u['level']:02} XP: {u['xp']:04}"
             )
 
         for _uid, u in leaderboard.items():
