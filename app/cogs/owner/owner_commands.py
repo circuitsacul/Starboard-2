@@ -15,6 +15,8 @@ from ...classes.bot import Bot
 
 
 class Owner(commands.Cog):
+    "Owner-only commands"
+
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
 

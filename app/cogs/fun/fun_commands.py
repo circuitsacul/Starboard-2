@@ -12,6 +12,8 @@ from . import fun_funcs
 
 
 class Fun(commands.Cog):
+    "Fun commands for Starboard"
+
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
 

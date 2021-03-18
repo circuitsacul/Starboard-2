@@ -6,6 +6,8 @@ from app.classes.bot import Bot
 
 
 class Blacklist(commands.Cog):
+    "Manage the channel blacklist/whitelist for starboards"
+
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
 

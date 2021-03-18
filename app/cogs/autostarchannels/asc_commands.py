@@ -6,6 +6,8 @@ from app.classes.bot import Bot
 
 
 class AutoStarChannels(commands.Cog):
+    """Manage AutoStarChannels"""
+
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
 

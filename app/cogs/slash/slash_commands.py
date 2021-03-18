@@ -7,6 +7,8 @@ from app.classes.bot import Bot
 
 
 class SlashCommands(commands.Cog):
+    "Slash commands"
+
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
 

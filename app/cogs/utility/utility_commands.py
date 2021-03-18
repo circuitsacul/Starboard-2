@@ -9,6 +9,8 @@ from . import cleaner, debugger, recounter, utility_funcs
 
 
 class Utility(commands.Cog):
+    "Utility and starboard moderation"
+
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
 

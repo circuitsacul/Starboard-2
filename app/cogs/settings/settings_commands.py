@@ -13,6 +13,8 @@ async def raise_if_exists(emoji: str, ctx: commands.Context) -> None:
 
 
 class Settings(commands.Cog):
+    "Manage settings for a server (not starboard settings)"
+
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
 

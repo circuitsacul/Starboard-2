@@ -8,6 +8,8 @@ from ...classes.bot import Bot
 
 
 class Base(commands.Cog):
+    "Basic information and commands"
+
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
         self._about_starboard = (
