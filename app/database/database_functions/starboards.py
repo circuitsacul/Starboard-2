@@ -66,7 +66,6 @@ class Starboards:
         link_deletes: bool = None,
         link_edits: bool = None,
         images_only: bool = None,
-        remove_reactions: bool = None,
         no_xp: bool = None,
         explore: bool = None,
         star_emojis: List[str] = None,
@@ -103,9 +102,6 @@ class Starboards:
             "images_only": s["images_only"]
             if images_only is None
             else images_only,
-            "remove_reactions": s["remove_reactions"]
-            if remove_reactions is None
-            else remove_reactions,
             "no_xp": s["no_xp"] if no_xp is None else no_xp,
             "explore": s["explore"] if explore is None else explore,
             "star_emojis": s["star_emojis"]
@@ -160,18 +156,17 @@ class Starboards:
             link_deletes = $6,
             link_edits = $7,
             images_only = $8,
-            remove_reactions = $9,
-            no_xp = $10,
-            explore = $11,
-            star_emojis = $12,
-            display_emoji = $13,
-            regex = $14,
-            exclude_regex = $15,
-            color = $16,
-            ping = $17,
-            channel_bl = $18,
-            channel_wl = $19
-            WHERE id = $20""",
+            no_xp = $9,
+            explore = $10,
+            star_emojis = $11,
+            display_emoji = $12,
+            regex = $13,
+            exclude_regex = $14,
+            color = $15,
+            ping = $16,
+            channel_bl = $17,
+            channel_wl = $18
+            WHERE id = $19""",
             settings["required"],
             settings["required_remove"],
             settings["autoreact"],
@@ -180,7 +175,6 @@ class Starboards:
             settings["link_deletes"],
             settings["link_edits"],
             settings["images_only"],
-            settings["remove_reactions"],
             settings["no_xp"],
             settings["explore"],
             settings["star_emojis"],

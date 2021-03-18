@@ -18,7 +18,6 @@ A complete rewrite of Starboard
 
 ### New settings 
  - `autoReact`: Whether or not the bot automatically adds reactions to its own messages
- - `removeReactions`: Whether or not the bot will remove invalid reactions (e.g. self-stars)
  - `noXp`: Whether or not to allow people to gain XP from this starboard
  - `allowRandom`: Whether or not to allow `sb!random` to pull from this starboard
  - `color`: Allows you to set the embed color of starboard messages

@@ -79,7 +79,6 @@ class Starboard(commands.Cog):
                     f"autoReact: **{s['autoreact']}**\n"
                     f"linkDeletes: **{s['link_deletes']}**\n"
                     f"linkEdits: **{s['link_edits']}**\n"
-                    f"removeReactions: **{s['remove_reactions']}**\n"
                     f"noXp: **{s['no_xp']}**\n"
                     f"allowRandom: **{s['explore']}**\n"
                 ),
@@ -409,33 +408,6 @@ class Starboard(commands.Cog):
         await ctx.send(
             embed=utils.cs_embed(
                 {"linkEdits": (starboard.sql["link_edits"], link_edits)},
-                self.bot,
-            )
-        )
-
-    @starboards.command(
-        name="removeReactions",
-        aliases=["rr"],
-        brief="Whether or not to remove invalid reactions (self stars)",
-    )
-    @commands.has_guild_permissions(manage_channels=True)
-    async def set_remove_reactions(
-        self,
-        ctx: commands.Context,
-        starboard: converters.Starboard,
-        remove_reactions: converters.mybool,
-    ) -> None:
-        await self.bot.db.starboards.edit(
-            starboard.obj.id, remove_reactions=remove_reactions
-        )
-        await ctx.send(
-            embed=utils.cs_embed(
-                {
-                    "removeReactions": (
-                        starboard.sql["remove_reactions"],
-                        remove_reactions,
-                    )
-                },
                 self.bot,
             )
         )

@@ -60,7 +60,6 @@ STARBOARDS = """CREATE TABLE IF NOT EXISTS starboards (
         link_deletes BOOL NOT NULL DEFAULT False,
         link_edits BOOL NOT NULL DEFAULT True,
         images_only BOOL NOT NULL DEFAULT False,
-        remove_reactions BOOL NOT NULL DEFAULT True,
         no_xp BOOL NOT NULL DEFAULT False,
         explore BOOL NOT NULL DEFAULT True,
         ping BOOL NOT NULL DEFAULT False,
