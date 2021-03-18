@@ -90,7 +90,7 @@ class Utility(commands.Cog):
         p.add_line(
             f"{len(result['errors'])} errors, "
             f"{len(result['warns'])} warnings, "
-            f"{len(result['light_warns'])} light warnings, "
+            f"{len(result['light_warns'])} notes, "
             f"and {len(result['suggestions'])} suggestions."
         )
         if result["errors"]:
@@ -102,7 +102,7 @@ class Utility(commands.Cog):
             for e in result["warns"]:
                 p.add_line(f"\n{e}")
         if result["light_warns"]:
-            p.add_line("\n\n**Light Warnings:**")
+            p.add_line("\n\n**Notes:**")
             for e in result["light_warns"]:
                 p.add_line(f"\n{e}")
         if result["suggestions"]:
