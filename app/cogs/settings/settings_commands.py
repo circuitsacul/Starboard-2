@@ -20,7 +20,6 @@ class Settings(commands.Cog):
 
     @commands.group(
         name="commands",
-        aliases=["disabled"],
         brief="Lists disabled commands",
         invoke_without_command=True,
     )

@@ -26,6 +26,28 @@ class Base(commands.Cog):
             "your starboard."
         )
 
+    @commands.command(name="help", brief="Get help with Starboard")
+    async def starboard_help(
+        self, ctx: commands.Context, *, command=None
+    ) -> None:
+        if command:
+            return await ctx.send_help(command)
+
+        p = ctx.prefix
+
+        embed = discord.Embed(
+            title="Staboard Help",
+            description=(
+                f"To see a complete command list, run `{p}commandlist`.\n"
+                f"To see a list of disabled commands, run `{p}disabled`.\n"
+                f"To list all prefixes, run `{p}prefixes`.\n"
+                "If you need any help, you can join [the support server]"
+                f"({config.SUPPORT_INVITE})"
+            ),
+            color=self.bot.theme_color,
+        )
+        await ctx.send(embed=embed)
+
     @commands.command(name="about", brief="Explains what a starboard is")
     async def about_starboard(self, ctx: commands.Context) -> None:
         """Explains what a starboard is"""
