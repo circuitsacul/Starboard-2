@@ -94,7 +94,9 @@ class Fun(commands.Cog):
 
     @flags.add_flag("--by", type=discord.User)
     @flags.add_flag("--in", type=discord.TextChannel)
+    @flags.add_flag("--maxstars", "--maxpoints", type=converters.myint)
     @flags.add_flag("--starboard", "--sb", type=converters.Starboard)
+    @flags.add_flag("--place", type=converters.myint, default=1)
     @flags.command(name="moststarred", brief="Shows the most starred messages")
     @commands.guild_only()
     @commands.cooldown(1, 3, type=commands.BucketType.user)
@@ -104,7 +106,10 @@ class Fun(commands.Cog):
         Options:
             --by: Search for messages by this person
             --in: Search for messages sent in this channel
+            --maxstars: Search for messages that have fewer stars than this
             --starboard: Search for messages that appeard on this starboard
+            --place: Start at a certain point in the list, instead of at the
+                top
 
         Example:
             sb!moststarred --by @Circuit --in #general --starboard #starboard
@@ -114,6 +119,11 @@ class Fun(commands.Cog):
         )
         author_id = options["by"].id if options["by"] else None
         channel_id = options["in"].id if options["in"] else None
+        maxpoints = options["maxstars"]
+        place = options["place"] - 1
+
+        if place < 0:
+            raise commands.BadArgument("--place must be greater than 0")
 
         messages = await self.bot.db.fetch(
             """SELECT * FROM starboard_messages
@@ -131,18 +141,20 @@ class Fun(commands.Cog):
                 WHERE id=starboard_id
                 AND explore=True
             )
+            AND ($5::smallint is NULL or points <= $5::smallint)
             ORDER BY points DESC""",
             starboard_id,
             author_id,
             channel_id,
             ctx.guild.id,
+            maxpoints,
         )
         if len(messages) == 0:
             await ctx.send("Nothing to show.")
             return
         embeds: List[discord.Embed] = []
         text_pages: List[str] = []
-        for m in messages[0:10]:
+        for m in messages[place : place + 10]:
             orig = await self.bot.db.messages.get(m["orig_id"])
             obj = await self.bot.cache.fetch_message(
                 ctx.guild.id,
