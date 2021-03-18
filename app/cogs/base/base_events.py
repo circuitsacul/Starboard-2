@@ -166,7 +166,7 @@ class BaseEvents(commands.Cog):
             return
         if message.content.replace("!", "") == self.bot.user.mention:
             p = utils.escmd((await self.bot.get_prefix(message))[0])
-            await message.channel.send(f"My prefix is `{utils.escmd(p)}`")
+            await message.channel.send(f"My prefix is `{p}`")
         else:
             await self.bot.process_commands(message)
 
