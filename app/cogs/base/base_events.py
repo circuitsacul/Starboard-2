@@ -32,6 +32,8 @@ EXPECTED_ERRORS = [
     discord.InvalidArgument,
     commands.BadArgument,
     commands.NoPrivateMessage,
+    commands.UserNotFound,
+    commands.RoleNotFound,
     flags.ArgumentParsingError,
 ]
 UPTIME = os.getenv("UPTIME_HOOK")
