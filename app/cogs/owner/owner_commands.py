@@ -1,4 +1,10 @@
+import asyncio
+import io
 import time
+import traceback
+import json
+import textwrap
+from contextlib import redirect_stdout
 
 import discord
 from asyncpg.exceptions import InterfaceError
@@ -8,15 +14,88 @@ from ... import checks, utils
 from ...classes.bot import Bot
 
 
-class OwnerCommands(commands.Cog):
+class Owner(commands.Cog):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
+
+    @commands.command()
+    @checks.is_owner()
+    async def evall(self, ctx, *, body: str):
+        """Evaluates code on all clusters and returns their response"""
+        self.bot.eval_wait = True
+        try:
+            await self.bot.websocket.send(
+                json.dumps({"command": "eval", "content": body}).encode(
+                    "utf-8"
+                )
+            )
+            msgs = []
+            while True:
+                try:
+                    msg = await asyncio.wait_for(
+                        self.bot.responses.get(), timeout=3
+                    )
+                except asyncio.TimeoutError:
+                    break
+                msgs.append(f'{msg["author"]}: {msg["response"]}')
+            await ctx.send(" ".join(f"```py\n{m}\n```" for m in msgs))
+        finally:
+            self.bot.eval_wait = False
+
+    @commands.command(name="eval")
+    @checks.is_owner()
+    async def _eval(self, ctx, *, body: str):
+        """Evaluates python code on the current cluster"""
+
+        env = {
+            "bot": self.bot,
+            "ctx": ctx,
+            "channel": ctx.channel,
+            "author": ctx.author,
+            "guild": ctx.guild,
+            "message": ctx.message,
+            "_": self.bot._last_result,
+        }
+
+        env.update(globals())
+
+        body = self.bot.cleanup_code(body)
+        stdout = io.StringIO()
+
+        to_compile = f'async def func():\n{textwrap.indent(body, "  ")}'
+
+        try:
+            exec(to_compile, env)
+        except Exception as e:
+            return await ctx.send(f"```py\n{e.__class__.__name__}: {e}\n```")
+
+        func = env["func"]
+        try:
+            with redirect_stdout(stdout):
+                ret = await func()
+        except Exception:
+            value = stdout.getvalue()
+            await ctx.send(f"```py\n{value}{traceback.format_exc()}\n```")
+        else:
+            value = stdout.getvalue()
+            try:
+                await ctx.message.add_reaction("\u2705")
+            except (discord.Forbidden, discord.NotFound):
+                pass
+
+            if ret is None:
+                if value:
+                    await ctx.send(f"```py\n{value}\n```")
+            else:
+                self.bot._last_result = ret
+                await ctx.send(f"```py\n{value}{ret}\n```")
 
     @commands.command(name="sqltimes")
     @checks.is_owner()
     async def get_sql_times(
         self, ctx: commands.Context, sort_by: str = "total"
     ) -> None:
+        """Shows stats on SQL queries"""
         if sort_by not in ["avg", "total", "exec"]:
             await ctx.send("Valid optons are `avg`, `total`, and `exec`.")
             return
@@ -67,6 +146,7 @@ class OwnerCommands(commands.Cog):
     @commands.command(name="restart")
     @checks.is_owner()
     async def restart_bot(self, ctx: commands.Context) -> None:
+        """Restars all clusters"""
         await ctx.send("Restart all clusters?")
         if await utils.confirm(ctx):
             await ctx.send("Restarting...")
@@ -80,7 +160,6 @@ class OwnerCommands(commands.Cog):
         aliases=["timepg", "timeit", "runtime"],
         brief="Time postgres queries",
         description="Time postgres queries",
-        hidden=True,
     )
     @checks.is_owner()
     async def time_postgres(self, ctx: commands.Context, *args: list) -> None:
@@ -115,4 +194,4 @@ class OwnerCommands(commands.Cog):
 
 
 def setup(bot: Bot) -> None:
-    bot.add_cog(OwnerCommands(bot))
+    bot.add_cog(Owner(bot))
