@@ -1,15 +1,15 @@
 from discord.ext import commands
 
 
-class ConversionError(Exception):
+class ConversionError(commands.CommandError):
     pass
 
 
-class DoesNotExist(Exception):
+class DoesNotExist(commands.CommandError):
     pass
 
 
-class AlreadyExists(Exception):
+class AlreadyExists(commands.CommandError):
     pass
 
 
