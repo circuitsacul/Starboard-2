@@ -14,7 +14,7 @@ import websockets
 from discord.ext import commands
 from discord_slash import SlashCommand
 from dotenv import load_dotenv
-from pretty_help import PrettyHelp
+from pretty_help import PrettyHelp, Navigation
 
 from app import checks
 
@@ -44,8 +44,13 @@ class Bot(commands.AutoShardedBot):
         self.cluster_name = kwargs.pop("cluster_name")
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
+
+        help_emojis = Navigation("⬅️", "➡️", "⏹️")
+
         super().__init__(
-            help_command=PrettyHelp(color=self.theme_color),
+            help_command=PrettyHelp(
+                color=self.theme_color, navigation=help_emojis
+            ),
             command_prefix=self._prefix_callable,
             **kwargs,
             loop=loop,
