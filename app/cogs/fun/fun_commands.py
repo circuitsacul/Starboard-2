@@ -182,7 +182,8 @@ class Fun(commands.Cog):
     @flags.add_flag(
         "--starboard", "--sb", type=converters.Starboard, default=None
     )
-    @flags.add_flag("--points", type=int, default=0)
+    @flags.add_flag("--points", type=converters.myint)
+    @flags.add_flag("--maxstars", "--maxpoints", type=converters.myint)
     @flags.command(
         name="random",
         aliases=["explore", "rand"],
@@ -201,10 +202,12 @@ class Fun(commands.Cog):
             --sb: Only show messages from this starboard
             --points: Only show messages that have at least
                 this many points
+            --maxstars: Only show messages that have at most
+                this many points
 
         Examples:
             sb!random --by @Circuit --sb super-starboard
-            sb!random --points 15
+            sb!random --points 15 --maxstars 50
         """
         author_id = options["by"].id if options["by"] else None
         channel_id = options["in"].id if options["in"] else None
@@ -215,12 +218,13 @@ class Fun(commands.Cog):
             """SELECT * FROM starboard_messages
             WHERE ($1::numeric is NULL or starboard_id=$1::numeric)
             AND ($2::smallint is NULL or points >= $2::smallint)
+            AND ($3::smallint is NULL or points <= $3::smallint)
             AND EXISTS (
                 SELECT * FROM messages
                 WHERE id=orig_id
                 AND trashed=False
-                AND ($3::numeric is NULL or author_id=$3::numeric)
-                AND ($4::numeric is NULL or channel_id=$4::numeric)
+                AND ($4::numeric is NULL or author_id=$4::numeric)
+                AND ($5::numeric is NULL or channel_id=$5::numeric)
             )
             AND EXISTS (
                 SELECT * FROM starboards
@@ -229,6 +233,7 @@ class Fun(commands.Cog):
             )""",
             starboard_id,
             options["points"],
+            options["maxstars"],
             author_id,
             channel_id,
         )
