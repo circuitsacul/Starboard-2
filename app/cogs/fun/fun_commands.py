@@ -99,7 +99,7 @@ class Fun(commands.Cog):
     @commands.guild_only()
     @commands.cooldown(1, 3, type=commands.BucketType.user)
     async def moststarred(self, ctx: commands.Context, **options) -> None:
-        """See a list of the moststarred messages.
+        """See a list of the most starred messages.
 
         Options:
             --by: Search for messages by this person
@@ -125,7 +125,13 @@ class Fun(commands.Cog):
                 AND ($2::numeric is NULL or author_id=$2::numeric)
                 AND ($3::numeric is NULL or channel_id=$3::numeric)
                 AND trashed=False
-            ) ORDER BY points DESC""",
+            )
+            AND EXISTS (
+                SELECT * FROM starboards
+                WHERE id=starboard_id
+                AND explore=True
+            )
+            ORDER BY points DESC""",
             starboard_id,
             author_id,
             channel_id,
