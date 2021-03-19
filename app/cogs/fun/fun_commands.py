@@ -64,7 +64,7 @@ class Fun(commands.Cog):
     async def user_stats(
         self, ctx: commands.Context, user: discord.Member = None
     ) -> None:
-        user = user or ctx.message.author
+        user: discord.Member = user or ctx.message.author
         sql_user = await self.bot.db.users.get(user.id)
         if not sql_user:
             await ctx.send(f"**{user}** has no stats to show.")
@@ -91,7 +91,7 @@ class Fun(commands.Cog):
                 f"Level: **{level}**"
             ),
             color=self.bot.theme_color,
-        )
+        ).set_thumbnail(url=user.avatar_url)
         await ctx.send(embed=embed)
 
     @flags.add_flag("--by", type=discord.User)
