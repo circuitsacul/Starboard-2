@@ -8,6 +8,7 @@ import aiohttp
 import discord
 from discord import AsyncWebhookAdapter, Webhook
 from discord.ext import commands, flags
+from discord.ext.commands.errors import ExpectedClosingQuoteError
 from dotenv import load_dotenv
 
 from app import utils
@@ -28,6 +29,7 @@ EXPECTED_ERRORS = [
     commands.RoleNotFound,
     commands.NotOwner,
     commands.CommandOnCooldown,
+    commands.ExpectedClosingQuoteError,
     discord.Forbidden,
     discord.InvalidArgument,
     commands.BadArgument,
