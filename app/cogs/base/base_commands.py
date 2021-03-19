@@ -30,6 +30,7 @@ class Base(commands.Cog):
     async def starboard_help(
         self, ctx: commands.Context, *, command=None
     ) -> None:
+        """Get help with Starboard"""
         if command:
             return await ctx.send_help(command)
 
