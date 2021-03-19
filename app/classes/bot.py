@@ -51,7 +51,7 @@ class Bot(commands.AutoShardedBot):
             help_command=PrettyHelp(
                 color=self.theme_color,
                 navigation=help_emojis,
-                command_attrs={"name": "commandlist", "hidden": True},
+                command_attrs={"name": "commands", "hidden": True},
             ),
             command_prefix=self._prefix_callable,
             **kwargs,

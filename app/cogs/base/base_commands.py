@@ -39,9 +39,10 @@ class Base(commands.Cog):
         embed = discord.Embed(
             title="Staboard Help",
             description=(
-                f"To see a complete command list, run `{p}commandlist`.\n"
+                f"To see a complete command list, run `{p}commands`.\n"
                 f"To see a list of disabled commands, run `{p}disabled`.\n"
                 f"To list all prefixes, run `{p}prefixes`.\n"
+                f"For a list of useful links, run `{p}links`\n\n"
                 "If you need any help, you can join [the support server]"
                 f"({config.SUPPORT_INVITE})"
             ),
