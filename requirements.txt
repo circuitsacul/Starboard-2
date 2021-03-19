@@ -1,5 +1,5 @@
 aiohttp==3.7.4.post0
-alt-discord-flags==0.0.1
+alt-discord-flags==0.0.3
 appdirs==1.4.4
 astunparse==1.6.3
 async-timeout==3.0.1
