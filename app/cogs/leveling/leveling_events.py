@@ -20,12 +20,6 @@ class LevelingEvents(commands.Cog):
         if giver_id == receiver_id:
             return
 
-        # TODO(Circuit): Make this take the rate/per of a guild
-        bucket = self.cooldown.get_bucket((giver_id, receiver_id), 3, 60)
-        retry_after = bucket.update_rate_limit()
-        if retry_after:
-            return
-
         await self.bot.db.members.create(giver_id, guild_id)
         sql_giver = await self.bot.db.members.get(giver_id, guild_id)
         await self.bot.db.members.create(receiver_id, guild_id)
@@ -38,13 +32,27 @@ class LevelingEvents(commands.Cog):
             sql_giver["guild_id"],
         )
 
+        await self.bot.db.execute(
+            """UPDATE members
+            SET stars_received = stars_received + $1
+            WHERE user_id=$2 AND guild_id=$3""",
+            points,
+            receiver_id,
+            guild_id,
+        )
+
         leveled_up: Optional[int] = None
+
+        # TODO(Circuit): Make this take the rate/per of a guild
+        bucket = self.cooldown.get_bucket((giver_id, receiver_id), 3, 60)
+        retry_after = bucket.update_rate_limit()
+        if retry_after:
+            return
 
         async with self.bot.db.pool.acquire() as con:
             await con.execute(
                 """UPDATE members
-                SET xp = xp + $1,
-                stars_received = stars_received + $1
+                SET xp = xp + $1
                 WHERE user_id=$2 AND guild_id=$3""",
                 points,
                 receiver_id,

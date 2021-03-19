@@ -6,4 +6,6 @@ def next_level_xp(current_level: int) -> int:
 
 
 def current_level(xp: int) -> int:
+    if xp < 0:
+        return 0
     return int(sqrt(xp))
