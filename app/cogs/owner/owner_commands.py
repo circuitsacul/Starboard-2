@@ -1,9 +1,9 @@
 import asyncio
 import io
-import time
-import traceback
 import json
 import textwrap
+import time
+import traceback
 from contextlib import redirect_stdout
 
 import discord
