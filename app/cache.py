@@ -44,11 +44,15 @@ class Cache:
 
     async def fetch_message(
         self, guild_id: int, channel_id: int, message_id: int
-    ) -> discord.Message:
+    ) -> Optional[discord.Message]:
         cached = self.get_message(guild_id, message_id)
         if not cached:
             guild = self.bot.get_guild(guild_id)
+            if not guild:
+                return None
             channel = guild.get_channel(channel_id)
+            if not channel:
+                return None
             try:
                 message = await channel.fetch_message(message_id)
             except discord.errors.NotFound:

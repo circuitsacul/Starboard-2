@@ -181,8 +181,8 @@ async def embed_message(
     if message.reference is not None:
         if message.reference.resolved is None:
             ref_message = await bot.cache.fetch_message(
-                message.guild.id,
-                message.channel.id,
+                message.reference.guild_id,
+                message.reference.channel_id,
                 message.reference.message_id,
             )
             if ref_message is None:
@@ -214,8 +214,9 @@ async def embed_message(
         else:
             ref_jump = (
                 "**[Replying to Unknown (deleted)]"
-                f"(https://discord.com/channels/{ref_message.guild_id}/"
-                f"{ref_message.channel_id}/{ref_message.id})**\n"
+                f"(https://discord.com/channels/{message.reference.guild_id}/"
+                f"{message.reference.channel_id}/"
+                f"{message.reference.message_id})**\n"
             )
 
     embed.add_field(
