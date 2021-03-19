@@ -39,6 +39,7 @@ class Base(commands.Cog):
         embed = discord.Embed(
             title="Staboard Help",
             description=(
+                f"**[Starboard Documentation]({config.DOCS})**\n\n"
                 f"To see a complete command list, run `{p}commands`.\n"
                 f"To see a list of disabled commands, run `{p}disabled`.\n"
                 f"To list all prefixes, run `{p}prefixes`.\n"
@@ -104,14 +105,14 @@ class Base(commands.Cog):
     async def links(self, ctx: commands.Context) -> None:
         """Shows important/useful links"""
         embed = (
-            discord.Embed(title="Important Links", color=self.bot.theme_color)
-            .add_field(
-                name="Discord",
-                value=(
+            discord.Embed(
+                title="Important Links",
+                color=self.bot.theme_color,
+                description=(
+                    f"**[Documentation]({config.DOCS})**\n"
                     f"**[Support Server]({config.SUPPORT_INVITE})**\n"
                     f"**[Invite Starboard]({config.BOT_INVITE})**\n"
                 ),
-                inline=False,
             )
             .add_field(
                 name="Support Starboard",
