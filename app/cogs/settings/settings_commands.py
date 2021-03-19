@@ -18,17 +18,22 @@ class Settings(commands.Cog):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
 
-    @commands.group(
-        name="commands",
+    @commands.command(
+        name="disabled",
         brief="Lists disabled commands",
         invoke_without_command=True,
     )
     @commands.guild_only()
     async def disabled_cmds(self, ctx: commands.Context) -> None:
         """Lists all commands that have been disabled"""
+        p = ctx.prefix
+
         guild = await self.bot.db.guilds.get(ctx.guild.id)
         if len(guild["disabled_commands"]) == 0:
-            await ctx.send("No disabled commands.")
+            await ctx.send(
+                f"No disabled commands. Disable a command with `{p}disable "
+                "<command>`"
+            )
             return
         string = ""
         for c in guild["disabled_commands"]:
@@ -37,12 +42,13 @@ class Settings(commands.Cog):
             title="Disabled Commands",
             description=string,
             color=self.bot.theme_color,
+        ).set_footer(
+            text=f"Disable a command with {p}disable <command>\n"
+            f"Enable a command with {p}enable <command>"
         )
         await ctx.send(embed=embed)
 
-    @disabled_cmds.command(
-        name="disable", aliases=["remove"], brief="Disables a command"
-    )
+    @commands.command(name="disable", brief="Disables a command")
     @commands.has_guild_permissions(manage_guild=True)
     async def disable_command(
         self, ctx: commands.Context, command: converters.Command
@@ -64,9 +70,7 @@ class Settings(commands.Cog):
         )
         await ctx.send(f"Disabled `{name}`")
 
-    @disabled_cmds.command(
-        name="enable", aliases=["add"], brief="Enables a command"
-    )
+    @commands.command(name="enable", brief="Enables a command")
     @commands.has_guild_permissions(manage_guild=True)
     async def enable_command(
         self, ctx: commands.Context, command: converters.Command
