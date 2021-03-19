@@ -8,7 +8,6 @@ import aiohttp
 import discord
 from discord import AsyncWebhookAdapter, Webhook
 from discord.ext import commands, flags
-from discord.ext.commands.errors import ExpectedClosingQuoteError
 from dotenv import load_dotenv
 
 from app import utils
