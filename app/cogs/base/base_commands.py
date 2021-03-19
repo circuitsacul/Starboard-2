@@ -12,7 +12,7 @@ class Base(commands.Cog):
 
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
-        self._about_starboard = (
+        self.about_starboard = (
             "A Starboard is a bot that allows users of a server"
             ' to "vote" to "pin" a message. The main idea is this:\n'
             " - You set a channel as the starboard, typically called "
@@ -46,17 +46,7 @@ class Base(commands.Cog):
                 f"({config.SUPPORT_INVITE})"
             ),
             color=self.bot.theme_color,
-        )
-        await ctx.send(embed=embed)
-
-    @commands.command(name="about", brief="Explains what a starboard is")
-    async def about_starboard(self, ctx: commands.Context) -> None:
-        """Explains what a starboard is"""
-        embed = discord.Embed(
-            title="About Starboard",
-            description=self._about_starboard,
-            color=self.bot.theme_color,
-        )
+        ).add_field(name="What is a Starboard?", value=self.about_starboard)
         await ctx.send(embed=embed)
 
     @commands.command(
