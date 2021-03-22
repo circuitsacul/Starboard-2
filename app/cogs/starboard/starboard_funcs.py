@@ -31,7 +31,10 @@ async def sbemojis(bot: Bot, guild_id: int) -> List[str]:
         WHERE id=any($1::numeric[])""",
         [s["id"] for s in starboards],
     )
-    emojis = [item for sublist in _emojis for item in sublist]
+    if _emojis:
+        emojis = [item for sublist in _emojis for item in sublist]
+    else:
+        emojis = []
     return emojis
 
 
