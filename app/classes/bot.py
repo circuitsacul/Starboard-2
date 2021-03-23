@@ -7,7 +7,7 @@ import sys
 import textwrap
 import traceback
 from contextlib import redirect_stdout
-from typing import List
+from typing import List, Optional
 
 import discord
 import websockets
@@ -60,8 +60,6 @@ class Bot(commands.AutoShardedBot):
         self.websocket = None
         self._last_result = None
         self.ws_task = None
-        self.responses = asyncio.Queue()
-        self.eval_wait = False
         log = logging.getLogger(f"Cluster#{self.cluster_name}")
         log.setLevel(logging.DEBUG)
         log.handlers = [
@@ -71,6 +69,9 @@ class Bot(commands.AutoShardedBot):
                 mode="a",
             )
         ]
+
+        self.current_callback = 0
+        self.responses = {}
 
         log.info(
             f'[Cluster#{self.cluster_name}] {kwargs["shard_ids"]}, '
@@ -171,38 +172,86 @@ class Bot(commands.AutoShardedBot):
                 if exc.code == 1000:
                     return
                 raise
-            data = json.loads(msg)
-            if self.eval_wait and data.get("response"):
-                await self.responses.put(data)
-            cmd = data.get("command")
-            if not cmd:
+
+            msg = json.loads(msg)
+
+            if msg["type"] == "response":
+                if msg["callback"] in self.responses.keys():
+                    self.responses[msg["callback"]].append(msg)
                 continue
-            ret = {}
+
+            cmd = msg["name"]
+            data = msg["data"]
+
+            ret = None
             if cmd == "ping":
-                ret = {"response": "pong"}
+                ret = "pong"
                 self.log.info("received command [ping]")
             elif cmd == "eval":
                 self.log.info(f"received command [eval] ({data['content']})")
                 content = data["content"]
-                data = await self.exec(content)
-                ret = {"response": str(data)}
+                ret = str(await self.exec(content))
             elif cmd == "set_stats":
                 self.log.info("received command [set_stats]")
-                self.stats[data["cluster"]] = {
+                self.stats[msg["author"]] = {
                     "guilds": data["guild_count"],
                     "members": data["member_count"],
                 }
+
+            if not ret:
                 continue
-            else:
-                ret = {"response": "unknown command"}
-            ret["author"] = self.cluster_name
+
             self.log.info(f"responding: {ret}")
-            try:
-                await self.websocket.send(json.dumps(ret).encode("utf-8"))
-            except websockets.ConnectionClosed as exc:
-                if exc.code == 1000:
-                    return
-                raise
+            await self.send_response(msg["callback"], ret)
+
+    def next_callback(self):
+        self.current_callback += 1
+        return f"{self.cluster_name}-{self.current_callback}"
+
+    async def send_command(
+        self, name: str, data: dict, expect_resp: bool = False
+    ) -> Optional[List[str]]:
+        to_send = {
+            "type": "command",
+            "name": name,
+            "respond": expect_resp,
+            "callback": self.next_callback() if expect_resp else None,
+            "data": data,
+            "author": self.cluster_name,
+        }
+
+        if expect_resp:
+            self.responses[to_send["callback"]] = []
+
+        try:
+            await self.websocket.send(json.dumps(to_send).encode("utf-8"))
+        except websockets.ConnectionClosed as exc:
+            if exc.code == 1000:
+                return
+            raise
+
+        if expect_resp:
+            await asyncio.sleep(0.5)
+            return self.responses.pop(to_send["callback"])
+
+    async def send_response(
+        self,
+        callback: str,
+        data: dict,
+    ) -> None:
+        to_send = {
+            "type": "response",
+            "callback": callback,
+            "data": data,
+            "author": self.cluster_name,
+        }
+
+        try:
+            await self.websocket.send(json.dumps(to_send).encode("utf-8"))
+        except websockets.ConnectionClosed as exc:
+            if exc.code == 1000:
+                return
+            raise
 
     def _task_done_callback(self, task: asyncio.Task) -> None:
         try:

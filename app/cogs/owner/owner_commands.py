@@ -24,25 +24,13 @@ class Owner(commands.Cog):
     @checks.is_owner()
     async def evall(self, ctx, *, body: str):
         """Evaluates code on all clusters and returns their response"""
-        self.bot.eval_wait = True
-        try:
-            await self.bot.websocket.send(
-                json.dumps({"command": "eval", "content": body}).encode(
-                    "utf-8"
-                )
-            )
-            msgs = []
-            while True:
-                try:
-                    msg = await asyncio.wait_for(
-                        self.bot.responses.get(), timeout=3
-                    )
-                except asyncio.TimeoutError:
-                    break
-                msgs.append(f'{msg["author"]}: {msg["response"]}')
-            await ctx.send(" ".join(f"```py\n{m}\n```" for m in msgs))
-        finally:
-            self.bot.eval_wait = False
+        _msgs = await self.bot.send_command(
+            "eval", {"content": body}, expect_resp=True
+        )
+
+        msgs = [f"```py\n{m['author']}: {m['data']}\n```" for m in _msgs]
+
+        await ctx.send(" ".join(msgs))
 
     @commands.command(name="eval")
     @checks.is_owner()

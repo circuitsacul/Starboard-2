@@ -1,5 +1,3 @@
-import json
-
 from discord.ext import commands, tasks
 
 from app.classes.bot import Bot
@@ -17,15 +15,13 @@ class StatsEvents(commands.Cog):
         for g in self.bot.guilds:
             if g.member_count:
                 member_count += g.member_count
-        await self.bot.websocket.send(
-            json.dumps(
-                {
-                    "command": "set_stats",
-                    "guild_count": len(self.bot.guilds),
-                    "member_count": member_count,
-                    "cluster": self.bot.cluster_name,
-                }
-            ).encode("utf-8")
+
+        await self.bot.send_command(
+            "set_stats",
+            {
+                "guild_count": len(self.bot.guilds),
+                "member_count": member_count,
+            },
         )
 
 
