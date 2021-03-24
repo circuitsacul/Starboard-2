@@ -20,3 +20,7 @@
     --wa: 36 100% 50%;
     --er: 14 100% 57%;
 }
+
+.min-h-screen-minus-nav {
+    min-height: calc(100vh - 72px);
+}
