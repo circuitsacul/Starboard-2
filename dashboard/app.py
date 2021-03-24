@@ -20,6 +20,18 @@ app.config["DISCORD_BOT_TOKEN"] = os.getenv("TOKEN")
 discord = DiscordOAuth2Session(app)
 
 
+# Dashboard Routes
+@app.route("/manage/")
+@requires_authorization
+async def manage():
+    user = await discord.fetch_user()
+    guilds = await discord.fetch_guilds()
+    return await render_template(
+        "dashboard/server_picker.jinja", user=user, guilds=guilds
+    )
+
+
+# Base Routes
 @app.route("/")
 async def index():
     try:
