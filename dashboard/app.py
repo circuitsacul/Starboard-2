@@ -62,7 +62,7 @@ async def me():
 @app.route("/api/callback/")
 async def login_callback():
     await discord.callback()
-    return redirect(url_for("index"))
+    return redirect(url_for("manage"))
 
 
 @app.errorhandler(Unauthorized)
