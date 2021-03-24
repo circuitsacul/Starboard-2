@@ -19,7 +19,7 @@
         <div class="navbar mb-2 shadow-lg bg-neutral-focus text-neutral-content" style="position: fixed; width: 100%; z-index: 100;">
             <div class="flex-1 px-2 mx-2 lg:flex-none">
                 <span class="text-lg font-bold">
-                    <a href="">
+                    <a href="/">
                         Starboard
                     </a>
                 </span>
@@ -42,8 +42,13 @@
             </div>
             <div class="flex-none">
                 {% if user %}
-                <a class="btn btn-ghost rounded-btn" href="{{ url_for('logout') }}">
-                    Logout
+                <a class="btn btn-ghost rounded-btn" href="{{ url_for('me') }}">
+                    <div class="avatar w-10 h-10 mr-2 inline-block">
+                        <div class="mb-8 rounded-full w-10 h-10">
+                            <img src="{{ user.avatar_url }}">
+                        </div>
+                    </div>
+                    Profile
                 </a>
                 {% else %}
                 <a class="btn btn-ghost rounded-btn" href="{{ url_for('login') }}">

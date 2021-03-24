@@ -3,6 +3,7 @@ import os
 import dotenv
 from quart import Quart, render_template, redirect, url_for
 from quart_discord import DiscordOAuth2Session, Unauthorized, AccessDenied
+from quart_discord.utils import requires_authorization
 
 import config
 
@@ -37,6 +38,13 @@ async def login():
 async def logout():
     discord.revoke()
     return redirect(url_for("index"))
+
+
+@app.route("/me/")
+@requires_authorization
+async def me():
+    user = await discord.fetch_user()
+    return await render_template("profile.jinja", user=user)
 
 
 @app.route("/api/callback/")
