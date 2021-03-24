@@ -10,11 +10,14 @@
 
         <link href="https://cdn.jsdelivr.net/npm/daisyui@0.14.4/dist/full.css" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/daisyui@0.14.4/dist/themes.css" rel="stylesheet" type="text/css" />
+
+        <link href="{{ url_for('static', filename='css/base.css') }}" rel="stylesheet" />
 
         {% block topstatic %}{% endblock %}
     </head>
-    <body>
-        <div class="navbar mb-2 shadow-lg bg-neutral text-neutral-content">
+    <body class="bg-neutral text-neutral-content">
+        <div class="navbar mb-2 shadow-lg bg-neutral-focus text-neutral-content" style="position: fixed; width: 100%; z-index: 100;">
             <div class="flex-1 px-2 mx-2 lg:flex-none">
                 <span class="text-lg font-bold">
                     <a href="">
@@ -24,11 +27,14 @@
             </div>
             <div class="justify-center flex-1 hidden px-2 mx-2 lg:flex">
                 <div class="flex items-stretch">
-                    <a class="btn btn-ghost btn-sm rounded-btn">
-                        Home
+                    <a class="btn btn-ghost btn-sm rounded-btn" href="https://circuit.gitbook.io/starboard">
+                        Docs
                     </a>
                     <a class="btn btn-ghost btn-sm rounded-btn">
-                        Docs
+                        Premium
+                    </a>
+                    <a class="btn btn-ghost btn-sm rounded-btn">
+                        Leaderboard
                     </a>
                     <a class="btn btn-ghost btn-sm rounded-btn">
                         Manage

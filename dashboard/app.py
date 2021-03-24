@@ -25,7 +25,7 @@ async def index():
         user = await discord.fetch_user()
     except Unauthorized:
         user = None
-    return await render_template("base.jinja", user=user)
+    return await render_template("home.jinja", user=user)
 
 
 @app.route("/login/")

@@ -1,0 +1,29 @@
+:root {
+    --p: 48 100% 71%;
+    --pf: 48 72% 63%;
+    --pc: 0 0% 0%;
+    --s: 314 100% 47%;
+    --sf: 314 100% 37%;
+    --sc: 0 0% 100%;
+    --a: 174 60% 51%;
+    --af: 174 60% 41%;
+    --ac: 0 0% 100%;
+    --n: 222 13% 19%;
+    --nf: 223 14% 9%;
+    --nc: 0 0% 100%;
+    --b1: 220 14% 28%;
+    --b2: 222 13% 18%;
+    --b3: 223 14% 9%;
+    --bc: 228 14% 93%;
+    --in: 207 90% 54%;
+    --su: 174 100% 29%;
+    --wa: 36 100% 50%;
+    --er: 14 100% 57%;
+}
+
+.primary-wave-1 {
+    background-image: url("../../static/img/primary-wave-1.png");
+    background-size: 100% 300px;
+    background-position: bottom;
+    background-repeat: no-repeat;
+}
