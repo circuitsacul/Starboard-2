@@ -20,10 +20,3 @@
     --wa: 36 100% 50%;
     --er: 14 100% 57%;
 }
-
-.primary-wave-1 {
-    background-image: url("../../static/img/primary-wave-1.png");
-    background-size: 100% 300px;
-    background-position: bottom;
-    background-repeat: no-repeat;
-}
