@@ -16,50 +16,79 @@
         {% block topstatic %}{% endblock %}
     </head>
     <body class="bg-neutral text-neutral-content">
-        <div class="navbar mb-2 shadow-lg bg-neutral-focus text-neutral-content">
-            <div class="flex-1 px-2 mx-2 lg:flex-none">
-                <span class="text-lg font-bold">
-                    <a href="/">
-                        Starboard
-                    </a>
-                </span>
-            </div>
-            <div class="justify-center flex-1 hidden px-2 mx-2 lg:flex">
-                <div class="flex items-stretch">
-                    <a class="btn btn-ghost btn-sm rounded-btn" href="https://circuit.gitbook.io/starboard">
-                        Docs
-                    </a>
-                    <a class="btn btn-ghost btn-sm rounded-btn">
-                        Premium
-                    </a>
-                    <a class="btn btn-ghost btn-sm rounded-btn">
-                        Leaderboard
-                    </a>
-                    <a class="btn btn-ghost btn-sm rounded-btn">
-                        Manage
-                    </a>
-                </div>
-            </div>
-            <div class="flex-none">
-                {% if user %}
-                <a class="btn btn-ghost rounded-btn" href="{{ url_for('me') }}">
-                    <div class="avatar w-10 h-10 mr-2 inline-block">
-                        <div class="mb-8 rounded-full w-10 h-10">
-                            <img src="{{ user.avatar_url }}">
+        <div class="drawer">
+            <input id="id-drawer" type="checkbox" class="drawer-toggle">
+            <div class="drawer-content flex flex-col">
+                <div class="navbar mb-2 shadow-lg bg-neutral-focus text-neutral-content">
+                    <div class="flex-none lg:hidden">
+                        <label for="id-drawer" class="btn btn-square btn-ghost">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-current">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                            </svg>
+                        </label>
+                    </div>
+                    <div class="flex-1 px-2 mx-2 lg:flex-none">
+                        <span class="text-lg font-bold">
+                            <a href="/">
+                                Starboard
+                            </a>
+                        </span>
+                    </div>
+                    <div class="justify-center flex-1 hidden px-2 mx-2 lg:flex">
+                        <div class="flex items-stretch">
+                            <a class="btn btn-ghost btn-sm rounded-btn" href="https://circuit.gitbook.io/starboard">
+                                Docs
+                            </a>
+                            <a class="btn btn-ghost btn-sm rounded-btn">
+                                Premium
+                            </a>
+                            <a class="btn btn-ghost btn-sm rounded-btn">
+                                Leaderboard
+                            </a>
+                            <a class="btn btn-ghost btn-sm rounded-btn">
+                                Manage
+                            </a>
                         </div>
                     </div>
-                    Profile
-                </a>
-                {% else %}
-                <a class="btn btn-ghost rounded-btn" href="{{ url_for('login') }}">
-                    Login
-                </a>
-                {% endif %}
+                    <div class="flex-none">
+                        {% if user %}
+                        <a class="btn btn-ghost rounded-btn" href="{{ url_for('me') }}">
+                            <div class="avatar w-10 h-10 mr-2 inline-block">
+                                <div class="mb-8 rounded-full w-10 h-10">
+                                    <img src="{{ user.avatar_url }}">
+                                </div>
+                            </div>
+                            Profile
+                        </a>
+                        {% else %}
+                        <a class="btn btn-ghost rounded-btn" href="{{ url_for('login') }}">
+                            Login
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                <div>
+                    {% block content %}{% endblock %}
+                </div>
             </div>
+            <div class="drawer-side">
+                <label for="id-drawer" class="drawer-overlay min-h-screen"></label>
+                <ul class="p-4 overflow-y-auto menu w-80 bg-base-100">
+                    <li>
+                        <a href="https://circuit.gitbook.io/starboard">Docs</a>
+                    </li> 
+                    <li>
+                        <a>Premium</a>
+                    </li>
+                    <li>
+                        <a>Leaderboard</a>
+                    </li>
+                    <li>
+                        <a>Manage</a>
+                    </li>
+                </ul>
+            <div>
         </div>
-
-        {% block content %}{% endblock %}
-
         {% block bottomstatic %}{% endblock %}
     </body>
 </html>
