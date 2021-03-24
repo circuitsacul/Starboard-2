@@ -6,7 +6,19 @@
 
 {% block content %}
 <div class="hero min-h-screen-minus-nav bg-nuetral" id="div-1">
-    <div class="flex-col-reverse hero-content lg:flex-row-reverse">
+    <div class="flex-col hero-content lg:flex-row">
+        <div>
+            <h1 class="mb-4 text-5xl font-bold">
+                The Best Discord Starboard
+            </h1>
+            <p class="mb-5 text-1xl">
+                Multiple starboards, AutoStar channels, Award Roles, and much more!
+            </p>
+            <div class="mb-5">
+                <a class="btn btn-primary btn-lg" href="{{ url_for('manage') }}">Get Started</a>
+                <button class="btn btn-ghost btn-lg" onClick="document.getElementById('multiStarboards').scrollIntoView({behavior: 'smooth', block: 'center', inline: 'center'});">See Features</button>
+            </div>
+        </div>
         <div class="grid sm:gap-4 grid-cols-1 lg:grid-cols-1 sm:grid-cols-3 mb-20 sm:mb-0 min-w-full sm:min-w-0">
             <div class="card">
                 <div class="card-body p-6 sm:p-8">
@@ -27,18 +39,32 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<div class="hero min-h-screen bg-neutral-focus" id="div-2">
+    <div class="flex-col hero-content lg:flex-row">
+        <div>
+            <h1 class="mb-4 text-5xl font-bold" id="multiStarboards">
+                Multiple Starboards
+            </h1>
+            <p class="text-1xl">
+                You can have up to 3 starboards for free on each server, or up to 10 with premium!
+            </p>
+        </div>
+        <img src="{{ url_for('static', filename='img/features/multi-starboards.png') }}" class="max-w-sm max-h-96 sm:max-w-lg rounded-lg shadow-2xl">
+    </div>
+</div>
+<div class="hero min-h-screen bg-neutral-focus" id="div-3">
+    <div class="flex-col hero-content lg:flex-row-reverse">
         <div>
             <h1 class="mb-4 text-5xl font-bold">
-                The Best Discord Starboard
+                Elegant Embeds
             </h1>
-            <p class="mb-5 text-1xl">
-                Multiple starboards, AutoStar channels, Award Roles, and much more!
+            <p class="text-1xl">
+                Beautiful embeds that properly show message content and attachments.
             </p>
-            <div class="mb-5">
-                <a class="btn btn-primary btn-lg" href="{{ url_for('manage') }}">Get Started</a>
-                <a class="btn btn-ghost btn-lg">Learn More</a>
-            </div>
         </div>
+        <img src="{{ url_for('static', filename='img/features/elegant.png') }}" class="max-w-sm max-h-96 sm:max-w-lg rounded-lg shadow-2xl">
     </div>
 </div>
 {% endblock %}
