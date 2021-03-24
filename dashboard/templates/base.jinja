@@ -1,0 +1,55 @@
+<!doctype html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+
+        <title>Starboard</title>
+        <meta name="description" content="The best Discord Starboard">
+        <meta name="author" content="Circuit">
+
+        <link href="https://cdn.jsdelivr.net/npm/daisyui@0.14.4/dist/full.css" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+        {% block topstatic %}{% endblock %}
+    </head>
+    <body>
+        <div class="navbar mb-2 shadow-lg bg-neutral text-neutral-content">
+            <div class="flex-1 px-2 mx-2 lg:flex-none">
+                <span class="text-lg font-bold">
+                    <a href="">
+                        Starboard
+                    </a>
+                </span>
+            </div>
+            <div class="justify-center flex-1 hidden px-2 mx-2 lg:flex">
+                <div class="flex items-stretch">
+                    <a class="btn btn-ghost btn-sm rounded-btn">
+                        Home
+                    </a>
+                    <a class="btn btn-ghost btn-sm rounded-btn">
+                        Docs
+                    </a>
+                    <a class="btn btn-ghost btn-sm rounded-btn">
+                        Manage
+                    </a>
+                </div>
+            </div>
+            <div class="flex-none">
+                {% if user %}
+                <a class="btn btn-ghost rounded-btn" href="{{ url_for('logout') }}">
+                    Logout
+                </a>
+                {% else %}
+                <a class="btn btn-ghost rounded-btn" href="{{ url_for('login') }}">
+                    Login
+                </a>
+                {% endif %}
+            </div>
+        </div>
+
+        {% block content %}{% endblock %}
+
+        {% block bottomstatic %}{% endblock %}
+    </body>
+</html>
