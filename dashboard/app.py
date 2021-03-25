@@ -6,6 +6,7 @@ from quart_discord import DiscordOAuth2Session, Unauthorized, AccessDenied
 from quart_discord.utils import requires_authorization
 
 import config
+from . import app_config
 
 dotenv.load_dotenv()
 
@@ -59,7 +60,9 @@ async def index():
         user = await discord.fetch_user()
     except Unauthorized:
         user = None
-    return await render_template("home.jinja", user=user)
+    return await render_template(
+        "home.jinja", user=user, sections=app_config.SECTIONS
+    )
 
 
 @app.route("/premium/")

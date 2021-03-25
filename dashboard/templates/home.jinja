@@ -41,84 +41,26 @@
         </div>
     </div>
 </div>
-<div class="hero min-h-screen bg-neutral-focus" id="topFeature">
-    <div class="flex-col hero-content lg:flex-row max-w-4xl">
-        <div>
-            <h1 class="mb-4 text-5xl font-bold">
-                Elegant Embeds
-            </h1>
-            <p class="text-1xl">
-                Beautiful embeds that properly show message content and attachments.
-            </p>
-        </div>
-        <img src="{{ url_for('static', filename='img/features/elegant.png') }}" class="max-w-sm max-h-96 sm:max-w-lg rounded-lg shadow-2xl">
+
+{% for section in sections %}
+    <div class="hero min-h-screen bg-neutral-focus" id="topFeature">
+        {% if loop.index%2 == 0 %}
+            <div class="flex-col hero-content lg:flex-row-reverse max-w-5xl">
+        {% else %}
+            <div class="flex-col hero-content lg:flex-row max-w-5xl">
+        {% endif %}
+                <div>
+                    <h1 class="mb-4 text-5xl font-bold">
+                        {{ section.title }}
+                    </h1>
+                    <p class="text-1xl">
+                        {{ section.description }}
+                    </p>
+                </div>
+                <img src="{{ url_for('static', filename=section.image) }}" class="max-w-sm max-h-96 sm:max-w-lg rounded-lg shadow-2xl">
+            </div>
     </div>
-</div>
-<div class="hero min-h-screen bg-neutral-focus">
-    <div class="flex-col hero-content lg:flex-row-reverse max-w-4xl">
-        <div>
-            <h1 class="mb-4 text-5xl font-bold">
-                Channel Blacklist/Whitelist
-            </h1>
-            <p class="text-1xl">
-                Easily choose what channels users can star messages in.
-            </p>
-        </div>
-        <img src="{{ url_for('static', filename='img/features/blacklist.png') }}" class="max-w-sm max-h-96 sm:max-w-lg rounded-lg shadow-2xl">
-    </div>
-</div>
-<div class="hero min-h-screen bg-neutral-focus">
-    <div class="flex-col hero-content lg:flex-row max-w-4xl">
-        <div>
-            <h1 class="mb-4 text-5xl font-bold">
-                Multiple Starboards
-            </h1>
-            <p class="text-1xl">
-                You can have up to 3 starboards for free on each server, or up to 10 with premium!
-            </p>
-        </div>
-        <img src="{{ url_for('static', filename='img/features/multi-starboards.png') }}" class="max-w-sm max-h-96 sm:max-w-lg rounded-lg shadow-2xl">
-    </div>
-</div>
-<div class="hero min-h-screen bg-neutral-focus">
-    <div class="flex-col hero-content lg:flex-row-reverse max-w-4xl">
-        <div>
-            <h1 class="mb-4 text-5xl font-bold">
-                Highly Customizable
-            </h1>
-            <p class="text-1xl">
-                Tons of settings, allowing you to customize Starboard to fit your needs.
-            </p>
-        </div>
-        <img src="{{ url_for('static', filename='img/features/customizable.png') }}" class="max-w-sm max-h-96 sm:max-w-lg rounded-lg shadow-2xl">
-    </div>
-</div>
-<div class="hero min-h-screen bg-neutral-focus">
-    <div class="flex-col hero-content lg:flex-row max-w-4xl">
-        <div>
-            <h1 class="mb-4 text-5xl font-bold">
-                AutoStar Channels
-            </h1>
-            <p class="text-1xl">
-                Set specific channels where the bot will automatically react to messages with certain emojis, as well as set message requirements.
-            </p>
-        </div>
-        <img src="{{ url_for('static', filename='img/features/autostar.png') }}" class="max-w-sm max-h-96 sm:max-w-lg rounded-lg shadow-2xl">
-    </div>
-</div>
-<div class="hero min-h-screen bg-neutral-focus">
-    <div class="flex-col hero-content lg:flex-row-reverse max-w-4xl">
-        <div>
-            <h1 class="mb-4 text-5xl font-bold">
-                XP, Levels, and Leaderboard
-            </h1>
-            <p class="text-1xl">
-                Instead of simply tracking stars, Starboard uses an XP system with a cooldown to avoid spamming stars.
-            </p>
-        </div>
-        <img src="{{ url_for('static', filename='img/features/leaderboard.png') }}" class="max-w-sm max-h-96 sm:max-w-lg rounded-lg shadow-2xl">
-    </div>
-</div>
+{% endfor %}
 
 <div class="hero bg-neutral-focus">
     <div class="hero-content flex-col mb-32">
