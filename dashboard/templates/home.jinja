@@ -16,7 +16,7 @@
             </p>
             <div class="mb-5">
                 <a class="btn btn-primary btn-lg" href="{{ url_for('manage') }}">Get Started</a>
-                <button class="btn btn-ghost btn-lg" onClick="document.getElementById('multiStarboards').scrollIntoView({behavior: 'smooth', block: 'center', inline: 'center'});">See Features</button>
+                <button class="btn btn-ghost btn-lg" onClick="document.getElementById('topFeature').scrollIntoView({behavior: 'smooth', block: 'center', inline: 'center'});">See Features</button>
             </div>
         </div>
         <div class="grid sm:gap-4 grid-cols-1 lg:grid-cols-1 sm:grid-cols-3 mb-20 sm:mb-0 min-w-full sm:min-w-0">
@@ -41,8 +41,34 @@
         </div>
     </div>
 </div>
+<div class="hero min-h-screen bg-neutral-focus" id="topFeature">
+    <div class="flex-col hero-content lg:flex-row max-w-4xl">
+        <div>
+            <h1 class="mb-4 text-5xl font-bold">
+                Elegant Embeds
+            </h1>
+            <p class="text-1xl">
+                Beautiful embeds that properly show message content and attachments.
+            </p>
+        </div>
+        <img src="{{ url_for('static', filename='img/features/elegant.png') }}" class="max-w-sm max-h-96 sm:max-w-lg rounded-lg shadow-2xl">
+    </div>
+</div>
 <div class="hero min-h-screen bg-neutral-focus">
-    <div class="flex-col hero-content lg:flex-row max-w-4xl" id="multiStarboards">
+    <div class="flex-col hero-content lg:flex-row-reverse max-w-4xl">
+        <div>
+            <h1 class="mb-4 text-5xl font-bold">
+                Channel Blacklist/Whitelist
+            </h1>
+            <p class="text-1xl">
+                Easily choose what channels users can star messages in.
+            </p>
+        </div>
+        <img src="{{ url_for('static', filename='img/features/blacklist.png') }}" class="max-w-sm max-h-96 sm:max-w-lg rounded-lg shadow-2xl">
+    </div>
+</div>
+<div class="hero min-h-screen bg-neutral-focus">
+    <div class="flex-col hero-content lg:flex-row max-w-4xl">
         <div>
             <h1 class="mb-4 text-5xl font-bold">
                 Multiple Starboards
@@ -84,13 +110,13 @@
     <div class="flex-col hero-content lg:flex-row-reverse max-w-4xl">
         <div>
             <h1 class="mb-4 text-5xl font-bold">
-                Elegant Embeds
+                XP, Levels, and Leaderboard
             </h1>
             <p class="text-1xl">
-                Beautiful embeds that properly show message content and attachments.
+                Instead of simply tracking stars, Starboard uses an XP system with a cooldown to avoid spamming stars.
             </p>
         </div>
-        <img src="{{ url_for('static', filename='img/features/elegant.png') }}" class="max-w-sm max-h-96 sm:max-w-lg rounded-lg shadow-2xl">
+        <img src="{{ url_for('static', filename='img/features/leaderboard.png') }}" class="max-w-sm max-h-96 sm:max-w-lg rounded-lg shadow-2xl">
     </div>
 </div>
 {% endblock %}
