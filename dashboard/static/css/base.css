@@ -24,3 +24,9 @@
 .min-h-screen-minus-nav {
     min-height: calc(100vh - 72px);
 }
+
+.link:hover {
+    color: hsl(var(--pf));
+    text-decoration: underline;
+    cursor: pointer;
+}
