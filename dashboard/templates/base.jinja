@@ -46,14 +46,14 @@
                             <a class="btn btn-ghost btn-sm rounded-btn" href="{{ url_for('leaderboard') }}">
                                 Leaderboard
                             </a>
-                            <a class="btn btn-ghost btn-sm rounded-btn" href="{{ url_for('manage') }}">
+                            <a class="btn btn-ghost btn-sm rounded-btn" href="{{ url_for('servers') }}">
                                 Manage
                             </a>
                         </div>
                     </div>
                     <div class="flex-none">
                         {% if user %}
-                        <a class="btn btn-ghost rounded-btn" href="{{ url_for('me') }}">
+                        <a class="btn btn-ghost rounded-btn" href="{{ url_for('profile') }}">
                             <div class="avatar w-10 h-10 mr-2 inline-block">
                                 <div class="mb-8 rounded-full w-10 h-10">
                                     <img src="{{ user.avatar_url }}">
@@ -105,7 +105,7 @@
                         <a href="{{ url_for('leaderboard') }}">Leaderboard</a>
                     </li>
                     <li>
-                        <a href="{{ url_for('manage') }}">Manage</a>
+                        <a href="{{ url_for('servers') }}">Manage</a>
                     </li>
                 </ul>
             <div>

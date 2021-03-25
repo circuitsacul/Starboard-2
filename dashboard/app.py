@@ -43,14 +43,28 @@ async def docs():
 
 
 # Dashboard Routes
-@app.route("/manage/")
+@app.route("/dashboard/servers/")
 @requires_authorization
-async def manage():
+async def servers():
     user = await discord.fetch_user()
     guilds = await discord.fetch_guilds()
     return await render_template(
         "dashboard/server_picker.jinja", user=user, guilds=guilds
     )
+
+
+@app.route("/dashboard/profile/")
+@requires_authorization
+async def profile():
+    user = await discord.fetch_user()
+    return await render_template("dashboard/account_settings.jinja", user=user)
+
+
+@app.route("/dashboard/premium/")
+@requires_authorization
+async def profile_premium():
+    user = await discord.fetch_user()
+    return await render_template("dashboard/premium.jinja", user=user)
 
 
 # Base Routes
@@ -94,17 +108,10 @@ async def logout():
     return redirect(url_for("index"))
 
 
-@app.route("/me/")
-@requires_authorization
-async def me():
-    user = await discord.fetch_user()
-    return await render_template("profile.jinja", user=user)
-
-
 @app.route("/api/callback/")
 async def login_callback():
     await discord.callback()
-    return redirect(url_for("manage"))
+    return redirect(url_for("servers"))
 
 
 @app.errorhandler(Unauthorized)

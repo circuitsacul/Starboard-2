@@ -1,0 +1,26 @@
+{% extends "base.jinja" %}
+
+{% block content %}
+<div class="container mx-auto flex flex-row items-center justify-center h-64">
+    <div class="avatar">
+        <div class="rounded-full w-32 h-32 mr-8">
+            <img src="{{ user.avatar_url }}">
+        </div>
+    </div>
+    <div class="text-5xl font-bold">
+        <div>
+            {{ user.name }}#{{ user.discriminator }}
+        </div>
+        <a class="btn btn-block btn-error" href="{{ url_for('logout') }}">Logout</a>
+    </div>
+</div>
+
+<div class="bg-neutral-focus p-4 mt-4" style="border-top: 2px solid grey;">
+    <div class="tabs tabs-boxed justify-center bg-neutral-focus rounded-none" style="position: sticky; top: 0; z-index: 50;">
+        <a class="tab {% block settingstab %}{% endblock %}" href="{{ url_for('profile') }}">Account Settings</a>
+        <a class="tab {% block serverstab %}{% endblock %}" href="{{ url_for('servers') }}">Servers</a>
+        <a class="tab {% block premtab %}{% endblock %}" href="{{ url_for('profile_premium') }}">Premium</a>
+    </div>
+    {% block container_content %}{% endblock %}
+</div>
+{% endblock %}
