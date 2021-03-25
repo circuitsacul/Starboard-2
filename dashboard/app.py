@@ -1,7 +1,7 @@
 import os
 
 import dotenv
-from quart import Quart, render_template, redirect, url_for
+from quart import Quart, render_template, redirect, url_for, request
 from quart_discord import DiscordOAuth2Session, Unauthorized, AccessDenied
 from quart_discord.utils import requires_authorization
 
@@ -19,6 +19,12 @@ app.config["DISCORD_REDIRECT_URI"] = config.REDIRECT_URI
 app.config["DISCORD_BOT_TOKEN"] = os.getenv("TOKEN")
 
 discord = DiscordOAuth2Session(app)
+
+
+async def handle_login(next: str = ""):
+    return await discord.create_session(
+        scope=["identify", "guilds"], data={"type": "user", "next": next}
+    )
 
 
 # Jump Routes
@@ -97,9 +103,10 @@ async def leaderboard():
     return await render_template("leaderboard.jinja", user=user)
 
 
+# Api routes
 @app.route("/login/")
 async def login():
-    return await discord.create_session()
+    return await handle_login()
 
 
 @app.route("/logout/")
@@ -110,13 +117,17 @@ async def logout():
 
 @app.route("/api/callback/")
 async def login_callback():
-    await discord.callback()
-    return redirect(url_for("servers"))
+    data = await discord.callback()
+    if data["type"] == "user":
+        if data["next"]:
+            return redirect(data["next"])
+        else:
+            return redirect(url_for("index"))
 
 
 @app.errorhandler(Unauthorized)
 async def handle_unauthorized(e):
-    return redirect(url_for("login"))
+    return await handle_login(next=request.path)
 
 
 @app.errorhandler(AccessDenied)
