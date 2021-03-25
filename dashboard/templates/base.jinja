@@ -34,13 +34,16 @@
                     </div>
                     <div class="justify-center flex-1 hidden px-2 mx-2 lg:flex">
                         <div class="flex items-stretch">
-                            <a class="btn btn-ghost btn-sm rounded-btn" href="https://circuit.gitbook.io/starboard">
+                            <a class="btn btn-ghost btn-sm rounded-btn" href="{{ url_for('docs') }}" target="_blank">
                                 Docs
                             </a>
-                            <a class="btn btn-ghost btn-sm rounded-btn">
+                            <a class="btn btn-ghost btn-sm rounded-btn" href="{{ url_for('support') }}" target="_blank">
+                                Support
+                            </a>
+                            <a class="btn btn-ghost btn-sm rounded-btn" href="{{ url_for('premium') }}">
                                 Premium
                             </a>
-                            <a class="btn btn-ghost btn-sm rounded-btn">
+                            <a class="btn btn-ghost btn-sm rounded-btn" href="{{ url_for('leaderboard') }}">
                                 Leaderboard
                             </a>
                             <a class="btn btn-ghost btn-sm rounded-btn" href="{{ url_for('manage') }}">
@@ -73,13 +76,16 @@
                 <label for="id-drawer" class="drawer-overlay min-h-screen"></label>
                 <ul class="p-4 overflow-y-auto menu w-80 bg-base-100">
                     <li>
-                        <a href="https://circuit.gitbook.io/starboard">Docs</a>
+                        <a href="https://circuit.gitbook.io/starboard" target="_blank">Docs</a>
                     </li> 
                     <li>
-                        <a>Premium</a>
+                        <a href="{{ url_for('support') }}" target="_blank">Support</a>
                     </li>
                     <li>
-                        <a>Leaderboard</a>
+                        <a href="{{ url_for('premium') }}">Premium</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('leaderboard') }}">Leaderboard</a>
                     </li>
                     <li>
                         <a href="{{ url_for('manage') }}">Manage</a>

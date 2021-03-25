@@ -20,6 +20,27 @@ app.config["DISCORD_BOT_TOKEN"] = os.getenv("TOKEN")
 discord = DiscordOAuth2Session(app)
 
 
+# Jump Routes
+@app.route("/support/")
+async def support():
+    return redirect(config.SUPPORT_INVITE)
+
+
+@app.route("/invite/")
+async def invite():
+    return redirect(config.BOT_INVITE)
+
+
+@app.route("/slash-auth/")
+async def slash_auth():
+    return redirect(config.SLASH_AUTH)
+
+
+@app.route("/docs/")
+async def docs():
+    return redirect(config.DOCS)
+
+
 # Dashboard Routes
 @app.route("/manage/")
 @requires_authorization
@@ -39,6 +60,24 @@ async def index():
     except Unauthorized:
         user = None
     return await render_template("home.jinja", user=user)
+
+
+@app.route("/premium/")
+async def premium():
+    try:
+        user = await discord.fetch_user()
+    except Unauthorized:
+        user = None
+    return await render_template("premium.jinja", user=user)
+
+
+@app.route("/leaderboard/")
+async def leaderboard():
+    try:
+        user = await discord.fetch_user()
+    except Unauthorized:
+        user = None
+    return await render_template("leaderboard.jinja", user=user)
 
 
 @app.route("/login/")
