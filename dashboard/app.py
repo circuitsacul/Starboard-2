@@ -55,7 +55,7 @@ async def servers():
     user = await discord.fetch_user()
     guilds = await discord.fetch_guilds()
     return await render_template(
-        "dashboard/server_picker.jinja", user=user, guilds=guilds
+        "dashboard/servers.jinja", user=user, guilds=guilds
     )
 
 
@@ -63,7 +63,14 @@ async def servers():
 @requires_authorization
 async def profile():
     user = await discord.fetch_user()
-    return await render_template("dashboard/account_settings.jinja", user=user)
+    return await render_template("dashboard/profile.jinja", user=user)
+
+
+@app.route("/dashboard/profile/settings/")
+@requires_authorization
+async def settings():
+    user = await discord.fetch_user()
+    return await render_template("dashboard/settings.jinja", user=user)
 
 
 @app.route("/dashboard/premium/")
@@ -92,15 +99,6 @@ async def premium():
     except Unauthorized:
         user = None
     return await render_template("premium.jinja", user=user)
-
-
-@app.route("/leaderboard/")
-async def leaderboard():
-    try:
-        user = await discord.fetch_user()
-    except Unauthorized:
-        user = None
-    return await render_template("leaderboard.jinja", user=user)
 
 
 # Api routes
