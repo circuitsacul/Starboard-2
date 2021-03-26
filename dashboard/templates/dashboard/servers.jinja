@@ -22,9 +22,15 @@
             <div class="flex-1">
                 {{ guild.name }}
             </div>
-            <div class="flex-none justify-self-end">
-                <a class="btn btn-sm btn-primary">Manage</a>
-            </div>
+            {% if guild.id in mutual %}
+                <div class="flex-none justify-self-end">
+                    <a class="btn btn-sm btn-primary">Manage</a>
+                </div>
+            {% else %}
+                <div class="flex-none justify-self-end">
+                    <a class="btn btn-sm btn-neutral">Invite</a>
+                </div>
+            {% endif %}
         </div>
     {% endfor %}
     </div>

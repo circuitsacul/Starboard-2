@@ -180,5 +180,10 @@ class Bot(commands.AutoShardedBot):
                 "guilds": data["guild_count"],
                 "members": data["member_count"],
             }
+        if cmd == "get_mutual":
+            ret = []
+            for gid in data:
+                if self.get_guild(gid):
+                    ret.append(gid)
 
         return ret
