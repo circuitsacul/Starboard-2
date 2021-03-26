@@ -4,11 +4,11 @@ from app import errors
 
 
 class Messages:
-    def __init__(self, bot) -> None:
-        self.bot = bot
+    def __init__(self, db) -> None:
+        self.db = db
 
     async def get(self, message_id: int) -> dict:
-        return await self.bot.db.fetchrow(
+        return await self.db.fetchrow(
             """SELECT * FROM messages
             WHERE id=$1""",
             message_id,
@@ -29,7 +29,7 @@ class Messages:
                 return True
 
         is_starboard_message = (
-            await self.bot.db.sb_messages.get(message_id) is not None
+            await self.db.sb_messages.get(message_id) is not None
         )
         if is_starboard_message:
             raise errors.AlreadyStarboardMessage(
@@ -37,10 +37,10 @@ class Messages:
                 "because it is already starboard message."
             )
 
-        await self.bot.db.guilds.create(guild_id)
+        await self.db.guilds.create(guild_id)
 
         try:
-            await self.bot.db.execute(
+            await self.db.execute(
                 """INSERT INTO messages
                 (id, guild_id, channel_id, author_id, is_nsfw)
                 VALUES ($1, $2, $3, $4, $5)""",

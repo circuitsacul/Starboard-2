@@ -7,18 +7,18 @@ from app import errors
 
 
 class Starboards:
-    def __init__(self, bot) -> None:
-        self.bot = bot
+    def __init__(self, db) -> None:
+        self.db = db
 
     async def get(self, starboard_id: int) -> Optional[dict]:
-        return await self.bot.db.fetchrow(
+        return await self.db.fetchrow(
             """SELECT * FROM starboards
             WHERE id=$1""",
             starboard_id,
         )
 
     async def get_many(self, guild_id: int) -> List[dict]:
-        return await self.bot.db.fetch(
+        return await self.db.fetch(
             """SELECT * FROM starboards
             WHERE guild_id=$1""",
             guild_id,
@@ -32,15 +32,15 @@ class Starboards:
             if exists:
                 return True
 
-        is_asc = await self.bot.db.aschannels.get(channel_id) is not None
+        is_asc = await self.db.aschannels.get(channel_id) is not None
         if is_asc:
             raise errors.AlreadyExists(
                 "That channel is already an AutoStarChannel!"
             )
 
-        await self.bot.db.guilds.create(guild_id)
+        await self.db.guilds.create(guild_id)
         try:
-            await self.bot.db.execute(
+            await self.db.execute(
                 """INSERT INTO starboards (id, guild_id)
                 VALUES ($1, $2)""",
                 channel_id,
@@ -51,7 +51,7 @@ class Starboards:
         return False
 
     async def delete(self, starboard_id: int) -> None:
-        await self.bot.db.execute(
+        await self.db.execute(
             """DELETE FROM starboards WHERE id=$1""", starboard_id
         )
 
@@ -146,7 +146,7 @@ class Starboards:
                 "requiredRemove cannot be greater tahn 495"
             )
 
-        await self.bot.db.execute(
+        await self.db.execute(
             """UPDATE starboards
             SET required = $1,
             required_remove = $2,

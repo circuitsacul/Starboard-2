@@ -4,13 +4,13 @@ import asyncpg
 
 
 class Reactions:
-    def __init__(self, bot) -> None:
-        self.bot = bot
+    def __init__(self, db) -> None:
+        self.db = db
 
     async def get_reaction(
         self, emoji: str, message_id: int
     ) -> Optional[dict]:
-        return await self.bot.db.fetchrow(
+        return await self.db.fetchrow(
             """SELECT * FROM reactions
             WHERE emoji=$1 AND message_id=$2""",
             emoji,
@@ -26,7 +26,7 @@ class Reactions:
                 return True
 
         try:
-            await self.bot.db.execute(
+            await self.db.execute(
                 """INSERT INTO reactions
                 (emoji, message_id)
                 VALUES ($1, $2)""",
@@ -43,7 +43,7 @@ class Reactions:
         reaction = await self.get_reaction(emoji, message_id)
         if reaction is None:
             return None
-        return await self.bot.db.fetchrow(
+        return await self.db.fetchrow(
             """SELECT * FROM reaction_users
             WHERE reaction_id=$1 AND user_id=$2""",
             reaction["id"],
@@ -67,7 +67,7 @@ class Reactions:
         reaction = await self.get_reaction(emoji, message_id)
 
         try:
-            await self.bot.db.execute(
+            await self.db.execute(
                 """INSERT INTO reaction_users
                 (reaction_id, user_id)
                 VALUES ($1, $2)""",
@@ -84,7 +84,7 @@ class Reactions:
         reaction = await self.get_reaction(emoji, message_id)
         if reaction is None:
             return
-        await self.bot.db.execute(
+        await self.db.execute(
             """DELETE FROM reaction_users
             WHERE reaction_id=$1 AND user_id=$2""",
             reaction["id"],

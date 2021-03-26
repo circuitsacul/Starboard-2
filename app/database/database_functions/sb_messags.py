@@ -6,11 +6,11 @@ from app import errors
 
 
 class SBMessages:
-    def __init__(self, bot) -> None:
-        self.bot = bot
+    def __init__(self, db) -> None:
+        self.db = db
 
     async def get(self, message_id: int) -> Optional[dict]:
-        return await self.bot.db.fetchrow(
+        return await self.db.fetchrow(
             """SELECT * FROM starboard_messages
             WHERE id=$1""",
             message_id,
@@ -29,7 +29,7 @@ class SBMessages:
                 return True
 
         already_orig_message = (
-            await self.bot.db.messages.get(message_id) is not None
+            await self.db.messages.get(message_id) is not None
         )
         if already_orig_message:
             raise errors.AlreadyOrigMessage(
@@ -38,7 +38,7 @@ class SBMessages:
             )
 
         try:
-            await self.bot.db.execute(
+            await self.db.execute(
                 """INSERT INTO starboard_messages
                 (id, orig_id, starboard_id)
                 VALUES ($1, $2, $3)""",
@@ -51,6 +51,6 @@ class SBMessages:
         return False
 
     async def delete(self, message_id: int) -> None:
-        await self.bot.db.execute(
+        await self.db.execute(
             """DELETE FROM starboard_messages WHERE id=$1""", message_id
         )
