@@ -104,6 +104,7 @@ async def docs():
 async def servers():
     user = await discord.fetch_user()
     guilds = can_manage_list(await discord.fetch_guilds())
+    guilds.sort(key=lambda g: g.name)
 
     msgs = await app.config["WEBSOCKET"].send_command(
         "get_mutual", [g.id for g in guilds], expect_resp=True
