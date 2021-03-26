@@ -5,6 +5,7 @@ import dotenv
 import humanize
 from quart import Quart, render_template, redirect, url_for, request
 from quart_discord import DiscordOAuth2Session, Unauthorized, AccessDenied
+import quart_discord
 from quart_discord.utils import requires_authorization
 
 import config
@@ -64,6 +65,18 @@ def bot_stats() -> Tuple[str]:
     return guilds, members
 
 
+def can_manage(guild) -> bool:
+    return guild.permissions.manage_guild
+
+
+def can_manage_list(guilds: list) -> list:
+    result = []
+    for g in guilds:
+        if can_manage(g):
+            result.append(g)
+    return result
+
+
 # Jump Routes
 @app.route("/support/")
 async def support():
@@ -90,7 +103,7 @@ async def docs():
 @requires_authorization
 async def servers():
     user = await discord.fetch_user()
-    guilds = await discord.fetch_guilds()
+    guilds = can_manage_list(await discord.fetch_guilds())
     return await render_template(
         "dashboard/servers.jinja", user=user, guilds=guilds
     )
