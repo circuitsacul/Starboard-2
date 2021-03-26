@@ -5,7 +5,6 @@ import dotenv
 import humanize
 from quart import Quart, render_template, redirect, url_for, request
 from quart_discord import DiscordOAuth2Session, Unauthorized, AccessDenied
-import quart_discord
 from quart_discord.utils import requires_authorization
 
 import config
