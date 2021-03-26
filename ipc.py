@@ -15,18 +15,18 @@ async def serve(ws, path):
     cluster_name = await ws.recv()
     cluster_name = cluster_name.decode()
     if cluster_name in CLIENTS:
-        print(f"IPC: Cluster[{cluster_name}] attempted reconnection")
+        print(f"IPC: {cluster_name} attempted reconnection")
         await ws.close(4029, "already connected")
         return
     CLIENTS[cluster_name] = ws
     try:
         await ws.send(b'{"status":"ok"}')
-        print(f"IPC: Cluster[{cluster_name}] connected successfully")
+        print(f"IPC: {cluster_name} connected successfully")
         async for msg in ws:
             await dispatch(msg)
     finally:
         CLIENTS.pop(cluster_name)
-        print(f"IPC: Cluster[{cluster_name}] disconnected")
+        print(f"IPC: {cluster_name} disconnected")
 
 
 def run():
