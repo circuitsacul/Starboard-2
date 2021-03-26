@@ -124,7 +124,7 @@ async def index():
         user = await discord.fetch_user()
     except Unauthorized:
         user = None
-    members, guilds = bot_stats()
+    guilds, members = bot_stats()
     return await render_template(
         "home.jinja",
         user=user,
@@ -181,3 +181,8 @@ async def before_first_request():
     await app.config["DATABASE"].init_database()
     app.config["WEBSOCKET"] = WebsocketConnection("Dashboard", handle_command)
     await app.config["WEBSOCKET"].ensure_connection()
+
+
+@app.after_serving
+async def after_serving():
+    await app.config["WEBSOCKET"].close()
