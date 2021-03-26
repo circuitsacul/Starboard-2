@@ -1,6 +1,8 @@
 import os
+from typing import Optional, Union, Tuple
 
 import dotenv
+import humanize
 from quart import Quart, render_template, redirect, url_for, request
 from quart_discord import DiscordOAuth2Session, Unauthorized, AccessDenied
 from quart_discord.utils import requires_authorization
@@ -8,6 +10,7 @@ from quart_discord.utils import requires_authorization
 import config
 from . import app_config
 from app.database.database import Database
+from app.classes.ipc_connection import WebsocketConnection
 
 dotenv.load_dotenv()
 
@@ -19,9 +22,12 @@ app.config["DISCORD_CLIENT_SECRET"] = os.getenv("CLIENT_SECRET")
 app.config["DISCORD_REDIRECT_URI"] = config.REDIRECT_URI
 app.config["DISCORD_BOT_TOKEN"] = os.getenv("TOKEN")
 
+app.config["STATS"] = {}
+
 app.config["DATABASE"] = Database(
     os.getenv("DB_NAME"), os.getenv("DB_USER"), os.getenv("DB_PASSWORD")
 )
+app.config["WEBSOCKET"] = None
 
 discord = DiscordOAuth2Session(app)
 
@@ -30,6 +36,32 @@ async def handle_login(next: str = ""):
     return await discord.create_session(
         scope=["identify", "guilds"], data={"type": "user", "next": next}
     )
+
+
+async def handle_command(msg: dict) -> Optional[Union[dict, str]]:
+    cmd = msg["name"]
+    data = msg["data"]
+
+    resp = None
+    if cmd == "ping":
+        resp = "pont"
+    if cmd == "set_stats":
+        app.config["STATS"][msg["author"]] = {
+            "guilds": data["guild_count"],
+            "members": data["member_count"],
+        }
+
+    return resp
+
+
+def bot_stats() -> Tuple[str]:
+    guilds = humanize.intword(
+        sum([s["guilds"] for _, s in app.config["STATS"].items()])
+    )
+    members = humanize.intword(
+        sum([s["members"] for _, s in app.config["STATS"].items()])
+    )
+    return guilds, members
 
 
 # Jump Routes
@@ -92,8 +124,13 @@ async def index():
         user = await discord.fetch_user()
     except Unauthorized:
         user = None
+    members, guilds = bot_stats()
     return await render_template(
-        "home.jinja", user=user, sections=app_config.SECTIONS
+        "home.jinja",
+        user=user,
+        sections=app_config.SECTIONS,
+        members=members,
+        guilds=guilds,
     )
 
 
@@ -140,5 +177,7 @@ async def handle_access_denied(e):
 
 
 @app.before_first_request
-async def open_database():
-    await app["DATABASE"].init_database()
+async def before_first_request():
+    await app.config["DATABASE"].init_database()
+    app.config["WEBSOCKET"] = WebsocketConnection("Dashboard", handle_command)
+    await app.config["WEBSOCKET"].ensure_connection()

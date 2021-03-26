@@ -16,7 +16,7 @@ class StatsEvents(commands.Cog):
             if g.member_count:
                 member_count += g.member_count
 
-        await self.bot.send_command(
+        await self.bot.websocket.send_command(
             "set_stats",
             {
                 "guild_count": len(self.bot.guilds),

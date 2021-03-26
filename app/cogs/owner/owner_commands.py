@@ -24,7 +24,7 @@ class Owner(commands.Cog):
     @checks.is_owner()
     async def evall(self, ctx, *, body: str):
         """Evaluates code on all clusters and returns their response"""
-        _msgs = await self.bot.send_command(
+        _msgs = await self.bot.websocket.send_command(
             "eval", {"content": body}, expect_resp=True
         )
 
