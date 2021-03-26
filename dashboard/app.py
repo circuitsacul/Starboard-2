@@ -209,4 +209,5 @@ async def before_first_request():
 
 @app.after_serving
 async def after_serving():
-    await app.config["WEBSOCKET"].close()
+    if app.config["WEBSOCKET"]:
+        await app.config["WEBSOCKET"].close()
