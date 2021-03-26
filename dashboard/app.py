@@ -7,6 +7,7 @@ from quart_discord.utils import requires_authorization
 
 import config
 from . import app_config
+from app.database.database import Database
 
 dotenv.load_dotenv()
 
@@ -17,6 +18,10 @@ app.config["DISCORD_CLIENT_ID"] = config.BOT_ID
 app.config["DISCORD_CLIENT_SECRET"] = os.getenv("CLIENT_SECRET")
 app.config["DISCORD_REDIRECT_URI"] = config.REDIRECT_URI
 app.config["DISCORD_BOT_TOKEN"] = os.getenv("TOKEN")
+
+app.config["DATABASE"] = Database(
+    os.getenv("DB_NAME"), os.getenv("DB_USER"), os.getenv("DB_PASSWORD")
+)
 
 discord = DiscordOAuth2Session(app)
 
@@ -123,6 +128,7 @@ async def login_callback():
             return redirect(url_for("index"))
 
 
+# Other
 @app.errorhandler(Unauthorized)
 async def handle_unauthorized(e):
     return await handle_login(next=request.path)
@@ -131,3 +137,8 @@ async def handle_unauthorized(e):
 @app.errorhandler(AccessDenied)
 async def handle_access_denied(e):
     return redirect(url_for("index"))
+
+
+@app.before_first_request
+async def open_database():
+    await app["DATABASE"].init_database()
