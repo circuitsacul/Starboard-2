@@ -54,6 +54,9 @@ class Bot(commands.AutoShardedBot):
             command_prefix=self._prefix_callable,
             **kwargs,
             loop=loop,
+            activity=discord.Activity(
+                type=discord.ActivityType.watching, name="@Starboard help"
+            ),
         )
         self._last_result = None
         log = logging.getLogger(f"Cluster#{self.cluster_name}")
