@@ -455,9 +455,7 @@ class Utility(commands.Cog):
 
         embed = discord.Embed(
             title=f"Purged {total} Messages",
-            description="\n".join(
-                [f"{u.name}: {c}" for u, c in purged.items()]
-            ),
+            description="\n".join([f"<@{u}>: {c}" for u, c in purged.items()]),
             color=self.bot.theme_color,
         )
 
@@ -494,9 +492,7 @@ class Utility(commands.Cog):
 
         embed = discord.Embed(
             title=f"Unpurged {total} Messages",
-            description="\n".join(
-                [f"{u.name}: {c}" for u, c in purged.items()]
-            ),
+            description="\n".join([f"<@{u}>: {c}" for u, c in purged.items()]),
             color=self.bot.theme_color,
         )
 

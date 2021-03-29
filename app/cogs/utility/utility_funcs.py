@@ -18,21 +18,30 @@ async def handle_purging(
     purged = {}
     total = 0
 
-    def check(m: discord.Message) -> bool:
-        if by and m.author.id != by.id:
+    def check(m: discord.Message, sql: dict) -> bool:
+        if by and int(sql["author_id"]) != by.id:
             return False
-        if notby and m.author.id == notby.id:
+        if notby and int(sql["author_id"]) == notby.id:
             return False
-        if contains and contains not in m.content:
+
+        em_content = m.embeds[0].description if m.embeds else ""
+
+        if (
+            contains
+            and contains not in m.content
+            and contains not in em_content
+        ):
             return False
         return True
 
     async for m in channel.history(limit=limit + 1):
-        if not check(m):
-            continue
         sql_message = await starboard_funcs.orig_message(bot, m.id)
         if not sql_message:
             continue
+
+        if not check(m, sql_message):
+            continue
+
         await handle_trashing(
             bot,
             sql_message["id"],
@@ -40,8 +49,8 @@ async def handle_purging(
             trash,
             reason="Message Purging" if trash else None,
         )
-        purged.setdefault(m.author, 0)
-        purged[m.author] += 1
+        purged.setdefault(sql_message["author_id"], 0)
+        purged[sql_message["author_id"]] += 1
         total += 1
 
     return total, purged
