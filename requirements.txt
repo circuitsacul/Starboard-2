@@ -1,5 +1,6 @@
 aiofiles==0.6.0
 aiohttp==3.7.4.post0
+alt-discord-ext-menus==0.0.1
 alt-discord-flags==0.0.3
 appdirs==1.4.4
 astunparse==1.6.3
@@ -15,7 +16,6 @@ certifi==2020.12.5
 cfgv==3.2.0
 chardet==4.0.0
 click==7.1.2
-discord-ext-menus @ git+https://github.com/Rapptz/discord-ext-menus@4429b564fd8f031deaccd60caa5be7320e248816
 discord-pretty-help==1.2.3
 discord-py-slash-command==1.1.0
 discord.py==1.6.0
