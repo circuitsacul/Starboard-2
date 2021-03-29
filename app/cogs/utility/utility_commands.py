@@ -120,7 +120,7 @@ class Utility(commands.Cog):
             )
             for page in p.pages
         ]
-        await utils.paginator(ctx, embeds)
+        await menus.Paginator(embeds=embeds).start(ctx)
 
     @commands.command(name="freeze", brief="Freeze a message")
     @commands.has_guild_permissions(manage_messages=True)
@@ -381,7 +381,7 @@ class Utility(commands.Cog):
             )
             for page in p.pages
         ]
-        await utils.paginator(ctx, embeds)
+        await menus.Paginator(embeds=embeds).start(ctx)
 
     @flags.add_flag("--by", type=discord.User)
     @flags.add_flag("--notby", type=discord.User)

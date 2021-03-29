@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 
 import discord
 from discord.ext import menus, commands
@@ -28,3 +28,76 @@ class Confirm(menus.Menu):
     async def start(self, ctx: commands.Context) -> Optional[bool]:
         await super().start(ctx, wait=True)
         return self.result
+
+
+class Paginator(menus.Menu):
+    def __init__(
+        self,
+        embeds: Optional[List[discord.Embed]] = None,
+        text: Optional[List[str]] = None,
+    ) -> None:
+        super().__init__(clear_reactions_after=True)
+        self.embeds = embeds
+        self.text = text
+        self.current_page = 0
+        self.length = len(embeds) if embeds else len(text)
+
+        if self.embeds:
+            for x, e in enumerate(self.embeds):
+                to_add = f"({x+1}/{self.length})"
+                footer = (
+                    e.footer.text + to_add
+                    if isinstance(e.footer, str)
+                    else to_add
+                )
+                e.set_footer(text=footer, icon_url=e.footer.icon_url)
+
+    async def send_initial_message(
+        self, ctx: commands.Context, channel: discord.TextChannel
+    ) -> None:
+        return await channel.send(
+            self.text[self.current_page] if self.text else None,
+            embed=self.embeds[self.current_page] if self.embeds else None,
+        )
+
+    async def edit_page(self, increment: int) -> None:
+        self.current_page += increment
+
+        if self.current_page < 0:
+            self.current_page = self.length - 1
+        elif self.current_page > self.length - 1:
+            self.current_page = 0
+
+        embed = self.embeds[self.current_page] if self.embeds else None
+        text = self.text[self.current_page] if self.text else None
+
+        try:
+            await self.message.edit(content=text, embed=embed)
+        except discord.NotFound:
+            self.stop()
+
+    @menus.button("\N{BLACK LEFT-POINTING DOUBLE TRIANGLE WITH VERTICAL BAR}")
+    async def skip_to_first(
+        self, payload: discord.RawReactionActionEvent
+    ) -> None:
+        self.current_page = 0
+        await self.edit_page(0)
+
+    @menus.button("\N{BLACK LEFT-POINTING TRIANGLE}")
+    async def back(self, payload: discord.RawReactionActionEvent) -> None:
+        await self.edit_page(-1)
+
+    @menus.button("\N{BLACK RIGHT-POINTING TRIANGLE}")
+    async def next(self, payload: discord.RawReactionActionEvent) -> None:
+        await self.edit_page(1)
+
+    @menus.button("\N{BLACK RIGHT-POINTING DOUBLE TRIANGLE WITH VERTICAL BAR}")
+    async def skip_to_last(
+        self, payload: discord.RawReactionActionEvent
+    ) -> None:
+        self.current_page = self.length - 1
+        await self.edit_page(0)
+
+    @menus.button("\N{BLACK SQUARE FOR STOP}")
+    async def stop_menu(self, payload: discord.RawReactionActionEvent) -> None:
+        self.stop()

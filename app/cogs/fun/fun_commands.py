@@ -4,7 +4,7 @@ from typing import List
 import discord
 from discord.ext import commands, flags
 
-from app import converters, utils
+from app import converters, menus
 from app.classes.bot import Bot
 from app.cogs.starboard import starboard_funcs
 
@@ -53,7 +53,8 @@ class Fun(commands.Cog):
             )
             for page in p.pages
         ]
-        await utils.paginator(ctx, embeds)
+
+        await menus.Paginator(embeds=embeds).start(ctx)
 
     @commands.command(
         name="rank",
@@ -177,7 +178,7 @@ class Fun(commands.Cog):
             )
             embeds.append(e)
 
-        await utils.paginator(ctx, embeds, text_pages=text_pages)
+        await menus.Paginator(embeds=embeds, text=text_pages).start(ctx)
 
     @flags.add_flag("--by", type=discord.User, default=None)
     @flags.add_flag("--in", type=discord.TextChannel, default=None)
