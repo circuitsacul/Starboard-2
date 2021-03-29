@@ -105,12 +105,15 @@ async def servers():
     guilds = can_manage_list(await discord.fetch_guilds())
     guilds.sort(key=lambda g: g.name)
 
-    msgs = await app.config["WEBSOCKET"].send_command(
-        "get_mutual", [g.id for g in guilds], expect_resp=True
-    )
     mutual_ids = []
-    for msg in msgs:
-        mutual_ids += msg["data"]
+    try:
+        msgs = await app.config["WEBSOCKET"].send_command(
+            "get_mutual", [g.id for g in guilds], expect_resp=True
+        )
+        for msg in msgs:
+            mutual_ids += msg["data"]
+    except Exception as e:
+        print(e)
 
     return await render_template(
         "dashboard/servers.jinja",
@@ -203,8 +206,14 @@ async def handle_access_denied(e):
 @app.before_first_request
 async def before_first_request():
     await app.config["DATABASE"].init_database()
-    app.config["WEBSOCKET"] = WebsocketConnection("Dashboard", handle_command)
-    await app.config["WEBSOCKET"].ensure_connection()
+    try:
+        app.config["WEBSOCKET"] = WebsocketConnection(
+            "Dashboard", handle_command
+        )
+        await app.config["WEBSOCKET"].ensure_connection()
+    except Exception as e:
+        print(f"Unable to launch ipc, running with out it.")
+        print(e)
 
 
 @app.after_serving
