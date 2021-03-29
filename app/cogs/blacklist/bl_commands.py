@@ -186,7 +186,7 @@ class Blacklist(commands.Cog):
     ) -> None:
         if not await menus.Confirm(
             "Are you sure you want to clear the whitelist "
-            f"for {starboard.mention}?"
+            f"for {starboard.obj.mention}?"
         ).start(ctx):
             await ctx.send("Cancelled")
             return
