@@ -179,7 +179,14 @@ class BaseEvents(commands.Cog):
         if type(e) in IGNORED_ERRORS:
             return
         elif type(e) in EXPECTED_ERRORS:
-            await ctx.send(e)
+            try:
+                await ctx.send(e)
+            except discord.Forbidden:
+                await ctx.message.author.send(
+                    "I don't have permission to send messages in "
+                    f"{ctx.channel.mention}, so I can't respond to "
+                    "your command."
+                )
         elif type(e) == discord.errors.Forbidden:
             try:
                 await ctx.message.author.send(
