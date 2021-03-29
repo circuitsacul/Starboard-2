@@ -119,9 +119,9 @@ class Owner(commands.Cog):
                 f"{round(exec_time[1], 2)} SECONDS TOTAL | "
                 f"{exec_time[2]} EXECUTIONS\n"
             )
-        await utils.paginator(
-            ctx,
-            [
+
+        await menus.Paginator(
+            embeds=[
                 discord.Embed(
                     title="SQL Times",
                     description=p,
@@ -129,7 +129,7 @@ class Owner(commands.Cog):
                 )
                 for p in pag.pages
             ],
-        )
+        ).start(ctx)
 
     @commands.command(name="restart")
     @checks.is_owner()
