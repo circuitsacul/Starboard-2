@@ -98,7 +98,7 @@ class Owner(commands.Cog):
             times.append(
                 (sql, (total_time / executions, total_time, executions))
             )
-        pag = commands.Paginator(prefix="", suffix="", max_size=500)
+        pag = commands.Paginator(prefix="", suffix="", max_size=1000)
         if len(times) == 0:
             await ctx.send("Nothing to show")
             return
@@ -129,6 +129,7 @@ class Owner(commands.Cog):
                 )
                 for p in pag.pages
             ],
+            delete_after=True,
         ).start(ctx)
 
     @commands.command(name="restart")

@@ -35,8 +35,12 @@ class Paginator(menus.Menu):
         self,
         embeds: Optional[List[discord.Embed]] = None,
         text: Optional[List[str]] = None,
+        delete_after: bool = False,
     ) -> None:
-        super().__init__(clear_reactions_after=True)
+        super().__init__(
+            clear_reactions_after=not delete_after,
+            delete_message_after=delete_after,
+        )
         self.embeds = embeds
         self.text = text
         self.current_page = 0
