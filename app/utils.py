@@ -1,4 +1,3 @@
-import asyncio
 import errno
 import os
 import re
@@ -9,7 +8,6 @@ from typing import Any, Dict, Iterable, List, Optional, Tuple, Union
 
 import discord
 from discord import RequestsWebhookAdapter, Webhook
-from discord.ext import commands
 
 if typing.TYPE_CHECKING:
     from app.classes.bot import Bot
