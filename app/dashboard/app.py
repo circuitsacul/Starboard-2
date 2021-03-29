@@ -212,7 +212,7 @@ async def before_first_request():
         )
         await app.config["WEBSOCKET"].ensure_connection()
     except Exception as e:
-        print(f"Unable to launch ipc, running with out it.")
+        print("Unable to launch ipc, running with out it.")
         print(e)
 
 
