@@ -1,5 +1,4 @@
 import random
-from re import I
 from typing import List
 
 import discord
