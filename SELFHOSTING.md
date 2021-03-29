@@ -18,6 +18,6 @@ Follow these steps if you want to run the dashboard
  1. In the command line, run `python -c "import secrets; print(secrets.token_bytes(32))"` to generate your quart key.
  2. Copy the output, and put the result in the `QUART_KEY` field in `.env`
  3. In the developer portal, copy the client secret (NOT bot token) and put that in the `CLIENT_SECRET` field of `.env`
- 4. On the OAuth2 page of your bot, add `http://localhots:5000/api/callback/` to the list of Redirect URIs.
+ 4. On the OAuth2 page of your bot, add `http://0.0.0.0:5000/api/callback/` to the list of Redirect URIs.
 
 Now, after running `launcher.py`, run the `run_dashboard.py` file in a seperate window, and it will launch on https://localhost:5000/
