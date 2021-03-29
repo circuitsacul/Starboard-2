@@ -9,7 +9,7 @@
 <div class="container mx-auto max-w-xl mb-8">
     <div class="grid grid-cols-1">
     {% for guild in guilds %}
-        <div class="flex hover:bg-base-100 p-1 m-1 items-center rounded-lg hover:bg-opacity-10">
+        <div class="flex flex-col sm:flex-row hover:bg-base-100 p-1 m-1 items-center rounded-lg hover:bg-opacity-10 max-w-screen">
             <div class="avatar w-10 h-10 mr-2 inline-block flex-none">
                 <div class="rounded-full w-10 h-10">
                     {% if guild.icon_url != None %}
@@ -23,11 +23,11 @@
                 {{ guild.name }}
             </div>
             {% if guild.id in mutual %}
-                <div class="flex-none justify-self-end">
+                <div class="hidden sm:block sm:flex-none justify-self-end">
                     <a class="btn btn-sm btn-primary">Manage</a>
                 </div>
             {% else %}
-                <div class="flex-none justify-self-end">
+                <div class="hidden sm:block sm:flex-none justify-self-end">
                     <a class="btn btn-sm btn-neutral">Invite</a>
                 </div>
             {% endif %}

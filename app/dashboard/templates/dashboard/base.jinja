@@ -3,11 +3,11 @@
 {% block content %}
 <div class="container mx-auto flex flex-row items-center justify-center h-64">
     <div class="avatar">
-        <div class="rounded-full w-32 h-32 mr-8 ring ring-primary ring-offset-neutral ring-offset-2">
+        <div class="rounded-full w-16 h-16 sm:w-32 sm:h-32 mr-4 sm:mr-8 ring ring-primary ring-offset-neutral ring-offset-2">
             <img src="{{ user.avatar_url }}">
         </div>
     </div>
-    <div class="text-5xl font-bold">
+    <div class="text-2xl sm:text-5xl font-bold">
         <div>
             {{ user.name }}#{{ user.discriminator }}
         </div>
@@ -17,10 +17,10 @@
 
 <div class="bg-neutral-focus p-4 mt-4">
     <div class="tabs tabs-boxed justify-center bg-neutral-focus rounded-none" style="position: sticky; top: 0; z-index: 50;">
-        <a class="tab {% block proftab %}{% endblock %}" href="{{ url_for('profile') }}">Profile</a>
-        <a class="tab {% block settingstab %}{% endblock %}" href="{{ url_for('settings') }}">Account Settings</a>
-        <a class="tab {% block serverstab %}{% endblock %}" href="{{ url_for('servers') }}">Servers</a>
-        <a class="tab {% block premtab %}{% endblock %}" href="{{ url_for('profile_premium') }}">Premium</a>
+        <a class="tab m-2 {% block proftab %}{% endblock %}" href="{{ url_for('profile') }}">Profile</a>
+        <a class="tab m-2 {% block settingstab %}{% endblock %}" href="{{ url_for('settings') }}">Account Settings</a>
+        <a class="tab m-2 {% block serverstab %}{% endblock %}" href="{{ url_for('servers') }}">Servers</a>
+        <a class="tab m-2 {% block premtab %}{% endblock %}" href="{{ url_for('profile_premium') }}">Premium</a>
     </div>
     {% block container_content %}{% endblock %}
 </div>
