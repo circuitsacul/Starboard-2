@@ -185,7 +185,9 @@ class Fun(commands.Cog):
             )
             embeds.append(e)
 
-        await menus.Paginator(embeds=embeds, text=text_pages).start(ctx)
+        await menus.Paginator(
+            embeds=embeds, text=text_pages, delete_after=True
+        ).start(ctx)
 
     @flags.add_flag("--by", type=discord.User, default=None)
     @flags.add_flag("--in", type=discord.TextChannel, default=None)
