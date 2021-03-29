@@ -8,7 +8,7 @@ import discord
 from asyncpg.exceptions import InterfaceError
 from discord.ext import commands
 
-from ... import checks, utils
+from ... import checks, utils, menus
 from ...classes.bot import Bot
 
 
@@ -135,13 +135,13 @@ class Owner(commands.Cog):
     @checks.is_owner()
     async def restart_bot(self, ctx: commands.Context) -> None:
         """Restars all clusters"""
-        await ctx.send("Restart all clusters?")
-        if await utils.confirm(ctx):
-            await ctx.send("Restarting...")
-            cmd: commands.Command = self.bot.get_command("evall")
-            await ctx.invoke(cmd, body="await bot.logout()")
+        if not await menus.Confirm("Restart all clusters?").start(ctx):
+            await ctx.send("Cancelled")
             return
-        await ctx.send("Cancelled")
+
+        await ctx.send("Restarting...")
+        cmd: commands.Command = self.bot.get_command("evall")
+        await ctx.invoke(cmd, body="await bot.logout()")
 
     @commands.command(
         name="runpg",

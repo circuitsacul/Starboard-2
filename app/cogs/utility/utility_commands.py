@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands, flags
 
-from app import converters, errors, utils
+from app import converters, errors, utils, menus
 from app.classes.bot import Bot
 from app.cogs.starboard import starboard_funcs
 
@@ -188,9 +188,10 @@ class Utility(commands.Cog):
         """
         starboards = [int(s.sql["id"]) for s in starboards]
         if len(starboards) == 0:
-            await ctx.send("Force this message to all starboards?")
-            if not await utils.confirm(ctx):
-                await ctx.send("Cancelling")
+            if not await menus.Confirm(
+                "Force this message to all starboards?"
+            ).start(ctx):
+                await ctx.send("Cancelled")
                 return
         orig_sql_message = await starboard_funcs.orig_message(
             self.bot, message_link.id
@@ -247,18 +248,18 @@ class Utility(commands.Cog):
         if not orig_sql_message:
             await ctx.send("That message does not exist in the database")
         if orig_sql_message["id"] != message_link.id and len(starboards) == 0:
-            await ctx.send(
+            if await menus.Confirm(
                 "The message you passed appears to be a starboard "
                 "message. Would you like to unforce this message "
                 f"from {message_link.channel.mention} instead?"
-            )
-            if await utils.confirm(ctx):
+            ).start(ctx):
                 starboards = [message_link.channel.id]
 
         if len(starboards) == 0:
-            await ctx.send("Unforce this message from all starboards?")
-            if not await utils.confirm(ctx):
-                await ctx.send("Cancelling")
+            if not await menus.Confirm(
+                "Unforce this message from all starboards?"
+            ).start(ctx):
+                await ctx.send("Cancelled")
                 return
         await utility_funcs.handle_forcing(
             self.bot,

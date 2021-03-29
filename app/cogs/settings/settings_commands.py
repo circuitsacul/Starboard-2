@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands, flags
 
-from app import converters, errors, utils
+from app import converters, errors, utils, menus
 from app.classes.bot import Bot
 from app.cogs.quick_actions import qa_funcs
 
@@ -394,10 +394,9 @@ class Settings(commands.Cog):
             elif not match:
                 raise errors.DoesNotExist(f"No matches found for `{prefix}`")
             else:
-                await ctx.send(
-                    f"Did you want to remove `{match}` " "from the prefixes?"
-                )
-                if not await utils.confirm(ctx):
+                if not await menus.Confirm(
+                    f"Did you want to remove `{match}` from the prefixes?"
+                ).start(ctx):
                     await ctx.send("Cancelled")
                     return
                 to_remove = match
@@ -421,8 +420,9 @@ class Settings(commands.Cog):
     async def reset_prefixes(self, ctx: commands.Context) -> None:
         """Deletes all prefixes, then adds the default sb!
         prefix back."""
-        await ctx.send("Are you sure you want to reset prefixes?")
-        if not await utils.confirm(ctx):
+        if not await menus.Confirm(
+            "Are you sure you want to reset all prefixes?"
+        ).start(ctx):
             await ctx.send("Cancelled")
             return
         await self.bot.db.execute(
