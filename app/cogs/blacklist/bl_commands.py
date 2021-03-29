@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 
-from app import converters, errors, utils
+from app import converters, errors, utils, menus
 from app.classes.bot import Bot
 
 
@@ -104,8 +104,10 @@ class Blacklist(commands.Cog):
     async def clear_channel_blacklist(
         self, ctx: commands.Context, starboard: converters.Starboard
     ) -> None:
-        await ctx.send("Are you sure?")
-        if not await utils.confirm(ctx):
+        if not await menus.Confirm(
+            "Are you sure you want to clear the blacklist "
+            f"for {starboard.mention}?"
+        ).start(ctx):
             await ctx.send("Cancelled")
             return
 
@@ -182,10 +184,13 @@ class Blacklist(commands.Cog):
     async def clear_channel_whitelist(
         self, ctx: commands.Context, starboard: converters.Starboard
     ) -> None:
-        await ctx.send("Are you sure?")
-        if not await utils.confirm(ctx):
+        if not await menus.Confirm(
+            "Are you sure you want to clear the whitelist "
+            f"for {starboard.mention}?"
+        ).start(ctx):
             await ctx.send("Cancelled")
             return
+
         await self.bot.db.starboards.edit(starboard.obj.id, channel_wl=[])
         await ctx.send(f"Cleared the whitelist for {starboard.obj.mention}.")
 

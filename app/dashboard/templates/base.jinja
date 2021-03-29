@@ -1,0 +1,109 @@
+<!doctype html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+
+        <title>Starboard</title>
+        <meta name="description" content="The best Discord Starboard">
+        <meta name="author" content="Circuit">
+
+        <link href="{{ url_for('static', filename='css/base.css') }}" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/daisyui@0.14.4/dist/full.css" rel="stylesheet"/>
+
+        {% block topstatic %}{% endblock %}
+    </head>
+    <body class="bg-neutral text-neutral-content">
+        <div class="drawer">
+            <input id="id-drawer" type="checkbox" class="drawer-toggle">
+            <div class="drawer-content flex flex-col">
+                <div class="navbar mb-2 shadow-lg bg-neutral-focus text-neutral-content">
+                    <div class="flex-none lg:hidden">
+                        <label for="id-drawer" class="btn btn-square btn-ghost">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-current">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                            </svg>
+                        </label>
+                    </div>
+                    <div class="flex-1 px-2 mx-2 lg:flex-none">
+                        <span class="text-lg font-bold">
+                            <a href="/">
+                                Starboard
+                            </a>
+                        </span>
+                    </div>
+                    <div class="justify-center flex-1 hidden px-2 mx-2 lg:flex">
+                        <div class="flex items-stretch">
+                            <a class="btn btn-ghost btn-sm rounded-btn" href="{{ url_for('docs') }}" target="_blank">
+                                Docs
+                            </a>
+                            <a class="btn btn-ghost btn-sm rounded-btn" href="{{ url_for('support') }}" target="_blank">
+                                Support
+                            </a>
+                            <a class="btn btn-ghost btn-sm rounded-btn" href="{{ url_for('premium') }}">
+                                Premium
+                            </a>
+                            <a class="btn btn-ghost btn-sm rounded-btn" href="{{ url_for('servers') }}">
+                                Manage
+                            </a>
+                        </div>
+                    </div>
+                    <div class="flex-none">
+                        {% if user %}
+                        <a class="btn btn-ghost rounded-btn" href="{{ url_for('profile') }}">
+                            <div class="avatar w-10 h-10 mr-2 inline-block">
+                                <div class="mb-8 rounded-full w-10 h-10">
+                                    <img src="{{ user.avatar_url }}">
+                                </div>
+                            </div>
+                            Profile
+                        </a>
+                        {% else %}
+                        <a class="btn btn-ghost rounded-btn" href="{{ url_for('login') }}">
+                            Login
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                <div>
+                    {% block content %}{% endblock %}
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 bg-neutral-focus p-8 gap-4" style="border-top: 1px solid grey;">
+                        <div>
+                            <h3 class="text-2xl">Starboard</h3>
+                            The most advanced Discord Starboard in existence.
+                        </div>
+                        <div>
+                            <h3 class="text-1xl font-bold">Legal</h3>
+                            <a class="link">Privacy Policy</a><br>
+                            <a class="link">Terms of Service</a>
+                        </div>
+                        <div>
+                            <h3 class="text-1xl font-bold">Contact</h3>
+                            <a class="link">Email Us</a><br>
+                            <a href="{{ url_for('support') }}" class="link" target="_blank">Join our Discord</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="drawer-side">
+                <label for="id-drawer" class="drawer-overlay min-h-screen"></label>
+                <ul class="p-4 overflow-y-auto menu w-80 bg-base-100">
+                    <li>
+                        <a href="https://circuit.gitbook.io/starboard" target="_blank">Docs</a>
+                    </li> 
+                    <li>
+                        <a href="{{ url_for('support') }}" target="_blank">Support</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('premium') }}">Premium</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('servers') }}">Manage</a>
+                    </li>
+                </ul>
+            <div>
+        </div>
+        {% block bottomstatic %}{% endblock %}
+    </body>
+</html>

@@ -18,9 +18,7 @@ from .pg_tables import ALL_TABLES
 
 
 class Database:
-    def __init__(self, bot, database: str, user: str, password: str) -> None:
-        self.bot = bot
-
+    def __init__(self, database: str, user: str, password: str) -> None:
         self.name = database
         self.user = user
         self.password = password
@@ -29,14 +27,14 @@ class Database:
 
         self.sql_times: dict = {}
 
-        self.guilds = guilds.Guilds(bot)
-        self.members = members.Members(bot)
-        self.users = users.Users(bot)
-        self.aschannels = aschannels.ASChannels(bot)
-        self.starboards = starboards.Starboards(bot)
-        self.messages = messages.Messages(bot)
-        self.sb_messages = sb_messags.SBMessages(bot)
-        self.reactions = reactions.Reactions(bot)
+        self.guilds = guilds.Guilds(self)
+        self.members = members.Members(self)
+        self.users = users.Users(self)
+        self.aschannels = aschannels.ASChannels(self)
+        self.starboards = starboards.Starboards(self)
+        self.messages = messages.Messages(self)
+        self.sb_messages = sb_messags.SBMessages(self)
+        self.reactions = reactions.Reactions(self)
 
     def log(self, sql: str, time: float) -> None:
         self.sql_times.setdefault(sql, [])

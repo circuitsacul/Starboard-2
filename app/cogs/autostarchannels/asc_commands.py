@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 
-from app import converters, errors, utils
+from app import converters, errors, utils, menus
 from app.classes.bot import Bot
 
 
@@ -186,10 +186,13 @@ class AutoStarChannels(commands.Cog):
         self, ctx: commands.Context, aschannel: converters.ASChannel
     ) -> None:
         """Removes all emojis from an AutoStarChannel"""
-        await ctx.send("Are you sure?")
-        if not await utils.confirm(ctx):
-            await ctx.send("Canncelled")
+        if not await menus.Confirm(
+            "Are you sure you want to clear all emojis "
+            f"for {aschannel.mention}?"
+        ).start(ctx):
+            await ctx.send("Cancelled")
             return
+
         await self.bot.db.aschannels.edit(aschannel.obj.id, emojis=[])
         old = utils.pretty_emoji_string(aschannel.sql["emojis"], ctx.guild)
         await ctx.send(

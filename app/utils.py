@@ -178,28 +178,6 @@ def pretty_channel_string(channels: List[int], guild: discord.Guild) -> str:
     return ", ".join([f"<#{c}>" for c in channels]) or "None"
 
 
-async def confirm(ctx: commands.Context) -> Optional[bool]:
-    def check(m) -> bool:
-        if m.author.id != ctx.message.author.id:
-            return False
-        if m.channel.id != ctx.channel.id:
-            return False
-        if not m.content.lower()[0] in ["y", "n"]:
-            return False
-        return True
-
-    try:
-        message = await ctx.bot.wait_for("message", check=check)
-    except asyncio.exceptions.TimeoutError:
-        await ctx.send("Timed out.")
-        return None
-    if message.content.lower().startswith("y"):
-        return True
-    elif message.content.lower().startswith("n"):
-        return False
-    return await confirm(ctx)
-
-
 async def paginator(
     ctx: commands.Context,
     embed_pages: List[discord.Embed],

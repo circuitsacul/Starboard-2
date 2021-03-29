@@ -4,11 +4,11 @@ import asyncpg
 
 
 class Members:
-    def __init__(self, bot) -> None:
-        self.bot = bot
+    def __init__(self, db) -> None:
+        self.db = db
 
     async def get(self, user_id: int, guild_id: int) -> Optional[dict]:
-        return await self.bot.db.fetchrow(
+        return await self.db.fetchrow(
             """SELECT * FROM members
             WHERE user_id=$1 AND guild_id=$2""",
             user_id,
@@ -23,10 +23,10 @@ class Members:
             if exists:
                 return True
 
-        await self.bot.db.guilds.create(guild_id)
+        await self.db.guilds.create(guild_id)
 
         try:
-            await self.bot.db.execute(
+            await self.db.execute(
                 """INSERT INTO members (user_id, guild_id)
                 VALUES ($1, $2)""",
                 user_id,

@@ -3,7 +3,7 @@ from typing import Union
 import discord
 from discord.ext import commands
 
-from ... import converters, errors, utils
+from ... import converters, errors, utils, menus
 from ...classes.bot import Bot
 
 
@@ -120,10 +120,9 @@ class Starboard(commands.Cog):
         if not starboard:
             raise errors.DoesNotExist(f"{cname} is not a starboard.")
         else:
-            await ctx.send(
+            confirmed = await menus.Confirm(
                 "Are you sure? All starboard messages will be lost."
-            )
-            confirmed = await utils.confirm(ctx)
+            ).start(ctx)
             if confirmed is True:
                 await self.bot.db.starboards.delete(cid)
                 await ctx.send(f"{cname} is no longer a starboard.")
@@ -558,8 +557,10 @@ class Starboard(commands.Cog):
         self, ctx: commands.Context, starboard: converters.Starboard
     ) -> None:
         """Removes all starEmojis from a starboard"""
-        await ctx.send("Are you sure?")
-        if not await utils.confirm(ctx):
+        if not await menus.Confirm(
+            "Are you sure you want to clear all emojis "
+            f"for {starboard.obj.mention}?"
+        ).start(ctx):
             await ctx.send("Cancelled")
             return
 

@@ -4,11 +4,11 @@ import asyncpg
 
 
 class Guilds:
-    def __init__(self, bot) -> None:
-        self.bot = bot
+    def __init__(self, db) -> None:
+        self.db = db
 
     async def get(self, guild_id: int) -> Optional[dict]:
-        sql_guild = await self.bot.db.fetchrow(
+        sql_guild = await self.db.fetchrow(
             """SELECT * FROM guilds
             WHERE id=$1""",
             guild_id,
@@ -22,7 +22,7 @@ class Guilds:
                 return False
 
         try:
-            await self.bot.db.execute(
+            await self.db.execute(
                 """INSERT INTO guilds (id)
                 VALUES ($1)""",
                 guild_id,

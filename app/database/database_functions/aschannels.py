@@ -7,18 +7,18 @@ from app import errors
 
 
 class ASChannels:
-    def __init__(self, bot) -> None:
-        self.bot = bot
+    def __init__(self, db) -> None:
+        self.db = db
 
     async def get(self, aschannel_id: int) -> Optional[dict]:
-        return await self.bot.db.fetchrow(
+        return await self.db.fetchrow(
             """SELECT * FROM aschannels
             WHERE id=$1""",
             aschannel_id,
         )
 
     async def get_many(self, guild_id: int) -> List[dict]:
-        return await self.bot.db.fetch(
+        return await self.db.fetch(
             """SELECT * FROM aschannels
             WHERE guild_id=$1""",
             guild_id,
@@ -32,13 +32,13 @@ class ASChannels:
             if exists:
                 return True
 
-        is_starboard = await self.bot.db.starboards.get(channel_id) is not None
+        is_starboard = await self.db.starboards.get(channel_id) is not None
         if is_starboard:
             raise errors.AlreadyExists("That channel is already a starboard!")
 
-        await self.bot.db.guilds.create(guild_id)
+        await self.db.guilds.create(guild_id)
         try:
-            await self.bot.db.execute(
+            await self.db.execute(
                 """INSERT INTO aschannels (id, guild_id)
                 VALUES ($1, $2)""",
                 channel_id,
@@ -49,7 +49,7 @@ class ASChannels:
         return False
 
     async def delete(self, aschannel_id: int) -> None:
-        await self.bot.db.execute(
+        await self.db.execute(
             """DELETE FROM aschannels
             WHERE id=$1""",
             aschannel_id,
@@ -93,7 +93,7 @@ class ASChannels:
                 "minChars cannot be grater than 2,000"
             )
 
-        await self.bot.db.execute(
+        await self.db.execute(
             """UPDATE aschannels
             SET emojis=$2::text[],
             min_chars=$3,

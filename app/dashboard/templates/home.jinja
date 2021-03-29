@@ -1,0 +1,78 @@
+{% extends "base.jinja" %}
+
+{% block topstatic %}
+<link href="{{ url_for('static', filename='css/home.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+<div class="hero min-h-screen-minus-nav bg-nuetral" id="div-1">
+    <div class="flex-col hero-content lg:flex-row">
+        <div>
+            <h1 class="mb-4 text-5xl font-bold">
+                The Best Discord Starboard
+            </h1>
+            <p class="mb-5 text-1xl">
+                Multiple starboards, AutoStar channels, Award Roles, and much more!
+            </p>
+            <div class="mb-5">
+                <a class="btn btn-primary btn-lg" href="{{ url_for('servers') }}">Get Started</a>
+                <button class="btn btn-ghost btn-lg" onClick="document.getElementById('topFeature').scrollIntoView({behavior: 'smooth', block: 'center', inline: 'center'});">See Features</button>
+            </div>
+        </div>
+        <div class="grid sm:gap-4 grid-cols-1 lg:grid-cols-1 sm:grid-cols-3 mb-20 sm:mb-0 min-w-full sm:min-w-0">
+            <div class="card">
+                <div class="card-body p-6 sm:p-8">
+                    <h2 class="card-title text-primary">{{ members }}</h2> 
+                    <p>Members</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body p-6 sm:p-8">
+                    <h2 class="card-title text-primary">{{ guilds }}</h2> 
+                    <p>Servers</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body p-6 sm:p-8">
+                    <h2 class="card-title text-primary">1 Million</h2> 
+                    <p>Starred Messages</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% for section in sections %}
+    <div class="hero min-h-screen bg-neutral-focus" id="topFeature">
+        {% if loop.index%2 == 0 %}
+            <div class="flex-col hero-content lg:flex-row-reverse max-w-5xl">
+        {% else %}
+            <div class="flex-col hero-content lg:flex-row max-w-5xl">
+        {% endif %}
+                <div>
+                    <h1 class="mb-4 text-5xl font-bold">
+                        {{ section.title }}
+                    </h1>
+                    <p class="text-1xl">
+                        {{ section.description }}
+                    </p>
+                </div>
+                <img src="{{ url_for('static', filename=section.image) }}" class="max-w-sm max-h-96 sm:max-w-lg rounded-lg shadow-2xl">
+            </div>
+    </div>
+{% endfor %}
+
+<div class="hero bg-neutral-focus">
+    <div class="hero-content flex-col mb-32">
+        <div>
+            <h1 class="mb-4 text-5xl font-bold">
+                And much more...
+            </h1>
+            <p class="text-1xl">
+                Ready to try Starboard?
+            </p>
+        </div>
+        <a class="btn btn-primary btn-lg" href="{{ url_for('servers') }}">Get Started</a>
+    </div>
+</div>
+{% endblock %}
