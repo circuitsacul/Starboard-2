@@ -17,6 +17,7 @@ class Blacklist(commands.Cog):
         brief="Lists the channel blacklist/whitelist for a starboard",
         invoke_without_command=True,
     )
+    @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def blacklist(
         self, ctx: commands.Context, starboard: converters.Starboard
@@ -101,6 +102,10 @@ class Blacklist(commands.Cog):
         name="clear", brief="Removes everything from the blacklist"
     )
     @commands.has_guild_permissions(manage_channels=True)
+    @commands.bot_has_permissions(
+        read_message_history=True, add_reactions=True
+    )
+    @commands.guild_only()
     async def clear_channel_blacklist(
         self, ctx: commands.Context, starboard: converters.Starboard
     ) -> None:
@@ -181,6 +186,10 @@ class Blacklist(commands.Cog):
         name="clear", brief="Clears the whitelist for a starboard"
     )
     @commands.has_guild_permissions(manage_channels=True)
+    @commands.bot_has_permissions(
+        add_reactions=True, read_message_history=True
+    )
+    @commands.guild_only()
     async def clear_channel_whitelist(
         self, ctx: commands.Context, starboard: converters.Starboard
     ) -> None:

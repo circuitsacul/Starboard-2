@@ -1,4 +1,5 @@
 import random
+from re import I
 from typing import List
 
 import discord
@@ -21,6 +22,9 @@ class Fun(commands.Cog):
         name="leaderboard",
         aliases=["lb"],
         brief="Shows the servers top 200 users",
+    )
+    @commands.bot_has_permissions(
+        embed_links=True, add_reactions=True, read_message_history=True
     )
     @commands.guild_only()
     async def guild_leaderboard(self, ctx: commands.Context) -> None:
@@ -61,6 +65,7 @@ class Fun(commands.Cog):
         aliases=["stats"],
         brief="Shows statistics for yourself or another user",
     )
+    @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def user_stats(
         self, ctx: commands.Context, user: discord.Member = None
@@ -101,8 +106,11 @@ class Fun(commands.Cog):
     @flags.add_flag("--starboard", "--sb", type=converters.Starboard)
     @flags.add_flag("--place", type=converters.myint, default=1)
     @flags.command(name="moststarred", brief="Shows the most starred messages")
-    @commands.guild_only()
     @commands.cooldown(1, 3, type=commands.BucketType.user)
+    @commands.bot_has_permissions(
+        embed_links=True, add_reactions=True, read_message_history=True
+    )
+    @commands.guild_only()
     async def moststarred(self, ctx: commands.Context, **options) -> None:
         """See a list of the most starred messages.
 
@@ -192,8 +200,9 @@ class Fun(commands.Cog):
         aliases=["explore", "rand"],
         brief="Shows a random starred message from the server",
     )
-    @commands.guild_only()
     @commands.cooldown(3, 5, type=commands.BucketType.user)
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
     async def random_message(self, ctx: commands.Context, **options):
         """Pulls a random message from one of the starboards
         on the current server. Does NOT work cross-server.

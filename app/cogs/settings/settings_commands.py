@@ -23,6 +23,7 @@ class Settings(commands.Cog):
         brief="Lists disabled commands",
         invoke_without_command=True,
     )
+    @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def disabled_cmds(self, ctx: commands.Context) -> None:
         """Lists all commands that have been disabled"""
@@ -94,6 +95,7 @@ class Settings(commands.Cog):
     @commands.command(
         name="settings", aliases=["options"], brief="View guild settings"
     )
+    @commands.bot_has_permissions(embed_links=True)
     async def guild_settings(self, ctx: commands.Context) -> None:
         """Lists the settings for the curent server.
         A list of commands to change these settings can
@@ -130,6 +132,8 @@ class Settings(commands.Cog):
         invoke_without_command=True,
     )
     @commands.has_guild_permissions(manage_messages=True)
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
     async def quickactions(self, ctx: commands.Context) -> None:
         """Modify the emojis for quickActions"""
         p = ctx.prefix
@@ -316,7 +320,8 @@ class Settings(commands.Cog):
         brief="List and manage prefixes",
         invoke_without_command=True,
     )
-    @commands.has_guild_permissions(manage_messages=True)
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
     async def prefixes(self, ctx: commands.Context) -> None:
         """Lists prefixes for the current server.
         Run sb!help prefixes to view commands for
@@ -375,6 +380,10 @@ class Settings(commands.Cog):
         name="remove", aliases=["rm", "r"], brief="Removes a prefix"
     )
     @commands.has_guild_permissions(manage_messages=True)
+    @commands.bot_has_permissions(
+        add_reactions=True, read_message_history=True
+    )
+    @commands.guild_only()
     async def remove_prefix(self, ctx: commands.Context, prefix: str) -> None:
         """Removes a prefix"""
         to_remove = prefix
@@ -417,6 +426,10 @@ class Settings(commands.Cog):
         name="reset", brief='Removes all prefixes and adds "sb!"'
     )
     @commands.has_guild_permissions(manage_messages=True)
+    @commands.bot_has_permissions(
+        add_reactions=True, read_message_history=True
+    )
+    @commands.guild_only()
     async def reset_prefixes(self, ctx: commands.Context) -> None:
         """Deletes all prefixes, then adds the default sb!
         prefix back."""

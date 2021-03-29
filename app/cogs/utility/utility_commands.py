@@ -17,8 +17,10 @@ class Utility(commands.Cog):
     @commands.command(
         name="scan", brief="Recounts the reactions on lots of messages at once"
     )
-    @commands.has_guild_permissions(manage_guild=True)
     @commands.max_concurrency(1, per=commands.BucketType.guild)
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.bot_has_permissions(read_message_history=True)
+    @commands.guild_only()
     async def scan_recount(self, ctx: commands.Context, limit: int) -> None:
         if limit < 1:
             await ctx.send("Must recount at least 1 message.")
@@ -28,15 +30,15 @@ class Utility(commands.Cog):
             return
         async with ctx.typing():
             await recounter.scan_recount(self.bot, ctx.channel, limit)
-        await ctx.send("Finished")
+        await ctx.send("Finished!")
 
     @commands.command(
         name="recount",
         aliases=["refresh"],
         brief="Recounts the reactions on a message",
     )
-    @commands.has_guild_permissions(manage_messages=True)
     @commands.cooldown(3, 6, type=commands.BucketType.guild)
+    @commands.has_guild_permissions(manage_messages=True)
     async def recount(
         self, ctx: commands.Context, message: converters.MessageLink
     ) -> None:
@@ -57,14 +59,18 @@ class Utility(commands.Cog):
                 int(orig_sql_message["channel_id"]),
                 int(orig_sql_message["id"]),
             )
-        await recounter.recount_reactions(self.bot, message)
+        async with ctx.typing():
+            await recounter.recount_reactions(self.bot, message)
+        await ctx.send("Finished!")
 
     @commands.command(
         name="clean",
         brief="Cleans things like #deleted-channel and @deleted-role",
     )
-    @commands.has_guild_permissions(manage_guild=True)
     @commands.cooldown(1, 5, type=commands.BucketType.guild)
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
     async def clean(self, ctx: commands.Context) -> None:
         result = await cleaner.clean_guild(ctx.guild, self.bot)
         string = "\n".join(
@@ -82,8 +88,12 @@ class Utility(commands.Cog):
     @commands.command(
         name="debug", brief="Looks for problems with your current setup"
     )
-    @commands.has_guild_permissions(manage_guild=True)
     @commands.cooldown(2, 5, type=commands.BucketType.guild)
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.bot_has_permissions(
+        embed_links=True, add_reactions=True, read_message_history=True
+    )
+    @commands.guild_only()
     async def debug(self, ctx: commands.Context) -> None:
         result = await debugger.debug_guild(self.bot, ctx.guild)
 
@@ -165,6 +175,10 @@ class Utility(commands.Cog):
         name="force", brief="Forced a message to certain starboards"
     )
     @commands.has_guild_permissions(manage_messages=True)
+    @commands.bot_has_permissions(
+        add_reactions=True, read_message_history=True
+    )
+    @commands.guild_only()
     async def force_message(
         self,
         ctx: commands.Context,
@@ -226,6 +240,10 @@ class Utility(commands.Cog):
         name="unforce", brief="Unforces a message from certain starboards"
     )
     @commands.has_guild_permissions(manage_messages=True)
+    @commands.bot_has_permissions(
+        add_reactions=True, read_message_history=True
+    )
+    @commands.guild_only()
     async def unforce_message(
         self,
         ctx: commands.Context,
@@ -356,6 +374,10 @@ class Utility(commands.Cog):
         brief="Shows a list of trashed messages",
     )
     @commands.has_guild_permissions(manage_messages=True)
+    @commands.bot_has_permissions(
+        embed_links=True, add_reactions=True, read_message_history=True
+    )
+    @commands.guild_only()
     async def show_trashcan(self, ctx: commands.Context) -> None:
         """Shows all messages that have been trashed."""
         trashed_messages = await self.bot.db.fetch(
@@ -390,6 +412,8 @@ class Utility(commands.Cog):
         name="purge", brief="Trashes a large number of messages at once"
     )
     @commands.has_guild_permissions(manage_messages=True)
+    @commands.bot_has_permissions(read_message_history=True, embed_links=True)
+    @commands.guild_only()
     async def purgetrash(
         self, ctx: commands.Context, limit: converters.myint, **flags
     ) -> None:
@@ -446,6 +470,7 @@ class Utility(commands.Cog):
         name="unpurge", brief="Untrashes a large number of messages at once"
     )
     @commands.has_guild_permissions(manage_messages=True)
+    @commands.bot_has_permissions(read_message_history=True, embed_links=True)
     async def unpurgetrash(
         self, ctx: commands.Context, limit: converters.myint, **flags
     ) -> None:
@@ -482,6 +507,7 @@ class Utility(commands.Cog):
         aliases=["mi"],
         brief="Shows information on a message",
     )
+    @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def message_info(
         self, ctx: commands.Context, message: converters.MessageLink

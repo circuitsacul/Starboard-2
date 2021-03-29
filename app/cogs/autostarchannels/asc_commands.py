@@ -17,6 +17,7 @@ class AutoStarChannels(commands.Cog):
         brief="List AutoStar Channels",
         invoke_without_command=True,
     )
+    @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def aschannels(
         self, ctx: commands.Context, aschannel: converters.ASChannel = None
@@ -117,6 +118,8 @@ class AutoStarChannels(commands.Cog):
         name="add", aliases=["a"], brief="Adds an emoji to an AutoStarChannel"
     )
     @commands.has_guild_permissions(manage_channels=True)
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
     async def add_asemoji(
         self,
         ctx: commands.Context,
@@ -150,6 +153,8 @@ class AutoStarChannels(commands.Cog):
         brief="Removes an emojis from an AutoStarChannel",
     )
     @commands.has_guild_permissions(manage_channels=True)
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
     async def remove_asemoji(
         self,
         ctx: commands.Context,
@@ -182,6 +187,8 @@ class AutoStarChannels(commands.Cog):
         brief="Removes all emojis from an AutoStarChannel",
     )
     @commands.has_guild_permissions(manage_channels=True)
+    @commands.bot_has_permissions(embed_links=True, read_message_history=True)
+    @commands.guild_only()
     async def clear_asemojis(
         self, ctx: commands.Context, aschannel: converters.ASChannel
     ) -> None:
@@ -205,6 +212,8 @@ class AutoStarChannels(commands.Cog):
         brief="The minimum number of characters for messages",
     )
     @commands.has_guild_permissions(manage_channels=True)
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
     async def set_min_chars(
         self,
         ctx: commands.Context,
@@ -230,6 +239,8 @@ class AutoStarChannels(commands.Cog):
         brief="Whether or not messages must include an image",
     )
     @commands.has_guild_permissions(manage_channels=True)
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
     async def set_require_image(
         self,
         ctx: commands.Context,
@@ -262,6 +273,8 @@ class AutoStarChannels(commands.Cog):
         brief="A regex string that all messages must match",
     )
     @commands.has_guild_permissions(manage_channels=True)
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
     async def set_regex(
         self,
         ctx: commands.Context,
@@ -287,6 +300,8 @@ class AutoStarChannels(commands.Cog):
         brief="A regex string that all messages must not match",
     )
     @commands.has_guild_permissions(manage_channels=True)
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
     async def set_eregex(
         self,
         ctx: commands.Context,
@@ -320,6 +335,8 @@ class AutoStarChannels(commands.Cog):
         brief="Whether or not to delete invalid messages",
     )
     @commands.has_guild_permissions(manage_channels=True)
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
     async def set_delete_invalid(
         self,
         ctx: commands.Context,

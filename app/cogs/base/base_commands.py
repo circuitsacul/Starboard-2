@@ -27,6 +27,7 @@ class Base(commands.Cog):
         )
 
     @commands.command(name="help", brief="Get help with Starboard")
+    @commands.bot_has_permissions(embed_links=True)
     async def starboard_help(
         self, ctx: commands.Context, *, command=None
     ) -> None:
@@ -54,6 +55,7 @@ class Base(commands.Cog):
     @commands.command(
         name="botstats", aliases=["botinfo"], brief="Shows bot statistics"
     )
+    @commands.bot_has_permissions(embed_links=True)
     async def botinfo(self, ctx: commands.Context) -> None:
         """Sends guildCount and memberCount for each
         cluster"""
@@ -78,6 +80,7 @@ class Base(commands.Cog):
         aliases=["latency"],
         brief="Shows current clusters and shards latency",
     )
+    @commands.bot_has_permissions(embed_links=True)
     async def ping(self, ctx: commands.Context) -> None:
         """Sends the latency of the current cluster
         and shard."""
@@ -102,6 +105,7 @@ class Base(commands.Cog):
         aliases=["invite", "support"],
         brief="Lists important/useful links",
     )
+    @commands.bot_has_permissions(embed_links=True)
     async def links(self, ctx: commands.Context) -> None:
         """Shows important/useful links"""
         embed = (
@@ -140,6 +144,7 @@ class Base(commands.Cog):
         aliases=["votes"],
         brief="View vote links and number of times you've voted",
     )
+    @commands.bot_has_permissions(embed_links=True)
     async def vote(
         self, ctx: commands.Context, user: discord.User = None
     ) -> None:

@@ -29,6 +29,7 @@ EXPECTED_ERRORS = [
     commands.NotOwner,
     commands.CommandOnCooldown,
     commands.ExpectedClosingQuoteError,
+    commands.BotMissingPermissions,
     discord.Forbidden,
     discord.InvalidArgument,
     commands.BadArgument,
@@ -187,16 +188,6 @@ class BaseEvents(commands.Cog):
                     f"{ctx.channel.mention}, so I can't respond to "
                     "your command."
                 )
-        elif type(e) == discord.errors.Forbidden:
-            try:
-                await ctx.message.author.send(
-                    "I can't send messages in "
-                    f"{ctx.message.channel.mention}, "
-                    "or I'm missing the `Embed Links` "
-                    "permission there."
-                )
-            except discord.Forbidden:
-                pass
         else:
             embed = discord.Embed(
                 title="Something's Not Right",
@@ -214,7 +205,10 @@ class BaseEvents(commands.Cog):
                 to_remove = (len(full_tb) - 1024) + 10
                 full_tb = f"{e}\n```...{tb[to_remove:]}```"
             embed.add_field(name=e.__class__.__name__, value=full_tb)
-            await ctx.send(embed=embed)
+            try:
+                await ctx.send(embed=embed)
+            except discord.Forbidden:
+                pass
 
             self.bot.dispatch(
                 "log_error", "Command Error", e, ctx.args, ctx.kwargs

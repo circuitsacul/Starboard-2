@@ -23,6 +23,7 @@ class SlashCommands(commands.Cog):
     @commands.command(
         name="slash", brief="Get a link for authorizing slash commands"
     )
+    @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def check_slash(self, ctx: commands.Context) -> None:
         slash_auth = config.SLASH_AUTH + f"&guild_id={ctx.guild.id}"

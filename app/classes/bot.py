@@ -89,6 +89,7 @@ class Bot(commands.AutoShardedBot):
             self.load_extension(ext)
 
         self.add_check(checks.not_disabled)
+        self.add_check(commands.bot_has_permissions(send_messages=True))
 
         try:
             self.run(kwargs["token"])
