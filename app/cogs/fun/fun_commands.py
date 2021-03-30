@@ -158,9 +158,6 @@ class Fun(commands.Cog):
             ctx.guild.id,
             maxpoints,
         )
-        if len(messages) == 0:
-            await ctx.send("Nothing to show.")
-            return
         embeds: list[discord.Embed] = []
         text_pages: list[str] = []
         for m in messages[place : place + 10]:
@@ -172,17 +169,21 @@ class Fun(commands.Cog):
             )
             sql_starboard = await self.bot.db.starboards.get(m["starboard_id"])
             color = sql_starboard["color"]
-            text_pages.append(
-                starboard_funcs.get_plain_text(
-                    sql_starboard, orig, m["points"], ctx.guild
-                )
-            )
             if not obj:
                 continue
             e, _ = await starboard_funcs.embed_message(
                 self.bot, obj, color=color
             )
+            text_pages.append(
+                starboard_funcs.get_plain_text(
+                    sql_starboard, orig, m["points"], ctx.guild
+                )
+            )
             embeds.append(e)
+
+        if len(embeds) == 0:
+            await ctx.send("Nothing to show.")
+            return
 
         await menus.Paginator(
             embeds=embeds, text=text_pages, delete_after=True
