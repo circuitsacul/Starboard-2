@@ -128,7 +128,7 @@ async def debug_guild(bot: Bot, guild: discord.Guild) -> dict:
             if blacklisted != 0 and whitelisted == 0:
                 result["light_warns"].append(
                     f"<#{s['id']}> has {blacklisted} blacklisted channels, "
-                    "so messages from those channels can be starred."
+                    "so messages from those channels can't be starred."
                 )
             if whitelisted != 0:
                 result["light_warns"].append(
