@@ -1,4 +1,4 @@
-from typing import Optional, Tuple
+from typing import Optional
 
 import discord
 
@@ -14,7 +14,7 @@ async def handle_purging(
     by: Optional[discord.Member],
     notby: Optional[discord.Member],
     contains: Optional[str],
-) -> Tuple[int, dict]:
+) -> tuple[int, dict]:
     purged = {}
     total = 0
 

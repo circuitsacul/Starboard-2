@@ -1,5 +1,5 @@
 import os
-from typing import Optional, Union, Tuple
+from typing import Optional, Union
 
 import dotenv
 import humanize
@@ -54,7 +54,7 @@ async def handle_command(msg: dict) -> Optional[Union[dict, str]]:
     return resp
 
 
-def bot_stats() -> Tuple[str]:
+def bot_stats() -> tuple[str]:
     guilds = humanize.intword(
         sum([s["guilds"] for _, s in app.config["STATS"].items()])
     )

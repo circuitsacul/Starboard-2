@@ -4,7 +4,7 @@ import re
 import signal
 import typing
 from functools import wraps
-from typing import Any, Dict, Iterable, Optional, Tuple, Union
+from typing import Any, Dict, Iterable, Optional, Union
 
 import discord
 from discord import RequestsWebhookAdapter, Webhook
@@ -52,7 +52,7 @@ def chunk_list(lst: list[Any], max_size: int) -> list[Any]:
 
 
 def cs_embed(
-    changes: Dict[str, Tuple[Any, Any]], bot: "Bot", noticks: bool = False
+    changes: Dict[str, tuple[Any, Any]], bot: "Bot", noticks: bool = False
 ) -> discord.Embed:
     text = cs_text(changes, noticks=noticks)
     return discord.Embed(
@@ -60,7 +60,7 @@ def cs_embed(
     )
 
 
-def cs_text(changes: Dict[str, Tuple[Any, Any]], noticks: bool = False) -> str:
+def cs_text(changes: Dict[str, tuple[Any, Any]], noticks: bool = False) -> str:
     t = "" if noticks else "`"
     text = "\n".join(
         [

@@ -1,5 +1,5 @@
 import asyncio
-from typing import Optional, Tuple
+from typing import Optional
 
 import discord
 
@@ -49,7 +49,7 @@ async def orig_message(bot: Bot, message_id: int) -> Optional[dict]:
 
 async def embed_message(
     bot: Bot, message: discord.Message, color: str = None, files: bool = True
-) -> Tuple[discord.Embed, list[discord.File]]:
+) -> tuple[discord.Embed, list[discord.File]]:
     nsfw = message.channel.is_nsfw()
     content = utils.escmask(message.system_content)
 

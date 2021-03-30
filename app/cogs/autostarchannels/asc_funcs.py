@@ -1,5 +1,5 @@
 import re
-from typing import Optional, Tuple
+from typing import Optional
 
 import discord
 
@@ -30,7 +30,7 @@ def try_regex(
 
 def is_valid(
     bot: Bot, message: discord.Message, aschannel: dict
-) -> Tuple[bool, str]:
+) -> tuple[bool, str]:
     if aschannel["require_image"]:
         if len(message.attachments) == 0:
             return False, "Messages must have an image attached"
