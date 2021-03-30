@@ -1,4 +1,4 @@
-from typing import List, Optional, Tuple
+from typing import Optional, Tuple
 
 import discord
 
@@ -73,13 +73,13 @@ async def handle_forcing(
     bot: Bot,
     message_id: int,
     guild_id: int,
-    _starboards: List[int],
+    _starboards: list[int],
     force: bool,
 ) -> None:
     sql_message = await bot.db.messages.get(message_id)
     if not sql_message:
         return
-    new_forced: List = sql_message["forced"]
+    new_forced: list = sql_message["forced"]
     if len(_starboards) != 0:
         starboards = _starboards
     else:

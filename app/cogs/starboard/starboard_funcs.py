@@ -1,5 +1,5 @@
 import asyncio
-from typing import List, Optional, Tuple
+from typing import Optional, Tuple
 
 import discord
 
@@ -24,7 +24,7 @@ def get_plain_text(
     )
 
 
-async def sbemojis(bot: Bot, guild_id: int) -> List[str]:
+async def sbemojis(bot: Bot, guild_id: int) -> list[str]:
     starboards = await bot.db.starboards.get_many(guild_id)
     _emojis = await bot.db.fetchval(
         """SELECT star_emojis FROM starboards
@@ -49,7 +49,7 @@ async def orig_message(bot: Bot, message_id: int) -> Optional[dict]:
 
 async def embed_message(
     bot: Bot, message: discord.Message, color: str = None, files: bool = True
-) -> Tuple[discord.Embed, List[discord.File]]:
+) -> Tuple[discord.Embed, list[discord.File]]:
     nsfw = message.channel.is_nsfw()
     content = utils.escmask(message.system_content)
 

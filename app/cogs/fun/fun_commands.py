@@ -1,5 +1,4 @@
 import random
-from typing import List
 
 import discord
 from discord.ext import commands, flags
@@ -162,8 +161,8 @@ class Fun(commands.Cog):
         if len(messages) == 0:
             await ctx.send("Nothing to show.")
             return
-        embeds: List[discord.Embed] = []
-        text_pages: List[str] = []
+        embeds: list[discord.Embed] = []
+        text_pages: list[str] = []
         for m in messages[place : place + 10]:
             orig = await self.bot.db.messages.get(m["orig_id"])
             obj = await self.bot.cache.fetch_message(

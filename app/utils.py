@@ -4,7 +4,7 @@ import re
 import signal
 import typing
 from functools import wraps
-from typing import Any, Dict, Iterable, List, Optional, Tuple, Union
+from typing import Any, Dict, Iterable, Optional, Tuple, Union
 
 import discord
 from discord import RequestsWebhookAdapter, Webhook
@@ -41,11 +41,11 @@ def webhooklog(content: str, url: str) -> None:
     webhook.send(content, username="Starboard Uptime")
 
 
-def get_intersect(list1: Iterable[Any], list2: Iterable[Any]) -> List[Any]:
+def get_intersect(list1: Iterable[Any], list2: Iterable[Any]) -> list[Any]:
     return [value for value in list1 if value in list2]
 
 
-def chunk_list(lst: List[Any], max_size: int) -> List[Any]:
+def chunk_list(lst: list[Any], max_size: int) -> list[Any]:
     """Use list(chunk_list(...)) or for lst in chunk_list(...)"""
     for i in range(0, len(lst), max_size):
         yield lst[i : i + max_size]
@@ -144,9 +144,9 @@ def clean_emoji(
 
 
 def convert_emojis(
-    emojis: List[Union[str, int, discord.Emoji]], guild: discord.Guild
-) -> List[str]:
-    result: List[str] = []
+    emojis: list[Union[str, int, discord.Emoji]], guild: discord.Guild
+) -> list[str]:
+    result: list[str] = []
     for e in emojis:
         eid = None
         if type(e) is not discord.Emoji:
@@ -164,7 +164,7 @@ def convert_emojis(
 
 
 def pretty_emoji_string(
-    emojis: List[Union[str, int, discord.Emoji]], guild: discord.Guild
+    emojis: list[Union[str, int, discord.Emoji]], guild: discord.Guild
 ) -> str:
     if len(emojis) == 0:
         return "None"
@@ -172,5 +172,5 @@ def pretty_emoji_string(
     return " ".join(converted)
 
 
-def pretty_channel_string(channels: List[int], guild: discord.Guild) -> str:
+def pretty_channel_string(channels: list[int], guild: discord.Guild) -> str:
     return ", ".join([f"<#{c}>" for c in channels]) or "None"

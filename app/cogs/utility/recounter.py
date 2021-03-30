@@ -1,5 +1,3 @@
-from typing import List
-
 import discord
 
 from app import utils
@@ -8,7 +6,7 @@ from app.cogs.starboard import starboard_funcs
 
 
 def needs_recount(
-    message: discord.Message, sbemojis: List[str], min_reactions: int
+    message: discord.Message, sbemojis: list[str], min_reactions: int
 ) -> bool:
     for r in message.reactions:
         if r.emoji not in sbemojis:
@@ -20,7 +18,7 @@ def needs_recount(
 
 
 async def recount_reactions(
-    bot: Bot, message: discord.Message, sbemojis: List[str] = None
+    bot: Bot, message: discord.Message, sbemojis: list[str] = None
 ) -> None:
     if not sbemojis:
         starboards = await bot.db.starboards.get_many(message.guild.id)

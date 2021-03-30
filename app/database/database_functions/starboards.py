@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Optional
 
 import asyncpg
 import discord
@@ -17,7 +17,7 @@ class Starboards:
             starboard_id,
         )
 
-    async def get_many(self, guild_id: int) -> List[dict]:
+    async def get_many(self, guild_id: int) -> list[dict]:
         return await self.db.fetch(
             """SELECT * FROM starboards
             WHERE guild_id=$1""",
@@ -68,14 +68,14 @@ class Starboards:
         images_only: bool = None,
         no_xp: bool = None,
         explore: bool = None,
-        star_emojis: List[str] = None,
+        star_emojis: list[str] = None,
         display_emoji: str = None,
         ping: bool = None,
         regex: str = None,
         exclude_regex: str = None,
         color: int = None,
-        channel_bl: List[int] = None,
-        channel_wl: List[int] = None,
+        channel_bl: list[int] = None,
+        channel_wl: list[int] = None,
     ) -> None:
         s = await self.get(starboard_id)
         if not s:

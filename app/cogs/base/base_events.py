@@ -2,7 +2,7 @@ import asyncio
 import datetime
 import os
 import traceback
-from typing import Any, List
+from typing import Any
 
 import aiohttp
 import discord
@@ -122,7 +122,7 @@ class BaseEvents(commands.Cog):
         self,
         title: str,
         error: Exception,
-        args: List[Any] = [],
+        args: list[Any] = [],
         kwargs: dict = {},
     ) -> None:
         p = commands.Paginator(prefix="```python")

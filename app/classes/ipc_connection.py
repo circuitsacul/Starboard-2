@@ -1,6 +1,6 @@
 import asyncio
 import json
-from typing import Optional, List, Union
+from typing import Optional, Union
 
 import websockets
 
@@ -25,7 +25,7 @@ class WebsocketConnection:
 
     async def send_command(
         self, name: str, data: dict, expect_resp: bool = False
-    ) -> Optional[List[str]]:
+    ) -> Optional[list[str]]:
         to_send = {
             "type": "command",
             "name": name,

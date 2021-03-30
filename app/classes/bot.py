@@ -6,7 +6,7 @@ import sys
 import textwrap
 import traceback
 from contextlib import redirect_stdout
-from typing import List, Optional, Union
+from typing import Optional, Union
 
 import discord
 from discord.ext import commands
@@ -107,7 +107,7 @@ class Bot(commands.AutoShardedBot):
 
     async def _prefix_callable(
         self, bot, message: discord.Message
-    ) -> List[str]:
+    ) -> list[str]:
         if message.guild:
             guild = await self.db.guilds.get(message.guild.id)
             if not guild:

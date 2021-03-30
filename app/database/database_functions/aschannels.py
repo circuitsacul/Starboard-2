@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Optional
 
 import asyncpg
 import discord
@@ -17,7 +17,7 @@ class ASChannels:
             aschannel_id,
         )
 
-    async def get_many(self, guild_id: int) -> List[dict]:
+    async def get_many(self, guild_id: int) -> list[dict]:
         return await self.db.fetch(
             """SELECT * FROM aschannels
             WHERE guild_id=$1""",
@@ -58,7 +58,7 @@ class ASChannels:
     async def edit(
         self,
         aschannel_id: int,
-        emojis: List[str] = None,
+        emojis: list[str] = None,
         min_chars: int = None,
         require_image: bool = None,
         regex: str = None,
@@ -117,7 +117,7 @@ class ASChannels:
             raise errors.AlreadyExists(
                 f"{emoji} is already an emoji on {aschannel_id}"
             )
-        new_emojis: List = aschannel["emojis"]
+        new_emojis: list = aschannel["emojis"]
         new_emojis.append(emoji)
         await self.edit(aschannel_id, emojis=new_emojis)
 
@@ -127,6 +127,6 @@ class ASChannels:
             raise errors.DoesNotExist(
                 f"{emoji} is not an emoji on {aschannel_id}"
             )
-        new_emojis: List = aschannel["emojis"]
+        new_emojis: list = aschannel["emojis"]
         new_emojis.remove(emoji)
         await self.edit(aschannel_id, emojis=new_emojis)

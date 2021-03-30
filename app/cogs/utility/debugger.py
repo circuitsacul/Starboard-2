@@ -1,5 +1,3 @@
-from typing import List
-
 import discord
 
 from app.classes.bot import Bot
@@ -21,10 +19,10 @@ async def debug_guild(bot: Bot, guild: discord.Guild) -> dict:
 
     # Check channel perms
     total_channels = len(guild.text_channels)
-    missing_send_messages: List[discord.TextChannel] = []
-    missing_embed_links: List[discord.TextChannel] = []
-    missing_read_messages: List[discord.TextChannel] = []
-    missing_read_history: List[discord.TextChannel] = []
+    missing_send_messages: list[discord.TextChannel] = []
+    missing_embed_links: list[discord.TextChannel] = []
+    missing_read_messages: list[discord.TextChannel] = []
+    missing_read_history: list[discord.TextChannel] = []
     for c in guild.text_channels:
         perms = c.permissions_for(guild.me)
         if not perms.send_messages:
