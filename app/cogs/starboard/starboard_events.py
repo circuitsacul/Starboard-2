@@ -116,7 +116,7 @@ class StarboardEvents(commands.Cog):
         self.bot.dispatch(
             "star_update",
             payload.member.id,
-            message.author.id,
+            int(sql_message["author_id"]),
             payload.guild_id,
             1,
         )
