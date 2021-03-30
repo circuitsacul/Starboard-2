@@ -419,11 +419,7 @@ async def handle_starboard(
         int(sql_message["id"]),
     )
 
-    blacklisted = (
-        sql_message["channel_id"] in sql_starboard["channel_bl"]
-        if not sql_starboard["channel_wl"]
-        else True
-    )
+    blacklisted = sql_message["channel_id"] in sql_starboard["channel_bl"]
     whitelisted = sql_message["channel_id"] in sql_starboard["channel_wl"]
     if whitelisted:
         blacklisted = False
