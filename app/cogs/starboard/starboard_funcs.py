@@ -25,14 +25,15 @@ def get_plain_text(
 
 
 async def sbemojis(bot: Bot, guild_id: int) -> list[str]:
-    starboards = await bot.db.starboards.get_many(guild_id)
-    _emojis = await bot.db.fetchval(
+    _emojis = await bot.db.fetch(
         """SELECT star_emojis FROM starboards
-        WHERE id=any($1::numeric[])""",
-        [s["id"] for s in starboards],
+        WHERE guild_id=$1""",
+        guild_id,
     )
     if _emojis:
-        emojis = [item for sublist in _emojis for item in sublist]
+        emojis = [
+            emoji for record in _emojis for emoji in record["star_emojis"]
+        ]
     else:
         emojis = []
     return emojis

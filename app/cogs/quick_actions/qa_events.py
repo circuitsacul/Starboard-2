@@ -48,9 +48,12 @@ class QAEvents(commands.Cog):
         sql_guild = await self.bot.db.guilds.get(payload.guild_id)
         if not sql_guild["qa_enabled"]:
             return
+
         emoji = utils.clean_emoji(payload.emoji)
-        if emoji in await starboard_funcs.sbemojis(self.bot, payload.guild_id):
+        all_emojis = await starboard_funcs.sbemojis(self.bot, payload.guild_id)
+        if emoji in all_emojis:
             return
+
         qa_type = qa_funcs.get_qa_type(emoji, sql_guild)
         if qa_type is None:
             return
