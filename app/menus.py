@@ -40,7 +40,6 @@ class Paginator(menus.Menu):
         super().__init__(
             clear_reactions_after=not delete_after,
             delete_message_after=delete_after,
-            auto_remove_reactions=True,
         )
         self.embeds = embeds
         self.text = text
