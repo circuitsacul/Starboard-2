@@ -1,4 +1,4 @@
-from typing import Dict, Optional
+from typing import Optional
 
 import discord
 
@@ -14,10 +14,10 @@ class Cache:
 
     async def get_members(
         self, uids: list[int], guild: discord.Guild
-    ) -> Dict[int, Optional[discord.Member]]:
+    ) -> dict[int, Optional[discord.Member]]:
         await self.bot.wait_until_ready()
         not_found: list[int] = []
-        result: Dict[int, Optional[discord.Member]] = {}
+        result: dict[int, Optional[discord.Member]] = {}
 
         for uid in uids:
             cached = guild.get_member(uid)
