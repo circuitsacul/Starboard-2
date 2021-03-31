@@ -22,3 +22,27 @@ SUPPORT_INVITE = ""  # Invite to support server
 BOT_INVITE = ""  # Bot invite
 SLASH_AUTH = ""  # Link to authorize slash commands
 DOCS = ""  # Link to documentation
+
+# Extensions
+EXTENSIONS = [
+    "app.cogs.base.base_commands",
+    "app.cogs.base.base_events",
+    "app.cogs.starboard.starboard_commands",
+    "app.cogs.starboard.starboard_events",
+    "app.cogs.owner.owner_commands",
+    "app.cogs.cache.cache_events",
+    "app.cogs.cache.cache",
+    "app.cogs.settings.settings_commands",
+    "app.cogs.utility.utility_commands",
+    "app.cogs.fun.fun_commands",
+    "app.cogs.leveling.leveling_events",
+    "app.cogs.quick_actions.qa_events",
+    "app.cogs.stats.stats_events",
+    "app.cogs.autostarchannels.asc_commands",
+    "app.cogs.autostarchannels.asc_events",
+    "app.cogs.slash.slash_commands",
+    "app.cogs.slash.slash_events",
+    "app.cogs.blacklist.bl_commands",
+    "app.cogs.global_checks",
+    "jishaku",
+]

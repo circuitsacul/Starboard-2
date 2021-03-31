@@ -9,28 +9,6 @@ import config
 from app.classes.bot import Bot
 from app.utils import webhooklog
 
-EXTENSIONS = [
-    "app.cogs.base.base_commands",
-    "app.cogs.base.base_events",
-    "app.cogs.starboard.starboard_commands",
-    "app.cogs.starboard.starboard_events",
-    "app.cogs.owner.owner_commands",
-    "app.cogs.cache.cache_events",
-    "app.cogs.cache.cache",
-    "app.cogs.settings.settings_commands",
-    "app.cogs.utility.utility_commands",
-    "app.cogs.fun.fun_commands",
-    "app.cogs.leveling.leveling_events",
-    "app.cogs.quick_actions.qa_events",
-    "app.cogs.stats.stats_events",
-    "app.cogs.autostarchannels.asc_commands",
-    "app.cogs.autostarchannels.asc_events",
-    "app.cogs.slash.slash_commands",
-    "app.cogs.slash.slash_events",
-    "app.cogs.blacklist.bl_commands",
-    "app.cogs.global_checks",
-    "jishaku",
-]
 INTENTS = Intents(
     messages=True, guilds=True, emojis=True, reactions=True, members=True
 )
@@ -54,7 +32,7 @@ class Cluster:
             theme_color=config.THEME_COLOR,
             dark_theme_color=config.DARK_THEME_COLOR,
             error_color=config.ERROR_COLOR,
-            initial_extensions=EXTENSIONS,
+            initial_extensions=config.EXTENSIONS,
             chunk_guilds_at_startup=False,
         )
         self.name = name
