@@ -494,7 +494,7 @@ class Starboard(commands.Cog):
         brief="Modify starEmojis for a starboard",
         invoke_without_command=True,
     )
-    @commands.has_guild_permissions(manage_guild=True)
+    @commands.has_guild_permissions(manage_channels=True)
     async def star_emojis(self, ctx: commands.Context) -> None:
         """Modify the star emojis for a starboard"""
         await ctx.send(
@@ -508,7 +508,7 @@ class Starboard(commands.Cog):
     @star_emojis.command(
         name="set", brief="Sets the starEmojis for a starboard"
     )
-    @commands.has_guild_permissions(manage_guild=True)
+    @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def set_star_emojis(
@@ -542,7 +542,7 @@ class Starboard(commands.Cog):
         )
 
     @star_emojis.command(name="add", aliases=["a"], brief="Add a starEmoji")
-    @commands.has_guild_permissions(manage_guild=True)
+    @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def add_star_emoji(
