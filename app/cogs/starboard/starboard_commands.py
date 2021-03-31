@@ -501,7 +501,44 @@ class Starboard(commands.Cog):
             "Options:\n "
             "- `starEmojis add <starboard> <emoji>`\n"
             " - `starEmojis remove <starboard> <emoji>`\n"
-            " - `starEmojis clear <starboard>`"
+            " - `starEmojis clear <starboard>`\n"
+            " - `starEmojis set <starboard> [emoji1, emoji2, ...]`"
+        )
+
+    @star_emojis.command(
+        name="set", brief="Sets the starEmojis for a starboard"
+    )
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def set_star_emojis(
+        self,
+        ctx: commands.Context,
+        starboard: converters.Starboard,
+        *emojis: converters.Emoji,
+    ) -> None:
+        """Accepts a list of emojis to replace the old starEmojis
+        on a starboard."""
+        converted_emojis = [utils.clean_emoji(e) for e in emojis]
+        original_emojis = starboard.sql["star_emojis"]
+
+        await self.bot.db.starboards.edit(
+            starboard.obj.id, star_emojis=converted_emojis
+        )
+
+        pretty_orig_emojis = utils.pretty_emoji_string(
+            original_emojis, ctx.guild
+        )
+        pretty_new_emojis = utils.pretty_emoji_string(
+            converted_emojis, ctx.guild
+        )
+
+        await ctx.send(
+            embed=utils.cs_embed(
+                {"starEmojis": (pretty_orig_emojis, pretty_new_emojis)},
+                self.bot,
+                noticks=True,
+            )
         )
 
     @star_emojis.command(name="add", aliases=["a"], brief="Add a starEmoji")
