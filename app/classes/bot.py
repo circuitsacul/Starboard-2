@@ -23,29 +23,21 @@ load_dotenv()
 
 class Bot(commands.AutoShardedBot):
     def __init__(self, **kwargs):
-        self.stats = {}
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
 
         self.theme_color = kwargs.pop("theme_color")
         self.dark_theme_color = kwargs.pop("dark_theme_color")
         self.error_color = kwargs.pop("error_color")
-        # self.db: Database = kwargs.pop("db")
-        self.db: Database = Database(
-            os.getenv("DB_NAME"),
-            os.getenv("DB_USER"),
-            os.getenv("DB_PASSWORD"),
-        )
-
-        self.pipe = kwargs.pop("pipe")
         self.cluster_name = kwargs.pop("cluster_name")
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
 
-        help_emojis = Navigation("⬅️", "➡️", "⏹️")
+        self._last_result = None
+        self.stats = {}
 
         super().__init__(
             help_command=PrettyHelp(
                 color=self.theme_color,
-                navigation=help_emojis,
+                navigation=Navigation("⬅️", "➡️", "⏹️"),
                 command_attrs={"name": "commands", "hidden": True},
             ),
             command_prefix=self._prefix_callable,
@@ -55,10 +47,10 @@ class Bot(commands.AutoShardedBot):
                 type=discord.ActivityType.watching, name="@Starboard help"
             ),
         )
-        self._last_result = None
-        log = logging.getLogger(f"Cluster#{self.cluster_name}")
-        log.setLevel(logging.DEBUG)
-        log.handlers = [
+
+        self.log = logging.getLogger(f"Cluster#{self.cluster_name}")
+        self.log.setLevel(logging.DEBUG)
+        self.log.handlers = [
             logging.FileHandler(
                 f"logs/cluster-{self.cluster_name}.log",
                 encoding="utf-8",
@@ -66,21 +58,24 @@ class Bot(commands.AutoShardedBot):
             )
         ]
 
+        self.db: Database = Database(
+            os.getenv("DB_NAME"),
+            os.getenv("DB_USER"),
+            os.getenv("DB_PASSWORD"),
+        )
+        self.pipe = kwargs.pop("pipe")
+        self.slash = SlashCommand(self, override_type=True)
         self.websocket = WebsocketConnection(
             self.cluster_name, self.handle_websocket_command, self.loop
         )
-        self.loop.run_until_complete(self.websocket.ensure_connection())
 
-        log.info(
+        self.loop.run_until_complete(self.websocket.ensure_connection())
+        self.loop.run_until_complete(self.db.init_database())
+
+        self.log.info(
             f'[Cluster#{self.cluster_name}] {kwargs["shard_ids"]}, '
             f'{kwargs["shard_count"]}'
         )
-        self.log = log
-        # self.loop.create_task(self.ensure_ipc())
-
-        self.loop.run_until_complete(self.db.init_database())
-
-        self.slash = SlashCommand(self, override_type=True)
 
         for ext in kwargs.pop("initial_extensions"):
             self.load_extension(ext)
