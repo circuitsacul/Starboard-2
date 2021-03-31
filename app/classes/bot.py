@@ -122,6 +122,7 @@ class Bot(commands.AutoShardedBot):
         return content.strip("` \n")
 
     async def close(self, *args, **kwargs):
+        await self.db.pool.close()
         self.log.info("shutting down")
         await self.websocket.close()
         await super().close()
