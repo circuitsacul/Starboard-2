@@ -17,7 +17,6 @@ from pretty_help import Navigation, PrettyHelp
 from app import checks
 from app.classes.ipc_connection import WebsocketConnection
 
-from ..cache import Cache
 from ..database.database import Database
 
 load_dotenv()
@@ -36,7 +35,6 @@ class Bot(commands.AutoShardedBot):
             os.getenv("DB_USER"),
             os.getenv("DB_PASSWORD"),
         )
-        self.cache = Cache(self)
 
         self.pipe = kwargs.pop("pipe")
         self.cluster_name = kwargs.pop("cluster_name")

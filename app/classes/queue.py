@@ -2,7 +2,7 @@ from typing import Any, Optional
 
 from discord import utils
 
-from . import errors
+from app import errors
 
 
 class LimitedQueue:

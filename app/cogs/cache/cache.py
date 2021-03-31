@@ -4,7 +4,8 @@ import discord
 
 from app import utils
 
-from . import queue
+from app.classes import queue
+from app.classes.bot import Bot
 
 
 class Cache:
@@ -60,3 +61,7 @@ class Cache:
             self.messages.add(guild.id, message)
             return message
         return cached
+
+
+def setup(bot: Bot) -> None:
+    bot.cache = Cache(bot)
