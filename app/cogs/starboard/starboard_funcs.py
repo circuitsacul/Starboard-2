@@ -51,7 +51,6 @@ async def orig_message(bot: Bot, message_id: int) -> Optional[dict]:
 async def embed_message(
     bot: Bot, message: discord.Message, color: str = None, files: bool = True
 ) -> tuple[discord.Embed, list[discord.File]]:
-    print(color, type(color))
     nsfw = message.channel.is_nsfw()
     content = utils.escmask(message.system_content)
 
