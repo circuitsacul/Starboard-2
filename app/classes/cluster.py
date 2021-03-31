@@ -28,6 +28,7 @@ EXTENSIONS = [
     "app.cogs.slash.slash_commands",
     "app.cogs.slash.slash_events",
     "app.cogs.blacklist.bl_commands",
+    "app.cogs.global_checks",
     "jishaku",
 ]
 INTENTS = Intents(

@@ -29,3 +29,9 @@ async def not_disabled(ctx: commands.Context) -> bool:
             "by the moderators of this server."
         )
     return True
+
+
+GLOBAL_CHECKS = [
+    not_disabled,
+    commands.bot_has_permissions(send_messages=True),
+]

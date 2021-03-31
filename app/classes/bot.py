@@ -86,9 +86,6 @@ class Bot(commands.AutoShardedBot):
         for ext in kwargs.pop("initial_extensions"):
             self.load_extension(ext)
 
-        self.add_check(checks.not_disabled)
-        self.add_check(commands.bot_has_permissions(send_messages=True))
-
         try:
             self.run(kwargs["token"])
         except Exception as e:
