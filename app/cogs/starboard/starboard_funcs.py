@@ -51,6 +51,7 @@ async def orig_message(bot: Bot, message_id: int) -> Optional[dict]:
 async def embed_message(
     bot: Bot, message: discord.Message, color: str = None, files: bool = True
 ) -> tuple[discord.Embed, list[discord.File]]:
+    print(color, type(color))
     nsfw = message.channel.is_nsfw()
     content = utils.escmask(message.system_content)
 
@@ -175,7 +176,9 @@ async def embed_message(
         content = content[:-to_remove]
 
     embed = discord.Embed(
-        color=bot.theme_color if color is None else int(color, 16),
+        color=bot.theme_color
+        if color is None
+        else int(color.replace("#", ""), 16),
         description=content,
     ).set_author(name=str(message.author), icon_url=message.author.avatar_url)
 

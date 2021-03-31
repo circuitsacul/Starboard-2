@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Union, Optional
 
 import discord
 from discord.ext import commands
@@ -171,8 +171,15 @@ class Starboard(commands.Cog):
         self,
         ctx: commands.Context,
         starboard: converters.Starboard,
-        color: converters.myhex,
+        *,
+        color: Optional[commands.ColorConverter],
     ) -> None:
+        color = (
+            str(color)
+            if color
+            else hex(self.bot.theme_color).replace("0x", "#")
+        )
+
         await self.bot.db.starboards.edit(starboard.obj.id, color=color)
         await ctx.send(
             embed=utils.cs_embed(
