@@ -112,6 +112,36 @@ class AutoStarChannels(commands.Cog):
             f" - {p}asc emojis add <aschannel> <emoji>\n"
             f" - {p}asc emojis remove <aschannel> <emoji>\n"
             f" - {p}asc emojis clear <aschannel>\n"
+            f" - {p}asc emojis set <aschannel> [emoji1, emoji2]"
+        )
+
+    @asemojis.command(
+        name="set", brief="Sets the emojis for an AutoStarChannel"
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def set_asemojis(
+        self,
+        ctx: commands.Context,
+        aschannel: converters.ASChannel,
+        *emojis: converters.Emoji,
+    ) -> None:
+        """Accepts a list of emojis to replace the original emojis with
+        on an AutoStarChannel."""
+        converted_emojis = [utils.clean_emoji(e) for e in emojis]
+
+        await self.bot.db.aschannels.edit(
+            aschannel.obj.id, emojis=converted_emojis
+        )
+
+        old = utils.pretty_emoji_string(aschannel.sql["emojis"], ctx.guild)
+        new = utils.pretty_emoji_string(converted_emojis, ctx.guild)
+
+        await ctx.send(
+            embed=utils.cs_embed(
+                {"emojis": (old, new)}, self.bot, noticks=True
+            )
         )
 
     @asemojis.command(
