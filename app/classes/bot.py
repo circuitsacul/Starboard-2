@@ -14,7 +14,6 @@ from discord_slash import SlashCommand
 from dotenv import load_dotenv
 from pretty_help import Navigation, PrettyHelp
 
-from app import checks
 from app.classes.ipc_connection import WebsocketConnection
 
 from ..database.database import Database
