@@ -18,6 +18,12 @@ from ...classes.bot import Bot
 load_dotenv()
 
 IGNORED_ERRORS = [commands.CommandNotFound, errors.AllCommandsDisabled]
+SEND_HELP = [
+    commands.MissingRequiredArgument,
+    discord.InvalidArgument,
+    commands.BadArgument,
+    flags.ArgumentParsingError,
+]
 EXPECTED_ERRORS = [
     errors.ConversionError,
     errors.DoesNotExist,
@@ -181,7 +187,13 @@ class BaseEvents(commands.Cog):
             return
         elif type(e) in EXPECTED_ERRORS:
             try:
-                await ctx.send(e)
+                if type(e) in SEND_HELP:
+                    await ctx.send(
+                        f"{e}\n\n```{ctx.prefix}{ctx.command} "
+                        f"{ctx.command.signature}```"
+                    )
+                else:
+                    await ctx.send(e)
             except discord.Forbidden:
                 await ctx.message.author.send(
                     "I don't have permission to send messages in "
