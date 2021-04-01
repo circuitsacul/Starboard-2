@@ -10,10 +10,11 @@ from dotenv import load_dotenv
 
 import config
 import ipc
-from i18n import current_locale
+from i18n import current_locale, _
 from app.classes.cluster import Cluster
 from app.utils import webhooklog
 
+current_locale.set("es")
 print(_("Test!"))
 
 load_dotenv()

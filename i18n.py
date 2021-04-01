@@ -1,4 +1,3 @@
-import builtins
 import contextvars
 import gettext
 import os.path
@@ -38,7 +37,7 @@ def use_current_gettext(*args, **kwargs):
 
 
 current_locale = contextvars.ContextVar("i18n")
-builtins._ = use_current_gettext
+_ = use_current_gettext
 
 
 def set_current_locale():
