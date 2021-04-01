@@ -40,6 +40,10 @@ current_locale = contextvars.ContextVar("i18n")
 t_ = use_current_gettext
 
 
+def ft_(m):
+    return m
+
+
 def set_current_locale():
     current_locale.set(LOCALE_DEFAULT)
 
