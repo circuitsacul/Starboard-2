@@ -4,7 +4,7 @@ import discord
 from discord.ext import commands
 
 from app.classes.bot import Bot
-from i18n import t_
+from app.i18n import t_
 
 from . import asc_funcs
 

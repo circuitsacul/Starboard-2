@@ -5,7 +5,7 @@ import config
 from app.utils import ms
 
 from ...classes.bot import Bot
-from i18n import ft_, t_
+from app.i18n import ft_, t_
 
 
 class Base(commands.Cog):

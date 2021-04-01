@@ -11,7 +11,7 @@ from discord.ext import commands, flags
 from dotenv import load_dotenv
 
 from app import utils
-from i18n import t_
+from app.i18n import t_
 
 from ... import errors
 from ...classes.bot import Bot
@@ -168,6 +168,7 @@ class BaseEvents(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message) -> None:
+        await self.bot.set_locale(message)
         if message.author.bot:
             return
         if message.content.replace("!", "") == self.bot.user.mention:
