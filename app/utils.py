@@ -7,6 +7,7 @@ from functools import wraps
 from typing import Any, Iterable, Optional, Union
 
 import discord
+from discord.ext import commands
 from discord import RequestsWebhookAdapter, Webhook
 
 if typing.TYPE_CHECKING:
@@ -174,3 +175,17 @@ def pretty_emoji_string(
 
 def pretty_channel_string(channels: list[int], guild: discord.Guild) -> str:
     return ", ".join([f"<#{c}>" for c in channels]) or "None"
+
+
+def clean_prefix(ctx: commands.Context):
+    """:class:`str`: The cleaned up invoke prefix. i.e. mentions
+    are ``@name`` instead of ``<@id>``."""
+    user = ctx.guild.me if ctx.guild else ctx.bot.user
+    # this breaks if the prefix mention is not the bot itself but I
+    # consider this to be an *incredibly* strange use case. I'd rather go
+    # for this common use case rather than waste performance for the
+    # odd one.
+    pattern = re.compile(r"<@!?%s>" % user.id)
+    return pattern.sub(
+        "@%s" % user.display_name.replace("\\", r"\\"), ctx.prefix
+    )

@@ -188,8 +188,9 @@ class BaseEvents(commands.Cog):
         elif type(e) in EXPECTED_ERRORS:
             try:
                 if type(e) in SEND_HELP:
+                    p = utils.clean_prefix(ctx)
                     await ctx.send(
-                        f"{e}\n\n```{ctx.prefix}{ctx.command} "
+                        f"{e}\n\n```{p}{ctx.command} "
                         f"{ctx.command.signature}```"
                     )
                 else:
