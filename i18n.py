@@ -37,7 +37,7 @@ def use_current_gettext(*args, **kwargs):
 
 
 current_locale = contextvars.ContextVar("i18n")
-_ = use_current_gettext
+trans = use_current_gettext
 
 
 def set_current_locale():
