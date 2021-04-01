@@ -11,6 +11,7 @@ from discord.ext import commands, flags
 from dotenv import load_dotenv
 
 from app import utils
+from i18n import t_
 
 from ... import errors
 from ...classes.bot import Bot
@@ -171,7 +172,7 @@ class BaseEvents(commands.Cog):
             return
         if message.content.replace("!", "") == self.bot.user.mention:
             p = utils.escmd((await self.bot.get_prefix(message))[0])
-            await message.channel.send(f"My prefix is `{p}`")
+            await message.channel.send(t_("My prefix is `{0}`").format(p))
         else:
             await self.bot.process_commands(message)
 
@@ -197,14 +198,15 @@ class BaseEvents(commands.Cog):
                     await ctx.send(e)
             except discord.Forbidden:
                 await ctx.message.author.send(
-                    "I don't have permission to send messages in "
-                    f"{ctx.channel.mention}, so I can't respond to "
-                    "your command."
+                    t_(
+                        "I don't have permission to send messages in "
+                        "{0}, so I can't respond to your command."
+                    ).format(ctx.channel.mention)
                 )
         else:
             embed = discord.Embed(
                 title="Something's Not Right",
-                description=(
+                description=t_(
                     "Something went wrong while "
                     "running this command. If the "
                     "problem persists, please report "

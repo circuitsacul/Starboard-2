@@ -3,6 +3,7 @@ from discord.ext import commands
 
 from app import converters, errors, utils, menus
 from app.classes.bot import Bot
+from i18n import t_
 
 
 class AutoStarChannels(commands.Cog):
@@ -30,18 +31,20 @@ class AutoStarChannels(commands.Cog):
 
             if len(aschannels) == 0:
                 await ctx.send(
-                    "You do not have any AutoStarChannels. use "
-                    f"`{p}asc add <channel>` to create one."
+                    t_(
+                        "You do not have any AutoStarChannels. use "
+                        "`{0}asc add <channel>` to create one."
+                    ).format(p)
                 )
                 return
 
             embed = discord.Embed(
                 title="AutoStarChannels",
-                description=(
+                description=t_(
                     "This lists all AutoStarChannels and their most "
-                    f"important settings. Use `{p}asc <aschannel>` to "
+                    "important settings. Use `{0}asc <aschannel>` to "
                     "view all settings."
-                ),
+                ).format(p),
                 color=self.bot.theme_color,
             )
             for asc in aschannels:
@@ -85,7 +88,9 @@ class AutoStarChannels(commands.Cog):
     ) -> None:
         """Creates an AutoStarChannel"""
         await self.bot.db.aschannels.create(channel.id, ctx.guild.id)
-        await ctx.send(f"Created AutoStarChannel {channel.mention}")
+        await ctx.send(
+            t_("Created AutoStarChannel {0.mention}").format(channel)
+        )
 
     @aschannels.command(
         name="remove", aliases=["r", "-"], brief="Removes an AutoStarChannel"
@@ -96,7 +101,9 @@ class AutoStarChannels(commands.Cog):
     ) -> None:
         """Deletes an AutoStarChannel"""
         await self.bot.db.aschannels.delete(aschannel.obj.id)
-        await ctx.send(f"Deleted AutoStarChannel {aschannel.obj.mention}.")
+        await ctx.send(
+            t_("Deleted AutoStarChannel {0.obj.mention}.").format(aschannel)
+        )
 
     @aschannels.group(
         name="emojis",
@@ -108,11 +115,13 @@ class AutoStarChannels(commands.Cog):
     async def asemojis(self, ctx: commands.Context) -> None:
         p = utils.clean_prefix(ctx)
         await ctx.send(
-            "Options:\n```"
-            f" - {p}asc emojis add <aschannel> <emoji>\n"
-            f" - {p}asc emojis remove <aschannel> <emoji>\n"
-            f" - {p}asc emojis clear <aschannel>\n"
-            f" - {p}asc emojis set <aschannel> [emoji1, emoji2]```"
+            t_(
+                "Options:\n```"
+                " - {0}asc emojis add <aschannel> <emoji>\n"
+                " - {0}asc emojis remove <aschannel> <emoji>\n"
+                " - {0}asc emojis clear <aschannel>\n"
+                " - {0}asc emojis set <aschannel> [emoji1, emoji2]```"
+            ).format(p)
         )
 
     @asemojis.command(
@@ -224,8 +233,9 @@ class AutoStarChannels(commands.Cog):
     ) -> None:
         """Removes all emojis from an AutoStarChannel"""
         if not await menus.Confirm(
-            "Are you sure you want to clear all emojis "
-            f"for {aschannel.mention}?"
+            t_(
+                "Are you sure you want to clear all emojis " "for {0.mention}?"
+            ).format(aschannel)
         ).start(ctx):
             await ctx.send("Cancelled")
             return

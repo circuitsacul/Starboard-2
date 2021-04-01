@@ -5,6 +5,7 @@ import discord
 
 from app import utils
 from app.classes.bot import Bot
+from i18n import t_
 
 
 def try_regex(
@@ -15,12 +16,12 @@ def try_regex(
     except TimeoutError:
         bot.dispatch(
             "guild_log",
-            (
-                f"I tried to match `{pattern}` to [a message]"
-                f"({message.jump_url}), but it took too long. "
+            t_(
+                "I tried to match `{0}` to [a message]"
+                "({1.jump_url}), but it took too long. "
                 "Try improving the efficiency of your regex, and "
                 "feel free to join the support server for help."
-            ),
+            ).format(pattern, message),
         )
         return True
     if result is not None:
@@ -35,16 +36,18 @@ def is_valid(
         if len(message.attachments) == 0:
             return False, "Messages must have an image attached"
     if len(message.system_content) < aschannel["min_chars"]:
-        return False, (
-            f"Messages must be at least {aschannel['min_chars']} " "characters"
+        return False, t_("Messages must be at least {0} characters").format(
+            aschannel["min_chars"]
         )
     if aschannel["regex"]:
         if not try_regex(bot, message, aschannel["regex"]):
-            return False, f"Messages must match `{aschannel['regex']}`"
+            return False, t_("Messages must match `{0}`").format(
+                aschannel["regex"]
+            )
     if aschannel["exclude_regex"]:
         if not try_regex(bot, message, aschannel["exclude_regex"]):
-            return False, (
-                f"Messages must not match `{aschannel['exclude_regex']}`"
+            return False, t_(f"Messages must not match `{0}`").format(
+                aschannel["exclude_regex"]
             )
     return True, ""
 
@@ -58,23 +61,24 @@ async def handle_message(
             try:
                 await message.delete()
             except discord.Forbidden:
-                j = message.jump_url
                 bot.dispatch(
                     "guild_log",
-                    (
-                        f"I tried to delete [a message]({j}) that didn't "
-                        f"meet the requirements of {message.channel.mention}, "
+                    t_(
+                        "I tried to delete [a message]({0.jump_url}) that "
+                        "didn't meet the requirements of {0.channel.mention}, "
                         "but I don't have the proper permissions."
-                    ),
+                    ).format(message),
                     "error",
                     message.guild,
                 )
             else:
                 try:
                     await message.author.send(
-                        f"Your message in {message.channel.mention} was "
-                        f"deleted, because {reason.lower()}. Here is your "
-                        "message:"
+                        t_(
+                            "Your message in {0} was "
+                            "deleted, because {1}. Here is your "
+                            "message:"
+                        ).format(message.channel.mention, reason.lower())
                     )
                     await message.author.send(message.content)
                 except discord.Forbidden:
