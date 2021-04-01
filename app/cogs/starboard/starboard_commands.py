@@ -504,12 +504,13 @@ class Starboard(commands.Cog):
     @commands.has_guild_permissions(manage_channels=True)
     async def star_emojis(self, ctx: commands.Context) -> None:
         """Modify the star emojis for a starboard"""
+        p = utils.clean_prefix(ctx)
         await ctx.send(
-            "Options:\n "
-            "- `starEmojis add <starboard> <emoji>`\n"
-            " - `starEmojis remove <starboard> <emoji>`\n"
-            " - `starEmojis clear <starboard>`\n"
-            " - `starEmojis set <starboard> [emoji1, emoji2, ...]`"
+            "Options:\n```"
+            f" - {p}starEmojis add <starboard> <emoji>\n"
+            f" - {p}starEmojis remove <starboard> <emoji>\n"
+            f" - {p}starEmojis clear <starboard>\n"
+            f" - {p}starEmojis set <starboard> [emoji1, emoji2, ...]```"
         )
 
     @star_emojis.command(
