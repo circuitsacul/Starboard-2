@@ -40,7 +40,7 @@ subprocess.run(
         "--files-from=-",
         "--from-code=UTF-8",
         "--keyword",
-        "--keyword=_",
+        "--keyword=t_",
         "-o",
         file,
     ],
