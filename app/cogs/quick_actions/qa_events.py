@@ -3,6 +3,7 @@ from typing import Optional
 import discord
 from discord.ext import commands
 
+from app.i18n import t_
 from app import utils
 from app.classes.bot import Bot
 from app.cogs.starboard import starboard_funcs
@@ -166,7 +167,7 @@ async def qa_save(
         and not member.guild_permissions.manage_messages
     ):
         try:
-            await member.send("You cannot save a trashed message.")
+            await member.send(t_("You cannot save a trashed message."))
         except discord.Forbidden:
             pass
         return
