@@ -914,27 +914,29 @@ msgstr ""
 msgid ""
 "I couldn't freeze the message because it does not exist in the database."
 msgstr ""
+"In the database, that message exists not."
 
 #: app/cogs/utility/utility_commands.py:174
 msgid ""
 "I can't unfreeze that messsage because it does not exist in the database."
 msgstr ""
+"In the database, that message exists not."
 
 #: app/cogs/utility/utility_commands.py:181
 msgid "Message unfrozen"
-msgstr ""
+msgstr "The message unfrozen has been."
 
 #: app/cogs/utility/utility_commands.py:215
 msgid "Force this message to all starboards?"
-msgstr ""
+msgstr "To all starboards this message force?"
 
 #: app/cogs/utility/utility_commands.py:243
 msgid "Message forced to all starboards"
-msgstr ""
+msgstr "To all starboards, this message has been forced."
 
 #: app/cogs/utility/utility_commands.py:276
 msgid "That message does not exist in the database"
-msgstr ""
+msgstr "Exist in the database, that message does not."
 
 #: app/cogs/utility/utility_commands.py:280
 #, python-brace-format
@@ -942,25 +944,27 @@ msgid ""
 "The message you passed appears to be a starboard message. Would you like to "
 "unforce this message from {0} instead?"
 msgstr ""
+"A starboard message, that message is. Rather would you, from {0} unforce "
+"this message instead?"
 
 #: app/cogs/utility/utility_commands.py:289
 msgid "Unforce this message from all starboards?"
-msgstr ""
+msgstr "From all starboards, this message unforce?"
 
 #: app/cogs/utility/utility_commands.py:301
 msgid "Message unforced from all starboards"
-msgstr ""
+msgstr "Unforced from all starboards, this message has been."
 
 #: app/cogs/utility/utility_commands.py:322
 #: app/cogs/utility/utility_commands.py:372
 #: app/cogs/utility/utility_commands.py:526
 msgid "That message does not exist in the database."
-msgstr ""
+msgstr "Exist in the database, that message does not."
 
 #: app/cogs/utility/utility_commands.py:327
 #, python-brace-format
 msgid "Set the reason to {0}"
-msgstr ""
+msgstr "Set to {0} the reason has been."
 
 #: app/cogs/utility/utility_commands.py:350
 msgid "That message has not been starred, so I can't trash it."
