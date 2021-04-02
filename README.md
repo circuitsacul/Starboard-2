@@ -4,7 +4,7 @@
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/CircuitsBots/Starboard-2/graphs/commit-activity)
 [![Stars](https://img.shields.io/github/stars/CircuitsBots/Starboard-2?style=social)](https://GitHub.com/CircuitsBots/Starboard-2/stargazers)
 
-:warning: This repo is under constant, daily development, and I'm making breaking changes on a daily basis. Until I finish the basics of this bot, I will not include database migrations. I would highly recommend waiting until I finish (maybe a month) before trying to self-host this bot. :warning:
+:warning: This repo is under constant development, and I'm making breaking changes on a daily basis. Until I finish the basics of this bot, I will not include database migrations. I would highly recommend waiting until I finish (maybe a month) before trying to self-host this bot. :warning:
 
 A complete rewrite of Starboard
 
