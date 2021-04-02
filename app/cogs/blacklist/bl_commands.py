@@ -3,6 +3,7 @@ from discord.ext import commands
 
 from app import converters, errors, utils, menus
 from app.classes.bot import Bot
+from app.i18n import t_
 
 
 class Blacklist(commands.Cog):
@@ -31,7 +32,7 @@ class Blacklist(commands.Cog):
             _bl_string
             if wl_channels == []
             else _bl_string
-            + (
+            + t_(
                 " (All channels are blacklisted, since "
                 "there are whitelisted channels)"
             )
@@ -39,11 +40,13 @@ class Blacklist(commands.Cog):
 
         embed = (
             discord.Embed(
-                title=f"Blacklist/Whitelist for {starboard.obj.name}",
+                title=t_("Blacklist/Whitelist for {0}").format(
+                    starboard.obj.name
+                ),
                 color=self.bot.theme_color,
             )
-            .add_field(name="Blacklisted Channels", value=bl_string)
-            .add_field(name="Whitelisted Channels", value=wl_string)
+            .add_field(name=t_("Blacklisted Channels"), value=bl_string)
+            .add_field(name=t_("Whitelisted Channels"), value=wl_string)
         )
 
         await ctx.send(embed=embed)
@@ -63,14 +66,16 @@ class Blacklist(commands.Cog):
         new_bl = starboard.sql["channel_bl"]
         if channel.id in new_bl:
             raise errors.AlreadyExists(
-                f"{channel.mention} is already blacklisted on "
-                f"{starboard.obj.mention}"
+                t_("{0} is already blacklisted on {1}").format(
+                    channel.mention, starboard.obj.mention
+                )
             )
         new_bl.append(channel.id)
         await self.bot.db.starboards.edit(starboard.obj.id, channel_bl=new_bl)
         await ctx.send(
-            f"Added {channel.mention} to the blacklist on "
-            f"{starboard.obj.mention}."
+            t_("Added {0} to the blacklist on {1}").format(
+                channel.mention, starboard.obj.mention
+            )
         )
 
     @blacklist.command(
@@ -88,14 +93,16 @@ class Blacklist(commands.Cog):
         new_bl = starboard.sql["channel_bl"]
         if channel.id not in new_bl:
             raise errors.DoesNotExist(
-                f"{channel.mention} is not blacklisted on "
-                f"{starboard.obj.mention}"
+                t_("{0} is not blacklisted on {1}").format(
+                    channel.mention, starboard.obj.mention
+                )
             )
         new_bl.remove(channel.id)
         await self.bot.db.starboards.edit(starboard.obj.id, channel_bl=new_bl)
         await ctx.send(
-            f"Removed {channel.mention} from the blacklist on "
-            f"{starboard.obj.mention}."
+            t_("Removed {0} from the blacklist on {1}").format(
+                channel.mention, starboard.obj.mention
+            )
         )
 
     @blacklist.command(
@@ -110,14 +117,17 @@ class Blacklist(commands.Cog):
         self, ctx: commands.Context, starboard: converters.Starboard
     ) -> None:
         if not await menus.Confirm(
-            "Are you sure you want to clear the blacklist "
-            f"for {starboard.mention}?"
+            t_("Are you sure you want to clear the blacklist for {0}?").format(
+                starboard.mention
+            )
         ).start(ctx):
             await ctx.send("Cancelled")
             return
 
         await self.bot.db.starboards.edit(starboard.obj.id, channel_bl=[])
-        await ctx.send(f"Cleared the blacklist for {starboard.obj.mention}.")
+        await ctx.send(
+            t_("Cleared the blacklist for {0}.").format(starboard.obj.mention)
+        )
 
     @commands.group(
         name="whitelist",
@@ -146,15 +156,17 @@ class Blacklist(commands.Cog):
     ) -> None:
         if channel.id in starboard.sql["channel_wl"]:
             raise errors.AlreadyExists(
-                f"{channel.mention} is already whitelisted on "
-                f"{starboard.obj.mention}."
+                t_("{0} is already whitelisted on {1}").format(
+                    channel.mention, starboard.obj.mention
+                )
             )
         new_wl = starboard.sql["channel_wl"]
         new_wl.append(channel.id)
         await self.bot.db.starboards.edit(starboard.obj.id, channel_wl=new_wl)
         await ctx.send(
-            f"Added {channel.mention} to the whitelist for "
-            f"{starboard.obj.mention}"
+            t_("Added {0} to the whitelist for {1}").format(
+                channel.mention, starboard.obj.mention
+            )
         )
 
     @whitelist.command(
@@ -171,15 +183,17 @@ class Blacklist(commands.Cog):
     ) -> None:
         if channel.id not in starboard.sql["channel_wl"]:
             raise errors.DoesNotExist(
-                f"{channel.mention} is not whitelisted on "
-                f"{starboard.obj.mention}."
+                t_("{0} is not whitelisted on {1}").format(
+                    channel.mention, starboard.obj.mention
+                )
             )
         new_wl = starboard.sql["channel_wl"]
         new_wl.remove(channel.id)
         await self.bot.db.starboards.edit(starboard.obj.id, channel_wl=new_wl)
         await ctx.send(
-            f"Removed {channel.mention} from the whitelist on "
-            f"{starboard.obj.mention}."
+            t_("Removed {0} from the whitelist on {1}").format(
+                channel.mention, starboard.obj.mention
+            )
         )
 
     @whitelist.command(
@@ -194,14 +208,17 @@ class Blacklist(commands.Cog):
         self, ctx: commands.Context, starboard: converters.Starboard
     ) -> None:
         if not await menus.Confirm(
-            "Are you sure you want to clear the whitelist "
-            f"for {starboard.obj.mention}?"
+            t_("Are you sure you want to clear the whitelist for {0}?").format(
+                starboard.obj.mention
+            )
         ).start(ctx):
             await ctx.send("Cancelled")
             return
 
         await self.bot.db.starboards.edit(starboard.obj.id, channel_wl=[])
-        await ctx.send(f"Cleared the whitelist for {starboard.obj.mention}.")
+        await ctx.send(
+            t_("Cleared the whitelist for {0}.").format(starboard.obj.mention)
+        )
 
 
 def setup(bot: Bot) -> None:
