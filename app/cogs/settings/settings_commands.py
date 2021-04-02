@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands, flags
 
 from app import converters, errors, utils, menus
+from app.i18n import t_
 from app.classes.bot import Bot
 from app.cogs.quick_actions import qa_funcs
 
@@ -17,6 +18,23 @@ class Settings(commands.Cog):
 
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
+
+    @commands.command(
+        name="guildlanguage",
+        aliases=["guildlang"],
+        brief="Set the language for the server",
+        invoke_without_command=True,
+    )
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.guild_only()
+    async def set_guild_lang(self, ctx: commands.Context, locale: str) -> None:
+        """Sets the language for the server"""
+        await self.bot.db.guilds.set_locale(ctx.guild.id, locale)
+        if ctx.guild.id in self.bot.locale_cache:
+            self.bot.locale_cache[ctx.guild.id] = locale
+        await ctx.send(
+            t_("Set the language for this server to {0}").format(locale)
+        )
 
     @commands.command(
         name="disabled",

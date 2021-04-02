@@ -14,6 +14,7 @@ from discord_slash import SlashCommand
 from dotenv import load_dotenv
 from pretty_help import Navigation, PrettyHelp
 
+from app import i18n
 from app.classes.ipc_connection import WebsocketConnection
 
 from ..database.database import Database
@@ -33,6 +34,7 @@ class Bot(commands.AutoShardedBot):
 
         self._last_result = None
         self.stats = {}
+        self.locale_cache = {}
 
         super().__init__(
             help_command=PrettyHelp(
@@ -86,6 +88,16 @@ class Bot(commands.AutoShardedBot):
             raise e from e
         else:
             sys.exit(-1)
+
+    async def set_locale(self, message: discord.Message) -> None:
+        if message.guild.id in self.locale_cache:
+            locale = self.locale_cache[message.guild.id]
+        else:
+            guild = await self.db.guilds.get(message.guild.id)
+            locale = guild["locale"]
+            self.locale_cache[message.guild.id] = locale
+
+        i18n.current_locale.set(locale)
 
     async def on_message(self, message):
         pass

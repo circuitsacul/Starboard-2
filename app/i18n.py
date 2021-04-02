@@ -3,7 +3,7 @@ import gettext
 import os.path
 from glob import glob
 
-BASE_DIR = "."  # change this if you store your files under `src/` or similar
+BASE_DIR = "app/"
 LOCALE_DEFAULT = "en_US"
 LOCALE_DIR = "locale"
 locales = frozenset(

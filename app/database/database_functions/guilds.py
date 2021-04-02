@@ -2,10 +2,23 @@ from typing import Optional
 
 import asyncpg
 
+from app import i18n, errors
+
 
 class Guilds:
     def __init__(self, db) -> None:
         self.db = db
+
+    async def set_locale(self, guild_id: int, locale: str) -> None:
+        if locale not in i18n.locales:
+            raise errors.InvalidLocale(locale)
+        await self.db.execute(
+            """UPDATE guilds
+            SET locale=$1
+            WHERE id=$2""",
+            locale,
+            guild_id,
+        )
 
     async def get(self, guild_id: int) -> Optional[dict]:
         sql_guild = await self.db.fetchrow(
