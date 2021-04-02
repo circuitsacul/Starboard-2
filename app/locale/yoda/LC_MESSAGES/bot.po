@@ -668,17 +668,17 @@ msgstr ""
 #: app/cogs/autostarchannels/asc_funcs.py:39
 #, python-brace-format
 msgid "Messages must be at least {0} characters"
-msgstr ""
+msgstr "At least {0} characters, messages must be"
 
 #: app/cogs/autostarchannels/asc_funcs.py:44
 #, python-brace-format
 msgid "Messages must match `{0}`"
-msgstr ""
+msgstr "Match `{0}`, messages must"
 
 #: app/cogs/autostarchannels/asc_funcs.py:49
 #, python-brace-format
 msgid "Messages must not match `{0}`"
-msgstr ""
+msgstr "Match `{0}`, messages must not"
 
 #: app/cogs/autostarchannels/asc_funcs.py:67
 #, python-brace-format
@@ -691,11 +691,12 @@ msgstr ""
 #, python-brace-format
 msgid "Your message in {0} was deleted, because {1}. Here is your message:"
 msgstr ""
+"Deleted in {0} your messages was.\n{1}\nYour message below, found can be."
 
 #: app/cogs/autostarchannels/asc_events.py:31
 #, python-brace-format
 msgid "`{0}` was deleted so I removed that AutoStarChannel."
-msgstr ""
+msgstr "`{0}` deleted was. Removed that AutoStarChannel, I did."
 
 #: app/cogs/autostarchannels/asc_commands.py:35
 #, python-brace-format
@@ -703,6 +704,7 @@ msgid ""
 "You do not have any AutoStarChannels. use `{0}asc add <channel>` to create "
 "one."
 msgstr ""
+"Have any AutoStarChannels, you do not. `{0}asc add <channel` use to one create."
 
 #: app/cogs/autostarchannels/asc_commands.py:44
 #, python-brace-format
@@ -710,16 +712,18 @@ msgid ""
 "This lists all AutoStarChannels and their most important settings. Use `{0}"
 "asc <aschannel>` to view all settings."
 msgstr ""
+"Lists all AutoStarChanels and their most important settings, this does. "
+"`{0}asc <aschannel>` use to all settings view."
 
 #: app/cogs/autostarchannels/asc_commands.py:92
 #, python-brace-format
 msgid "Created AutoStarChannel {0.mention}"
-msgstr ""
+msgstr "AutoStarChannel {0.mention}, created I have."
 
 #: app/cogs/autostarchannels/asc_commands.py:105
 #, python-brace-format
 msgid "Deleted AutoStarChannel {0.obj.mention}."
-msgstr ""
+msgstr "AutoStarChannel {0.obj.mention}, deleted I have."
 
 #: app/cogs/autostarchannels/asc_commands.py:119
 #, python-brace-format
@@ -734,16 +738,16 @@ msgstr ""
 #: app/cogs/autostarchannels/asc_commands.py:237
 #, python-brace-format
 msgid "Are you sure you want to clear all emojis for {0.mention}?"
-msgstr ""
+msgstr "Clear all emojis for {0.mention, sure you are?"
 
 #: app/cogs/quick_actions/qa_events.py:170
 msgid "You cannot save a trashed message."
-msgstr ""
+msgstr "Save a trashed message, you cannot."
 
 #: app/cogs/base/base_events.py:176
 #, python-brace-format
 msgid "My prefix is `{0}`"
-msgstr ""
+msgstr "`{0}` my prefix is."
 
 #: app/cogs/base/base_events.py:203
 #, python-brace-format
@@ -751,12 +755,16 @@ msgid ""
 "I don't have permission to send messages in {0}, so I can't respond to your "
 "command."
 msgstr ""
+"Have permission to send messages in {0}, I do not. Respond to your command, "
+"I cannot."
 
 #: app/cogs/base/base_events.py:211
 msgid ""
 "Something went wrong while running this command. If the problem persists, "
 "please report this in the support server."
 msgstr ""
+"Go wrong, something did. If persists this problem, report this in the support "
+"you may."
 
 #: app/cogs/base/base_commands.py:44
 #, python-brace-format
@@ -841,29 +849,29 @@ msgstr ""
 #: app/cogs/base/base_commands.py:167
 #, python-brace-format
 msgid "{0} is a bot. How many times do you think they've voted?"
-msgstr ""
+msgstr "A bot, {0} is. Vote, they cannot."
 
 #: app/cogs/base/base_commands.py:179
 msgid "Vote for Starboard"
-msgstr ""
+msgstr "For Starboard, Vote"
 
 #: app/cogs/base/base_commands.py:181
 #, python-brace-format
 msgid "You have voted **{0}** time(s)"
-msgstr ""
+msgstr "**{0}** time(s), you have voted."
 
 #: app/cogs/base/base_commands.py:183
 #, python-brace-format
 msgid "**{0}** has voted **{1}** time(s)"
-msgstr ""
+msgstr "**{1}** time(s), **{0}** has voted."
 
 #: app/cogs/utility/utility_commands.py:27
 msgid "Must recount at least 1 message."
-msgstr ""
+msgstr "Recount at least 1 message, you must"
 
 #: app/cogs/utility/utility_commands.py:30
 msgid "Can only recount up to 1,000 messages."
-msgstr ""
+msgstr "Up to 1,000 messages only, I can recount."
 
 #: app/cogs/utility/utility_commands.py:105
 #, python-brace-format
