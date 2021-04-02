@@ -75,7 +75,7 @@ def cs_text(changes: dict[str, tuple[Any, Any]], noticks: bool = False) -> str:
         ]
     )
     if text == "":
-        text = t_("No changed settings")
+        text = t_("No changed settings.")
     return text
 
 

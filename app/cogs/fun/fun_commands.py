@@ -50,7 +50,7 @@ class Fun(commands.Cog):
 
         embeds = [
             discord.Embed(
-                title=t_("Leaderboard for {0}").format(ctx.guild.name),
+                title=t_("Leaderboard for {0}:").format(ctx.guild.name),
                 description=page,
                 color=self.bot.theme_color,
             )
@@ -308,7 +308,7 @@ class Fun(commands.Cog):
         m = message
         if orig_sql_message:
             if orig_sql_message["trashed"]:
-                await ctx.send(t_("You cannot save a trashed message"))
+                await ctx.send(t_("You cannot save a trashed message."))
                 return
             orig_message = await self.bot.cache.fetch_message(
                 int(orig_sql_message["guild_id"]),

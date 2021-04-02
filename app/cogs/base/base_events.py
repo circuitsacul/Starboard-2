@@ -173,7 +173,7 @@ class BaseEvents(commands.Cog):
             return
         if message.content.replace("!", "") == self.bot.user.mention:
             p = utils.escmd((await self.bot.get_prefix(message))[0])
-            await message.channel.send(t_("My prefix is `{0}`").format(p))
+            await message.channel.send(t_("My prefix is `{0}`.").format(p))
         else:
             await self.bot.process_commands(message)
 
@@ -260,8 +260,8 @@ class BaseEvents(commands.Cog):
         if not level_channel:
             return
         embed = discord.Embed(
-            title=f"{user.name} Leveled up!",
-            description=f"They are now level **{level}**!",
+            title=t_("{0} Leveled up!").format(user.name),
+            description=t_("They are now level **{0}**!").format(level),
             color=self.bot.theme_color,
         ).set_author(name=str(user), icon_url=user.avatar_url)
         embed.timestamp = datetime.datetime.utcnow()

@@ -48,7 +48,7 @@ def myint(arg: str) -> int:
         raise flags.ArgumentParsingError(
             t_(
                 "I couldn't interpret `{0}` as an integer (number). "
-                "Please pass something like `10` or `2`"
+                "Please pass something like `10` or `2`."
             ).format(arg)
         )
 

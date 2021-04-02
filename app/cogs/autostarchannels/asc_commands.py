@@ -89,7 +89,7 @@ class AutoStarChannels(commands.Cog):
         """Creates an AutoStarChannel"""
         await self.bot.db.aschannels.create(channel.id, ctx.guild.id)
         await ctx.send(
-            t_("Created AutoStarChannel {0.mention}").format(channel)
+            t_("Created AutoStarChannel {0}.").format(channel.mention)
         )
 
     @aschannels.command(
@@ -102,7 +102,7 @@ class AutoStarChannels(commands.Cog):
         """Deletes an AutoStarChannel"""
         await self.bot.db.aschannels.delete(aschannel.obj.id)
         await ctx.send(
-            t_("Deleted AutoStarChannel {0.obj.mention}.").format(aschannel)
+            t_("Deleted AutoStarChannel {0}.").format(aschannel.obj.mention)
         )
 
     @aschannels.group(
@@ -174,7 +174,9 @@ class AutoStarChannels(commands.Cog):
         except errors.AlreadyExists:
             # Raise a more user-friendly error message
             raise errors.AlreadyExists(
-                f"{emoji} is already an emoji on {aschannel.obj.mention}"
+                t_("{0} is already an emoji on {1}.").format(
+                    emoji, aschannel.obj.mention
+                )
             )
         old = utils.pretty_emoji_string(aschannel.sql["emojis"], ctx.guild)
         new = utils.pretty_emoji_string(
@@ -208,7 +210,9 @@ class AutoStarChannels(commands.Cog):
             )
         except errors.DoesNotExist:
             raise errors.DoesNotExist(
-                f"{emoji} is not an emoji on {aschannel.obj.mention}"
+                t_("{0} is not an emoji on {1}.").format(
+                    emoji, aschannel.obj.mention
+                )
             )
         _new = aschannel.sql["emojis"]
         old = utils.pretty_emoji_string(aschannel.sql["emojis"], ctx.guild)
@@ -233,9 +237,9 @@ class AutoStarChannels(commands.Cog):
     ) -> None:
         """Removes all emojis from an AutoStarChannel"""
         if not await menus.Confirm(
-            t_(
-                "Are you sure you want to clear all emojis " "for {0.mention}?"
-            ).format(aschannel)
+            t_("Are you sure you want to clear all emojis for {0}?").format(
+                aschannel.mention
+            )
         ).start(ctx):
             await ctx.send("Cancelled")
             return

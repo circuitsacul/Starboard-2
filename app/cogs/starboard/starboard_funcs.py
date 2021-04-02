@@ -542,7 +542,7 @@ async def handle_starboard(
                                 "permissions. If you don't want me to "
                                 "autoreact to messages, set the AutoReact "
                                 "setting to False with `starboards cs "
-                                "#{0} --autoReact False`"
+                                "#{0} --autoReact False`."
                             ).format(starboard.name),
                             "error",
                             guild,

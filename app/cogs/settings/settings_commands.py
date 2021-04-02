@@ -33,7 +33,7 @@ class Settings(commands.Cog):
         if ctx.guild.id in self.bot.locale_cache:
             self.bot.locale_cache[ctx.guild.id] = locale
         await ctx.send(
-            t_("Set the language for this server to {0}").format(locale)
+            t_("Set the language for this server to {0}.").format(locale)
         )
 
     @commands.command(
@@ -52,7 +52,7 @@ class Settings(commands.Cog):
             await ctx.send(
                 t_(
                     "No disabled commands. Disable a command with `{0}disable "
-                    "<command>`"
+                    "<command>`."
                 ).format(p)
             )
             return
@@ -60,13 +60,13 @@ class Settings(commands.Cog):
         for c in guild["disabled_commands"]:
             string += f"`{c}`\n"
         embed = discord.Embed(
-            title=t_("Disabled Commands"),
+            title=t_("Disabled Commands:"),
             description=string,
             color=self.bot.theme_color,
         ).set_footer(
             text=t_(
-                "Disable a command with {0}disable <command>\n"
-                "Enable a command with {p}enable <command>"
+                "Disable a command with `{0}disable <command>`.\n"
+                "Enable a command with `{0}enable <command>`."
             ).format(p)
         )
         await ctx.send(embed=embed)
@@ -82,7 +82,7 @@ class Settings(commands.Cog):
         name = command.qualified_name
         new_commands = guild["disabled_commands"]
         if name in new_commands:
-            raise errors.AlreadyExists(t_("That command is already disabled"))
+            raise errors.AlreadyExists(t_("That command is already disabled."))
         new_commands.append(name)
         await self.bot.db.execute(
             """UPDATE guilds
@@ -91,7 +91,7 @@ class Settings(commands.Cog):
             new_commands,
             ctx.guild.id,
         )
-        await ctx.send(t_("Disabled `{0}`").format(name))
+        await ctx.send(t_("Disabled `{0}`.").format(name))
 
     @commands.command(name="enable", brief="Enables a command")
     @commands.has_guild_permissions(manage_guild=True)
@@ -103,7 +103,7 @@ class Settings(commands.Cog):
         name = command.qualified_name
         new_commands = guild["disabled_commands"]
         if name not in new_commands:
-            raise errors.DoesNotExist("That command is not disabled")
+            raise errors.DoesNotExist("That command is not disabled.")
         new_commands.remove(name)
         await self.bot.db.execute(
             """UPDATE guilds
@@ -112,7 +112,7 @@ class Settings(commands.Cog):
             new_commands,
             ctx.guild.id,
         )
-        await ctx.send(t_("Enabled `{0}`").format(name))
+        await ctx.send(t_("Enabled `{0}`.").format(name))
 
     @commands.command(
         name="settings", aliases=["options"], brief="View guild settings"
@@ -134,7 +134,7 @@ class Settings(commands.Cog):
             else f"<#{guild['level_channel']}>"
         )
         embed = discord.Embed(
-            title=f"Settings for {ctx.guild.name}",
+            title=t_("Settings for {0}:").format(ctx.guild.name),
             description=(
                 f"logChannel: {log_channel}\n"
                 f"levelChannel: {level_channel}\n"
@@ -172,7 +172,7 @@ class Settings(commands.Cog):
                 f"save: {guild['qa_save']}\n"
             ),
             color=self.bot.theme_color,
-        ).set_footer(text=f"To modify these, run {p}help qa")
+        ).set_footer(text=t_("To modify these, run `{0}help qa`.").format(p))
         await ctx.send(embed=embed)
 
     @quickactions.command(
@@ -184,7 +184,7 @@ class Settings(commands.Cog):
         await self.bot.db.execute(
             """UPDATE guilds SET qa_enabled=True WHERE id=$1""", ctx.guild.id
         )
-        await ctx.send(t_("Enabled quickActions"))
+        await ctx.send(t_("Enabled quickActions."))
 
     @quickactions.command(
         name="disable",
@@ -197,7 +197,7 @@ class Settings(commands.Cog):
         await self.bot.db.execute(
             """UPDATE guilds SET qa_enabled=False WHERE id=$1""", ctx.guild.id
         )
-        await ctx.send(t_("Disabled quickActions"))
+        await ctx.send(t_("Disabled quickActions."))
 
     @quickactions.command(
         name="reset", brief="Resets quickActions to their default"
@@ -216,7 +216,7 @@ class Settings(commands.Cog):
             WHERE id=$1""",
             ctx.guild.id,
         )
-        await ctx.send(t_("Reset quickActions"))
+        await ctx.send(t_("Reset quickActions."))
 
     @quickactions.command(
         name="force", brief="Sets the force quickAction emoji"
@@ -235,7 +235,7 @@ class Settings(commands.Cog):
             clean,
             ctx.guild.id,
         )
-        await ctx.send(t_("Set the force quickAction to {0}").format(emoji))
+        await ctx.send(t_("Set the force quickAction to {0}.").format(emoji))
 
     @quickactions.command(
         name="unforce", brief="Set the unforce quickAction emoji"
@@ -255,7 +255,7 @@ class Settings(commands.Cog):
             clean,
             ctx.guild.id,
         )
-        await ctx.send(t_("Set the unforce quickAction to {0}").format(emoji))
+        await ctx.send(t_("Set the unforce quickAction to {0}.").format(emoji))
 
     @quickactions.command(
         name="freeze",
@@ -278,7 +278,7 @@ class Settings(commands.Cog):
             ctx.guild.id,
         )
         await ctx.send(
-            t_("Set the freeze/unfreeze quickAction to {0}").format(emoji)
+            t_("Set the freeze/unfreeze quickAction to {0}.").format(emoji)
         )
 
     @quickactions.command(
@@ -300,7 +300,7 @@ class Settings(commands.Cog):
             ctx.guild.id,
         )
         await ctx.send(
-            t_("Set the trash/untrash quickAction to {0}").format(emoji)
+            t_("Set the trash/untrash quickAction to {0}.").format(emoji)
         )
 
     @quickactions.command(
@@ -321,7 +321,7 @@ class Settings(commands.Cog):
             clean,
             ctx.guild.id,
         )
-        await ctx.send(t_("Set the recount quickAction to {0}").format(emoji))
+        await ctx.send(t_("Set the recount quickAction to {0}.").format(emoji))
 
     @quickactions.command(name="save", brief="Sets the save quickAction emoji")
     @commands.has_guild_permissions(manage_messages=True)
@@ -338,7 +338,7 @@ class Settings(commands.Cog):
             clean,
             ctx.guild.id,
         )
-        await ctx.send(t_("Set the save quickAction to {0}").format(emoji))
+        await ctx.send(t_("Set the save quickAction to {0}.").format(emoji))
 
     @commands.group(
         name="prefixes",
@@ -354,7 +354,7 @@ class Settings(commands.Cog):
         modifying the prefixes."""
         guild = await self.bot.db.guilds.get(ctx.guild.id)
         embed = discord.Embed(
-            title=t_("Prefixes for {0}").format(ctx.guild.name),
+            title=t_("Prefixes for {0}:").format(ctx.guild.name),
             description=(
                 f"{self.bot.user.mention}\n"
                 + "\n".join(f"`{utils.escmd(p)}`" for p in guild["prefixes"])
@@ -434,7 +434,7 @@ class Settings(commands.Cog):
                 )
             elif not match:
                 raise errors.DoesNotExist(
-                    t_("No matches found for `{0}`").format(prefix)
+                    t_("No matches found for `{0}`.").format(prefix)
                 )
             else:
                 if not await menus.Confirm(
@@ -442,7 +442,7 @@ class Settings(commands.Cog):
                         "Did you want to remove `{0}` from the prefixes?"
                     ).format(match)
                 ).start(ctx):
-                    await ctx.send("Cancelled")
+                    await ctx.send(t_("Cancelled."))
                     return
                 to_remove = match
         new_prefixes = guild["prefixes"]
@@ -474,7 +474,7 @@ class Settings(commands.Cog):
         if not await menus.Confirm(
             t_("Are you sure you want to reset all prefixes?")
         ).start(ctx):
-            await ctx.send(t_("Cancelled"))
+            await ctx.send(t_("Cancelled."))
             return
         await self.bot.db.execute(
             """UPDATE guilds
@@ -574,7 +574,7 @@ class Settings(commands.Cog):
         )
         if channel:
             await ctx.send(
-                t_("Set the log channel to {0}").format(channel.mention)
+                t_("Set the log channel to {0}.").format(channel.mention)
             )
             self.bot.dispatch(
                 "guild_log",
@@ -604,7 +604,7 @@ class Settings(commands.Cog):
             value,
             ctx.guild.id,
         )
-        await ctx.send(t_("Set allowCommands to **{0}**").format(value))
+        await ctx.send(t_("Set allowCommands to **{0}**.").format(value))
 
 
 def setup(bot: Bot) -> None:

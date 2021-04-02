@@ -45,8 +45,8 @@ class Blacklist(commands.Cog):
                 ),
                 color=self.bot.theme_color,
             )
-            .add_field(name=t_("Blacklisted Channels"), value=bl_string)
-            .add_field(name=t_("Whitelisted Channels"), value=wl_string)
+            .add_field(name=t_("Blacklisted Channels:"), value=bl_string)
+            .add_field(name=t_("Whitelisted Channels:"), value=wl_string)
         )
 
         await ctx.send(embed=embed)
@@ -66,14 +66,14 @@ class Blacklist(commands.Cog):
         new_bl = starboard.sql["channel_bl"]
         if channel.id in new_bl:
             raise errors.AlreadyExists(
-                t_("{0} is already blacklisted on {1}").format(
+                t_("{0} is already blacklisted on {1}.").format(
                     channel.mention, starboard.obj.mention
                 )
             )
         new_bl.append(channel.id)
         await self.bot.db.starboards.edit(starboard.obj.id, channel_bl=new_bl)
         await ctx.send(
-            t_("Added {0} to the blacklist on {1}").format(
+            t_("Added {0} to the blacklist on {1}.").format(
                 channel.mention, starboard.obj.mention
             )
         )
@@ -93,14 +93,14 @@ class Blacklist(commands.Cog):
         new_bl = starboard.sql["channel_bl"]
         if channel.id not in new_bl:
             raise errors.DoesNotExist(
-                t_("{0} is not blacklisted on {1}").format(
+                t_("{0} is not blacklisted on {1}.").format(
                     channel.mention, starboard.obj.mention
                 )
             )
         new_bl.remove(channel.id)
         await self.bot.db.starboards.edit(starboard.obj.id, channel_bl=new_bl)
         await ctx.send(
-            t_("Removed {0} from the blacklist on {1}").format(
+            t_("Removed {0} from the blacklist on {1}.").format(
                 channel.mention, starboard.obj.mention
             )
         )
@@ -156,7 +156,7 @@ class Blacklist(commands.Cog):
     ) -> None:
         if channel.id in starboard.sql["channel_wl"]:
             raise errors.AlreadyExists(
-                t_("{0} is already whitelisted on {1}").format(
+                t_("{0} is already whitelisted on {1}.").format(
                     channel.mention, starboard.obj.mention
                 )
             )
@@ -164,7 +164,7 @@ class Blacklist(commands.Cog):
         new_wl.append(channel.id)
         await self.bot.db.starboards.edit(starboard.obj.id, channel_wl=new_wl)
         await ctx.send(
-            t_("Added {0} to the whitelist for {1}").format(
+            t_("Added {0} to the whitelist for {1}.").format(
                 channel.mention, starboard.obj.mention
             )
         )
@@ -183,7 +183,7 @@ class Blacklist(commands.Cog):
     ) -> None:
         if channel.id not in starboard.sql["channel_wl"]:
             raise errors.DoesNotExist(
-                t_("{0} is not whitelisted on {1}").format(
+                t_("{0} is not whitelisted on {1}.").format(
                     channel.mention, starboard.obj.mention
                 )
             )
@@ -191,7 +191,7 @@ class Blacklist(commands.Cog):
         new_wl.remove(channel.id)
         await self.bot.db.starboards.edit(starboard.obj.id, channel_wl=new_wl)
         await ctx.send(
-            t_("Removed {0} from the whitelist on {1}").format(
+            t_("Removed {0} from the whitelist on {1}.").format(
                 channel.mention, starboard.obj.mention
             )
         )

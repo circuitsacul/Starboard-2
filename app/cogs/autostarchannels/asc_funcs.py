@@ -46,7 +46,7 @@ def is_valid(
             )
     if aschannel["exclude_regex"]:
         if not try_regex(bot, message, aschannel["exclude_regex"]):
-            return False, t_(f"Messages must not match `{0}`").format(
+            return False, t_("Messages must not match `{0}`").format(
                 aschannel["exclude_regex"]
             )
     return True, ""

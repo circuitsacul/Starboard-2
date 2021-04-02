@@ -42,7 +42,7 @@ class Starboard(commands.Cog):
                 return
 
             embed = discord.Embed(
-                title=f"Starboards for **{ctx.guild}**",
+                title=t_("Starboards for **{0}**:").format(ctx.guild),
                 description=t_(
                     "This lists the starboards and their "
                     "most important settings. To view all "
@@ -106,7 +106,9 @@ class Starboard(commands.Cog):
                 t_("{0} is already a starboard.").format(channel.mention)
             )
         else:
-            await ctx.send(t_("Created starboard {0}").format(channel.mention))
+            await ctx.send(
+                t_("Created starboard {0}.").format(channel.mention)
+            )
 
     @starboards.command(
         name="remove",
@@ -577,7 +579,7 @@ class Starboard(commands.Cog):
 
         if converted_emoji in current_emojis:
             raise errors.AlreadyExists(
-                t_("{0} is already a starEmoji on {1}").format(
+                t_("{0} is already a starEmoji on {1}.").format(
                     emoji, starboard.obj.mention
                 )
             )
@@ -620,7 +622,7 @@ class Starboard(commands.Cog):
 
         if converted_emoji not in current_emojis:
             raise errors.DoesNotExist(
-                t_("{0} is not a starEmoji on {1}").format(
+                t_("{0} is not a starEmoji on {1}.").format(
                     emoji, starboard.obj.mention
                 )
             )
@@ -660,7 +662,7 @@ class Starboard(commands.Cog):
     ) -> None:
         """Removes all starEmojis from a starboard"""
         if not await menus.Confirm(
-            t_("Are you sure you want to clear all emojis " "for {0}?").format(
+            t_("Are you sure you want to clear all emojis for {0}?").format(
                 starboard.obj.mention
             )
         ).start(ctx):

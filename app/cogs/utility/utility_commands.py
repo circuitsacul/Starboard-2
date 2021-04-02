@@ -149,15 +149,12 @@ class Utility(commands.Cog):
         )
         if not orig_message:
             raise errors.DoesNotExist(
-                t_(
-                    "I couldn't freeze the message because "
-                    "it does not exist in the database."
-                )
+                t_("That message does not exist in the database.")
             )
         await utility_funcs.handle_freezing(
             self.bot, orig_message["id"], orig_message["guild_id"], True
         )
-        await ctx.send("Message frozen")
+        await ctx.send("Message frozen.")
 
     @commands.command(name="unfreeze", brief="Unfreezes a message")
     @commands.has_guild_permissions(manage_messages=True)
@@ -170,15 +167,12 @@ class Utility(commands.Cog):
         )
         if not orig_message:
             raise errors.DoesNotExist(
-                t_(
-                    "I can't unfreeze that messsage because "
-                    "it does not exist in the database."
-                )
+                t_("That message does not exist in the database.")
             )
         await utility_funcs.handle_freezing(
             self.bot, orig_message["id"], orig_message["guild_id"], False
         )
-        await ctx.send(t_("Message unfrozen"))
+        await ctx.send(t_("Message unfrozen."))
 
     @commands.command(
         name="force", brief="Forced a message to certain starboards"
@@ -214,7 +208,7 @@ class Utility(commands.Cog):
             if not await menus.Confirm(
                 t_("Force this message to all starboards?")
             ).start(ctx):
-                await ctx.send("Cancelled")
+                await ctx.send(t_("Cancelled."))
                 return
         orig_sql_message = await starboard_funcs.orig_message(
             self.bot, message_link.id
@@ -240,10 +234,12 @@ class Utility(commands.Cog):
             True,
         )
         if len(starboards) == 0:
-            await ctx.send(t_("Message forced to all starboards"))
+            await ctx.send(t_("Message forced to all starboards."))
         else:
             converted = [f"<#{s}>" for s in starboards]
-            await ctx.send(f"Message forced to {', '.join(converted)}")
+            await ctx.send(
+                t_("Message forced to {0}.").format(", ".join(converted))
+            )
 
     @commands.command(
         name="unforce", brief="Unforces a message from certain starboards"
@@ -273,7 +269,7 @@ class Utility(commands.Cog):
             self.bot, message_link.id
         )
         if not orig_sql_message:
-            await ctx.send(t_("That message does not exist in the database"))
+            await ctx.send(t_("That message does not exist in the database."))
         if orig_sql_message["id"] != message_link.id and len(starboards) == 0:
             if await menus.Confirm(
                 t_(
@@ -288,7 +284,7 @@ class Utility(commands.Cog):
             if not await menus.Confirm(
                 t_("Unforce this message from all starboards?")
             ).start(ctx):
-                await ctx.send(t_("Cancelled"))
+                await ctx.send(t_("Cancelled."))
                 return
         await utility_funcs.handle_forcing(
             self.bot,
@@ -298,10 +294,12 @@ class Utility(commands.Cog):
             False,
         )
         if len(starboards) == 0:
-            await ctx.send(t_("Message unforced from all starboards"))
+            await ctx.send(t_("Message unforced from all starboards."))
         else:
             converted = [f"<#{s}>" for s in starboards]
-            await ctx.send(f"Message unforced from {', '.join(converted)}")
+            await ctx.send(
+                t_("Message unforced from {0}.").format(", ".join(converted))
+            )
 
     @commands.command(
         name="trashreason",
@@ -324,7 +322,7 @@ class Utility(commands.Cog):
         await utility_funcs.set_trash_reason(
             self.bot, orig_message["id"], ctx.guild.id, reason or "None given"
         )
-        await ctx.send(t_("Set the reason to {0}").format(reason))
+        await ctx.send(t_("Set the reason to {0}.").format(reason))
 
     @commands.command(
         name="trash", brief="Trashes a message so it can't be viewed"
@@ -347,7 +345,7 @@ class Utility(commands.Cog):
         )
         if not orig_sql_message:
             raise errors.DoesNotExist(
-                t_("That message has not been starred, so I can't trash it.")
+                t_("That message does not exist in the database.")
             )
         await utility_funcs.handle_trashing(
             self.bot,
@@ -356,7 +354,7 @@ class Utility(commands.Cog):
             True,
             reason or "No reason given",
         )
-        await ctx.send("Message trashed")
+        await ctx.send(t_("Message trashed."))
 
     @commands.command(name="untrash", brief="Untrashes a message")
     @commands.has_guild_permissions(manage_messages=True)
@@ -377,7 +375,7 @@ class Utility(commands.Cog):
             orig_sql_message["guild_id"],
             False,
         )
-        await ctx.send(t_("Message untrashed"))
+        await ctx.send(t_("Message untrashed."))
 
     @commands.command(
         name="trashcan",
@@ -449,10 +447,10 @@ class Utility(commands.Cog):
             trash 50"""
         if limit > 200:
             raise discord.InvalidArgument(
-                t_("Can only purge up to 200 messages at once")
+                t_("Can only purge up to 200 messages at once.")
             )
         elif limit < 1:
-            raise discord.InvalidArgument("Must purge at least 1 message")
+            raise discord.InvalidArgument("Must purge at least 1 message.")
 
         total, purged = await utility_funcs.handle_purging(
             self.bot,
@@ -465,7 +463,7 @@ class Utility(commands.Cog):
         )
 
         embed = discord.Embed(
-            title=t_("Purged {0} Messages").format(total),
+            title=t_("Purged {0} Messages.").format(total),
             description="\n".join([f"<@{u}>: {c}" for u, c in purged.items()]),
             color=self.bot.theme_color,
         )
@@ -486,10 +484,10 @@ class Utility(commands.Cog):
         """Same usage as purge, but untrashes instead."""
         if limit > 200:
             raise discord.InvalidArgument(
-                t_("Can only unpurge up to 200 messages at once")
+                t_("Can only unpurge up to 200 messages at once.")
             )
         elif limit < 1:
-            raise discord.InvalidArgument("Must unpurge at least 1 message")
+            raise discord.InvalidArgument("Must unpurge at least 1 message.")
 
         total, purged = await utility_funcs.handle_purging(
             self.bot,
@@ -502,7 +500,7 @@ class Utility(commands.Cog):
         )
 
         embed = discord.Embed(
-            title=f"Unpurged {total} Messages",
+            title=t_("Unpurged {0} Messages.").format(total),
             description="\n".join([f"<@{u}>: {c}" for u, c in purged.items()]),
             color=self.bot.theme_color,
         )
@@ -560,7 +558,7 @@ class Utility(commands.Cog):
                     sb_message["starboard_id"],
                     orig["guild_id"],
                 )
-                jump = f"[Jump]({_jump})"
+                jump = t_("[Jump]({0})").format(_jump)
                 points = sb_message["points"]
                 forced = s["id"] in orig["forced"]
             embed.add_field(

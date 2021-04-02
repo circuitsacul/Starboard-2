@@ -71,7 +71,9 @@ class ASChannels:
         asc = await self.get(aschannel_id)
         if not asc:
             raise errors.DoesNotExist(
-                t_("No AutoStarChannel found with id {0}").format(aschannel_id)
+                t_("No AutoStarChannel found with id {0}.").format(
+                    aschannel_id
+                )
             )
 
         settings = {
@@ -90,10 +92,12 @@ class ASChannels:
         }
 
         if settings["min_chars"] < 0:
-            raise discord.InvalidArgument(t_("minChars cannot be less than 0"))
+            raise discord.InvalidArgument(
+                t_("minChars cannot be less than 0.")
+            )
         if settings["min_chars"] > 2000:
             raise discord.InvalidArgument(
-                t_("minChars cannot be grater than 2,000")
+                t_("minChars cannot be grater than 2,000.")
             )
 
         await self.db.execute(
@@ -118,7 +122,7 @@ class ASChannels:
         aschannel = await self.get(aschannel_id)
         if emoji in aschannel["emojis"]:
             raise errors.AlreadyExists(
-                t_("{0} is already an emoji on {1}").format(
+                t_("{0} is already an emoji on {1}.").format(
                     emoji, aschannel_id
                 )
             )
@@ -130,7 +134,7 @@ class ASChannels:
         aschannel = await self.get(aschannel_id)
         if emoji not in aschannel["emojis"]:
             raise errors.DoesNotExist(
-                t_("{0} is not an emoji on {1}").format(emoji, aschannel_id)
+                t_("{0} is not an emoji on {1}.").format(emoji, aschannel_id)
             )
         new_emojis: list = aschannel["emojis"]
         new_emojis.remove(emoji)

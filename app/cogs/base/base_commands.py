@@ -178,9 +178,9 @@ class Base(commands.Cog):
             discord.Embed(
                 title=t_("Vote for Starboard"),
                 color=self.bot.theme_color,
-                description=t_("You have voted **{0}** time(s)").format(count)
+                description=t_("You have voted **{0}** time(s).").format(count)
                 if user.id == ctx.message.author.id
-                else t_("**{0}** has voted **{1}** time(s)").format(
+                else t_("**{0}** has voted **{1}** time(s).").format(
                     user, count
                 ),
                 inline=False,

@@ -112,7 +112,7 @@ async def debug_guild(bot: Bot, guild: discord.Guild) -> dict:
             perms = obj.permissions_for(guild.me)
             if not perms.send_messages:
                 result["errors"].append(
-                    t_("I can't send messages in {0}").format(obj.mention)
+                    t_("I can't send messages in {0}.").format(obj.mention)
                 )
             if not perms.embed_links:
                 result["errors"].append(
@@ -131,8 +131,8 @@ async def debug_guild(bot: Bot, guild: discord.Guild) -> dict:
             if not perms.read_message_history:
                 result["errors"].append(
                     t_(
-                        "I don't have the `Read Message History` permission in "
-                        "{0}, so I can't update starboard messages."
+                        "I don't have the `Read Message History` permission "
+                        "in {0}, so I can't update starboard messages."
                     ).format(obj.mention)
                 )
             if not perms.add_reactions:
@@ -193,8 +193,8 @@ async def debug_guild(bot: Bot, guild: discord.Guild) -> dict:
                 result["light_warns"].append(
                     t_(
                         "The AutoStarChannel {0} has minChars set to "
-                        "{asc['min_chars']}, so messages less than that will be "
-                        "ignored."
+                        "{asc['min_chars']}, so messages less than that will "
+                        "be ignored."
                     ).format(obj.mention)
                 )
             if asc["require_image"]:
@@ -227,16 +227,18 @@ async def debug_guild(bot: Bot, guild: discord.Guild) -> dict:
             result["errors"].append(
                 t_(
                     "I'm missing the `Read Messages` permission in {0}"
-                    ", which is an AutoStarChannel. Without this permission, I "
-                    "won't be able to autoreact to messages there."
+                    ", which is an AutoStarChannel. Without this "
+                    "permission, I won't be able to autoreact to "
+                    "messages there."
                 ).format(obj.mention)
             )
         if not perms.add_reactions:
             result["errors"].append(
                 t_(
                     "I'm missing the `Add Reactions` permission in {0}"
-                    ", which is an AutoStarChannel. Without this permision, I "
-                    "won't be able to autoreact to messages there."
+                    ", which is an AutoStarChannel. Without this "
+                    "permision, I won't be able to autoreact to messages "
+                    "there."
                 ).format(obj.mention)
             )
         if not perms.manage_messages and asc["delete_invalid"]:
@@ -244,8 +246,8 @@ async def debug_guild(bot: Bot, guild: discord.Guild) -> dict:
                 t_(
                     "I'm missing the `Manage Messages` permission in "
                     "{0}, which is an AutoStarChannel. Without that "
-                    "permission, I won't be able to delete messages that don't "
-                    "meet the requirements."
+                    "permission, I won't be able to delete messages "
+                    "that don't meet the requirements."
                 ).format(obj.mention)
             )
 
