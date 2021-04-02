@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands, flags
 
 from app import converters, errors, utils, menus
+from app.i18n import t_
 from app.classes.bot import Bot
 from app.cogs.starboard import starboard_funcs
 
@@ -23,10 +24,10 @@ class Utility(commands.Cog):
     @commands.guild_only()
     async def scan_recount(self, ctx: commands.Context, limit: int) -> None:
         if limit < 1:
-            await ctx.send("Must recount at least 1 message.")
+            await ctx.send(t_("Must recount at least 1 message."))
             return
         if limit > 1000:
-            await ctx.send("Can only recount up to 1,000 messages.")
+            await ctx.send(t_("Can only recount up to 1,000 messages."))
             return
         async with ctx.typing():
             await recounter.scan_recount(self.bot, ctx.channel, limit)
@@ -100,31 +101,35 @@ class Utility(commands.Cog):
         p = commands.Paginator(prefix="", suffix="")
 
         p.add_line(
-            f"{len(result['errors'])} errors, "
-            f"{len(result['warns'])} warnings, "
-            f"{len(result['light_warns'])} notes, "
-            f"and {len(result['suggestions'])} suggestions."
+            t_(
+                "{0} errors, {1} warnings, {2} notes, and {3} suggestions."
+            ).format(
+                len(result["errors"]),
+                len(result["warns"]),
+                len(result["light_warns"]),
+                len(result["suggestions"]),
+            )
         )
         if result["errors"]:
-            p.add_line("\n\n**Errors:**")
+            p.add_line(t_("\n\n**Errors:**"))
             for e in result["errors"]:
                 p.add_line(f"\n{e}")
         if result["warns"]:
-            p.add_line("\n\n**Warnings:**")
+            p.add_line(t_("\n\n**Warnings:**"))
             for e in result["warns"]:
                 p.add_line(f"\n{e}")
         if result["light_warns"]:
-            p.add_line("\n\n**Notes:**")
+            p.add_line(t_("\n\n**Notes:**"))
             for e in result["light_warns"]:
                 p.add_line(f"\n{e}")
         if result["suggestions"]:
-            p.add_line("\n\n**Suggestions:**")
+            p.add_line(t_("\n\n**Suggestions:**"))
             for e in result["suggestions"]:
                 p.add_line(f"\n{e}")
 
         embeds = [
             discord.Embed(
-                title="Debugging Results",
+                title=t_("Debugging Results"),
                 description=page,
                 color=self.bot.theme_color,
             )
@@ -144,8 +149,10 @@ class Utility(commands.Cog):
         )
         if not orig_message:
             raise errors.DoesNotExist(
-                "I couldn't freeze the message because "
-                "it does not exist in the database."
+                t_(
+                    "I couldn't freeze the message because "
+                    "it does not exist in the database."
+                )
             )
         await utility_funcs.handle_freezing(
             self.bot, orig_message["id"], orig_message["guild_id"], True
@@ -163,13 +170,15 @@ class Utility(commands.Cog):
         )
         if not orig_message:
             raise errors.DoesNotExist(
-                "I can't unfreeze that messsage because "
-                "it does not exist in the database."
+                t_(
+                    "I can't unfreeze that messsage because "
+                    "it does not exist in the database."
+                )
             )
         await utility_funcs.handle_freezing(
             self.bot, orig_message["id"], orig_message["guild_id"], False
         )
-        await ctx.send("Message unfrozen")
+        await ctx.send(t_("Message unfrozen"))
 
     @commands.command(
         name="force", brief="Forced a message to certain starboards"
@@ -203,7 +212,7 @@ class Utility(commands.Cog):
         starboards = [int(s.sql["id"]) for s in starboards]
         if len(starboards) == 0:
             if not await menus.Confirm(
-                "Force this message to all starboards?"
+                t_("Force this message to all starboards?")
             ).start(ctx):
                 await ctx.send("Cancelled")
                 return
@@ -231,7 +240,7 @@ class Utility(commands.Cog):
             True,
         )
         if len(starboards) == 0:
-            await ctx.send("Message forced to all starboards")
+            await ctx.send(t_("Message forced to all starboards"))
         else:
             converted = [f"<#{s}>" for s in starboards]
             await ctx.send(f"Message forced to {', '.join(converted)}")
@@ -264,20 +273,22 @@ class Utility(commands.Cog):
             self.bot, message_link.id
         )
         if not orig_sql_message:
-            await ctx.send("That message does not exist in the database")
+            await ctx.send(t_("That message does not exist in the database"))
         if orig_sql_message["id"] != message_link.id and len(starboards) == 0:
             if await menus.Confirm(
-                "The message you passed appears to be a starboard "
-                "message. Would you like to unforce this message "
-                f"from {message_link.channel.mention} instead?"
+                t_(
+                    "The message you passed appears to be a starboard "
+                    "message. Would you like to unforce this message "
+                    "from {0} instead?"
+                ).format(message_link.channel.mention)
             ).start(ctx):
                 starboards = [message_link.channel.id]
 
         if len(starboards) == 0:
             if not await menus.Confirm(
-                "Unforce this message from all starboards?"
+                t_("Unforce this message from all starboards?")
             ).start(ctx):
-                await ctx.send("Cancelled")
+                await ctx.send(t_("Cancelled"))
                 return
         await utility_funcs.handle_forcing(
             self.bot,
@@ -287,7 +298,7 @@ class Utility(commands.Cog):
             False,
         )
         if len(starboards) == 0:
-            await ctx.send("Message unforced from all starboards")
+            await ctx.send(t_("Message unforced from all starboards"))
         else:
             converted = [f"<#{s}>" for s in starboards]
             await ctx.send(f"Message unforced from {', '.join(converted)}")
@@ -308,12 +319,12 @@ class Utility(commands.Cog):
         orig_message = await starboard_funcs.orig_message(self.bot, message.id)
         if not orig_message:
             raise errors.DoesNotExist(
-                "That message does not exist in the database."
+                t_("That message does not exist in the database.")
             )
         await utility_funcs.set_trash_reason(
             self.bot, orig_message["id"], ctx.guild.id, reason or "None given"
         )
-        await ctx.send(f"Set the reason to {reason}")
+        await ctx.send(t_("Set the reason to {0}").format(reason))
 
     @commands.command(
         name="trash", brief="Trashes a message so it can't be viewed"
@@ -336,7 +347,7 @@ class Utility(commands.Cog):
         )
         if not orig_sql_message:
             raise errors.DoesNotExist(
-                "That message has not been starred, so I " "can't trash it."
+                t_("That message has not been starred, so I can't trash it.")
             )
         await utility_funcs.handle_trashing(
             self.bot,
@@ -358,7 +369,7 @@ class Utility(commands.Cog):
         )
         if not orig_sql_message:
             raise errors.DoesNotExist(
-                "That message does not exist in the database."
+                t_("That message does not exist in the database.")
             )
         await utility_funcs.handle_trashing(
             self.bot,
@@ -366,7 +377,7 @@ class Utility(commands.Cog):
             orig_sql_message["guild_id"],
             False,
         )
-        await ctx.send("Message untrashed")
+        await ctx.send(t_("Message untrashed"))
 
     @commands.command(
         name="trashcan",
@@ -386,7 +397,7 @@ class Utility(commands.Cog):
             ctx.guild.id,
         )
         if len(trashed_messages) == 0:
-            await ctx.send("You have no trashed messages.")
+            await ctx.send(t_("You have no trashed messages."))
             return
         p = commands.Paginator(prefix="", suffix="", max_size=2000)
         for m in trashed_messages:
@@ -397,7 +408,7 @@ class Utility(commands.Cog):
             )
         embeds = [
             discord.Embed(
-                title="Trashed Messages",
+                title=t_("Trashed Messages"),
                 description=page,
                 color=self.bot.theme_color,
             )
@@ -438,7 +449,7 @@ class Utility(commands.Cog):
             trash 50"""
         if limit > 200:
             raise discord.InvalidArgument(
-                "Can only purge up to 200 messages at once"
+                t_("Can only purge up to 200 messages at once")
             )
         elif limit < 1:
             raise discord.InvalidArgument("Must purge at least 1 message")
@@ -454,7 +465,7 @@ class Utility(commands.Cog):
         )
 
         embed = discord.Embed(
-            title=f"Purged {total} Messages",
+            title=t_("Purged {0} Messages").format(total),
             description="\n".join([f"<@{u}>: {c}" for u, c in purged.items()]),
             color=self.bot.theme_color,
         )
@@ -475,7 +486,7 @@ class Utility(commands.Cog):
         """Same usage as purge, but untrashes instead."""
         if limit > 200:
             raise discord.InvalidArgument(
-                "Can only unpurge up to 200 messages at once"
+                t_("Can only unpurge up to 200 messages at once")
             )
         elif limit < 1:
             raise discord.InvalidArgument("Must unpurge at least 1 message")
@@ -512,22 +523,22 @@ class Utility(commands.Cog):
         orig = await starboard_funcs.orig_message(self.bot, message.id)
         if not orig:
             raise errors.DoesNotExist(
-                "That message does not exist in the database."
+                t_("That message does not exist in the database.")
             )
         jump = utils.jump_link(
             orig["id"], orig["channel_id"], orig["guild_id"]
         )
         embed = discord.Embed(
-            title="Message Info",
+            title=t_("Message Info"),
             color=self.bot.theme_color,
-            description=(
-                f"[Jump to Message]({jump})\n"
-                f"Channel: <#{orig['channel_id']}>\n"
-                f"ID: {orig['id']} (`{orig['channel_id']}-{orig['id']}`)\n"
-                f"Author: <@{orig['author_id']}> | `{orig['author_id']}`\n"
-                f"Trashed: {orig['trashed']}\n"
-                f"Frozen: {orig['frozen']}"
-            ),
+            description=t_(
+                "[Jump to Message]({0})\n"
+                "Channel: <#{1[channel_id]}>\n"
+                "ID: {1[id]} (`{1[channel_id]}-{1[id]}`)\n"
+                "Author: <@{1[author_id]}> | `{1[author_id]}`\n"
+                "Trashed: {1[trashed]}\n"
+                "Frozen: {1[frozen]}"
+            ).format(jump, orig),
         )
         for s in await self.bot.db.starboards.get_many(ctx.guild.id):
             s_obj = ctx.guild.get_channel(int(s["id"]))
@@ -540,7 +551,7 @@ class Utility(commands.Cog):
                 s["id"],
             )
             if not sb_message:
-                jump = "Not On Starboard"
+                jump = t_("Not On Starboard")
                 points = 0
                 forced = False
             else:
@@ -555,8 +566,10 @@ class Utility(commands.Cog):
             embed.add_field(
                 name=s_obj.name,
                 value=(
-                    f"<#{s['id']}>: {jump}\nPoints: "
-                    f"**{points}**/{s['required']}\nForced: {forced}"
+                    f"<#{s['id']}>: {jump}\n"
+                    + t_("Points: **{0}**/{1}\nForced: {2}").format(
+                        points, s["required"], forced
+                    )
                 ),
             )
 
