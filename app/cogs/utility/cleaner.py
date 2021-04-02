@@ -1,6 +1,7 @@
 import discord
 
 from app.classes.bot import Bot
+from app.i18n import t_
 
 
 async def clean_guild(guild: discord.Guild, bot: Bot) -> list[tuple[str, int]]:
@@ -12,12 +13,12 @@ async def clean_guild(guild: discord.Guild, bot: Bot) -> list[tuple[str, int]]:
     channel_wl = await clean_channel_whitelist(guild, bot)
 
     return [
-        ("Starboards", starboards),
-        ("Star Emojis", star_emojis),
-        ("AutoStarChannels", aschannels),
-        ("AutoStar emojis", asemojis),
-        ("Blacklisted Channels", channel_bl),
-        ("Whitelisted Channels", channel_wl),
+        (t_("Starboards"), starboards),
+        (t_("Star Emojis"), star_emojis),
+        (t_("AutoStarChannels"), aschannels),
+        (t_("AutoStar emojis"), asemojis),
+        (t_("Blacklisted Channels"), channel_bl),
+        (t_("Whitelisted Channels"), channel_wl),
     ]
 
 

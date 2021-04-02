@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 
 from app import utils
+from app.i18n import t_
 from app.classes.bot import Bot
 from app.cogs.utility import utility_funcs
 
@@ -24,7 +25,9 @@ class StarboardEvents(commands.Cog):
         await self.bot.db.starboards.delete(channel.id)
         self.bot.dispatch(
             "guild_log",
-            (f"`{channel.name}` was deleted, so I removed " "that starboard."),
+            t_("`{0}` was deleted, so I removed that starboard.").format(
+                channel.name
+            ),
             "info",
             channel.guild,
         )
@@ -41,7 +44,9 @@ class StarboardEvents(commands.Cog):
                 sb_message["orig_id"],
                 payload.guild_id,
                 True,
-                reason="Starboard message was deleted, so I autotrashed it.",
+                reason=t_(
+                    "Starboard message was deleted, so I autotrashed it."
+                ),
             )
 
     @commands.Cog.listener()

@@ -1,0 +1,17 @@
+#!/usr/bin/python3
+
+import os.path
+import subprocess
+
+for locale in os.listdir("./app/locale"):
+    if locale.endswith(".py"):
+        continue
+    file = os.path.join("./app/locale", locale, "LC_MESSAGES/bot.po")
+    subprocess.call(
+        [
+            "msgfmt",
+            file,
+            "-o",
+            os.path.join("./app/locale", locale, "LC_MESSAGES/bot.mo"),
+        ]
+    )

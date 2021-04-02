@@ -1,6 +1,7 @@
 import discord
 
 from app.classes.bot import Bot
+from app.i18n import t_
 
 
 async def debug_guild(bot: Bot, guild: discord.Guild) -> dict:
@@ -36,36 +37,42 @@ async def debug_guild(bot: Bot, guild: discord.Guild) -> dict:
 
     if len(missing_send_messages) > 0:
         result["warns"].append(
-            f"Missing `Send Messages` in {len(missing_send_messages)}/"
-            f"{total_channels} channels."
+            t_("Missing `Send Messages` in {0}/{1} channels.").format(
+                len(missing_send_messages), total_channels
+            )
         )
     if len(missing_embed_links) > 0:
         result["warns"].append(
-            f"Missing `Embed Links` in {len(missing_embed_links)}/"
-            f"{total_channels} channels."
+            t_("Missing `Embed Links` in {0}/{1} channels.").format(
+                len(missing_embed_links, total_channels)
+            )
         )
     if len(missing_read_messages) > 0:
         result["warns"].append(
-            f"Missing `Read Messages` in {len(missing_read_messages)}/"
-            f"{total_channels} channels."
+            t_("Missing `Read Messages` in {0}/{1} channels.").format(
+                len(missing_read_messages), total_channels
+            )
         )
     if len(missing_read_history) > 0:
         result["warns"].append(
-            f"Missing `Read Message History` in {len(missing_read_messages)}/"
-            f"{total_channels} channels."
+            t_("Missing `Read Message History` in {0}/{1} channels.").format(
+                len(missing_read_history)
+            )
         )
 
     # Check starboard
     sql_starboards = await bot.db.starboards.get_many(guild.id)
     starboards = [guild.get_channel(int(s["id"])) for s in sql_starboards]
     if len(sql_starboards) == 0:
-        result["warns"].append("You have no starboards set.")
+        result["warns"].append(t_("You have no starboards set."))
     else:
         if None in starboards:
             result["warns"].append(
-                "There are some starboards where the original "
-                "channel was deleted. This can be resolved by "
-                "running the `clean` command."
+                t_(
+                    "There are some starboards where the original "
+                    "channel was deleted. This can be resolved by "
+                    "running the `clean` command."
+                )
             )
         for x, s in enumerate(sql_starboards):
             obj = starboards[x]
@@ -73,52 +80,68 @@ async def debug_guild(bot: Bot, guild: discord.Guild) -> dict:
                 continue
             if len(s["star_emojis"]) == 0:
                 result["errors"].append(
-                    f"The starboard <#{s['id']}> has no starEmojis set, "
-                    "so it can't be used."
+                    t_(
+                        "The starboard <#{0}> has no starEmojis set, "
+                        "so it can't be used."
+                    ).format(s["id"])
                 )
             if s["self_star"] is False:
                 result["light_warns"].append(
-                    f"selfStar is disabled for {obj.mention}, so "
-                    "users can't star their own messages."
+                    t_(
+                        "selfStar is disabled for {0}, so "
+                        "users can't star their own messages."
+                    ).format(obj.mention)
                 )
             if s["regex"]:
                 result["light_warns"].append(
-                    f"{obj.mention} has a regex string, `{s['regex']}`, "
-                    "so all messages must match that regex or they can't "
-                    "be starred."
+                    t_(
+                        "{0} has a regex string, `{1}`, "
+                        "so all messages must match that regex or they can't "
+                        "be starred."
+                    ).format(obj.mention, s["regex"])
                 )
             if s["exclude_regex"]:
                 result["light_warns"].append(
-                    f"{obj.mention} has an excludeRegex string, "
-                    f"`{s['exclude_regex']}`, so all messages must "
-                    "**not** match this regex or they can't be starred."
+                    t_(
+                        "{0} has an excludeRegex string, "
+                        "`{1}`, so all messages must "
+                        "**not** match this regex or they can't be starred."
+                    ).format(obj.mention, s["exclude_regex"])
                 )
 
             perms = obj.permissions_for(guild.me)
             if not perms.send_messages:
                 result["errors"].append(
-                    f"I can't send messages in {obj.mention}"
+                    t_("I can't send messages in {0}.").format(obj.mention)
                 )
             if not perms.embed_links:
                 result["errors"].append(
-                    f"I don't have the `Embed Links` permission in "
-                    f"{obj.mention}, so I can't send starboard messages."
+                    t_(
+                        "I don't have the `Embed Links` permission in "
+                        "{0}, so I can't send starboard messages."
+                    ).format(obj.mention)
                 )
             if not perms.read_messages:
                 result["errors"].append(
-                    f"I don't have the `Read Messages` permission in "
-                    f"{obj.mention}, so I can't update starboard messages."
+                    t_(
+                        "I don't have the `Read Messages` permission in "
+                        "{0}, so I can't update starboard messages."
+                    ).format(obj.mention)
                 )
             if not perms.read_message_history:
                 result["errors"].append(
-                    f"I don't have the `Read Message History` permission in "
-                    f"{obj.mention}, so I can't update starboard messages."
+                    t_(
+                        "I don't have the `Read Message History` permission "
+                        "in {0}, so I can't update starboard messages."
+                    ).format(obj.mention)
                 )
             if not perms.add_reactions:
                 result["errors"].append(
-                    f"I don't have the `Add Reactions` permission in "
-                    f"{obj.mention}, so I can't autoreact to starboard "
-                    "messages there."
+                    t_(
+                        "I don't have the `Add Reactions` permission in "
+                        "{0}, so I can't autoreact to starboard "
+                        "messages there."
+                    ).format(obj.mention)
                 )
 
             # Check channel blacklisting/whitelisting
@@ -127,13 +150,17 @@ async def debug_guild(bot: Bot, guild: discord.Guild) -> dict:
 
             if blacklisted != 0 and whitelisted == 0:
                 result["light_warns"].append(
-                    f"<#{s['id']}> has {blacklisted} blacklisted channels, "
-                    "so messages from those channels can't be starred."
+                    t_(
+                        "<#{0}> has {1} blacklisted channels, "
+                        "so messages from those channels can't be starred."
+                    ).format(s["id"], blacklisted)
                 )
             if whitelisted != 0:
                 result["light_warns"].append(
-                    f"<#{s['id']}> has {whitelisted} whitelisted channels, "
-                    "so only messages from those channels can be starred."
+                    t_(
+                        "<#{0}> has {1} whitelisted channels, "
+                        "so only messages from those channels can be starred."
+                    ).format(s["id"], whitelisted)
                 )
 
     # Check AutoStarChannels
@@ -141,9 +168,11 @@ async def debug_guild(bot: Bot, guild: discord.Guild) -> dict:
     aschannels = [guild.get_channel(int(asc["id"])) for asc in sql_aschannels]
     if None in aschannels:
         result["warns"].append(
-            "There are some AutoStarChannels where the original channel "
-            "was deleted. This can be resolved by running the `clean` "
-            "command."
+            t_(
+                "There are some AutoStarChannels where the original channel "
+                "was deleted. This can be resolved by running the `clean` "
+                "command."
+            )
         )
     for x, asc in enumerate(sql_aschannels):
         obj = aschannels[x]
@@ -151,83 +180,106 @@ async def debug_guild(bot: Bot, guild: discord.Guild) -> dict:
             continue
         if len(asc["emojis"]) == 0:
             result["light_warns"].append(
-                f"The AutoStarChannel {obj.mention} has no emojis set. "
-                "This means that none of the messages there will receive "
-                "any reactions automatically."
+                t_(
+                    "The AutoStarChannel {0} has no emojis set. "
+                    "This means that none of the messages there will receive "
+                    "any reactions automatically."
+                ).format(obj.mention)
             )
         if not asc["delete_invalid"]:
             # Only check setting is deleteInvalid is False, because if it
             # is True then it will be clear why messages are being deleted.
             if asc["min_chars"] != 0:
                 result["light_warns"].append(
-                    f"The AutoStarChannel {obj.mention} has minChars set to "
-                    f"{asc['min_chars']}, so messages less than that will be "
-                    "ignored."
+                    t_(
+                        "The AutoStarChannel {0} has minChars set to "
+                        "{asc['min_chars']}, so messages less than that will "
+                        "be ignored."
+                    ).format(obj.mention)
                 )
             if asc["require_image"]:
                 result["light_warns"].append(
-                    f"The AutoStarChannel {obj.mention} has requireImage "
-                    "enabled, so all messages must include an image or "
-                    "they will be ignored."
+                    t_(
+                        "The AutoStarChannel {0} has requireImage "
+                        "enabled, so all messages must include an image or "
+                        "they will be ignored."
+                    ).format(obj.mention)
                 )
             if asc["regex"]:
                 result["light_warns"].append(
-                    f"The AutoStarChannel {obj.mention} has a regex string "
-                    f"(`{asc['regex']}`) that all messages must match or "
-                    "they will be ignored."
+                    t_(
+                        "The AutoStarChannel {0} has a regex string "
+                        "(`{1}`) that all messages must match or "
+                        "they will be ignored."
+                    ).format(obj.mention, asc["regex"])
                 )
             if asc["exclude_regex"]:
                 result["light_warns"].append(
-                    f"The AutoStarChannel {obj.mention} has a regex string "
-                    f"(`{asc['exclude_regex']}`) that all messages must not "
-                    "match or they will be ignored."
+                    t_(
+                        "The AutoStarChannel {0} has a regex string "
+                        "(`{1}`) that all messages must not "
+                        "match or they will be ignored."
+                    ).format(obj.mention, asc["exclude_regex"])
                 )
 
         perms = obj.permissions_for(guild.me)
         if not perms.read_messages:
             result["errors"].append(
-                f"I'm missing the `Read Messages` permission in {obj.mention}"
-                ", which is an AutoStarChannel. Without this permission, I "
-                "won't be able to autoreact to messages there."
+                t_(
+                    "I'm missing the `Read Messages` permission in {0}"
+                    ", which is an AutoStarChannel. Without this "
+                    "permission, I won't be able to autoreact to "
+                    "messages there."
+                ).format(obj.mention)
             )
         if not perms.add_reactions:
             result["errors"].append(
-                f"I'm missing the `Add Reactions` permission in {obj.mention}"
-                ", which is an AutoStarChannel. Without this permision, I "
-                "won't be able to autoreact to messages there."
+                t_(
+                    "I'm missing the `Add Reactions` permission in {0}"
+                    ", which is an AutoStarChannel. Without this "
+                    "permision, I won't be able to autoreact to messages "
+                    "there."
+                ).format(obj.mention)
             )
         if not perms.manage_messages and asc["delete_invalid"]:
             result["errors"].append(
-                f"I'm missing the `Manage Messages` permission in "
-                f"{obj.mention}, which is an AutoStarChannel. Without that "
-                "permission, I won't be able to delete messages that don't "
-                "meet the requirements."
+                t_(
+                    "I'm missing the `Manage Messages` permission in "
+                    "{0}, which is an AutoStarChannel. Without that "
+                    "permission, I won't be able to delete messages "
+                    "that don't meet the requirements."
+                ).format(obj.mention)
             )
 
     # Suggestions
     sql_guild = await bot.db.guilds.get(guild.id)
     if not sql_guild["log_channel"]:
         result["suggestions"].append(
-            "Add a logChannel (`logChannel <channel>`), where I will "
-            "send important information and errors."
+            t_(
+                "Add a logChannel (`logChannel <channel>`), where I will "
+                "send important information and errors."
+            )
         )
     else:
         log_channel = guild.get_channel(sql_guild["log_channel"])
         if not log_channel:
             result["errors"].append(
-                "The log channel was deleted, please create a new one."
+                t_("The log channel was deleted, please create a new one.")
             )
         else:
             perms = log_channel.permissions_for(guild.me)
             if not perms.send_messages:
                 result["errors"].append(
-                    f"I can't send messages in {log_channel.mention}, "
-                    "so I can't log errors."
+                    t_(
+                        "I can't send messages in {0}, so I can't log errors."
+                    ).format(log_channel.mention)
                 )
             if not perms.embed_links:
                 result["errors"].append(
-                    "I'm missing the `Embed Links` permission in "
-                    f"{log_channel.mention}, so I can't log errors."
+                    t_(
+                        "I'm missing the `Embed Links` permission in "
+                        "{0}, so I can't log errors."
+                    ).format(log_channel.mention)
                 )
 
     return result

@@ -4,6 +4,7 @@ import asyncpg
 import discord
 
 from app import errors
+from app.i18n import t_
 
 
 class Starboards:
@@ -35,7 +36,7 @@ class Starboards:
         is_asc = await self.db.aschannels.get(channel_id) is not None
         if is_asc:
             raise errors.AlreadyExists(
-                "That channel is already an AutoStarChannel!"
+                t_("That channel is already an AutoStarChannel!")
             )
 
         await self.db.guilds.create(guild_id)
@@ -126,24 +127,26 @@ class Starboards:
 
         if settings["required"] <= settings["required_remove"]:
             raise discord.InvalidArgument(
-                "requiredStars cannot be less than or equal to "
-                "requiredRemove"
+                t_(
+                    "requiredStars cannot be less than or equal to "
+                    "requiredRemove."
+                )
             )
         if settings["required"] < 1:
             raise discord.InvalidArgument(
-                "requiredStars cannot be less than 1"
+                t_("requiredStars cannot be less than 1.")
             )
         if settings["required"] > 500:
             raise discord.InvalidArgument(
-                "requiredStars cannot be greater than 500"
+                t_("requiredStars cannot be greater than 500.")
             )
         if settings["required_remove"] < -1:
             raise discord.InvalidArgument(
-                "requiredRemove cannot be less than -1"
+                t_("requiredRemove cannot be less than -1.")
             )
         if settings["required_remove"] > 495:
             raise discord.InvalidArgument(
-                "requiredRemove cannot be greater tahn 495"
+                t_("requiredRemove cannot be greater than 495.")
             )
 
         await self.db.execute(
@@ -190,12 +193,14 @@ class Starboards:
 
     async def add_star_emoji(self, starboard_id: int, emoji: str) -> None:
         if type(emoji) is not str:
-            raise ValueError("Expected a str for emoji")
+            raise ValueError("Expected a str for emoji.")
 
         starboard = await self.get(starboard_id)
         if emoji in starboard["star_emojis"]:
             raise errors.AlreadyExists(
-                f"{emoji} is already a starEmoji on " f"{starboard['id']}"
+                t_("{0} is already a starEmoji on {1}.").format(
+                    emoji, starboard["id"]
+                )
             )
 
         await self.edit(
@@ -204,12 +209,14 @@ class Starboards:
 
     async def remove_star_emoji(self, starboard_id: int, emoji: str) -> None:
         if type(emoji) is not str:
-            raise ValueError("Expected a str for emoji")
+            raise ValueError("Expected a str for emoji.")
 
         starboard = await self.get(starboard_id)
         if emoji not in starboard["star_emojis"]:
             raise errors.DoesNotExist(
-                f"{emoji} is already a starEmoji on " f"{starboard['id']}"
+                t_("{0} is already a starEmoji on {1}.").format(
+                    emoji, starboard["id"]
+                )
             )
 
         new_emojis = starboard["star_emojis"]

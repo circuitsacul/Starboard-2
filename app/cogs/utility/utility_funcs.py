@@ -3,6 +3,7 @@ from typing import Optional
 import discord
 
 from app.classes.bot import Bot
+from app.i18n import t_
 from app.cogs.starboard import starboard_funcs
 
 
@@ -47,7 +48,7 @@ async def handle_purging(
             sql_message["id"],
             sql_message["guild_id"],
             trash,
-            reason="Message Purging" if trash else None,
+            reason=t_("Purged") if trash else None,
         )
         purged.setdefault(sql_message["author_id"], 0)
         purged[sql_message["author_id"]] += 1

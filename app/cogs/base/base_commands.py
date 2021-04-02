@@ -5,6 +5,7 @@ import config
 from app.utils import ms
 
 from ...classes.bot import Bot
+from app.i18n import ft_, t_
 
 
 class Base(commands.Cog):
@@ -12,7 +13,7 @@ class Base(commands.Cog):
 
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
-        self.about_starboard = (
+        self.about_starboard = ft_(
             "A Starboard is a bot that allows users of a server"
             ' to "vote" to "pin" a message. The main idea is this:\n'
             " - You set a channel as the starboard, typically called "
@@ -39,17 +40,19 @@ class Base(commands.Cog):
 
         embed = discord.Embed(
             title="Staboard Help",
-            description=(
-                f"**[Starboard Documentation]({config.DOCS})**\n\n"
-                f"To see a complete command list, run `{p}commands`.\n"
-                f"To see a list of disabled commands, run `{p}disabled`.\n"
-                f"To list all prefixes, run `{p}prefixes`.\n"
-                f"For a list of useful links, run `{p}links`\n\n"
+            description=t_(
+                "**[Starboard Documentation]({0.DOCS})**\n\n"
+                "To see a complete command list, run `{1}commands`.\n"
+                "To see a list of disabled commands, run `{1}disabled`.\n"
+                "To list all prefixes, run `{1}prefixes`.\n"
+                "For a list of useful links, run `{1}links`\n\n"
                 "If you need any help, you can join [the support server]"
-                f"({config.SUPPORT_INVITE})"
-            ),
+                "({0.SUPPORT_INVITE})"
+            ).format(config, p),
             color=self.bot.theme_color,
-        ).add_field(name="What is a Starboard?", value=self.about_starboard)
+        ).add_field(
+            name=t_("What is a Starboard?"), value=t_(self.about_starboard)
+        )
         await ctx.send(embed=embed)
 
     @commands.command(
@@ -64,12 +67,17 @@ class Base(commands.Cog):
         total_members = sum([c["members"] for c in clusters])
 
         embed = discord.Embed(
-            title="Bot Stats",
-            description=(
-                f"guilds: **{total_guilds}**\n"
-                f"users: **{total_members}**\n"
-                f"clusters: **{len(clusters)}**\n"
-                f"shards: **{self.bot.shard_count}**"
+            title=t_("Bot Stats"),
+            description=t_(
+                "guilds: **{0}**\n"
+                "users: **{1}**\n"
+                "clusters: **{2}**\n"
+                "shards: **{3}**"
+            ).format(
+                total_guilds,
+                total_members,
+                len(clusters),
+                self.bot.shard_count,
             ),
             color=self.bot.theme_color,
         )
@@ -87,15 +95,15 @@ class Base(commands.Cog):
         cluster = self.bot.cluster_name
         shard = self.bot.get_shard(ctx.guild.shard_id if ctx.guild else 0)
 
-        embed = discord.Embed(title="Pong!", color=self.bot.theme_color)
+        embed = discord.Embed(title=t_("Pong!"), color=self.bot.theme_color)
         embed.add_field(
-            name=f"Cluster **{cluster}**",
-            value=f"{ms(self.bot.latency)} ms",
+            name=t_("Cluster **{0}**").format(cluster),
+            value=t_("{0} ms").format(ms(self.bot.latency)),
             inline=False,
         )
         embed.add_field(
-            name=f"Shard **{shard.id}**",
-            value=f"{ms(shard.latency)} ms",
+            name=t_("Shard **{0}**").format(shard.id),
+            value=t_("{0} ms").format(ms(shard.latency)),
             inline=False,
         )
         await ctx.send(embed=embed)
@@ -110,29 +118,31 @@ class Base(commands.Cog):
         """Shows important/useful links"""
         embed = (
             discord.Embed(
-                title="Important Links",
+                title=t_("Important Links"),
                 color=self.bot.theme_color,
-                description=(
-                    f"**[Documentation]({config.DOCS})**\n"
-                    f"**[Support Server]({config.SUPPORT_INVITE})**\n"
-                    f"**[Invite Starboard]({config.BOT_INVITE})**\n"
-                ),
+                description=t_(
+                    "**[Documentation]({0.DOCS})**\n"
+                    "**[Support Server]({0.SUPPORT_INVITE})**\n"
+                    "**[Invite Starboard]({0.BOT_INVITE})**\n"
+                ).format(config),
             )
             .add_field(
-                name="Support Starboard",
+                name=t_("Support Starboard"),
                 value=str(
                     "**"
                     + "\n".join(config.DONATE_LINKS)
-                    + f"\n[Become a Patron]({config.PATREON_LINK})**"
+                    + t_("\n[Become a Patron]({0.PATREON_LINK})**").format(
+                        config
+                    )
                 ),
             )
             .add_field(
-                name="Vote Links",
+                name=t_("Vote Links"),
                 value=str("**" + "\n".join(config.VOTE_LINKS) + "**"),
                 inline=False,
             )
             .add_field(
-                name="Review Links",
+                name=t_("Review Links"),
                 value=str("**" + "\n".join(config.REVIEW_LINKS) + "**"),
                 inline=False,
             )
@@ -153,8 +163,10 @@ class Base(commands.Cog):
         user = user or ctx.message.author
         if user.bot:
             await ctx.send(
-                f"{user} is a bot. How many times do you "
-                "think they've voted?"
+                t_(
+                    "{0} is a bot. How many times do you "
+                    "think they've voted?"
+                ).format(user)
             )
             return
         sql_user = await self.bot.db.users.get(user.id)
@@ -164,24 +176,22 @@ class Base(commands.Cog):
             count = 0
         embed = (
             discord.Embed(
-                title="Vote for Starboard",
+                title=t_("Vote for Starboard"),
                 color=self.bot.theme_color,
-                description=f"You have voted **{count}** time"
-                f"{'s' if count != 1 else ''}"
-                f"{'!' if count != 0 else ' :('}"
+                description=t_("You have voted **{0}** time(s).").format(count)
                 if user.id == ctx.message.author.id
-                else f"**{user.name}** has voted **{count}** time"
-                f"{'s' if count != 1 else ''}"
-                f"{'!' if count != 0 else ' :('}",
+                else t_("**{0}** has voted **{1}** time(s).").format(
+                    user, count
+                ),
                 inline=False,
             )
             .add_field(
-                name="Vote Links",
+                name=t_("Vote Links"),
                 value="**" + "\n".join(config.VOTE_LINKS) + "**",
                 inline=False,
             )
             .add_field(
-                name="Review Links",
+                name=t_("Review Links"),
                 value="**" + "\n".join(config.REVIEW_LINKS) + "**",
                 inline=False,
             )

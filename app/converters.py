@@ -7,6 +7,7 @@ from discord.ext import commands, flags
 
 from . import errors
 from .classes.sql_object import SQLObject
+from app.i18n import t_
 
 
 def myhex(arg: str) -> str:
@@ -15,8 +16,10 @@ def myhex(arg: str) -> str:
         int(arg, 16)
     except ValueError:
         raise flags.ArgumentParsingError(
-            f"I couldn't interpret `{arg}` as a hex value. "
-            "Please pass something like `#FFE16C`."
+            t_(
+                "I couldn't interpret `{0}` as a hex value. "
+                "Please pass something like `#FFE16C`."
+            ).format(arg)
         )
     return arg
 
@@ -30,8 +33,10 @@ def mybool(arg: str) -> bool:
     elif arg.lower() in no:
         return False
     raise flags.ArgumentParsingError(
-        f"I couldn't interpret `{arg}` as yes or no. Please "
-        "pass one of 'yes', 'no', 'true', or 'false'."
+        t_(
+            "I couldn't interpret `{0}` as yes or no. Please "
+            "pass one of 'yes', 'no', 'true', or 'false'."
+        ).format(arg)
     )
 
 
@@ -41,8 +46,10 @@ def myint(arg: str) -> int:
         return result
     except ValueError:
         raise flags.ArgumentParsingError(
-            f"I couldn't interpret `{arg}` as an integer (number). "
-            "Please pass something like `10` or `2`"
+            t_(
+                "I couldn't interpret `{0}` as an integer (number). "
+                "Please pass something like `10` or `2`."
+            ).format(arg)
         )
 
 
@@ -52,8 +59,10 @@ def myfloat(arg: str) -> float:
         return result
     except ValueError:
         raise flags.ArgumentParsingError(
-            f"I couldn't interpret `{arg}` as a floating-point "
-            "number. Please pass something like `10.9` or `6`."
+            t_(
+                "I couldn't interpret `{0}` as a floating-point "
+                "number. Please pass something like `10.9` or `6`."
+            ).format(arg)
         )
 
 
@@ -81,13 +90,15 @@ class Emoji(commands.Converter):
         if emoji_id is not None:
             # Means that the emoji is a custom emoji from another server
             raise errors.DoesNotExist(
-                f"It looks like `{arg}` is a custom emoji, but "
-                "from another server. We can only add custom emojis "
-                "from this server."
+                t_(
+                    "It looks like `{0}` is a custom emoji, but "
+                    "from another server. We can only add custom emojis "
+                    "from this server."
+                ).format(arg)
             )
         # Just isn't emojis
         raise errors.DoesNotExist(
-            f"I could not interpret `{arg}` as an emoji."
+            t_("I could not interpret `{0}` as an emoji.").format(arg)
         )
 
 
@@ -98,27 +109,35 @@ class MessageLink(commands.MessageConverter):
                 message = (await ctx.channel.history(limit=2).flatten())[1]
             except discord.Forbidden:
                 raise discord.Forbidden(
-                    "I can't read the message history of this channel, "
-                    "so I don't know what message you want me to force."
+                    t_(
+                        "I can't read the message history of this channel, "
+                        "so I don't know what message you want me to force."
+                    )
                 )
         else:
             try:
                 message = await super().convert(ctx, arg)
             except commands.MessageNotFound as e:
                 raise discord.InvalidArgument(
-                    f"I couldn't find the message `{e.argument}`. "
-                    "Please make sure that the message link/id is valid, "
-                    "and that it is in this server."
+                    t_(
+                        "I couldn't find the message `{0}`. "
+                        "Please make sure that the message link/id is valid, "
+                        "and that it is in this server."
+                    ).format(e.argument)
                 )
             except commands.ChannelNotFound as e:
                 raise discord.InvalidArgument(
-                    f"I couldn't find the channel `{e.argument}`. "
-                    "Please make sure the message link/id is valid, "
-                    "and that it is in this server."
+                    t_(
+                        "I couldn't find the channel `{0}`. "
+                        "Please make sure the message link/id is valid, "
+                        "and that it is in this server."
+                    ).format(e.argument)
                 )
             except commands.ChannelNotReadable as e:
                 raise discord.Forbidden(
-                    f"I can't read messages in the channel `{e.argument}`."
+                    t_("I can't read messages in the channel `{0}`.").format(
+                        e.argument
+                    )
                 )
         return message
 
@@ -147,7 +166,9 @@ class Starboard(commands.Converter):
 
         sql_starboard = await ctx.bot.db.starboards.get(channel_id)
         if sql_starboard is None:
-            raise errors.DoesNotExist(f"{channel.mention} is not a starboard.")
+            raise errors.DoesNotExist(
+                t_("{0} is not a starboard.").format(channel.mention)
+            )
 
         return SQLObject(channel, sql_starboard)
 
@@ -159,7 +180,7 @@ class ASChannel(commands.TextChannelConverter):
         sql_aschannel = await ctx.bot.db.aschannels.get(channel.id)
         if not sql_aschannel:
             raise errors.DoesNotExist(
-                f"{channel.mention} is not an AutoStar channel."
+                t_("{0} is not an AutoStar channel.").format(channel.mention)
             )
 
         return SQLObject(channel, sql_aschannel)
@@ -171,5 +192,7 @@ class Command(commands.Converter):
     ) -> commands.Command:
         cmd = ctx.bot.get_command(arg)
         if not cmd:
-            raise errors.DoesNotExist(f"No commands called `{arg}` found.")
+            raise errors.DoesNotExist(
+                t_("No commands called `{0}` found.").format(arg)
+            )
         return cmd

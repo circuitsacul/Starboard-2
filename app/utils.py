@@ -10,6 +10,8 @@ import discord
 from discord.ext import commands
 from discord import RequestsWebhookAdapter, Webhook
 
+from app.i18n import t_
+
 if typing.TYPE_CHECKING:
     from app.classes.bot import Bot
 
@@ -57,7 +59,7 @@ def cs_embed(
 ) -> discord.Embed:
     text = cs_text(changes, noticks=noticks)
     return discord.Embed(
-        title="Changed Settings", description=text, color=bot.theme_color
+        title=t_("Changed Settings:"), description=text, color=bot.theme_color
     )
 
 
@@ -73,7 +75,7 @@ def cs_text(changes: dict[str, tuple[Any, Any]], noticks: bool = False) -> str:
         ]
     )
     if text == "":
-        text = "No changed settings"
+        text = t_("No changed settings.")
     return text
 
 
@@ -168,13 +170,13 @@ def pretty_emoji_string(
     emojis: list[Union[str, int, discord.Emoji]], guild: discord.Guild
 ) -> str:
     if len(emojis) == 0:
-        return "None"
+        return t_("None")
     converted = convert_emojis(emojis, guild)
     return " ".join(converted)
 
 
 def pretty_channel_string(channels: list[int], guild: discord.Guild) -> str:
-    return ", ".join([f"<#{c}>" for c in channels]) or "None"
+    return ", ".join([f"<#{c}>" for c in channels]) or t_("None")
 
 
 def clean_prefix(ctx: commands.Context):

@@ -4,6 +4,7 @@ import discord
 from discord.ext import commands
 
 from app.classes.bot import Bot
+from app.i18n import t_
 
 from . import asc_funcs
 
@@ -27,9 +28,8 @@ class AutoStarEvents(commands.Cog):
         await self.bot.db.aschannels.delete(channel.id)
         self.bot.dispatch(
             "guild_log",
-            (
-                f"`{channel.name}` was deleted so I removed that "
-                "AutoStarChannel."
+            t_("`{0}` was deleted so I removed that AutoStarChannel.").format(
+                channel.name
             ),
             "info",
             channel.guild,
