@@ -321,7 +321,7 @@ class Settings(commands.Cog):
             clean,
             ctx.guild.id,
         )
-        await ctx.send(t_("Set the recount emoji to {0}").format(emoji))
+        await ctx.send(t_("Set the recount quickAction to {0}").format(emoji))
 
     @quickactions.command(name="save", brief="Sets the save quickAction emoji")
     @commands.has_guild_permissions(manage_messages=True)
