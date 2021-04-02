@@ -19,15 +19,15 @@ msgstr ""
 
 #: app/utils.py:62
 msgid "Changed Settings:"
-msgstr ""
+msgstr "Einstellungen geändert:"
 
 #: app/utils.py:78
 msgid "No changed settings."
-msgstr ""
+msgstr "Keine geänderten Einstellungen"
 
 #: app/utils.py:173 app/utils.py:179
 msgid "None"
-msgstr ""
+msgstr "Nichts"
 
 #: app/converters.py:20
 #, python-brace-format
@@ -35,6 +35,8 @@ msgid ""
 "I couldn't interpret `{0}` as a hex value. Please pass something like "
 "`#FFE16C`."
 msgstr ""
+"`{0}` ist kein Valider Hex Color! Bitte gebe mir sowas wie"
+"`#FFE16C`."
 
 #: app/converters.py:37
 #, python-brace-format
@@ -42,7 +44,8 @@ msgid ""
 "I couldn't interpret `{0}` as yes or no. Please pass one of 'yes', 'no', "
 "'true', or 'false'."
 msgstr ""
-
+"Ich konnte `{0}`nicht als ja oder nein verstehen. Bitte nutze 'ja' oder 'nein'! "
+"'true', oder 'false'."
 #: app/converters.py:50
 #, python-brace-format
 msgid ""
