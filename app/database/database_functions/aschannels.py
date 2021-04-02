@@ -4,6 +4,7 @@ import asyncpg
 import discord
 
 from app import errors
+from app.i18n import t_
 
 
 class ASChannels:
@@ -34,7 +35,9 @@ class ASChannels:
 
         is_starboard = await self.db.starboards.get(channel_id) is not None
         if is_starboard:
-            raise errors.AlreadyExists("That channel is already a starboard!")
+            raise errors.AlreadyExists(
+                t_("That channel is already a starboard!")
+            )
 
         await self.db.guilds.create(guild_id)
         try:
@@ -68,7 +71,7 @@ class ASChannels:
         asc = await self.get(aschannel_id)
         if not asc:
             raise errors.DoesNotExist(
-                f"No AutoStarChannel found with id {aschannel_id}"
+                t_("No AutoStarChannel found with id {0}").format(aschannel_id)
             )
 
         settings = {
@@ -87,10 +90,10 @@ class ASChannels:
         }
 
         if settings["min_chars"] < 0:
-            raise discord.InvalidArgument("minChars cannot be less than 0")
+            raise discord.InvalidArgument(t_("minChars cannot be less than 0"))
         if settings["min_chars"] > 2000:
             raise discord.InvalidArgument(
-                "minChars cannot be grater than 2,000"
+                t_("minChars cannot be grater than 2,000")
             )
 
         await self.db.execute(
@@ -115,7 +118,9 @@ class ASChannels:
         aschannel = await self.get(aschannel_id)
         if emoji in aschannel["emojis"]:
             raise errors.AlreadyExists(
-                f"{emoji} is already an emoji on {aschannel_id}"
+                t_("{0} is already an emoji on {1}").format(
+                    emoji, aschannel_id
+                )
             )
         new_emojis: list = aschannel["emojis"]
         new_emojis.append(emoji)
@@ -125,7 +130,7 @@ class ASChannels:
         aschannel = await self.get(aschannel_id)
         if emoji not in aschannel["emojis"]:
             raise errors.DoesNotExist(
-                f"{emoji} is not an emoji on {aschannel_id}"
+                t_("{0} is not an emoji on {1}").format(emoji, aschannel_id)
             )
         new_emojis: list = aschannel["emojis"]
         new_emojis.remove(emoji)
