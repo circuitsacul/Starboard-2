@@ -10,7 +10,7 @@ from app.cogs.quick_actions import qa_funcs
 async def raise_if_exists(emoji: str, ctx: commands.Context) -> None:
     guild = await ctx.bot.db.guilds.get(ctx.guild.id)
     if qa_funcs.get_qa_type(emoji, guild) is not None:
-        raise errors.AlreadyExists("That is already a QuickAction!")
+        raise errors.AlreadyExists(t_("That is already a QuickAction!"))
 
 
 class Settings(commands.Cog):
@@ -50,20 +50,24 @@ class Settings(commands.Cog):
         guild = await self.bot.db.guilds.get(ctx.guild.id)
         if len(guild["disabled_commands"]) == 0:
             await ctx.send(
-                f"No disabled commands. Disable a command with `{p}disable "
-                "<command>`"
+                t_(
+                    "No disabled commands. Disable a command with `{0}disable "
+                    "<command>`"
+                ).format(p)
             )
             return
         string = ""
         for c in guild["disabled_commands"]:
             string += f"`{c}`\n"
         embed = discord.Embed(
-            title="Disabled Commands",
+            title=t_("Disabled Commands"),
             description=string,
             color=self.bot.theme_color,
         ).set_footer(
-            text=f"Disable a command with {p}disable <command>\n"
-            f"Enable a command with {p}enable <command>"
+            text=t_(
+                "Disable a command with {0}disable <command>\n"
+                "Enable a command with {p}enable <command>"
+            ).format(p)
         )
         await ctx.send(embed=embed)
 
@@ -78,7 +82,7 @@ class Settings(commands.Cog):
         name = command.qualified_name
         new_commands = guild["disabled_commands"]
         if name in new_commands:
-            raise errors.AlreadyExists("That command is already disabled")
+            raise errors.AlreadyExists(t_("That command is already disabled"))
         new_commands.append(name)
         await self.bot.db.execute(
             """UPDATE guilds
@@ -87,7 +91,7 @@ class Settings(commands.Cog):
             new_commands,
             ctx.guild.id,
         )
-        await ctx.send(f"Disabled `{name}`")
+        await ctx.send(t_("Disabled `{0}`").format(name))
 
     @commands.command(name="enable", brief="Enables a command")
     @commands.has_guild_permissions(manage_guild=True)
@@ -108,7 +112,7 @@ class Settings(commands.Cog):
             new_commands,
             ctx.guild.id,
         )
-        await ctx.send(f"Enabled `{name}`")
+        await ctx.send(t_("Enabled `{0}`").format(name))
 
     @commands.command(
         name="settings", aliases=["options"], brief="View guild settings"
@@ -180,7 +184,7 @@ class Settings(commands.Cog):
         await self.bot.db.execute(
             """UPDATE guilds SET qa_enabled=True WHERE id=$1""", ctx.guild.id
         )
-        await ctx.send("Enabled quickActions")
+        await ctx.send(t_("Enabled quickActions"))
 
     @quickactions.command(
         name="disable",
@@ -193,7 +197,7 @@ class Settings(commands.Cog):
         await self.bot.db.execute(
             """UPDATE guilds SET qa_enabled=False WHERE id=$1""", ctx.guild.id
         )
-        await ctx.send("Disabled quickActions")
+        await ctx.send(t_("Disabled quickActions"))
 
     @quickactions.command(
         name="reset", brief="Resets quickActions to their default"
@@ -212,7 +216,7 @@ class Settings(commands.Cog):
             WHERE id=$1""",
             ctx.guild.id,
         )
-        await ctx.send("Reset quickActions")
+        await ctx.send(t_("Reset quickActions"))
 
     @quickactions.command(
         name="force", brief="Sets the force quickAction emoji"
@@ -231,7 +235,7 @@ class Settings(commands.Cog):
             clean,
             ctx.guild.id,
         )
-        await ctx.send(f"Set the force emoji to {emoji}")
+        await ctx.send(t_("Set the force quickAction to {0}").format(emoji))
 
     @quickactions.command(
         name="unforce", brief="Set the unforce quickAction emoji"
@@ -251,7 +255,7 @@ class Settings(commands.Cog):
             clean,
             ctx.guild.id,
         )
-        await ctx.send(f"Set the unforce emoji to {emoji}")
+        await ctx.send(t_("Set the unforce quickAction to {0}").format(emoji))
 
     @quickactions.command(
         name="freeze",
@@ -273,7 +277,9 @@ class Settings(commands.Cog):
             clean,
             ctx.guild.id,
         )
-        await ctx.send(f"Set the freeze/unfreeze emoji to {emoji}")
+        await ctx.send(
+            t_("Set the freeze/unfreeze quickAction to {0}").format(emoji)
+        )
 
     @quickactions.command(
         name="trash", brief="Sets the trash/untrash quickAction emoji"
@@ -293,7 +299,9 @@ class Settings(commands.Cog):
             clean,
             ctx.guild.id,
         )
-        await ctx.send(f"Set the trash/untrash emoji to {emoji}")
+        await ctx.send(
+            t_("Set the trash/untrash quickAction to {0}").format(emoji)
+        )
 
     @quickactions.command(
         name="recount", brief="Sets the recount quickAction emoji"
@@ -313,7 +321,7 @@ class Settings(commands.Cog):
             clean,
             ctx.guild.id,
         )
-        await ctx.send(f"Set the recount emoji to {emoji}")
+        await ctx.send(t_("Set the recount emoji to {0}").format(emoji))
 
     @quickactions.command(name="save", brief="Sets the save quickAction emoji")
     @commands.has_guild_permissions(manage_messages=True)
@@ -330,7 +338,7 @@ class Settings(commands.Cog):
             clean,
             ctx.guild.id,
         )
-        await ctx.send(f"Set the save emoji to {emoji}")
+        await ctx.send(t_("Set the save quickAction to {0}").format(emoji))
 
     @commands.group(
         name="prefixes",
@@ -346,7 +354,7 @@ class Settings(commands.Cog):
         modifying the prefixes."""
         guild = await self.bot.db.guilds.get(ctx.guild.id)
         embed = discord.Embed(
-            title=f"Prefixes for {ctx.guild.name}",
+            title=t_("Prefixes for {0}").format(ctx.guild.name),
             description=(
                 f"{self.bot.user.mention}\n"
                 + "\n".join(f"`{utils.escmd(p)}`" for p in guild["prefixes"])
@@ -378,11 +386,15 @@ class Settings(commands.Cog):
             prefix += " "
         if len(prefix) > 8:
             raise discord.InvalidArgument(
-                f"`{prefix}` is too long (max length is 8 characters)."
+                t_("`{0}` is too long (max length is 8 characters).").format(
+                    prefix
+                )
             )
         guild = await self.bot.db.guilds.get(ctx.guild.id)
         if prefix in guild["prefixes"]:
-            raise errors.AlreadyExists(f"`{prefix}` is already a prefix.")
+            raise errors.AlreadyExists(
+                t_("`{0}` is already a prefix.").format(prefix)
+            )
         new_prefixes = guild["prefixes"] + [prefix]
         await self.bot.db.execute(
             """UPDATE guilds
@@ -392,7 +404,7 @@ class Settings(commands.Cog):
             ctx.guild.id,
         )
 
-        await ctx.send(f"Added `{prefix}` to the prefixes.")
+        await ctx.send(t_("Added `{0}` to the prefixes.").format(prefix))
 
     @prefixes.command(
         name="remove", aliases=["rm", "r"], brief="Removes a prefix"
@@ -415,14 +427,20 @@ class Settings(commands.Cog):
                     match = p
             if matches > 1:
                 raise discord.InvalidArgument(
-                    f"I found {matches} matches for `{prefix}`. "
-                    "Please be more specific."
+                    t_(
+                        "I found {0} matches for `{1}`. "
+                        "Please be more specific."
+                    ).format(matches, prefix)
                 )
             elif not match:
-                raise errors.DoesNotExist(f"No matches found for `{prefix}`")
+                raise errors.DoesNotExist(
+                    t_("No matches found for `{0}`").format(prefix)
+                )
             else:
                 if not await menus.Confirm(
-                    f"Did you want to remove `{match}` from the prefixes?"
+                    t_(
+                        "Did you want to remove `{0}` from the prefixes?"
+                    ).format(match)
                 ).start(ctx):
                     await ctx.send("Cancelled")
                     return
@@ -438,7 +456,9 @@ class Settings(commands.Cog):
             ctx.guild.id,
         )
 
-        await ctx.send(f"Removed `{to_remove}` from the prefixes.")
+        await ctx.send(
+            t_("Removed `{0}` from the prefixes.").format(to_remove)
+        )
 
     @prefixes.command(
         name="reset", brief='Removes all prefixes and adds "sb!"'
@@ -452,9 +472,9 @@ class Settings(commands.Cog):
         """Deletes all prefixes, then adds the default sb!
         prefix back."""
         if not await menus.Confirm(
-            "Are you sure you want to reset all prefixes?"
+            t_("Are you sure you want to reset all prefixes?")
         ).start(ctx):
-            await ctx.send("Cancelled")
+            await ctx.send(t_("Cancelled"))
             return
         await self.bot.db.execute(
             """UPDATE guilds
@@ -462,7 +482,7 @@ class Settings(commands.Cog):
             WHERE id=$1""",
             ctx.guild.id,
         )
-        await ctx.send("Cleared all prefixes and added `sb!`.")
+        await ctx.send(t_("Cleared all prefixes and added `sb!`."))
 
     @commands.command(
         name="levelChannel",
@@ -493,9 +513,11 @@ class Settings(commands.Cog):
             ctx.guild.id,
         )
         if channel:
-            await ctx.send(f"Set the LevelUpChannel to {channel.mention}.")
+            await ctx.send(
+                t_("Set the LevelUpChannel to {0}.").format(channel.mention)
+            )
         else:
-            await ctx.send("Unset the LevelUpChannel.")
+            await ctx.send(t_("Unset the LevelUpChannel."))
 
     @commands.command(
         name="levelUpPing",
@@ -512,9 +534,9 @@ class Settings(commands.Cog):
             ctx.guild.id,
         )
         if ping:
-            await ctx.send("I will now ping users when the level up.")
+            await ctx.send(t_("I will now ping users when the level up."))
         else:
-            await ctx.send("I will not ping users when the level up.")
+            await ctx.send(t_("I will not ping users when the level up."))
 
     @commands.command(
         name="logChannel",
@@ -551,11 +573,15 @@ class Settings(commands.Cog):
             ctx.guild.id,
         )
         if channel:
-            await ctx.send(f"Set the log channel to {channel.mention}")
+            await ctx.send(
+                t_("Set the log channel to {0}").format(channel.mention)
+            )
             self.bot.dispatch(
                 "guild_log",
-                "This channel has been set as a log channel. I'll send "
-                "errors and important info here.",
+                t_(
+                    "This channel has been set as a log channel. I'll send "
+                    "errors and important info here."
+                ),
                 "info",
                 ctx.guild,
             )
@@ -578,7 +604,7 @@ class Settings(commands.Cog):
             value,
             ctx.guild.id,
         )
-        await ctx.send(f"Set allowCommands to **{value}**")
+        await ctx.send(t_("Set allowCommands to **{0}**").format(value))
 
 
 def setup(bot: Bot) -> None:
