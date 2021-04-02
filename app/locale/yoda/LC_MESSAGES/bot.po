@@ -9,6 +9,18 @@ msgstr ""
 "#-#-#-#-#  bot.po (PACKAGE VERSION)  #-#-#-#-#\n"
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-04-01 22:41-0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: yoda\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"#-#-#-#-#  bot.po.bak (PACKAGE VERSION)  #-#-#-#-#\n"
+"#-#-#-#-#  bot.po (PACKAGE VERSION)  #-#-#-#-#\n"
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-01 22:19-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
@@ -422,7 +434,7 @@ msgstr "Set to {0}, the trash/untrash quickaction has been."
 #: app/cogs/settings/settings_commands.py:324
 #, python-brace-format
 msgid "Set the recount quickAction to {0}"
-msgstr "Set to {0}, the recount quickAction has been."
+msgstr "To {0}, the recount quickAction has been."
 
 #: app/cogs/settings/settings_commands.py:341
 #, python-brace-format
@@ -565,8 +577,8 @@ msgid ""
 "Try running `/ping` to see if slash commands are working. If not, a server "
 "admin can use [this link]({slash_auth}) to give me the proper permissions."
 msgstr ""
-"If slash commands are working, run `/ping` to see. Use [this link]({slash_auth}) "
-"a server admin must if working slash commands are not."
+"If slash commands are working, run `/ping` to see. Use [this link]"
+"({slash_auth}) a server admin must if working slash commands are not."
 
 #: app/cogs/blacklist/bl_commands.py:36
 msgid " (All channels are blacklisted, since there are whitelisted channels)"
@@ -1201,8 +1213,3 @@ msgstr ""
 #: app/cogs/utility/utility_funcs.py:51
 msgid "Purged"
 msgstr ""
-
-#: app/cogs/settings/settings_commands.py:324
-#, python-brace-format
-msgid "Set the recount emoji to {0}"
-msgstr "To {0}, the recount quickAction has been."
