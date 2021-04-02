@@ -3,8 +3,8 @@ from typing import Optional
 import discord
 
 from app.classes.bot import Bot
-from app.i18n import t_
 from app.cogs.starboard import starboard_funcs
+from app.i18n import t_
 
 
 async def handle_purging(

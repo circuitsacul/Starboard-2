@@ -2,7 +2,7 @@ from typing import Optional
 
 import asyncpg
 
-from app import i18n, errors
+from app import errors, i18n
 
 
 class Guilds:

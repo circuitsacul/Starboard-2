@@ -3,7 +3,6 @@ from typing import Optional
 import discord
 
 from app import utils
-
 from app.classes import queue
 from app.classes.bot import Bot
 

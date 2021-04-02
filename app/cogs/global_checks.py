@@ -1,9 +1,8 @@
 from discord.ext import commands
 
+from app import errors
 from app.classes.bot import Bot
 from app.i18n import t_
-
-from app import errors
 
 
 async def not_disabled(ctx: commands.Context) -> bool:

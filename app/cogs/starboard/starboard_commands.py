@@ -1,10 +1,11 @@
-from typing import Union, Optional
+from typing import Optional, Union
 
 import discord
 from discord.ext import commands
 
 from app.i18n import t_
-from ... import converters, errors, utils, menus
+
+from ... import converters, errors, menus, utils
 from ...classes.bot import Bot
 
 

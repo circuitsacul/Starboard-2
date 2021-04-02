@@ -2,9 +2,9 @@ import discord
 from discord.ext import commands
 
 from app import utils
-from app.i18n import t_
 from app.classes.bot import Bot
 from app.cogs.utility import utility_funcs
+from app.i18n import t_
 
 from . import starboard_funcs
 

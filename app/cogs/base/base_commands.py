@@ -2,10 +2,10 @@ import discord
 from discord.ext import commands
 
 import config
+from app.i18n import ft_, t_
 from app.utils import ms
 
 from ...classes.bot import Bot
-from app.i18n import ft_, t_
 
 
 class Base(commands.Cog):

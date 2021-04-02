@@ -3,10 +3,10 @@ from typing import Optional
 import discord
 from discord.ext import commands, flags
 
-from app import converters, errors, utils, menus
-from app.i18n import t_, locales, current_locale
+from app import converters, errors, menus, utils
 from app.classes.bot import Bot
 from app.cogs.quick_actions import qa_funcs
+from app.i18n import current_locale, locales, t_
 
 
 async def raise_if_exists(emoji: str, ctx: commands.Context) -> None:

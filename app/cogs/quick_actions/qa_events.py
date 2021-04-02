@@ -3,11 +3,11 @@ from typing import Optional
 import discord
 from discord.ext import commands
 
-from app.i18n import t_
 from app import utils
 from app.classes.bot import Bot
 from app.cogs.starboard import starboard_funcs
 from app.cogs.utility import recounter, utility_funcs
+from app.i18n import t_
 
 from . import qa_funcs
 

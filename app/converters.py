@@ -5,9 +5,10 @@ import discord
 import emoji
 from discord.ext import commands, flags
 
+from app.i18n import t_
+
 from . import errors
 from .classes.sql_object import SQLObject
-from app.i18n import t_
 
 
 def myhex(arg: str) -> str:

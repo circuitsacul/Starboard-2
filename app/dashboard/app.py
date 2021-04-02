@@ -3,14 +3,15 @@ from typing import Optional, Union
 
 import dotenv
 import humanize
-from quart import Quart, render_template, redirect, url_for, request
-from quart_discord import DiscordOAuth2Session, Unauthorized, AccessDenied
+from quart import Quart, redirect, render_template, request, url_for
+from quart_discord import AccessDenied, DiscordOAuth2Session, Unauthorized
 from quart_discord.utils import requires_authorization
 
 import config
-from . import app_config
-from app.database.database import Database
 from app.classes.ipc_connection import WebsocketConnection
+from app.database.database import Database
+
+from . import app_config
 
 dotenv.load_dotenv()
 

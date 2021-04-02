@@ -8,7 +8,7 @@ import discord
 from asyncpg.exceptions import InterfaceError
 from discord.ext import commands
 
-from ... import checks, utils, menus
+from ... import checks, menus, utils
 from ...classes.bot import Bot
 
 

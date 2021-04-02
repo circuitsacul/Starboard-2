@@ -4,8 +4,8 @@ from typing import Optional
 import discord
 
 from app import utils
-from app.i18n import t_
 from app.classes.bot import Bot
+from app.i18n import t_
 
 ZERO_WIDTH_SPACE = "\u200B"
 

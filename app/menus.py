@@ -1,7 +1,7 @@
 from typing import Optional
 
 import discord
-from discord.ext import menus, commands
+from discord.ext import commands, menus
 
 
 class Confirm(menus.Menu):

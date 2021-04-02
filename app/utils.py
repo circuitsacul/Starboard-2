@@ -7,8 +7,8 @@ from functools import wraps
 from typing import Any, Iterable, Optional, Union
 
 import discord
-from discord.ext import commands
 from discord import RequestsWebhookAdapter, Webhook
+from discord.ext import commands
 
 from app.i18n import t_
 

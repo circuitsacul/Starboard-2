@@ -4,9 +4,9 @@ import discord
 from discord.ext import commands, flags
 
 from app import converters, menus
-from app.i18n import t_
 from app.classes.bot import Bot
 from app.cogs.starboard import starboard_funcs
+from app.i18n import t_
 
 from . import fun_funcs
 
