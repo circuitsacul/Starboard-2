@@ -10,9 +10,9 @@ if len(sys.argv) == 1:
     print("missing required argument <language>")
     sys.exit(1)
 locale = sys.argv[-1]
-file = f"./locale/{locale}/LC_MESSAGES/bot.po"
-if not os.path.isdir(f"locale/{locale}/LC_MESSAGES"):
-    os.makedirs(f"locale/{locale}/LC_MESSAGES")
+file = f"./app/locale/{locale}/LC_MESSAGES/bot.po"
+if not os.path.isdir(f"app/locale/{locale}/LC_MESSAGES"):
+    os.makedirs(f"app/locale/{locale}/LC_MESSAGES")
 with suppress(FileNotFoundError):
     shutil.copy(file, file + ".bak")
 with suppress(FileNotFoundError):
@@ -25,12 +25,12 @@ for dir, subdirs, files in os.walk("."):
         if file.endswith('.py'):
             fname = os.path.join(dir, file)
             print(fname)"""
-if not os.path.isfile("./locale/all_files.py"):
-    with open("./locale/all_files.py", "w") as f:
+if not os.path.isfile("./app/locale/all_files.py"):
+    with open("./app/locale/all_files.py", "w") as f:
         f.write(all_files)
 
 stuff = subprocess.run(
-    [sys.executable, "./locale/all_files.py"], capture_output=True
+    [sys.executable, "./app/locale/all_files.py"], capture_output=True
 )
 content = stuff.stdout
 
