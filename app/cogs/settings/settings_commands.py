@@ -36,7 +36,7 @@ class Settings(commands.Cog):
         if not locale:
             await ctx.send(
                 t_("Valid language codes:```\n{0}```").format(
-                    ", ".join(locales)
+                    ", ".join(sorted(locales, key=lambda l: l))
                 )
             )
             return
