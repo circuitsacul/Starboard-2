@@ -4,6 +4,7 @@ from discord_slash import SlashContext, cog_ext
 
 import config
 from app.classes.bot import Bot
+from app.i18n import t_
 
 
 class SlashCommands(commands.Cog):
@@ -29,12 +30,12 @@ class SlashCommands(commands.Cog):
         slash_auth = config.SLASH_AUTH + f"&guild_id={ctx.guild.id}"
         embed = discord.Embed(
             title="Slash Commands",
-            description=(
+            description=t_(
                 "Try running `/ping` to see if slash commands "
                 "are working. If not, a server admin can use "
-                f"[this link]({slash_auth}) to give me "
+                "[this link]({slash_auth}) to give me "
                 "the proper permissions."
-            ),
+            ).config(slash_auth),
             color=self.bot.theme_color,
         )
         await ctx.send(embed=embed)
