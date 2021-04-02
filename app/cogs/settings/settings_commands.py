@@ -1,8 +1,10 @@
+from typing import Optional
+
 import discord
 from discord.ext import commands, flags
 
 from app import converters, errors, utils, menus
-from app.i18n import t_
+from app.i18n import t_, locales, current_locale
 from app.classes.bot import Bot
 from app.cogs.quick_actions import qa_funcs
 
@@ -27,8 +29,18 @@ class Settings(commands.Cog):
     )
     @commands.has_guild_permissions(manage_guild=True)
     @commands.guild_only()
-    async def set_guild_lang(self, ctx: commands.Context, locale: str) -> None:
+    async def set_guild_lang(
+        self, ctx: commands.Context, locale: Optional[str]
+    ) -> None:
         """Sets the language for the server"""
+        if not locale:
+            await ctx.send(
+                t_("Valid language codes:```\n{0}```").format(
+                    ", ".join(locales)
+                )
+            )
+            return
+
         await self.bot.db.guilds.set_locale(ctx.guild.id, locale)
         if ctx.guild.id in self.bot.locale_cache:
             self.bot.locale_cache[ctx.guild.id] = locale
@@ -136,6 +148,7 @@ class Settings(commands.Cog):
         embed = discord.Embed(
             title=t_("Settings for {0}:").format(ctx.guild.name),
             description=(
+                f"language: **{current_locale.get()}**\n"
                 f"logChannel: {log_channel}\n"
                 f"levelChannel: {level_channel}\n"
                 f"pingOnLevelUp: **{guild['ping_user']}**\n"
