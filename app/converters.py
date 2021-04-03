@@ -112,7 +112,7 @@ class MessageLink(commands.MessageConverter):
                 raise discord.Forbidden(
                     t_(
                         "I can't read the message history of this channel, "
-                        "so I don't know what message you want me to force."
+                        "so I don't know what message that is."
                     )
                 )
         else:
