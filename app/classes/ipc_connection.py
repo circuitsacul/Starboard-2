@@ -1,6 +1,6 @@
 import asyncio
 import json
-from typing import Optional, Union
+from typing import Any, Callable, Optional
 
 import websockets
 
@@ -9,15 +9,15 @@ class WebsocketConnection:
     def __init__(
         self,
         name: str,
-        on_command: callable,
+        on_command: Callable[[dict[str, Any]], Any],
         loop: Optional[asyncio.AbstractEventLoop] = None,
     ):
         self.on_command = on_command
 
-        self.callbacks = {}
+        self.callbacks: dict[str, list[dict[str, Any]]] = {}
         self.current_callback = 0
 
-        self.websocket = None
+        self.websocket: Optional[websockets.WebSocketCommonProtocol] = None
         self.loop = loop or asyncio.get_event_loop()
         self.task = None
 
@@ -25,8 +25,11 @@ class WebsocketConnection:
 
     async def send_command(
         self, name: str, data: dict, expect_resp: bool = False
-    ) -> Optional[list[str]]:
-        to_send = {
+    ) -> Optional[list[dict[str, Any]]]:
+        if not self.websocket:
+            raise Exception("Websocket not initialized.")
+
+        to_send: dict[str, Any] = {
             "type": "command",
             "name": name,
             "respond": expect_resp,
@@ -42,16 +45,18 @@ class WebsocketConnection:
             await self.websocket.send(json.dumps(to_send).encode("utf-8"))
         except websockets.ConnectionClosed as exc:
             if exc.code == 1000:
-                return
+                return None
             raise
 
         if expect_resp:
             await asyncio.sleep(0.5)
             return self.callbacks.pop(to_send["callback"])
+        return None
 
-    async def send_response(
-        self, callback: int, data: Union[dict, str]
-    ) -> None:
+    async def send_response(self, callback: int, data: Any) -> None:
+        if not self.websocket:
+            raise Exception("Websocket not initialized.")
+
         to_send = {
             "type": "response",
             "callback": callback,
@@ -67,6 +72,9 @@ class WebsocketConnection:
             raise
 
     async def recv_loop(self):
+        if not self.websocket:
+            raise Exception("Websocket not initialized.")
+
         while True:
             try:
                 msg = await self.websocket.recv()
@@ -75,7 +83,7 @@ class WebsocketConnection:
                     return
                 raise
 
-            msg = json.loads(msg)
+            msg: dict[str, Any] = json.loads(msg)
 
             if msg["type"] == "response":
                 if msg["callback"] in self.callbacks:
@@ -95,9 +103,9 @@ class WebsocketConnection:
         self.task = self.loop.create_task(self.recv_loop())
         self.task.add_done_callback(self._done_callback)
 
-    def _next_callback(self) -> int:
+    def _next_callback(self) -> str:
         self.current_callback += 1
-        return self.current_callback
+        return str(self.current_callback)
 
     def _done_callback(self, task: asyncio.Task):
         try:
@@ -106,4 +114,5 @@ class WebsocketConnection:
             pass
 
     async def close(self, *args, **kwargs) -> None:
-        await self.websocket.close(*args, **kwargs)
+        if self.websocket:
+            await self.websocket.close(*args, **kwargs)

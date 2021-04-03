@@ -120,6 +120,10 @@ class ASChannels:
 
     async def add_asemoji(self, aschannel_id: int, emoji: str) -> None:
         aschannel = await self.get(aschannel_id)
+        if not aschannel:
+            raise errors.NotInDatabase(
+                f"Could not find aschannel {aschannel_id}."
+            )
         if emoji in aschannel["emojis"]:
             raise errors.AlreadyExists(
                 t_("{0} is already an emoji on {1}.").format(
@@ -132,6 +136,10 @@ class ASChannels:
 
     async def remove_asemojis(self, aschannel_id: int, emoji: str) -> None:
         aschannel = await self.get(aschannel_id)
+        if not aschannel:
+            raise errors.NotInDatabase(
+                f"Could not find aschannel {aschannel_id}."
+            )
         if emoji not in aschannel["emojis"]:
             raise errors.DoesNotExist(
                 t_("{0} is not an emoji on {1}.").format(emoji, aschannel_id)

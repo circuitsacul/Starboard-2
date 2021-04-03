@@ -32,6 +32,10 @@ class AlreadyOrigMessage(Exception):
     pass
 
 
+class NotInDatabase(Exception):
+    pass
+
+
 # CheckFailures
 class AllCommandsDisabled(commands.CheckFailure):
     pass

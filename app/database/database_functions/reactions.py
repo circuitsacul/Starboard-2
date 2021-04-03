@@ -2,6 +2,8 @@ from typing import Optional
 
 import asyncpg
 
+from app import errors
+
 
 class Reactions:
     def __init__(self, db) -> None:
@@ -65,6 +67,11 @@ class Reactions:
         await self.create_reaction(emoji, message_id)
 
         reaction = await self.get_reaction(emoji, message_id)
+        if not reaction:
+            raise errors.NotInDatabase(
+                f"Created reaction {emoji}, {message_id}, but "
+                "count not find it."
+            )
 
         try:
             await self.db.execute(

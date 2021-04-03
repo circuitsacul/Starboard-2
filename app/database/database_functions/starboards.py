@@ -58,7 +58,7 @@ class Starboards:
 
     async def edit(
         self,
-        starboard_id: int = None,
+        starboard_id: int,
         required: int = None,
         required_remove: int = None,
         autoreact: bool = None,
@@ -196,6 +196,10 @@ class Starboards:
             raise ValueError("Expected a str for emoji.")
 
         starboard = await self.get(starboard_id)
+        if not starboard:
+            raise errors.NotInDatabase(
+                f"Could not find starboard {starboard_id}."
+            )
         if emoji in starboard["star_emojis"]:
             raise errors.AlreadyExists(
                 t_("{0} is already a starEmoji on {1}.").format(
@@ -212,6 +216,10 @@ class Starboards:
             raise ValueError("Expected a str for emoji.")
 
         starboard = await self.get(starboard_id)
+        if not starboard:
+            raise errors.NotInDatabase(
+                f"Could not find starboard {starboard_id}."
+            )
         if emoji not in starboard["star_emojis"]:
             raise errors.DoesNotExist(
                 t_("{0} is already a starEmoji on {1}.").format(

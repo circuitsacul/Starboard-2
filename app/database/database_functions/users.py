@@ -16,7 +16,7 @@ class Users:
 
     async def create(
         self, user_id: int, is_bot: bool, check_first: bool = True
-    ) -> None:
+    ) -> bool:
         if check_first:
             exists = await self.get(user_id) is not None
             if exists:

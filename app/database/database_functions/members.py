@@ -17,7 +17,7 @@ class Members:
 
     async def create(
         self, user_id: int, guild_id: int, check_first: bool = True
-    ) -> None:
+    ) -> bool:
         if check_first:
             exists = await self.get(user_id, guild_id) is not None
             if exists:

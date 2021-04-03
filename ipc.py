@@ -3,7 +3,7 @@ import signal
 
 import websockets
 
-CLIENTS = {}
+CLIENTS: dict[str, websockets.WebSocketServerProtocol] = {}
 
 
 async def dispatch(data):
@@ -11,9 +11,10 @@ async def dispatch(data):
         await client.send(data)
 
 
-async def serve(ws, path):
+async def serve(ws: websockets.WebSocketServerProtocol, path: str):
     cluster_name = await ws.recv()
-    cluster_name = cluster_name.decode()
+    if isinstance(cluster_name, bytes):
+        cluster_name = cluster_name.decode()
     if cluster_name in CLIENTS:
         print(f"IPC: {cluster_name} attempted reconnection")
         await ws.close(4029, "already connected")

@@ -8,7 +8,7 @@ LOCALE_DEFAULT = "en_US"
 LOCALE_DIR = "locale"
 locales = frozenset(
     map(
-        os.path.basename,
+        lambda s: os.path.basename(s),
         filter(os.path.isdir, glob(os.path.join(BASE_DIR, LOCALE_DIR, "*"))),
     )
 )
@@ -36,7 +36,7 @@ def use_current_gettext(*args, **kwargs):
     ).gettext(*args, **kwargs)
 
 
-current_locale = contextvars.ContextVar("i18n")
+current_locale: contextvars.ContextVar = contextvars.ContextVar("i18n")
 t_ = use_current_gettext
 
 

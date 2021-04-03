@@ -6,7 +6,7 @@ import sys
 import textwrap
 import traceback
 from contextlib import redirect_stdout
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 import discord
 from discord.ext import commands
@@ -94,7 +94,10 @@ class Bot(commands.AutoShardedBot):
             locale = self.locale_cache[message.guild.id]
         else:
             guild = await self.db.guilds.get(message.guild.id)
-            locale = guild["locale"]
+            if guild:
+                locale = guild["locale"]
+            else:
+                locale = "en_US"
             self.locale_cache[message.guild.id] = locale
 
         i18n.current_locale.set(locale)
@@ -169,12 +172,12 @@ class Bot(commands.AutoShardedBot):
                 return f"{value}{ret}"
 
     async def handle_websocket_command(
-        self, msg: Union[dict, str]
-    ) -> Optional[dict]:
+        self, msg: dict[str, Any]
+    ) -> Optional[Union[list, str]]:
         cmd = msg["name"]
         data = msg["data"]
 
-        ret = None
+        ret: Optional[Union[list, str]] = None
 
         if cmd == "ping":
             ret = "pong"

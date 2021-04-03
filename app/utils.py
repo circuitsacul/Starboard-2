@@ -4,7 +4,7 @@ import re
 import signal
 import typing
 from functools import wraps
-from typing import Any, Iterable, Optional, Union
+from typing import Any, Generator, Iterable, Optional, Union
 
 import discord
 from discord import RequestsWebhookAdapter, Webhook
@@ -37,7 +37,7 @@ def timeout(seconds=10, error_message=os.strerror(errno.ETIME)):
 
 
 # Functions
-def webhooklog(content: str, url: str) -> None:
+def webhooklog(content: str, url: Optional[str]) -> None:
     if not url:
         return
     webhook = Webhook.from_url(url, adapter=RequestsWebhookAdapter())
@@ -48,7 +48,9 @@ def get_intersect(list1: Iterable[Any], list2: Iterable[Any]) -> list[Any]:
     return [value for value in list1 if value in list2]
 
 
-def chunk_list(lst: list[Any], max_size: int) -> list[Any]:
+def chunk_list(
+    lst: list[Any], max_size: int
+) -> Generator[list[Any], None, None]:
     """Use list(chunk_list(...)) or for lst in chunk_list(...)"""
     for i in range(0, len(lst), max_size):
         yield lst[i : i + max_size]
@@ -95,8 +97,6 @@ def escesc(text: str) -> str:
 
 
 def escmd(text: str) -> str:
-    if type(text) is not str:
-        return
     return discord.utils.escape_markdown(text)
 
 
@@ -108,7 +108,7 @@ def escmask(text: str) -> str:
     return text
 
 
-def ms(seconds: int) -> int:
+def ms(seconds: float) -> float:
     return round(seconds * 1000, 2)
 
 
@@ -128,13 +128,13 @@ def clean_emoji(
     animated_pattern = "^<:.*:[0-9]+>$"
     custom_pattern = "^<a:.*:[0-9]+>$"
 
-    if type(emoji) is discord.partial_emoji.PartialEmoji:
+    if isinstance(emoji, discord.partial_emoji.PartialEmoji):
         if emoji.id is None:
             return emoji.name
         else:
             return str(emoji.id)
 
-    if type(emoji) is discord.Emoji:
+    if isinstance(emoji, discord.Emoji):
         str_emoji = str(emoji.id)
     else:
         str_emoji = str(emoji)
