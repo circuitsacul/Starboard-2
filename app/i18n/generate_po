@@ -62,7 +62,9 @@ data = re.sub(
 with open(file, "w") as f:
     f.write(data)
 
-subprocess.run([r"msgcat", file, file + ".bak", "-o", file + ".cat"])
+subprocess.run(
+    [r"msgcat", file, file + ".bak", "-o", file + ".cat", "--use-first"]
+)
 # os.remove(file)
 with suppress(FileNotFoundError):
     os.rename(file + ".cat", file)
