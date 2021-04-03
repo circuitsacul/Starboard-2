@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 
 import config
-from app.i18n import ft_, t_
+from app.i18n import t_
 from app.utils import ms
 
 from ...classes.bot import Bot
@@ -13,7 +13,7 @@ class Base(commands.Cog):
 
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
-        self.about_starboard = ft_(
+        self.about_starboard = t_(
             "A Starboard is a bot that allows users of a server"
             ' to "vote" to "pin" a message. The main idea is this:\n'
             " - You set a channel as the starboard, typically called "
