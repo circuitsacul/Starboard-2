@@ -183,6 +183,16 @@ class ChannelNotFound(commands.BadArgument):
         return cls(exc.argument)
 
 
+class ChannelNotReadable(commands.BadArgument):
+    def __init__(self, argument: str):
+        self.argument = argument
+        super().__init__(t_("I can't read messages in {0}.").format(argument))
+
+    @classmethod
+    def from_original(cls, exc: commands.ChannelNotReadable):
+        return cls(exc.argument)
+
+
 class RoleNotFound(commands.BadArgument):
     def __init__(self, argument: str):
         self.arugment = argument
@@ -287,6 +297,7 @@ class NoPrivateMessages(commands.CheckFailure):
 ERROR_MAP = {
     "MissingRequiredArgument": MissingRequiredArgument,
     "ChannelNotFound": ChannelNotFound,
+    "ChannelNotReadable": ChannelNotReadable,
     "RoleNotFound": RoleNotFound,
     "UserNotFound": UserNotFound,
     "CommandOnCooldown": CommandOnCooldown,

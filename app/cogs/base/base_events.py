@@ -27,6 +27,7 @@ EXPECTED_ERRORS = (
     commands.BadArgument,
     commands.NotOwner,
     commands.UserInputError,
+    commands.CheckFailure,
     errors.CommandOnCooldown,
     flags.ArgumentParsingError,
 )
