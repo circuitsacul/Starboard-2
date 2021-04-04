@@ -148,9 +148,7 @@ class Utility(commands.Cog):
             self.bot, message_link.id
         )
         if not orig_message:
-            raise errors.DoesNotExist(
-                t_("That message does not exist in the database.")
-            )
+            raise errors.MessageNotInDatabse()
         await utility_funcs.handle_freezing(
             self.bot, orig_message["id"], orig_message["guild_id"], True
         )
@@ -166,9 +164,7 @@ class Utility(commands.Cog):
             self.bot, message_link.id
         )
         if not orig_message:
-            raise errors.DoesNotExist(
-                t_("That message does not exist in the database.")
-            )
+            raise errors.MessageNotInDatabse()
         await utility_funcs.handle_freezing(
             self.bot, orig_message["id"], orig_message["guild_id"], False
         )
@@ -269,7 +265,7 @@ class Utility(commands.Cog):
             self.bot, message_link.id
         )
         if not orig_sql_message:
-            await ctx.send(t_("That message does not exist in the database."))
+            raise errors.MessageNotInDatabse()
         if orig_sql_message["id"] != message_link.id and len(starboards) == 0:
             if await menus.Confirm(
                 t_(
@@ -316,9 +312,7 @@ class Utility(commands.Cog):
     ) -> None:
         orig_message = await starboard_funcs.orig_message(self.bot, message.id)
         if not orig_message:
-            raise errors.DoesNotExist(
-                t_("That message does not exist in the database.")
-            )
+            raise errors.MessageNotInDatabse()
         await utility_funcs.set_trash_reason(
             self.bot, orig_message["id"], ctx.guild.id, reason or "None given"
         )
@@ -344,9 +338,7 @@ class Utility(commands.Cog):
             self.bot, message_link.id
         )
         if not orig_sql_message:
-            raise errors.DoesNotExist(
-                t_("That message does not exist in the database.")
-            )
+            raise errors.MessageNotInDatabse()
         await utility_funcs.handle_trashing(
             self.bot,
             orig_sql_message["id"],
@@ -366,9 +358,7 @@ class Utility(commands.Cog):
             self.bot, message_link.id
         )
         if not orig_sql_message:
-            raise errors.DoesNotExist(
-                t_("That message does not exist in the database.")
-            )
+            raise errors.MessageNotInDatabse()
         await utility_funcs.handle_trashing(
             self.bot,
             orig_sql_message["id"],
@@ -520,9 +510,7 @@ class Utility(commands.Cog):
         """Shows useful info on a message."""
         orig = await starboard_funcs.orig_message(self.bot, message.id)
         if not orig:
-            raise errors.DoesNotExist(
-                t_("That message does not exist in the database.")
-            )
+            raise errors.MessageNotInDatabse()
         jump = utils.jump_link(
             orig["id"], orig["channel_id"], orig["guild_id"]
         )

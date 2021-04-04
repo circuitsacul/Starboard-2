@@ -35,9 +35,7 @@ class Starboards:
 
         is_asc = await self.db.aschannels.get(channel_id) is not None
         if is_asc:
-            raise errors.AlreadyExists(
-                t_("That channel is already an AutoStarChannel!")
-            )
+            raise errors.CannotBeStarboardAndAutostar()
 
         await self.db.guilds.create(guild_id)
         try:
@@ -80,9 +78,7 @@ class Starboards:
     ) -> None:
         s = await self.get(starboard_id)
         if not s:
-            raise errors.DoesNotExist(
-                f"Starboard {starboard_id} does not exist."
-            )
+            raise errors.NotStarboard(starboard_id)
 
         settings = {
             "required": s["required"] if required is None else required,
@@ -201,11 +197,7 @@ class Starboards:
                 f"Could not find starboard {starboard_id}."
             )
         if emoji in starboard["star_emojis"]:
-            raise errors.AlreadyExists(
-                t_("{0} is already a starEmoji on {1}.").format(
-                    emoji, starboard["id"]
-                )
-            )
+            raise errors.AlreadySBEmoji(emoji, starboard["id"])
 
         await self.edit(
             starboard_id, star_emojis=starboard["star_emojis"] + [emoji]
@@ -221,11 +213,7 @@ class Starboards:
                 f"Could not find starboard {starboard_id}."
             )
         if emoji not in starboard["star_emojis"]:
-            raise errors.DoesNotExist(
-                t_("{0} is already a starEmoji on {1}.").format(
-                    emoji, starboard["id"]
-                )
-            )
+            raise errors.AlreadySBEmoji(emoji, starboard["id"])
 
         new_emojis = starboard["star_emojis"]
         new_emojis.remove(emoji)

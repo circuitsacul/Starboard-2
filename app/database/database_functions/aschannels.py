@@ -35,9 +35,7 @@ class ASChannels:
 
         is_starboard = await self.db.starboards.get(channel_id) is not None
         if is_starboard:
-            raise errors.AlreadyExists(
-                t_("That channel is already a starboard!")
-            )
+            raise errors.CannotBeStarboardAndAutostar()
 
         await self.db.guilds.create(guild_id)
         try:
@@ -70,11 +68,7 @@ class ASChannels:
     ) -> None:
         asc = await self.get(aschannel_id)
         if not asc:
-            raise errors.DoesNotExist(
-                t_("No AutoStarChannel found with id {0}.").format(
-                    aschannel_id
-                )
-            )
+            raise errors.NotAutoStarChannel(str(aschannel_id))
 
         settings = {
             "emojis": asc["emojis"] if emojis is None else emojis,
@@ -125,11 +119,7 @@ class ASChannels:
                 f"Could not find aschannel {aschannel_id}."
             )
         if emoji in aschannel["emojis"]:
-            raise errors.AlreadyExists(
-                t_("{0} is already an emoji on {1}.").format(
-                    emoji, aschannel_id
-                )
-            )
+            raise errors.AlreadyASEmoji(emoji, aschannel_id)
         new_emojis: list = aschannel["emojis"]
         new_emojis.append(emoji)
         await self.edit(aschannel_id, emojis=new_emojis)
@@ -141,9 +131,7 @@ class ASChannels:
                 f"Could not find aschannel {aschannel_id}."
             )
         if emoji not in aschannel["emojis"]:
-            raise errors.DoesNotExist(
-                t_("{0} is not an emoji on {1}.").format(emoji, aschannel_id)
-            )
+            raise errors.NotASEmoji(emoji, str(aschannel_id))
         new_emojis: list = aschannel["emojis"]
         new_emojis.remove(emoji)
         await self.edit(aschannel_id, emojis=new_emojis)

@@ -65,10 +65,8 @@ class Blacklist(commands.Cog):
     ) -> None:
         new_bl = starboard.sql["channel_bl"]
         if channel.id in new_bl:
-            raise errors.AlreadyExists(
-                t_("{0} is already blacklisted on {1}.").format(
-                    channel.mention, starboard.obj.mention
-                )
+            raise errors.AlreadyBlacklisted(
+                channel.mention, starboard.obj.mention
             )
         new_bl.append(channel.id)
         await self.bot.db.starboards.edit(starboard.obj.id, channel_bl=new_bl)
@@ -92,11 +90,7 @@ class Blacklist(commands.Cog):
     ) -> None:
         new_bl = starboard.sql["channel_bl"]
         if channel.id not in new_bl:
-            raise errors.DoesNotExist(
-                t_("{0} is not blacklisted on {1}.").format(
-                    channel.mention, starboard.obj.mention
-                )
-            )
+            raise errors.NotBlacklisted(channel.mention, starboard.obj.mention)
         new_bl.remove(channel.id)
         await self.bot.db.starboards.edit(starboard.obj.id, channel_bl=new_bl)
         await ctx.send(
@@ -155,10 +149,8 @@ class Blacklist(commands.Cog):
         channel: discord.TextChannel,
     ) -> None:
         if channel.id in starboard.sql["channel_wl"]:
-            raise errors.AlreadyExists(
-                t_("{0} is already whitelisted on {1}.").format(
-                    channel.mention, starboard.obj.mention
-                )
+            raise errors.AlreadyWhitelisted(
+                channel.mention, starboard.obj.mention
             )
         new_wl = starboard.sql["channel_wl"]
         new_wl.append(channel.id)
@@ -182,11 +174,7 @@ class Blacklist(commands.Cog):
         channel: discord.TextChannel,
     ) -> None:
         if channel.id not in starboard.sql["channel_wl"]:
-            raise errors.DoesNotExist(
-                t_("{0} is not whitelisted on {1}.").format(
-                    channel.mention, starboard.obj.mention
-                )
-            )
+            raise errors.NotWhitelisted(channel.mention, starboard.obj.mention)
         new_wl = starboard.sql["channel_wl"]
         new_wl.remove(channel.id)
         await self.bot.db.starboards.edit(starboard.obj.id, channel_wl=new_wl)

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-03 16:08-0400\n"
+"POT-Creation-Date: 2021-04-03 17:04-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -35,8 +35,8 @@ msgid ""
 "I couldn't interpret `{0}` as a hex value. Please pass something like "
 "`#FFE16C`."
 msgstr ""
-"Interpret `{0}` as a hex, I could not. Pass something like `#FFE16C`, "
-"you must."
+"Interpret `{0}` as a hex, I could not. Pass something like `#FFE16C`, you "
+"must."
 
 #: app/converters.py:38
 #, python-brace-format
@@ -62,8 +62,8 @@ msgid ""
 "I couldn't interpret `{0}` as a floating-point number. Please pass something "
 "like `10.9` or `6`."
 msgstr ""
-"Interpret `{0}` as a floating-point number, I could not. Something like `10.9` "
-"or `6`, you must."
+"Interpret `{0}` as a floating-point number, I could not. Something like "
+"`10.9` or `6`, you must."
 
 #: app/converters.py:95
 #, python-brace-format
@@ -84,8 +84,8 @@ msgid ""
 "I can't read the message history of this channel, so I don't know what "
 "message that is."
 msgstr ""
-"Read the message history of this channel, I cannot. What message that is, "
-"I know not."
+"Read the message history of this channel, I cannot. What message that is, I "
+"know not."
 
 #: app/converters.py:124
 #, python-brace-format
@@ -281,8 +281,8 @@ msgid ""
 "This lists the starboards and their most important settings. To view all "
 "settings, run `{0}starboards #starboard`."
 msgstr ""
-"Lists starboards and important settings, this does. To all "
-"settings view, `{0}starboards #starboard` run."
+"Lists starboards and important settings, this does. To all settings view, "
+"`{0}starboards #starboard` run."
 
 #: app/cogs/starboard/starboard_commands.py:62
 #, python-brace-format
@@ -366,8 +366,8 @@ msgstr "Set to {0} the language for this server has been."
 #, python-brace-format
 msgid "No disabled commands. Disable a command with `{0}disable <command>`."
 msgstr ""
-"Disabled commands, there are none. With `{0}disable <command>` may "
-"commands be disabled."
+"Disabled commands, there are none. With `{0}disable <command>` may commands "
+"be disabled."
 
 #: app/cogs/settings/settings_commands.py:75
 msgid "Disabled Commands:"
@@ -582,7 +582,8 @@ msgstr ""
 
 #: app/cogs/blacklist/bl_commands.py:36
 msgid " (All channels are blacklisted, since there are whitelisted channels)"
-msgstr " (Blacklisted, all channels are, since whitelisted channels, there are)"
+msgstr ""
+" (Blacklisted, all channels are, since whitelisted channels, there are)"
 
 #: app/cogs/blacklist/bl_commands.py:43
 #, python-brace-format
@@ -690,7 +691,10 @@ msgstr ""
 #: app/cogs/autostarchannels/asc_funcs.py:78
 #, python-brace-format
 msgid "Your message in {0} was deleted, because {1}. Here is your message:"
-msgstr "Deleted was your message in {0}.\n{1}.\nYour message below can be found."
+msgstr ""
+"Deleted was your message in {0}.\n"
+"{1}.\n"
+"Your message below can be found."
 
 #: app/cogs/autostarchannels/asc_events.py:31
 #, python-brace-format
@@ -745,7 +749,8 @@ msgid ""
 "I don't have permission to send messages in {0}, so I can't respond to your "
 "command."
 msgstr ""
-"Permission to send messages in {0}, I do not. Respond to your command, I cannot."
+"Permission to send messages in {0}, I do not. Respond to your command, I "
+"cannot."
 
 #: app/cogs/base/base_events.py:211
 msgid ""
@@ -764,6 +769,20 @@ msgstr "Leveled up, {0} did."
 #, python-brace-format
 msgid "They are now level **{0}**!"
 msgstr "Level **{0}**, they are."
+
+#: app/cogs/base/base_commands.py:17
+msgid ""
+"A Starboard is a bot that allows users of a server to \"vote\" to \"pin\" a "
+"message. The main idea is this:\n"
+" - You set a channel as the starboard, typically called `#starboard`\n"
+" - You set an emoji for voting to pin messages, usually :star:\n"
+" - You set a limit (called requiredStars on this bot) that tells Starboard "
+"how many reactions (of the emoji you set) a message needs before it is sent "
+"to the starboard.\n"
+"\n"
+"Once a message reaches the requiredStars limit in  reactions, Starboard will "
+"essentially copy the message and repost it in your starboard."
+msgstr ""
 
 #: app/cogs/base/base_commands.py:44
 #, python-brace-format
@@ -941,8 +960,7 @@ msgstr "Forced to {0}, this message has been."
 msgid ""
 "The message you passed appears to be a starboard message. Would you like to "
 "unforce this message from {0} instead?"
-msgstr ""
-"A starboard message, that message is. From {0} unforce instead?"
+msgstr "A starboard message, that message is. From {0} unforce instead?"
 
 #: app/cogs/utility/utility_commands.py:285
 msgid "Unforce this message from all starboards?"

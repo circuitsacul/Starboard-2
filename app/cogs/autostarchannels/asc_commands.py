@@ -171,13 +171,8 @@ class AutoStarChannels(commands.Cog):
         clean = utils.clean_emoji(emoji)
         try:
             await self.bot.db.aschannels.add_asemoji(aschannel.obj.id, clean)
-        except errors.AlreadyExists:
-            # Raise a more user-friendly error message
-            raise errors.AlreadyExists(
-                t_("{0} is already an emoji on {1}.").format(
-                    emoji, aschannel.obj.mention
-                )
-            )
+        except errors.AlreadyASEmoji:
+            raise errors.AlreadyASEmoji(emoji, aschannel.obj.mention)
         old = utils.pretty_emoji_string(aschannel.sql["emojis"], ctx.guild)
         new = utils.pretty_emoji_string(
             aschannel.sql["emojis"] + [emoji], ctx.guild
@@ -208,12 +203,8 @@ class AutoStarChannels(commands.Cog):
             await self.bot.db.aschannels.remove_asemojis(
                 aschannel.obj.id, clean
             )
-        except errors.DoesNotExist:
-            raise errors.DoesNotExist(
-                t_("{0} is not an emoji on {1}.").format(
-                    emoji, aschannel.obj.mention
-                )
-            )
+        except errors.NotASEmoji:
+            raise errors.NotASEmoji(emoji, aschannel.obj.mention)
         _new = aschannel.sql["emojis"]
         old = utils.pretty_emoji_string(aschannel.sql["emojis"], ctx.guild)
         _new.remove(clean)

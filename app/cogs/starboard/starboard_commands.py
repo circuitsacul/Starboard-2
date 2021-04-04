@@ -103,9 +103,7 @@ class Starboard(commands.Cog):
         """Adds a starboard"""
         existed = await self.bot.db.starboards.create(channel.id, ctx.guild.id)
         if existed:
-            raise errors.AlreadyExists(
-                t_("{0} is already a starboard.").format(channel.mention)
-            )
+            raise errors.AlreadyStarboard(channel.mention)
         else:
             await ctx.send(
                 t_("Created starboard {0}.").format(channel.mention)
@@ -131,9 +129,7 @@ class Starboard(commands.Cog):
         cname = channel.mention if type(channel) is not int else channel
         starboard = await self.bot.db.starboards.get(cid)
         if not starboard:
-            raise errors.DoesNotExist(
-                t_("{0} is not a starboard.").format(cname)
-            )
+            raise errors.NotStarboard(cname)
         else:
             confirmed = await menus.Confirm(
                 t_("Are you sure? All starboard messages will be lost.")
@@ -579,11 +575,7 @@ class Starboard(commands.Cog):
         current_emojis = starboard.sql["star_emojis"]
 
         if converted_emoji in current_emojis:
-            raise errors.AlreadyExists(
-                t_("{0} is already a starEmoji on {1}.").format(
-                    emoji, starboard.obj.mention
-                )
-            )
+            raise errors.AlreadySBEmoji(emoji, starboard.obj.mention)
 
         new_emojis = current_emojis + [converted_emoji]
 
@@ -622,11 +614,7 @@ class Starboard(commands.Cog):
         current_emojis = starboard.sql["star_emojis"]
 
         if converted_emoji not in current_emojis:
-            raise errors.DoesNotExist(
-                t_("{0} is not a starEmoji on {1}.").format(
-                    emoji, starboard.obj.mention
-                )
-            )
+            raise errors.NotSBEmoji(emoji, starboard.obj.mention)
 
         new_emojis = current_emojis.copy()
         new_emojis.remove(converted_emoji)

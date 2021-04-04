@@ -12,6 +12,7 @@ from app.i18n import current_locale, locales, t_
 async def raise_if_exists(emoji: str, ctx: commands.Context) -> None:
     guild = await ctx.bot.db.guilds.get(ctx.guild.id)
     if qa_funcs.get_qa_type(emoji, guild) is not None:
+        raise errors.AlreadyQuickAction()
         raise errors.AlreadyExists(t_("That is already a QuickAction!"))
 
 
@@ -94,7 +95,7 @@ class Settings(commands.Cog):
         name = command.qualified_name
         new_commands = guild["disabled_commands"]
         if name in new_commands:
-            raise errors.AlreadyExists(t_("That command is already disabled."))
+            raise errors.AlreadyDisabled(name)
         new_commands.append(name)
         await self.bot.db.execute(
             """UPDATE guilds
@@ -115,7 +116,7 @@ class Settings(commands.Cog):
         name = command.qualified_name
         new_commands = guild["disabled_commands"]
         if name not in new_commands:
-            raise errors.DoesNotExist("That command is not disabled.")
+            raise errors.NotDisabled(name)
         new_commands.remove(name)
         await self.bot.db.execute(
             """UPDATE guilds
@@ -405,9 +406,7 @@ class Settings(commands.Cog):
             )
         guild = await self.bot.db.guilds.get(ctx.guild.id)
         if prefix in guild["prefixes"]:
-            raise errors.AlreadyExists(
-                t_("`{0}` is already a prefix.").format(prefix)
-            )
+            raise errors.AlreadyPrefix(prefix)
         new_prefixes = guild["prefixes"] + [prefix]
         await self.bot.db.execute(
             """UPDATE guilds
@@ -439,16 +438,18 @@ class Settings(commands.Cog):
                     matches += 1
                     match = p
             if matches > 1:
-                raise discord.InvalidArgument(
+                await ctx.send(
                     t_(
                         "I found {0} matches for `{1}`. "
                         "Please be more specific."
                     ).format(matches, prefix)
                 )
+                return
             elif not match:
-                raise errors.DoesNotExist(
+                await ctx.send(
                     t_("No matches found for `{0}`.").format(prefix)
                 )
+                return
             else:
                 if not await menus.Confirm(
                     t_(

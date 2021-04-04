@@ -18,33 +18,18 @@ from ...classes.bot import Bot
 
 load_dotenv()
 
-IGNORED_ERRORS = [commands.CommandNotFound, errors.AllCommandsDisabled]
-SEND_HELP = [
-    commands.MissingRequiredArgument,
-    discord.InvalidArgument,
-    commands.BadArgument,
+IGNORED_ERRORS = (commands.CommandNotFound, errors.AllCommandsDisabled)
+SEND_HELP = (
+    errors.MissingRequiredArgument,
     flags.ArgumentParsingError,
-]
-EXPECTED_ERRORS = [
-    errors.ConversionError,
-    errors.DoesNotExist,
-    errors.AlreadyExists,
-    errors.CommandDisabled,
-    commands.MissingRequiredArgument,
-    commands.ChannelNotFound,
-    commands.RoleNotFound,
+)
+EXPECTED_ERRORS = (
+    commands.BadArgument,
     commands.NotOwner,
-    commands.CommandOnCooldown,
-    commands.ExpectedClosingQuoteError,
-    commands.BotMissingPermissions,
-    discord.Forbidden,
-    discord.InvalidArgument,
-    commands.BadArgument,
-    commands.NoPrivateMessage,
-    commands.UserNotFound,
-    commands.RoleNotFound,
+    commands.UserInputError,
+    errors.CommandOnCooldown,
     flags.ArgumentParsingError,
-]
+)
 UPTIME = os.getenv("UPTIME_HOOK")
 ERROR = os.getenv("ERROR_HOOK")
 GUILD = os.getenv("GUILD_HOOK")
@@ -185,11 +170,14 @@ class BaseEvents(commands.Cog):
             e = e.original
         except AttributeError:
             pass
-        if type(e) in IGNORED_ERRORS:
+
+        e = errors.convert_error(e)
+
+        if isinstance(e, IGNORED_ERRORS):
             return
-        elif type(e) in EXPECTED_ERRORS:
+        elif isinstance(e, EXPECTED_ERRORS):
             try:
-                if type(e) in SEND_HELP:
+                if isinstance(e, SEND_HELP):
                     p = utils.clean_prefix(ctx)
                     await ctx.send(
                         f"{e}\n\n```{p}{ctx.command} "
@@ -206,7 +194,7 @@ class BaseEvents(commands.Cog):
                 )
         else:
             embed = discord.Embed(
-                title="Something's Not Right",
+                title=t_("Something's Not Right"),
                 description=t_(
                     "Something went wrong while "
                     "running this command. If the "

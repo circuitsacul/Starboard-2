@@ -2,8 +2,6 @@ from typing import Any, Optional
 
 from discord import utils
 
-from app import errors
-
 
 class LimitedQueue:
     def __init__(self, max_length: Optional[int] = None) -> None:
@@ -31,7 +29,7 @@ class LimitedQueue:
         if self.has(item):
             self.queue.remove(item)
         else:
-            raise errors.DoesNotExist(f"Item {item} not in queue")
+            raise Exception(f"Item {item} not in queue")
 
 
 class LimitedDictQueue:
@@ -45,7 +43,7 @@ class LimitedDictQueue:
     def del_queue(self, key: Any) -> None:
         queue = self.get_queue(key)
         if queue is None:
-            raise errors.DoesNotExist(f"No queue with key {key}")
+            raise Exception(f"No queue with key {key}")
         del self.queues[key]
         del queue
 
@@ -59,7 +57,7 @@ class LimitedDictQueue:
     def remove(self, key: Any, item: Any) -> None:
         queue = self.get_queue(key)
         if queue is None:
-            raise errors.DoesNotExist(f"No queue with key {key}")
+            raise Exception(f"No queue with key {key}")
         queue.remove(item)
 
     def clear(self) -> None:

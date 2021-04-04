@@ -86,50 +86,18 @@ class Emoji(commands.Converter):
         elif arg in emoji.UNICODE_EMOJI["en"]:
             return arg
 
-        # If we make it to this point, the emoji doesn't exist
-
         if emoji_id is not None:
-            # Means that the emoji is a custom emoji from another server
-            raise errors.DoesNotExist(
-                t_(
-                    "It looks like `{0}` is a custom emoji, but "
-                    "from another server. We can only add custom emojis "
-                    "from this server."
-                ).format(arg)
-            )
-        # Just isn't emojis
-        raise errors.DoesNotExist(
-            t_("I could not interpret `{0}` as an emoji.").format(arg)
-        )
+            raise errors.CustomEmojiFromOtherGuild(arg)
+        raise errors.NotAnEmoji(arg)
 
 
-class Starboard(commands.Converter):
+class Starboard(commands.TextChannelConverter):
     async def convert(self, ctx: commands.Context, arg: str) -> SQLObject:
-        mention_pattern = "^<#[0-9]+>$"
-        digit_pattern = "^[0-9][0-9]*[0-9]$"
+        channel = await super().convert(ctx, arg)
 
-        channel_id = None
-
-        by_name = discord.utils.get(ctx.guild.channels, name=arg)
-        if by_name is not None:
-            channel_id = by_name.id
-        elif re.match(mention_pattern, arg):
-            channel_id = int(arg[2:-1])
-        elif re.match(digit_pattern, arg):
-            channel_id = int(arg)
-
-        if channel_id is None:
-            raise commands.errors.ChannelNotFound(arg)
-
-        channel = ctx.guild.get_channel(channel_id)
-        if channel is None:
-            raise commands.errors.ChannelNotFound(arg)
-
-        sql_starboard = await ctx.bot.db.starboards.get(channel_id)
+        sql_starboard = await ctx.bot.db.starboards.get(channel.id)
         if sql_starboard is None:
-            raise errors.DoesNotExist(
-                t_("{0} is not a starboard.").format(channel.mention)
-            )
+            raise errors.NotStarboard(channel.mention)
 
         return SQLObject(channel, sql_starboard)
 
@@ -140,9 +108,7 @@ class ASChannel(commands.TextChannelConverter):
 
         sql_aschannel = await ctx.bot.db.aschannels.get(channel.id)
         if not sql_aschannel:
-            raise errors.DoesNotExist(
-                t_("{0} is not an AutoStar channel.").format(channel.mention)
-            )
+            raise errors.NotAutoStarChannel(channel.mention)
 
         return SQLObject(channel, sql_aschannel)
 
@@ -153,7 +119,5 @@ class Command(commands.Converter):
     ) -> commands.Command:
         cmd = ctx.bot.get_command(arg)
         if not cmd:
-            raise errors.DoesNotExist(
-                t_("No commands called `{0}` found.").format(arg)
-            )
+            raise errors.NotCommand(arg)
         return cmd
