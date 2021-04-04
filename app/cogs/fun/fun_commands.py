@@ -289,7 +289,7 @@ class Fun(commands.Cog):
     # @commands.guild_only()
     # async def starworthy(
     #    self, ctx: commands.Context,
-    #    message: converters.MessageLink
+    #    message: discord.Message
     # ) -> None:
     #    """Tells you how starworthy a message is."""
     #    r = random.Random(message.id)
@@ -299,7 +299,7 @@ class Fun(commands.Cog):
     @commands.command(name="save", brief="Saves a message to your DM's")
     @commands.guild_only()
     async def save(
-        self, ctx: commands.Context, message: converters.MessageLink
+        self, ctx: commands.Context, message: discord.Message
     ) -> None:
         """Saves a message to your DM's"""
         orig_sql_message = await starboard_funcs.orig_message(

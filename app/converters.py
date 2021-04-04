@@ -103,46 +103,6 @@ class Emoji(commands.Converter):
         )
 
 
-class MessageLink(commands.MessageConverter):
-    async def convert(self, ctx: commands.Context, arg: str) -> None:
-        if arg == "^":
-            try:
-                message = (await ctx.channel.history(limit=2).flatten())[1]
-            except discord.Forbidden:
-                raise discord.Forbidden(
-                    t_(
-                        "I can't read the message history of this channel, "
-                        "so I don't know what message that is."
-                    )
-                )
-        else:
-            try:
-                message = await super().convert(ctx, arg)
-            except commands.MessageNotFound as e:
-                raise discord.InvalidArgument(
-                    t_(
-                        "I couldn't find the message `{0}`. "
-                        "Please make sure that the message link/id is valid, "
-                        "and that it is in this server."
-                    ).format(e.argument)
-                )
-            except commands.ChannelNotFound as e:
-                raise discord.InvalidArgument(
-                    t_(
-                        "I couldn't find the channel `{0}`. "
-                        "Please make sure the message link/id is valid, "
-                        "and that it is in this server."
-                    ).format(e.argument)
-                )
-            except commands.ChannelNotReadable as e:
-                raise discord.Forbidden(
-                    t_("I can't read messages in the channel `{0}`.").format(
-                        e.argument
-                    )
-                )
-        return message
-
-
 class Starboard(commands.Converter):
     async def convert(self, ctx: commands.Context, arg: str) -> SQLObject:
         mention_pattern = "^<#[0-9]+>$"
