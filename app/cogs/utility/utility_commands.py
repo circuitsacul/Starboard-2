@@ -359,7 +359,7 @@ class Utility(commands.Cog):
     @commands.command(name="untrash", brief="Untrashes a message")
     @commands.has_guild_permissions(manage_messages=True)
     async def untrash_message(
-        self, ctx: commands.Context, message_link: converters.MessageLink
+        self, ctx: commands.Context, message_link: discord.PartialMessage
     ) -> None:
         """Untrashes a message for all starboards"""
         orig_sql_message = await starboard_funcs.orig_message(
