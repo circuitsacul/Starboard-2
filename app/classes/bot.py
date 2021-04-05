@@ -90,6 +90,8 @@ class Bot(commands.AutoShardedBot):
             sys.exit(-1)
 
     async def set_locale(self, message: discord.Message) -> None:
+        if not message.guild:
+            return
         if message.guild.id in self.locale_cache:
             locale = self.locale_cache[message.guild.id]
         else:
