@@ -58,7 +58,7 @@ class Paginator(menus.Menu):
 
     async def send_initial_message(
         self, ctx: commands.Context, channel: discord.TextChannel
-    ) -> None:
+    ) -> discord.Message:
         return await channel.send(
             self.text[self.current_page] if self.text else None,
             embed=self.embeds[self.current_page] if self.embeds else None,
