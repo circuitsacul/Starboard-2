@@ -79,11 +79,14 @@ class StarboardEvents(commands.Cog):
         )
         if sql_message is not None:
             # Get the message since it already exists
-            message = await self.bot.cache.fetch_message(
-                int(sql_message["guild_id"]),
-                int(sql_message["channel_id"]),
-                int(sql_message["id"]),
-            )
+            try:
+                message = await self.bot.cache.fetch_message(
+                    int(sql_message["guild_id"]),
+                    int(sql_message["channel_id"]),
+                    int(sql_message["id"]),
+                )
+            except discord.Forbidden:
+                return
             await self.bot.db.reactions.create_reaction_user(
                 emoji, sql_message["id"], payload.user_id
             )
@@ -92,11 +95,14 @@ class StarboardEvents(commands.Cog):
             )
         else:
             # Get the message as well as add it to the database
-            message = await self.bot.cache.fetch_message(
-                payload.guild_id,
-                payload.channel_id,
-                payload.message_id,
-            )
+            try:
+                message = await self.bot.cache.fetch_message(
+                    payload.guild_id,
+                    payload.channel_id,
+                    payload.message_id,
+                )
+            except discord.Forbidden:
+                return
 
             await self.bot.db.users.create(
                 message.author.id, message.author.bot

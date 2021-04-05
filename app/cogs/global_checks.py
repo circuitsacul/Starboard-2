@@ -22,6 +22,7 @@ async def can_send_messages(ctx: commands.Context) -> bool:
     user = ctx.me
     if not ctx.channel.permissions_for(user).send_messages:
         raise commands.BotMissingPermissions(("Send Messages",))
+    return True
 
 
 GLOBAL_CHECKS = [not_disabled, can_send_messages]

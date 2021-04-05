@@ -44,7 +44,7 @@ async def debug_guild(bot: Bot, guild: discord.Guild) -> dict:
     if len(missing_embed_links) > 0:
         result["warns"].append(
             t_("Missing `Embed Links` in {0}/{1} channels.").format(
-                len(missing_embed_links, total_channels)
+                len(missing_embed_links), total_channels
             )
         )
     if len(missing_read_messages) > 0:
@@ -56,7 +56,7 @@ async def debug_guild(bot: Bot, guild: discord.Guild) -> dict:
     if len(missing_read_history) > 0:
         result["warns"].append(
             t_("Missing `Read Message History` in {0}/{1} channels.").format(
-                len(missing_read_history)
+                len(missing_read_history), total_channels
             )
         )
 

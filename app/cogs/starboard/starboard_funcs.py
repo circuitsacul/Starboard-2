@@ -417,11 +417,15 @@ async def handle_starboard(
         points = sql_starboard_message["points"]
     if sql_starboard_message is not None:
         await set_points(bot, points, sql_starboard_message["id"])
-    message = await bot.cache.fetch_message(
-        int(sql_message["guild_id"]),
-        int(sql_message["channel_id"]),
-        int(sql_message["id"]),
-    )
+
+    try:
+        message = await bot.cache.fetch_message(
+            int(sql_message["guild_id"]),
+            int(sql_message["channel_id"]),
+            int(sql_message["id"]),
+        )
+    except discord.Forbidden:
+        return
 
     blacklisted = sql_message["channel_id"] in sql_starboard["channel_bl"]
     whitelisted = sql_message["channel_id"] in sql_starboard["channel_wl"]
