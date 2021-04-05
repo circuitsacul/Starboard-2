@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-04 17:16-0400\n"
+"POT-Creation-Date: 2021-04-04 20:51-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -87,27 +87,27 @@ msgstr ""
 msgid "`{0}` is not a valid command."
 msgstr ""
 
-#: app/errors.py:43
+#: app/errors.py:42
 #, python-brace-format
 msgid "The channel {0} is not an AutoStarChannel."
 msgstr ""
 
-#: app/errors.py:51
+#: app/errors.py:48
 #, python-brace-format
 msgid "{0} is not an emoji on the AutoStarChannel {1}."
 msgstr ""
 
-#: app/errors.py:59
+#: app/errors.py:57
 #, python-brace-format
 msgid "{0} is already an emoji on the AutoStarChannel {1}."
 msgstr ""
 
-#: app/errors.py:67
+#: app/errors.py:64
 #, python-brace-format
 msgid "{0} is not an emoji on the starboard {1}."
 msgstr ""
 
-#: app/errors.py:75
+#: app/errors.py:72
 #, python-brace-format
 msgid "{0} is already an emoji on the starboard {1}."
 msgstr ""
@@ -147,7 +147,7 @@ msgstr "A valid language code {0} is not."
 msgid "That message does not exist in the database."
 msgstr "Exist in the database, that message does not."
 
-#: app/errors.py:127
+#: app/errors.py:125
 #, python-brace-format
 msgid "The command `{0}` is not disabled."
 msgstr ""
@@ -157,12 +157,12 @@ msgstr ""
 msgid "{0} is already a starboard."
 msgstr "Already a starboard, {0} is."
 
-#: app/errors.py:139
+#: app/errors.py:137
 #, python-brace-format
 msgid "The command `{0}` is already disabled."
 msgstr ""
 
-#: app/errors.py:146
+#: app/errors.py:143
 msgid "That emoji is already used for another QuickAction"
 msgstr ""
 
@@ -171,48 +171,53 @@ msgstr ""
 msgid "`{0}` is already a prefix."
 msgstr "Already a prefix, `{0}` is."
 
-#: app/errors.py:162
+#: app/errors.py:156
 msgid "A channel cannot be both a starboard and an AutoStarChannel"
 msgstr ""
 
-#: app/errors.py:173
+#: app/errors.py:166
 #, python-brace-format
 msgid "`{0}` is a required argument that you didn't pass."
 msgstr ""
 
-#: app/errors.py:187
+#: app/errors.py:179
 #, python-brace-format
 msgid "Channel `{0}` not found."
 msgstr ""
 
-#: app/errors.py:200
+#: app/errors.py:189
+#, python-brace-format
+msgid "I can't read messages in {0}."
+msgstr ""
+
+#: app/errors.py:199
 #, python-brace-format
 msgid "Role `{0}` not found."
 msgstr ""
 
-#: app/errors.py:212
+#: app/errors.py:209
 #, python-brace-format
 msgid "User `{0}` not found."
 msgstr ""
 
-#: app/errors.py:225
+#: app/errors.py:221
 #, python-brace-format
 msgid "You are on cooldown. Try again in {0}s."
 msgstr ""
 
-#: app/errors.py:238
+#: app/errors.py:234
 #, python-brace-format
 msgid "Expected closing {0}."
 msgstr ""
 
-#: app/errors.py:280
+#: app/errors.py:276
 #, python-brace-format
 msgid ""
 "Bot requires the following permissions to run this command:\n"
 "{0}"
 msgstr ""
 
-#: app/errors.py:293
+#: app/errors.py:289
 msgid "This command cannot be used in private messages."
 msgstr ""
 
@@ -358,8 +363,8 @@ msgid "{0} is no longer a starboard."
 msgstr "A starboard {0} is no more."
 
 #: app/cogs/starboard/starboard_commands.py:143
-#: app/cogs/settings/settings_commands.py:459
-#: app/cogs/settings/settings_commands.py:491
+#: app/cogs/settings/settings_commands.py:456
+#: app/cogs/settings/settings_commands.py:488
 #: app/cogs/utility/utility_commands.py:207
 #: app/cogs/utility/utility_commands.py:283
 msgid "Cancelled."
@@ -390,11 +395,7 @@ msgstr "Deleted was `{0}`, so I that starboard removed."
 msgid "Starboard message was deleted, so I autotrashed it."
 msgstr "Deleted was the starboard message. Autotrashed it, I did."
 
-#: app/cogs/settings/settings_commands.py:15
-msgid "That is already a QuickAction!"
-msgstr "Already a QuickAction, that is."
-
-#: app/cogs/settings/settings_commands.py:39
+#: app/cogs/settings/settings_commands.py:37
 #, python-brace-format
 msgid ""
 "Valid language codes:```\n"
@@ -413,7 +414,7 @@ msgstr ""
 "Disabled commands, there are none. With `{0}disable <command>` may commands "
 "be disabled."
 
-#: app/cogs/settings/settings_commands.py:76
+#: app/cogs/settings/settings_commands.py:73
 msgid "Disabled Commands:"
 msgstr ""
 
@@ -553,7 +554,7 @@ msgstr "Ping users when the level up, I will not."
 msgid "Set the log channel to {0}."
 msgstr "Set to {0}, the log channel has been."
 
-#: app/cogs/settings/settings_commands.py:596
+#: app/cogs/settings/settings_commands.py:593
 msgid ""
 "This channel has been set as a log channel. I'll send errors and important "
 "info here."
@@ -767,7 +768,7 @@ msgstr ""
 "Permission to send messages in {0}, I do not. Respond to your command, I "
 "cannot."
 
-#: app/cogs/base/base_events.py:197
+#: app/cogs/base/base_events.py:198
 msgid "Something's Not Right"
 msgstr ""
 
@@ -1266,6 +1267,10 @@ msgstr ""
 #: app/cogs/utility/utility_funcs.py:51
 msgid "Purged"
 msgstr ""
+
+#: app/cogs/settings/settings_commands.py:15
+msgid "That is already a QuickAction!"
+msgstr "Already a QuickAction, that is."
 
 #: app/converters.py:95
 #, python-brace-format
