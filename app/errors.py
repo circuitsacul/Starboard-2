@@ -257,7 +257,12 @@ class AllCommandsDisabled(commands.CheckFailure):
 
 
 class CommandDisabled(commands.CheckFailure):
-    pass
+    def __init__(self, arg: str):
+        message = t_(
+            "The command `{0}` has been disabled by "
+            "the moderators of this server."
+        ).format(arg)
+        super().__init__(message=message)
 
 
 # Subclassed CheckFailures

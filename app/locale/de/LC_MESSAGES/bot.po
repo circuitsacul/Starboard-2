@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-04 20:54-0400\n"
+"POT-Creation-Date: 2021-04-04 20:56-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -196,14 +196,19 @@ msgstr ""
 msgid "Expected closing {0}."
 msgstr ""
 
-#: app/errors.py:276
+#: app/errors.py:262
+#, python-brace-format
+msgid "The command `{0}` has been disabled by the moderators of this server."
+msgstr ""
+
+#: app/errors.py:281
 #, python-brace-format
 msgid ""
 "Bot requires the following permissions to run this command:\n"
 "{0}"
 msgstr ""
 
-#: app/errors.py:289
+#: app/errors.py:294
 msgid "This command cannot be used in private messages."
 msgstr ""
 
@@ -233,11 +238,6 @@ msgstr ""
 
 #: app/database/database_functions/starboards.py:145
 msgid "requiredRemove cannot be greater than 495."
-msgstr ""
-
-#: app/cogs/global_checks.py:20
-#, python-brace-format
-msgid "The command {0} has been disabled by the moderators of this server."
 msgstr ""
 
 #: app/cogs/starboard/starboard_funcs.py:196
@@ -1228,6 +1228,11 @@ msgstr ""
 
 #: app/cogs/utility/utility_funcs.py:51
 msgid "Purged"
+msgstr ""
+
+#: app/cogs/global_checks.py:20
+#, python-brace-format
+msgid "The command {0} has been disabled by the moderators of this server."
 msgstr ""
 
 #: app/errors.py:21

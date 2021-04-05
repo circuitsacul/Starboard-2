@@ -2,7 +2,6 @@ from discord.ext import commands
 
 from app import errors
 from app.classes.bot import Bot
-from app.i18n import t_
 
 
 async def not_disabled(ctx: commands.Context) -> bool:
@@ -15,12 +14,7 @@ async def not_disabled(ctx: commands.Context) -> bool:
         raise errors.AllCommandsDisabled()
     name = ctx.command.qualified_name
     if name in guild["disabled_commands"]:
-        raise errors.CommandDisabled(
-            t_(
-                "The command {0} has been disabled "
-                "by the moderators of this server."
-            ).format(name)
-        )
+        raise errors.CommandDisabled(name)
     return True
 
 
