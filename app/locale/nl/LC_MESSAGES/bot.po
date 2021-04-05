@@ -42,7 +42,8 @@ msgstr "Ik kon `{0}` niet interpreteren als een hex nummer. Geef iets "
 msgid ""
 "I couldn't interpret `{0}` as yes or no. Please pass one of 'yes', 'no', "
 "'true', or 'false'."
-msgstr ""
+msgstr "Ik kon `{0}` niet interpreteren als ja of nee. Geef een van 'yes', "
+"'no', 'true', or 'false'"
 
 #: app/converters.py:51
 #, python-brace-format
