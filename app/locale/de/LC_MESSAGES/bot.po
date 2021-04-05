@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-04 20:56-0400\n"
+"POT-Creation-Date: 2021-04-05 09:55-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -287,14 +287,14 @@ msgid ""
 "the support server."
 msgstr ""
 
-#: app/cogs/starboard/starboard_funcs.py:513
+#: app/cogs/starboard/starboard_funcs.py:517
 #, python-brace-format
 msgid ""
 "I tried to send a starboard message to {0}, but I'm missing the proper "
 "permissions. Please make sure I have the `Send Messages` permission."
 msgstr ""
 
-#: app/cogs/starboard/starboard_funcs.py:540
+#: app/cogs/starboard/starboard_funcs.py:544
 #, python-brace-format
 msgid ""
 "I tried to autoreact to a message on the starboard, but I'm missing the "
@@ -587,6 +587,49 @@ msgstr ""
 msgid ""
 "Try running `/ping` to see if slash commands are working. If not, a server "
 "admin can use [this link]({slash_auth}) to give me the proper permissions."
+msgstr ""
+
+#: app/cogs/profile/profile_commands.py:23
+#, python-brace-format
+msgid ""
+"Valid Language Codes:\n"
+"{0}"
+msgstr ""
+
+#: app/cogs/profile/profile_commands.py:31
+#, python-brace-format
+msgid "Set your language to {0}."
+msgstr ""
+
+#: app/cogs/profile/profile_commands.py:42
+msgid "Your profile is now public."
+msgstr ""
+
+#: app/cogs/profile/profile_commands.py:44
+msgid "Your profile is no longer public."
+msgstr ""
+
+#: app/cogs/profile/profile_commands.py:64
+msgid "Settings"
+msgstr ""
+
+#: app/cogs/profile/profile_commands.py:66
+#, python-brace-format
+msgid ""
+"Language: {0}\n"
+"Public Profile: {1}"
+msgstr ""
+
+#: app/cogs/profile/profile_commands.py:71
+msgid "Global Stats"
+msgstr ""
+
+#: app/cogs/profile/profile_commands.py:73
+#, python-brace-format
+msgid ""
+"Total Stars Given: **{0}**\n"
+"Total Stars Received: **{1}**\n"
+"Total Votes: **{2}**"
 msgstr ""
 
 #: app/cogs/blacklist/bl_commands.py:36

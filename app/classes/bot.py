@@ -5,7 +5,7 @@ import os
 import sys
 import textwrap
 import traceback
-from contextlib import redirect_stdout
+from contextlib import asynccontextmanager, redirect_stdout
 from typing import Any, Optional, Union
 
 import discord
@@ -89,18 +89,31 @@ class Bot(commands.AutoShardedBot):
         else:
             sys.exit(-1)
 
-    async def set_locale(self, message: discord.Message) -> None:
-        if not message.guild:
-            return
-        if message.guild.id in self.locale_cache:
-            locale = self.locale_cache[message.guild.id]
+    @asynccontextmanager
+    async def temp_locale(
+        self, obj: Union[discord.User, discord.Member, discord.Guild]
+    ):
+        revert_to = i18n.current_locale.get()
+        try:
+            await self.set_locale(obj)
+            yield
+        finally:
+            i18n.current_locale.set(revert_to)
+
+    async def set_locale(
+        self, obj: Union[discord.User, discord.Member, discord.Guild]
+    ):
+        if obj.id in self.locale_cache:
+            locale = self.locale_cache[obj.id]
         else:
-            guild = await self.db.guilds.get(message.guild.id)
-            if guild:
-                locale = guild["locale"]
+            if isinstance(obj, (discord.User, discord.Member)):
+                sql_user = await self.db.users.get(obj.id)
+                locale = sql_user["locale"] if sql_user else "en_US"
             else:
-                locale = "en_US"
-            self.locale_cache[message.guild.id] = locale
+                sql_guild = await self.db.guilds.get(obj.id)
+                locale = sql_guild["locale"] if sql_guild else "en_US"
+
+            self.locale_cache[obj.id] = locale
 
         i18n.current_locale.set(locale)
 

@@ -27,6 +27,7 @@ DOCS = ""  # Link to documentation
 EXTENSIONS = [
     "app.cogs.base",
     "app.cogs.starboard",
+    "app.cogs.profile",
     "app.cogs.owner",
     "app.cogs.cache",
     "app.cogs.settings",

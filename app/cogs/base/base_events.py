@@ -156,7 +156,7 @@ class BaseEvents(commands.Cog):
     async def on_message(self, message: discord.Message) -> None:
         if message.author.bot:
             return
-        await self.bot.set_locale(message)
+        await self.bot.set_locale(message.author)
         if message.content.replace("!", "") == self.bot.user.mention:
             p = utils.escmd((await self.bot.get_prefix(message))[0])
             await message.channel.send(t_("My prefix is `{0}`.").format(p))

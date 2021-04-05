@@ -29,7 +29,10 @@ GUILDS = """CREATE TABLE IF NOT EXISTS guilds (
 USERS = """CREATE TABLE IF NOT EXISTS users (
         id NUMERIC PRIMARY KEY,
         is_bot BOOL NOT NULL,
-        votes SMALLINT NOT NULL DEFAULT 0
+        votes SMALLINT NOT NULL DEFAULT 0,
+
+        locale TEXT NOT NULL DEFAULT 'en_US',
+        public BOOL NOT NULL DEFAULT true
     )"""
 
 MEMBERS = """CREATE TABLE IF NOT EXISTS members (

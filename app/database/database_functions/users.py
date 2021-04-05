@@ -7,6 +7,29 @@ class Users:
     def __init__(self, db) -> None:
         self.db = db
 
+    async def edit(
+        self,
+        user_id: int,
+        locale: str = None,
+        public: bool = None,
+    ) -> None:
+        user = await self.get(user_id)
+
+        settings = {
+            "locale": user["locale"] if locale is None else locale,
+            "public": user["public"] if public is None else public,
+        }
+
+        await self.db.execute(
+            """UPDATE users
+            SET locale=$1,
+            public=$2
+            WHERE id=$3""",
+            settings["locale"],
+            settings["public"],
+            user_id,
+        )
+
     async def get(self, user_id: int) -> Optional[dict]:
         return await self.db.fetchrow(
             """SELECT * FROM users
