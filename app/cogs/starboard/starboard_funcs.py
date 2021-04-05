@@ -154,7 +154,7 @@ async def embed_message(
                         "type": "gif",
                         "spoiler": False,
                         "show_link": True,
-                        "thumbnail_only": True,
+                        "thumbnail_only": False,
                     }
                 )
         elif embed.type == "video":
