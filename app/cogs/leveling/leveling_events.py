@@ -77,6 +77,7 @@ class LevelingEvents(commands.Cog):
 
         if leveled_up:
             guild = self.bot.get_guild(guild_id)
+            await self.bot.set_locale(guild)
             _users = await self.bot.cache.get_members([receiver_id], guild)
             if receiver_id not in _users:
                 return

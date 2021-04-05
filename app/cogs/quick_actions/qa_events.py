@@ -33,6 +33,9 @@ class QAEvents(commands.Cog):
         message: Optional[discord.Message]
         orig_message: Optional[dict]
 
+        guild = self.bot.get_guild(payload.guild_id)
+        await self.bot.set_locale(guild)
+
         if not payload.guild_id:
             user = await self.bot.fetch_user(payload.user_id)
             if payload.emoji.name == "❌":
@@ -69,7 +72,6 @@ class QAEvents(commands.Cog):
             self.bot, payload.message_id
         )
         if not orig_message:
-            guild = self.bot.get_guild(payload.guild_id)
             channel = guild.get_channel(payload.channel_id)
             await self.bot.db.messages.create(
                 payload.message_id,

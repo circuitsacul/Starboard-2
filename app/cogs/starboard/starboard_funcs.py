@@ -278,6 +278,10 @@ async def embed_message(
 
 async def update_message(bot: Bot, message_id: int, guild_id: int) -> None:
     sql_message = await bot.db.messages.get(message_id)
+
+    guild = bot.get_guild(guild_id)
+    await bot.set_locale(guild)
+
     if not sql_message:
         return
     sql_starboards = await bot.db.starboards.get_many(guild_id)
@@ -287,7 +291,7 @@ async def update_message(bot: Bot, message_id: int, guild_id: int) -> None:
         for s in sql_starboards:
             all_tasks.append(
                 asyncio.create_task(
-                    handle_starboard(bot, s, sql_message, sql_author)
+                    handle_starboard(bot, s, sql_message, sql_author, guild)
                 )
             )
         for t in all_tasks:
@@ -398,9 +402,12 @@ def try_regex(
 
 
 async def handle_starboard(
-    bot: Bot, sql_starboard: dict, sql_message: dict, sql_author: dict
+    bot: Bot,
+    sql_starboard: dict,
+    sql_message: dict,
+    sql_author: dict,
+    guild: discord.Guild,
 ) -> None:
-    guild = bot.get_guild(sql_starboard["guild_id"])
     starboard: discord.TextChannel = guild.get_channel(
         int(sql_starboard["id"])
     )
