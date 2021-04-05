@@ -19,11 +19,11 @@ msgstr ""
 
 #: app/utils.py:64
 msgid "Changed Settings:"
-msgstr ""
+msgstr "Gewijzigd Instellingen:"
 
 #: app/utils.py:80
 msgid "No changed settings."
-msgstr ""
+msgstr "Geen gewijzigd instellingen."
 
 #: app/utils.py:173 app/utils.py:179
 msgid "None"
