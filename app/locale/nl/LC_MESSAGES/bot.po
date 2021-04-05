@@ -35,7 +35,7 @@ msgid ""
 "I couldn't interpret `{0}` as a hex value. Please pass something like "
 "`#FFE16C`."
 msgstr ""
-"Ik kon `{0}` niet interpreteren als een hex nummer. Geef iets door als "
+"Ik kon `{0}` niet interpreteren als een hex getal. Geef iets door als "
 "`#FFE16C`."
 
 #: app/converters.py:38
@@ -52,14 +52,16 @@ msgstr ""
 msgid ""
 "I couldn't interpret `{0}` as an integer (number). Please pass something "
 "like `10` or `2`."
-msgstr ""
+msgstr "Ik kon niet interpreteren `{0}` als een integer (getal). Geef iets door "
+"als `10` of `2`."
 
 #: app/converters.py:64
 #, python-brace-format
 msgid ""
 "I couldn't interpret `{0}` as a floating-point number. Please pass something "
 "like `10.9` or `6`."
-msgstr ""
+msgstr "Ik kon niet interpreteren `{0}` als een drijvend-kommagetal. Geef iets door "
+"als `10` of `2`."
 
 #: app/errors.py:14
 #, python-brace-format
