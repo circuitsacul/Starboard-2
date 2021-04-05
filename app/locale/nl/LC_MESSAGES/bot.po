@@ -27,14 +27,15 @@ msgstr "Geen gewijzigd instellingen."
 
 #: app/utils.py:173 app/utils.py:179
 msgid "None"
-msgstr ""
+msgstr "Geen"
 
 #: app/converters.py:21
 #, python-brace-format
 msgid ""
 "I couldn't interpret `{0}` as a hex value. Please pass something like "
 "`#FFE16C`."
-msgstr ""
+msgstr "Ik kon `{0}` niet interpreteren als een hex nummer. Geef iets "
+"door als `#FFE16C`."
 
 #: app/converters.py:38
 #, python-brace-format
@@ -60,7 +61,7 @@ msgstr ""
 #: app/errors.py:14
 #, python-brace-format
 msgid "`{0}` is not an emoji."
-msgstr ""
+msgstr "`{0}` is geen emoji."
 
 #: app/errors.py:21
 #, python-brace-format
