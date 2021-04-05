@@ -309,7 +309,6 @@ ERROR_MAP = {
 
 def convert_error(exc: Exception) -> Exception:
     name = str(exc.__class__.__name__)
-    print(name)
     if name in ERROR_MAP:
         exc = ERROR_MAP[name].from_original(exc)
 

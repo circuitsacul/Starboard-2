@@ -34,6 +34,5 @@ GLOBAL_CHECKS = [not_disabled, can_send_messages]
 
 
 def setup(bot: Bot) -> None:
-    print("Loading global checks")
     for check in GLOBAL_CHECKS:
         bot.add_check(check)
