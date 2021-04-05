@@ -24,12 +24,16 @@ async def not_disabled(ctx: commands.Context) -> bool:
     return True
 
 
-GLOBAL_CHECKS = [
-    not_disabled,
-    commands.bot_has_permissions(send_messages=True),
-]
+async def can_send_messages(ctx: commands.Context) -> bool:
+    user = ctx.me
+    if not ctx.channel.permissions_for(user).send_messages:
+        raise commands.BotMissingPermissions(("Send Messages",))
+
+
+GLOBAL_CHECKS = [not_disabled, can_send_messages]
 
 
 def setup(bot: Bot) -> None:
+    print("Loading global checks")
     for check in GLOBAL_CHECKS:
         bot.add_check(check)

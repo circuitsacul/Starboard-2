@@ -13,7 +13,6 @@ async def raise_if_exists(emoji: str, ctx: commands.Context) -> None:
     guild = await ctx.bot.db.guilds.get(ctx.guild.id)
     if qa_funcs.get_qa_type(emoji, guild) is not None:
         raise errors.AlreadyQuickAction()
-        raise errors.AlreadyExists(t_("That is already a QuickAction!"))
 
 
 class Settings(commands.Cog):
@@ -26,7 +25,6 @@ class Settings(commands.Cog):
         name="guildlanguage",
         aliases=["guildlang"],
         brief="Set the language for the server",
-        invoke_without_command=True,
     )
     @commands.has_guild_permissions(manage_guild=True)
     @commands.guild_only()
@@ -52,7 +50,6 @@ class Settings(commands.Cog):
     @commands.command(
         name="disabled",
         brief="Lists disabled commands",
-        invoke_without_command=True,
     )
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
