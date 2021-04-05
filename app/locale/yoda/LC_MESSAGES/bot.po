@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-04 20:51-0400\n"
+"POT-Creation-Date: 2021-04-04 20:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -73,7 +73,7 @@ msgstr ""
 #: app/errors.py:21
 #, python-brace-format
 msgid ""
-"`{0}` is an emoji, but from another server. Please pass a default emoji or a "
+"{0} is an emoji, but from another server. Please pass a default emoji or a "
 "custom emoji from this server."
 msgstr ""
 
@@ -1266,6 +1266,13 @@ msgstr ""
 
 #: app/cogs/utility/utility_funcs.py:51
 msgid "Purged"
+msgstr ""
+
+#: app/errors.py:21
+#, python-brace-format
+msgid ""
+"`{0}` is an emoji, but from another server. Please pass a default emoji or a "
+"custom emoji from this server."
 msgstr ""
 
 #: app/cogs/settings/settings_commands.py:15

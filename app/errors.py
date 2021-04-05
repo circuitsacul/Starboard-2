@@ -18,7 +18,7 @@ class NotAnEmoji(commands.BadArgument):
 class CustomEmojiFromOtherGuild(commands.BadArgument):
     def __init__(self, arg: Union[str, discord.Emoji]):
         message = t_(
-            "`{0}` is an emoji, but from another server. "
+            "{0} is an emoji, but from another server. "
             "Please pass a default emoji or a custom emoji "
             "from this server."
         ).format(arg)

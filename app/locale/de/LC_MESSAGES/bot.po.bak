@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-04 17:24-0400\n"
+"POT-Creation-Date: 2021-04-04 20:51-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -173,32 +173,37 @@ msgstr ""
 
 #: app/errors.py:189
 #, python-brace-format
-msgid "Role `{0}` not found."
+msgid "I can't read messages in {0}."
 msgstr ""
 
 #: app/errors.py:199
 #, python-brace-format
+msgid "Role `{0}` not found."
+msgstr ""
+
+#: app/errors.py:209
+#, python-brace-format
 msgid "User `{0}` not found."
 msgstr ""
 
-#: app/errors.py:211
+#: app/errors.py:221
 #, python-brace-format
 msgid "You are on cooldown. Try again in {0}s."
 msgstr ""
 
-#: app/errors.py:224
+#: app/errors.py:234
 #, python-brace-format
 msgid "Expected closing {0}."
 msgstr ""
 
-#: app/errors.py:266
+#: app/errors.py:276
 #, python-brace-format
 msgid ""
 "Bot requires the following permissions to run this command:\n"
 "{0}"
 msgstr ""
 
-#: app/errors.py:279
+#: app/errors.py:289
 msgid "This command cannot be used in private messages."
 msgstr ""
 
@@ -335,8 +340,8 @@ msgid "{0} is no longer a starboard."
 msgstr ""
 
 #: app/cogs/starboard/starboard_commands.py:143
-#: app/cogs/settings/settings_commands.py:459
-#: app/cogs/settings/settings_commands.py:491
+#: app/cogs/settings/settings_commands.py:456
+#: app/cogs/settings/settings_commands.py:488
 #: app/cogs/utility/utility_commands.py:207
 #: app/cogs/utility/utility_commands.py:283
 msgid "Cancelled."
@@ -367,172 +372,168 @@ msgstr ""
 msgid "Starboard message was deleted, so I autotrashed it."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:16
-msgid "That is already a QuickAction!"
-msgstr ""
-
-#: app/cogs/settings/settings_commands.py:39
+#: app/cogs/settings/settings_commands.py:37
 #, python-brace-format
 msgid ""
 "Valid language codes:```\n"
 "{0}```"
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:49
+#: app/cogs/settings/settings_commands.py:47
 #, python-brace-format
 msgid "Set the language for this server to {0}."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:67
+#: app/cogs/settings/settings_commands.py:64
 #, python-brace-format
 msgid "No disabled commands. Disable a command with `{0}disable <command>`."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:76
+#: app/cogs/settings/settings_commands.py:73
 msgid "Disabled Commands:"
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:81
+#: app/cogs/settings/settings_commands.py:78
 #, python-brace-format
 msgid ""
 "Disable a command with `{0}disable <command>`.\n"
 "Enable a command with `{0}enable <command>`."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:107
+#: app/cogs/settings/settings_commands.py:104
 #, python-brace-format
 msgid "Disabled `{0}`."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:128
+#: app/cogs/settings/settings_commands.py:125
 #, python-brace-format
 msgid "Enabled `{0}`."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:150
+#: app/cogs/settings/settings_commands.py:147
 #, python-brace-format
 msgid "Settings for {0}:"
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:189
+#: app/cogs/settings/settings_commands.py:186
 #, python-brace-format
 msgid "To modify these, run `{0}help qa`."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:201
+#: app/cogs/settings/settings_commands.py:198
 msgid "Enabled quickActions."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:214
+#: app/cogs/settings/settings_commands.py:211
 msgid "Disabled quickActions."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:233
+#: app/cogs/settings/settings_commands.py:230
 msgid "Reset quickActions."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:252
+#: app/cogs/settings/settings_commands.py:249
 #, python-brace-format
 msgid "Set the force quickAction to {0}."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:272
+#: app/cogs/settings/settings_commands.py:269
 #, python-brace-format
 msgid "Set the unforce quickAction to {0}."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:295
+#: app/cogs/settings/settings_commands.py:292
 #, python-brace-format
 msgid "Set the freeze/unfreeze quickAction to {0}."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:317
+#: app/cogs/settings/settings_commands.py:314
 #, python-brace-format
 msgid "Set the trash/untrash quickAction to {0}."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:338
+#: app/cogs/settings/settings_commands.py:335
 #, python-brace-format
 msgid "Set the recount quickAction to {0}."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:355
+#: app/cogs/settings/settings_commands.py:352
 #, python-brace-format
 msgid "Set the save quickAction to {0}."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:371
+#: app/cogs/settings/settings_commands.py:368
 #, python-brace-format
 msgid "Prefixes for {0}:"
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:403
+#: app/cogs/settings/settings_commands.py:400
 #, python-brace-format
 msgid "`{0}` is too long (max length is 8 characters)."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:419
+#: app/cogs/settings/settings_commands.py:416
 #, python-brace-format
 msgid "Added `{0}` to the prefixes."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:443
+#: app/cogs/settings/settings_commands.py:440
 #, python-brace-format
 msgid "I found {0} matches for `{1}`. Please be more specific."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:450
+#: app/cogs/settings/settings_commands.py:447
 #, python-brace-format
 msgid "No matches found for `{0}`."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:456
+#: app/cogs/settings/settings_commands.py:453
 #, python-brace-format
 msgid "Did you want to remove `{0}` from the prefixes?"
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:474
+#: app/cogs/settings/settings_commands.py:471
 #, python-brace-format
 msgid "Removed `{0}` from the prefixes."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:489
+#: app/cogs/settings/settings_commands.py:486
 msgid "Are you sure you want to reset all prefixes?"
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:499
+#: app/cogs/settings/settings_commands.py:496
 msgid "Cleared all prefixes and added `sb!`."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:531
+#: app/cogs/settings/settings_commands.py:528
 #, python-brace-format
 msgid "Set the LevelUpChannel to {0}."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:534
+#: app/cogs/settings/settings_commands.py:531
 msgid "Unset the LevelUpChannel."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:551
+#: app/cogs/settings/settings_commands.py:548
 msgid "I will now ping users when the level up."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:553
+#: app/cogs/settings/settings_commands.py:550
 msgid "I will not ping users when the level up."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:591
+#: app/cogs/settings/settings_commands.py:588
 #, python-brace-format
 msgid "Set the log channel to {0}."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:596
+#: app/cogs/settings/settings_commands.py:593
 msgid ""
 "This channel has been set as a log channel. I'll send errors and important "
 "info here."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:621
+#: app/cogs/settings/settings_commands.py:618
 #, python-brace-format
 msgid "Set allowCommands to **{0}**."
 msgstr ""
@@ -719,34 +720,34 @@ msgid ""
 " - {0}asc emojis set <aschannel> [emoji1, emoji2]```"
 msgstr ""
 
-#: app/cogs/base/base_events.py:161
+#: app/cogs/base/base_events.py:162
 #, python-brace-format
 msgid "My prefix is `{0}`."
 msgstr ""
 
-#: app/cogs/base/base_events.py:191
+#: app/cogs/base/base_events.py:192
 #, python-brace-format
 msgid ""
 "I don't have permission to send messages in {0}, so I can't respond to your "
 "command."
 msgstr ""
 
-#: app/cogs/base/base_events.py:197
+#: app/cogs/base/base_events.py:198
 msgid "Something's Not Right"
 msgstr ""
 
-#: app/cogs/base/base_events.py:199
+#: app/cogs/base/base_events.py:200
 msgid ""
 "Something went wrong while running this command. If the problem persists, "
 "please report this in the support server."
 msgstr ""
 
-#: app/cogs/base/base_events.py:251
+#: app/cogs/base/base_events.py:252
 #, python-brace-format
 msgid "{0} Leveled up!"
 msgstr ""
 
-#: app/cogs/base/base_events.py:252
+#: app/cogs/base/base_events.py:253
 #, python-brace-format
 msgid "They are now level **{0}**!"
 msgstr ""
@@ -1227,6 +1228,10 @@ msgstr ""
 
 #: app/cogs/utility/utility_funcs.py:51
 msgid "Purged"
+msgstr ""
+
+#: app/cogs/settings/settings_commands.py:16
+msgid "That is already a QuickAction!"
 msgstr ""
 
 #: app/converters.py:94
