@@ -1,7 +1,6 @@
 from typing import Optional
 
 import asyncpg
-import discord
 from discord.ext import commands
 
 from app import errors
