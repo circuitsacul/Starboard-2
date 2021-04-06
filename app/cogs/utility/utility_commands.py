@@ -436,11 +436,11 @@ class Utility(commands.Cog):
             trash 50 --notby @Cool Person
             trash 50"""
         if limit > 200:
-            raise discord.InvalidArgument(
+            raise commands.BadArgument(
                 t_("Can only purge up to 200 messages at once.")
             )
         elif limit < 1:
-            raise discord.InvalidArgument("Must purge at least 1 message.")
+            raise commands.BadArgument("Must purge at least 1 message.")
 
         total, purged = await utility_funcs.handle_purging(
             self.bot,
@@ -473,11 +473,11 @@ class Utility(commands.Cog):
     ) -> None:
         """Same usage as purge, but untrashes instead."""
         if limit > 200:
-            raise discord.InvalidArgument(
+            raise commands.BadArgument(
                 t_("Can only unpurge up to 200 messages at once.")
             )
         elif limit < 1:
-            raise discord.InvalidArgument("Must unpurge at least 1 message.")
+            raise commands.BadArgument("Must unpurge at least 1 message.")
 
         total, purged = await utility_funcs.handle_purging(
             self.bot,

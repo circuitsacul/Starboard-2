@@ -2,6 +2,7 @@ from typing import Optional
 
 import asyncpg
 import discord
+from discord.ext import commands
 
 from app import errors
 from app.i18n import t_
@@ -122,26 +123,26 @@ class Starboards:
         }
 
         if settings["required"] <= settings["required_remove"]:
-            raise discord.InvalidArgument(
+            raise commands.BadArgument(
                 t_(
                     "requiredStars cannot be less than or equal to "
                     "requiredRemove."
                 )
             )
         if settings["required"] < 1:
-            raise discord.InvalidArgument(
+            raise commands.BadArgument(
                 t_("requiredStars cannot be less than 1.")
             )
         if settings["required"] > 500:
-            raise discord.InvalidArgument(
+            raise commands.BadArgument(
                 t_("requiredStars cannot be greater than 500.")
             )
         if settings["required_remove"] < -1:
-            raise discord.InvalidArgument(
+            raise commands.BadArgument(
                 t_("requiredRemove cannot be less than -1.")
             )
         if settings["required_remove"] > 495:
-            raise discord.InvalidArgument(
+            raise commands.BadArgument(
                 t_("requiredRemove cannot be greater than 495.")
             )
 

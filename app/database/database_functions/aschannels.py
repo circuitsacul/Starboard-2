@@ -2,6 +2,7 @@ from typing import Optional
 
 import asyncpg
 import discord
+from discord.ext import commands
 
 from app import errors
 from app.i18n import t_
@@ -86,11 +87,9 @@ class ASChannels:
         }
 
         if settings["min_chars"] < 0:
-            raise discord.InvalidArgument(
-                t_("minChars cannot be less than 0.")
-            )
+            raise commands.BadArgument(t_("minChars cannot be less than 0."))
         if settings["min_chars"] > 2000:
-            raise discord.InvalidArgument(
+            raise commands.BadArgument(
                 t_("minChars cannot be grater than 2,000.")
             )
 

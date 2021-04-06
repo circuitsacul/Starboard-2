@@ -396,7 +396,7 @@ class Settings(commands.Cog):
         if options["space"] is True:
             prefix += " "
         if len(prefix) > 8:
-            raise discord.InvalidArgument(
+            raise commands.BadArgument(
                 t_("`{0}` is too long (max length is 8 characters).").format(
                     prefix
                 )
