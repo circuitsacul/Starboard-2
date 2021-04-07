@@ -51,31 +51,15 @@ class Profile(commands.Cog):
     @commands.bot_has_permissions(embed_links=True)
     async def profile(self, ctx: commands.Context):
         sql_user = await self.bot.db.users.get(ctx.author.id)
-        total_stars, total_recv = await self.bot.db.fetchrow(
-            """SELECT SUM(stars_given), SUM(stars_received) FROM members
-            WHERE user_id=$1""",
-            ctx.author.id,
-        )
 
-        embed = (
-            discord.Embed(title=str(ctx.author), color=self.bot.theme_color)
-            .add_field(
-                name=t_("Settings"),
-                value=t_("Language: {0}\n" "Public Profile: {1}").format(
-                    sql_user["locale"], sql_user["public"]
-                ),
-                inline=False,
-            )
-            .add_field(
-                name=t_("Global Stats"),
-                value=t_(
-                    "Total Stars Given: **{0}**\n"
-                    "Total Stars Received: **{1}**\n"
-                    "Total Votes: **{2}**"
-                ).format(total_stars, total_recv, sql_user["votes"]),
-                inline=False,
-            )
-            .set_thumbnail(url=ctx.author.avatar_url)
+        embed = discord.Embed(
+            title=str(ctx.author), color=self.bot.theme_color
+        ).add_field(
+            name=t_("Settings"),
+            value=t_("Language: {0}\n" "Public Profile: {1}").format(
+                sql_user["locale"], sql_user["public"]
+            ),
+            inline=False,
         )
 
         await ctx.send(embed=embed)

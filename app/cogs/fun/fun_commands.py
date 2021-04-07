@@ -86,17 +86,39 @@ class Fun(commands.Cog):
         else:
             stars_given = stars_recv = xp = level = 0
 
-        embed = discord.Embed(
-            title=f"{user}",
-            description=t_(
-                "Rank: **#{0}**\n"
-                "Stars Given: **{1}**\n"
-                "Stars Received: **{2}**\n"
-                "XP: **{3}**\n"
-                "Level: **{4}**"
-            ).format(rank, stars_given, stars_recv, xp, level),
-            color=self.bot.theme_color,
-        ).set_thumbnail(url=user.avatar_url)
+        total_stars, total_recv = await self.bot.db.fetchrow(
+            """SELECT SUM(stars_given), SUM(stars_received) FROM members
+            WHERE user_id=$1""",
+            ctx.author.id,
+        )
+
+        embed = (
+            discord.Embed(
+                title=f"{user}",
+                color=self.bot.theme_color,
+            )
+            .add_field(
+                name=t_("Stats for {0}").format(ctx.guild),
+                value=t_(
+                    "Rank: **#{0}**\n"
+                    "Stars Given: **{1}**\n"
+                    "Stars Received: **{2}**\n"
+                    "XP: **{3}**\n"
+                    "Level: **{4}**"
+                ).format(rank, stars_given, stars_recv, xp, level),
+                inline=False,
+            )
+            .add_field(
+                name=t_("Global Stats"),
+                value=t_(
+                    "Total Stars Given: **{0}**\n"
+                    "Total Stars Received: **{1}**\n"
+                    "Total Votes: **{2}**"
+                ).format(total_stars, total_recv, sql_user["votes"]),
+                inline=False,
+            )
+            .set_thumbnail(url=user.avatar_url)
+        )
         await ctx.send(embed=embed)
 
     @flags.add_flag("--by", type=discord.User)
