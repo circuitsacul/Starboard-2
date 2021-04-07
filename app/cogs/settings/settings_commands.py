@@ -146,7 +146,7 @@ class Settings(commands.Cog):
         embed = discord.Embed(
             title=t_("Settings for {0}:").format(ctx.guild.name),
             description=(
-                f"language: **{current_locale.get()}**\n"
+                f"language: **{guild['locale']}**\n"
                 f"logChannel: {log_channel}\n"
                 f"levelChannel: {level_channel}\n"
                 f"pingOnLevelUp: **{guild['ping_user']}**\n"
