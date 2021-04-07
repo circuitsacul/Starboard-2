@@ -1,6 +1,7 @@
 from typing import Optional
 
 import asyncpg
+from aiocache import Cache, SimpleMemoryCache
 from discord.ext import commands
 
 from app import errors
@@ -10,20 +11,55 @@ from app.i18n import t_
 class Starboards:
     def __init__(self, db) -> None:
         self.db = db
+        self.cache: SimpleMemoryCache = Cache(namespace="starboards", ttl=10)
+        self.many_cache: SimpleMemoryCache = Cache(namespace="many_sb", ttl=10)
+        self.emoji_cache: SimpleMemoryCache = Cache(
+            namespace="sb_emojis", ttl=10
+        )
+
+    async def star_emojis(self, guild_id: int) -> list[str]:
+        r = await self.emoji_cache.get(guild_id)
+        if r:
+            return r
+
+        _emojis = await self.db.execute(
+            """SELECT star_emojis FROM starboards
+            WHERE guild_id=$1""",
+            guild_id,
+        )
+        if _emojis:
+            emojis = [
+                emoji for record in _emojis for emoji in record["star_emojis"]
+            ]
+        else:
+            emojis = []
+
+        await self.emoji_cache.set(guild_id, emojis)
+        return emojis
 
     async def get(self, starboard_id: int) -> Optional[dict]:
-        return await self.db.fetchrow(
+        r = await self.cache.get(starboard_id)
+        if r:
+            return r
+        sql_starboard = await self.db.fetchrow(
             """SELECT * FROM starboards
             WHERE id=$1""",
             starboard_id,
         )
+        await self.cache.set(starboard_id, sql_starboard)
+        return sql_starboard
 
     async def get_many(self, guild_id: int) -> list[dict]:
-        return await self.db.fetch(
+        r = await self.many_cache.get(guild_id)
+        if r:
+            return r
+        sql_starboards = await self.db.fetch(
             """SELECT * FROM starboards
             WHERE guild_id=$1""",
             guild_id,
         )
+        await self.many_cache.set(guild_id, sql_starboards)
+        return sql_starboards
 
     async def create(
         self, channel_id: int, guild_id: int, check_first: bool = True
@@ -47,12 +83,22 @@ class Starboards:
             )
         except asyncpg.exceptions.UniqueViolationError:
             return True
+
+        await self.many_cache.delete(guild_id)
+        await self.cache.delete(channel_id)
+
         return False
 
     async def delete(self, starboard_id: int) -> None:
+        s = await self.get(starboard_id)
+
         await self.db.execute(
             """DELETE FROM starboards WHERE id=$1""", starboard_id
         )
+
+        if s:
+            await self.many_cache.delete(int(s["guild_id"]))
+        await self.cache.delete(starboard_id)
 
     async def edit(
         self,
@@ -187,6 +233,9 @@ class Starboards:
             starboard_id,
         )
 
+        await self.many_cache.delete(int(s["guild_id"]))
+        await self.cache.delete(starboard_id)
+
     async def add_star_emoji(self, starboard_id: int, emoji: str) -> None:
         if type(emoji) is not str:
             raise ValueError("Expected a str for emoji.")
@@ -202,6 +251,7 @@ class Starboards:
         await self.edit(
             starboard_id, star_emojis=starboard["star_emojis"] + [emoji]
         )
+        await self.emoji_cache.delete(int(starboard["guild_id"]))
 
     async def remove_star_emoji(self, starboard_id: int, emoji: str) -> None:
         if type(emoji) is not str:
@@ -219,3 +269,4 @@ class Starboards:
         new_emojis.remove(emoji)
 
         await self.edit(starboard_id, star_emojis=new_emojis)
+        await self.emoji_cache.delete(int(starboard["guild_id"]))

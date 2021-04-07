@@ -1,22 +1,31 @@
 from typing import Optional
 
 import asyncpg
+from aiocache import Cache, SimpleMemoryCache
 from discord.ext import commands
 
 from app import errors
+from app.classes.nonexist import nonexist
 from app.i18n import t_
 
 
 class ASChannels:
     def __init__(self, db) -> None:
         self.db = db
+        self.id_cache: SimpleMemoryCache = Cache(namespace="asc_id", ttl=10)
 
     async def get(self, aschannel_id: int) -> Optional[dict]:
-        return await self.db.fetchrow(
+        r = await self.id_cache.get(aschannel_id)
+        if r is not None:
+            return r if r is not nonexist else None
+
+        r = await self.db.fetchrow(
             """SELECT * FROM aschannels
             WHERE id=$1""",
             aschannel_id,
         )
+        await self.id_cache.set(aschannel_id, r if r else nonexist)
+        return r
 
     async def get_many(self, guild_id: int) -> list[dict]:
         return await self.db.fetch(
@@ -47,6 +56,7 @@ class ASChannels:
             )
         except asyncpg.exceptions.UniqueViolationError:
             return True
+        await self.id_cache.delete(channel_id)
         return False
 
     async def delete(self, aschannel_id: int) -> None:
@@ -55,6 +65,7 @@ class ASChannels:
             WHERE id=$1""",
             aschannel_id,
         )
+        await self.id_cache.delete(aschannel_id)
 
     async def edit(
         self,
@@ -109,6 +120,7 @@ class ASChannels:
             settings["regex"],
             settings["exclude_regex"],
         )
+        await self.id_cache.delete(aschannel_id)
 
     async def add_asemoji(self, aschannel_id: int, emoji: str) -> None:
         aschannel = await self.get(aschannel_id)

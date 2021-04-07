@@ -1,6 +1,7 @@
 from typing import Optional
 
 import asyncpg
+from aiocache import Cache, SimpleMemoryCache
 from discord.ext import commands
 
 from app import errors, i18n
@@ -10,6 +11,7 @@ from app.i18n import t_
 class Guilds:
     def __init__(self, db) -> None:
         self.db = db
+        self.cache: SimpleMemoryCache = Cache(namespace="guilds", ttl=10)
 
     async def set_cooldown(self, guild_id: int, ammount: int, per: int):
         if ammount < 1:
@@ -37,6 +39,7 @@ class Guilds:
             per,
             guild_id,
         )
+        await self.cache.delete(guild_id)
 
     async def set_locale(self, guild_id: int, locale: str) -> None:
         if locale not in i18n.locales:
@@ -48,13 +51,18 @@ class Guilds:
             locale,
             guild_id,
         )
+        await self.cache.delete(guild_id)
 
     async def get(self, guild_id: int) -> Optional[dict]:
+        r = await self.cache.get(guild_id)
+        if r:
+            return r
         sql_guild = await self.db.fetchrow(
             """SELECT * FROM guilds
             WHERE id=$1""",
             guild_id,
         )
+        await self.cache.set(guild_id, sql_guild)
         return sql_guild
 
     async def create(self, guild_id: int, check_first: bool = True) -> bool:
@@ -71,4 +79,5 @@ class Guilds:
             )
         except asyncpg.exceptions.UniqueViolationError:
             return False
+        await self.cache.delete()
         return True

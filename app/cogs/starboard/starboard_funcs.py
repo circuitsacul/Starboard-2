@@ -26,18 +26,7 @@ def get_plain_text(
 
 
 async def sbemojis(bot: Bot, guild_id: int) -> list[str]:
-    _emojis = await bot.db.fetch(
-        """SELECT star_emojis FROM starboards
-        WHERE guild_id=$1""",
-        guild_id,
-    )
-    if _emojis:
-        emojis = [
-            emoji for record in _emojis for emoji in record["star_emojis"]
-        ]
-    else:
-        emojis = []
-    return emojis
+    return await bot.db.starboards.star_emojis(guild_id)
 
 
 async def orig_message(bot: Bot, message_id: int) -> Optional[dict]:

@@ -1,15 +1,19 @@
 from typing import Optional
 
 import discord
+from aiocache import Cache as MemCache
+from aiocache import SimpleMemoryCache
 
 from app import utils
-from app.classes import queue
 from app.classes.bot import Bot
+from app.classes.nonexist import nonexist
 
 
 class Cache:
     def __init__(self, bot) -> None:
-        self.messages = queue.LimitedDictQueue(max_length=20)
+        self.messages: SimpleMemoryCache = MemCache(
+            namespace="messages", ttl=10
+        )
         self.bot = bot
 
     async def get_members(
@@ -34,18 +38,10 @@ class Cache:
 
         return result
 
-    def get_message(
-        self, guild_id: int, message_id: int
-    ) -> Optional[discord.Message]:
-        queue = self.messages.get_queue(guild_id)
-        if not queue:
-            return None
-        return queue.get(id=message_id)
-
     async def fetch_message(
         self, guild_id: int, channel_id: int, message_id: int
     ) -> Optional[discord.Message]:
-        cached = self.get_message(guild_id, message_id)
+        cached = await self.messages.get(message_id)
         if not cached:
             guild = self.bot.get_guild(guild_id)
             if not guild:
@@ -56,10 +52,10 @@ class Cache:
             try:
                 message = await channel.fetch_message(message_id)
             except discord.errors.NotFound:
-                return None
-            self.messages.add(guild.id, message)
+                message = None
+            await self.messages.set(message_id, message or nonexist)
             return message
-        return cached
+        return cached if cached is not nonexist else None
 
 
 def setup(bot: Bot) -> None:

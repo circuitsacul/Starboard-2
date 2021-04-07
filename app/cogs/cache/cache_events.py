@@ -14,12 +14,7 @@ class CacheEvents(commands.Cog):
     ) -> None:
         if not payload.guild_id:
             return
-        queue = self.bot.cache.messages.get_queue(payload.guild_id)
-        if not queue:
-            return
-        cached = queue.get(id=payload.message_id)
-        if cached:
-            queue.remove(cached)
+        await self.bot.cache.messages.delete(payload.message_id)
 
     @commands.Cog.listener()
     async def on_raw_bulk_message_delete(
@@ -27,27 +22,8 @@ class CacheEvents(commands.Cog):
     ) -> None:
         if not payload.guild_id:
             return
-        queue = self.bot.cache.messages.get_queue(payload.guild_id)
-        if not queue:
-            return
         for mid in payload.message_ids:
-            cached = queue.get(id=mid)
-            if cached:
-                queue.remove(cached)
-
-    @commands.Cog.listener()
-    async def on_message_edit(
-        self, before: discord.Message, after: discord.Message
-    ) -> None:
-        if not before.guild:
-            return
-        queue = self.bot.cache.messages.get_queue(before.guild.id)
-        if not queue:
-            return
-        cached = queue.get(id=before.id)
-        if cached:
-            queue.remove(cached)
-            queue.add(after)
+            await self.bot.cache.messages.delete(mid)
 
 
 def setup(bot: Bot) -> None:
