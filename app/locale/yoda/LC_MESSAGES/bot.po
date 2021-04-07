@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-07 09:09-0400\n"
+"POT-Creation-Date: 2021-04-07 12:14-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -234,6 +234,18 @@ msgstr "Be less than 0, minChars cannot."
 msgid "minChars cannot be grater than 2,000."
 msgstr "Be greater than 2,000, minChars cannot."
 
+#: app/database/database_functions/guilds.py:17
+msgid "The cooldown ammount must be greater than 0."
+msgstr ""
+
+#: app/database/database_functions/guilds.py:21
+msgid "The cooldown time must be 0 or greater."
+msgstr ""
+
+#: app/database/database_functions/guilds.py:26
+msgid "The cooldown time can be at most 10 minutes (600 seconds)."
+msgstr ""
+
 #: app/database/database_functions/starboards.py:131
 msgid "requiredStars cannot be less than or equal to requiredRemove."
 msgstr "Be less than or equal to requiredRemove, requiredStars cannot."
@@ -307,14 +319,14 @@ msgid ""
 "the support server."
 msgstr ""
 
-#: app/cogs/starboard/starboard_funcs.py:528
+#: app/cogs/starboard/starboard_funcs.py:529
 #, python-brace-format
 msgid ""
 "I tried to send a starboard message to {0}, but I'm missing the proper "
 "permissions. Please make sure I have the `Send Messages` permission."
 msgstr ""
 
-#: app/cogs/starboard/starboard_funcs.py:556
+#: app/cogs/starboard/starboard_funcs.py:557
 #, python-brace-format
 msgid ""
 "I tried to autoreact to a message on the starboard, but I'm missing the "
@@ -363,8 +375,8 @@ msgid "{0} is no longer a starboard."
 msgstr "A starboard {0} is no more."
 
 #: app/cogs/starboard/starboard_commands.py:143
-#: app/cogs/settings/settings_commands.py:456
-#: app/cogs/settings/settings_commands.py:488
+#: app/cogs/settings/settings_commands.py:481
+#: app/cogs/settings/settings_commands.py:513
 #: app/cogs/utility/utility_commands.py:207
 #: app/cogs/utility/utility_commands.py:283
 msgid "Cancelled."
@@ -554,7 +566,7 @@ msgstr "Ping users when the level up, I will not."
 msgid "Set the log channel to {0}."
 msgstr "Set to {0}, the log channel has been."
 
-#: app/cogs/settings/settings_commands.py:594
+#: app/cogs/settings/settings_commands.py:619
 msgid ""
 "This channel has been set as a log channel. I'll send errors and important "
 "info here."

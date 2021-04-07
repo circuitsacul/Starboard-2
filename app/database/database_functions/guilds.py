@@ -1,13 +1,42 @@
 from typing import Optional
 
 import asyncpg
+from discord.ext import commands
 
 from app import errors, i18n
+from app.i18n import t_
 
 
 class Guilds:
     def __init__(self, db) -> None:
         self.db = db
+
+    async def set_cooldown(self, guild_id: int, ammount: int, per: int):
+        if ammount < 1:
+            raise commands.BadArgument(
+                t_("The cooldown ammount must be greater than 0.")
+            )
+        if per < 0:
+            raise commands.BadArgument(
+                t_("The cooldown time must be 0 or greater.")
+            )
+        if per > 600:
+            raise commands.BadArgument(
+                t_(
+                    "The cooldown time can be at most 10 minutes "
+                    "(600 seconds)."
+                )
+            )
+
+        await self.db.execute(
+            """UPDATE guilds
+            SET xp_cooldown=$1,
+            xp_cooldown_per=$2
+            WHERE id=$3""",
+            ammount,
+            per,
+            guild_id,
+        )
 
     async def set_locale(self, guild_id: int, locale: str) -> None:
         if locale not in i18n.locales:

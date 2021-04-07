@@ -43,11 +43,16 @@ class LevelingEvents(commands.Cog):
 
         leveled_up: Optional[int] = None
 
-        # TODO(Circuit): Make this take the rate/per of a guild
-        bucket = self.cooldown.get_bucket((giver_id, receiver_id), 3, 60)
-        retry_after = bucket.update_rate_limit()
-        if retry_after:
-            return
+        sql_guild = await self.bot.db.guilds.get(guild_id)
+        cooldown, per = sql_guild["xp_cooldown"], sql_guild["xp_cooldown_per"]
+
+        if per != 0:
+            bucket = self.cooldown.get_bucket(
+                (giver_id, receiver_id), cooldown, per
+            )
+            retry_after = bucket.update_rate_limit()
+            if retry_after:
+                return
 
         async with self.bot.db.pool.acquire() as con:
             await con.execute(

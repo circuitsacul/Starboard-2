@@ -152,11 +152,35 @@ class Settings(commands.Cog):
                 f"pingOnLevelUp: **{guild['ping_user']}**\n"
                 f"allowCommands: **{guild['allow_commands']}**\n"
                 f"quickActionsOn: **{guild['qa_enabled']}**\n"
-                f"disabledCommands: **{len(guild['disabled_commands'])}**"
+                f"cooldown: **{guild['xp_cooldown']}**"
+                f"/**{guild['xp_cooldown_per']}**s\n"
+                f"disabledCommands: **{len(guild['disabled_commands'])}**\n"
             ),
             color=self.bot.theme_color,
         )
         await ctx.send(embed=embed)
+
+    @commands.command(name="cooldown", brief="Sets the cooldown for xp")
+    @commands.has_guild_permissions(manage_messages=True)
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def set_cooldown(
+        self, ctx: commands.Context, ammount: int, per: int
+    ):
+        sql_guild = await self.bot.db.guilds.get(ctx.guild.id)
+        await self.bot.db.guilds.set_cooldown(ctx.guild.id, ammount, per)
+
+        orig = (
+            f"**{sql_guild['xp_cooldown']}**/"
+            f"**{sql_guild['xp_cooldown_per']}**s"
+        )
+        new = f"**{ammount}**/**{per}**s"
+
+        await ctx.send(
+            embed=utils.cs_embed(
+                {"cooldown": (orig, new)}, self.bot, noticks=True
+            )
+        )
 
     @commands.group(
         name="quickactions",
