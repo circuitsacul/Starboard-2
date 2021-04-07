@@ -8,28 +8,29 @@ from app.classes.bot import Bot
 from app.i18n import t_
 
 
-def try_regex(
+async def try_regex(
     bot: Bot, message: discord.Message, pattern: str
 ) -> Optional[re.Match]:
     try:
         result = utils.safe_regex(message.system_content, pattern)
     except TimeoutError:
-        bot.dispatch(
-            "guild_log",
-            t_(
-                "I tried to match `{0}` to [a message]"
-                "({1.jump_url}), but it took too long. "
-                "Try improving the efficiency of your regex, and "
-                "feel free to join the support server for help."
-            ).format(pattern, message),
-        )
+        async with bot.temp_locale(message.guild):
+            bot.dispatch(
+                "guild_log",
+                t_(
+                    "I tried to match `{0}` to [a message]"
+                    "({1.jump_url}), but it took too long. "
+                    "Try improving the efficiency of your regex, and "
+                    "feel free to join the support server for help."
+                ).format(pattern, message),
+            )
         return True
     if result is not None:
         return True
     return False
 
 
-def is_valid(
+async def is_valid(
     bot: Bot, message: discord.Message, aschannel: dict
 ) -> tuple[bool, str]:
     if aschannel["require_image"]:
@@ -40,12 +41,12 @@ def is_valid(
             aschannel["min_chars"]
         )
     if aschannel["regex"]:
-        if not try_regex(bot, message, aschannel["regex"]):
+        if not await try_regex(bot, message, aschannel["regex"]):
             return False, t_("Messages must match `{0}`").format(
                 aschannel["regex"]
             )
     if aschannel["exclude_regex"]:
-        if not try_regex(bot, message, aschannel["exclude_regex"]):
+        if not await try_regex(bot, message, aschannel["exclude_regex"]):
             return False, t_("Messages must not match `{0}`").format(
                 aschannel["exclude_regex"]
             )
@@ -55,22 +56,24 @@ def is_valid(
 async def handle_message(
     bot: Bot, message: discord.Message, aschannel: dict
 ) -> None:
-    valid, reason = is_valid(bot, message, aschannel)
+    valid, reason = await is_valid(bot, message, aschannel)
     if not valid:
         if aschannel["delete_invalid"]:
             try:
                 await message.delete()
             except discord.Forbidden:
-                bot.dispatch(
-                    "guild_log",
-                    t_(
-                        "I tried to delete [a message]({0.jump_url}) that "
-                        "didn't meet the requirements of {0.channel.mention}, "
-                        "but I don't have the proper permissions."
-                    ).format(message),
-                    "error",
-                    message.guild,
-                )
+                async with bot.temp_locale(message.guild):
+                    bot.dispatch(
+                        "guild_log",
+                        t_(
+                            "I tried to delete [a message]({0.jump_url}) that "
+                            "didn't meet the requirements of "
+                            "{0.channel.mention}, but I don't have the proper "
+                            "permissions."
+                        ).format(message),
+                        "error",
+                        message.guild,
+                    )
             else:
                 try:
                     await message.author.send(

@@ -587,15 +587,16 @@ class Settings(commands.Cog):
             await ctx.send(
                 t_("Set the log channel to {0}.").format(channel.mention)
             )
-            self.bot.dispatch(
-                "guild_log",
-                t_(
-                    "This channel has been set as a log channel. I'll send "
-                    "errors and important info here."
-                ),
-                "info",
-                ctx.guild,
-            )
+            async with self.bot.temp_locale(ctx.guild):
+                self.bot.dispatch(
+                    "guild_log",
+                    t_(
+                        "This channel has been set as a log channel. I'll "
+                        "send errors and important info here."
+                    ),
+                    "info",
+                    ctx.guild,
+                )
         else:
             await ctx.send("Unset the log channel.")
 

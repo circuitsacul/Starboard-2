@@ -26,14 +26,15 @@ class AutoStarEvents(commands.Cog):
         if not aschannel:
             return
         await self.bot.db.aschannels.delete(channel.id)
-        self.bot.dispatch(
-            "guild_log",
-            t_("`{0}` was deleted so I removed that AutoStarChannel.").format(
-                channel.name
-            ),
-            "info",
-            channel.guild,
-        )
+        async with self.bot.temp_locale(channel.guild):
+            self.bot.dispatch(
+                "guild_log",
+                t_(
+                    "`{0}` was deleted so I removed that AutoStarChannel."
+                ).format(channel.name),
+                "info",
+                channel.guild,
+            )
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message) -> None:

@@ -23,14 +23,15 @@ class StarboardEvents(commands.Cog):
         if not starboard:
             return
         await self.bot.db.starboards.delete(channel.id)
-        self.bot.dispatch(
-            "guild_log",
-            t_("`{0}` was deleted, so I removed that starboard.").format(
-                channel.name
-            ),
-            "info",
-            channel.guild,
-        )
+        async with self.bot.temp_locale(channel.guild):
+            self.bot.dispatch(
+                "guild_log",
+                t_("`{0}` was deleted, so I removed that starboard.").format(
+                    channel.name
+                ),
+                "info",
+                channel.guild,
+            )
 
     @commands.Cog.listener()
     async def on_raw_message_delete(

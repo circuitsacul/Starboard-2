@@ -34,30 +34,34 @@ msgstr "Geen"
 msgid ""
 "I couldn't interpret `{0}` as a hex value. Please pass something like "
 "`#FFE16C`."
-msgstr "Ik kon `{0}` niet interpreteren als een hex nummer. Geef iets "
-"door als `#FFE16C`."
+msgstr ""
+"Ik kon `{0}` niet interpreteren als een hex getal. Geef iets door als "
+"`#FFE16C`."
 
 #: app/converters.py:38
 #, python-brace-format
 msgid ""
 "I couldn't interpret `{0}` as yes or no. Please pass one of 'yes', 'no', "
 "'true', or 'false'."
-msgstr "Ik kon `{0}` niet interpreteren als ja of nee. Geef een van 'yes', "
-"'no', 'true', or 'false'"
+msgstr ""
+"Ik kon `{0}` niet interpreteren als ja of nee. Geef een van 'yes', 'no', "
+"'true', or 'false'"
 
 #: app/converters.py:51
 #, python-brace-format
 msgid ""
 "I couldn't interpret `{0}` as an integer (number). Please pass something "
 "like `10` or `2`."
-msgstr ""
+msgstr "Ik kon niet interpreteren `{0}` als een integer (getal). Geef iets door "
+"als `10` of `2`."
 
 #: app/converters.py:64
 #, python-brace-format
 msgid ""
 "I couldn't interpret `{0}` as a floating-point number. Please pass something "
 "like `10.9` or `6`."
-msgstr ""
+msgstr "Ik kon niet interpreteren `{0}` als een drijvend-kommagetal. Geef iets door "
+"als `10` of `2`."
 
 #: app/errors.py:14
 #, python-brace-format
@@ -589,6 +593,49 @@ msgstr ""
 msgid ""
 "Try running `/ping` to see if slash commands are working. If not, a server "
 "admin can use [this link]({slash_auth}) to give me the proper permissions."
+msgstr ""
+
+#: app/cogs/profile/profile_commands.py:23
+#, python-brace-format
+msgid ""
+"Valid Language Codes:\n"
+"{0}"
+msgstr ""
+
+#: app/cogs/profile/profile_commands.py:31
+#, python-brace-format
+msgid "Set your language to {0}."
+msgstr ""
+
+#: app/cogs/profile/profile_commands.py:42
+msgid "Your profile is now public."
+msgstr ""
+
+#: app/cogs/profile/profile_commands.py:44
+msgid "Your profile is no longer public."
+msgstr ""
+
+#: app/cogs/profile/profile_commands.py:64
+msgid "Settings"
+msgstr ""
+
+#: app/cogs/profile/profile_commands.py:66
+#, python-brace-format
+msgid ""
+"Language: {0}\n"
+"Public Profile: {1}"
+msgstr ""
+
+#: app/cogs/profile/profile_commands.py:71
+msgid "Global Stats"
+msgstr ""
+
+#: app/cogs/profile/profile_commands.py:73
+#, python-brace-format
+msgid ""
+"Total Stars Given: **{0}**\n"
+"Total Stars Received: **{1}**\n"
+"Total Votes: **{2}**"
 msgstr ""
 
 #: app/cogs/blacklist/bl_commands.py:36

@@ -377,7 +377,7 @@ async def handle_trashed_message(
         pass
 
 
-def try_regex(
+async def try_regex(
     bot: Bot, pattern: str, message: discord.Message
 ) -> Optional[bool]:
     string = message.system_content
@@ -386,17 +386,18 @@ def try_regex(
         if utils.safe_regex(string, pattern):
             return True
     except TimeoutError:
-        bot.dispatch(
-            "guild_log",
-            t_(
-                "I tried to match `{0}` to "
-                "[a message]({1}), but it took too long. "
-                "Try improving the efficiency of your regex. If "
-                "you need help, feel free to join the support server."
-            ).format(pattern, jump),
-            "error",
-            message.guild,
-        )
+        async with bot.temp_locale(message.guild):
+            bot.dispatch(
+                "guild_log",
+                t_(
+                    "I tried to match `{0}` to "
+                    "[a message]({1}), but it took too long. "
+                    "Try improving the efficiency of your regex. If "
+                    "you need help, feel free to join the support server."
+                ).format(pattern, jump),
+                "error",
+                message.guild,
+            )
         return None
     return False
 
@@ -466,11 +467,14 @@ async def handle_starboard(
 
     if message is not None:
         if sql_starboard["regex"] != "":
-            if try_regex(bot, sql_starboard["regex"], message) is False:
+            if await try_regex(bot, sql_starboard["regex"], message) is False:
                 add = False
                 delete = True
         if sql_starboard["exclude_regex"] != "":
-            if try_regex(bot, sql_starboard["exclude_regex"], message) is True:
+            if (
+                await try_regex(bot, sql_starboard["exclude_regex"], message)
+                is True
+            ):
                 add = False
                 delete = True
 
@@ -518,17 +522,18 @@ async def handle_starboard(
                     allowed_mentions=discord.AllowedMentions(users=True),
                 )
             except discord.Forbidden:
-                bot.dispatch(
-                    "guild_log",
-                    t_(
-                        "I tried to send a starboard message to "
-                        "{0}, but I'm missing the "
-                        "proper permissions. Please make sure I have "
-                        "the `Send Messages` permission."
-                    ).format(starboard.mention),
-                    "error",
-                    guild,
-                )
+                async with bot.temp_locale(guild):
+                    bot.dispatch(
+                        "guild_log",
+                        t_(
+                            "I tried to send a starboard message to "
+                            "{0}, but I'm missing the "
+                            "proper permissions. Please make sure I have "
+                            "the `Send Messages` permission."
+                        ).format(starboard.mention),
+                        "error",
+                        guild,
+                    )
                 return
             await bot.db.sb_messages.create(
                 m.id, message.id, sql_starboard["id"]
@@ -545,19 +550,20 @@ async def handle_starboard(
                     try:
                         await m.add_reaction(emoji)
                     except discord.Forbidden:
-                        bot.dispatch(
-                            "guild_log",
-                            t_(
-                                "I tried to autoreact to a message on the "
-                                "starboard, but I'm missing the proper "
-                                "permissions. If you don't want me to "
-                                "autoreact to messages, set the AutoReact "
-                                "setting to False with `starboards cs "
-                                "#{0} --autoReact False`."
-                            ).format(starboard.name),
-                            "error",
-                            guild,
-                        )
+                        async with bot.temp_locale(guild):
+                            bot.dispatch(
+                                "guild_log",
+                                t_(
+                                    "I tried to autoreact to a message on the "
+                                    "starboard, but I'm missing the proper "
+                                    "permissions. If you don't want me to "
+                                    "autoreact to messages, set the AutoReact "
+                                    "setting to False with `starboards cs "
+                                    "#{0} --autoReact False`."
+                                ).format(starboard.name),
+                                "error",
+                                guild,
+                            )
         elif starboard_message is not None and message:
             try:
                 if edit:

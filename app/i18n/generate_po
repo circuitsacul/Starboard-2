@@ -41,6 +41,7 @@ subprocess.run(
         "--from-code=UTF-8",
         "--keyword",
         "--keyword=t_",
+        "--keyword=ft_",
         "-o",
         file,
     ],

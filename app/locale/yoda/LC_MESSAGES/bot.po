@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-05 09:52-0400\n"
+"POT-Creation-Date: 2021-04-07 09:09-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -299,7 +299,7 @@ msgstr ""
 "Reason:```\n"
 "{2}```"
 
-#: app/cogs/starboard/starboard_funcs.py:388
+#: app/cogs/starboard/starboard_funcs.py:393
 #, python-brace-format
 msgid ""
 "I tried to match `{0}` to [a message]({1}), but it took too long. Try "
@@ -307,14 +307,14 @@ msgid ""
 "the support server."
 msgstr ""
 
-#: app/cogs/starboard/starboard_funcs.py:517
+#: app/cogs/starboard/starboard_funcs.py:528
 #, python-brace-format
 msgid ""
 "I tried to send a starboard message to {0}, but I'm missing the proper "
 "permissions. Please make sure I have the `Send Messages` permission."
 msgstr ""
 
-#: app/cogs/starboard/starboard_funcs.py:544
+#: app/cogs/starboard/starboard_funcs.py:556
 #, python-brace-format
 msgid ""
 "I tried to autoreact to a message on the starboard, but I'm missing the "
@@ -554,7 +554,7 @@ msgstr "Ping users when the level up, I will not."
 msgid "Set the log channel to {0}."
 msgstr "Set to {0}, the log channel has been."
 
-#: app/cogs/settings/settings_commands.py:593
+#: app/cogs/settings/settings_commands.py:594
 msgid ""
 "This channel has been set as a log channel. I'll send errors and important "
 "info here."
@@ -623,20 +623,20 @@ msgid ""
 "{0}"
 msgstr ""
 
-#: app/cogs/profile/profile_commands.py:29
+#: app/cogs/profile/profile_commands.py:31
 #, python-brace-format
 msgid "Set your language to {0}."
 msgstr ""
 
-#: app/cogs/profile/profile_commands.py:40
+#: app/cogs/profile/profile_commands.py:41
 msgid "Your profile is now public."
 msgstr ""
 
-#: app/cogs/profile/profile_commands.py:42
+#: app/cogs/profile/profile_commands.py:43
 msgid "Your profile is no longer public."
 msgstr ""
 
-#: app/cogs/profile/profile_commands.py:62
+#: app/cogs/profile/profile_commands.py:63
 msgid "Settings"
 msgstr ""
 
@@ -647,11 +647,11 @@ msgid ""
 "Public Profile: {1}"
 msgstr ""
 
-#: app/cogs/profile/profile_commands.py:69
+#: app/cogs/profile/profile_commands.py:70
 msgid "Global Stats"
 msgstr ""
 
-#: app/cogs/profile/profile_commands.py:71
+#: app/cogs/profile/profile_commands.py:72
 #, python-brace-format
 msgid ""
 "Total Stars Given: **{0}**\n"
@@ -717,7 +717,7 @@ msgstr "Clear the whitelist for {0}, sure you are?"
 msgid "Cleared the whitelist for {0}."
 msgstr "The whitelist for {0}, cleared has been."
 
-#: app/cogs/autostarchannels/asc_funcs.py:20
+#: app/cogs/autostarchannels/asc_funcs.py:21
 #, python-brace-format
 msgid ""
 "I tried to match `{0}` to [a message]({1.jump_url}), but it took too long. "
@@ -740,7 +740,7 @@ msgstr "Match `{0}`, messages must."
 msgid "Messages must not match `{0}`"
 msgstr "Match `{0}`, messages must not."
 
-#: app/cogs/autostarchannels/asc_funcs.py:67
+#: app/cogs/autostarchannels/asc_funcs.py:69
 #, python-brace-format
 msgid ""
 "I tried to delete [a message]({0.jump_url}) that didn't meet the "
