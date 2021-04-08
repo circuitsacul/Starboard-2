@@ -3,6 +3,7 @@ from discord.ext import commands, flags
 
 from app import converters, errors, menus, utils
 from app.classes.bot import Bot
+from app.cogs.leveling import leveling_funcs
 from app.cogs.starboard import starboard_funcs
 from app.i18n import t_
 
@@ -14,6 +15,44 @@ class Utility(commands.Cog):
 
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
+
+    @commands.command(name="setxp", brief="Sets the XP for a user.")
+    @commands.has_guild_permissions(manage_guild=True)
+    async def set_user_xp(
+        self, ctx: commands.Context, user: discord.User, xp: converters.myint
+    ):
+        if xp < 0:
+            raise commands.BadArgument(t_("XP must be greater than 0."))
+        if xp > 9999:
+            raise commands.BadArgument(t_("XP must be less than 10,000."))
+
+        sql_member = await self.bot.db.members.get(user.id, ctx.guild.id)
+        if not sql_member:
+            raise commands.BadArgument(
+                t_("That user does not exist in the database for this guild.")
+            )
+
+        new_level = leveling_funcs.current_level(xp)
+        await self.bot.db.execute(
+            """UPDATE members
+            SET xp=$1,
+            level=$2
+            WHERE user_id=$3
+            AND guild_id=$4""",
+            xp,
+            new_level,
+            user.id,
+            ctx.guild.id,
+        )
+
+        await ctx.send(
+            t_(
+                "Changed {0}'s XP to {1} and Level to {2} "
+                "(was {3} XP and Level {4})."
+            ).format(
+                user.name, xp, new_level, sql_member["xp"], sql_member["level"]
+            )
+        )
 
     @commands.command(
         name="scan", brief="Recounts the reactions on lots of messages at once"

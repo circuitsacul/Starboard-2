@@ -48,6 +48,10 @@ class Fun(commands.Cog):
         for _uid, u in leaderboard.items():
             p.add_line(build_string(u))
 
+        if len(p.pages) == 0:
+            await ctx.send("Nothing to show.")
+            return
+
         embeds = [
             discord.Embed(
                 title=t_("Leaderboard for {0}:").format(ctx.guild.name),
