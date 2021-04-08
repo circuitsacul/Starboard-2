@@ -563,7 +563,7 @@ async def handle_starboard(
                             ),
                             wait=True,
                             username=sql_starboard["webhook_name"]
-                            or bot.user.name,
+                            or guild.me.display_name,
                             avatar_url=sql_starboard["webhook_avatar"]
                             or bot.user.avatar_url,
                         )
