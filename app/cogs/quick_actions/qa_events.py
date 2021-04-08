@@ -34,7 +34,8 @@ class QAEvents(commands.Cog):
         orig_message: Optional[dict]
 
         guild = self.bot.get_guild(payload.guild_id)
-        await self.bot.set_locale(guild)
+        if guild:
+            await self.bot.set_locale(guild)
 
         if not payload.guild_id:
             user = await self.bot.fetch_user(payload.user_id)
