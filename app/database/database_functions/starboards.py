@@ -17,10 +17,13 @@ class Starboards:
             namespace="sb_emojis", ttl=10
         )
 
-    async def _starboard_edited(self, starboard_id: int, guild_id: int):
+    async def _starboard_edited(
+        self, starboard_id: int, guild_id: Optional[int] = None
+    ):
         await self.cache.delete(starboard_id)
-        await self.emoji_cache.delete(guild_id)
-        await self.many_cache.delete(guild_id)
+        if guild_id:
+            await self.emoji_cache.delete(guild_id)
+            await self.many_cache.delete(guild_id)
 
     async def star_emojis(self, guild_id: int) -> list[str]:
         r = await self.emoji_cache.get(guild_id)
@@ -104,6 +107,16 @@ class Starboards:
 
         await self._starboard_edited(starboard_id, int(s["guild_id"]))
 
+    async def set_webhook(self, starboard_id: int, url: Optional[str]):
+        await self.db.execute(
+            """UPDATE starboards
+            SET webhook_url=$1
+            WHERE id=$2""",
+            url,
+            starboard_id,
+        )
+        await self._starboard_edited(starboard_id)
+
     async def set_webhook_name(self, starboard_id: int, name: str):
         await self.db.execute(
             """UPDATE starboards
@@ -112,6 +125,7 @@ class Starboards:
             name,
             starboard_id,
         )
+        await self._starboard_edited(starboard_id)
 
     async def set_webhook_avatar(self, starboard_id: int, url: str):
         await self.db.execute(
@@ -121,6 +135,7 @@ class Starboards:
             url,
             starboard_id,
         )
+        await self._starboard_edited(starboard_id)
 
     async def edit(
         self,

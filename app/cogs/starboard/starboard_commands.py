@@ -76,14 +76,23 @@ class Starboard(commands.Cog):
                 description=(
                     f"emojis: **{upvote_emoji_str}**\n"
                     f"displayEmoji: **{s['display_emoji']}**\n"
-                    f"color: **{s['color']}**\n\n"
+                    f"color: **{s['color']}**\n"
+                    f"useWebhook: **{s['use_webhook']}**\n"
+                    f"username: **{s['webhook_name']}**\n"
+                    + (
+                        f"avatar: [view]({s['webhook_avatar']})\n"
+                        if s["webhook_avatar"]
+                        else "avatar: Default\n"
+                    )
+                    + "\n"
                     f"requiredStars: **{s['required']}**\n"
                     f"requiredRemove: **{s['required_remove']}**\n"
                     f"selfStar: **{s['self_star']}**\n"
                     f"allowBots: **{s['allow_bots']}**\n"
                     f"imagesOnly: **{s['images_only']}**\n"
                     f"regex: `{s['regex'] or 'None'}`\n"
-                    f"excludeRegex: `{s['exclude_regex'] or 'None'}`\n\n"
+                    f"excludeRegex: `{s['exclude_regex'] or 'None'}`\n"
+                    "\n"
                     f"ping: **{s['ping']}**\n"
                     f"autoReact: **{s['autoreact']}**\n"
                     f"linkDeletes: **{s['link_deletes']}**\n"
@@ -129,12 +138,15 @@ class Starboard(commands.Cog):
         self,
         ctx: commands.Context,
         starboard: converters.Starboard,
-        avatar_url: str,
+        avatar_url: Optional[str] = None,
     ):
         await self.bot.db.starboards.set_webhook_avatar(
             starboard.obj.id, avatar_url
         )
-        await ctx.send("Done!")
+        if avatar_url:
+            await ctx.send(t_("Avatar set!"))
+        else:
+            await ctx.send(t_("Avatar reset to default."))
 
     @starboards.command(
         name="name",
@@ -145,7 +157,10 @@ class Starboard(commands.Cog):
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def set_webhook_name(
-        self, ctx: commands.Context, starboard: converters.Starboard, name: str
+        self,
+        ctx: commands.Context,
+        starboard: converters.Starboard,
+        name: Optional[str] = None,
     ):
         await self.bot.db.starboards.set_webhook_name(starboard.obj.id, name)
         await ctx.send(

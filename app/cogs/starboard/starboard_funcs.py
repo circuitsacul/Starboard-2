@@ -43,13 +43,7 @@ async def get_or_set_webhook(
         )
     except discord.Forbidden:
         return None
-    await bot.db.execute(
-        """UPDATE starboards
-        SET webhook_url=$1
-        WHERE id=$2""",
-        webhook.url,
-        starboard.id,
-    )
+    await bot.db.starboards.set_webhook(starboard.id, webhook.url)
     return webhook
 
 
@@ -559,17 +553,25 @@ async def handle_starboard(
                         allowed_mentions=discord.AllowedMentions(users=True),
                     )
                 else:
-                    m = await webhook.send(
-                        content=plain_text,
-                        embed=embed,
-                        files=attachments,
-                        allowed_mentions=discord.AllowedMentions(users=True),
-                        wait=True,
-                        username=sql_starboard["webhook_name"]
-                        or bot.user.name,
-                        avatar_url=sql_starboard["webhook_avatar"]
-                        or bot.user.avatar_url,
-                    )
+                    try:
+                        m = await webhook.send(
+                            content=plain_text,
+                            embed=embed,
+                            files=attachments,
+                            allowed_mentions=discord.AllowedMentions(
+                                users=True
+                            ),
+                            wait=True,
+                            username=sql_starboard["webhook_name"]
+                            or bot.user.name,
+                            avatar_url=sql_starboard["webhook_avatar"]
+                            or bot.user.avatar_url,
+                        )
+                    except discord.NotFound:
+                        await bot.db.starboards.set_webhook(starboard.id, None)
+                        return await handle_starboard(
+                            bot, sql_starboard, sql_message, sql_author, guild
+                        )
             except discord.Forbidden:
                 async with bot.temp_locale(guild):
                     bot.dispatch(
