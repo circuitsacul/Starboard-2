@@ -80,6 +80,11 @@ STARBOARDS = """CREATE TABLE IF NOT EXISTS starboards (
         star_emojis TEXT[] DEFAULT '{⭐}',
         display_emoji TEXT DEFAULT '⭐',
 
+        use_webhook BOOL NOT NULL DEFAULT false,
+        webhook_name VARCHAR(32) DEFAULT NULL,
+        webhook_avatar TEXT DEFAULT NULL,
+        webhook_url TEXT DEFAULT NULL,
+
         FOREIGN KEY (guild_id) REFERENCES guilds (id)
             ON DELETE CASCADE
     )"""

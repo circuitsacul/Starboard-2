@@ -8,6 +8,7 @@ import traceback
 from contextlib import asynccontextmanager, redirect_stdout
 from typing import Any, Optional, Union
 
+import aiohttp
 import discord
 from discord.ext import commands
 from discord_slash import SlashCommand
@@ -82,12 +83,22 @@ class Bot(commands.AutoShardedBot):
         for ext in kwargs.pop("initial_extensions"):
             self.load_extension(ext)
 
+        self.loop.run_until_complete(self.set_session())
+
         try:
             self.run(kwargs["token"])
         except Exception as e:
             raise e from e
         else:
             sys.exit(-1)
+
+    async def set_session(self):
+        self.session = aiohttp.ClientSession()
+
+    def get_webhook(self, url: str) -> discord.Webhook:
+        return discord.Webhook.from_url(
+            url, adapter=discord.AsyncWebhookAdapter(self.session)
+        )
 
     @asynccontextmanager
     async def temp_locale(
@@ -148,6 +159,7 @@ class Bot(commands.AutoShardedBot):
 
     async def close(self, *args, **kwargs):
         await self.db.pool.close()
+        await self.session.close()
         self.log.info("shutting down")
         await self.websocket.close()
         await super().close()

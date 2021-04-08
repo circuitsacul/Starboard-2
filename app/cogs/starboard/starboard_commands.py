@@ -95,6 +95,66 @@ class Starboard(commands.Cog):
             )
             await ctx.send(embed=embed)
 
+    @starboards.command(
+        name="webhook",
+        aliases=["useWebhook"],
+        brief="Whether or not to use webhooks for starboard messages.",
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def use_webhook(
+        self,
+        ctx: commands.Context,
+        starboard: converters.Starboard,
+        enable: converters.mybool,
+    ):
+        """Whether or not to use webhooks for starboard messages."""
+        await self.bot.db.starboards.edit(
+            starboard_id=starboard.obj.id, use_webhook=enable
+        )
+        await ctx.send(
+            embed=utils.cs_embed(
+                {"useWebhook": (starboard.sql["use_webhook"], enable)},
+                bot=self.bot,
+            )
+        )
+
+    @starboards.command(
+        name="avatar", brief="Sets the avatar for webhook starboard messages."
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    @commands.guild_only()
+    async def set_webhook_avatar(
+        self,
+        ctx: commands.Context,
+        starboard: converters.Starboard,
+        avatar_url: str,
+    ):
+        await self.bot.db.starboards.set_webhook_avatar(
+            starboard.obj.id, avatar_url
+        )
+        await ctx.send("Done!")
+
+    @starboards.command(
+        name="name",
+        aliases=["username"],
+        brief="Sets the username for webhook starboard messages.",
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def set_webhook_name(
+        self, ctx: commands.Context, starboard: converters.Starboard, name: str
+    ):
+        await self.bot.db.starboards.set_webhook_name(starboard.obj.id, name)
+        await ctx.send(
+            embed=utils.cs_embed(
+                {"webhookName": (starboard.sql["webhook_name"], name)},
+                self.bot,
+            )
+        )
+
     @starboards.command(name="add", aliases=["a"], brief="Adds a starboard")
     @commands.has_guild_permissions(manage_channels=True)
     async def add_starboard(

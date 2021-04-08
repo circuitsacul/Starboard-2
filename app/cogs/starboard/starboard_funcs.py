@@ -25,6 +25,34 @@ def get_plain_text(
     )
 
 
+async def get_or_set_webhook(
+    bot: Bot, starboard: discord.TextChannel
+) -> Optional[discord.Webhook]:
+    sql_starboard = await bot.db.starboards.get(starboard.id)
+    webhook = None
+    if sql_starboard["webhook_url"]:
+        webhook = bot.get_webhook(sql_starboard["webhook_url"])
+
+    if webhook:
+        return webhook
+
+    try:
+        webhook = await starboard.create_webhook(
+            name=bot.user.name,
+            reason=t_("Creating webhook for starboard messages."),
+        )
+    except discord.Forbidden:
+        return None
+    await bot.db.execute(
+        """UPDATE starboards
+        SET webhook_url=$1
+        WHERE id=$2""",
+        webhook.url,
+        starboard.id,
+    )
+    return webhook
+
+
 async def sbemojis(bot: Bot, guild_id: int) -> list[str]:
     return await bot.db.starboards.star_emojis(guild_id)
 
@@ -334,6 +362,10 @@ async def calculate_points(bot: Bot, message: dict, starboard: dict) -> int:
 async def handle_trashed_message(
     bot: Bot, sql_starboard: dict, sql_message: dict, sql_author: dict
 ) -> None:
+    webhook = None
+    if sql_starboard["webhook_url"]:
+        webhook = bot.get_webhook(sql_starboard["webhook_url"])
+
     sql_starboard_message = await bot.db.fetchrow(
         """SELECT * FROM starboard_messages
         WHERE orig_id=$1 AND starboard_id=$2""",
@@ -361,7 +393,10 @@ async def handle_trashed_message(
         ),
     )
     try:
-        await starboard_message.edit(embed=embed)
+        if starboard_message.author.id == bot.user.id:
+            await starboard_message.edit(embed=embed)
+        elif webhook and starboard_message.author.id == webhook.id:
+            await webhook.edit_message(starboard_message.id, embed=embed)
     except discord.errors.NotFound:
         pass
 
@@ -401,6 +436,12 @@ async def handle_starboard(
     starboard: discord.TextChannel = guild.get_channel(
         int(sql_starboard["id"])
     )
+
+    webhook = None
+    if sql_starboard["use_webhook"]:
+        webhook = await get_or_set_webhook(bot, starboard)
+    elif sql_starboard["webhook_url"]:
+        webhook = bot.get_webhook(sql_starboard["webhook_url"])
 
     sql_starboard_message = await bot.db.fetchrow(
         """SELECT * FROM starboard_messages
@@ -489,10 +530,16 @@ async def handle_starboard(
 
     if delete and starboard_message is not None:
         await bot.db.sb_messages.delete(starboard_message.id)
-        try:
-            await starboard_message.delete()
-        except discord.errors.NotFound:
-            pass
+        if starboard_message.author.id == bot.user.id:
+            try:
+                await starboard_message.delete()
+            except discord.errors.NotFound:
+                pass
+        elif webhook and starboard_message.author.id == webhook.id:
+            try:
+                await webhook.delete_message(starboard_message.id)
+            except discord.errors.NotFound:
+                pass
     elif not delete:
         guild = bot.get_guild(int(sql_message["guild_id"]))
 
@@ -504,12 +551,25 @@ async def handle_starboard(
             )
             # starboard = guild.get_channel(int(sql_starboard["id"]))
             try:
-                m = await starboard.send(
-                    plain_text,
-                    embed=embed,
-                    files=attachments,
-                    allowed_mentions=discord.AllowedMentions(users=True),
-                )
+                if not webhook:
+                    m = await starboard.send(
+                        plain_text,
+                        embed=embed,
+                        files=attachments,
+                        allowed_mentions=discord.AllowedMentions(users=True),
+                    )
+                else:
+                    m = await webhook.send(
+                        content=plain_text,
+                        embed=embed,
+                        files=attachments,
+                        allowed_mentions=discord.AllowedMentions(users=True),
+                        wait=True,
+                        username=sql_starboard["webhook_name"]
+                        or bot.user.name,
+                        avatar_url=sql_starboard["webhook_avatar"]
+                        or bot.user.avatar_url,
+                    )
             except discord.Forbidden:
                 async with bot.temp_locale(guild):
                     bot.dispatch(
@@ -537,7 +597,8 @@ async def handle_starboard(
                     if emoji_id:
                         emoji = discord.utils.get(guild.emojis, id=emoji_id)
                     try:
-                        await m.add_reaction(emoji)
+                        _m = starboard.get_partial_message(m.id)
+                        await _m.add_reaction(emoji)
                     except discord.Forbidden:
                         async with bot.temp_locale(guild):
                             bot.dispatch(
@@ -559,15 +620,32 @@ async def handle_starboard(
                     embed, _ = await embed_message(
                         bot, message, color=sql_starboard["color"], files=False
                     )
-                    await starboard_message.edit(
-                        content=plain_text, embed=embed
-                    )
+                    if starboard_message.author.id == bot.user.id:
+                        await starboard_message.edit(
+                            content=plain_text, embed=embed
+                        )
+                    elif webhook and starboard_message.author.id == webhook.id:
+                        await webhook.edit_message(
+                            starboard_message.id,
+                            content=plain_text,
+                            embed=embed,
+                        )
                 else:
-                    await starboard_message.edit(content=plain_text)
+                    if starboard_message.author.id == bot.user.id:
+                        await starboard_message.edit(content=plain_text)
+                    elif webhook and starboard_message.author.id == webhook.id:
+                        await webhook.edit_message(
+                            starboard_message.id, content=plain_text
+                        )
             except discord.errors.NotFound:
                 pass
         elif starboard_message is not None:
             try:
-                await starboard_message.edit(content=plain_text)
+                if starboard_message.author.id == bot.user.id:
+                    await starboard_message.edit(content=plain_text)
+                elif webhook and starboard_message.author.id == webhook.id:
+                    await webhook.edit_message(
+                        starboard_message.id, content=plain_text
+                    )
             except discord.errors.NotFound:
                 pass

@@ -17,6 +17,11 @@ class Starboards:
             namespace="sb_emojis", ttl=10
         )
 
+    async def _starboard_edited(self, starboard_id: int, guild_id: int):
+        await self.cache.delete(starboard_id)
+        await self.emoji_cache.delete(guild_id)
+        await self.many_cache.delete(guild_id)
+
     async def star_emojis(self, guild_id: int) -> list[str]:
         r = await self.emoji_cache.get(guild_id)
         if r:
@@ -84,21 +89,38 @@ class Starboards:
         except asyncpg.exceptions.UniqueViolationError:
             return True
 
-        await self.many_cache.delete(guild_id)
-        await self.cache.delete(channel_id)
+        await self._starboard_edited(channel_id, guild_id)
 
         return False
 
     async def delete(self, starboard_id: int) -> None:
         s = await self.get(starboard_id)
+        if not s:
+            return
 
         await self.db.execute(
             """DELETE FROM starboards WHERE id=$1""", starboard_id
         )
 
-        if s:
-            await self.many_cache.delete(int(s["guild_id"]))
-        await self.cache.delete(starboard_id)
+        await self._starboard_edited(starboard_id, int(s["guild_id"]))
+
+    async def set_webhook_name(self, starboard_id: int, name: str):
+        await self.db.execute(
+            """UPDATE starboards
+            SET webhook_name=$1
+            WHERE id=$2""",
+            name,
+            starboard_id,
+        )
+
+    async def set_webhook_avatar(self, starboard_id: int, url: str):
+        await self.db.execute(
+            """UPDATE starboards
+            SET webhook_avatar=$1
+            WHERE id=$2""",
+            url,
+            starboard_id,
+        )
 
     async def edit(
         self,
@@ -121,6 +143,7 @@ class Starboards:
         color: int = None,
         channel_bl: list[int] = None,
         channel_wl: list[int] = None,
+        use_webhook: bool = None,
     ) -> None:
         s = await self.get(starboard_id)
         if not s:
@@ -165,6 +188,9 @@ class Starboards:
             "channel_wl": s["channel_wl"]
             if channel_wl is None
             else channel_wl,
+            "use_webhook": s["use_webhook"]
+            if use_webhook is None
+            else use_webhook,
         }
 
         if settings["required"] <= settings["required_remove"]:
@@ -210,8 +236,9 @@ class Starboards:
             color = $15,
             ping = $16,
             channel_bl = $17,
-            channel_wl = $18
-            WHERE id = $19""",
+            channel_wl = $18,
+            use_webhook = $19
+            WHERE id = $20""",
             settings["required"],
             settings["required_remove"],
             settings["autoreact"],
@@ -230,11 +257,11 @@ class Starboards:
             settings["ping"],
             settings["channel_bl"],
             settings["channel_wl"],
+            settings["use_webhook"],
             starboard_id,
         )
 
-        await self.many_cache.delete(int(s["guild_id"]))
-        await self.cache.delete(starboard_id)
+        await self._starboard_edited(starboard_id, int(s["guild_id"]))
 
     async def add_star_emoji(self, starboard_id: int, emoji: str) -> None:
         if type(emoji) is not str:
@@ -251,7 +278,6 @@ class Starboards:
         await self.edit(
             starboard_id, star_emojis=starboard["star_emojis"] + [emoji]
         )
-        await self.emoji_cache.delete(int(starboard["guild_id"]))
 
     async def remove_star_emoji(self, starboard_id: int, emoji: str) -> None:
         if type(emoji) is not str:
@@ -269,4 +295,3 @@ class Starboards:
         new_emojis.remove(emoji)
 
         await self.edit(starboard_id, star_emojis=new_emojis)
-        await self.emoji_cache.delete(int(starboard["guild_id"]))

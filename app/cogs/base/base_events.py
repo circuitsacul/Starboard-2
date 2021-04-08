@@ -1,10 +1,8 @@
-import asyncio
 import datetime
 import os
 import traceback
 from typing import Any
 
-import aiohttp
 import discord
 from discord import AsyncWebhookAdapter, Webhook
 from discord.ext import commands, flags
@@ -40,7 +38,6 @@ class BaseEvents(commands.Cog):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
 
-        self.session: aiohttp.ClientSession = None
         self.guild_webhook: Webhook = None
         self.error_webhook: Webhook = None
         self.uptime_webhook: Webhook = None
@@ -50,41 +47,30 @@ class BaseEvents(commands.Cog):
             "info": {"color": self.bot.theme_color, "title": "Info"},
         }
 
-    def cog_unload(self):
-        asyncio.ensure_future(self.session.close())
-
-    async def get_session(self) -> None:
-        if self.session:
-            return
-        self.session = aiohttp.ClientSession()
-
     async def uptime_log(self, content: str) -> None:
         if not UPTIME:
             return
-        await self.get_session()
         if not self.uptime_webhook:
             self.uptime_webhook = Webhook.from_url(
-                UPTIME, adapter=AsyncWebhookAdapter(self.session)
+                UPTIME, adapter=AsyncWebhookAdapter(self.bot.session)
             )
         await self.uptime_webhook.send(content, username="Starboard Uptime")
 
     async def error_log(self, content: str) -> None:
         if not ERROR:
             return
-        await self.get_session()
         if not self.error_webhook:
             self.error_webhook = Webhook.from_url(
-                ERROR, adapter=AsyncWebhookAdapter(self.session)
+                ERROR, adapter=AsyncWebhookAdapter(self.bot.session)
             )
         await self.error_webhook.send(content, username="Starboard Errors")
 
     async def join_leave_log(self, embed: discord.Embed) -> None:
         if not GUILD:
             return
-        await self.get_session()
         if not self.guild_webhook:
             self.guild_webhook = Webhook.from_url(
-                GUILD, adapter=AsyncWebhookAdapter(self.session)
+                GUILD, adapter=AsyncWebhookAdapter(self.bot.session)
             )
         await self.guild_webhook.send(
             embed=embed, username="Starboard Guild Log"
