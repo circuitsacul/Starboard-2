@@ -62,8 +62,8 @@ class Paginator(menus.Menu):
             for x, e in enumerate(self.embeds):
                 to_add = f"({x+1}/{self.length})"
                 footer = (
-                    e.footer.text + to_add
-                    if isinstance(e.footer, str)
+                    e.footer.text + "\n" + to_add
+                    if isinstance(e.footer.text, str)
                     else to_add
                 )
                 e.set_footer(text=footer, icon_url=e.footer.icon_url)
