@@ -106,18 +106,18 @@ async def embed_message(
             else:
                 content += "\n"
             content += (
-                (f"{embed.description}\n")
+                (f"{embed.description}\n\n")
                 if embed.description != embed.Empty
-                else ""
+                else "\n"
             )
 
             for field in embed.fields:
-                name = f"\n**{utils.escmd(field.name)}**\n"
+                name = f"**{utils.escmd(field.name)}**\n"
                 value = f"{field.value}\n"
 
                 content += name + value
             if embed.footer.text is not embed.Empty:
-                content += f"\n{utils.escmd(embed.footer.text)}\n"
+                content += f"{utils.escmd(embed.footer.text)}"
             if embed.image.url is not embed.Empty:
                 urls.append(
                     {
