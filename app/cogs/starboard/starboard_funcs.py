@@ -106,13 +106,13 @@ async def embed_message(
             else:
                 content += "\n"
             content += (
-                (f"{embed.description}\n\n")
+                (f"{embed.description}\n")
                 if embed.description != embed.Empty
-                else "\n"
+                else ""
             )
 
             for field in embed.fields:
-                name = f"**{utils.escmd(field.name)}**\n"
+                name = f"\n**{utils.escmd(field.name)}**\n"
                 value = f"{field.value}\n"
 
                 content += name + value
