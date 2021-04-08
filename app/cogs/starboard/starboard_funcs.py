@@ -545,7 +545,7 @@ async def handle_starboard(
             )
             # starboard = guild.get_channel(int(sql_starboard["id"]))
             try:
-                if not webhook:
+                if not webhook or not sql_starboard["use_webhook"]:
                     m = await starboard.send(
                         plain_text,
                         embed=embed,
