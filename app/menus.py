@@ -56,6 +56,16 @@ class Paginator(menus.Menu):
                 )
                 e.set_footer(text=footer, icon_url=e.footer.icon_url)
 
+    @classmethod
+    async def help_menu(
+        cls: "Paginator",
+        ctx: commands.Context,
+        destination: discord.abc.Messageable,
+        pages: list[discord.Embed],
+    ):
+        paginator = cls(pages, delete_after=True)
+        await paginator.start(ctx, channel=destination)
+
     async def send_initial_message(
         self, ctx: commands.Context, channel: discord.TextChannel
     ) -> discord.Message:

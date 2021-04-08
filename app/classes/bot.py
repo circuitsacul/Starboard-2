@@ -17,6 +17,7 @@ from pretty_help import Navigation, PrettyHelp
 
 from app import i18n
 from app.classes.ipc_connection import WebsocketConnection
+from app.menus import Paginator
 
 from ..database.database import Database
 
@@ -42,6 +43,7 @@ class Bot(commands.AutoShardedBot):
                 color=self.theme_color,
                 navigation=Navigation("⬅️", "➡️", "⏹️"),
                 command_attrs={"name": "commands", "hidden": True},
+                menu=Paginator.help_menu,
             ),
             command_prefix=self._prefix_callable,
             **kwargs,
