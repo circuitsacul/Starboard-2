@@ -367,17 +367,18 @@ class Utility(commands.Cog):
         )
         await ctx.send(t_("Message untrashed."))
 
-    @commands.command(
+    @commands.group(
         name="trashcan",
         aliases=["trashed"],
         brief="Shows a list of trashed messages",
+        invoke_without_command=True,
     )
     @commands.has_guild_permissions(manage_messages=True)
     @commands.bot_has_permissions(
         embed_links=True, add_reactions=True, read_message_history=True
     )
     @commands.guild_only()
-    async def show_trashcan(self, ctx: commands.Context) -> None:
+    async def trashcan(self, ctx: commands.Context) -> None:
         """Shows all messages that have been trashed."""
         trashed_messages = await self.bot.db.fetch(
             """SELECT * FROM messages
@@ -403,6 +404,33 @@ class Utility(commands.Cog):
             for page in p.pages
         ]
         await menus.Paginator(embeds=embeds).start(ctx)
+
+    @trashcan.command(
+        name="empty",
+        aliases=["clear"],
+        brief="Empties the trashcan",
+    )
+    @commands.has_guild_permissions(manage_messages=True)
+    @commands.bot_has_permissions(
+        embed_links=True, add_reactions=True, read_message_history=True
+    )
+    @commands.guild_only()
+    async def empty_trashcan(self, ctx: commands.Context):
+        """Empties the trashcan. Note that this will not
+        Automatically update the messages that were trashed.
+        If you need this, please untrash each message
+        individually."""
+        if not await menus.Confirm(
+            t_("Are you sure you want to untrash all messages?")
+        ).start(ctx):
+            await ctx.send("Cancelled.")
+        await self.bot.db.execute(
+            """UPDATE messages
+            SET trashed=False
+            WHERE guild_id=$1 and trashed=True""",
+            ctx.guild.id,
+        )
+        await ctx.send(t_("All messages have been untrashed."))
 
     @flags.add_flag("--by", type=discord.User)
     @flags.add_flag("--notby", type=discord.User)
