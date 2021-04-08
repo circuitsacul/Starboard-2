@@ -13,11 +13,11 @@ import discord
 from discord.ext import commands
 from discord_slash import SlashCommand
 from dotenv import load_dotenv
-from pretty_help import Navigation, PrettyHelp
+from pretty_help import PrettyHelp
 
 from app import i18n
 from app.classes.ipc_connection import WebsocketConnection
-from app.menus import Paginator
+from app.menus import HelpMenu
 
 from ..database.database import Database
 
@@ -41,9 +41,8 @@ class Bot(commands.AutoShardedBot):
         super().__init__(
             help_command=PrettyHelp(
                 color=self.theme_color,
-                navigation=Navigation("⬅️", "➡️", "⏹️"),
                 command_attrs={"name": "commands", "hidden": True},
-                menu=Paginator.help_menu,
+                menu=HelpMenu,
             ),
             command_prefix=self._prefix_callable,
             **kwargs,

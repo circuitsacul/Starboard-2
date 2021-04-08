@@ -2,6 +2,18 @@ from typing import Optional
 
 import discord
 from discord.ext import commands, menus
+from pretty_help import PrettyMenu
+
+
+class HelpMenu(PrettyMenu):
+    @staticmethod
+    async def send_pages(
+        ctx: commands.Context,
+        destination: discord.abc.Messageable,
+        embeds: list[discord.Embed],
+    ):
+        p = Paginator(embeds=embeds, delete_after=True)
+        await p.start(ctx, channel=destination)
 
 
 class Confirm(menus.Menu):
