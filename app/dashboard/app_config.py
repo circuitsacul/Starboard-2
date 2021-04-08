@@ -31,6 +31,14 @@ SECTIONS = [
         ),
     },
     {
+        "image": "img/features/change_avatar.png",
+        "title": "Custom Avatar and Name",
+        "description": (
+            "Using webhooks, you can set a custom avatar and username "
+            "for each starboard, for free!"
+        ),
+    },
+    {
         "image": "img/features/autostar.png",
         "title": "AutoStar Channels",
         "description": (
