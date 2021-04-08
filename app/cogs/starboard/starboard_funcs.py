@@ -196,7 +196,9 @@ async def embed_message(
     ref_message = None
     ref_jump = None
     ref_author = None
-    if message.reference is not None:
+    if message.reference is not None and bot.get_guild(
+        message.reference.guild_id
+    ):
         if message.reference.resolved is None:
             ref_message = await bot.cache.fetch_message(
                 message.reference.guild_id,
