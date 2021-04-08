@@ -39,6 +39,9 @@ class StarboardEvents(commands.Cog):
     ) -> None:
         sb_message = await self.bot.db.sb_messages.get(payload.message_id)
         if sb_message:
+            # Delete the starboard message
+            await self.bot.db.sb_messages.delete(sb_message["id"])
+
             # Trash the message
             await utility_funcs.handle_trashing(
                 self.bot,
