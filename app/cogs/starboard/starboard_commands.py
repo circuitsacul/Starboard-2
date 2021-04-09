@@ -140,9 +140,24 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         avatar_url: Optional[str] = None,
     ):
+        if not starboard.sql["use_webhook"] and await menus.Confirm(
+            t_(
+                "This feature only works if `useWebhook` is enabled. "
+                "Would you like to also enable this setting?"
+            )
+        ).start(ctx):
+            await self.bot.db.starboards.edit(
+                starboard.obj.id, use_webhook=True
+            )
+            await ctx.send(
+                t_("Webhooks have been enabled for {0}.").format(
+                    starboard.obj.mention
+                )
+            )
         await self.bot.db.starboards.set_webhook_avatar(
             starboard.obj.id, avatar_url
         )
+
         if avatar_url:
             await ctx.send(t_("Avatar set!"))
         else:
@@ -160,12 +175,29 @@ class Starboard(commands.Cog):
         self,
         ctx: commands.Context,
         starboard: converters.Starboard,
+        *,
         name: Optional[str] = None,
     ):
+        enabled = False
+        if not starboard.sql["use_webhook"] and await menus.Confirm(
+            t_(
+                "This feature only works if `useWebhook` is enabled. "
+                "Would you like to also enable this setting?"
+            )
+        ).start(ctx):
+            await self.bot.db.starboards.edit(
+                starboard.obj.id, use_webhook=True
+            )
+            enabled = True
         await self.bot.db.starboards.set_webhook_name(starboard.obj.id, name)
+
+        settings = {"webhookName": (starboard.sql["webhook_name"], name)}
+        if enabled:
+            settings["useWebhook"] = (False, True)
+
         await ctx.send(
             embed=utils.cs_embed(
-                {"webhookName": (starboard.sql["webhook_name"], name)},
+                settings,
                 self.bot,
             )
         )
