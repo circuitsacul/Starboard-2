@@ -13,6 +13,10 @@ class Guilds:
         self.db = db
         self.cache: SimpleMemoryCache = Cache(namespace="guilds", ttl=10)
 
+    async def delete(self, guild_id: int):
+        await self.db.execute("""DELETE FROM guilds WHERE id=$1""", guild_id)
+        await self.cache.delete(guild_id)
+
     async def set_cooldown(self, guild_id: int, ammount: int, per: int):
         if ammount < 1:
             raise commands.BadArgument(
@@ -79,5 +83,5 @@ class Guilds:
             )
         except asyncpg.exceptions.UniqueViolationError:
             return False
-        await self.cache.delete()
+        await self.cache.delete(guild_id)
         return True

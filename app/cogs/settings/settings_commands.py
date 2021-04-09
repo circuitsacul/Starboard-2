@@ -607,6 +607,7 @@ class Settings(commands.Cog):
             channel.id if channel else None,
             ctx.guild.id,
         )
+        await self.bot.db.guilds.cache.delete(ctx.guild.id)
         if channel:
             await ctx.send(
                 t_("Set the log channel to {0}.").format(channel.mention)

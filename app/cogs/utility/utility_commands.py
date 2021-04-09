@@ -1,3 +1,5 @@
+import asyncio
+
 import discord
 from discord.ext import commands, flags
 
@@ -15,6 +17,50 @@ class Utility(commands.Cog):
 
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
+
+    @commands.group(
+        name="reset",
+        brief="A utility for resetting aspects of the bot.",
+        invoke_without_command=True,
+    )
+    @commands.has_guild_permissions(administrator=True)
+    @commands.guild_only()
+    async def reset(self, ctx: commands.Context):
+        "A utility for resetting aspects of the bot."
+        await ctx.send_help(ctx.command)
+
+    @reset.command(name="all", brief="Resets the bot for your guild.")
+    @commands.has_guild_permissions(administrator=True)
+    @commands.guild_only()
+    async def reset_all(self, ctx: commands.Context):
+        await ctx.send(
+            "You are about to reset all settings, starboards, "
+            "autostarchannels, and leaderboard data for this "
+            "server. Please type the name of this server to "
+            "continue, or anything else to cancel."
+        )
+
+        def check(m: discord.Message) -> bool:
+            if m.author.id != ctx.author.id:
+                return False
+            if m.channel.id != ctx.channel.id:
+                return False
+            return True
+
+        try:
+            m = await self.bot.wait_for("message", check=check)
+        except asyncio.TimeoutError:
+            await ctx.send(t_("Cancelled."))
+            return
+        if m.content.casefold() != ctx.guild.name.casefold():
+            await ctx.send(t_("Cancelled."))
+            return
+
+        if not await menus.Confirm(t_("Are you certain?")).start(ctx):
+            await ctx.send(t_("Cancelled."))
+            return
+
+        await self.bot.db.guilds.delete(ctx.guild.id)
 
     @commands.command(name="setxp", brief="Sets the XP for a user.")
     @commands.has_guild_permissions(manage_guild=True)
