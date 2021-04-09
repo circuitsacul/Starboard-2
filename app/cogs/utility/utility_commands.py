@@ -61,6 +61,25 @@ class Utility(commands.Cog):
             return
 
         await self.bot.db.guilds.delete(ctx.guild.id)
+        await ctx.send(t_("Starboard has been reset for this server."))
+
+    @reset.command(
+        name="leaderboard", aliases=["lb"], brief="Resets the leaderboard."
+    )
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.guild_only()
+    async def reset_lb(self, ctx: commands.Context):
+        if not await menus.Confirm(t_("Reset the leaderboard?")).start(ctx):
+            await ctx.send(t_("Cancelled."))
+            return
+        await self.bot.db.execute(
+            """UPDATE members
+            SET xp=0,
+            level=0
+            WHERE guild_id=$1""",
+            ctx.guild.id,
+        )
+        await ctx.send(t_("Reset the leaderboard."))
 
     @commands.command(name="setxp", brief="Sets the XP for a user.")
     @commands.has_guild_permissions(manage_guild=True)
