@@ -1,3 +1,5 @@
+import time
+
 import discord
 from discord.ext import commands
 
@@ -136,7 +138,25 @@ class Base(commands.Cog):
         cluster = self.bot.cluster_name
         shard = self.bot.get_shard(ctx.guild.shard_id if ctx.guild else 0)
 
-        embed = discord.Embed(title=t_("Pong!"), color=self.bot.theme_color)
+        t1 = time.time()
+        m = await ctx.send("Pinging...")
+        t2 = time.time()
+        await m.edit(content="Editing...")
+        t3 = time.time()
+        await m.delete()
+        t4 = time.time()
+
+        send = t2 - t1
+        edit = t3 - t2
+        delete = t4 - t3
+
+        embed = discord.Embed(
+            title=t_("Pong!"),
+            color=self.bot.theme_color,
+            description=t_(
+                "Send: {0}ms\n" "Edit: {1}ms\n" "Delete: {2}ms"
+            ).format(ms(send), ms(edit), ms(delete)),
+        )
         embed.add_field(
             name=t_("Cluster **{0}**").format(cluster),
             value=t_("{0} ms").format(ms(self.bot.latency)),

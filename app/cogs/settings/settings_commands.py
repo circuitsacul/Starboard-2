@@ -436,6 +436,7 @@ class Settings(commands.Cog):
             new_prefixes,
             ctx.guild.id,
         )
+        await self.bot.db.guilds.cache.delete(ctx.guild.id)
 
         await ctx.send(t_("Added `{0}` to the prefixes.").format(prefix))
 
@@ -490,6 +491,7 @@ class Settings(commands.Cog):
             new_prefixes,
             ctx.guild.id,
         )
+        await self.bot.db.guilds.cache.delete(ctx.guild.id)
 
         await ctx.send(
             t_("Removed `{0}` from the prefixes.").format(to_remove)
