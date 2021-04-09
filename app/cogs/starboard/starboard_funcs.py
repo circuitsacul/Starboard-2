@@ -326,8 +326,10 @@ async def set_points(bot: Bot, points: int, message_id: int) -> None:
 async def calculate_points(bot: Bot, message: dict, starboard: dict) -> int:
     _reactions = await bot.db.fetch(
         """SELECT * FROM reactions
-        WHERE message_id=$1""",
+        WHERE message_id=$1
+        AND emoji=any($2::TEXT[])""",
         message["id"],
+        starboard["star_emojis"],
     )
     reaction_users = await bot.db.fetch(
         """SELECT * FROM reaction_users
@@ -335,16 +337,10 @@ async def calculate_points(bot: Bot, message: dict, starboard: dict) -> int:
         [r["id"] for r in _reactions],
     )
 
-    reactions = {}
-    for r in _reactions:
-        reactions[int(r["id"])] = r["emoji"]
-
     used_users = set()
     points = 0
     for r in reaction_users:
         if r["user_id"] in used_users:
-            continue
-        if reactions[int(r["reaction_id"])] not in starboard["star_emojis"]:
             continue
         if starboard["self_star"] is False:
             if r["user_id"] == message["author_id"]:
