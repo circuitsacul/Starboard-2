@@ -42,3 +42,7 @@ EXTENSIONS = [
     "app.cogs.global_checks",
     "jishaku",
 ]
+
+TRANSLATORS = [list of ids]
+
+DEVELOPERS = [list of ids]

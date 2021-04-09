@@ -27,6 +27,47 @@ class Base(commands.Cog):
             "your starboard."
         )
 
+    @commands.command(name="credits", brief="Show credits")
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def show_credits(self, ctx: commands.Context):
+        """Show credits for Starboard"""
+        embed = (
+            discord.Embed(
+                title=t_("Starboard Credits"),
+                color=self.bot.theme_color,
+            )
+            .add_field(
+                name=t_("Owner(s)"),
+                value=", ".join(
+                    [
+                        str(await self.bot.cache.fetch_user(uid))
+                        for uid in config.OWNER_IDS
+                    ]
+                ),
+            )
+            .add_field(
+                name=t_("Developer(s)"),
+                value=", ".join(
+                    [
+                        str(await self.bot.cache.fetch_user(uid))
+                        for uid in config.DEVELOPERS
+                    ]
+                ),
+            )
+            .add_field(
+                name=t_("Translator(s)"),
+                value=", ".join(
+                    [
+                        str(await self.bot.cache.fetch_user(uid))
+                        for uid in config.TRANSLATORS
+                    ]
+                ),
+            )
+        )
+
+        await ctx.send(embed=embed)
+
     @commands.command(name="help", brief="Get help with Starboard")
     @commands.bot_has_permissions(embed_links=True)
     async def starboard_help(
