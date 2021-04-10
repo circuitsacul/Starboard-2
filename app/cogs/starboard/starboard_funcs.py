@@ -331,24 +331,28 @@ async def calculate_points(bot: Bot, message: dict, starboard: dict) -> int:
         message["id"],
         starboard["star_emojis"],
     )
-    reaction_users = await bot.db.fetch(
-        """SELECT * FROM reaction_users
-        WHERE reaction_id=any($1::BIGINT[])""",
-        [r["id"] for r in _reactions],
+
+    if starboard["self_star"] is False:
+        uid = message["author_id"]
+    else:
+        uid = None
+
+    reactions = len(
+        dict.fromkeys(
+            [
+                r["user_id"]
+                for r in await bot.db.fetch(
+                    """SELECT * FROM reaction_users
+                    WHERE reaction_id=any($1::BIGINT[])
+                    AND ($2::numeric IS NULL OR $2::numeric!=user_id)""",
+                    [r["id"] for r in _reactions],
+                    uid,
+                )
+            ]
+        )
     )
 
-    used_users = set()
-    points = 0
-    for r in reaction_users:
-        if r["user_id"] in used_users:
-            continue
-        if starboard["self_star"] is False:
-            if r["user_id"] == message["author_id"]:
-                continue
-        used_users.add(r["user_id"])
-        points += 1
-
-    return points
+    return reactions
 
 
 async def handle_trashed_message(
