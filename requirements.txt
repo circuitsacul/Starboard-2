@@ -56,7 +56,7 @@ python-dotenv==0.15.0
 PyYAML==5.4.1
 Quart==0.14.1
 Quart-Discord==2.1.4
-regex==2020.11.13
+regex==2021.4.4
 requests==2.25.1
 six==1.15.0
 toml==0.10.2
