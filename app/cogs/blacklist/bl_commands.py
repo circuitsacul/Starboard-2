@@ -129,6 +129,8 @@ class Blacklist(commands.Cog):
         brief="View the channel blacklist/whitelist for a starboard",
         invoke_without_command=True,
     )
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
     async def whitelist(
         self, ctx: commands.Context, starboard: converters.Starboard
     ) -> None:
