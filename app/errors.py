@@ -9,6 +9,22 @@ from app.i18n import t_
 
 
 # Custom CommandErrors
+class PermGroupNotFound(commands.BadArgument):
+    def __init__(self, arg: str):
+        message = t_(
+            "I couldn't find any permgroups with the name {0}."
+        ).format(arg)
+        super().__init__(message=message)
+
+
+class GroupNameAlreadyExists(commands.BadArgument):
+    def __init__(self, arg: str):
+        message = t_(
+            "{0} is already the name of another Permission Group."
+        ).format(arg)
+        super().__init__(message=message)
+
+
 class NotAnEmoji(commands.BadArgument):
     def __init__(self, arg: str):
         message = t_("`{0}` is not an emoji.").format(arg)

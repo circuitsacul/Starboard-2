@@ -109,6 +109,7 @@ PERMGROUPS = """CREATE TABLE IF NOT EXISTS permgroups (
         id SERIAL PRIMARY KEY,
         guild_id NUMERIC NOT NULL,
         index SMALLINT NOT NULL,
+        name VARCHAR(32) NOT NULL,
 
         starboards NUMERIC[] DEFAULT '{}',
         channels NUMERIC[] DEFAULT '{}',
@@ -118,7 +119,7 @@ PERMGROUPS = """CREATE TABLE IF NOT EXISTS permgroups (
 )"""
 
 PERMROLES = """CREATE TABLE IF NOT EXISTS permroles (
-        permgroup_id NUMERIC NOT NULL,
+        permgroup_id BIGINT NOT NULL,
         role_id NUMERIC NOT NULL,
         index SMALLINT NOT NULL,
 
@@ -128,7 +129,6 @@ PERMROLES = """CREATE TABLE IF NOT EXISTS permroles (
         gain_xp BOOL DEFAULT NULL,
         pos_roles BOOL DEFAULT NULL,
         xp_roles BOOL DEFAULT NULL,
-        overrides BOOL DEFAULT NULL,
 
         FOREIGN KEY (permgroup_id) REFERENCES permgroups (id)
             ON DELETE CASCADE
@@ -192,8 +192,8 @@ ALL_TABLES = [
     MEMBERS,
     STARBOARDS,
     ASCHANNELS,
-    # PERMGROUPS,
-    # PERMROLES,
+    PERMGROUPS,
+    PERMROLES,
     MESSAGES,
     STARBOARD_MESSAGES,
     REACTIONS,

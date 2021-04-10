@@ -8,6 +8,7 @@ from .database_functions import (
     guilds,
     members,
     messages,
+    permgroups,
     reactions,
     sb_messags,
     starboards,
@@ -32,6 +33,7 @@ class Database:
         self.users = users.Users(self)
         self.aschannels = aschannels.ASChannels(self)
         self.starboards = starboards.Starboards(self)
+        self.permgroups = permgroups.PermGroups(self)
         self.messages = messages.Messages(self)
         self.sb_messages = sb_messags.SBMessages(self)
         self.reactions = reactions.Reactions(self)
