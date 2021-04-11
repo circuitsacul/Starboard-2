@@ -57,25 +57,22 @@ class PermGroups:
             new_index = 1
 
         if new_index < group["index"]:
-            await self.db.execute(
-                """UPDATE permgroups
-                SET index=index + 1
-                WHERE index BETWEEN $1 AND $2
-                AND guild_id=$3""",
-                new_index,
-                group["index"],
-                group["guild_id"],
-            )
+            direction = 1
         elif new_index > group["index"]:
-            await self.db.execute(
-                """UPDATE permgroups
-                SET index=index-1
-                WHERE index BETWEEN $1 AND $2
-                AND guild_id=$3""",
-                group["index"],
-                new_index,
-                group["guild_id"],
-            )
+            direction = -1
+        else:
+            return group["index"]
+
+        await self.db.execute(
+            """UPDATE permgroups
+            SET index=index+$1
+            WHERE guild_id=$2
+            AND index BETWEEN $3 AND $4""",
+            direction,
+            group["guild_id"],
+            min(group["index"], new_index),
+            max(new_index, group["index"]),
+        )
         await self.db.execute(
             """UPDATE permgroups
             SET index=$1
