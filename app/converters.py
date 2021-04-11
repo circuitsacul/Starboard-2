@@ -121,3 +121,13 @@ class Command(commands.Converter):
         if not cmd:
             raise errors.NotCommand(arg)
         return cmd
+
+
+class PermGroup(commands.Converter):
+    async def convert(self, ctx: commands.Context, arg: str) -> dict:
+        permgroup = await ctx.bot.db.permgroups.get_name(ctx.guild.id, arg)
+
+        if not permgroup:
+            raise errors.PermGroupNotFound(arg)
+
+        return permgroup

@@ -4,7 +4,7 @@ from typing import Optional
 import discord
 from discord.ext import commands
 
-from app import errors
+from app import converters, utils
 from app.i18n import t_
 
 if typing.TYPE_CHECKING:
@@ -24,9 +24,11 @@ class PermRoles(commands.Cog):
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def permgroups(
-        self, ctx: commands.Context, name: Optional[str] = None
+        self,
+        ctx: commands.Context,
+        group: Optional[converters.PermGroup] = None,
     ):
-        if not name:
+        if not group:
             groups = await self.bot.db.permgroups.get_many(ctx.guild.id)
             if not groups:
                 await ctx.send(t_("You have no permgroups."))
@@ -40,11 +42,23 @@ class PermRoles(commands.Cog):
                 )
                 await ctx.send(embed=embed)
         else:
-            group = await self.bot.db.permgroups.get_name(ctx.guild.id, name)
-            embed = discord.Embed(
-                title=group["name"],
-                color=self.bot.theme_color,
-                description=str(group),
+            embed = (
+                discord.Embed(
+                    title=f"PermGroup {group['name']}",
+                    color=self.bot.theme_color,
+                )
+                .add_field(
+                    name="channels",
+                    value=utils.pretty_channel_string(
+                        group["channels"], ctx.guild
+                    ),
+                )
+                .add_field(
+                    name="starboards",
+                    value=utils.pretty_channel_string(
+                        group["starboards"], ctx.guild
+                    ),
+                )
             )
             await ctx.send(embed=embed)
 
@@ -63,10 +77,9 @@ class PermRoles(commands.Cog):
     )
     @commands.has_guild_permissions(manage_guild=True)
     @commands.guild_only()
-    async def del_permgroup(self, ctx: commands.Context, name: str):
-        group = await self.bot.db.permgroups.get_name(ctx.guild.id, name)
-        if not group:
-            raise errors.PermGroupNotFound(name)
+    async def del_permgroup(
+        self, ctx: commands.Context, group: converters.PermGroup
+    ):
         await self.bot.db.permgroups.delete(group["id"])
         await ctx.send(t_("Deleted PermGroup {0}").format(group["name"]))
 
@@ -74,15 +87,77 @@ class PermRoles(commands.Cog):
     @commands.has_guild_permissions(manage_guild=True)
     @commands.guild_only()
     async def move_permgroup(
-        self, ctx: commands.Context, name: str, position: int
+        self, ctx: commands.Context, group: converters.PermGroup, position: int
     ):
-        group = await self.bot.db.permgroups.get_name(ctx.guild.id, name)
-        if not group:
-            raise errors.PermGroupNotFound(name)
         new_index = await self.bot.db.permgroups.move(group["id"], position)
         await ctx.send(
             t_("Moved the PermGroup {0} from {1} to {2}.").format(
                 group["name"], group["index"], new_index
+            )
+        )
+
+    @permgroups.group(
+        name="channels",
+        aliases=["c"],
+        brief="Manage the channels that a PermGroup affects",
+        invoke_without_command=True,
+    )
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.guild_only()
+    async def pg_channels(self, ctx: commands.Context):
+        await ctx.send_help(ctx.command)
+
+    @pg_channels.command(
+        name="add",
+        aliases=["a"],
+        brief="Adds channel(s) to the list of channels for a PermGroup",
+    )
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.guild_only()
+    async def add_pg_channels(
+        self,
+        ctx: commands.Context,
+        group: converters.PermGroup,
+        *channels: discord.TextChannel,
+    ):
+        current_channels = set(int(cid) for cid in group["channels"])
+        for c in channels:
+            current_channels.add(c.id)
+        current_channels = list(current_channels)
+
+        await self.bot.db.permgroups.set_channels(
+            group["id"], current_channels
+        )
+        await ctx.send(
+            t_("Added {0} to the channels on PermGroup {1}.").format(
+                ", ".join(c.mention for c in channels), group["name"]
+            )
+        )
+
+    @pg_channels.command(
+        name="remove",
+        aliases=["rm", "r", "del", "delete"],
+        brief="Removes channel(s) from the list of channels on a PermGroup",
+    )
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.guild_only()
+    async def remove_pg_channels(
+        self,
+        ctx: commands.Context,
+        group: converters.PermGroup,
+        *channels: discord.TextChannel,
+    ):
+        current_channels = set(int(cid) for cid in group["channels"])
+        for c in channels:
+            current_channels.remove(c.id)
+        current_channels = list(current_channels)
+
+        await self.bot.db.permgroups.set_channels(
+            group["id"], current_channels
+        )
+        await ctx.send(
+            t_("Removed {0} from the channels on PermGroup {1}.").format(
+                ", ".join(c.mention for c in channels), group["name"]
             )
         )
 

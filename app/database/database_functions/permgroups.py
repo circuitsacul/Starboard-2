@@ -98,7 +98,7 @@ class PermGroups:
         await self.db.execute(
             """UPDATE permgroups
             SET channels=$1
-            WHERE id=$3""",
+            WHERE id=$2""",
             channels,
             permgroup_id,
         )
