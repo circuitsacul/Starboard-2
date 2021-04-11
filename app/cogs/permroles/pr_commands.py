@@ -4,7 +4,7 @@ from typing import Optional
 import discord
 from discord.ext import commands
 
-from app import converters, utils
+from app import converters, menus, utils
 from app.i18n import t_
 
 if typing.TYPE_CHECKING:
@@ -158,6 +158,120 @@ class PermRoles(commands.Cog):
         await ctx.send(
             t_("Removed {0} from the channels on PermGroup {1}.").format(
                 ", ".join(c.mention for c in channels), group["name"]
+            )
+        )
+
+    @pg_channels.command(
+        name="clear", brief="Clears all channels from a PermGroup"
+    )
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.guild_only()
+    async def clear_pg_channels(
+        self, ctx: commands.Context, group: converters.PermGroup
+    ):
+        if not await menus.Confirm(
+            t_(
+                "Are you sure you want to clear all channels for "
+                "the PermGroup {0}?"
+            ).format(group["name"])
+        ).start(ctx):
+            await ctx.send(t_("Cancelled."))
+            return
+
+        await self.bot.db.permgroups.set_channels(group["id"], [])
+        await ctx.send(
+            t_("Cleared all channels for the PermGroup {0}.").format(
+                group["name"]
+            )
+        )
+
+    @permgroups.group(
+        name="starboards",
+        aliases=["s"],
+        brief="Manage the starboards that a PermGroup affects",
+        invoke_without_command=True,
+    )
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.guild_only()
+    async def pg_starboards(
+        self,
+        ctx: commands.Context,
+    ):
+        await ctx.send_help(ctx.command)
+
+    @pg_starboards.command(
+        name="add",
+        aliases=["a"],
+        brief="Adds starboard(s) to the list of starboards for a PermGroup",
+    )
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.guild_only()
+    async def add_pg_starboards(
+        self,
+        ctx: commands.Context,
+        group: converters.PermGroup,
+        *starboards: converters.Starboard,
+    ):
+        current_starboards = set(int(sid) for sid in group["starboards"])
+        for s in starboards:
+            current_starboards.add(s.obj.id)
+        current_starboards = list(current_starboards)
+        await self.bot.db.permgroups.set_starboards(
+            group["id"], current_starboards
+        )
+        await ctx.send(
+            t_("Added {0} to the starboards on PermGroup {1}.").format(
+                ", ".join(s.obj.mention for s in starboards), group["name"]
+            )
+        )
+
+    @pg_starboards.command(
+        name="remove",
+        aliases=["r", "rm", "del", "delete"],
+        brief="Removes starboard(s) from the list of starboars on a PermGroup",
+    )
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.guild_only()
+    async def remove_pg_starboards(
+        self,
+        ctx: commands.Context,
+        group: converters.PermGroup,
+        *starboards: converters.Starboard,
+    ):
+        current_starboards = set(int(sid) for sid in group["starboards"])
+        for s in starboards:
+            current_starboards.remove(s.obj.id)
+        current_starboards = list(current_starboards)
+        await self.bot.db.permgroups.set_starboards(
+            group["id"], current_starboards
+        )
+        await ctx.send(
+            t_("Removed {0} from the starboards on PermGroup {1}.").format(
+                ", ".join(s.obj.mention for s in starboards), group["name"]
+            )
+        )
+
+    @pg_starboards.command(
+        name="clear", brief="Clears all starboards on a PermGroup"
+    )
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.guild_only()
+    async def clear_pg_starboards(
+        self, ctx: commands.Context, group: converters.PermGroup
+    ):
+        if not await menus.Confirm(
+            t_(
+                "Are you sure you want to clear all starboards "
+                "for the PermGroup {0}?"
+            ).format(group["name"])
+        ).start(ctx):
+            await ctx.send("Cancelled.")
+            return
+
+        await self.bot.db.permgroups.set_starboards(group["id"], [])
+        await ctx.send(
+            t_("Cleared all starboards for PermGroup {0}.").format(
+                group["name"]
             )
         )
 
