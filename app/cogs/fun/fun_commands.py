@@ -80,6 +80,11 @@ class Fun(commands.Cog):
         if not sql_user:
             await ctx.send(t_("**{0}** has no stats to show.").format(user))
             return
+        if sql_user["public"] is False and user.id != ctx.message.author.id:
+            await ctx.send(
+                t_("That user has their profile set to private.").format(user)
+            )
+            return
         sql_member = await self.bot.db.members.get(user.id, ctx.guild.id)
 
         # Guild Stats
