@@ -140,6 +140,7 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         avatar_url: Optional[str] = None,
     ):
+        """Sets the avatar for webhook starboard messages."""
         if not starboard.sql["use_webhook"] and await menus.Confirm(
             t_(
                 "This feature only works if `useWebhook` is enabled. "
@@ -178,6 +179,7 @@ class Starboard(commands.Cog):
         *,
         name: Optional[str] = None,
     ):
+        """Sets the username for webhook starboard messages"""
         enabled = False
         if not starboard.sql["use_webhook"] and await menus.Confirm(
             t_(
@@ -263,6 +265,8 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         emoji: converters.Emoji,
     ) -> None:
+        """Sets the emoji that is shown next to the points
+        on starboard messages"""
         clean = utils.clean_emoji(emoji)
         await self.bot.db.starboards.edit(
             starboard.obj.id, display_emoji=clean
@@ -289,6 +293,8 @@ class Starboard(commands.Cog):
         *,
         color: Optional[commands.ColorConverter],
     ) -> None:
+        """Sets the embed color of starboard messages for a
+        specific starboard"""
         color = (
             str(color)
             if color
@@ -316,6 +322,8 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         required: converters.myint,
     ) -> None:
+        """How many points a message needs for it to appear on the
+        starboard"""
         await self.bot.db.starboards.edit(starboard.obj.id, required=required)
         await ctx.send(
             embed=utils.cs_embed(
@@ -337,6 +345,9 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         required_remove: converters.myint,
     ) -> None:
+        """If a message is on the starboard and then it looses
+        stars (or whatever the emoji is), this determines at what
+        point the message will be removed from the starboard."""
         await self.bot.db.starboards.edit(
             starboard.obj.id, required_remove=required_remove
         )
@@ -366,6 +377,7 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         self_star: converters.mybool,
     ) -> None:
+        """Whether or not to allow users to star their own messages"""
         await self.bot.db.starboards.edit(
             starboard.obj.id, self_star=self_star
         )
@@ -389,6 +401,7 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         allow_bots: converters.mybool,
     ) -> None:
+        """Whether or not to allow bot messages to appear on the starboard"""
         await self.bot.db.starboards.edit(
             starboard.obj.id, allow_bots=allow_bots
         )
@@ -413,6 +426,8 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         images_only: converters.mybool,
     ) -> None:
+        """Whether messages must include an image in order to appear
+        on the starboard"""
         await self.bot.db.starboards.edit(
             starboard.obj.id, images_only=images_only
         )
@@ -437,6 +452,9 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         regex: str,
     ) -> None:
+        """A regex string that the content of starboard messages must match.
+        If the regex string takes too long to match, Starboard will assume
+        that it matched and send a warning to your logChannel."""
         await self.bot.db.starboards.edit(starboard.obj.id, regex=regex)
         await ctx.send(
             embed=utils.cs_embed(
@@ -458,6 +476,8 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         exclude_regex: str,
     ) -> None:
+        """A regex string that the content of starboard messages must NOT
+        match."""
         await self.bot.db.starboards.edit(
             starboard.obj.id, exclude_regex=exclude_regex
         )
@@ -487,6 +507,8 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         ping: converters.mybool,
     ) -> None:
+        """Whether or not to mention the author of messages if the message
+        appears on a starboard."""
         await self.bot.db.starboards.edit(starboard.obj.id, ping=ping)
         await ctx.send(
             embed=utils.cs_embed(
@@ -508,6 +530,7 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         auto_react: converters.mybool,
     ) -> None:
+        """Whether or not to automatically react to starboard messages."""
         await self.bot.db.starboards.edit(
             starboard.obj.id, autoreact=auto_react
         )
@@ -532,6 +555,8 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         link_deletes: converters.mybool,
     ) -> None:
+        """If the original message is deleted and this is set to true, then
+        the starboard message will also be deleted."""
         await self.bot.db.starboards.edit(
             starboard.obj.id, link_deletes=link_deletes
         )
@@ -556,6 +581,8 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         link_edits: converters.mybool,
     ) -> None:
+        """If this is set to false, once a message appears on the starboard
+        the content of the message will not update."""
         await self.bot.db.starboards.edit(
             starboard.obj.id, link_edits=link_edits
         )
@@ -579,6 +606,8 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         no_xp: converters.mybool,
     ) -> None:
+        """If set to true, then the starEmojis for this starboard will
+        not count as XP for the user that received them."""
         await self.bot.db.starboards.edit(starboard.obj.id, no_xp=no_xp)
         await ctx.send(
             embed=utils.cs_embed(
@@ -600,6 +629,8 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         allow_random: converters.mybool,
     ) -> None:
+        """Whether or not the random command can pull messages from this
+        starboard"""
         await self.bot.db.starboards.edit(
             starboard.obj.id, explore=allow_random
         )
@@ -619,16 +650,7 @@ class Starboard(commands.Cog):
     @commands.has_guild_permissions(manage_channels=True)
     async def star_emojis(self, ctx: commands.Context) -> None:
         """Modify the star emojis for a starboard"""
-        p = utils.clean_prefix(ctx)
-        await ctx.send(
-            t_(
-                "Options:\n```"
-                " - {0}starEmojis add <starboard> <emoji>\n"
-                " - {0}starEmojis remove <starboard> <emoji>\n"
-                " - {0}starEmojis clear <starboard>\n"
-                " - {0}starEmojis set <starboard> [emoji1, emoji2, ...]```"
-            ).format(p)
-        )
+        await ctx.send_help(ctx.command)
 
     @star_emojis.command(
         name="set", brief="Sets the starEmojis for a starboard"

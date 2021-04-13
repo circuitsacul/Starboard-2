@@ -33,6 +33,9 @@ class Utility(commands.Cog):
     @commands.has_guild_permissions(administrator=True)
     @commands.guild_only()
     async def reset_all(self, ctx: commands.Context):
+        """Resets Starboard on the entire guild. All settings,
+        starboards, autostarchannels, and leaderboard data will be
+        lost permanently."""
         await ctx.send(
             "You are about to reset all settings, starboards, "
             "autostarchannels, and leaderboard data for this "
@@ -69,6 +72,7 @@ class Utility(commands.Cog):
     @commands.has_guild_permissions(manage_guild=True)
     @commands.guild_only()
     async def reset_lb(self, ctx: commands.Context):
+        """Resets only the leaderboard for a guild"""
         if not await menus.Confirm(t_("Reset the leaderboard?")).start(ctx):
             await ctx.send(t_("Cancelled."))
             return
@@ -86,6 +90,8 @@ class Utility(commands.Cog):
     async def set_user_xp(
         self, ctx: commands.Context, user: discord.User, xp: converters.myint
     ):
+        """Sets the XP for a user. The level will be calculated
+        automatically"""
         if xp < 0:
             raise commands.BadArgument(t_("XP must be greater than 0."))
         if xp > 9999:
@@ -127,6 +133,9 @@ class Utility(commands.Cog):
     @commands.bot_has_permissions(read_message_history=True)
     @commands.guild_only()
     async def scan_recount(self, ctx: commands.Context, limit: int) -> None:
+        """Helpful if several messages were starred during downtime. Running
+        this will scan up to the last 1,000 messages and recount the reactions
+        on them."""
         if limit < 1:
             await ctx.send(t_("Must recount at least 1 message."))
             return
@@ -147,6 +156,7 @@ class Utility(commands.Cog):
     async def recount(
         self, ctx: commands.Context, message: discord.Message
     ) -> None:
+        """Recounts the reactions on a specific message"""
         orig_sql_message = await starboard_funcs.orig_message(
             self.bot, message.id
         )
@@ -177,14 +187,17 @@ class Utility(commands.Cog):
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def clean(self, ctx: commands.Context) -> None:
+        """Removes thing such as #deleted-channel and @deleted-role
+        from the database. Note that this can actually change
+        the functionality of things like permroles and blacklists."""
         result = await cleaner.clean_guild(ctx.guild, self.bot)
         string = "\n".join(
             f"{name}: {count}" for name, count in result if count != 0
         )
         if string == "":
-            string = "Nothing to remove"
+            string = t_("Nothing to remove")
         embed = discord.Embed(
-            title="Database Cleaning",
+            title=t_("Database Cleaning"),
             description=string,
             color=self.bot.theme_color,
         )
@@ -200,6 +213,8 @@ class Utility(commands.Cog):
     )
     @commands.guild_only()
     async def debug(self, ctx: commands.Context) -> None:
+        """Tries to determine any problems with the current setup
+        of Starboard."""
         result = await debugger.debug_guild(self.bot, ctx.guild)
 
         p = commands.Paginator(prefix="", suffix="")
@@ -414,6 +429,7 @@ class Utility(commands.Cog):
         *,
         reason: str = None,
     ) -> None:
+        """Sets the reason for trashing a message."""
         orig_message = await starboard_funcs.orig_message(self.bot, message.id)
         if not orig_message:
             raise errors.MessageNotInDatabse()

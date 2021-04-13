@@ -168,6 +168,8 @@ class Settings(commands.Cog):
     async def set_cooldown(
         self, ctx: commands.Context, ammount: int, per: int
     ):
+        """Sets the cooldown for gaining XP. The default is
+        3 XP per 60 seconds"""
         sql_guild = await self.bot.db.guilds.get(ctx.guild.id)
         await self.bot.db.guilds.set_cooldown(ctx.guild.id, ammount, per)
 
@@ -407,16 +409,8 @@ class Settings(commands.Cog):
     async def add_prefix(
         self, ctx: commands.Context, prefix: str, **options
     ) -> None:
-        """Adds a prefix.
-
-        Usage:
-            prefixes add <prefix> <options>
-        Options:
-            --space: Wether or not to add a space at
-                the end of the prefix.
-        Examples:
-            sb!prefixes add star --space
-            sb!prefixes add sb?
+        """Adds a prefix. Add --space to the end if you want
+        a space at the end of the prefix.
         """
         if options["space"] is True:
             prefix += " "
@@ -531,6 +525,8 @@ class Settings(commands.Cog):
     async def set_level_channel(
         self, ctx: commands.Context, channel: discord.TextChannel = None
     ) -> None:
+        """Sets the channel where messages will be sent when a user
+        levels up."""
         if channel:
             perms = channel.permissions_for(ctx.guild.me)
             missing_perms = []
@@ -566,6 +562,7 @@ class Settings(commands.Cog):
     async def set_level_ping(
         self, ctx: commands.Context, ping: converters.mybool
     ) -> None:
+        """Whether or not to ping users when they level up"""
         await self.bot.db.execute(
             """UPDATE guilds SET ping_user=$1 WHERE id=$2""",
             ping,
@@ -587,10 +584,7 @@ class Settings(commands.Cog):
     ) -> None:
         """Set the log channel of the current server.
         This is where all errors and important info
-        will be sent.
-
-        Options:
-            channel: What channel to set the log channel to"""
+        will be sent."""
         if channel:
             perms = channel.permissions_for(ctx.guild.me)
             missing_perms = []
@@ -637,6 +631,8 @@ class Settings(commands.Cog):
     async def set_allow_commands(
         self, ctx: commands.Context, value: converters.mybool
     ) -> None:
+        """Whether or not non-admins can use commands. Will be
+        overwritten by permroles."""
         await self.bot.db.execute(
             """UPDATE guilds
             SET allow_commands=$1

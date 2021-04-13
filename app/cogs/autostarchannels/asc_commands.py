@@ -113,16 +113,8 @@ class AutoStarChannels(commands.Cog):
     )
     @commands.has_guild_permissions(manage_channels=True)
     async def asemojis(self, ctx: commands.Context) -> None:
-        p = utils.clean_prefix(ctx)
-        await ctx.send(
-            t_(
-                "Options:\n```"
-                " - {0}asc emojis add <aschannel> <emoji>\n"
-                " - {0}asc emojis remove <aschannel> <emoji>\n"
-                " - {0}asc emojis clear <aschannel>\n"
-                " - {0}asc emojis set <aschannel> [emoji1, emoji2]```"
-            ).format(p)
-        )
+        """Manage emojis for an AutoStarChannel"""
+        await ctx.send_help(ctx.command)
 
     @asemojis.command(
         name="set", brief="Sets the emojis for an AutoStarChannel"

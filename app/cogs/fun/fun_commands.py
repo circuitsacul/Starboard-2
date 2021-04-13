@@ -27,6 +27,7 @@ class Fun(commands.Cog):
     )
     @commands.guild_only()
     async def guild_leaderboard(self, ctx: commands.Context) -> None:
+        """Shows the top 200 users, ordered by their XP"""
         leaderboard = await fun_funcs.get_guild_leaderboard(
             self.bot, ctx.guild
         )
@@ -73,6 +74,7 @@ class Fun(commands.Cog):
     async def user_stats(
         self, ctx: commands.Context, user: discord.Member = None
     ) -> None:
+        """Shows stats for a user. Defaults to yourself"""
         user: discord.Member = user or ctx.message.author
         sql_user = await self.bot.db.users.get(user.id)
         if not sql_user:

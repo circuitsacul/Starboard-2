@@ -23,6 +23,7 @@ class Blacklist(commands.Cog):
     async def blacklist(
         self, ctx: commands.Context, starboard: converters.Starboard
     ) -> None:
+        """Lists the channel blacklist/whitelist for a starboard"""
         bl_channels = starboard.sql["channel_bl"]
         wl_channels = starboard.sql["channel_wl"]
 
@@ -63,6 +64,7 @@ class Blacklist(commands.Cog):
         starboard: converters.Starboard,
         channel: discord.TextChannel,
     ) -> None:
+        """Adds a channel to the blacklist for a starboard"""
         new_bl = starboard.sql["channel_bl"]
         if channel.id in new_bl:
             raise errors.AlreadyBlacklisted(
@@ -88,6 +90,7 @@ class Blacklist(commands.Cog):
         starboard: converters.Starboard,
         channel: discord.TextChannel,
     ) -> None:
+        """Removes a channel from the blacklist on a starboard"""
         new_bl = starboard.sql["channel_bl"]
         if channel.id not in new_bl:
             raise errors.NotBlacklisted(channel.mention, starboard.obj.mention)
@@ -110,6 +113,7 @@ class Blacklist(commands.Cog):
     async def clear_channel_blacklist(
         self, ctx: commands.Context, starboard: converters.Starboard
     ) -> None:
+        """Clears the blacklist for a starboard"""
         if not await menus.Confirm(
             t_("Are you sure you want to clear the blacklist for {0}?").format(
                 starboard.mention
@@ -126,7 +130,7 @@ class Blacklist(commands.Cog):
     @commands.group(
         name="whitelist",
         aliases=["wl"],
-        brief="View the channel blacklist/whitelist for a starboard",
+        brief="Shows the channel blacklist/whitelist for a starboard",
         invoke_without_command=True,
     )
     @commands.bot_has_permissions(embed_links=True)
@@ -134,6 +138,7 @@ class Blacklist(commands.Cog):
     async def whitelist(
         self, ctx: commands.Context, starboard: converters.Starboard
     ) -> None:
+        """Shows the channel blacklist/whitelist for a starboard"""
         # Invoke the blacklist command, since the output is the same.
         cmd = self.bot.get_command("blacklist")
         await ctx.invoke(cmd, starboard)
@@ -150,6 +155,7 @@ class Blacklist(commands.Cog):
         starboard: converters.Starboard,
         channel: discord.TextChannel,
     ) -> None:
+        """Adds a channel to the whitelist for a starboard"""
         if channel.id in starboard.sql["channel_wl"]:
             raise errors.AlreadyWhitelisted(
                 channel.mention, starboard.obj.mention
@@ -175,6 +181,7 @@ class Blacklist(commands.Cog):
         starboard: converters.Starboard,
         channel: discord.TextChannel,
     ) -> None:
+        """Removes a channel from the whitelist for a starboard"""
         if channel.id not in starboard.sql["channel_wl"]:
             raise errors.NotWhitelisted(channel.mention, starboard.obj.mention)
         new_wl = starboard.sql["channel_wl"]
@@ -197,6 +204,7 @@ class Blacklist(commands.Cog):
     async def clear_channel_whitelist(
         self, ctx: commands.Context, starboard: converters.Starboard
     ) -> None:
+        """Clears the whitelist for a starboard"""
         if not await menus.Confirm(
             t_("Are you sure you want to clear the whitelist for {0}?").format(
                 starboard.obj.mention
