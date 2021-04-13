@@ -9,6 +9,8 @@ from app.i18n import locales, t_
 
 
 class Profile(commands.Cog):
+    """Manage personal settings"""
+
     def __init__(self, bot: Bot):
         self.bot = bot
 

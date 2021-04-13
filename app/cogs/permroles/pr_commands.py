@@ -14,6 +14,8 @@ if typing.TYPE_CHECKING:
 
 
 class PermRoles(commands.Cog):
+    """Manage PermRoles for a server"""
+
     def __init__(self, bot: "Bot"):
         self.bot = bot
 
