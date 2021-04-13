@@ -4,8 +4,10 @@ from typing import Optional
 import discord
 from discord.ext import commands
 
-from app import converters, menus, utils
+from app import converters, errors, menus, utils
 from app.i18n import t_
+
+from . import pr_functions
 
 if typing.TYPE_CHECKING:
     from app.classes.bot import Bot
@@ -42,7 +44,7 @@ class PermRoles(commands.Cog):
                 )
                 await ctx.send(embed=embed)
         else:
-            embed = (
+            embeds = [
                 discord.Embed(
                     title=f"PermGroup {group['name']}",
                     color=self.bot.theme_color,
@@ -59,8 +61,23 @@ class PermRoles(commands.Cog):
                         group["starboards"], ctx.guild
                     ),
                 )
-            )
-            await ctx.send(embed=embed)
+            ]
+
+            permroles = await self.bot.db.permroles.get_many(group["id"])
+            for role_group in utils.chunk_list(permroles, 10):
+                embed = discord.Embed(
+                    title=t_("PermRoles for {0}").format(group["name"]),
+                    color=self.bot.theme_color,
+                )
+                for pr in role_group:
+                    name, value = pr_functions.pretty_permrole_string(
+                        pr, ctx.guild
+                    )
+                    embed.add_field(name=name, value=value)
+                embeds.append(embed)
+
+            paginator = menus.Paginator(embeds, delete_after=True)
+            await paginator.start(ctx)
 
     @permgroups.command(name="add", brief="Add a permgroup")
     @commands.bot_has_permissions(embed_links=True)
@@ -272,6 +289,87 @@ class PermRoles(commands.Cog):
         await ctx.send(
             t_("Cleared all starboards for PermGroup {0}.").format(
                 group["name"]
+            )
+        )
+
+    @permgroups.group(
+        name="roles",
+        aliases=["permroles", "pr"],
+        brief="Manage PermRoles for a PermGroup",
+        invoke_without_command=True,
+    )
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.guild_only()
+    async def permroles(self, ctx: commands.Context):
+        await ctx.send_help(ctx.command)
+
+    @permroles.command(
+        name="add", aliases=["a"], brief="Adds a PermRole to a PermGroup"
+    )
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.guild_only()
+    async def add_permrole(
+        self,
+        ctx: commands.Context,
+        group: converters.PermGroup,
+        role: discord.Role,
+    ):
+        if (await self.bot.db.permroles.get(role.id, group["id"])) is not None:
+            raise errors.PermRoleAlreadyExists(role.name, group["name"])
+
+        await self.bot.db.permroles.create(group["id"], role.id)
+        await ctx.send(
+            t_("{0} is now a PermRole on the PermGroup {1}.").format(
+                role.name, group["name"]
+            )
+        )
+
+    @permroles.command(
+        name="remove",
+        aliases=["r", "rm", "del", "delete"],
+        brief="Removes a PermRole from a PermGroup",
+    )
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.guild_only()
+    async def remove_permrole(
+        self,
+        ctx: commands.Context,
+        group: converters.PermGroup,
+        role: discord.Role,
+    ):
+        permrole = await self.bot.db.permroles.get(role.id, group["id"])
+        if not permrole:
+            raise errors.PermRoleNotFound(role.name, group["name"])
+
+        await self.bot.db.permroles.delete(role.id, group["id"])
+        await ctx.send(
+            t_("{0} is no longer a PermRole on the PermGroup {1}.").format(
+                role, group["name"]
+            )
+        )
+
+    @permroles.command(
+        name="move", brief="Changes the position of a PermRole in a PermGroup"
+    )
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.guild_only()
+    async def move_permrole(
+        self,
+        ctx: commands.Context,
+        group: converters.PermGroup,
+        role: discord.Role,
+        new_position: converters.myint,
+    ):
+        permrole = await self.bot.db.permroles.get(role.id, group["id"])
+        if not permrole:
+            raise errors.PermRoleNotFound(role.name, group["name"])
+
+        new_index = await self.bot.db.permroles.move(
+            role.id, group["id"], new_position
+        )
+        await ctx.send(
+            t_("Moved the PermRole {0} from {1} to {2}.").format(
+                role.name, permrole["index"], new_index
             )
         )
 

@@ -9,6 +9,22 @@ from app.i18n import t_
 
 
 # Custom CommandErrors
+class PermRoleAlreadyExists(commands.BadArgument):
+    def __init__(self, role: str, group: str):
+        message = t_("{0} is already a PermRole on the PermGroup {1}.").format(
+            role, group
+        )
+        super().__init__(message=message)
+
+
+class PermRoleNotFound(commands.BadArgument):
+    def __init__(self, role: str, group: str):
+        message = t_("{0} is not a PermRole on the PermGroup {1}.").format(
+            role, group
+        )
+        super().__init__(message=message)
+
+
 class PermGroupNotFound(commands.BadArgument):
     def __init__(self, arg: str):
         message = t_(

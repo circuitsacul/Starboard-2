@@ -51,8 +51,8 @@ class PermGroups:
         groups = await self.get_many(group["guild_id"])
 
         largest_index = max([g["index"] for g in groups])
-        if new_index > largest_index + 1:
-            new_index = largest_index + 1
+        if new_index > largest_index:
+            new_index = largest_index
         elif new_index < 0:
             new_index = 1
 

@@ -6,7 +6,7 @@ if typing.TYPE_CHECKING:
 
 
 class PermRoles:
-    def __init__(self, db: Database):
+    def __init__(self, db: "Database"):
         self.db = db
 
     async def create(self, permgroup_id: int, role_id: int):
@@ -18,7 +18,8 @@ class PermRoles:
 
         await self.db.execute(
             """INSERT INTO permroles
-            (permgroup_id, role_id, index)""",
+            (permgroup_id, role_id, index)
+            VALUES ($1, $2, $3)""",
             permgroup_id,
             role_id,
             next_index,
@@ -47,7 +48,7 @@ class PermRoles:
         largest_index = max(pr["index"] for pr in permroles)
 
         if index > largest_index:
-            index = largest_index + 1
+            index = largest_index
         elif index < 1:
             index = 1
 
@@ -72,7 +73,7 @@ class PermRoles:
             """UPDATE permroles
             SET index=$1
             WHERE role_id=$2
-            AND permgroup_id=$2""",
+            AND permgroup_id=$3""",
             index,
             role_id,
             group_id,
@@ -91,7 +92,7 @@ class PermRoles:
         return await self.db.fetchrow(
             """SELECT * FROM permroles
             WHERE role_id=$1
-            AND group_id=$2""",
+            AND permgroup_id=$2""",
             role_id,
             group_id,
         )
