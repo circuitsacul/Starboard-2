@@ -82,8 +82,11 @@ class Emoji(commands.Converter):
 
         if emoji_id is not None:
             result = discord.utils.get(ctx.guild.emojis, id=int(emoji_id))
-            return result
+            if result:
+                return result
         elif arg in emoji.UNICODE_EMOJI["en"]:
+            return arg
+        elif arg[0] in emoji.UNICODE_EMOJI["en"]:
             return arg
 
         if emoji_id is not None:
