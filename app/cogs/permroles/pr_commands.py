@@ -410,6 +410,161 @@ class PermRoles(commands.Cog):
             )
         )
 
+    @permroles.command(
+        name="allowCommands",
+        aliases=["commands"],
+        help="Sets the allowCommands permission for a PermRole",
+    )
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.guild_only()
+    async def pr_allow_commands(
+        self,
+        ctx: commands.Context,
+        group: converters.PermGroup,
+        role: discord.Role,
+        allow_commands: converters.OrNone(converters.mybool),
+    ):
+        pr = await self.bot.db.permroles.get(role.id, group["id"])
+        if not pr:
+            raise errors.PermRoleNotFound(role.name, group["name"])
+        await self.bot.db.permroles.set_allow_commands(
+            role.id, group["id"], allow_commands
+        )
+        await ctx.send(
+            embed=utils.cs_embed(
+                {"allowCommnads": (pr["allow_commands"], allow_commands)},
+                self.bot,
+            )
+        )
+
+    @permroles.command(
+        name="receiveStars",
+        aliases=["recvStars", "recv"],
+        help="Sets the recvStars permission for a PermRole",
+    )
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.guild_only()
+    async def pr_recv_stars(
+        self,
+        ctx: commands.Context,
+        group: converters.PermGroup,
+        role: discord.Role,
+        recv_stars: converters.OrNone(converters.mybool),
+    ):
+        pr = await self.bot.db.permroles.get(role.id, group["id"])
+        if not pr:
+            raise errors.PermRoleNotFound(role.name, group["name"])
+        await self.bot.db.permroles.set_recv_stars(
+            role.id, group["id"], recv_stars
+        )
+        await ctx.send(
+            embed=utils.cs_embed(
+                {"recvStars": (pr["recv_stars"], recv_stars)}, self.bot
+            )
+        )
+
+    @permroles.command(
+        name="giveStars",
+        aliases=["give"],
+        help="Sets the giveStars permission for a PermRole",
+    )
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.guild_only()
+    async def pr_give_stars(
+        self,
+        ctx: commands.Context,
+        group: converters.PermGroup,
+        role: discord.Role,
+        give_stars: converters.OrNone(converters.mybool),
+    ):
+        pr = await self.bot.db.permroles.get(role.id, group["id"])
+        if not pr:
+            raise errors.PermRoleNotFound(role.name, group["name"])
+        await self.bot.db.permroles.set_give_stars(
+            role.id, group["id"], give_stars
+        )
+        await ctx.send(
+            embed=utils.cs_embed(
+                {"giveStars": (pr["give_stars"], give_stars)}, self.bot
+            )
+        )
+
+    @permroles.command(
+        name="gainXP",
+        aliases=["xp"],
+        brief="Sets the gainXP permission for a PermRole",
+    )
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.guild_only()
+    async def pr_gain_xp(
+        self,
+        ctx: commands.Context,
+        group: converters.PermGroup,
+        role: discord.Role,
+        gain_xp: converters.OrNone(converters.mybool),
+    ):
+        pr = await self.bot.db.permroles.get(role.id, group["id"])
+        if not pr:
+            raise errors.PermRoleNotFound(role.name, group["name"])
+        await self.bot.db.permroles.set_gain_xp(role.id, group["id"], gain_xp)
+        await ctx.send(
+            embed=utils.cs_embed(
+                {"gainXP": (pr["gain_xp"], gain_xp)}, self.bot
+            )
+        )
+
+    @permroles.command(
+        name="posRoles",
+        aliases=["pr"],
+        brief="Sets the posRoles permission for a PermRole",
+    )
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.guild_only()
+    async def pr_pos_roles(
+        self,
+        ctx: commands.Context,
+        group: converters.PermGroup,
+        role: discord.Role,
+        pos_roles: converters.OrNone(converters.mybool),
+    ):
+        pr = await self.bot.db.permroles.get(role.id, group["id"])
+        if not pr:
+            raise errors.PermRoleNotFound(role.name, group["name"])
+        await self.bot.db.permroles.set_pos_roles(
+            role.id, group["id"], pos_roles
+        )
+        await ctx.send(
+            embed=utils.cs_embed(
+                {"posRoles": (pr["pos_roles"], pos_roles)}, self.bot
+            )
+        )
+
+    @permroles.command(
+        name="xpRoles",
+        aliases=["xpr"],
+        brief="Sets the xpRoles permission for a PermRole",
+    )
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.guild_only()
+    async def pr_xp_roles(
+        self,
+        ctx: commands.Context,
+        group: converters.PermGroup,
+        role: discord.Role,
+        xp_roles: converters.OrNone(converters.mybool),
+    ):
+        pr = await self.bot.db.permroles.get(role.id, group["id"])
+        if not pr:
+            raise errors.PermRoleNotFound(role.name, group["name"])
+        await self.bot.db.permroles.set_xp_roles(
+            role.id, group["id"], xp_roles
+        )
+        await ctx.send(
+            embed=utils.cs_embed(
+                {"xpRoles": (pr["xp_roles"], xp_roles)}, self.bot
+            )
+        )
+
 
 def setup(bot: "Bot"):
     bot.add_cog(PermRoles(bot))

@@ -1,7 +1,5 @@
 import discord
 
-from app.i18n import t_
-
 
 def pretty_permrole_string(
     role: dict[str, bool], guild: discord.Guild
@@ -11,7 +9,12 @@ def pretty_permrole_string(
     role_name = "{0}. {1}".format(role["index"], role_name)
 
     def setting(name: str) -> str:
-        return role[name] or t_("Default")
+        mapping = {
+            None: "☑️",
+            True: "✅",
+            False: "❌",
+        }
+        return mapping[role[name]]
 
     result = (
         f"allowCommands: {setting('allow_commands')}\n"

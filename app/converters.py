@@ -1,5 +1,5 @@
 import re
-from typing import Union
+from typing import Any, Callable, Union
 
 import discord
 import emoji
@@ -65,6 +65,26 @@ def myfloat(arg: str) -> float:
                 "number. Please pass something like `10.9` or `6`."
             ).format(arg)
         )
+
+
+class OrNone(commands.Converter):
+    def __init__(
+        self, subconverter: Union[commands.Converter, Callable[[str], Any]]
+    ):
+        self.subconverter = subconverter
+
+    async def convert(self, ctx: commands.Context, arg: str) -> Any:
+        acceptable_nones = ["none", "default"]
+        try:
+            if isinstance(self.subconverter, commands.Converter):
+                result = await self.subconverter.convert(ctx, arg)
+            else:
+                result = self.subconverter(arg)
+            return result
+        except Exception:
+            if arg.lower() in acceptable_nones:
+                return None
+            raise
 
 
 class Emoji(commands.Converter):
