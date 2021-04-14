@@ -84,10 +84,14 @@ class Emoji(commands.Converter):
             result = discord.utils.get(ctx.guild.emojis, id=int(emoji_id))
             if result:
                 return result
-        elif arg in emoji.UNICODE_EMOJI["en"]:
-            return arg
-        elif arg[0] in emoji.UNICODE_EMOJI["en"]:
-            return arg
+        else:
+            decoded = emoji.demojize(arg)
+            search = re.findall(":[^:]+:", decoded)
+            if len(search) > 0:
+                as_emoji = search[0]
+                as_emoji = emoji.emojize(as_emoji)
+                if as_emoji in emoji.UNICODE_EMOJI["en"]:
+                    return as_emoji
 
         if emoji_id is not None:
             raise errors.CustomEmojiFromOtherGuild(arg)
