@@ -162,7 +162,12 @@ class Fun(commands.Cog):
         )
         all_starboards = [
             s["id"]
-            for s in await self.bot.db.starboards.get_many(ctx.guild.id)
+            for s in await self.bot.db.fetch(
+                """SELECT * FROM starboards
+                WHERE guild_id=$1
+                AND explore=True""",
+                ctx.guild.id,
+            )
         ]
         author_id = options["by"].id if options["by"] else None
         channel_id = options["in"].id if options["in"] else None
@@ -182,11 +187,6 @@ class Fun(commands.Cog):
                 AND ($3::numeric is NULL or author_id=$3::numeric)
                 AND ($4::numeric is NULL or channel_id=$4::numeric)
                 AND trashed=False
-            )
-            AND EXISTS (
-                SELECT * FROM starboards
-                WHERE id=starboard_id
-                AND explore=True
             )
             AND ($5::smallint is NULL or points <= $5::smallint)
             ORDER BY points DESC""",
@@ -267,8 +267,14 @@ class Fun(commands.Cog):
         )
         all_starboards = [
             s["id"]
-            for s in await self.bot.db.starboards.get_many(ctx.guild.id)
+            for s in await self.bot.db.fetch(
+                """SELECT * FROM starboards
+                WHERE guild_id=$1
+                AND explore=True""",
+                ctx.guild.id,
+            )
         ]
+
         good_messages = await self.bot.db.fetch(
             """SELECT * FROM starboard_messages
             WHERE starboard_id=any($1::numeric[])
@@ -281,11 +287,6 @@ class Fun(commands.Cog):
                 AND trashed=False
                 AND ($5::numeric is NULL or author_id=$5::numeric)
                 AND ($6::numeric is NULL or channel_id=$6::numeric)
-            )
-            AND EXISTS (
-                SELECT * FROM starboards
-                WHERE id=starboard_id
-                AND explore=True
             )""",
             all_starboards,
             starboard_id,
