@@ -160,6 +160,10 @@ class Fun(commands.Cog):
         starboard_id = (
             options["starboard"].obj.id if options["starboard"] else None
         )
+        all_starboards = [
+            s["id"]
+            for s in await self.bot.db.starboards.get_many(ctx.guild.id)
+        ]
         author_id = options["by"].id if options["by"] else None
         channel_id = options["in"].id if options["in"] else None
         maxpoints = options["maxstars"]
@@ -170,13 +174,13 @@ class Fun(commands.Cog):
 
         messages = await self.bot.db.fetch(
             """SELECT * FROM starboard_messages
-            WHERE ($1::numeric is NULL or starboard_id=$1::numeric)
+            WHERE starboard_id=any($1::numeric[])
+            AND ($2::numeric is NULL or starboard_id=$2::numeric)
             AND EXISTS(
                 SELECT * FROM messages
                 WHERE id=orig_id
-                AND guild_id=$4
-                AND ($2::numeric is NULL or author_id=$2::numeric)
-                AND ($3::numeric is NULL or channel_id=$3::numeric)
+                AND ($3::numeric is NULL or author_id=$3::numeric)
+                AND ($4::numeric is NULL or channel_id=$4::numeric)
                 AND trashed=False
             )
             AND EXISTS (
@@ -186,10 +190,10 @@ class Fun(commands.Cog):
             )
             AND ($5::smallint is NULL or points <= $5::smallint)
             ORDER BY points DESC""",
+            all_starboards,
             starboard_id,
             author_id,
             channel_id,
-            ctx.guild.id,
             maxpoints,
         )
         embeds: list[discord.Embed] = []
