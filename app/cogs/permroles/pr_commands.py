@@ -47,7 +47,7 @@ class PermRoles(commands.Cog):
                 )
                 await ctx.send(embed=embed)
         else:
-            embeds = [
+            embed = (
                 discord.Embed(
                     title=f"PermGroup {group['name']}",
                     color=self.bot.theme_color,
@@ -64,23 +64,8 @@ class PermRoles(commands.Cog):
                         group["starboards"], ctx.guild
                     ),
                 )
-            ]
-
-            permroles = await self.bot.db.permroles.get_many(group["id"])
-            for role_group in utils.chunk_list(permroles, 10):
-                embed = discord.Embed(
-                    title=t_("PermRoles for {0}").format(group["name"]),
-                    color=self.bot.theme_color,
-                )
-                for pr in role_group:
-                    name, value = pr_functions.pretty_permrole_string(
-                        pr, ctx.guild
-                    )
-                    embed.add_field(name=name, value=value)
-                embeds.append(embed)
-
-            paginator = menus.Paginator(embeds, delete_after=True)
-            await paginator.start(ctx)
+            )
+            await ctx.send(embed=embed)
 
     @permgroups.command(name="add", brief="Add a permgroup")
     @commands.bot_has_permissions(embed_links=True)
@@ -324,14 +309,33 @@ class PermRoles(commands.Cog):
     @permgroups.group(
         name="roles",
         aliases=["permroles", "pr"],
-        brief="Manage PermRoles for a PermGroup",
+        brief="Manage/View PermRoles for a PermGroup",
         invoke_without_command=True,
     )
     @commands.has_guild_permissions(manage_guild=True)
     @commands.guild_only()
-    async def permroles(self, ctx: commands.Context):
+    async def permroles(
+        self,
+        ctx: commands.Context,
+        group: converters.PermGroup,
+    ):
         """Manage PermRoles for a PermGroup"""
-        await ctx.send_help(ctx.command)
+        permroles = await self.bot.db.permroles.get_many(group["id"])
+        embeds = []
+        for role_group in utils.chunk_list(permroles, 9):
+            embed = discord.Embed(
+                title=t_("PermRoles for {0}").format(group["name"]),
+                color=self.bot.theme_color,
+            )
+            for pr in role_group:
+                name, value = pr_functions.pretty_permrole_string(
+                    pr, ctx.guild
+                )
+                embed.add_field(name=name, value=value)
+            embeds.append(embed)
+
+        paginator = menus.Paginator(embeds, delete_after=True)
+        await paginator.start(ctx)
 
     @permroles.command(
         name="add", aliases=["a"], brief="Adds a PermRole to a PermGroup"
