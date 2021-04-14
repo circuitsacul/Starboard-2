@@ -261,23 +261,29 @@ class Fun(commands.Cog):
         starboard_id = (
             options["starboard"].obj.id if options["starboard"] else None
         )
+        all_starboards = [
+            s["id"]
+            for s in await self.bot.db.starboards.get_many(ctx.guild.id)
+        ]
         good_messages = await self.bot.db.fetch(
             """SELECT * FROM starboard_messages
-            WHERE ($1::numeric is NULL or starboard_id=$1::numeric)
-            AND ($2::smallint is NULL or points >= $2::smallint)
-            AND ($3::smallint is NULL or points <= $3::smallint)
+            WHERE starboard_id=any($1::numeric[])
+            AND ($2::numeric is NULL or starboard_id=$2::numeric)
+            AND ($3::smallint is NULL or points >= $3::smallint)
+            AND ($4::smallint is NULL or points <= $4::smallint)
             AND EXISTS (
                 SELECT * FROM messages
                 WHERE id=orig_id
                 AND trashed=False
-                AND ($4::numeric is NULL or author_id=$4::numeric)
-                AND ($5::numeric is NULL or channel_id=$5::numeric)
+                AND ($5::numeric is NULL or author_id=$5::numeric)
+                AND ($6::numeric is NULL or channel_id=$6::numeric)
             )
             AND EXISTS (
                 SELECT * FROM starboards
                 WHERE id=starboard_id
                 AND explore=True
             )""",
+            all_starboards,
             starboard_id,
             options["points"],
             options["maxstars"],
