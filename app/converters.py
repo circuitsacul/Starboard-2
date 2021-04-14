@@ -43,7 +43,7 @@ def mybool(arg: str) -> bool:
 
 def myint(arg: str) -> int:
     try:
-        result = int(arg)
+        result = int(arg.replace(",", ""))
         return result
     except ValueError:
         raise flags.ArgumentParsingError(
@@ -56,7 +56,7 @@ def myint(arg: str) -> int:
 
 def myfloat(arg: str) -> float:
     try:
-        result = float(arg)
+        result = float(arg.replace(",", ""))
         return result
     except ValueError:
         raise flags.ArgumentParsingError(
