@@ -154,7 +154,7 @@ class Utility(commands.Cog):
     @commands.cooldown(3, 6, type=commands.BucketType.guild)
     @commands.has_guild_permissions(manage_messages=True)
     async def recount(
-        self, ctx: commands.Context, message: discord.Message
+        self, ctx: commands.Context, message: converters.GuildMessage
     ) -> None:
         """Recounts the reactions on a specific message"""
         orig_sql_message = await starboard_funcs.orig_message(
@@ -259,7 +259,7 @@ class Utility(commands.Cog):
     @commands.command(name="freeze", brief="Freeze a message")
     @commands.has_guild_permissions(manage_messages=True)
     async def freeze_message(
-        self, ctx: commands.Context, message_link: discord.Message
+        self, ctx: commands.Context, message_link: converters.GuildMessage
     ) -> None:
         """Freezes a message, so the point count will
         not update."""
@@ -276,7 +276,7 @@ class Utility(commands.Cog):
     @commands.command(name="unfreeze", brief="Unfreezes a message")
     @commands.has_guild_permissions(manage_messages=True)
     async def unfreeze_message(
-        self, ctx: commands.Context, message_link: discord.Message
+        self, ctx: commands.Context, message_link: converters.GuildMessage
     ) -> None:
         """Unfreezes a message"""
         orig_message = await starboard_funcs.orig_message(
@@ -300,7 +300,7 @@ class Utility(commands.Cog):
     async def force_message(
         self,
         ctx: commands.Context,
-        message_link: discord.Message,
+        message_link: converters.GuildMessage,
         *starboards: converters.Starboard,
     ) -> None:
         """Forces a message to all or some starboards.
@@ -367,7 +367,7 @@ class Utility(commands.Cog):
     async def unforce_message(
         self,
         ctx: commands.Context,
-        message_link: discord.Message,
+        message_link: converters.GuildMessage,
         *starboards: converters.Starboard,
     ) -> None:
         """Unforces a message
@@ -425,7 +425,7 @@ class Utility(commands.Cog):
     async def set_trash_reason(
         self,
         ctx: commands.Context,
-        message: discord.Message,
+        message: converters.GuildMessage,
         *,
         reason: str = None,
     ) -> None:
@@ -445,7 +445,7 @@ class Utility(commands.Cog):
     async def trash_message(
         self,
         ctx: commands.Context,
-        message_link: discord.Message,
+        message_link: converters.GuildMessage,
         *,
         reason=None,
     ) -> None:
@@ -653,7 +653,7 @@ class Utility(commands.Cog):
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def message_info(
-        self, ctx: commands.Context, message: discord.Message
+        self, ctx: commands.Context, message: converters.GuildMessage
     ) -> None:
         """Shows useful info on a message."""
         orig = await starboard_funcs.orig_message(self.bot, message.id)

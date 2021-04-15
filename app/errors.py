@@ -191,6 +191,16 @@ class CannotBeStarboardAndAutostar(commands.BadArgument):
 
 
 # Subclassed CommandErrors
+class MessageNotFound(commands.BadArgument):
+    def __init__(self, argument: str):
+        self.argument = argument
+        super().__init__(t_("Message `{0}` not found.").format(argument))
+
+    @classmethod
+    def from_original(cls, exc: commands.MessageNotFound):
+        return cls(exc.argument)
+
+
 class MissingRequiredArgument(commands.UserInputError):
     def __init__(self, param: inspect.Parameter):
         self.param = param
@@ -333,6 +343,7 @@ class NoPrivateMessages(commands.CheckFailure):
 
 ERROR_MAP = {
     "MissingRequiredArgument": MissingRequiredArgument,
+    "MessageNotFound": MessageNotFound,
     "ChannelNotFound": ChannelNotFound,
     "ChannelNotReadable": ChannelNotReadable,
     "RoleNotFound": RoleNotFound,

@@ -4,7 +4,7 @@ from typing import Any, Callable, Union
 import discord
 import emoji
 from discord.ext import commands
-from discord.ext.commands.errors import RoleNotFound
+from discord.ext.commands.errors import ChannelNotFound, RoleNotFound
 
 from app.i18n import t_
 
@@ -88,6 +88,14 @@ class OrNone(commands.Converter):
             raise
 
 
+class GuildMessage(commands.MessageConverter):
+    async def convert(self, ctx: commands.Context, arg: str):
+        m = await super().convert(ctx, arg)
+        if m.guild != ctx.guild:
+            raise commands.MessageNotFound(arg)
+        return m
+
+
 class Role(commands.RoleConverter):
     """Same as default role converter, except that it ignores
     @everyone"""
@@ -132,6 +140,8 @@ class Emoji(commands.Converter):
 class Starboard(commands.TextChannelConverter):
     async def convert(self, ctx: commands.Context, arg: str) -> SQLObject:
         channel = await super().convert(ctx, arg)
+        if channel.guild != ctx.guild:
+            raise ChannelNotFound(arg)
 
         sql_starboard = await ctx.bot.db.starboards.get(channel.id)
         if sql_starboard is None:
@@ -143,6 +153,8 @@ class Starboard(commands.TextChannelConverter):
 class ASChannel(commands.TextChannelConverter):
     async def convert(self, ctx: commands.Context, arg: str) -> SQLObject:
         channel = await super().convert(ctx, arg)
+        if channel.guild != ctx.guild:
+            raise ChannelNotFound(arg)
 
         sql_aschannel = await ctx.bot.db.aschannels.get(channel.id)
         if not sql_aschannel:
