@@ -3,7 +3,7 @@ from typing import Any, Callable, Union
 
 import discord
 import emoji
-from discord.ext import commands, flags
+from discord.ext import commands
 
 from app.i18n import t_
 
@@ -16,7 +16,7 @@ def myhex(arg: str) -> str:
     try:
         int(arg, 16)
     except ValueError:
-        raise flags.ArgumentParsingError(
+        raise commands.BadArgument(
             t_(
                 "I couldn't interpret `{0}` as a hex value. "
                 "Please pass something like `#FFE16C`."
@@ -33,7 +33,7 @@ def mybool(arg: str) -> bool:
         return True
     elif arg.lower() in no:
         return False
-    raise flags.ArgumentParsingError(
+    raise commands.BadArgument(
         t_(
             "I couldn't interpret `{0}` as yes or no. Please "
             "pass one of 'yes', 'no', 'true', or 'false'."
@@ -46,7 +46,7 @@ def myint(arg: str) -> int:
         result = int(arg.replace(",", ""))
         return result
     except ValueError:
-        raise flags.ArgumentParsingError(
+        raise commands.BadArgument(
             t_(
                 "I couldn't interpret `{0}` as an integer (number). "
                 "Please pass something like `10` or `2`."
@@ -59,7 +59,7 @@ def myfloat(arg: str) -> float:
         result = float(arg.replace(",", ""))
         return result
     except ValueError:
-        raise flags.ArgumentParsingError(
+        raise commands.BadArgument(
             t_(
                 "I couldn't interpret `{0}` as a floating-point "
                 "number. Please pass something like `10.9` or `6`."
