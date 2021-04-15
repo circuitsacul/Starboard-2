@@ -20,7 +20,7 @@ def pretty_permrole_string(
 def pretty_perm_string(perms: dict[str, bool]):
     def setting(name: str) -> str:
         mapping = {
-            None: "☑️",
+            None: "<:slash:832252754302337044>",
             True: "✅",
             False: "❌",
         }
