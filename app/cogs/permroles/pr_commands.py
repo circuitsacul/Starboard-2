@@ -2,7 +2,7 @@ import typing
 from typing import Optional
 
 import discord
-from discord.ext import commands
+from discord.ext import commands, flags
 
 from app import converters, errors, menus, utils
 from app.i18n import t_
@@ -18,6 +18,49 @@ class PermRoles(commands.Cog):
 
     def __init__(self, bot: "Bot"):
         self.bot = bot
+
+    @flags.add_flag("--roles", type=discord.Role, nargs="+", default=[])
+    @flags.add_flag("--starboard", "--sb", type=converters.Starboard)
+    @flags.add_flag("--channel", type=discord.TextChannel)
+    @flags.add_flag("--me", action="store_true")
+    @flags.command(
+        name="dummy",
+        brief="Tests the permissions of a fake user with certain roles",
+    )
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.guild_only()
+    async def run_dummy_check(self, ctx, **options):
+        if not options["me"]:
+            roles = options["roles"]
+            roles.insert(0, ctx.guild.default_role)
+        else:
+            roles = ctx.message.author.roles
+        role_ids = [r.id for r in roles]
+        channel = options["channel"].id if options["channel"] else None
+        starboard = (
+            options["starboard"].obj.id if options["starboard"] else None
+        )
+        perms = await pr_functions.get_perms(
+            self.bot,
+            role_ids,
+            ctx.guild.id,
+            channel,
+            starboard,
+        )
+        embed = discord.Embed(
+            title=t_("Dummy Check"),
+            color=self.bot.theme_color,
+            description=t_(
+                "Channel: {0}\n" "Starboard: {1}\n" "Roles: {2}"
+            ).format(
+                options["channel"],
+                options["starboard"],
+                ", ".join(r.name for r in roles),
+            ),
+        ).add_field(
+            name="Result", value=pr_functions.pretty_perm_string(perms)
+        )
+        await ctx.send(embed=embed)
 
     @commands.group(
         name="permgroups",

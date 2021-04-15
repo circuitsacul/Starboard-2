@@ -4,6 +4,7 @@ from typing import Any, Callable, Union
 import discord
 import emoji
 from discord.ext import commands
+from discord.ext.commands.errors import RoleNotFound
 
 from app.i18n import t_
 
@@ -85,6 +86,16 @@ class OrNone(commands.Converter):
             if arg.lower() in acceptable_nones:
                 return None
             raise
+
+
+class Role(commands.RoleConverter):
+    """Same as default role converter, except that it ignores
+    @everyone"""
+
+    async def convert(self, ctx: commands.Context, arg: str) -> discord.Role:
+        role = await super().convert(ctx, arg)
+        if role.id == ctx.guild.default_role:
+            raise RoleNotFound(arg)
 
 
 class Emoji(commands.Converter):
