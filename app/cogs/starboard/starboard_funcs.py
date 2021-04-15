@@ -5,6 +5,7 @@ import discord
 
 from app import utils
 from app.classes.bot import Bot
+from app.cogs.permroles import pr_functions
 from app.i18n import t_
 
 ZERO_WIDTH_SPACE = "\u200B"
@@ -466,6 +467,19 @@ async def handle_starboard(
     if whitelisted:
         blacklisted = False
 
+    _author = await bot.cache.get_members(
+        [int(sql_message["author_id"])], guild
+    )
+    if _author:
+        author = _author[int(sql_message["author_id"])]
+        roles = [r.id for r in author.roles]
+    else:
+        roles = []
+
+    user_perms = await pr_functions.get_perms(
+        bot, roles, guild.id, sql_message["channel_id"], starboard.id
+    )
+
     add = False
     edit = sql_starboard["link_edits"]
     delete = False
@@ -507,6 +521,10 @@ async def handle_starboard(
     if sql_message["frozen"]:
         add = False
         delete = False
+
+    if not user_perms["recv_stars"]:
+        add = False
+        delete = True
 
     if sql_starboard["id"] in sql_message["forced"]:
         add = True
