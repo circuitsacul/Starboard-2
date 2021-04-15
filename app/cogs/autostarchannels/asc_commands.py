@@ -1,3 +1,5 @@
+from typing import Optional
+
 import discord
 from discord.ext import commands
 
@@ -306,7 +308,7 @@ class AutoStarChannels(commands.Cog):
         self,
         ctx: commands.Context,
         aschannel: converters.ASChannel,
-        regex: str,
+        regex: Optional[str] = None,
     ) -> None:
         """Sets the regex setting for an AutoStarChannel.
 
@@ -333,7 +335,7 @@ class AutoStarChannels(commands.Cog):
         self,
         ctx: commands.Context,
         aschannel: converters.ASChannel,
-        exclude_regex: str,
+        exclude_regex: Optional[str] = None,
     ) -> None:
         """Sets the excludeRegex setting for an AutoStarChannel.
 

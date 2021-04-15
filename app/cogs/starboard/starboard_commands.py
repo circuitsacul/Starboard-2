@@ -450,7 +450,7 @@ class Starboard(commands.Cog):
         self,
         ctx: commands.Context,
         starboard: converters.Starboard,
-        regex: str,
+        regex: Optional[str] = None,
     ) -> None:
         """A regex string that the content of starboard messages must match.
         If the regex string takes too long to match, Starboard will assume
@@ -474,7 +474,7 @@ class Starboard(commands.Cog):
         self,
         ctx: commands.context,
         starboard: converters.Starboard,
-        exclude_regex: str,
+        exclude_regex: Optional[str] = None,
     ) -> None:
         """A regex string that the content of starboard messages must NOT
         match."""
