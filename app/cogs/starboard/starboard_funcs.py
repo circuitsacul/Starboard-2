@@ -324,7 +324,9 @@ async def set_points(bot: Bot, points: int, message_id: int) -> None:
     )
 
 
-async def calculate_points(bot: Bot, message: dict, starboard: dict) -> int:
+async def calculate_points(
+    bot: Bot, message: dict, starboard: dict, guild: discord.Guild
+) -> int:
     _reactions = await bot.db.fetch(
         """SELECT * FROM reactions
         WHERE message_id=$1
@@ -338,22 +340,31 @@ async def calculate_points(bot: Bot, message: dict, starboard: dict) -> int:
     else:
         uid = None
 
-    reactions = len(
-        dict.fromkeys(
-            [
-                r["user_id"]
-                for r in await bot.db.fetch(
-                    """SELECT * FROM reaction_users
-                    WHERE reaction_id=any($1::BIGINT[])
-                    AND ($2::numeric IS NULL OR $2::numeric!=user_id)""",
-                    [r["id"] for r in _reactions],
-                    uid,
-                )
-            ]
-        )
+    _reactions = await bot.db.fetch(
+        """SELECT * FROM reaction_users
+        WHERE reaction_id=any($1::BIGINT[])
+        AND ($2::numeric IS NULL OR $2::numeric!=user_id)""",
+        [r["id"] for r in _reactions],
+        uid,
     )
-
-    return reactions
+    users = list(set(int(r["user_id"]) for r in _reactions))
+    user_objs = await bot.cache.get_members(users, guild)
+    valid = 0
+    for uid in users:
+        obj = user_objs.get(uid, None)
+        if not obj:
+            continue
+        perms = await pr_functions.get_perms(
+            bot,
+            [r.id for r in obj.roles],
+            guild.id,
+            message["channel_id"],
+            starboard["id"],
+        )
+        if not perms["give_stars"]:
+            continue
+        valid += 1
+    return valid
 
 
 async def handle_trashed_message(
@@ -447,7 +458,7 @@ async def handle_starboard(
         sql_starboard["id"],
     )
     if not sql_message["frozen"] or sql_starboard_message is None:
-        points = await calculate_points(bot, sql_message, sql_starboard)
+        points = await calculate_points(bot, sql_message, sql_starboard, guild)
     else:
         points = sql_starboard_message["points"]
     if sql_starboard_message is not None:
