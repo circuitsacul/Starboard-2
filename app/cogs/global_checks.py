@@ -2,6 +2,7 @@ from discord.ext import commands
 
 from app import errors
 from app.classes.bot import Bot
+from app.cogs.permroles import pr_functions
 
 
 async def not_disabled(ctx: commands.Context) -> bool:
@@ -18,6 +19,23 @@ async def not_disabled(ctx: commands.Context) -> bool:
     return True
 
 
+async def can_use_commands(ctx: commands.Context) -> bool:
+    if ctx.guild is None:
+        return True
+    if ctx.channel.permissions_for(ctx.message.author).administrator:
+        return True
+    perms = await pr_functions.get_perms(
+        ctx.bot,
+        [r.id for r in ctx.message.author.roles],
+        ctx.guild.id,
+        ctx.channel.id,
+        None,
+    )
+    if not perms["allow_commands"]:
+        raise errors.CannotUseCommands()
+    return True
+
+
 async def can_send_messages(ctx: commands.Context) -> bool:
     user = ctx.me
     if not ctx.channel.permissions_for(user).send_messages:
@@ -25,7 +43,7 @@ async def can_send_messages(ctx: commands.Context) -> bool:
     return True
 
 
-GLOBAL_CHECKS = [not_disabled, can_send_messages]
+GLOBAL_CHECKS = [not_disabled, can_send_messages, can_use_commands]
 
 
 def setup(bot: Bot) -> None:

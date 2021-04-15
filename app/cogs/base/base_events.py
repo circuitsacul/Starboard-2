@@ -16,7 +16,11 @@ from ...classes.bot import Bot
 
 load_dotenv()
 
-IGNORED_ERRORS = (commands.CommandNotFound, errors.AllCommandsDisabled)
+IGNORED_ERRORS = (
+    commands.CommandNotFound,
+    errors.AllCommandsDisabled,
+    errors.CannotUseCommands,
+)
 SEND_HELP = (
     errors.MissingRequiredArgument,
     flags.ArgumentParsingError,

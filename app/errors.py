@@ -307,6 +307,10 @@ class CommandDisabled(commands.CheckFailure):
         super().__init__(message=message)
 
 
+class CannotUseCommands(commands.CheckFailure):
+    pass
+
+
 # Subclassed CheckFailures
 class BotMissingPermissions(commands.CheckFailure):
     def __init__(self, missing_perms: list[str]):
