@@ -124,7 +124,7 @@ PERMROLES = """CREATE TABLE IF NOT EXISTS permroles (
         index SMALLINT NOT NULL,
 
         allow_commands BOOL DEFAULT NULL,
-        recv_stars BOOL DEFAULT NULL,
+        on_starboard BOOL DEFAULT NULL,
         give_stars BOOL DEFAULT NULL,
         gain_xp BOOL DEFAULT NULL,
         pos_roles BOOL DEFAULT NULL,

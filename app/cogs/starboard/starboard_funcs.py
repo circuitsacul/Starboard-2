@@ -533,7 +533,7 @@ async def handle_starboard(
         add = False
         delete = False
 
-    if not user_perms["recv_stars"]:
+    if not user_perms["on_starboard"]:
         add = False
         delete = True
 

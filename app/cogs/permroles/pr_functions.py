@@ -28,7 +28,7 @@ def pretty_perm_string(perms: dict[str, bool]):
 
     result = (
         f"allowCommands: {setting('allow_commands')}\n"
-        f"recvStars: {setting('recv_stars')}\n"
+        f"onStarboard: {setting('on_starboard')}\n"
         f"giveStars: {setting('give_stars')}\n"
         f"gainXp: {setting('gain_xp')}\n"
         f"posRoles: {setting('pos_roles')}\n"
@@ -75,7 +75,7 @@ async def get_perms(
 
     perms = {
         "allow_commands": True,
-        "recv_stars": True,
+        "on_starboard": True,
         "give_stars": True,
         "gain_xp": True,
         "pos_roles": True,

@@ -481,28 +481,28 @@ class PermRoles(commands.Cog):
         )
 
     @permroles.command(
-        name="receiveStars",
-        aliases=["recvStars", "recv"],
-        help="Sets the recvStars permission for a PermRole",
+        name="onStarboard",
+        aliases=["starbaord"],
+        help="Sets the onStarboard permission for a PermRole",
     )
     @commands.has_guild_permissions(manage_guild=True)
     @commands.guild_only()
-    async def pr_recv_stars(
+    async def pr_on_starboard(
         self,
         ctx: commands.Context,
         group: converters.PermGroup,
         role: discord.Role,
-        recv_stars: converters.OrNone(converters.mybool),
+        on_starboard: converters.OrNone(converters.mybool),
     ):
         pr = await self.bot.db.permroles.get(role.id, group["id"])
         if not pr:
             raise errors.PermRoleNotFound(role.name, group["name"])
-        await self.bot.db.permroles.set_recv_stars(
-            role.id, group["id"], recv_stars
+        await self.bot.db.permroles.set_on_starboard(
+            role.id, group["id"], on_starboard
         )
         await ctx.send(
             embed=utils.cs_embed(
-                {"recvStars": (pr["recv_stars"], recv_stars)}, self.bot
+                {"onStarboard": (pr["on_starboard"], on_starboard)}, self.bot
             )
         )
 

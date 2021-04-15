@@ -113,18 +113,18 @@ class PermRoles:
             group_id,
         )
 
-    async def set_recv_stars(
+    async def set_on_starboard(
         self,
         role_id: int,
         group_id: int,
-        recv_stars: Optional[bool],
+        on_starboard: Optional[bool],
     ):
         await self.db.execute(
             """UPDATE permroles
-            SET recv_stars=$1
+            SET on_starboard=$1
             WHERE role_id=$2
             AND permgroup_id=$3""",
-            recv_stars,
+            on_starboard,
             role_id,
             group_id,
         )
