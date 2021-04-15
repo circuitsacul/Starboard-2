@@ -117,7 +117,7 @@ def safe_regex(
 ) -> Optional[re.Match]:
     @timeout(seconds=max_time)
     def run_regex(string: str, pattern: str) -> Optional[re.Match]:
-        return re.match(pattern, string)
+        return re.search(pattern, string)
 
     return run_regex(string, pattern)
 
