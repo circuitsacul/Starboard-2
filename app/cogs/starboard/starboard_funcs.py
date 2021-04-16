@@ -3,7 +3,7 @@ from typing import Optional
 
 import discord
 
-from app import tenor, utils
+from app import gifs, utils
 from app.classes.bot import Bot
 from app.cogs.permroles import pr_functions
 from app.i18n import t_
@@ -158,7 +158,7 @@ async def embed_message(
                 )
         elif embed.type == "gifv":
             if embed.url is not embed.Empty:
-                gif_url = await tenor.get_gif_url(bot, embed.url)
+                gif_url = await gifs.get_gif_url(bot, embed.url)
                 urls.append(
                     {
                         "name": "GIF",
