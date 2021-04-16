@@ -9,7 +9,7 @@ import requests
 from dotenv import load_dotenv
 
 import config
-import ipc
+from app import ipc
 from app.classes.cluster import Cluster
 from app.utils import webhooklog
 
