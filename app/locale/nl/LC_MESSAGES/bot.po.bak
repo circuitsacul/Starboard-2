@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-07 12:14-0400\n"
+"POT-Creation-Date: 2021-04-07 19:38-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -220,77 +220,77 @@ msgstr ""
 msgid "This command cannot be used in private messages."
 msgstr ""
 
-#: app/database/database_functions/aschannels.py:89
+#: app/database/database_functions/aschannels.py:100
 msgid "minChars cannot be less than 0."
 msgstr ""
 
-#: app/database/database_functions/aschannels.py:92
+#: app/database/database_functions/aschannels.py:103
 msgid "minChars cannot be grater than 2,000."
 msgstr ""
 
-#: app/database/database_functions/guilds.py:17
+#: app/database/database_functions/guilds.py:19
 msgid "The cooldown ammount must be greater than 0."
 msgstr ""
 
-#: app/database/database_functions/guilds.py:21
+#: app/database/database_functions/guilds.py:23
 msgid "The cooldown time must be 0 or greater."
 msgstr ""
 
-#: app/database/database_functions/guilds.py:26
+#: app/database/database_functions/guilds.py:28
 msgid "The cooldown time can be at most 10 minutes (600 seconds)."
 msgstr ""
 
-#: app/database/database_functions/starboards.py:127
+#: app/database/database_functions/starboards.py:173
 msgid "requiredStars cannot be less than or equal to requiredRemove."
 msgstr ""
 
-#: app/database/database_functions/starboards.py:133
+#: app/database/database_functions/starboards.py:179
 msgid "requiredStars cannot be less than 1."
 msgstr ""
 
-#: app/database/database_functions/starboards.py:137
+#: app/database/database_functions/starboards.py:183
 msgid "requiredStars cannot be greater than 500."
 msgstr ""
 
-#: app/database/database_functions/starboards.py:141
+#: app/database/database_functions/starboards.py:187
 msgid "requiredRemove cannot be less than -1."
 msgstr ""
 
-#: app/database/database_functions/starboards.py:145
+#: app/database/database_functions/starboards.py:191
 msgid "requiredRemove cannot be greater than 495."
 msgstr ""
 
-#: app/cogs/starboard/starboard_funcs.py:196
-#: app/cogs/starboard/starboard_funcs.py:206
+#: app/cogs/starboard/starboard_funcs.py:185
+#: app/cogs/starboard/starboard_funcs.py:195
 msgid "*Message was deleted*"
 msgstr ""
 
-#: app/cogs/starboard/starboard_funcs.py:209
+#: app/cogs/starboard/starboard_funcs.py:198
 msgid "*File Only*"
 msgstr ""
 
-#: app/cogs/starboard/starboard_funcs.py:218
+#: app/cogs/starboard/starboard_funcs.py:207
 #, python-brace-format
 msgid "**[Replying to {0}]({1})**\n"
 msgstr ""
 
-#: app/cogs/starboard/starboard_funcs.py:223
+#: app/cogs/starboard/starboard_funcs.py:212
 #, python-brace-format
 msgid ""
 "**[Replying to Unknown (deleted)](https://discord.com/channels/{0.guild_id}/"
 "{0.channel_id}/{0.message_id})**\n"
 msgstr ""
 
-#: app/cogs/starboard/starboard_funcs.py:232
+#: app/cogs/starboard/starboard_funcs.py:221
 #, python-brace-format
 msgid "**[Jump to Message]({0})**"
 msgstr ""
 
-#: app/cogs/starboard/starboard_funcs.py:364
+#: app/cogs/starboard/starboard_funcs.py:353
 msgid "Trashed Message"
 msgstr ""
 
-#: app/cogs/starboard/starboard_funcs.py:366
+#: app/cogs/starboard/starboard_funcs.py:355
 #, python-brace-format
 msgid ""
 "This message was trashed by a moderator. To untrash it, run ```\n"
@@ -299,7 +299,7 @@ msgid ""
 "{2}```"
 msgstr ""
 
-#: app/cogs/starboard/starboard_funcs.py:393
+#: app/cogs/starboard/starboard_funcs.py:382
 #, python-brace-format
 msgid ""
 "I tried to match `{0}` to [a message]({1}), but it took too long. Try "
@@ -307,14 +307,14 @@ msgid ""
 "the support server."
 msgstr ""
 
-#: app/cogs/starboard/starboard_funcs.py:529
+#: app/cogs/starboard/starboard_funcs.py:518
 #, python-brace-format
 msgid ""
 "I tried to send a starboard message to {0}, but I'm missing the proper "
 "permissions. Please make sure I have the `Send Messages` permission."
 msgstr ""
 
-#: app/cogs/starboard/starboard_funcs.py:557
+#: app/cogs/starboard/starboard_funcs.py:546
 #, python-brace-format
 msgid ""
 "I tried to autoreact to a message on the starboard, but I'm missing the "
@@ -360,8 +360,8 @@ msgid "{0} is no longer a starboard."
 msgstr ""
 
 #: app/cogs/starboard/starboard_commands.py:143
-#: app/cogs/settings/settings_commands.py:481
-#: app/cogs/settings/settings_commands.py:513
+#: app/cogs/settings/settings_commands.py:480
+#: app/cogs/settings/settings_commands.py:512
 #: app/cogs/utility/utility_commands.py:207
 #: app/cogs/utility/utility_commands.py:283
 msgid "Cancelled."
@@ -435,125 +435,125 @@ msgstr ""
 msgid "Settings for {0}:"
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:211
+#: app/cogs/settings/settings_commands.py:210
 #, python-brace-format
 msgid "To modify these, run `{0}help qa`."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:223
+#: app/cogs/settings/settings_commands.py:222
 msgid "Enabled quickActions."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:236
+#: app/cogs/settings/settings_commands.py:235
 msgid "Disabled quickActions."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:255
+#: app/cogs/settings/settings_commands.py:254
 msgid "Reset quickActions."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:274
+#: app/cogs/settings/settings_commands.py:273
 #, python-brace-format
 msgid "Set the force quickAction to {0}."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:294
+#: app/cogs/settings/settings_commands.py:293
 #, python-brace-format
 msgid "Set the unforce quickAction to {0}."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:317
+#: app/cogs/settings/settings_commands.py:316
 #, python-brace-format
 msgid "Set the freeze/unfreeze quickAction to {0}."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:339
+#: app/cogs/settings/settings_commands.py:338
 #, python-brace-format
 msgid "Set the trash/untrash quickAction to {0}."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:360
+#: app/cogs/settings/settings_commands.py:359
 #, python-brace-format
 msgid "Set the recount quickAction to {0}."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:377
+#: app/cogs/settings/settings_commands.py:376
 #, python-brace-format
 msgid "Set the save quickAction to {0}."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:393
+#: app/cogs/settings/settings_commands.py:392
 #, python-brace-format
 msgid "Prefixes for {0}:"
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:425
+#: app/cogs/settings/settings_commands.py:424
 #, python-brace-format
 msgid "`{0}` is too long (max length is 8 characters)."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:441
+#: app/cogs/settings/settings_commands.py:440
 #, python-brace-format
 msgid "Added `{0}` to the prefixes."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:465
+#: app/cogs/settings/settings_commands.py:464
 #, python-brace-format
 msgid "I found {0} matches for `{1}`. Please be more specific."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:472
+#: app/cogs/settings/settings_commands.py:471
 #, python-brace-format
 msgid "No matches found for `{0}`."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:478
+#: app/cogs/settings/settings_commands.py:477
 #, python-brace-format
 msgid "Did you want to remove `{0}` from the prefixes?"
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:496
+#: app/cogs/settings/settings_commands.py:495
 #, python-brace-format
 msgid "Removed `{0}` from the prefixes."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:511
+#: app/cogs/settings/settings_commands.py:510
 msgid "Are you sure you want to reset all prefixes?"
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:521
+#: app/cogs/settings/settings_commands.py:520
 msgid "Cleared all prefixes and added `sb!`."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:553
+#: app/cogs/settings/settings_commands.py:552
 #, python-brace-format
 msgid "Set the LevelUpChannel to {0}."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:556
+#: app/cogs/settings/settings_commands.py:555
 msgid "Unset the LevelUpChannel."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:573
+#: app/cogs/settings/settings_commands.py:572
 msgid "I will now ping users when the level up."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:575
+#: app/cogs/settings/settings_commands.py:574
 msgid "I will not ping users when the level up."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:613
+#: app/cogs/settings/settings_commands.py:612
 #, python-brace-format
 msgid "Set the log channel to {0}."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:619
+#: app/cogs/settings/settings_commands.py:618
 msgid ""
 "This channel has been set as a log channel. I'll send errors and important "
 "info here."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:644
+#: app/cogs/settings/settings_commands.py:643
 #, python-brace-format
 msgid "Set allowCommands to **{0}**."
 msgstr ""
@@ -568,7 +568,12 @@ msgstr ""
 msgid "**{0}** has no stats to show."
 msgstr ""
 
-#: app/cogs/fun/fun_commands.py:92
+#: app/cogs/fun/fun_commands.py:101
+#, python-brace-format
+msgid "Stats for {0}"
+msgstr ""
+
+#: app/cogs/fun/fun_commands.py:103
 #, python-brace-format
 msgid ""
 "Rank: **#{0}**\n"
@@ -578,27 +583,39 @@ msgid ""
 "Level: **{4}**"
 msgstr ""
 
-#: app/cogs/fun/fun_commands.py:186
+#: app/cogs/fun/fun_commands.py:112
+msgid "Global Stats"
+msgstr ""
+
+#: app/cogs/fun/fun_commands.py:114
+#, python-brace-format
+msgid ""
+"Total Stars Given: **{0}**\n"
+"Total Stars Received: **{1}**\n"
+"Total Votes: **{2}**"
+msgstr ""
+
+#: app/cogs/fun/fun_commands.py:208
 msgid "Nothing to show."
 msgstr ""
 
-#: app/cogs/fun/fun_commands.py:256
+#: app/cogs/fun/fun_commands.py:278
 msgid "No messages were found that matched those requirements."
 msgstr ""
 
-#: app/cogs/fun/fun_commands.py:270
+#: app/cogs/fun/fun_commands.py:292
 msgid "Something went wrong. Please try again."
 msgstr ""
 
-#: app/cogs/fun/fun_commands.py:311 app/cogs/quick_actions/qa_events.py:172
+#: app/cogs/fun/fun_commands.py:333 app/cogs/quick_actions/qa_events.py:172
 msgid "You cannot save a trashed message."
 msgstr ""
 
-#: app/cogs/fun/fun_commands.py:320
+#: app/cogs/fun/fun_commands.py:342
 msgid "That message was deleted, so you can't save it."
 msgstr ""
 
-#: app/cogs/fun/fun_commands.py:329
+#: app/cogs/fun/fun_commands.py:351
 msgid "I can't DM you, so you can't save that message."
 msgstr ""
 
@@ -629,27 +646,15 @@ msgstr ""
 msgid "Your profile is no longer public."
 msgstr ""
 
-#: app/cogs/profile/profile_commands.py:63
+#: app/cogs/profile/profile_commands.py:58
 msgid "Settings"
 msgstr ""
 
-#: app/cogs/profile/profile_commands.py:64
+#: app/cogs/profile/profile_commands.py:59
 #, python-brace-format
 msgid ""
 "Language: {0}\n"
 "Public Profile: {1}"
-msgstr ""
-
-#: app/cogs/profile/profile_commands.py:70
-msgid "Global Stats"
-msgstr ""
-
-#: app/cogs/profile/profile_commands.py:72
-#, python-brace-format
-msgid ""
-"Total Stars Given: **{0}**\n"
-"Total Stars Received: **{1}**\n"
-"Total Votes: **{2}**"
 msgstr ""
 
 #: app/cogs/blacklist/bl_commands.py:36
