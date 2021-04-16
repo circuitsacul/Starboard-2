@@ -140,6 +140,7 @@ class StarboardEvents(commands.Cog):
             payload.member.id,
             author_id,
             payload.guild_id,
+            payload.channel_id,
             1,
         )
 
@@ -176,6 +177,7 @@ class StarboardEvents(commands.Cog):
             payload.user_id,
             orig_message["author_id"],
             payload.guild_id,
+            payload.channel_id,
             -1,
         )
 
