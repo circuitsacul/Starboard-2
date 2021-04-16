@@ -38,7 +38,7 @@ class LevelingEvents(commands.Cog):
 
         guild = self.bot.get_guild(guild_id)
         _result = await self.bot.cache.get_members(
-            [giver_id, receiver_id], guild
+            [int(giver_id), int(receiver_id)], guild
         )
         if giver_id not in _result:
             return
