@@ -5,7 +5,7 @@ from discord.ext import commands
 
 import config
 from app.i18n import ft_, t_
-from app.utils import ms
+from app.utils import clean_prefix, ms
 
 from ...classes.bot import Bot
 
@@ -79,7 +79,7 @@ class Base(commands.Cog):
         if command:
             return await ctx.send_help(command)
 
-        p = ctx.prefix
+        p = clean_prefix(ctx)
 
         embed = discord.Embed(
             title="Staboard Help",
