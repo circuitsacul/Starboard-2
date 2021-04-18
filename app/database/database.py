@@ -14,6 +14,7 @@ from .database_functions import (
     sb_messags,
     starboards,
     users,
+    xproles,
 )
 from .pg_indexes import ALL_INDEXES
 from .pg_tables import ALL_TABLES
@@ -36,6 +37,7 @@ class Database:
         self.starboards = starboards.Starboards(self)
         self.permgroups = permgroups.PermGroups(self)
         self.permroles = permroles.PermRoles(self)
+        self.xproles = xproles.XPRoles(self)
         self.messages = messages.Messages(self)
         self.sb_messages = sb_messags.SBMessages(self)
         self.reactions = reactions.Reactions(self)

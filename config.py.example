@@ -28,6 +28,7 @@ EXTENSIONS = [
     "app.cogs.base",
     "app.cogs.starboard",
     "app.cogs.permroles",
+    "app.cogs.awardroles",
     "app.cogs.profile",
     "app.cogs.owner",
     "app.cogs.cache",

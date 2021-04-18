@@ -135,6 +135,15 @@ PERMROLES = """CREATE TABLE IF NOT EXISTS permroles (
             ON DELETE CASCADE
     )"""
 
+XP_ROLES = """CREATE TABLE IF NOT EXISTS xproles (
+        role_id NUMERIC PRIMARY KEY,
+        guild_id NUMERIC NOT NULL,
+        required SMALLINT NOT NULL,
+
+        FOREIGN KEY (guild_id) REFERENCES guilds (id)
+            ON DELETE CASCADE
+    )"""
+
 MESSAGES = """CREATE TABLE IF NOT EXISTS messages (
         id NUMERIC PRIMARY KEY,
         guild_id NUMERIC NOT NULL,
@@ -195,6 +204,7 @@ ALL_TABLES = [
     ASCHANNELS,
     PERMGROUPS,
     PERMROLES,
+    XP_ROLES,
     MESSAGES,
     STARBOARD_MESSAGES,
     REACTIONS,

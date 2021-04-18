@@ -181,3 +181,12 @@ class PermGroup(commands.Converter):
             raise errors.PermGroupNotFound(arg)
 
         return permgroup
+
+
+class XPRole(Role):
+    async def convert(self, ctx: commands.Context, arg: str) -> SQLObject:
+        role = await super().convert(ctx, arg)
+        xprole = await ctx.bot.db.xproles.get(role.id)
+        if not xprole:
+            raise errors.XpRoleNotFound(role.name)
+        return SQLObject(role, xprole)
