@@ -97,6 +97,7 @@ class Starboard(commands.Cog):
                     f"autoReact: **{s['autoreact']}**\n"
                     f"linkDeletes: **{s['link_deletes']}**\n"
                     f"linkEdits: **{s['link_edits']}**\n"
+                    f"removeInvalid: **{s['remove_invalid']}**\n"
                     f"noXp: **{s['no_xp']}**\n"
                     f"allowRandom: **{s['explore']}**\n"
                 ),
@@ -612,6 +613,37 @@ class Starboard(commands.Cog):
         await ctx.send(
             embed=utils.cs_embed(
                 {"noXp": (starboard.sql["no_xp"], no_xp)}, self.bot
+            )
+        )
+
+    @starboards.command(
+        name="removeInvalid",
+        aliases=["rmi", "rminvalid"],
+        brief="Whether or not invalid reactions should be removed",
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def set_remove_invalid(
+        self,
+        ctx: commands.Context,
+        starboard: converters.Starboard,
+        remove_invalid: converters.mybool,
+    ) -> None:
+        """Whether or not invalid reactions should be removed
+        automatically"""
+        await self.bot.db.starboards.edit(
+            starboard.obj.id, remove_invalid=remove_invalid
+        )
+        await ctx.send(
+            embed=utils.cs_embed(
+                {
+                    "removeInvalid": (
+                        starboard.sql["remove_invalid"],
+                        remove_invalid,
+                    )
+                },
+                self.bot,
             )
         )
 

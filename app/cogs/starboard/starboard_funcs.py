@@ -11,6 +11,104 @@ from app.i18n import t_
 ZERO_WIDTH_SPACE = "\u200B"
 
 
+async def can_add(
+    bot: Bot,
+    emoji: str,
+    guild_id: int,
+    member: discord.Member,
+    channel_id: int,
+    sql_author: dict,
+    author_roles: list[int],
+) -> tuple[bool, bool]:
+    """Whether or not a user has permission to add a reaction,
+    and returns two values:
+
+    can_add: Whether or not the reaction will count as a point on any of
+        the starboards
+    remove: Whether or not the bot should automatically remove it
+    """
+
+    if member.bot:
+        return False, False  # Completely ignore bot reactions
+
+    # First check if the emoji is a starEmoji on any of the starboards
+    starboards = await bot.db.fetch(
+        """SELECT * FROM starboards
+        WHERE guild_id=$1
+        AND $2=any(star_emojis)""",
+        guild_id,
+        emoji,
+    )
+    if len(starboards) == 0:
+        return False, False
+
+    # Next, check if the reaction is valid or invalid. Can be invalid because:
+    #   It's a selfStar
+    #   The user is missing the proper permissions
+    #   The channel is blacklisted
+    # In order for it to be invalid, the emoji needs to be invalid on *all*
+    # starboards that use this emoji. If any of the starboards consider
+    # it valid, then it cannot be automatically removed or ignored.
+
+    # Start by assuming invalid
+    valid = False
+    remove = True
+
+    current_valid: Optional[bool] = None
+    for s in starboards:
+        if not s["remove_invalid"]:
+            remove = False
+        if current_valid is not None:
+            if current_valid:
+                valid = True
+                break
+
+        current_valid = True
+
+        # Check selfStar
+        if not s["self_star"] and member.id == int(sql_author["id"]):
+            current_valid = False
+            continue
+
+        # Check bots
+        if (not s["allow_bots"]) and sql_author["is_bot"]:
+            current_valid = False
+            continue
+
+        # Check channel blacklist/whitelist
+        if s["channel_wl"] and channel_id not in s["channel_wl"]:
+            current_valid = False
+            continue
+        elif s["channel_bl"] and channel_id in s["channel_bl"]:
+            current_valid = False
+            continue
+
+        # Check the perms of the star giver
+        giver_perms = await pr_functions.get_perms(
+            bot,
+            [r.id for r in member.roles],
+            guild_id,
+            channel_id,
+            int(s["id"]),
+        )
+        if not giver_perms["give_stars"]:
+            current_valid = False
+            continue
+
+        # Check the perms of the star receiver
+        recv_perms = await pr_functions.get_perms(
+            bot, author_roles, guild_id, channel_id, int(s["id"])
+        )
+        if not recv_perms["on_starboard"]:
+            current_valid = False
+            continue
+
+    if current_valid:
+        valid = True
+
+    return valid, (not valid) and remove
+
+
 def get_plain_text(
     starboard: dict, orig_message: dict, points: int, guild: discord.Guild
 ) -> str:

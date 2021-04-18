@@ -142,6 +142,7 @@ class Starboards:
         starboard_id: int,
         required: int = None,
         required_remove: int = None,
+        remove_invalid: bool = None,
         autoreact: bool = None,
         self_star: bool = None,
         allow_bots: bool = None,
@@ -169,6 +170,9 @@ class Starboards:
             "required_remove": s["required_remove"]
             if required_remove is None
             else required_remove,
+            "remove_invalid": s["remove_invalid"]
+            if remove_invalid is None
+            else remove_invalid,
             "autoreact": s["autoreact"] if autoreact is None else autoreact,
             "self_star": s["self_star"] if self_star is None else self_star,
             "allow_bots": s["allow_bots"]
@@ -252,8 +256,9 @@ class Starboards:
             ping = $16,
             channel_bl = $17,
             channel_wl = $18,
-            use_webhook = $19
-            WHERE id = $20""",
+            use_webhook = $19,
+            remove_invalid = $20
+            WHERE id = $21""",
             settings["required"],
             settings["required_remove"],
             settings["autoreact"],
@@ -273,6 +278,7 @@ class Starboards:
             settings["channel_bl"],
             settings["channel_wl"],
             settings["use_webhook"],
+            settings["remove_invalid"],
             starboard_id,
         )
 

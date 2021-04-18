@@ -63,51 +63,47 @@ class StarboardEvents(commands.Cog):
         if payload.member.bot:
             return
 
-        # Check if is starEmoji
+        # Check if is starEmoji  # TODO Remove this
         emoji = utils.clean_emoji(payload.emoji)
-        starboards = await self.bot.db.starboards.get_many(payload.guild_id)
-        sb_emojis = []
-        for s in starboards:
-            sb_emojis += s["star_emojis"]
-
-        if emoji not in sb_emojis:
-            return
 
         # Create necessary data
         await self.bot.db.users.create(payload.member.id, payload.member.bot)
         await self.bot.db.members.create(payload.member.id, payload.guild_id)
 
-        # Add reaction
+        # Get/create the message
         sql_message = await starboard_funcs.orig_message(
             self.bot, payload.message_id
         )
-        if sql_message is not None:
-            # Get the message since it already exists
-            try:
-                message = await self.bot.cache.fetch_message(
-                    int(sql_message["guild_id"]),
-                    int(sql_message["channel_id"]),
-                    int(sql_message["id"]),
-                )
-            except discord.Forbidden:
-                return
-            await self.bot.db.reactions.create_reaction_user(
-                emoji, sql_message["id"], payload.user_id
-            )
-            await starboard_funcs.update_message(
-                self.bot, sql_message["id"], sql_message["guild_id"]
+        if sql_message:
+            guild_id, channel_id, message_id = (
+                int(sql_message["guild_id"]),
+                int(sql_message["channel_id"]),
+                int(sql_message["id"]),
             )
         else:
-            # Get the message as well as add it to the database
-            try:
-                message = await self.bot.cache.fetch_message(
-                    payload.guild_id,
-                    payload.channel_id,
-                    payload.message_id,
-                )
-            except discord.Forbidden:
-                return
+            guild_id, channel_id, message_id = (
+                payload.guild_id,
+                payload.channel_id,
+                payload.message_id,
+            )
+        try:
+            message = await self.bot.cache.fetch_message(
+                guild_id, channel_id, message_id
+            )
+        except discord.Forbidden:
+            return
 
+        if sql_message:
+            author_id = int(sql_message["author_id"])
+        elif message:
+            author_id = message.author.id
+        else:
+            return
+
+        guild = self.bot.get_guild(payload.guild_id)
+        if not sql_message:
+            # Create message + needed data
+            author_roles = [r.id for r in message.author.roles]
             await self.bot.db.users.create(
                 message.author.id, message.author.bot
             )
@@ -121,19 +117,45 @@ class StarboardEvents(commands.Cog):
                 message.author.id,
                 message.channel.is_nsfw(),
             )
-            await self.bot.db.reactions.create_reaction_user(
-                emoji, message.id, payload.user_id
-            )
-            await starboard_funcs.update_message(
-                self.bot, payload.message_id, payload.guild_id
-            )
-
-        if message:
-            author_id = message.author.id
-        elif sql_message:
-            author_id = int(sql_message["author_id"])
         else:
+            _author = await self.bot.cache.get_members([author_id], guild)
+            if author_id not in _author:
+                author_roles = []
+            else:
+                author_roles = [r.id for r in _author[author_id].roles]
+
+        sql_author = await self.bot.db.users.get(author_id)
+
+        # Check if valid
+        valid, remove = await starboard_funcs.can_add(
+            self.bot,
+            emoji,
+            payload.guild_id,
+            payload.member,
+            channel_id,
+            sql_author,
+            author_roles,
+        )
+        if remove:
+            channel: discord.TextChannel = guild.get_channel(
+                payload.channel_id
+            )
+            p_message = channel.get_partial_message(payload.message_id)
+            try:
+                await p_message.remove_reaction(payload.emoji, payload.member)
+            except discord.Forbidden:
+                pass
             return
+        if not valid:
+            return
+
+        # Create the reaction
+        await self.bot.db.reactions.create_reaction_user(
+            emoji, message_id, payload.user_id
+        )
+        await starboard_funcs.update_message(
+            self.bot, message_id, payload.guild_id
+        )
 
         self.bot.dispatch(
             "star_update",
