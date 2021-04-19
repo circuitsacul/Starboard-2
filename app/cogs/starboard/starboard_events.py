@@ -187,6 +187,11 @@ class StarboardEvents(commands.Cog):
         if orig_message is None:
             return
 
+        r_user = await self.bot.db.reactions.get_reaction_user(
+            emoji, int(orig_message["id"]), payload.user_id
+        )
+        if not r_user:
+            return
         await self.bot.db.reactions.delete_reaction_user(
             emoji, int(orig_message["id"]), payload.user_id
         )
