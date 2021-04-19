@@ -29,7 +29,7 @@ h2==4.0.0
 hpack==4.0.0
 humanize==3.4.1
 Hypercorn==0.11.2
-hyperframe==6.0.0
+hyperframe==6.0.1
 identify==2.2.3
 idna==2.10
 import-expression==1.1.4
