@@ -193,6 +193,15 @@ async def login_callback():
             return redirect(url_for("index"))
 
 
+@app.route("/api/donatebot/", methods=["POST"])
+async def handle_donate_event():
+    data = await request.get_json()
+    await app.config["WEBSOCKET"].send_command(
+        "donate_event", data, expect_resp=False
+    )
+    return "OK"
+
+
 # Other
 @app.errorhandler(Unauthorized)
 async def handle_unauthorized(e):

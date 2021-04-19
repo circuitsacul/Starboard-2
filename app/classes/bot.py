@@ -209,18 +209,20 @@ class Bot(commands.AutoShardedBot):
 
         if cmd == "ping":
             ret = "pong"
-        if cmd == "eval":
+        elif cmd == "eval":
             content = data["content"]
             ret = str(await self.exec(content))
-        if cmd == "set_stats":
+        elif cmd == "set_stats":
             self.stats[msg["author"]] = {
                 "guilds": data["guild_count"],
                 "members": data["member_count"],
             }
-        if cmd == "get_mutual":
+        elif cmd == "get_mutual":
             ret = []
             for gid in data:
                 if self.get_guild(gid):
                     ret.append(gid)
+        elif cmd == "donate_event":
+            self.dispatch("donatebot_event", data)
 
         return ret

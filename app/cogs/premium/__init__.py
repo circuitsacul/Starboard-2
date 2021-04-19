@@ -1,6 +1,6 @@
 import typing
 
-from . import p_events
+from . import donate_events, p_events
 
 if typing.TYPE_CHECKING:
     from app.classes.bot import Bot
@@ -8,3 +8,4 @@ if typing.TYPE_CHECKING:
 
 def setup(bot: "Bot"):
     p_events.setup(bot)
+    donate_events.setup(bot)
