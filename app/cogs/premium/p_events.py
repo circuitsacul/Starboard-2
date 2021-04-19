@@ -27,7 +27,6 @@ class PremiumEvents(commands.Cog):
         self.bot = bot
 
         self.access_token = os.getenv("PATREON_TOKEN")
-        print(self.access_token)
         self.client = patreon.API(self.access_token, bot)
 
         self.patron_loop.start()
@@ -223,4 +222,6 @@ class PremiumEvents(commands.Cog):
 
 
 def setup(bot: "Bot"):
-    bot.add_cog(PremiumEvents(bot))
+    if 0 in bot.shard_ids:
+        # Only the first cluster should run this loop
+        bot.add_cog(PremiumEvents(bot))
