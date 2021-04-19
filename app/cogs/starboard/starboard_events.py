@@ -63,7 +63,7 @@ class StarboardEvents(commands.Cog):
         if payload.member.bot:
             return
 
-        # Check if is starEmoji  # TODO Remove this
+        # Check if is starEmoji
         emoji = utils.clean_emoji(payload.emoji)
 
         # Create necessary data
