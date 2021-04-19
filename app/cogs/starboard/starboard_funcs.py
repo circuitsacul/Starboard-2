@@ -32,13 +32,22 @@ async def can_add(
         return False, False  # Completely ignore bot reactions
 
     # First check if the emoji is a starEmoji on any of the starboards
-    starboards = await bot.db.fetch(
+    _starboards = await bot.db.fetch(
         """SELECT * FROM starboards
         WHERE guild_id=$1
         AND $2=any(star_emojis)""",
         guild_id,
         emoji,
     )
+    starboards: list[dict] = []
+    for s in _starboards:
+        if s["channel_wl"]:
+            if channel_id not in [int(cid) for cid in s["channel_wl"]]:
+                continue
+        elif s["channel_bl"]:
+            if channel_id not in [int(cid) for cid in s["channel_bl"]]:
+                continue
+        starboards.append(s)
     if len(starboards) == 0:
         return False, False
 
@@ -72,14 +81,6 @@ async def can_add(
 
         # Check bots
         if (not s["allow_bots"]) and sql_author["is_bot"]:
-            current_valid = False
-            continue
-
-        # Check channel blacklist/whitelist
-        if s["channel_wl"] and channel_id not in s["channel_wl"]:
-            current_valid = False
-            continue
-        elif s["channel_bl"] and channel_id in s["channel_bl"]:
             current_valid = False
             continue
 
