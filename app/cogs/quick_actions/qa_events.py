@@ -73,13 +73,12 @@ class QAEvents(commands.Cog):
             self.bot, payload.message_id
         )
         if not orig_message:
-            channel = guild.get_channel(payload.channel_id)
             await self.bot.db.messages.create(
-                payload.message_id,
-                payload.guild_id,
-                payload.channel_id,
-                payload.member.id,
-                channel.is_nsfw(),
+                message.id,
+                message.guild.id,
+                message.channel.id,
+                message.author.id,
+                message.channel.is_nsfw(),
             )
             orig_message = await self.bot.db.messages.get(payload.message_id)
 
