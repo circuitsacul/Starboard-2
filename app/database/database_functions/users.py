@@ -7,6 +7,17 @@ class Users:
     def __init__(self, db) -> None:
         self.db = db
 
+    async def set_patron_status(
+        self,
+        user_id: int,
+        status: str,
+    ):
+        await self.db.execute(
+            """UPDATE users SET patron_status=$1 WHERE id=$2""",
+            status,
+            user_id,
+        )
+
     async def edit(
         self,
         user_id: int,

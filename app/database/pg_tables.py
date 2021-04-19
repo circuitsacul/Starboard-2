@@ -31,6 +31,11 @@ USERS = """CREATE TABLE IF NOT EXISTS users (
         is_bot BOOL NOT NULL,
         votes SMALLINT NOT NULL DEFAULT 0,
 
+        credits INT NOT NULL DEFAULT 0,
+        last_patreon_total INT NOT NULL DEFAULT 0,
+        patron_status patron_status NOT NULL DEFAULT 'no',
+        last_known_monthly INT NOT NULL DEFAULT 0,
+
         locale TEXT NOT NULL DEFAULT 'en_US',
         public BOOL NOT NULL DEFAULT true
     )"""

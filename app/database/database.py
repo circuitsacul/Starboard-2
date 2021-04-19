@@ -18,6 +18,7 @@ from .database_functions import (
 )
 from .pg_indexes import ALL_INDEXES
 from .pg_tables import ALL_TABLES
+from .pg_types import ALL_TYPES
 
 
 class Database:
@@ -57,6 +58,8 @@ class Database:
                     await con.execute(table)
                 for index in ALL_INDEXES:
                     await con.execute(index)
+                for pg_type in ALL_TYPES:
+                    await con.execute(pg_type)
 
     async def execute(self, sql: str, *args: Any) -> None:
         async with self.pool.acquire() as con:
