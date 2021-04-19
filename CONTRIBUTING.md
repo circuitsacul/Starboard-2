@@ -24,7 +24,7 @@ If you see any missing or incorrect translations, you can follow the instruction
 2. Edit the files that need editing.
 3. Create a PR (pull request) to have the changes merged.
 
-## Method 2:
+### Method 2:
 1. Go to the file that needs editing (on this GitHub repo) and click "Raw".
 2. Download the contents of the page (or copy+paste them into a text editor).
 3. Edit the file as needed.
