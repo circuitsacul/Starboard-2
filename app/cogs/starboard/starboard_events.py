@@ -101,9 +101,15 @@ class StarboardEvents(commands.Cog):
             return
 
         guild = self.bot.get_guild(payload.guild_id)
+
+        _author = await self.bot.cache.get_members([author_id], guild)
+        if author_id not in _author:
+            author_roles = []
+        else:
+            author_roles = [r.id for r in _author[author_id].roles]
+
         if not sql_message:
             # Create message + needed data
-            author_roles = [r.id for r in message.author.roles]
             await self.bot.db.users.create(
                 message.author.id, message.author.bot
             )
@@ -117,12 +123,6 @@ class StarboardEvents(commands.Cog):
                 message.author.id,
                 message.channel.is_nsfw(),
             )
-        else:
-            _author = await self.bot.cache.get_members([author_id], guild)
-            if author_id not in _author:
-                author_roles = []
-            else:
-                author_roles = [r.id for r in _author[author_id].roles]
 
         sql_author = await self.bot.db.users.get(author_id)
 

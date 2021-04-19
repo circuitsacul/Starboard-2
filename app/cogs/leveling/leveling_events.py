@@ -127,6 +127,8 @@ class LevelingEvents(commands.Cog):
             if not receiver.bot:
                 self.bot.dispatch("level_up", guild, receiver, leveled_up)
 
+        self.bot.dispatch("update_xpr", guild.id, receiver.id)
+
 
 def setup(bot: Bot) -> None:
     bot.add_cog(LevelingEvents(bot))
