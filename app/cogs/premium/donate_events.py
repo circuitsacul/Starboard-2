@@ -46,6 +46,10 @@ class DonateEvents(commands.Cog):
             discord_id,
         )
 
+        await self.bot.websocket.send_command(
+            "update_prem_roles", {"user_id": discord_id}
+        )
+
         await alert_donator(
             self.bot,
             discord_id,

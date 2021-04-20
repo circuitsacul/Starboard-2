@@ -217,5 +217,7 @@ class Bot(commands.AutoShardedBot):
                     ret.append(gid)
         elif cmd == "donate_event":
             self.dispatch("donatebot_event", data["data"], data["auth"])
+        elif cmd == "update_prem_roles":
+            self.dispatch("update_prem_roles", int(data["user_id"]))
 
         return ret

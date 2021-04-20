@@ -22,7 +22,7 @@ async def alert_patron(bot: "Bot", user_id: int, message: str):
         pass
 
 
-class PremiumEvents(commands.Cog):
+class PatreonEvents(commands.Cog):
     def __init__(self, bot: "Bot"):
         self.bot = bot
 
@@ -94,6 +94,10 @@ class PremiumEvents(commands.Cog):
             if text:
                 await alert_patron(self.bot, int(sql_user["id"]), text)
 
+            await self.bot.websocket.send_command(
+                "update_prem_roles", {"user_id": int(patron["discord_id"])}
+            )
+
         # Check for removed/cancelled patrons
         cancelled_patrons = await self.bot.db.fetch(
             """SELECT * FROM users WHERE patron_status!='no'
@@ -108,6 +112,11 @@ class PremiumEvents(commands.Cog):
                 WHERE id=$1""",
                 p["id"],
             )
+
+            await self.bot.websocket.send_command(
+                "update_prem_roles", {"user_id": int(p["id"])}
+            )
+
             await alert_patron(
                 self.bot,
                 int(p["id"]),
@@ -122,6 +131,7 @@ class PremiumEvents(commands.Cog):
 
     async def get_all_patrons(self) -> list[dict]:
         """Get the list of all patrons"""
+        return []
         return [
             {
                 "name": "Lucas",
@@ -226,4 +236,4 @@ class PremiumEvents(commands.Cog):
 def setup(bot: "Bot"):
     if 0 in bot.shard_ids:
         # Only the first cluster should run this loop
-        bot.add_cog(PremiumEvents(bot))
+        bot.add_cog(PatreonEvents(bot))
