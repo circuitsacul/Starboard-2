@@ -60,6 +60,11 @@ class Profile(commands.Cog):
         sql_user = await self.bot.db.users.get(ctx.author.id)
 
         total = sql_user["donation_total"] + sql_user["last_patreon_total"]
+        patron = (
+            f"Patreon: {sql_user['patron_status']} "
+            f"${sql_user['last_known_monthly']}/month "
+            f"(${sql_user['last_patreon_total']})"
+        )
 
         embed = (
             discord.Embed(title=str(ctx.author), color=self.bot.theme_color)
@@ -74,8 +79,7 @@ class Profile(commands.Cog):
                 name=t_("Premium Info"),
                 value=(
                     f"Credits: {sql_user['credits']}\n"
-                    f"Patron: {sql_user['patron_status']}"
-                    f" (${sql_user['last_known_monthly']}/month)\n"
+                    f"Patron: {patron}\n"
                     f"Donations: ${sql_user['donation_total']}\n"
                     f"Total Support: ${total}\n"
                 ),

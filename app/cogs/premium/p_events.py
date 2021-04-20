@@ -74,7 +74,7 @@ class PremiumEvents(commands.Cog):
                     "Please make sure that you entered your info on patreon "
                     "correctly, and feel free to DM @Circuit#5585 for help."
                 )
-            elif sql_user["patron_status"] == "no":
+            elif sql_user["patron_status"] != "yes":
                 await self.bot.db.users.set_patron_status(
                     int(patron["discord_id"]), "yes"
                 )
@@ -122,13 +122,15 @@ class PremiumEvents(commands.Cog):
 
     async def get_all_patrons(self) -> list[dict]:
         """Get the list of all patrons"""
-        # return [{
-        #    "name": "Lucas",
-        #    "payment": 1,
-        #    "declined": True,
-        #    "total": 15,
-        #    "discord_id": 321733774414970882
-        # }]
+        return [
+            {
+                "name": "Lucas",
+                "payment": 1,
+                "declined": False,
+                "total": 30,
+                "discord_id": 321733774414970882,
+            }
+        ]
 
         patrons = []
 
