@@ -32,6 +32,7 @@ USERS = """CREATE TABLE IF NOT EXISTS users (
         votes SMALLINT NOT NULL DEFAULT 0,
 
         credits INT NOT NULL DEFAULT 0,
+        donation_total INT NOT NULL DEFAULT 0,
         last_patreon_total INT NOT NULL DEFAULT 0,
         patron_status patron_status NOT NULL DEFAULT 'no',
         last_known_monthly INT NOT NULL DEFAULT 0,

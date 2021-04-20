@@ -59,14 +59,27 @@ class Profile(commands.Cog):
         """Shows settings for your account"""
         sql_user = await self.bot.db.users.get(ctx.author.id)
 
-        embed = discord.Embed(
-            title=str(ctx.author), color=self.bot.theme_color
-        ).add_field(
-            name=t_("Settings"),
-            value=t_("Language: {0}\n" "Public Profile: {1}").format(
-                sql_user["locale"], sql_user["public"]
-            ),
-            inline=False,
+        total = sql_user["donation_total"] + sql_user["last_patreon_total"]
+
+        embed = (
+            discord.Embed(title=str(ctx.author), color=self.bot.theme_color)
+            .add_field(
+                name=t_("Settings"),
+                value=t_("Language: {0}\n" "Public Profile: {1}").format(
+                    sql_user["locale"], sql_user["public"]
+                ),
+                inline=False,
+            )
+            .add_field(
+                name=t_("Premium Info"),
+                value=(
+                    f"Credits: {sql_user['credits']}\n"
+                    f"Patron: {sql_user['patron_status']}"
+                    f" (${sql_user['last_known_monthly']}/month)\n"
+                    f"Donations: ${sql_user['donation_total']}\n"
+                    f"Total Support: ${total}\n"
+                ),
+            )
         )
 
         await ctx.send(embed=embed)

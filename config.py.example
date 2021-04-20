@@ -12,6 +12,10 @@ THEME_COLOR = int('FFE16C', 16)  # Main bot color
 DARK_THEME_COLOR = int('0xff7b1c', 16)  # Darker version of bot color
 ERROR_COLOR = int('F54251', 16)  # Color for error messages
 
+DONATE_ROLES = []  # List of roles received upon donation
+PATRON_ROLES = []  # List of roles given to patrons
+ROLE_SERVER = -1  # Server that the roles are located in
+
 
 # Links
 VOTE_LINKS = []  # List of vote links

@@ -39,7 +39,8 @@ class DonateEvents(commands.Cog):
 
         await self.bot.db.execute(
             """UPDATE users
-            SET credits = credits + $1
+            SET credits = credits + $1,
+            donation_total = donation_total + $1
             WHERE id = $2""",
             round(float(data["price"])),
             discord_id,
