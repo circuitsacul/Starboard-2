@@ -195,7 +195,10 @@ async def login_callback():
 
 @app.route("/api/donatebot/", methods=["POST"])
 async def handle_donate_event():
-    data = await request.get_json()
+    data = {
+        "data": await request.get_json(),
+        "auth": request.headers["Authorization"],
+    }
     await app.config["WEBSOCKET"].send_command(
         "donate_event", data, expect_resp=False
     )

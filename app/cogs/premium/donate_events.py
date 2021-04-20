@@ -11,8 +11,9 @@ class DonateEvents(commands.Cog):
         self.bot = bot
 
     @commands.Cog.listener()
-    async def on_donatebot_event(self, data: dict):
+    async def on_donatebot_event(self, data: dict, auth: str):
         print(data)
+        print(auth)
 
 
 def setup(bot: "Bot"):

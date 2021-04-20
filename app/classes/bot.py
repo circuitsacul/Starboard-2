@@ -223,6 +223,6 @@ class Bot(commands.AutoShardedBot):
                 if self.get_guild(gid):
                     ret.append(gid)
         elif cmd == "donate_event":
-            self.dispatch("donatebot_event", data)
+            self.dispatch("donatebot_event", data["data"], data["auth"])
 
         return ret
