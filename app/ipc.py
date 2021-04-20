@@ -1,9 +1,14 @@
 import asyncio
+import pathlib
 import signal
+import ssl
 
 import websockets
 
 CLIENTS: dict[str, websockets.WebSocketServerProtocol] = {}
+
+SSL_CONTEXT = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+SSL_CONTEXT.load_cert_chain(pathlib.Path("localhost.pem"))
 
 
 async def dispatch(data):
@@ -34,7 +39,7 @@ def run():
     signal.signal(signal.SIGINT, signal.SIG_DFL)
     signal.signal(signal.SIGTERM, signal.SIG_DFL)
 
-    server = websockets.serve(serve, "localhost", 4000)
+    server = websockets.serve(serve, "localhost", 4000, ssl=SSL_CONTEXT)
     loop = asyncio.get_event_loop()
     loop.run_until_complete(server)
     loop.run_forever()

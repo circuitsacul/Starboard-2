@@ -1,8 +1,13 @@
 import asyncio
 import json
+import pathlib
+import ssl
 from typing import Any, Callable, Optional
 
 import websockets
+
+SSL_CONTEXT = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+SSL_CONTEXT.load_verify_locations(pathlib.Path("localhost.pem"))
 
 
 class WebsocketConnection:
@@ -96,7 +101,9 @@ class WebsocketConnection:
                 await self.send_response(msg["callback"], resp)
 
     async def ensure_connection(self):
-        self.websocket = await websockets.connect("ws://localhost:4000")
+        self.websocket = await websockets.connect(
+            "wss://localhost:4000", ssl=SSL_CONTEXT
+        )
         await self.websocket.send(self.name_id.encode("utf-8"))
         await self.websocket.recv()
 
