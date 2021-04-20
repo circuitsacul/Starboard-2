@@ -1,3 +1,4 @@
+import os
 import typing
 
 from discord.ext import commands
@@ -9,9 +10,13 @@ if typing.TYPE_CHECKING:
 class DonateEvents(commands.Cog):
     def __init__(self, bot: "Bot"):
         self.bot = bot
+        self.donatebot_token = os.getenv("DONATEBOT_TOKEN")
 
     @commands.Cog.listener()
     async def on_donatebot_event(self, data: dict, auth: str):
+        if auth != self.donatebot_token:
+            print("Invalid token")
+            return
         print(data)
         print(auth)
 
