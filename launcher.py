@@ -25,11 +25,7 @@ hdlr = logging.StreamHandler()
 hdlr.setFormatter(
     logging.Formatter("[%(asctime)s %(name)s/%(levelname)s] %(message)s")
 )
-fhdlr = logging.FileHandler("logs/cluster-Launcher.log", encoding="utf-8")
-fhdlr.setFormatter(
-    logging.Formatter("[%(asctime)s %(name)s/%(levelname)s] %(message)s")
-)
-log.handlers = [hdlr, fhdlr]
+log.handlers = [hdlr]
 
 
 CLUSTER_NAMES = (

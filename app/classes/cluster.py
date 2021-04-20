@@ -44,15 +44,7 @@ class Cluster:
                 "[%(asctime)s %(name)s/%(levelname)s] %(message)s"
             )
         )
-        fhdlr = logging.FileHandler(
-            "logs/cluster-Launcher.log", encoding="utf-8"
-        )
-        fhdlr.setFormatter(
-            logging.Formatter(
-                "[%(asctime)s %(name)s/%(levelname)s] %(message)s"
-            )
-        )
-        self.log.handlers = [hdlr, fhdlr]
+        self.log.handlers = [hdlr]
         self.log.info(
             f"Initialized with shard ids {shard_ids}, "
             f"total shards {max_shards}"

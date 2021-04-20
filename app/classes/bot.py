@@ -54,13 +54,6 @@ class Bot(commands.AutoShardedBot):
 
         self.log = logging.getLogger(f"Cluster#{self.cluster_name}")
         self.log.setLevel(logging.DEBUG)
-        self.log.handlers = [
-            logging.FileHandler(
-                f"logs/cluster-{self.cluster_name}.log",
-                encoding="utf-8",
-                mode="a",
-            )
-        ]
 
         self.db: Database = Database(
             os.getenv("DB_NAME"),
