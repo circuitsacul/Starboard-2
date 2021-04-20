@@ -164,7 +164,7 @@ async def embed_message(
     bot: Bot, message: discord.Message, color: str = None, files: bool = True
 ) -> tuple[discord.Embed, list[discord.File]]:
     nsfw = message.channel.is_nsfw()
-    content = utils.escmask(message.system_content)
+    content = utils.escmask(utils.escesc(message.system_content))
 
     urls = []
     extra_attachments = []
@@ -197,12 +197,9 @@ async def embed_message(
         if embed.type in ["rich", "article", "link"]:
             if embed.title != embed.Empty:
                 if embed.url == embed.Empty:
-                    content += f"\n\n__**{utils.escmd(embed.title)}**__\n"
+                    content += f"\n\n__**{embed.title}**__\n"
                 else:
-                    content += (
-                        f"\n\n__**[{utils.escmd(embed.title)}]({embed.url})"
-                        "**__\n"
-                    )
+                    content += f"\n\n__**[{embed.title}]({embed.url})**__\n"
             else:
                 content += "\n"
             content += (
@@ -212,7 +209,7 @@ async def embed_message(
             )
 
             for field in embed.fields:
-                name = f"\n**{utils.escmd(field.name)}**\n"
+                name = f"\n**{field.name}**\n"
                 value = f"{field.value}\n"
 
                 content += name + value
