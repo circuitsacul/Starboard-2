@@ -1,6 +1,3 @@
-from . import i18n
+from .i18n import current_locale, locales, t_, use_current_gettext
 
-t_ = i18n.t_
-ft_ = i18n.ft_
-locales = i18n.locales
-current_locale = i18n.current_locale
+__all__ = (t_, locales, current_locale, use_current_gettext)

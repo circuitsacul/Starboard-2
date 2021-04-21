@@ -3,6 +3,8 @@ import gettext
 import os.path
 from glob import glob
 
+from app.classes.t_string import TString
+
 BASE_DIR = "app/"
 LOCALE_DEFAULT = "en_US"
 LOCALE_DIR = "locale"
@@ -26,7 +28,7 @@ gettext_translations["en_US"] = gettext.NullTranslations()
 locales |= {"en_US"}
 
 
-def use_current_gettext(*args, **kwargs):
+def use_current_gettext(*args, **kwargs) -> str:
     if not gettext_translations:
         return gettext.gettext(*args, **kwargs)
 
@@ -36,12 +38,11 @@ def use_current_gettext(*args, **kwargs):
     ).gettext(*args, **kwargs)
 
 
+def t_(string: str) -> TString:
+    return TString(string, use_current_gettext)
+
+
 current_locale: contextvars.ContextVar = contextvars.ContextVar("i18n")
-t_ = use_current_gettext
-
-
-def ft_(m):
-    return m
 
 
 def set_current_locale():
