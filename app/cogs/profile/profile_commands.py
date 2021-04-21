@@ -15,13 +15,13 @@ class Profile(commands.Cog):
         self.bot = bot
 
     @commands.command(
-        name="language", aliases=["lang", "locale"], brief="Sets your language"
+        name="language",
+        aliases=["lang", "locale"],
+        help=t_("Sets your language"),
     )
     async def set_user_language(
         self, ctx: commands.Context, locale: Optional[str]
     ):
-        """Sets your personal language. Run without any input to view
-        a list of valid language codes"""
         if not locale:
             await ctx.send(
                 t_("Valid Language Codes:\n{0}").format("\n".join(locales))
@@ -37,11 +37,9 @@ class Profile(commands.Cog):
     @commands.command(
         name="public",
         aliases=["visible"],
-        brief="Whether or not your profile is visible to others.",
+        help=t_("Whether or not your profile is visible to others."),
     )
     async def set_user_public(self, ctx: commands.Context, public: bool):
-        """Whether or not your profile can be viewed by other users
-        in the rank command."""
         await self.bot.db.users.edit(ctx.author.id, public=public)
         if public:
             await ctx.send(t_("Your profile is now public."))
@@ -51,12 +49,11 @@ class Profile(commands.Cog):
     @commands.command(
         name="profile",
         aliases=["me"],
-        brief="Shows your settings.",
+        help=t_("Shows your settings."),
     )
     @commands.cooldown(1, 3, type=commands.BucketType.user)
     @commands.bot_has_permissions(embed_links=True)
     async def profile(self, ctx: commands.Context):
-        """Shows settings for your account"""
         sql_user = await self.bot.db.users.get(ctx.author.id)
 
         total = sql_user["donation_total"] + sql_user["last_patreon_total"]

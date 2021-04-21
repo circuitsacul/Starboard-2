@@ -20,14 +20,13 @@ class Fun(commands.Cog):
     @commands.command(
         name="leaderboard",
         aliases=["lb"],
-        brief="Shows the servers top 200 users",
+        help=t_("Shows the servers top 200 users"),
     )
     @commands.bot_has_permissions(
         embed_links=True, add_reactions=True, read_message_history=True
     )
     @commands.guild_only()
     async def guild_leaderboard(self, ctx: commands.Context) -> None:
-        """Shows the top 200 users, ordered by their XP"""
         leaderboard = await fun_funcs.get_guild_leaderboard(
             self.bot, ctx.guild
         )
@@ -67,14 +66,13 @@ class Fun(commands.Cog):
     @commands.command(
         name="rank",
         aliases=["stats"],
-        brief="Shows statistics for yourself or another user",
+        help=t_("Shows statistics for yourself or another user"),
     )
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def user_stats(
         self, ctx: commands.Context, user: discord.Member = None
     ) -> None:
-        """Shows stats for a user. Defaults to yourself"""
         user: discord.Member = user or ctx.message.author
         sql_user = await self.bot.db.users.get(user.id)
         if not sql_user:
@@ -137,26 +135,15 @@ class Fun(commands.Cog):
     @flags.add_flag("--maxstars", "--maxpoints", type=converters.myint)
     @flags.add_flag("--starboard", "--sb", type=converters.Starboard)
     @flags.add_flag("--place", type=converters.myint, default=1)
-    @flags.command(name="moststarred", brief="Shows the most starred messages")
+    @flags.command(
+        name="moststarred", help=t_("Shows the most starred messages")
+    )
     @commands.cooldown(1, 3, type=commands.BucketType.user)
     @commands.bot_has_permissions(
         embed_links=True, add_reactions=True, read_message_history=True
     )
     @commands.guild_only()
     async def moststarred(self, ctx: commands.Context, **options) -> None:
-        """See a list of the most starred messages.
-
-        Options:
-            --by: Search for messages by this person
-            --in: Search for messages sent in this channel
-            --maxstars: Search for messages that have fewer stars than this
-            --starboard: Search for messages that appeard on this starboard
-            --place: Start at a certain point in the list, instead of at the
-                top
-
-        Example:
-            sb!moststarred --by @Circuit --in #general --starboard #starboard
-        """
         starboard_id = (
             options["starboard"].obj.id if options["starboard"] else None
         )
@@ -175,7 +162,7 @@ class Fun(commands.Cog):
         place = options["place"] - 1
 
         if place < 0:
-            raise commands.BadArgument("--place must be greater than 0")
+            raise commands.BadArgument(t_("--place must be greater than 0"))
 
         messages = await self.bot.db.fetch(
             """SELECT * FROM starboard_messages
@@ -237,29 +224,12 @@ class Fun(commands.Cog):
     @flags.command(
         name="random",
         aliases=["explore", "rand"],
-        brief="Shows a random starred message from the server",
+        help=t_("Shows a random starred message from the server"),
     )
     @commands.cooldown(3, 5, type=commands.BucketType.user)
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def random_message(self, ctx: commands.Context, **options):
-        """Pulls a random message from one of the starboards
-        on the current server. Does NOT work cross-server.
-
-        Options:
-            --by: Only show messages authored by this person
-            --in: Only show messages that were originaly sent
-                in this channel
-            --sb: Only show messages from this starboard
-            --points: Only show messages that have at least
-                this many points
-            --maxstars: Only show messages that have at most
-                this many points
-
-        Examples:
-            sb!random --by @Circuit --sb super-starboard
-            sb!random --points 15 --maxstars 50
-        """
         author_id = options["by"].id if options["by"] else None
         channel_id = options["in"].id if options["in"] else None
         starboard_id = (
@@ -327,25 +297,25 @@ class Fun(commands.Cog):
     # Removed, as it is a copy of the command of another bot. Feel free to
     # Uncomment if you selfhost the bot.
     # @commands.command(
-    #    name='starworthy', aliases=['worthy'],
-    #    brief="Tells you how starworthy a message is"
+    #    name='starworthy',
+    #    aliases=['worthy'],
+    #    help=t_("Tells you how starworthy a message is"),
     # )
     # @commands.guild_only()
     # async def starworthy(
-    #    self, ctx: commands.Context,
+    #    self,
+    #    ctx: commands.Context,
     #    message: converters.GuildMessage
     # ) -> None:
-    #    """Tells you how starworthy a message is."""
     #    r = random.Random(message.id)
     #    worthiness: float = r.randrange(0, 100)
     #    await ctx.send(f"That message is {worthiness}% starworthy")
 
-    @commands.command(name="save", brief="Saves a message to your DM's")
+    @commands.command(name="save", help=t_("Saves a message to your DM's"))
     @commands.guild_only()
     async def save(
         self, ctx: commands.Context, message: converters.GuildMessage
     ) -> None:
-        """Saves a message to your DM's"""
         orig_sql_message = await starboard_funcs.orig_message(
             self.bot, message.id
         )

@@ -17,7 +17,10 @@ class AutoStarChannels(commands.Cog):
     @commands.group(
         name="aschannels",
         aliases=["autostarchannels", "asc"],
-        brief="List AutoStar Channels",
+        help=t_(
+            "List AutoStar Channels, or show "
+            "settings for a specific autostarchannel"
+        ),
         invoke_without_command=True,
     )
     @commands.bot_has_permissions(embed_links=True)
@@ -25,8 +28,6 @@ class AutoStarChannels(commands.Cog):
     async def aschannels(
         self, ctx: commands.Context, aschannel: converters.ASChannel = None
     ) -> None:
-        """Lists all AutoStarChannels, or shows settings for a
-        specific AutoStarChannel."""
         if not aschannel:
             p = utils.escmd(ctx.prefix)
             aschannels = await self.bot.db.aschannels.get_many(ctx.guild.id)
@@ -82,26 +83,26 @@ class AutoStarChannels(commands.Cog):
             await ctx.send(embed=embed)
 
     @aschannels.command(
-        name="add", aliases=["a", "+"], brief="Adds an AutoStarChannel"
+        name="add", aliases=["a", "+"], help=t_("Adds an AutoStarChannel")
     )
     @commands.has_guild_permissions(manage_channels=True)
     async def add_aschannel(
         self, ctx: commands.Context, channel: discord.TextChannel
     ) -> None:
-        """Creates an AutoStarChannel"""
         await self.bot.db.aschannels.create(channel.id, ctx.guild.id)
         await ctx.send(
             t_("Created AutoStarChannel {0}.").format(channel.mention)
         )
 
     @aschannels.command(
-        name="remove", aliases=["r", "-"], brief="Removes an AutoStarChannel"
+        name="remove",
+        aliases=["r", "-"],
+        help=t_("Removes an AutoStarChannel"),
     )
     @commands.has_guild_permissions(manage_channels=True)
     async def remove_aschannel(
         self, ctx: commands.Context, aschannel: converters.ASChannel
     ) -> None:
-        """Deletes an AutoStarChannel"""
         await self.bot.db.aschannels.delete(aschannel.obj.id)
         await ctx.send(
             t_("Deleted AutoStarChannel {0}.").format(aschannel.obj.mention)
@@ -110,16 +111,15 @@ class AutoStarChannels(commands.Cog):
     @aschannels.group(
         name="emojis",
         aliases=["e"],
-        brief="Modify the emojis for AutoStarChannels",
+        help=t_("Modify the emojis for AutoStarChannels"),
         invoke_without_command=True,
     )
     @commands.has_guild_permissions(manage_channels=True)
     async def asemojis(self, ctx: commands.Context) -> None:
-        """Manage emojis for an AutoStarChannel"""
         await ctx.send_help(ctx.command)
 
     @asemojis.command(
-        name="set", brief="Sets the emojis for an AutoStarChannel"
+        name="set", help=t_("Sets the emojis for an AutoStarChannel")
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -130,8 +130,6 @@ class AutoStarChannels(commands.Cog):
         aschannel: converters.ASChannel,
         *emojis: converters.Emoji,
     ) -> None:
-        """Accepts a list of emojis to replace the original emojis with
-        on an AutoStarChannel."""
         converted_emojis = [utils.clean_emoji(e) for e in emojis]
 
         await self.bot.db.aschannels.edit(
@@ -148,7 +146,9 @@ class AutoStarChannels(commands.Cog):
         )
 
     @asemojis.command(
-        name="add", aliases=["a"], brief="Adds an emoji to an AutoStarChannel"
+        name="add",
+        aliases=["a"],
+        help=t_("Adds an emoji to an AutoStarChannel"),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -159,9 +159,6 @@ class AutoStarChannels(commands.Cog):
         aschannel: converters.ASChannel,
         emoji: converters.Emoji,
     ) -> None:
-        """Adds an emoji to an AutoStarChannel, so messages sent
-        there will automatically receive this as a reaction from
-        Starboard."""
         clean = utils.clean_emoji(emoji)
         try:
             await self.bot.db.aschannels.add_asemoji(aschannel.obj.id, clean)
@@ -180,7 +177,7 @@ class AutoStarChannels(commands.Cog):
     @asemojis.command(
         name="remove",
         aliases=["r", "d", "del", "delete"],
-        brief="Removes an emojis from an AutoStarChannel",
+        help=t_("Removes an emojis from an AutoStarChannel"),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -191,7 +188,6 @@ class AutoStarChannels(commands.Cog):
         aschannel: converters.ASChannel,
         emoji: converters.Emoji,
     ) -> None:
-        """Removes an emoji from an AutoStarChannel"""
         clean = utils.clean_emoji(emoji)
         try:
             await self.bot.db.aschannels.remove_asemojis(
@@ -212,7 +208,7 @@ class AutoStarChannels(commands.Cog):
     @asemojis.command(
         name="clear",
         aliases=["reset"],
-        brief="Removes all emojis from an AutoStarChannel",
+        help=t_("Removes all emojis from an AutoStarChannel"),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True, read_message_history=True)
@@ -220,7 +216,6 @@ class AutoStarChannels(commands.Cog):
     async def clear_asemojis(
         self, ctx: commands.Context, aschannel: converters.ASChannel
     ) -> None:
-        """Removes all emojis from an AutoStarChannel"""
         if not await menus.Confirm(
             t_("Are you sure you want to clear all emojis for {0}?").format(
                 aschannel.mention
@@ -238,7 +233,7 @@ class AutoStarChannels(commands.Cog):
     @aschannels.command(
         name="minChars",
         aliases=["min", "mc"],
-        brief="The minimum number of characters for messages",
+        help=t_("Sets the minimum number of characters for messages"),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -249,10 +244,6 @@ class AutoStarChannels(commands.Cog):
         aschannel: converters.ASChannel,
         min_chars: converters.myint,
     ) -> None:
-        """Sets the minChars setting for an AutoStarChannel.
-
-        All messages must be at least this many characters long
-        in order for them to be autoreacted to."""
         await self.bot.db.aschannels.edit(
             aschannel.obj.id, min_chars=min_chars
         )
@@ -265,7 +256,7 @@ class AutoStarChannels(commands.Cog):
     @aschannels.command(
         name="requireImage",
         aliases=["imagesOnly", "ri"],
-        brief="Whether or not messages must include an image",
+        help=t_("Whether or not messages must include an image"),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -276,11 +267,6 @@ class AutoStarChannels(commands.Cog):
         aschannel: converters.ASChannel,
         require_image: converters.mybool,
     ) -> None:
-        """Sets the imagesOnly setting for an AutoStarChannel.
-
-        All messages must include an uploaded attachment in order
-        for them to be autoreacted to. This does not include links
-        to images."""
         await self.bot.db.aschannels.edit(
             aschannel.obj.id, require_image=require_image
         )
@@ -299,7 +285,7 @@ class AutoStarChannels(commands.Cog):
     @aschannels.command(
         name="regex",
         aliases=["reg"],
-        brief="A regex string that all messages must match",
+        help=t_("A regex string that all messages must match"),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -310,12 +296,6 @@ class AutoStarChannels(commands.Cog):
         aschannel: converters.ASChannel,
         regex: Optional[str] = None,
     ) -> None:
-        """Sets the regex setting for an AutoStarChannel.
-
-        All messages must match this regex string in order to be
-        autoreacted to. If the regex string takes longer than 0.01
-        seconds, the bot will assume success and will send a
-        warning to your log channel."""
         await self.bot.db.aschannels.edit(aschannel.obj.id, regex=regex)
         await ctx.send(
             embed=utils.cs_embed(
@@ -326,7 +306,7 @@ class AutoStarChannels(commands.Cog):
     @aschannels.command(
         name="excludeRegex",
         alaises=["eregex", "ereg"],
-        brief="A regex string that all messages must not match",
+        help=t_("A regex string that all messages must not match"),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -337,12 +317,6 @@ class AutoStarChannels(commands.Cog):
         aschannel: converters.ASChannel,
         exclude_regex: Optional[str] = None,
     ) -> None:
-        """Sets the excludeRegex setting for an AutoStarChannel.
-
-        All messages must NOT match this regex string in order
-        to be autoreacted to. If the regex string takes longer than
-        0.01 seconds, the bot will assume that it did not match
-        (success) and will send a warning to your log channel."""
         await self.bot.db.aschannels.edit(
             aschannel.obj.id, exclude_regex=exclude_regex
         )
@@ -361,7 +335,7 @@ class AutoStarChannels(commands.Cog):
     @aschannels.command(
         name="deleteInvalid",
         aliases=["di"],
-        brief="Whether or not to delete invalid messages",
+        help=t_("Whether or not to delete invalid messages"),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -372,11 +346,6 @@ class AutoStarChannels(commands.Cog):
         aschannel: converters.ASChannel,
         delete_invalid: converters.mybool,
     ) -> None:
-        """Sets the deleteInvalid setting for an AutoStarChannel.
-
-        If this is set to True, any messages that do not meet
-        the requirements of of the AutoStarChannel will be deleted.
-        If it is set to False, then the bot will simply ignore them."""
         await self.bot.db.aschannels.edit(
             aschannel.obj.id, delete_invalid=delete_invalid
         )

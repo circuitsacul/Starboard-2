@@ -29,11 +29,10 @@ class Base(commands.Cog):
             "your starboard."
         )
 
-    @commands.command(name="credits", brief=t_("Show credits"))
+    @commands.command(name="credits", help=t_("Show credits"))
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def show_credits(self, ctx: commands.Context):
-        """Show credits for Starboard"""
         embed = (
             discord.Embed(
                 title=t_("Starboard Credits"),
@@ -70,12 +69,11 @@ class Base(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command(name="help", brief=t_("Get help with Starboard"))
+    @commands.command(name="help", help=t_("Get help with Starboard"))
     @commands.bot_has_permissions(embed_links=True)
     async def starboard_help(
         self, ctx: commands.Context, *, command=None
     ) -> None:
-        """Get help with Starboard"""
         if command:
             return await ctx.send_help(command)
 
@@ -99,12 +97,10 @@ class Base(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(
-        name="botstats", aliases=["botinfo"], brief=t_("Shows bot statistics")
+        name="botstats", aliases=["botinfo"], help=t_("Shows bot statistics")
     )
     @commands.bot_has_permissions(embed_links=True)
     async def botinfo(self, ctx: commands.Context) -> None:
-        """Sends guildCount and memberCount for each
-        cluster"""
         clusters = [c for _, c in self.bot.stats.items()]
         total_guilds = sum([c["guilds"] for c in clusters])
         total_members = sum([c["members"] for c in clusters])
@@ -129,12 +125,10 @@ class Base(commands.Cog):
     @commands.command(
         name="ping",
         aliases=["latency"],
-        brief=t_("Shows current clusters and shards latency"),
+        help=t_("Shows current clusters and shards latency"),
     )
     @commands.bot_has_permissions(embed_links=True)
     async def ping(self, ctx: commands.Context) -> None:
-        """Sends the latency of the current cluster
-        and shard."""
         cluster = self.bot.cluster_name
         shard = self.bot.get_shard(ctx.guild.shard_id if ctx.guild else 0)
 
@@ -172,11 +166,10 @@ class Base(commands.Cog):
     @commands.command(
         name="links",
         aliases=["invite", "support"],
-        brief=t_("Lists important/useful links"),
+        help=t_("Lists important/useful links"),
     )
     @commands.bot_has_permissions(embed_links=True)
     async def links(self, ctx: commands.Context) -> None:
-        """Shows important/useful links"""
         embed = (
             discord.Embed(
                 title=t_("Important Links"),
@@ -213,14 +206,12 @@ class Base(commands.Cog):
     @commands.command(
         name="vote",
         aliases=["votes"],
-        brief=t_("View vote links and number of times you've voted"),
+        help=t_("View vote links and number of times you've voted"),
     )
     @commands.bot_has_permissions(embed_links=True)
     async def vote(
         self, ctx: commands.Context, user: discord.User = None
     ) -> None:
-        """Shows the number of times you or another user
-        has voted, and also lists voting links"""
         user = user or ctx.message.author
         if user.bot:
             await ctx.send(

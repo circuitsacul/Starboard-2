@@ -18,7 +18,7 @@ class Starboard(commands.Cog):
     @commands.group(
         name="starboards",
         aliases=["s"],
-        brief="List starboards",
+        help=t_("List starboards"),
         invoke_without_command=True,
     )
     @commands.bot_has_permissions(embed_links=True)
@@ -26,9 +26,6 @@ class Starboard(commands.Cog):
     async def starboards(
         self, ctx: commands.Context, starboard: converters.Starboard = None
     ) -> None:
-        """Lists all starboards, and shows the important
-        settings. All settings can be viewed by running
-        sb!starboards <starboard>"""
         p = utils.escmd(ctx.prefix)
         if starboard is None:
             starboards = await self.bot.db.starboards.get_many(ctx.guild.id)
@@ -108,7 +105,7 @@ class Starboard(commands.Cog):
     @starboards.command(
         name="webhook",
         aliases=["useWebhook"],
-        brief="Whether or not to use webhooks for starboard messages.",
+        help=t_("Whether or not to use webhooks for starboard messages."),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -119,7 +116,6 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         enable: converters.mybool,
     ):
-        """Whether or not to use webhooks for starboard messages."""
         await self.bot.db.starboards.edit(
             starboard_id=starboard.obj.id, use_webhook=enable
         )
@@ -131,7 +127,8 @@ class Starboard(commands.Cog):
         )
 
     @starboards.command(
-        name="avatar", brief="Sets the avatar for webhook starboard messages."
+        name="avatar",
+        help=t_("Sets the avatar for webhook starboard messages."),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.guild_only()
@@ -141,7 +138,6 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         avatar_url: Optional[str] = None,
     ):
-        """Sets the avatar for webhook starboard messages."""
         if not starboard.sql["use_webhook"] and await menus.Confirm(
             t_(
                 "This feature only works if `useWebhook` is enabled. "
@@ -168,7 +164,7 @@ class Starboard(commands.Cog):
     @starboards.command(
         name="name",
         aliases=["username"],
-        brief="Sets the username for webhook starboard messages.",
+        help=t_("Sets the username for webhook starboard messages."),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -180,7 +176,6 @@ class Starboard(commands.Cog):
         *,
         name: Optional[str] = None,
     ):
-        """Sets the username for webhook starboard messages"""
         enabled = False
         if not starboard.sql["use_webhook"] and await menus.Confirm(
             t_(
@@ -205,12 +200,11 @@ class Starboard(commands.Cog):
             )
         )
 
-    @starboards.command(name="add", aliases=["a"], brief="Adds a starboard")
+    @starboards.command(name="add", aliases=["a"], help=t_("Adds a starboard"))
     @commands.has_guild_permissions(manage_channels=True)
     async def add_starboard(
         self, ctx: commands.Context, channel: discord.TextChannel
     ) -> None:
-        """Adds a starboard"""
         existed = await self.bot.db.starboards.create(channel.id, ctx.guild.id)
         if existed:
             raise errors.AlreadyStarboard(channel.mention)
@@ -222,7 +216,7 @@ class Starboard(commands.Cog):
     @starboards.command(
         name="remove",
         aliases=["delete", "del", "r"],
-        brief="Removes a starboard",
+        help=t_("Removes a starboard"),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(
@@ -232,9 +226,6 @@ class Starboard(commands.Cog):
     async def remove_starboard(
         self, ctx: commands.Context, channel: Union[discord.TextChannel, int]
     ) -> None:
-        """Deletes a starboard. Will not actually
-        delete the channel, or the messages in the
-        channel. This action is irreversable."""
         cid = channel.id if type(channel) is not int else channel
         cname = channel.mention if type(channel) is not int else channel
         starboard = await self.bot.db.starboards.get(cid)
@@ -255,7 +246,7 @@ class Starboard(commands.Cog):
     @starboards.command(
         name="displayEmoji",
         aliases=["de"],
-        brief="Set the emoji to show next to the points",
+        help=t_("Set the emoji to show next to the points"),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -266,8 +257,6 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         emoji: converters.Emoji,
     ) -> None:
-        """Sets the emoji that is shown next to the points
-        on starboard messages"""
         clean = utils.clean_emoji(emoji)
         await self.bot.db.starboards.edit(
             starboard.obj.id, display_emoji=clean
@@ -282,7 +271,7 @@ class Starboard(commands.Cog):
     @starboards.command(
         name="color",
         aliases=["colour"],
-        brief="Sets the embed color of starboard messages",
+        help=t_("Sets the embed color of starboard messages"),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -294,8 +283,6 @@ class Starboard(commands.Cog):
         *,
         color: Optional[commands.ColorConverter],
     ) -> None:
-        """Sets the embed color of starboard messages for a
-        specific starboard"""
         color = (
             str(color)
             if color
@@ -312,7 +299,7 @@ class Starboard(commands.Cog):
     @starboards.command(
         name="required",
         aliases=["requiredStars", "requiredPoints"],
-        brief="Sets the number of reactions a message needs",
+        help=t_("Sets the number of reactions a message needs"),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -323,8 +310,6 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         required: converters.myint,
     ) -> None:
-        """How many points a message needs for it to appear on the
-        starboard"""
         await self.bot.db.starboards.edit(starboard.obj.id, required=required)
         await ctx.send(
             embed=utils.cs_embed(
@@ -335,7 +320,7 @@ class Starboard(commands.Cog):
     @starboards.command(
         name="requiredRemove",
         aliases=["rtm"],
-        brief="How few stars a message has before it is removed",
+        help=t_("How few stars a message has before it is removed"),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -346,9 +331,6 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         required_remove: converters.myint,
     ) -> None:
-        """If a message is on the starboard and then it looses
-        stars (or whatever the emoji is), this determines at what
-        point the message will be removed from the starboard."""
         await self.bot.db.starboards.edit(
             starboard.obj.id, required_remove=required_remove
         )
@@ -367,7 +349,7 @@ class Starboard(commands.Cog):
     @starboards.command(
         name="selfStar",
         aliases=["ss"],
-        brief="Whether or not users can star their own messages",
+        help=t_("Whether or not users can star their own messages"),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -378,7 +360,6 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         self_star: converters.mybool,
     ) -> None:
-        """Whether or not to allow users to star their own messages"""
         await self.bot.db.starboards.edit(
             starboard.obj.id, self_star=self_star
         )
@@ -391,7 +372,7 @@ class Starboard(commands.Cog):
     @starboards.command(
         name="allowBots",
         aliases=["ab"],
-        brief="Whether or not bot messages can appear on the starboard",
+        help=t_("Whether or not bot messages can appear on the starboard"),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -402,7 +383,6 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         allow_bots: converters.mybool,
     ) -> None:
-        """Whether or not to allow bot messages to appear on the starboard"""
         await self.bot.db.starboards.edit(
             starboard.obj.id, allow_bots=allow_bots
         )
@@ -416,7 +396,7 @@ class Starboard(commands.Cog):
     @starboards.command(
         name="imagesOnly",
         aliases=["requireImage", "io"],
-        brief="Whether messages must include an image",
+        help=t_("Whether messages must include an image"),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -427,8 +407,6 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         images_only: converters.mybool,
     ) -> None:
-        """Whether messages must include an image in order to appear
-        on the starboard"""
         await self.bot.db.starboards.edit(
             starboard.obj.id, images_only=images_only
         )
@@ -442,7 +420,7 @@ class Starboard(commands.Cog):
     @starboards.command(
         name="regex",
         aliases=["reg"],
-        brief="A regex string that all messages must match",
+        help=t_("A regex string that all messages must match"),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -453,9 +431,6 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         regex: Optional[str] = None,
     ) -> None:
-        """A regex string that the content of starboard messages must match.
-        If the regex string takes too long to match, Starboard will assume
-        that it matched and send a warning to your logChannel."""
         await self.bot.db.starboards.edit(starboard.obj.id, regex=regex)
         await ctx.send(
             embed=utils.cs_embed(
@@ -466,7 +441,7 @@ class Starboard(commands.Cog):
     @starboards.command(
         name="excludeRegex",
         aliases=["eregex", "ereg"],
-        brief="A regex string that all messages must not match",
+        help=t_("A regex string that all messages must not match"),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -477,8 +452,6 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         exclude_regex: Optional[str] = None,
     ) -> None:
-        """A regex string that the content of starboard messages must NOT
-        match."""
         await self.bot.db.starboards.edit(
             starboard.obj.id, exclude_regex=exclude_regex
         )
@@ -497,7 +470,7 @@ class Starboard(commands.Cog):
     @starboards.command(
         name="ping",
         aliases=["mentionAuthor"],
-        brief="Whether or not to mention the author of a starboard message",
+        help=t_("Whether or not to mention the author of a starboard message"),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -508,8 +481,6 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         ping: converters.mybool,
     ) -> None:
-        """Whether or not to mention the author of messages if the message
-        appears on a starboard."""
         await self.bot.db.starboards.edit(starboard.obj.id, ping=ping)
         await ctx.send(
             embed=utils.cs_embed(
@@ -520,7 +491,7 @@ class Starboard(commands.Cog):
     @starboards.command(
         name="autoReact",
         aliases=["ar"],
-        brief="Whether to automatically react to starboard messages",
+        help=t_("Whether to automatically react to starboard messages"),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -531,7 +502,6 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         auto_react: converters.mybool,
     ) -> None:
-        """Whether or not to automatically react to starboard messages."""
         await self.bot.db.starboards.edit(
             starboard.obj.id, autoreact=auto_react
         )
@@ -545,7 +515,7 @@ class Starboard(commands.Cog):
     @starboards.command(
         name="linkDeletes",
         aliases=["ld"],
-        brief="Whether to delete the starboard message if the original is",
+        help=t_("Whether to delete the starboard message if the original is"),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -556,8 +526,6 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         link_deletes: converters.mybool,
     ) -> None:
-        """If the original message is deleted and this is set to true, then
-        the starboard message will also be deleted."""
         await self.bot.db.starboards.edit(
             starboard.obj.id, link_deletes=link_deletes
         )
@@ -571,7 +539,7 @@ class Starboard(commands.Cog):
     @starboards.command(
         name="linkEdits",
         aliases=["le"],
-        brief="Whether to update starboard messages with edited content",
+        help=t_("Whether to update starboard messages with edited content"),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -582,8 +550,6 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         link_edits: converters.mybool,
     ) -> None:
-        """If this is set to false, once a message appears on the starboard
-        the content of the message will not update."""
         await self.bot.db.starboards.edit(
             starboard.obj.id, link_edits=link_edits
         )
@@ -596,7 +562,7 @@ class Starboard(commands.Cog):
 
     @starboards.command(
         name="noXp",
-        brief="Set to True to disable gaining XP for this starboard",
+        help=t_("Set to True to disable gaining XP for this starboard"),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -607,8 +573,6 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         no_xp: converters.mybool,
     ) -> None:
-        """If set to true, then the starEmojis for this starboard will
-        not count as XP for the user that received them."""
         await self.bot.db.starboards.edit(starboard.obj.id, no_xp=no_xp)
         await ctx.send(
             embed=utils.cs_embed(
@@ -619,7 +583,7 @@ class Starboard(commands.Cog):
     @starboards.command(
         name="removeInvalid",
         aliases=["rmi", "rminvalid"],
-        brief="Whether or not invalid reactions should be removed",
+        help=t_("Whether or not invalid reactions should be removed"),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -630,8 +594,6 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         remove_invalid: converters.mybool,
     ) -> None:
-        """Whether or not invalid reactions should be removed
-        automatically"""
         await self.bot.db.starboards.edit(
             starboard.obj.id, remove_invalid=remove_invalid
         )
@@ -650,7 +612,9 @@ class Starboard(commands.Cog):
     @starboards.command(
         name="allowRandom",
         aliases=["rand", "explore"],
-        brief="Whether or not the random command can pull from this starboard",
+        help=t_(
+            "Whether or not the random command can pull from this starboard"
+        ),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -661,8 +625,6 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         allow_random: converters.mybool,
     ) -> None:
-        """Whether or not the random command can pull messages from this
-        starboard"""
         await self.bot.db.starboards.edit(
             starboard.obj.id, explore=allow_random
         )
@@ -676,16 +638,15 @@ class Starboard(commands.Cog):
     @starboards.group(
         name="starEmojis",
         aliases=["emojis", "se", "e"],
-        brief="Modify starEmojis for a starboard",
+        help=t_("Modify starEmojis for a starboard"),
         invoke_without_command=True,
     )
     @commands.has_guild_permissions(manage_channels=True)
     async def star_emojis(self, ctx: commands.Context) -> None:
-        """Modify the star emojis for a starboard"""
         await ctx.send_help(ctx.command)
 
     @star_emojis.command(
-        name="set", brief="Sets the starEmojis for a starboard"
+        name="set", help=t_("Sets the starEmojis for a starboard")
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -696,8 +657,6 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         *emojis: converters.Emoji,
     ) -> None:
-        """Accepts a list of emojis to replace the old starEmojis
-        on a starboard."""
         converted_emojis = [utils.clean_emoji(e) for e in emojis]
         original_emojis = starboard.sql["star_emojis"]
 
@@ -720,7 +679,7 @@ class Starboard(commands.Cog):
             )
         )
 
-    @star_emojis.command(name="add", aliases=["a"], brief="Add a starEmoji")
+    @star_emojis.command(name="add", aliases=["a"], help=t_("Add a starEmoji"))
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
@@ -730,7 +689,6 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         emoji: converters.Emoji,
     ) -> None:
-        """Adds a starEmoji to a starboard"""
         converted_emoji = utils.clean_emoji(emoji)
 
         current_emojis = starboard.sql["star_emojis"]
@@ -758,7 +716,7 @@ class Starboard(commands.Cog):
         )
 
     @star_emojis.command(
-        name="remove", aliases=["r", "del"], brief="Removes a starEmoji"
+        name="remove", aliases=["r", "del"], help=t_("Removes a starEmoji")
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -769,7 +727,6 @@ class Starboard(commands.Cog):
         starboard: converters.Starboard,
         emoji: converters.Emoji,
     ) -> None:
-        """Removes a starEmoji from a starboard"""
         converted_emoji = utils.clean_emoji(emoji)
 
         current_emojis = starboard.sql["star_emojis"]
@@ -800,7 +757,7 @@ class Starboard(commands.Cog):
     @star_emojis.command(
         name="clear",
         aliases=["removeAll"],
-        brief="Clears all starEmojis for a starboard",
+        help=t_("Clears all starEmojis for a starboard"),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(
@@ -810,7 +767,6 @@ class Starboard(commands.Cog):
     async def clear_star_emojis(
         self, ctx: commands.Context, starboard: converters.Starboard
     ) -> None:
-        """Removes all starEmojis from a starboard"""
         if not await menus.Confirm(
             t_("Are you sure you want to clear all emojis for {0}?").format(
                 starboard.obj.mention

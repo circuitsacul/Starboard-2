@@ -147,7 +147,7 @@ class Owner(commands.Cog):
     @commands.command(
         name="runpg",
         aliases=["timepg", "timeit", "runtime"],
-        brief="Time postgres queries",
+        help="Time postgres queries",
         description="Time postgres queries",
     )
     @checks.is_owner()

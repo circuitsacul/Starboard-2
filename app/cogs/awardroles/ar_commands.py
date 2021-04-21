@@ -17,7 +17,7 @@ class AwardRoles(commands.Cog):
     @commands.group(
         name="xproles",
         aliases=["xpr"],
-        brief="View and manage XPRoles for your server.",
+        help=t_("View and manage XPRoles for your server."),
         invoke_without_command=True,
     )
     @commands.has_guild_permissions(manage_roles=True)
@@ -26,7 +26,6 @@ class AwardRoles(commands.Cog):
     )
     @commands.guild_only()
     async def xproles(self, ctx: commands.Context):
-        """View and manage XPRoles for a guild"""
         _xproles = await self.bot.db.xproles.get_many(ctx.guild.id)
         if len(_xproles) == 0:
             await ctx.send(t_("This server has no XP Roles."))
@@ -44,7 +43,7 @@ class AwardRoles(commands.Cog):
         )
         await ctx.send(embed=embed)
 
-    @xproles.command(name="add", aliases=["a"], brief="Adds an XPRole")
+    @xproles.command(name="add", aliases=["a"], help=t_("Adds an XPRole"))
     @commands.has_guild_permissions(manage_roles=True)
     @commands.guild_only()
     async def add_xprole(
@@ -60,7 +59,9 @@ class AwardRoles(commands.Cog):
         await self.bot.db.xproles.create(role.id, ctx.guild.id, required)
         await ctx.send(t_("Created XPRole **{0}**.").format(role.name))
 
-    @xproles.command(name="remove", aliases=["r"], brief="Removes an XpRole")
+    @xproles.command(
+        name="remove", aliases=["r"], help=t_("Removes an XpRole")
+    )
     @commands.has_guild_permissions(manage_roles=True)
     @commands.guild_only()
     async def remove_xprole(
@@ -74,7 +75,7 @@ class AwardRoles(commands.Cog):
     @xproles.command(
         name="set",
         aliases=["required"],
-        brief="Sets the ammount of xp needed to gain an XPRole",
+        help=t_("Sets the ammount of xp needed to gain an XPRole"),
     )
     @commands.has_guild_permissions(manage_roles=True)
     @commands.guild_only()

@@ -15,19 +15,18 @@ class SlashCommands(commands.Cog):
 
     @cog_ext.cog_slash(
         name="ping",
-        description="See if slash commands are working.",
+        description=t_("See if slash commands are working."),
         guild_ids=config.SLASH_GUILD_IDS,
     )
     async def ping(self, ctx: SlashContext) -> None:
         await ctx.send(content="Pong!", hidden=True)
 
     @commands.command(
-        name="slash", brief="Get a link for authorizing slash commands"
+        name="slash", help=t_("Get a link for authorizing slash commands")
     )
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def check_slash(self, ctx: commands.Context) -> None:
-        """Get a link to authorize slash commands"""
         slash_auth = config.SLASH_AUTH + f"&guild_id={ctx.guild.id}"
         embed = discord.Embed(
             title="Slash Commands",
