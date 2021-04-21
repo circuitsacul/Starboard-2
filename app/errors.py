@@ -9,6 +9,11 @@ from app.i18n import t_
 
 
 # Custom CommandErrors
+class SupportServerOnly(commands.BadArgument):
+    def __init__(self):
+        super().__init__()
+
+
 class XpRoleAlreadyExists(commands.BadArgument):
     def __init__(self, role: str):
         message = t_("{0} is already an XPRole.").format(role)

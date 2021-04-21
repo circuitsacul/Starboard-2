@@ -20,6 +20,7 @@ IGNORED_ERRORS = (
     commands.CommandNotFound,
     errors.AllCommandsDisabled,
     errors.CannotUseCommands,
+    errors.SupportServerOnly,
 )
 SEND_HELP = (
     errors.MissingRequiredArgument,
