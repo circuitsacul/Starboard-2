@@ -14,6 +14,11 @@ class PremiumEvents(commands.Cog):
         self.bot = bot
 
     @commands.Cog.listener()
+    async def on_member_join(self, member: discord.Member):
+        if member.guild.id == config.ROLE_SERVER:
+            self.bot.dispatch("update_prem_roles", member.id)
+
+    @commands.Cog.listener()
     async def on_update_prem_roles(self, user_id: int):
         prem_role_server_id = config.ROLE_SERVER
         if not prem_role_server_id:
