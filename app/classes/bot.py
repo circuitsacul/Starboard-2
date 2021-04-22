@@ -5,6 +5,7 @@ import os
 import sys
 import textwrap
 import traceback
+import typing
 from contextlib import asynccontextmanager, redirect_stdout
 from typing import Any, Optional, Union
 
@@ -20,6 +21,9 @@ from app.classes.ipc_connection import WebsocketConnection
 from app.menus import HelpMenu
 
 from ..database.database import Database
+
+if typing.TYPE_CHECKING:
+    from app.cogs.cache.cache import Cache
 
 load_dotenv()
 
@@ -37,6 +41,8 @@ class Bot(commands.AutoShardedBot):
         self._last_result = None
         self.stats = {}
         self.locale_cache = {}
+
+        self.cache: "Cache"
 
         super().__init__(
             help_command=PrettyHelp(
