@@ -97,7 +97,7 @@ class NotASEmoji(commands.BadArgument):
         message = t_("{0} is not an emoji on the AutoStarChannel {1}.").format(
             emoji, aschannel
         )
-        super().__init__(mesage=message)
+        super().__init__(message=message)
 
 
 class AlreadyASEmoji(commands.BadArgument):
