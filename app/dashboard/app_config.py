@@ -1,6 +1,6 @@
 SECTIONS = [
     {
-        "image": "img/features/elegant.png",
+        "image": "img/features/elegant.jpg",
         "title": "Elegant Embeds",
         "description": (
             "Beautiful embeds that properly display message content "
@@ -8,14 +8,14 @@ SECTIONS = [
         ),
     },
     {
-        "image": "img/features/blacklist.png",
+        "image": "img/features/blacklist.jpg",
         "title": "Blacklist/Whitelist",
         "description": (
             "Easily choose which channels users can star messages in."
         ),
     },
     {
-        "image": "img/features/multi-starboards.png",
+        "image": "img/features/multi-starboards.jpg",
         "title": "Multiple Starboards",
         "description": (
             "You can have up to 3 starboards in each server, and up "
@@ -23,7 +23,7 @@ SECTIONS = [
         ),
     },
     {
-        "image": "img/features/customizable.png",
+        "image": "img/features/customizable.jpg",
         "title": "Highly Customizable",
         "description": (
             "Tons of settings, allowing you to customize Starboard "
@@ -31,7 +31,7 @@ SECTIONS = [
         ),
     },
     {
-        "image": "img/features/change_avatar.png",
+        "image": "img/features/change_avatar.jpg",
         "title": "Custom Avatar and Name",
         "description": (
             "Using webhooks, you can set a custom avatar and username "
@@ -39,7 +39,7 @@ SECTIONS = [
         ),
     },
     {
-        "image": "img/features/autostar.png",
+        "image": "img/features/autostar.jpg",
         "title": "AutoStar Channels",
         "description": (
             "Set specific channels where the bot will automatically "
@@ -48,7 +48,7 @@ SECTIONS = [
         ),
     },
     {
-        "image": "img/features/leaderboard.png",
+        "image": "img/features/leaderboard.jpg",
         "title": "XP, Levels, and Leaderboard",
         "description": (
             "Instead of simply tracking stars, Starboard uses an "
