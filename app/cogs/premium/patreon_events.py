@@ -131,16 +131,15 @@ class PatreonEvents(commands.Cog):
 
     async def get_all_patrons(self) -> list[dict]:
         """Get the list of all patrons"""
-        return []
-        return [
-            {
-                "name": "Lucas",
-                "payment": 1,
-                "declined": False,
-                "total": 30,
-                "discord_id": 321733774414970882,
-            }
-        ]
+        # return [
+        #    {
+        #        "name": "Lucas",
+        #        "payment": 1,
+        #        "declined": False,
+        #        "total": 30,
+        #        "discord_id": 321733774414970882,
+        #    }
+        # ]
 
         patrons = []
 
