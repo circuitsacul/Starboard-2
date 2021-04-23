@@ -1,0 +1,43 @@
+{% extends "base.jinja" %}
+
+{% block content %}
+    <div class="grid grid-cols-12">
+        <div class="col-span-12 md:col-span-3 lg:col-span-2">
+            <div class="hidden md:block" style="height: 100%;">
+                <ul class="menu py-4 bg-neutral-focus" style="height:100%;">
+                    <li class="menu-title">
+                        <span>{{ guild.name }}</span>
+                    </li>
+                    <li><a href="{{ url_for('servers') }}">Back</a></li>
+                    <li class="{% if tab=='general' %}bordered{% endif %}">
+                        <a href="{{ url_for('server_general', guild_id=guild.id) }}">General</a>
+                    </li>
+                    <li class="{% if tab=='starboards' %}bordered{% endif %}">
+                        <a href="{{ url_for('server_starboards', guild_id=guild.id) }}">Starboards</a>
+                    </li>
+                    <li class="{% if tab=='autostar' %}bordered{% endif %}">
+                        <a href="{{ url_for('server_autostar', guild_id=guild.id) }}">AutoStar</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="block md:hidden" style="width: 100%">
+                <ul class="menu bg-neutral-focus horizontal" style="width: 100%;">
+                    <li><a href="{{ url_for('servers') }}">Back</a></li>
+                    <li class="{% if tab=='general' %}bordered{% endif %}">
+                        <a href="{{ url_for('server_general', guild_id=guild.id) }}">General</a>
+                    </li>
+                    <li class="{% if tab=='starboards' %}bordered{% endif %}">
+                        <a href="{{ url_for('server_starboards', guild_id=guild.id) }}">Starboards</a>
+                    </li>
+                    <li class="{% if tab=='autostar' %}bordered{% endif %}">
+                        <a href="{{ url_for('server_autostar', guild_id=guild.id) }}">AutoStar</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-9 p-4">
+            {% block dashboardcontent %}
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}

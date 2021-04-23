@@ -33,6 +33,16 @@ app.config["WEBSOCKET"] = None
 discord = DiscordOAuth2Session(app)
 
 
+async def get_guild(guild_id: int):
+    guilds = await discord.fetch_guilds()
+    guild = None
+    for g in guilds:
+        if g.id == guild_id:
+            guild = g
+            break
+    return guild
+
+
 async def handle_login(next: str = ""):
     return await discord.create_session(
         scope=["identify", "guilds"], data={"type": "user", "next": next}
@@ -143,6 +153,51 @@ async def settings():
 async def profile_premium():
     user = await discord.fetch_user()
     return await render_template("dashboard/premium.jinja", user=user)
+
+
+@app.route("/dashboard/servers/<int:guild_id>/")
+@requires_authorization
+async def server_general(guild_id: int):
+    user = await discord.fetch_user()
+
+    guild = await get_guild(guild_id)
+
+    if not guild:
+        return redirect(url_for("servers"))
+    if not can_manage(guild):
+        return redirect(url_for("servers"))
+
+    return await render_template(
+        "dashboard/server/general.jinja", user=user, guild=guild
+    )
+
+
+@app.route("/dashboard/servers/<int:guild_id>/starboards/")
+@requires_authorization
+async def server_starboards(guild_id: int):
+    user = await discord.fetch_user()
+    guild = await get_guild(guild_id)
+
+    if not guild or not can_manage(guild):
+        return redirect(url_for("servers"))
+
+    return await render_template(
+        "dashboard/server/starboards.jinja", user=user, guild=guild
+    )
+
+
+@app.route("/dashboard/servers/<int:guild_id>/autostar/")
+@requires_authorization
+async def server_autostar(guild_id: int):
+    user = await discord.fetch_user()
+    guild = await get_guild(guild_id)
+
+    if not guild or not can_manage(guild):
+        return redirect(url_for("servers"))
+
+    return await render_template(
+        "dashboard/server/autostar.jinja", user=user, guild=guild
+    )
 
 
 # Base Routes
