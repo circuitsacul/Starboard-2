@@ -67,7 +67,7 @@ class Bot(commands.AutoShardedBot):
             os.getenv("DB_PASSWORD"),
         )
         self.pipe = kwargs.pop("pipe")
-        self.slash = SlashCommand(self, override_type=True)
+        self.slash = SlashCommand(self, override_type=True, sync_commands=True)
         self.websocket = WebsocketConnection(
             self.cluster_name, self.handle_websocket_command, self.loop
         )

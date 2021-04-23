@@ -15,7 +15,7 @@ class SlashCommands(commands.Cog):
 
     @cog_ext.cog_slash(
         name="ping",
-        description=t_("See if slash commands are working."),
+        description="See if slash commands are working.",
         guild_ids=config.SLASH_GUILD_IDS,
     )
     async def ping(self, ctx: SlashContext) -> None:
@@ -33,9 +33,9 @@ class SlashCommands(commands.Cog):
             description=t_(
                 "Try running `/ping` to see if slash commands "
                 "are working. If not, a server admin can use "
-                "[this link]({slash_auth}) to give me "
+                "[this link]({}) to give me "
                 "the proper permissions."
-            ).config(slash_auth),
+            ).format(slash_auth),
             color=self.bot.theme_color,
         )
         await ctx.send(embed=embed)
