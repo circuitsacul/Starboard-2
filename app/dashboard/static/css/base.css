@@ -30,3 +30,8 @@
     text-decoration: underline;
     cursor: pointer;
 }
+
+.btn-error:hover {
+    background-color: hsla(14 90% 52%)!important;
+    border-color: hsla(14 90% 52%)!important;
+}

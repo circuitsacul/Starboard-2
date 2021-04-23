@@ -17,10 +17,10 @@
 
 <div class="bg-neutral-focus p-4 mt-4">
     <div class="tabs tabs-boxed justify-center bg-neutral-focus rounded-none" style="position: sticky; top: 0; z-index: 50;">
-        <a class="tab m-2 {% block proftab %}{% endblock %}" href="{{ url_for('profile') }}">Profile</a>
-        <a class="tab m-2 {% block settingstab %}{% endblock %}" href="{{ url_for('settings') }}">Account Settings</a>
-        <a class="tab m-2 {% block serverstab %}{% endblock %}" href="{{ url_for('servers') }}">Servers</a>
-        <a class="tab m-2 {% block premtab %}{% endblock %}" href="{{ url_for('profile_premium') }}">Premium</a>
+        <a class="tab my-2 {% block proftab %}{% endblock %}" href="{{ url_for('profile') }}">Profile</a>
+        <a class="tab my-2 {% block settingstab %}{% endblock %}" href="{{ url_for('settings') }}">Account Settings</a>
+        <a class="tab my-2 {% block serverstab %}{% endblock %}" href="{{ url_for('servers') }}">Servers</a>
+        <a class="tab my-2 {% block premtab %}{% endblock %}" href="{{ url_for('profile_premium') }}">Premium</a>
     </div>
     {% block container_content %}{% endblock %}
 </div>
