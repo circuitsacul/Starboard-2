@@ -70,8 +70,10 @@
                         {% endif %}
                     </div>
                 </div>
-                <div>
-                    {% block content %}{% endblock %}
+                <div class="min-h-screen-minus-nav flex flex-col">
+                    <div class="flex-grow flex flex-col">
+                        {% block content %}{% endblock %}
+                    </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-3 bg-neutral-focus p-8 gap-4" style="border-top: 1px solid grey;">
                         <div>

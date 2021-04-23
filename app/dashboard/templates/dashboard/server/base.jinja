@@ -1,10 +1,10 @@
 {% extends "base.jinja" %}
 
 {% block content %}
-    <div class="grid grid-cols-12">
-        <div class="col-span-12 md:col-span-3 lg:col-span-2">
-            <div class="hidden md:block" style="height: 100%;">
-                <ul class="menu py-4 bg-neutral-focus" style="height:100%;">
+    <div class="flex-1 flex flex-col md:flex-row">
+        <div class="flex-none">
+            <div class="hidden md:flex" style="height: 100%;">
+                <ul class="menu py-4 bg-neutral-focus flex-1">
                     <li class="menu-title">
                         <span>{{ guild.name }}</span>
                     </li>
@@ -35,7 +35,7 @@
                 </ul>
             </div>
         </div>
-        <div class="col-span-12 md:col-span-9 p-4">
+        <div class="flex-1 p-2">
             {% block dashboardcontent %}
             {% endblock %}
         </div>

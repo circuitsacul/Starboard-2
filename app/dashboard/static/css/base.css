@@ -22,7 +22,7 @@
 }
 
 .min-h-screen-minus-nav {
-    min-height: calc(100vh - 72px);
+    min-height: calc(100vh - 64px);
 }
 
 .link:hover {
