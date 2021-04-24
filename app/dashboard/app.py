@@ -109,8 +109,7 @@ async def does_share(guild) -> bool:
     except Exception as e:
         print(e)
         return False
-    print(resp)
-    return resp
+    return any([s["data"] for s in resp])
 
 
 # Jump Routes
