@@ -74,7 +74,12 @@ async def handle_command(msg: dict) -> Optional[Union[dict, str]]:
     return resp
 
 
-def bot_stats() -> tuple[str]:
+def bot_stats() -> tuple[str, str, str]:
+    return (
+        humanize.intcomma(7124),
+        humanize.intcomma(3579381),
+        humanize.intcomma(444495),
+    )
     guilds = humanize.intword(
         sum([s["guilds"] for _, s in app.config["STATS"].items()])
     )
@@ -237,13 +242,14 @@ async def index():
         user = await discord.fetch_user()
     except Unauthorized:
         user = None
-    guilds, members = bot_stats()
+    guilds, members, messages = bot_stats()
     return await render_template(
         "home.jinja",
         user=user,
         sections=app_config.SECTIONS,
         members=members,
         guilds=guilds,
+        messages=messages,
     )
 
 
