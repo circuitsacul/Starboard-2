@@ -78,7 +78,7 @@ def bot_stats() -> tuple[str, str, str]:
     return (
         humanize.intcomma(7124),
         humanize.intcomma(3579381),
-        humanize.intcomma(444495),
+        humanize.intcomma(3179750),
     )
     guilds = humanize.intword(
         sum([s["guilds"] for _, s in app.config["STATS"].items()])
