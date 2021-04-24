@@ -200,11 +200,11 @@ class Bot(commands.AutoShardedBot):
 
     async def handle_websocket_command(
         self, msg: dict[str, Any]
-    ) -> Optional[Union[list, str, bool]]:
+    ) -> Optional[Union[list, str, bool, dict[Any, Any]]]:
         cmd = msg["name"]
         data = msg["data"]
 
-        ret: Optional[Union[list, str]] = None
+        ret: Optional[Union[list, str, dict[Any, Any]]] = None
 
         if cmd == "ping":
             ret = "pong"
@@ -226,6 +226,12 @@ class Bot(commands.AutoShardedBot):
                 ret = True
             else:
                 ret = False
+        elif cmd == "channel_names":
+            ret = {}
+            for cid in data["channel_ids"]:
+                obj = self.get_channel(cid)
+                if obj:
+                    ret[cid] = obj.name
         elif cmd == "donate_event":
             self.dispatch("donatebot_event", data["data"], data["auth"])
         elif cmd == "update_prem_roles":

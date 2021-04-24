@@ -1,7 +1,11 @@
 {% extends "dashboard/server/base.jinja" %}
+{% import "dashboard/server/chan_list.jinja" as clist %}
 
 {% set tab="starboards" %}
 
 {% block dashboardcontent %}
-Starboards
+    <div class="text-4xl my-4 text-center">Starboards</div>
+    <div class="p-2">
+        {{ clist.channel_list(starboards) }}
+    </div>
 {% endblock %}

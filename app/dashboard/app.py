@@ -9,7 +9,7 @@ from quart_discord.utils import requires_authorization
 
 import config
 from app.classes.ipc_connection import WebsocketConnection
-from app.database.database import Database
+from app.dashboard.db_wrapper import Wrapper
 
 from . import app_config
 
@@ -25,12 +25,10 @@ app.config["DISCORD_BOT_TOKEN"] = os.getenv("TOKEN")
 
 app.config["STATS"] = {}
 
-app.config["DATABASE"] = Database(
-    os.getenv("DB_NAME"), os.getenv("DB_USER"), os.getenv("DB_PASSWORD")
-)
 app.config["WEBSOCKET"] = None
 
 discord = DiscordOAuth2Session(app)
+db = Wrapper()
 
 
 async def get_guild(guild_id: int):
@@ -212,8 +210,61 @@ async def server_starboards(guild_id: int):
     if not await does_share(guild):
         return await handle_invite(guild.id)
 
+    starboards = [dict(s) for s in await db.get_starboards(guild_id)]
+    names = await app.config["WEBSOCKET"].send_command(
+        "channel_names",
+        {"channel_ids": [int(s["id"]) for s in starboards]},
+        expect_resp=True,
+    )
+    name_dict = {}
+    for c in names:  # each cluster returns it's own response
+        for cid, name in c["data"].items():
+            if name:
+                name_dict[int(cid)] = name
+
+    for s in starboards:
+        s["name"] = name_dict[int(s["id"])]
+
     return await render_template(
-        "dashboard/server/starboards.jinja", user=user, guild=guild
+        "dashboard/server/starboards.jinja",
+        user=user,
+        guild=guild,
+        starboards=starboards,
+    )
+
+
+@app.route("/dashboard/servers/<int:guild_id>/starboards/<int:starboard_id>/")
+@requires_authorization
+async def manage_starboard(guild_id: int, starboard_id: int):
+    user = await discord.fetch_user()
+    guild = await get_guild(guild_id)
+    if not guild or not can_manage(guild):
+        return redirect(url_for("servers"))
+
+    if not await does_share(guild):
+        return await handle_invite(guild.id)
+
+    starboard_ids = [int(s["id"]) for s in await db.get_starboards(guild_id)]
+    if starboard_id not in starboard_ids:
+        return redirect(url_for("servers"))
+
+    starboard = dict(await db.get_starboard(starboard_id))
+    for c in await app.config["WEBSOCKET"].send_command(
+        "channel_names",
+        {"channel_ids": [int(starboard["id"])]},
+        expect_resp=True,
+    ):
+        if c["data"][str(starboard["id"])]:
+            starboard["name"] = c["data"][str(starboard["id"])]
+            break
+    else:
+        starboard["name"] = "deleted"
+
+    return await render_template(
+        "dashboard/server/manage_starboard.jinja",
+        user=user,
+        guild=guild,
+        starboard=starboard,
     )
 
 
@@ -316,10 +367,9 @@ async def handle_access_denied(e):
 @app.before_first_request
 async def before_first_request():
     try:
-        await app.config["DATABASE"].init_database()
+        await db.init()
     except Exception as e:
-        print("Unable to connect to database")
-        print(e)
+        print("Unable to connect to db:", e)
     try:
         app.config["WEBSOCKET"] = WebsocketConnection(
             "Dashboard", handle_command

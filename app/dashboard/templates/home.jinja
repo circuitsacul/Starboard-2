@@ -57,7 +57,7 @@
                         {{ section.description }}
                     </p>
                 </div>
-                <img src="{{ url_for('static', filename=section.image) }}" class="max-w-screen max-h-96 sm:max-w-lg rounded-lg shadow-2xl">
+                <img src="{{ url_for('static', filename=section.image) }}" class="max-w-screen max-h-96 sm:max-w-lg rounded-lg shadow-2xl fix-low-quality">
             </div>
     </div>
 {% endfor %}
@@ -75,4 +75,11 @@
         </div>
     </div>
 </div>
+
+<script>
+    var toFix = document.getElementsByClassName("fix-low-quality");
+    toFix.forEach(image => function(image) {
+        image.removeAttribute("srcset");
+    })
+</script>
 {% endblock %}

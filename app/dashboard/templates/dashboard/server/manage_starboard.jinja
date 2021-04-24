@@ -1,0 +1,10 @@
+{% extends "dashboard/server/base.jinja" %}
+
+{% set tab="starboards" %}
+
+{% block dashboardcontent %}
+<div class="p-3 flex items-center" style="width: 100%; border-bottom: 1px solid grey;">
+    <a href="{{ url_for('server_starboards', guild_id=guild.id) }}" class="btn btn-ghost">Back</a>
+    <div class="text-3xl ml-3">#{{ starboard.name }}</div>
+</div>
+{% endblock %}

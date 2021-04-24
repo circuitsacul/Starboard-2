@@ -54,7 +54,7 @@ class WebsocketConnection:
             raise
 
         if expect_resp:
-            await asyncio.sleep(0.25)
+            await asyncio.sleep(0.1)
             return self.callbacks.pop(to_send["callback"])
         return None
 
