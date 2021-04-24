@@ -200,7 +200,7 @@ class Bot(commands.AutoShardedBot):
 
     async def handle_websocket_command(
         self, msg: dict[str, Any]
-    ) -> Optional[Union[list, str]]:
+    ) -> Optional[Union[list, str, bool]]:
         cmd = msg["name"]
         data = msg["data"]
 
@@ -221,6 +221,11 @@ class Bot(commands.AutoShardedBot):
             for gid in data:
                 if self.get_guild(gid):
                     ret.append(gid)
+        elif cmd == "is_mutual":
+            if self.get_guild(data["gid"]):
+                ret = True
+            else:
+                ret = False
         elif cmd == "donate_event":
             self.dispatch("donatebot_event", data["data"], data["auth"])
         elif cmd == "update_prem_roles":

@@ -49,6 +49,15 @@ async def handle_login(next: str = ""):
     )
 
 
+async def handle_invite(guild_id: int):
+    return await discord.create_session(
+        scope=["bot"],
+        data={"type": "guild"},
+        permissions=config.BOT_PERM_INT,
+        guild_id=guild_id,
+    )
+
+
 async def handle_command(msg: dict) -> Optional[Union[dict, str]]:
     cmd = msg["name"]
     data = msg["data"]
@@ -85,6 +94,18 @@ def can_manage_list(guilds: list) -> list:
         if can_manage(g):
             result.append(g)
     return result
+
+
+async def does_share(guild) -> bool:
+    try:
+        resp = await app.config["WEBSOCKET"].send_command(
+            "is_mutual", {"gid": guild.id}, expect_resp=True
+        )
+    except Exception as e:
+        print(e)
+        return False
+    print(resp)
+    return resp
 
 
 # Jump Routes
@@ -167,6 +188,9 @@ async def server_general(guild_id: int):
     if not can_manage(guild):
         return redirect(url_for("servers"))
 
+    if not await does_share(guild):
+        return await handle_invite(guild.id)
+
     return await render_template(
         "dashboard/server/general.jinja", user=user, guild=guild
     )
@@ -181,6 +205,9 @@ async def server_starboards(guild_id: int):
     if not guild or not can_manage(guild):
         return redirect(url_for("servers"))
 
+    if not await does_share(guild):
+        return await handle_invite(guild.id)
+
     return await render_template(
         "dashboard/server/starboards.jinja", user=user, guild=guild
     )
@@ -194,6 +221,9 @@ async def server_autostar(guild_id: int):
 
     if not guild or not can_manage(guild):
         return redirect(url_for("servers"))
+
+    if not await does_share(guild):
+        return await handle_invite(guild.id)
 
     return await render_template(
         "dashboard/server/autostar.jinja", user=user, guild=guild
@@ -246,6 +276,13 @@ async def login_callback():
             return redirect(data["next"])
         else:
             return redirect(url_for("index"))
+    elif data["type"] == "guild":
+        _gid = request.args.get("guild_id")
+        try:
+            gid = int(_gid)
+        except ValueError:
+            return redirect(url_for("servers"))
+        return redirect(url_for("server_general", guild_id=gid))
 
 
 @app.route("/api/donatebot/", methods=["POST"])
