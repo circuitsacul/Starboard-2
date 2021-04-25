@@ -2,7 +2,6 @@
 
 {% block topstatic %}
 <link href="{{ url_for('static', filename='css/home.css') }}" rel="stylesheet" />
-<script src="https://unpkg.com/@joeattardi/emoji-button@4.6.0/dist/index.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -76,27 +75,4 @@
         </div>
     </div>
 </div>
-
-<div class="trigger">
-</div>
-
-<script>
-    var toFix = document.getElementsByClassName("fix-low-quality");
-    toFix.forEach(image => function(image) {
-        image.removeAttribute("srcset");
-    })
-</script>
-
-<script type="module" defer>
-    import { EmojiButton } from 'https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@4.6.0';
-
-    const picker = new EmojiButton();
-    const trigger = document.querySelector(".trigger");
-
-    picker.on("emoji", selection => {
-        trigger.innerHTML = selection.emoji;
-    })
-
-    trigger.addEventListener("click", () => picker.togglePicker(trigger));
-</script>
 {% endblock %}
