@@ -17,7 +17,8 @@
                 <label for="accordion-check-1" class="text-xl font-medium accordion-title">
                     Appearance
                 </label>
-                <div class="accordion-body p-2 grid sm:grid-cols-2 gap-4">
+                <div class="accordion-body grid sm:grid-cols-2 gap-4">
+                    <div class="sm:col-span-2"></div>
                     {% if starboard.color %}
                         {% set color=starboard.color %}
                     {% else %}
@@ -31,7 +32,8 @@
                 <label for="accordion-check-2" class="text-xl font-medium accordion-title">
                     Requirements
                 </label>
-                <div class="accordion-body p-2 grid sm:grid-cols-2 gap-4">
+                <div class="accordion-body grid sm:grid-cols-2 gap-4">
+                    <div class="sm:col-span-2"></div>
                     {{ forms.input_number("Required Stars", "required", "1", "100", starboard.required) }}
                     {{ forms.input_number("Require To Remove", "required_removve", "0", "95", starboard.required_remove) }}
                     {{ forms.input_toggle("Self Stars", "self_star", starboard.self_star) }}
@@ -48,7 +50,8 @@
                 <label for="accordion-check-3" class="text-xl font-medium accordion-title">
                     Behavior
                 </label>
-                <div class="accordion-body p-2 grid sm:grid-cols-2 gap-4">
+                <div class="accordion-body grid sm:grid-cols-2 gap-4">
+                    <div class="sm:col-span-2"></div>
                     {{ forms.input_toggle("Ping Author", "ping", starboard.ping) }}
                     {{ forms.input_toggle("Auto React", "autoreact", starboard.autoreact) }}
                     {{ forms.input_toggle("Link Deletes", "link_deletes", starboard.link_deletes) }}
