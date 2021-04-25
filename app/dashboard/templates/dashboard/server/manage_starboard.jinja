@@ -1,10 +1,64 @@
 {% extends "dashboard/server/base.jinja" %}
 
+{% import "dashboard/server/forms.jinja" as forms %}
+
 {% set tab="starboards" %}
 
 {% block dashboardcontent %}
 <div class="p-3 flex items-center" style="width: 100%; border-bottom: 1px solid grey;">
-    <a href="{{ url_for('server_starboards', guild_id=guild.id) }}" class="btn btn-ghost">Back</a>
-    <div class="text-3xl ml-3">#{{ starboard.name }}</div>
+    <a href="{{ url_for('server_starboards', guild_id=guild.id) }}" class="btn btn-ghost btn-sm">Back</a>
+    <div class="text-2xl ml-3">#{{ starboard.name }}</div>
+</div>
+<div class="p-4 max-w-screen-md mx-auto">
+    <form>
+        <div class="accordion accordion-plus">
+            <li class="accordion-item">
+                <input id="accordion-check-1" type="checkbox">
+                <label for="accordion-check-1" class="text-xl font-medium accordion-title">
+                    Appearance
+                </label>
+                <div class="accordion-body p-2 grid sm:grid-cols-2 gap-4">
+                    {% if starboard.color %}
+                        {% set color=starboard.color %}
+                    {% else %}
+                        {% set color="#ffe16c" %}
+                    {% endif %}
+                    {{ forms.input_color("Color", "color", color) }}
+                </div>
+            </li>
+            <li class="accordion-item">
+                <input id="accordion-check-2" type="checkbox">
+                <label for="accordion-check-2" class="text-xl font-medium accordion-title">
+                    Requirements
+                </label>
+                <div class="accordion-body p-2 grid sm:grid-cols-2 gap-4">
+                    {{ forms.input_number("Required Stars", "required", "1", "100", starboard.required) }}
+                    {{ forms.input_number("Require To Remove", "required_removve", "0", "95", starboard.required_remove) }}
+                    {{ forms.input_toggle("Self Stars", "self_star", starboard.self_star) }}
+                    {{ forms.input_toggle("Bots on Starboard", "allow_bots", starboard.allow_bots) }}
+                    {{ forms.input_toggle("Images Only", "images_only", starboard.images_only) }}
+                    <div class="sm:col-span-2">
+                        {{ forms.input_text_long("Regex", "regex", starboard.regex) }}
+                        {{ forms.input_text_long("Exclude Regex", "exclude_regex", starboard.exclude_regex) }}
+                    </div>
+                </div>
+            </li>
+            <li class="accordion-item">
+                <input id="accordion-check-3" type="checkbox">
+                <label for="accordion-check-3" class="text-xl font-medium accordion-title">
+                    Behavior
+                </label>
+                <div class="accordion-body p-2 grid sm:grid-cols-2 gap-4">
+                    {{ forms.input_toggle("Ping Author", "ping", starboard.ping) }}
+                    {{ forms.input_toggle("Auto React", "autoreact", starboard.autoreact) }}
+                    {{ forms.input_toggle("Link Deletes", "link_deletes", starboard.link_deletes) }}
+                    {{ forms.input_toggle("Link Edits", "link_edits", starboard.link_edits) }}
+                    {{ forms.input_toggle("Remove Invalid Reactions", "remove_invalid", starboard.remove_invalid) }}
+                    {{ forms.input_toggle("No XP", "no_xp", starboard.no_xp) }}
+                    {{ forms.input_toggle("Allow Random", "explore", starboard.explore) }}
+                </div>
+            </li>
+        </div>
+    </form>
 </div>
 {% endblock %}

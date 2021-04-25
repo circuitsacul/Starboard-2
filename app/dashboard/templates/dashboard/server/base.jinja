@@ -4,33 +4,45 @@
     <div class="flex-1 flex flex-col md:flex-row">
         <div class="flex-none">
             <div class="hidden md:flex" style="height: 100%;">
-                <ul class="menu py-4 bg-neutral-focus flex-1">
+                <ul class="menu compact p-2 bg-neutral-focus flex-1">
                     <li class="menu-title">
                         <span>{{ guild.name }}</span>
                     </li>
-                    <li class="hover-bordered"><a href="{{ url_for('servers') }}">Back</a></li>
-                    <li class="{% if tab=='general' %}bordered{% else %}hover-bordered{% endif %}">
-                        <a href="{{ url_for('server_general', guild_id=guild.id) }}">General</a>
+                    <li class="mt-1"><a href="{{ url_for('servers') }}">Back</a></li>
+                    <li class="mt-1">
+                        <a href="{{ url_for('server_general', guild_id=guild.id) }}" class="{% if tab=='general' %}active{% endif %}">
+                            General
+                        </a>
                     </li>
-                    <li class="{% if tab=='starboards' %}bordered{% else %}hover-bordered{% endif %}">
-                        <a href="{{ url_for('server_starboards', guild_id=guild.id) }}">Starboards</a>
+                    <li class="mt-1">
+                        <a href="{{ url_for('server_starboards', guild_id=guild.id) }}" class="{% if tab=='starboards' %}active{% endif %}">
+                            Starboards
+                        </a>
                     </li>
-                    <li class="{% if tab=='autostar' %}bordered{% else %}hover-bordered{% endif %}">
-                        <a href="{{ url_for('server_autostar', guild_id=guild.id) }}">AutoStar</a>
+                    <li class="mt-1">
+                        <a href="{{ url_for('server_autostar', guild_id=guild.id) }}" class="{% if tab=='autostar' %}active{% endif %}">
+                            AutoStar
+                        </a>
                     </li>
                 </ul>
             </div>
             <div class="block md:hidden" style="width: 100%">
-                <ul class="menu bg-neutral-focus horizontal" style="width: 100%;">
-                    <li><a href="{{ url_for('servers') }}">Back</a></li>
-                    <li class="{% if tab=='general' %}bordered{% endif %}">
-                        <a href="{{ url_for('server_general', guild_id=guild.id) }}">General</a>
+                <ul class="menu compact p-2 bg-neutral-focus horizontal" style="width: 100%;">
+                    <li class="ml-1"><a href="{{ url_for('servers') }}">Back</a></li>
+                    <li class="ml-1">
+                        <a href="{{ url_for('server_general', guild_id=guild.id) }}" class="{% if tab=='general' %}active{% endif %}">
+                            General
+                        </a>
                     </li>
-                    <li class="{% if tab=='starboards' %}bordered{% endif %}">
-                        <a href="{{ url_for('server_starboards', guild_id=guild.id) }}">Starboards</a>
+                    <li class="ml-1">
+                        <a href="{{ url_for('server_starboards', guild_id=guild.id) }}" class="{% if tab=='starboards' %}active{% endif %}">
+                            Starboards
+                        </a>
                     </li>
-                    <li class="{% if tab=='autostar' %}bordered{% endif %}">
-                        <a href="{{ url_for('server_autostar', guild_id=guild.id) }}">AutoStar</a>
+                    <li class="ml-1">
+                        <a href="{{ url_for('server_autostar', guild_id=guild.id) }}" class="{% if tab=='autostar' %}active{% endif %}">
+                            AutoStar
+                        </a>
                     </li>
                 </ul>
             </div>

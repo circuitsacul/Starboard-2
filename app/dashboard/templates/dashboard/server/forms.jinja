@@ -1,0 +1,49 @@
+{% macro input_number(label, id, min, max, value) %}
+
+    <div class="form-control grid grid-cols-3">
+        <label class="label col-span-2">
+            <span class="label-text">{{ label }}</span>
+        </label>
+        <input type="number" min="{{ min }}" max="{{ max }}" id="{{ id }}" class="input input-sm input-bordered col-span-1" value="{{ value }}">
+    </div>
+
+{% endmacro %}
+
+{% macro input_toggle(label, id, value) %}
+    <div class="form-control">
+        <label class="cursor-pointer label">
+            <span class="label-text">{{ label }}</span>
+            <div>
+                <input type="checkbox" {% if value %}checked="checked"{% endif %} class="toggle toggle-primary" id="{{ id }}">
+                <span class="toggle-mark"></span>
+            </div>
+        </label>
+    </div>
+{% endmacro %}
+
+{% macro input_text_long(label, id, value) %}
+    <div class="form-control">
+        <label class="label">
+            <span class="label-text">{{ label }}</span>
+        </label>
+        <input type="text" class="input input-bordered" value="{{ value }}" id="{{ id }}">
+    </div>
+{% endmacro %}
+
+{% macro input_text(label, id, min, max, value) %}
+    <div class="form-control grid grid-cols-3">
+        <label class="label">
+            <span class="label-text">{{ label }}</span>
+        </label>
+        <input type="text" min="{{ min }}" max="{{ max }}" id="{{ id }}" class="input input-sm input-bordered col-span-2" value="{{ value }}">
+    </div>
+{% endmacro %}
+
+{% macro input_color(label, id, value) %}
+    <div class="form-control grid grid-cols-2 items-center">
+        <label class="label col-span-1">
+            <span class="label-text">{{ label }}</span>
+        </label>
+        <input type="color" id="{{ id }}" value="{{ value }}" class="col-span-1" style="width: 100%;">
+    </div>
+{% endmacro %}
