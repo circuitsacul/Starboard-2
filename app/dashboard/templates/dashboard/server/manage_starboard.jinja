@@ -1,8 +1,24 @@
 {% extends "dashboard/server/base.jinja" %}
-
 {% import "dashboard/server/forms.jinja" as forms %}
-
 {% set tab="starboards" %}
+
+{% block topstatic %}
+    {{ super() }}
+    <script type="module" defer>
+        import { EmojiButton } from "https://unpkg.com/@joeattardi/emoji-button";
+        const picker = new EmojiButton({
+            theme: "dark",
+            showRecents: false,
+        });
+        const trigger = document.querySelector(".emoji-trigger");
+
+        picker.on("emoji", selection => {
+            trigger.innerHTML = selection.emoji
+        });
+
+        trigger.addEventListener("click", () => picker.togglePicker(trigger));
+    </script>
+{% endblock %}
 
 {% block dashboardcontent %}
 <div class="p-3 flex items-center" style="width: 100%; border-bottom: 1px solid grey;">
@@ -25,6 +41,7 @@
                         {% set color="#ffe16c" %}
                     {% endif %}
                     {{ forms.input_color("Color", "color", color) }}
+                    <div class="emoji-trigger btn btn-secondary">+</div>
                 </div>
             </li>
             <li class="accordion-item">

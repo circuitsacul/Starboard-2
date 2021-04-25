@@ -4,6 +4,7 @@ from typing import Optional, Union
 import dotenv
 import humanize
 from quart import Quart, redirect, render_template, request, url_for
+from quart_csrf import CSRFProtect
 from quart_discord import AccessDenied, DiscordOAuth2Session, Unauthorized
 from quart_discord.utils import requires_authorization
 
@@ -16,6 +17,7 @@ from . import app_config
 dotenv.load_dotenv()
 
 app = Quart(__name__)
+CSRFProtect(app)
 
 app.secret_key = os.getenv("QUART_KEY")
 app.config["DISCORD_CLIENT_ID"] = config.BOT_ID
