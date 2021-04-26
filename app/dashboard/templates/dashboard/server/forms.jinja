@@ -30,12 +30,12 @@
     </div>
 {% endmacro %}
 
-{% macro input_text(label, id, min, max, value) %}
-    <div class="form-control grid grid-cols-3">
+{% macro input_text(label, id, value) %}
+    <div class="form-control grid grid-cols-3 items-center">
         <label class="label">
             <span class="label-text">{{ label }}</span>
         </label>
-        <input type="text" min="{{ min }}" max="{{ max }}" id="{{ id }}" class="input input-sm input-bordered col-span-2" value="{{ value }}">
+        <input type="text" class="input input-sm input-bordered col-span-2" value="{{ value }}" id="{{ id }}">
     </div>
 {% endmacro %}
 
@@ -44,6 +44,11 @@
         <label class="label col-span-1">
             <span class="label-text">{{ label }}</span>
         </label>
-        <input type="color" id="{{ id }}" value="{{ value }}" class="col-span-1" style="width: 100%;">
+        <div class="flex">
+            <div class="flex-1"></div>
+            <div class="color-input-wrapper col-span-1">
+                <input type="color" id="{{ id }}" value="{{ value }}" class="color-input">
+            </div>
+        </div>
     </div>
 {% endmacro %}

@@ -9,14 +9,15 @@
         const picker = new EmojiButton({
             theme: "dark",
             showRecents: false,
+            showVariants: false,
         });
-        const trigger = document.querySelector(".emoji-trigger");
+        const displayEmojiTrigger = document.querySelector("#display_emoji");
 
         picker.on("emoji", selection => {
-            trigger.innerHTML = selection.emoji
+            displayEmojiTrigger.innerHTML = selection.emoji
         });
 
-        trigger.addEventListener("click", () => picker.togglePicker(trigger));
+        displayEmojiTrigger.addEventListener("click", () => picker.togglePicker(displayEmojiTrigger));
     </script>
 {% endblock %}
 
@@ -41,7 +42,20 @@
                         {% set color="#ffe16c" %}
                     {% endif %}
                     {{ forms.input_color("Color", "color", color) }}
-                    <div class="emoji-trigger btn btn-secondary">+</div>
+                    <div class="form-control grid grid-cols-2">
+                        <label class="label">
+                            <span class="label-text">Display Emoji</span>
+                        </label>
+                        <div class="flex">
+                            <div class="flex-1"></div>
+                            <div id="display_emoji" class="btn btn-square btn-neutral text-2xl">{{ starboard.display_emoji }}</div>
+                        </div>
+                    </div>
+                    {{ forms.input_toggle("Use Webhook", "use_webhook", starboard.use_webhook) }}
+                    {% if starboard.webhook_name!=None %}{% set name=starboard.webhook_name %}{% else %}{% set name="" %}{% endif %}
+                    {{ forms.input_text("Webhook Name", "webhook_name", name) }}
+                    {% if starboard.webhook_avatar!=None %}{% set avatar=starboard.webhook_avatar %}{% else %}{% set avatar="" %}{% endif %}
+                    {{ forms.input_text("Avatar Url", "webhook_avatar", avatar) }}
                 </div>
             </li>
             <li class="accordion-item">
@@ -52,7 +66,7 @@
                 <div class="accordion-body grid sm:grid-cols-2 gap-4">
                     <div class="sm:col-span-2"></div>
                     {{ forms.input_number("Required Stars", "required", "1", "100", starboard.required) }}
-                    {{ forms.input_number("Require To Remove", "required_removve", "0", "95", starboard.required_remove) }}
+                    {{ forms.input_number("Require To Remove", "required_removve", "-1", "95", starboard.required_remove) }}
                     {{ forms.input_toggle("Self Stars", "self_star", starboard.self_star) }}
                     {{ forms.input_toggle("Bots on Starboard", "allow_bots", starboard.allow_bots) }}
                     {{ forms.input_toggle("Images Only", "images_only", starboard.images_only) }}
@@ -79,6 +93,19 @@
                 </div>
             </li>
         </div>
+
+        <select class="select2" name="test" style="width: 100%;" multiple="multiple">
+            <option value="op1">Option 1</option>
+            <option value="op2">Option 2</option>
+            <option value="op3">Option 3</option>
+        </select>
+
     </form>
 </div>
+
+<script>
+    $(document).ready(function() {
+        $(".select2").select2();
+    })
+</script>
 {% endblock %}
