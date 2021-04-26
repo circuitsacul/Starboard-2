@@ -43,6 +43,15 @@ async def get_guild(guild_id: int):
     return guild
 
 
+async def get_guild_channels(guild_id: int) -> dict[str, dict[int, str]]:
+    channels: dict[str, dict[int, str]] = {}
+    for c in await app.config["WEBSOCKET"].send_command(
+        "guild_channels", {"guild_id": guild_id}, expect_resp=True
+    ):
+        channels.update(c["data"])
+    return channels
+
+
 async def handle_login(next: str = ""):
     return await discord.create_session(
         scope=["identify", "guilds"], data={"type": "user", "next": next}
@@ -262,11 +271,14 @@ async def manage_starboard(guild_id: int, starboard_id: int):
     else:
         starboard["name"] = "deleted"
 
+    categories = await get_guild_channels(guild.id)
+
     return await render_template(
         "dashboard/server/manage_starboard.jinja",
         user=user,
         guild=guild,
         starboard=starboard,
+        categories=categories,
     )
 
 

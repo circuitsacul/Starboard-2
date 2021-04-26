@@ -100,18 +100,32 @@
                 <div></div>
                 <div class="form-control">
                     <label class="label">Channel Blacklist</label>
-                    <select class="select2" name="test" style="width: 100%;" multiple="multiple">
-                        <option value="op1" selected="selected">Option 1</option>
-                        <option value="op2">Option 2</option>
-                        <option value="op3">Option 3</option>
+                    <select class="select2" name="blacklist" style="width: 100%;" multiple="multiple">
+                        {% for category, channels in categories.items() %}
+                            <optgroup label="{{ category }}">
+                                {% for cid, cname in channels.items() %}
+                                    <option
+                                        value="{{ cid }}"
+                                        {% if cid | int in starboard.channel_bl %}selected="selected"{% endif %}
+                                    >{{ cname }}</option>
+                                {% endfor %}
+                            </optgroup>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="form-control">
                     <label class="label">Channel Whitelist</label>
-                    <select class="select2" name="test2" style="width: 100%;" multiple="multiple">
-                        <option value="op1">Option 1</option>
-                        <option value="op2">Option 2</option>
-                        <option value="op3" selected="selected">Option 3</option>
+                    <select class="select2" name="whitelist" style="width: 100%;" multiple="multiple">
+                        {% for category, channels in categories.items() %}
+                            <optgroup label="{{ category }}">
+                            {% for cid, cname in channels.items() %}
+                                <option
+                                    value="{{ cid }}"
+                                    {% if cid | int in starboard.channel_wl %}selected="selected"{% endif %}
+                                >{{ cname }}</option>
+                            {% endfor %}
+                            </optgroup>
+                        {% endfor %}
                     </select>
                 </div>
             </div>

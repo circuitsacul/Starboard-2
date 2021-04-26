@@ -232,6 +232,14 @@ class Bot(commands.AutoShardedBot):
                 obj = self.get_channel(cid)
                 if obj:
                     ret[cid] = obj.name
+        elif cmd == "guild_channels":
+            guild = self.get_guild(data["guild_id"])
+            ret = {}
+            if guild:
+                for c in guild.text_channels:
+                    key = str(c.category or "No Category")
+                    ret.setdefault(key, {})
+                    ret[key][c.id] = c.name
         elif cmd == "donate_event":
             self.dispatch("donatebot_event", data["data"], data["auth"])
         elif cmd == "update_prem_roles":
