@@ -17,7 +17,7 @@ class Profile(commands.Cog):
     @commands.command(
         name="language",
         aliases=["lang", "locale"],
-        help=t_("Sets your language"),
+        help=t_("Sets your language", True),
     )
     async def set_user_language(
         self, ctx: commands.Context, locale: Optional[str]
@@ -37,7 +37,7 @@ class Profile(commands.Cog):
     @commands.command(
         name="public",
         aliases=["visible"],
-        help=t_("Whether or not your profile is visible to others."),
+        help=t_("Whether or not your profile is visible to others.", True),
     )
     async def set_user_public(self, ctx: commands.Context, public: bool):
         await self.bot.db.users.edit(ctx.author.id, public=public)
@@ -49,7 +49,7 @@ class Profile(commands.Cog):
     @commands.command(
         name="profile",
         aliases=["me"],
-        help=t_("Shows your settings."),
+        help=t_("Shows your settings.", True),
     )
     @commands.cooldown(1, 3, type=commands.BucketType.user)
     @commands.bot_has_permissions(embed_links=True)

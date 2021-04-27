@@ -38,8 +38,11 @@ def use_current_gettext(*args, **kwargs) -> str:
     ).gettext(*args, **kwargs)
 
 
-def t_(string: str) -> TString:
-    return TString(string, use_current_gettext)
+def t_(string: str, as_obj: bool = False) -> TString:
+    tstring = TString(string, use_current_gettext)
+    if as_obj:
+        return tstring
+    return str(tstring)  # translate immediatly
 
 
 current_locale: contextvars.ContextVar = contextvars.ContextVar("i18n")

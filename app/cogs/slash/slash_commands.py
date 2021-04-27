@@ -22,7 +22,8 @@ class SlashCommands(commands.Cog):
         await ctx.send(content="Pong!", hidden=True)
 
     @commands.command(
-        name="slash", help=t_("Get a link for authorizing slash commands")
+        name="slash",
+        help=t_("Get a link for authorizing slash commands", True),
     )
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()

@@ -14,7 +14,7 @@ class Premium(commands.Cog):
         self.bot = bot
 
     @commands.command(
-        name="refreshroles", help=t_("Refresh your donor/patron roles.")
+        name="refreshroles", help=t_("Refresh your donor/patron roles.", True)
     )
     @checks.support_server()
     @commands.cooldown(1, 5, type=commands.BucketType.user)

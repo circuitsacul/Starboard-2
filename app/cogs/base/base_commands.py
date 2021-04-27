@@ -26,10 +26,11 @@ class Base(commands.Cog):
             "message needs before it is sent to the starboard.\n\n"
             "Once a message reaches the requiredStars limit in  reactions, "
             "Starboard will essentially copy the message and repost it in "
-            "your starboard."
+            "your starboard.",
+            True,
         )
 
-    @commands.command(name="credits", help=t_("Show credits"))
+    @commands.command(name="credits", help=t_("Show credits", True))
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def show_credits(self, ctx: commands.Context):
@@ -69,7 +70,7 @@ class Base(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command(name="help", help=t_("Get help with Starboard"))
+    @commands.command(name="help", help=t_("Get help with Starboard", True))
     @commands.bot_has_permissions(embed_links=True)
     async def starboard_help(
         self, ctx: commands.Context, *, command=None
@@ -92,7 +93,7 @@ class Base(commands.Cog):
             ).format(config, p),
             color=self.bot.theme_color,
         ).add_field(
-            name=t_("What is a Starboard?"), value=self.about_starboard
+            name=t_("What is a Starboard?"), value=str(self.about_starboard)
         )
         await ctx.send(embed=embed)
 
@@ -125,7 +126,7 @@ class Base(commands.Cog):
     @commands.command(
         name="ping",
         aliases=["latency"],
-        help=t_("Shows current clusters and shards latency"),
+        help=t_("Shows current clusters and shards latency", True),
     )
     @commands.bot_has_permissions(embed_links=True)
     async def ping(self, ctx: commands.Context) -> None:
@@ -166,7 +167,7 @@ class Base(commands.Cog):
     @commands.command(
         name="links",
         aliases=["invite", "support"],
-        help=t_("Lists important/useful links"),
+        help=t_("Lists important/useful links", True),
     )
     @commands.bot_has_permissions(embed_links=True)
     async def links(self, ctx: commands.Context) -> None:
@@ -206,7 +207,7 @@ class Base(commands.Cog):
     @commands.command(
         name="vote",
         aliases=["votes"],
-        help=t_("View vote links and number of times you've voted"),
+        help=t_("View vote links and number of times you've voted", True),
     )
     @commands.bot_has_permissions(embed_links=True)
     async def vote(
