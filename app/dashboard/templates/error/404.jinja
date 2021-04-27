@@ -1,0 +1,15 @@
+{% extends "base.jinja" %}
+
+{% block content %}
+<div class="flex flex-grow justify-center items-center">
+    <div>
+        <span class="text-6xl">404</span>
+        <br>
+        <span>Did you know that 9.9999999999999999999968% of space is nothing?</span>
+        <br>
+        <span>Makes it easy to get lost, doesn't it?</span>
+        <br>
+        <a class="link" href="{{ url_for('index') }}">Take me home</a>
+    </div>
+</div>
+{% endblock %}

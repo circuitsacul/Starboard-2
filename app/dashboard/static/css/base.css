@@ -25,6 +25,10 @@
     min-height: calc(100vh - 64px);
 }
 
+.link {
+    color: slategray;
+}
+
 .link:hover {
     color: hsl(var(--p));
     text-decoration: underline;

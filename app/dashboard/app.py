@@ -326,6 +326,16 @@ async def premium():
     return await render_template("premium.jinja", user=user)
 
 
+# Error Routes
+@app.errorhandler(404)
+async def err404(err):
+    try:
+        user = await discord.fetch_user()
+    except Unauthorized:
+        user = None
+    return await render_template("error/404.jinja", user=user)
+
+
 # Api routes
 @app.route("/login/")
 async def login():
