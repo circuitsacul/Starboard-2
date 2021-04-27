@@ -237,7 +237,7 @@ async def server_starboards(guild_id: int):
         s["name"] = name_dict[int(s["id"])]
 
     return await render_template(
-        "dashboard/server/starboards.jinja",
+        "dashboard/server/starboard/list.jinja",
         user=user,
         guild=guild,
         starboards=starboards,
@@ -274,7 +274,7 @@ async def manage_starboard(guild_id: int, starboard_id: int):
     categories = await get_guild_channels(guild.id)
 
     return await render_template(
-        "dashboard/server/manage_starboard.jinja",
+        "dashboard/server/starboard/manage.jinja",
         user=user,
         guild=guild,
         starboard=starboard,
@@ -295,7 +295,7 @@ async def server_autostar(guild_id: int):
         return await handle_invite(guild.id)
 
     return await render_template(
-        "dashboard/server/autostar.jinja", user=user, guild=guild
+        "dashboard/server/autostar/list.jinja", user=user, guild=guild
     )
 
 
