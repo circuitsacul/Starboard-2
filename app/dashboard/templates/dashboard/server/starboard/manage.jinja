@@ -24,6 +24,8 @@
 {% block dashboardcontent %}
 <div class="p-3 flex items-center" style="width: 100%; border-bottom: 1px solid grey;">
     <a href="{{ url_for('server_starboards', guild_id=guild.id) }}" class="btn btn-ghost btn-sm">Back</a>
+    <a class="btn btn-success btn-sm ml-1">Save</a>
+    <a class="btn btn-error btn-sm ml-1">Delete</a>
     <div class="text-2xl ml-3">#{{ starboard.name }}</div>
 </div>
 <div class="p-4 max-w-screen-md mx-auto">
@@ -38,7 +40,7 @@
                 {% if starboard.color %}
                     {% set color=starboard.color %}
                 {% else %}
-                    {% set color="#ffe16c" %}
+                    {% set color="#ffe98f" %}
                 {% endif %}
                 {{ forms.input_color("Color", "color", color) }}
                 <div class="form-control grid grid-cols-2">
