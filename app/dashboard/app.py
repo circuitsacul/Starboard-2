@@ -4,6 +4,7 @@ from typing import Optional, Union
 import dotenv
 import humanize
 from quart import Quart, redirect, render_template, request, url_for
+from quart.helpers import flash
 from quart_csrf import CSRFProtect
 from quart_discord import AccessDenied, DiscordOAuth2Session, Unauthorized
 from quart_discord.utils import requires_authorization
@@ -242,6 +243,38 @@ async def server_starboards(guild_id: int):
         guild=guild,
         starboards=starboards,
     )
+
+
+@app.route(
+    "/dashboard/servers/<int:guild_id>/starboards/create/<int:channel_id>/",
+    methods=["POST"],
+)
+@requires_authorization
+async def create_starboard(guild_id: int, channel_id: int):
+    guild = await get_guild(guild_id)
+
+    if not guild or not can_manage(guild):
+        return redirect(url_for("servers"))
+
+    if not await does_share(guild):
+        return await handle_invite(guild.id)
+
+    _channels = await get_guild_channels(guild.id)
+    channels = []
+    for cat in _channels:
+        for k, _ in cat.items():
+            channels.append(k)
+
+    if channel_id not in channels:
+        return redirect(url_for("server_starboards", guild_id))
+
+    try:
+        await db.db.starboards.create(channel_id, guild_id)
+    except Exception as e:
+        await flash(str(e), "error")
+        return redirect(url_for("server_starboards", guild_id))
+
+    return redirect(url_for("manage_starboard", guild_id, channel_id))
 
 
 @app.route("/dashboard/servers/<int:guild_id>/starboards/<int:starboard_id>/")
