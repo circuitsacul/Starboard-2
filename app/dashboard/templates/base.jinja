@@ -11,11 +11,14 @@
         <meta name="author" content="Circuit">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
+        <!-- JQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
         <!-- Custom CSS -->
         <link href="{{ url_for('static', filename='css/base.css') }}" rel="stylesheet" />
 
-        <!-- JQuery -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <!-- Custom JS -->
+        <script src="{{ url_for('static', filename='js/base.js') }}"></script>
 
         <!-- DaisyUI -->
         <link href="https://cdn.jsdelivr.net/npm/daisyui@0.14.4/dist/full.css" rel="stylesheet"/>
@@ -124,6 +127,21 @@
                 </ul>
             <div>
         </div>
+
+        <div class="toast-wrapper">
+            {% for _m in get_flashed_messages(with_categories=true) %}
+                {% set c, message = _m %}
+                <div class="alert {% if c=='message' %}alert-info{% else %}alert-error{% endif %} shadow-lg" id="toast-{{ loop.index0 }}">
+                    <div class="flex-1">
+                        {{ message }}
+                    <div>
+                    <div class="flex-none ml-1">
+                        <a href="javascript:removeToast('toast-{{ loop.index0 }}')">✖</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
         {% block bottomstatic %}{% endblock %}
     </body>
 </html>

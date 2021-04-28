@@ -1,11 +1,40 @@
 {% extends "dashboard/server/base.jinja" %}
 {% import "import/chan_list.jinja" as clist %}
+{% import "import/forms.jinja" as forms %}
 
 {% set tab="starboards" %}
 
 {% block dashboardcontent %}
     <div class="text-4xl my-4 text-center">Starboards</div>
-    <div class="p-2">
+    <div class="max-w-screen-md mx-auto">
+        <div class="flex">
+            <div class="flex-1"></div>
+            <a class="btn btn-primary btn-outline btn-block flex-none" href="#create">Create</a>
+        </div>
         {{ clist.channel_list(starboards) }}
     </div>
+
+    <div id="create" class="modal">
+        <div class="modal-box">
+            <form action="{{ url_for('create_starboard', guild_id=guild.id) }}" method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+
+                <select name="channel_id" class="select2">
+                    {% for cat, channels in categories.items() %}
+                        <optgroup label="{{ cat }}">
+                            {% for cid, cname in channels.items() %}
+                                <option value="{{ cid }}">{{ cname }}</option>
+                            {% endfor %}
+                        </optgroup>
+                    {% endfor %}
+                </select>
+
+                <div class="modal-action">
+                    <input type="submit" class="btn btn-primary" value="Create">
+                    <a href="#" class="btn">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
 {% endblock %}

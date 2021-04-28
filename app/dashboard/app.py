@@ -234,6 +234,8 @@ async def server_starboards(guild_id: int):
             if name:
                 name_dict[int(cid)] = name
 
+    categories = await get_guild_channels(guild_id)
+
     for s in starboards:
         s["name"] = name_dict[int(s["id"])]
 
@@ -242,15 +244,19 @@ async def server_starboards(guild_id: int):
         user=user,
         guild=guild,
         starboards=starboards,
+        categories=categories,
     )
 
 
 @app.route(
-    "/dashboard/servers/<int:guild_id>/starboards/create/<int:channel_id>/",
+    "/dashboard/servers/<int:guild_id>/starboards/create/",
     methods=["POST"],
 )
 @requires_authorization
-async def create_starboard(guild_id: int, channel_id: int):
+async def create_starboard(guild_id: int):
+    form = await request.form
+    channel_id = form["channel_id"]
+
     guild = await get_guild(guild_id)
 
     if not guild or not can_manage(guild):
@@ -261,20 +267,23 @@ async def create_starboard(guild_id: int, channel_id: int):
 
     _channels = await get_guild_channels(guild.id)
     channels = []
-    for cat in _channels:
+    for _, cat in _channels.items():
         for k, _ in cat.items():
             channels.append(k)
 
     if channel_id not in channels:
-        return redirect(url_for("server_starboards", guild_id))
+        await flash("Channel ID was not valid.", "error")
+        return redirect(url_for("server_starboards", guild_id=guild_id))
 
     try:
         await db.db.starboards.create(channel_id, guild_id)
     except Exception as e:
         await flash(str(e), "error")
-        return redirect(url_for("server_starboards", guild_id))
+        return redirect(url_for("server_starboards", guild_id=guild_id))
 
-    return redirect(url_for("manage_starboard", guild_id, channel_id))
+    return redirect(
+        url_for("manage_starboard", guild_id=guild_id, starboard_id=channel_id)
+    )
 
 
 @app.route("/dashboard/servers/<int:guild_id>/starboards/<int:starboard_id>/")

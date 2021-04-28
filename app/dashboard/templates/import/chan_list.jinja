@@ -1,22 +1,20 @@
 {# designed to be imported #}
 
 {% macro channel_list(channels) %}
-    <div class="max-w-screen-md mx-auto">
-        {% for chan in channels %}
-            <div class="card bordered mt-2">
-                <div class="card-body p-2 bg-neutral-focus">
-                    <div class="flex items-center">
-                        <div class="flex-1 text-2xl">
-                            #{{ chan.name }}
-                        </div>
-                        <div class="flex-none">
-                            <a class="btn btn-primary btn-sm" href="{{ chan.id }}">
-                                Manage
-                            </a>
-                        </div>
+    {% for chan in channels %}
+        <div class="card bordered m-0 mt-2">
+            <div class="card-body p-2 bg-neutral-focus">
+                <div class="flex items-center">
+                    <div class="flex-1 text-2xl">
+                        #{{ chan.name }}
+                    </div>
+                    <div class="flex-none">
+                        <a class="btn btn-primary btn-sm" href="{{ chan.id }}">
+                            Manage
+                        </a>
                     </div>
                 </div>
             </div>
-        {% endfor %}
-    </div>
+        </div>
+    {% endfor %}
 {% endmacro %}
