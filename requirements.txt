@@ -10,7 +10,7 @@ asyncpg==0.22.0
 attrs==20.3.0
 blinker==1.4
 braceexpand==0.1.6
-cachetools==4.2.1
+cachetools==4.2.2
 certifi==2020.12.5
 cfgv==3.2.0
 chardet==4.0.0
