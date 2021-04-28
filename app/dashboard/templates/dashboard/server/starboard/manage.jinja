@@ -25,8 +25,20 @@
 <div class="p-3 flex items-center" style="width: 100%; border-bottom: 1px solid grey;">
     <a href="{{ url_for('server_starboards', guild_id=guild.id) }}" class="btn btn-ghost btn-sm">Back</a>
     <a class="btn btn-success btn-sm ml-1">Save</a>
-    <a class="btn btn-error btn-sm ml-1">Delete</a>
+    <a class="btn btn-error btn-sm ml-1" href="#delete">Delete</a>
     <div class="text-2xl ml-3">#{{ starboard.name }}</div>
+</div>
+<div class="modal" id="delete">
+    <div class="modal-box">
+        <p>Are you sure?</p>
+        <div class="modal-action">
+            <a href="#" class="btn btn-ghost">Cancel</a>
+            <form action="{{ url_for('delete_starboard', guild_id=guild.id, starboard_id=starboard.id) }}" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <input type="submit" value="delete" class="btn btn-error">
+            </form>
+        </div>
+    </div>
 </div>
 <div class="p-4 max-w-screen-md mx-auto">
     <div class="accordion accordion-plus">

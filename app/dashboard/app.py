@@ -286,6 +286,29 @@ async def create_starboard(guild_id: int):
     )
 
 
+@app.route(
+    "/dashboard/servers/<int:guild_id>/starboards/<int:starboard_id>/delete/",
+    methods=["POST"],
+)
+@requires_authorization
+async def delete_starboard(guild_id: int, starboard_id: int):
+    guild = await get_guild(guild_id)
+    if not guild or not can_manage(guild):
+        return redirect(url_for("servers"))
+
+    if not await does_share(guild):
+        return await handle_invite(guild.id)
+
+    starboard_ids = [int(s["id"]) for s in await db.get_starboards(guild_id)]
+    if starboard_id not in starboard_ids:
+        return redirect(url_for("server_starboards", guild_id=guild_id))
+
+    await db.db.starboards.delete(starboard_id)
+    await flash("Starboard deleted.")
+
+    return redirect(url_for("server_starboards", guild_id=guild_id))
+
+
 @app.route("/dashboard/servers/<int:guild_id>/starboards/<int:starboard_id>/")
 @requires_authorization
 async def manage_starboard(guild_id: int, starboard_id: int):
