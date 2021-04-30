@@ -2,8 +2,8 @@
 
 {% macro channel_list(channels) %}
     {% for chan in channels %}
-        <div class="card bordered m-0 mt-2">
-            <div class="card-body p-2 bg-neutral-focus">
+        <div class="card m-0 mt-2">
+            <div class="card-body p-2 bg-neutral-focus" style="border-radius: 0.5rem;">
                 <div class="flex items-center">
                     <div class="flex-1 text-2xl">
                         #{{ chan.name }}

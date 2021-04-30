@@ -19,6 +19,8 @@
     --su: 151 97% 38%;
     --wa: 44 100% 50%;
     --er: 0 88% 61%;
+
+    --rounded-box: .5rem;
 }
 
 .min-h-screen-minus-nav {
