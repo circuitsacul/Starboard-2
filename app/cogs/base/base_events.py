@@ -150,6 +150,7 @@ class BaseEvents(commands.Cog):
         await self.bot.set_locale(message.author)
         if message.content.replace("!", "") == self.bot.user.mention:
             p = utils.escmd((await self.bot.get_prefix(message))[0])
+            p = utils.clean_prefix_no_ctx(p, self.bot.user)
             await message.channel.send(t_("My prefix is `{0}`.").format(p))
         else:
             await self.bot.process_commands(message)

@@ -138,7 +138,7 @@ class Fun(commands.Cog):
     @flags.command(
         name="moststarred", help=t_("Shows the most starred messages", True)
     )
-    @commands.cooldown(1, 3, type=commands.BucketType.user)
+    @commands.cooldown(1, 10, type=commands.BucketType.user)
     @commands.bot_has_permissions(
         embed_links=True, add_reactions=True, read_message_history=True
     )

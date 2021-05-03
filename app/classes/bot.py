@@ -146,7 +146,7 @@ class Bot(commands.AutoShardedBot):
                 prefixes = guild["prefixes"]
         else:
             prefixes = ["sb!"]
-        return prefixes + [f"<@{self.user.id}> ", f"<@!{self.user.id}> "]
+        return commands.when_mentioned_or(*prefixes)(bot, message)
 
     def cleanup_code(self, content):
         """Automatically removes code blocks from the code."""

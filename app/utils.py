@@ -191,3 +191,9 @@ def clean_prefix(ctx: commands.Context):
     return pattern.sub(
         "@%s" % user.display_name.replace("\\", r"\\"), ctx.prefix
     )
+
+
+def clean_prefix_no_ctx(prefix: str, me: Union[discord.Member, discord.User]):
+    pattern = re.compile(f"<@!?{me.id}>")
+    display_name = me.display_name.replace("\\", r"\\")
+    return pattern.sub(f"@{display_name}", prefix)

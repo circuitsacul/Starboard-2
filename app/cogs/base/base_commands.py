@@ -109,10 +109,10 @@ class Base(commands.Cog):
         embed = discord.Embed(
             title=t_("Bot Stats"),
             description=t_(
-                "guilds: **{0}**\n"
-                "users: **{1}**\n"
-                "clusters: **{2}**\n"
-                "shards: **{3}**"
+                "Guilds: **{0}**\n"
+                "Users: **{1}**\n"
+                "Clusters: **{2}**\n"
+                "Shards: **{3}**"
             ).format(
                 total_guilds,
                 total_members,
