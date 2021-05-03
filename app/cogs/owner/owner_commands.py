@@ -142,7 +142,7 @@ class Owner(commands.Cog):
 
         await ctx.send("Restarting...")
         cmd: commands.Command = self.bot.get_command("evall")
-        await ctx.invoke(cmd, body="await bot.logout()")
+        await ctx.invoke(cmd, body="await bot.close()")
 
     @commands.command(
         name="runpg",
