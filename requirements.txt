@@ -26,7 +26,7 @@ flake8==3.9.1
 h11==0.12.0
 h2==4.0.0
 hpack==4.0.0
-humanize==3.4.1
+humanize==3.5.0
 Hypercorn==0.11.2
 hyperframe==6.0.1
 identify==2.2.4
