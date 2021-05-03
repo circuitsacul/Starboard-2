@@ -136,7 +136,7 @@ class Bot(commands.AutoShardedBot):
         self.dispatch("log_error", "Error", error, args, kwargs)
 
     async def _prefix_callable(
-        self, bot, message: discord.Message
+        self, bot, message: discord.Message, when_mentioned: bool = True
     ) -> list[str]:
         if message.guild:
             guild = await self.db.guilds.get(message.guild.id)
@@ -146,7 +146,10 @@ class Bot(commands.AutoShardedBot):
                 prefixes = guild["prefixes"]
         else:
             prefixes = ["sb!"]
-        return commands.when_mentioned_or(*prefixes)(bot, message)
+        prefixes = list(sorted(prefixes, key=lambda p: len(p), reverse=True))
+        if when_mentioned:
+            return commands.when_mentioned_or(*prefixes)(bot, message)
+        return prefixes
 
     def cleanup_code(self, content):
         """Automatically removes code blocks from the code."""
