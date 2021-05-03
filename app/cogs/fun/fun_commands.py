@@ -185,26 +185,29 @@ class Fun(commands.Cog):
         )
         embeds: list[discord.Embed] = []
         text_pages: list[str] = []
-        for m in messages[place : place + 10]:
-            orig = await self.bot.db.messages.get(m["orig_id"])
-            obj = await self.bot.cache.fetch_message(
-                ctx.guild.id,
-                int(orig["channel_id"]),
-                int(orig["id"]),
-            )
-            sql_starboard = await self.bot.db.starboards.get(m["starboard_id"])
-            color = sql_starboard["color"]
-            if not obj:
-                continue
-            e, _ = await starboard_funcs.embed_message(
-                self.bot, obj, color=color
-            )
-            text_pages.append(
-                starboard_funcs.get_plain_text(
-                    sql_starboard, orig, m["points"], ctx.guild
+        async with ctx.typing():
+            for m in messages[place : place + 10]:
+                orig = await self.bot.db.messages.get(m["orig_id"])
+                obj = await self.bot.cache.fetch_message(
+                    ctx.guild.id,
+                    int(orig["channel_id"]),
+                    int(orig["id"]),
                 )
-            )
-            embeds.append(e)
+                sql_starboard = await self.bot.db.starboards.get(
+                    m["starboard_id"]
+                )
+                color = sql_starboard["color"]
+                if not obj:
+                    continue
+                e, _ = await starboard_funcs.embed_message(
+                    self.bot, obj, color=color
+                )
+                text_pages.append(
+                    starboard_funcs.get_plain_text(
+                        sql_starboard, orig, m["points"], ctx.guild
+                    )
+                )
+                embeds.append(e)
 
         if len(embeds) == 0:
             await ctx.send(t_("Nothing to show."))
