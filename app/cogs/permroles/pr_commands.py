@@ -138,7 +138,10 @@ class PermRoles(commands.Cog):
     @commands.has_guild_permissions(manage_guild=True)
     @commands.guild_only()
     async def move_permgroup(
-        self, ctx: commands.Context, group: converters.PermGroup, position: int
+        self,
+        ctx: commands.Context,
+        group: converters.PermGroup,
+        position: converters.myint,
     ):
         new_index = await self.bot.db.permgroups.move(group["id"], position)
         await ctx.send(

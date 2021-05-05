@@ -98,7 +98,7 @@ class Fun(commands.Cog):
         total_stars, total_recv = await self.bot.db.fetchrow(
             """SELECT SUM(stars_given), SUM(stars_received) FROM members
             WHERE user_id=$1""",
-            ctx.author.id,
+            user.id,
         )
 
         embed = (

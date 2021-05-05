@@ -162,7 +162,10 @@ class Settings(commands.Cog):
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def set_cooldown(
-        self, ctx: commands.Context, ammount: int, per: int
+        self,
+        ctx: commands.Context,
+        ammount: converters.myint,
+        per: converters.myint,
     ):
         sql_guild = await self.bot.db.guilds.get(ctx.guild.id)
         await self.bot.db.guilds.set_cooldown(ctx.guild.id, ammount, per)

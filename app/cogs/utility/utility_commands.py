@@ -131,7 +131,9 @@ class Utility(commands.Cog):
     @commands.has_guild_permissions(manage_guild=True)
     @commands.bot_has_permissions(read_message_history=True)
     @commands.guild_only()
-    async def scan_recount(self, ctx: commands.Context, limit: int) -> None:
+    async def scan_recount(
+        self, ctx: commands.Context, limit: converters.myint
+    ) -> None:
         if limit < 1:
             await ctx.send(t_("Must recount at least 1 message."))
             return
@@ -255,11 +257,9 @@ class Utility(commands.Cog):
     @commands.command(name="freeze", help=t_("Freezes a message.", True))
     @commands.has_guild_permissions(manage_messages=True)
     async def freeze_message(
-        self, ctx: commands.Context, message_link: converters.GuildMessage
+        self, ctx: commands.Context, message: converters.PartialGuildMessage
     ) -> None:
-        orig_message = await starboard_funcs.orig_message(
-            self.bot, message_link.id
-        )
+        orig_message = await starboard_funcs.orig_message(self.bot, message.id)
         if not orig_message:
             raise errors.MessageNotInDatabse()
         await utility_funcs.handle_freezing(
@@ -270,11 +270,9 @@ class Utility(commands.Cog):
     @commands.command(name="unfreeze", help=t_("Unfreezes a message", True))
     @commands.has_guild_permissions(manage_messages=True)
     async def unfreeze_message(
-        self, ctx: commands.Context, message_link: converters.GuildMessage
+        self, ctx: commands.Context, message: converters.PartialGuildMessage
     ) -> None:
-        orig_message = await starboard_funcs.orig_message(
-            self.bot, message_link.id
-        )
+        orig_message = await starboard_funcs.orig_message(self.bot, message.id)
         if not orig_message:
             raise errors.MessageNotInDatabse()
         await utility_funcs.handle_freezing(
@@ -293,7 +291,7 @@ class Utility(commands.Cog):
     async def force_message(
         self,
         ctx: commands.Context,
-        message_link: converters.GuildMessage,
+        message: converters.GuildMessage,
         *starboards: converters.Starboard,
     ) -> None:
         starboards = [int(s.sql["id"]) for s in starboards]
@@ -304,20 +302,20 @@ class Utility(commands.Cog):
                 await ctx.send(t_("Cancelled."))
                 return
         orig_sql_message = await starboard_funcs.orig_message(
-            self.bot, message_link.id
+            self.bot, message.id
         )
         if orig_sql_message is None:
             await self.bot.db.users.create(
-                message_link.author.id, message_link.author.bot
+                message.author.id, message.author.bot
             )
             await self.bot.db.messages.create(
-                message_link.id,
-                message_link.guild.id,
-                message_link.channel.id,
-                message_link.author.id,
-                message_link.channel.is_nsfw(),
+                message.id,
+                message.guild.id,
+                message.channel.id,
+                message.author.id,
+                message.channel.is_nsfw(),
             )
-            orig_sql_message = await self.bot.db.messages.get(message_link.id)
+            orig_sql_message = await self.bot.db.messages.get(message.id)
 
         await utility_funcs.handle_forcing(
             self.bot,
@@ -596,7 +594,7 @@ class Utility(commands.Cog):
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def message_info(
-        self, ctx: commands.Context, message: converters.GuildMessage
+        self, ctx: commands.Context, message: converters.PartialGuildMessage
     ) -> None:
         orig = await starboard_funcs.orig_message(self.bot, message.id)
         if not orig:
