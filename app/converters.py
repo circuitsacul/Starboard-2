@@ -88,8 +88,36 @@ class OrNone(commands.Converter):
             raise
 
 
-class Message(commands.MessageConverter):
+class PartialMessage(commands.PartialMessageConverter):
     async def convert(self, ctx: commands.Context, arg: str):
+        if arg.casefold().strip() == "^":
+            history = await ctx.channel.history(limit=2).flatten()
+            try:
+                m = history[-1]
+            except IndexError:
+                pass
+            else:
+                return m
+        return await super().convert(ctx, arg)
+
+
+class PartialGuildMessage(PartialMessage):
+    async def convert(
+        self, ctx: commands.Context, arg: str
+    ) -> Union[discord.Message, discord.PartialMessage]:
+        m = await super().convert(ctx, arg)
+        if m.guild:
+            if m.guild != ctx.guild:
+                raise commands.MessageNotFound(arg)
+        elif m.channel != ctx.channel:
+            raise commands.MessageNotFound(arg)
+        return m
+
+
+class Message(commands.MessageConverter):
+    async def convert(
+        self, ctx: commands.Context, arg: str
+    ) -> discord.Message:
         if arg.casefold().strip() == "^":
             history = await ctx.channel.history(limit=2).flatten()
             try:
@@ -104,7 +132,10 @@ class Message(commands.MessageConverter):
 class GuildMessage(Message):
     async def convert(self, ctx: commands.Context, arg: str):
         m = await super().convert(ctx, arg)
-        if m.guild != ctx.guild:
+        if m.guild:
+            if m.guild != ctx.guild:
+                raise commands.MessageNotFound(arg)
+        elif m.channel != ctx.channel:
             raise commands.MessageNotFound(arg)
         return m
 
