@@ -25,7 +25,7 @@ class Confirm(menus.Menu):
     async def send_initial_message(
         self, ctx: commands.Context, channel: discord.TextChannel
     ) -> discord.Message:
-        return await channel.send(self.msg)
+        return await ctx.send(self.msg)
 
     @menus.button("\N{WHITE HEAVY CHECK MARK}")
     async def confirm(self, payload: discord.RawReactionActionEvent) -> None:
@@ -81,7 +81,7 @@ class Paginator(menus.Menu):
     async def send_initial_message(
         self, ctx: commands.Context, channel: discord.TextChannel
     ) -> discord.Message:
-        return await channel.send(
+        return await ctx.send(
             self.text[self.current_page] if self.text else None,
             embed=self.embeds[self.current_page] if self.embeds else None,
         )

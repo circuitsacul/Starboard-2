@@ -270,8 +270,6 @@ def setup(bot: Bot) -> None:
         if ctx.guild is None:
             return
 
-        bot.register_cleanup(ctx.message)
-
         await bot.db.guilds.create(ctx.guild.id)
         await bot.db.users.create(ctx.author.id, ctx.author.bot)
         await bot.db.members.create(ctx.author.id, ctx.guild.id)

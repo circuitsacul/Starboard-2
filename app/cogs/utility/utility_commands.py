@@ -40,6 +40,7 @@ class Utility(commands.Cog):
 
         await ctx.channel.purge(check=check, limit=200)
 
+        await ctx.message.delete()
         await ctx.send("Done", delete_after=3)
 
     @commands.group(
