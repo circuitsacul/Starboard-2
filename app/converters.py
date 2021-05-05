@@ -88,7 +88,20 @@ class OrNone(commands.Converter):
             raise
 
 
-class GuildMessage(commands.MessageConverter):
+class Message(commands.MessageConverter):
+    async def convert(self, ctx: commands.Context, arg: str):
+        if arg.casefold().strip() == "^":
+            history = await ctx.channel.history(limit=2).flatten()
+            try:
+                m = history[-1]
+            except IndexError:
+                pass
+            else:
+                return m
+        return await super().convert(ctx, arg)
+
+
+class GuildMessage(Message):
     async def convert(self, ctx: commands.Context, arg: str):
         m = await super().convert(ctx, arg)
         if m.guild != ctx.guild:
@@ -102,7 +115,7 @@ class Role(commands.RoleConverter):
 
     async def convert(self, ctx: commands.Context, arg: str) -> discord.Role:
         role = await super().convert(ctx, arg)
-        if role.id == ctx.guild.default_role:
+        if role.id == ctx.guild.default_role.id:
             raise RoleNotFound(arg)
 
 

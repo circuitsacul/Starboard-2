@@ -51,7 +51,7 @@ class AwardRoles(commands.Cog):
     async def add_xprole(
         self,
         ctx: commands.Context,
-        role: discord.Role,
+        role: converters.Role,
         required: converters.myint,
     ):
         xpr = await self.bot.db.xproles.get(role.id)

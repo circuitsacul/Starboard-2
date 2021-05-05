@@ -297,22 +297,20 @@ class Fun(commands.Cog):
         )
         await ctx.send(plain_text, embed=embed, files=attachments)
 
-    # Removed, as it is a copy of the command of another bot. Feel free to
-    # Uncomment if you selfhost the bot.
-    # @commands.command(
-    #    name='starworthy',
-    #    aliases=['worthy'],
-    #    help=t_("Tells you how starworthy a message is", True),
-    # )
-    # @commands.guild_only()
-    # async def starworthy(
-    #    self,
-    #    ctx: commands.Context,
-    #    message: converters.GuildMessage
-    # ) -> None:
-    #    r = random.Random(message.id)
-    #    worthiness: float = r.randrange(0, 100)
-    #    await ctx.send(f"That message is {worthiness}% starworthy")
+    @commands.command(
+        name="starworthy",
+        aliases=["worthy"],
+        help=t_("Tells you how starworthy a message is", True),
+    )
+    @commands.guild_only()
+    async def starworthy(
+        self, ctx: commands.Context, message: converters.GuildMessage
+    ) -> None:
+        r = random.Random(message.id)
+        worthiness: float = r.randrange(0, 100)
+        await ctx.send(
+            t_("That message is {}% starworthy.").format(worthiness)
+        )
 
     @commands.command(
         name="save", help=t_("Saves a message to your DM's", True)

@@ -377,7 +377,7 @@ class PermRoles(commands.Cog):
         self,
         ctx: commands.Context,
         group: converters.PermGroup,
-        role: discord.Role,
+        role: converters.Role,
     ):
         if (await self.bot.db.permroles.get(role.id, group["id"])) is not None:
             raise errors.PermRoleAlreadyExists(role.name, group["name"])
@@ -400,7 +400,7 @@ class PermRoles(commands.Cog):
         self,
         ctx: commands.Context,
         group: converters.PermGroup,
-        role: discord.Role,
+        role: converters.Role,
     ):
         permrole = await self.bot.db.permroles.get(role.id, group["id"])
         if not permrole:
@@ -423,7 +423,7 @@ class PermRoles(commands.Cog):
         self,
         ctx: commands.Context,
         group: converters.PermGroup,
-        role: discord.Role,
+        role: converters.Role,
         new_position: converters.myint,
     ):
         permrole = await self.bot.db.permroles.get(role.id, group["id"])
@@ -450,7 +450,7 @@ class PermRoles(commands.Cog):
         self,
         ctx: commands.Context,
         group: converters.PermGroup,
-        role: discord.Role,
+        role: converters.Role,
         allow_commands: converters.OrNone(converters.mybool),
     ):
         pr = await self.bot.db.permroles.get(role.id, group["id"])
@@ -477,7 +477,7 @@ class PermRoles(commands.Cog):
         self,
         ctx: commands.Context,
         group: converters.PermGroup,
-        role: discord.Role,
+        role: converters.Role,
         on_starboard: converters.OrNone(converters.mybool),
     ):
         pr = await self.bot.db.permroles.get(role.id, group["id"])
@@ -503,7 +503,7 @@ class PermRoles(commands.Cog):
         self,
         ctx: commands.Context,
         group: converters.PermGroup,
-        role: discord.Role,
+        role: converters.Role,
         give_stars: converters.OrNone(converters.mybool),
     ):
         pr = await self.bot.db.permroles.get(role.id, group["id"])
@@ -529,7 +529,7 @@ class PermRoles(commands.Cog):
         self,
         ctx: commands.Context,
         group: converters.PermGroup,
-        role: discord.Role,
+        role: converters.Role,
         gain_xp: converters.OrNone(converters.mybool),
     ):
         pr = await self.bot.db.permroles.get(role.id, group["id"])
@@ -553,7 +553,7 @@ class PermRoles(commands.Cog):
         self,
         ctx: commands.Context,
         group: converters.PermGroup,
-        role: discord.Role,
+        role: converters.Role,
         pos_roles: converters.OrNone(converters.mybool),
     ):
         pr = await self.bot.db.permroles.get(role.id, group["id"])
@@ -579,7 +579,7 @@ class PermRoles(commands.Cog):
         self,
         ctx: commands.Context,
         group: converters.PermGroup,
-        role: discord.Role,
+        role: converters.Role,
         xp_roles: converters.OrNone(converters.mybool),
     ):
         pr = await self.bot.db.permroles.get(role.id, group["id"])
