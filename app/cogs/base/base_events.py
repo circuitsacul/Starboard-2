@@ -266,9 +266,12 @@ def setup(bot: Bot) -> None:
     bot.add_cog(BaseEvents(bot))
 
     @bot.before_invoke
-    async def create_data(message: discord.Message) -> None:
-        if message.guild is None:
+    async def before_invoke(ctx: commands.Context) -> None:
+        if ctx.guild is None:
             return
-        await bot.db.guilds.create(message.guild.id)
-        await bot.db.users.create(message.author.id, message.author.bot)
-        await bot.db.members.create(message.author.id, message.guild.id)
+
+        bot.register_cleanup(ctx.message)
+
+        await bot.db.guilds.create(ctx.guild.id)
+        await bot.db.users.create(ctx.author.id, ctx.author.bot)
+        await bot.db.members.create(ctx.author.id, ctx.guild.id)

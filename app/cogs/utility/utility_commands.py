@@ -18,6 +18,30 @@ class Utility(commands.Cog):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
 
+    @commands.command(
+        name="cleanup",
+        help=t_(
+            "Removes command invocations and their responses for this bot.",
+            True,
+        ),
+    )
+    @commands.has_guild_permissions(manage_messages=True)
+    @commands.bot_has_permissions(
+        read_message_history=True, manage_messages=True
+    )
+    @commands.guild_only()
+    async def cleanup(self, ctx: commands.Context):
+        to_cleanup = self.bot.to_cleanup[ctx.guild.id]._values
+
+        def check(m: discord.Message) -> bool:
+            if m.id in to_cleanup:
+                return True
+            return False
+
+        await ctx.channel.purge(check=check, limit=200)
+
+        await ctx.send("Done", delete_after=3)
+
     @commands.group(
         name="reset",
         help=t_("A utility for resetting aspects of the bot.", True),
@@ -26,7 +50,6 @@ class Utility(commands.Cog):
     @commands.has_guild_permissions(administrator=True)
     @commands.guild_only()
     async def reset(self, ctx: commands.Context):
-        "A utility for resetting aspects of the bot."
         await ctx.send_help(ctx.command)
 
     @reset.command(name="all", help=t_("Resets the bot for your guild.", True))
