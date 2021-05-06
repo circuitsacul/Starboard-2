@@ -15,7 +15,7 @@ def is_owner() -> callable:
 
 def support_server() -> callable:
     async def predicate(ctx: commands.Context) -> bool:
-        if ctx.guild.id != config.ROLE_SERVER:
+        if ctx.guild and ctx.guild.id != config.ROLE_SERVER:
             raise errors.SupportServerOnly()
         return True
 
