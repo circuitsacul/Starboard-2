@@ -128,6 +128,7 @@ class Base(commands.Cog):
         aliases=["latency"],
         help=t_("Shows current clusters and shards latency", True),
     )
+    @commands.cooldown(1, 3, commands.BucketType.member)
     @commands.bot_has_permissions(embed_links=True)
     async def ping(self, ctx: commands.Context) -> None:
         cluster = self.bot.cluster_name
