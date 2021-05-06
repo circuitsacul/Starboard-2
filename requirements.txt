@@ -16,13 +16,14 @@ cfgv==3.2.0
 chardet==4.0.0
 click==7.1.2
 discord-ext-menus @ git+git://github.com/Rapptz/discord-ext-menus.git@309c70222eec33acacb8c21bbb0fbe9bc57de661
-discord-pretty-help==1.3.0
+discord-pretty-help @ git+git://github.com/CircuitsBots/discord-pretty-help.git@6ca879a16863d2aaf1003fa742309177479b38ba
 discord-py-slash-command==1.1.2
 discord.py==1.7.2
 distlib==0.3.1
 emoji==1.2.0
 filelock==3.0.12
 flake8==3.9.1
+Flask==1.1.2
 h11==0.12.0
 h2==4.0.0
 hpack==4.0.0
@@ -44,6 +45,7 @@ nodeenv==1.6.0
 oauthlib==3.1.0
 pathspec==0.8.1
 patreon==0.5.0
+Pillow==8.2.0
 pre-commit==2.12.1
 priority==1.3.0
 pycodestyle==2.7.0
@@ -52,6 +54,7 @@ PyJWT==2.1.0
 python-dotenv==0.17.1
 PyYAML==5.4.1
 Quart==0.14.1
+quart-csrf==0.2
 Quart-Discord==2.1.4
 regex==2021.4.4
 requests==2.25.1
@@ -65,4 +68,5 @@ virtualenv==20.4.6
 websockets==9.0.1
 Werkzeug==1.0.1
 wsproto==1.0.0
+WTForms==2.3.3
 yarl==1.6.3
