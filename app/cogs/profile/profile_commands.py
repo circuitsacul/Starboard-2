@@ -30,7 +30,7 @@ class Profile(commands.Cog):
 
         await self.bot.db.users.edit(ctx.author.id, locale=code)
         if ctx.author.id in self.bot.locale_cache:
-            self.bot.locale_cache[ctx.author.id] = locale
+            self.bot.locale_cache[ctx.author.id] = code
         await ctx.send(t_("Set your language to {0}.").format(name))
 
     @commands.command(
