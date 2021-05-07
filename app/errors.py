@@ -88,7 +88,7 @@ class NotCommand(commands.BadArgument):
 
 class CommandCategoryNotFound(commands.BadArgument):
     def __init__(self, arg: str):
-        message = t_("`{0}` is not a valid command or category.".format(arg))
+        message = t_("`{0}` is not a valid command or category.").format(arg)
         super().__init__(message=message)
 
 
