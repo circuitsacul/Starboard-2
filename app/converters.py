@@ -6,6 +6,7 @@ import emoji
 from discord.ext import commands
 from discord.ext.commands.errors import ChannelNotFound, RoleNotFound
 
+import config
 from app.classes.bot import Bot
 from app.i18n import t_
 
@@ -67,6 +68,23 @@ def myfloat(arg: str) -> float:
                 "number. Please pass something like `10.9` or `6`."
             ).format(arg)
         )
+
+
+def language(arg: str) -> tuple[str, str]:
+    arg = arg.lower()
+
+    langs = config.LANGUAGE_MAP
+    for lang in langs:
+        codes = []
+        codes.append(lang["code"])
+        codes.append(lang["name"])
+        codes.extend(lang["aliases"])
+        codes = [c.lower() for c in codes]
+
+        if arg in codes:
+            return lang["code"], lang["name"]
+
+    raise errors.InvalidLocale(arg)
 
 
 class OrNone(commands.Converter):

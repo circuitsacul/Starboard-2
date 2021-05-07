@@ -1,12 +1,10 @@
-from typing import Optional
-
 import discord
 from discord.ext import commands, flags
 
-from app import converters, errors, menus, utils
+from app import converters, errors, i18n, menus, utils
 from app.classes.bot import Bot
 from app.cogs.quick_actions import qa_funcs
-from app.i18n import locales, t_
+from app.i18n import t_
 
 
 async def raise_if_exists(emoji: str, ctx: commands.Context) -> None:
@@ -29,21 +27,21 @@ class Settings(commands.Cog):
     @commands.has_guild_permissions(manage_guild=True)
     @commands.guild_only()
     async def set_guild_lang(
-        self, ctx: commands.Context, locale: Optional[str]
+        self, ctx: commands.Context, locale: converters.language = None
     ) -> None:
         if not locale:
             await ctx.send(
-                t_("Valid language codes:```\n{0}```").format(
-                    ", ".join(sorted(locales, key=lambda l: l))
-                )
+                embed=i18n.language_embed(self.bot, utils.clean_prefix(ctx))
             )
             return
 
-        await self.bot.db.guilds.set_locale(ctx.guild.id, locale)
+        code, name = locale
+
+        await self.bot.db.guilds.set_locale(ctx.guild.id, code)
         if ctx.guild.id in self.bot.locale_cache:
-            self.bot.locale_cache[ctx.guild.id] = locale
+            self.bot.locale_cache[ctx.guild.id] = code
         await ctx.send(
-            t_("Set the language for this server to {0}.").format(locale)
+            t_("Set the language for this server to {0}.").format(name)
         )
 
     @commands.command(

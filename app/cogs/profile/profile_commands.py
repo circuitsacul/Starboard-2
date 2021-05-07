@@ -1,11 +1,9 @@
-from typing import Optional
-
 import discord
 from discord.ext import commands
 
-from app import errors
+from app import converters, i18n, utils
 from app.classes.bot import Bot
-from app.i18n import locales, t_
+from app.i18n import t_
 
 
 class Profile(commands.Cog):
@@ -20,19 +18,20 @@ class Profile(commands.Cog):
         help=t_("Sets your language", True),
     )
     async def set_user_language(
-        self, ctx: commands.Context, locale: Optional[str]
+        self, ctx: commands.Context, *, locale: converters.language = None
     ):
         if not locale:
             await ctx.send(
-                t_("Valid Language Codes:\n{0}").format("\n".join(locales))
+                embed=i18n.language_embed(self.bot, utils.clean_prefix(ctx))
             )
             return
-        if locale not in locales:
-            raise errors.InvalidLocale(locale)
-        await self.bot.db.users.edit(ctx.author.id, locale=locale)
+
+        code, name = locale
+
+        await self.bot.db.users.edit(ctx.author.id, locale=code)
         if ctx.author.id in self.bot.locale_cache:
             self.bot.locale_cache[ctx.author.id] = locale
-        await ctx.send(t_("Set your language to {0}.").format(locale))
+        await ctx.send(t_("Set your language to {0}.").format(name))
 
     @commands.command(
         name="public",

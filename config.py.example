@@ -1,3 +1,4 @@
+# Behaviour
 SLASH_GUILD_IDS = None  # Leave None for most cases.
 
 SHARDS = 0  # Leave 0 for it to adjust automatically
@@ -8,14 +9,20 @@ BOT_PERM_INT = 0  # The permission int for the bot invite
 
 REDIRECT_URI = "http://0.0.0.0:5000/api/callback/"
 
-THEME_COLOR = int('FFE16C', 16)  # Main bot color
-DARK_THEME_COLOR = int('0xff7b1c', 16)  # Darker version of bot color
-ERROR_COLOR = int('F54251', 16)  # Color for error messages
+DONATEBOT_PRODUCT_IDS = []
 
 DONATE_ROLES = []  # List of roles received upon donation
 PATRON_ROLES = []  # List of roles given to patrons
 ROLE_SERVER = -1  # Server that the roles are located in
 
+LANGUAGE_MAP = [
+    {"code": "en_US", "name": "English (US)", "aliases": ["english", "en"]}
+]
+
+# Appearance
+THEME_COLOR = int('FFE16C', 16)  # Main bot color
+DARK_THEME_COLOR = int('0xff7b1c', 16)  # Darker version of bot color
+ERROR_COLOR = int('F54251', 16)  # Color for error messages
 
 # Links
 VOTE_LINKS = []  # List of vote links
@@ -50,6 +57,6 @@ EXTENSIONS = [
     "jishaku",
 ]
 
-TRANSLATORS = [list of ids]
+TRANSLATORS = []
 
-DEVELOPERS = [list of ids]
+DEVELOPERS = []

@@ -1,9 +1,16 @@
 import contextvars
 import gettext
 import os.path
+import typing
 from glob import glob
 
+import discord
+
+import config
 from app.classes.t_string import TString
+
+if typing.TYPE_CHECKING:
+    from app.classes.bot import Bot
 
 BASE_DIR = "app/"
 LOCALE_DEFAULT = "en_US"
@@ -50,6 +57,25 @@ current_locale: contextvars.ContextVar = contextvars.ContextVar("i18n")
 
 def set_current_locale():
     current_locale.set(LOCALE_DEFAULT)
+
+
+def language_embed(bot: "Bot", p: str) -> discord.Embed:
+    return discord.Embed(
+        title="Languages",
+        color=bot.theme_color,
+        description=t_(
+            "You can now choose your personal and server language. "
+            "Use `{p}guildLang <language>` to set the language for "
+            "the server (applies to starboard messages, level up "
+            "messages, etc.), or `{p}lang <language>` to set your "
+            "personal language.\n\n"
+            "Valid Languages:\n{languages}"
+        ).format(
+            p=p,
+            languages=" - "
+            + "\n - ".join([lang["name"] for lang in config.LANGUAGE_MAP]),
+        ),
+    )
 
 
 set_current_locale()
