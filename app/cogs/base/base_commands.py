@@ -4,6 +4,7 @@ import discord
 from discord.ext import commands
 
 import config
+from app import converters
 from app.i18n import t_
 from app.utils import clean_prefix, ms
 
@@ -76,6 +77,7 @@ class Base(commands.Cog):
         self, ctx: commands.Context, *, command=None
     ) -> None:
         if command:
+            await converters.CommandOrCog().convert(ctx, command)
             return await ctx.send_help(command)
 
         p = clean_prefix(ctx)
@@ -96,6 +98,21 @@ class Base(commands.Cog):
             name=t_("What is a Starboard?"), value=str(self.about_starboard)
         )
         await ctx.send(embed=embed)
+
+    @commands.command(
+        name="commands", help=t_("See a list of commands.", True)
+    )
+    @commands.bot_has_permissions(
+        embed_links=True, add_reactions=True, read_message_history=True
+    )
+    async def invoke_pretty_help(
+        self, ctx: commands.Context, *, command: str = None
+    ) -> None:
+        if command:
+            await converters.CommandOrCog().convert(ctx, command)
+            await ctx.send_help(command)
+        else:
+            await ctx.send_help()
 
     @commands.command(
         name="botstats", aliases=["botinfo"], help=t_("Shows bot statistics")

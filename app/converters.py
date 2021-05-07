@@ -6,6 +6,7 @@ import emoji
 from discord.ext import commands
 from discord.ext.commands.errors import ChannelNotFound, RoleNotFound
 
+from app.classes.bot import Bot
 from app.i18n import t_
 
 from . import errors
@@ -211,10 +212,29 @@ class Command(commands.Converter):
     async def convert(
         self, ctx: commands.Context, arg: str
     ) -> commands.Command:
+        if arg == "_commands":
+            raise errors.NotCommand(arg)
         cmd = ctx.bot.get_command(arg)
         if not cmd:
             raise errors.NotCommand(arg)
         return cmd
+
+
+class CommandOrCog(Command):
+    async def convert(
+        self, ctx: commands.Context, arg: str
+    ) -> Union[commands.Cog, commands.Command]:
+        try:
+            return await super().convert(ctx, arg)
+        except errors.NotCommand:
+            pass
+
+        bot: Bot = ctx.bot
+        cog = bot.get_cog(arg)
+        if cog:
+            return cog
+
+        raise errors.CommandCategoryNotFound(arg)
 
 
 class PermGroup(commands.Converter):

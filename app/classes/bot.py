@@ -19,6 +19,7 @@ from pretty_help import PrettyHelp
 from app import i18n
 from app.classes.context import CustomContext
 from app.classes.ipc_connection import WebsocketConnection
+from app.i18n.i18n import t_
 from app.menus import HelpMenu
 
 from ..database.database import Database
@@ -81,8 +82,18 @@ class Bot(commands.AutoShardedBot):
         super().__init__(
             help_command=PrettyHelp(
                 color=self.theme_color,
-                command_attrs={"name": "commands", "hidden": True},
+                command_attrs={
+                    "name": "_commands",
+                    "hidden": True,
+                    "enabled": False,
+                },
                 menu=HelpMenu,
+                ending_note=t_(
+                    "Type s-commands command for more info on a command.\n"
+                    "You can also type s-commands category for more info on "
+                    "a category.",
+                    True,
+                ),
             ),
             command_prefix=self._prefix_callable,
             **kwargs,

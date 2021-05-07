@@ -86,6 +86,12 @@ class NotCommand(commands.BadArgument):
         super().__init__(message=message)
 
 
+class CommandCategoryNotFound(commands.BadArgument):
+    def __init__(self, arg: str):
+        message = t_("`{0}` is not a valid command or category.".format(arg))
+        super().__init__(message=message)
+
+
 class NotAutoStarChannel(commands.BadArgument):
     def __init__(self, arg: str):
         message = t_("The channel {0} is not an AutoStarChannel.").format(arg)

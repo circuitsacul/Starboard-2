@@ -18,6 +18,7 @@ load_dotenv()
 
 IGNORED_ERRORS = (
     commands.CommandNotFound,
+    commands.DisabledCommand,
     errors.AllCommandsDisabled,
     errors.CannotUseCommands,
     errors.SupportServerOnly,
