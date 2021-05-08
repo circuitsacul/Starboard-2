@@ -127,6 +127,10 @@ class StarboardEvents(commands.Cog):
         sql_author = await self.bot.db.users.get(author_id)
 
         # Check if valid
+        frozen = trashed = False
+        if sql_message:
+            frozen = sql_message["frozen"]
+            trashed = sql_message["trashed"]
         valid, remove = await starboard_funcs.can_add(
             self.bot,
             emoji,
@@ -135,6 +139,8 @@ class StarboardEvents(commands.Cog):
             channel_id,
             sql_author,
             author_roles,
+            frozen,
+            trashed,
         )
         if remove:
             channel: discord.TextChannel = guild.get_channel(
@@ -185,6 +191,9 @@ class StarboardEvents(commands.Cog):
             self.bot, payload.message_id
         )
         if orig_message is None:
+            return
+
+        if orig_message["frozen"] or orig_message["trashed"]:
             return
 
         r_user = await self.bot.db.reactions.get_reaction_user(

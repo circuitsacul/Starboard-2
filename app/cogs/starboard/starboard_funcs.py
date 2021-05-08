@@ -19,6 +19,8 @@ async def can_add(
     channel_id: int,
     sql_author: dict,
     author_roles: list[int],
+    frozen: bool,
+    trashed: bool,
 ) -> tuple[bool, bool]:
     """Whether or not a user has permission to add a reaction,
     and returns two values:
@@ -45,7 +47,7 @@ async def can_add(
             if channel_id not in [int(cid) for cid in s["channel_wl"]]:
                 continue
         elif s["channel_bl"]:
-            if channel_id not in [int(cid) for cid in s["channel_bl"]]:
+            if channel_id in [int(cid) for cid in s["channel_bl"]]:
                 continue
         starboards.append(s)
     if len(starboards) == 0:
@@ -53,8 +55,10 @@ async def can_add(
 
     # Next, check if the reaction is valid or invalid. Can be invalid because:
     #   It's a selfStar
-    #   The user is missing the proper permissions
-    #   The channel is blacklisted
+    #   The star giver is missing the proper permissions
+    #   The star receiver is missing permisssions
+    #   The star receiver is a bot
+    #   The message is frozen or trashed
     # In order for it to be invalid, the emoji needs to be invalid on *all*
     # starboards that use this emoji. If any of the starboards consider
     # it valid, then it cannot be automatically removed or ignored.
@@ -73,6 +77,11 @@ async def can_add(
                 break
 
         current_valid = True
+
+        # Check frozen/trashed
+        if frozen or trashed:
+            current_valid = False
+            continue
 
         # Check selfStar
         if not s["self_star"] and member.id == int(sql_author["id"]):
