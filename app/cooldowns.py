@@ -74,7 +74,7 @@ class FlexibleCooldownMapping:
         self._cache: dict[str, "Cooldown"] = {}
 
     def copy(self):
-        ret = FlexibleCooldownMapping(self._cooldown)
+        ret = FlexibleCooldownMapping()
         ret._cache = self._cache.copy()
         return ret
 
