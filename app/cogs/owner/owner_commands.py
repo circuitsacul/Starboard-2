@@ -165,7 +165,7 @@ class Owner(commands.Cog):
                             times = int(a)
                         except Exception:
                             start = time.time()
-                            for i in range(0, times):
+                            for _ in range(0, times):
                                 try:
                                     result = await con.fetch(a)
                                 except Exception as e:
