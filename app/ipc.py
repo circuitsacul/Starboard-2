@@ -12,7 +12,7 @@ SSL_CONTEXT.load_cert_chain(pathlib.Path("localhost.pem"))
 
 
 async def dispatch(data):
-    for cluster_name, client in CLIENTS.items():
+    for _, client in CLIENTS.items():
         await client.send(data)
 
 
