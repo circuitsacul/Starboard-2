@@ -210,8 +210,10 @@ class Accordion(Menu):
 
     def set_buttons(self):
         for num, field in enumerate(self.fields):
-            self._buttons[NUMBER_EMOJIS[num]] = menus.Button(
-                NUMBER_EMOJIS[num],
+            emoji = NUMBER_EMOJIS[num]
+            field.name = f"{emoji} {field.name}"
+            self._buttons[emoji] = menus.Button(
+                emoji,
                 self._set_field(field),
             )
         self._buttons["\N{BLACK SQUARE FOR STOP}"] = menus.Button(
