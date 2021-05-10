@@ -78,7 +78,8 @@ class FlexibleCooldownMapping:
         ret._cache = self._cache.copy()
         return ret
 
-    def _bucket_key(self, cooldown_key):
+    @staticmethod
+    def _bucket_key(cooldown_key):
         return cooldown_key
 
     def _verify_cache_integrity(self, current=None):
@@ -127,7 +128,8 @@ class CooldownMapping:
     def from_cooldown(cls, rate, per):
         return cls(Cooldown(rate, per))
 
-    def _bucket_key(self, cooldown_key):
+    @staticmethod
+    def _bucket_key(cooldown_key):
         return cooldown_key
 
     def _verify_cache_integrity(self, current=None):
