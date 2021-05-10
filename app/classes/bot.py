@@ -33,7 +33,7 @@ load_dotenv()
 
 class LimitedList:
     def __init__(self, limit: int = None):
-        self._values = []
+        self._values: list[Any] = []
         self.limit = limit
 
     def append(self, value: Any):
