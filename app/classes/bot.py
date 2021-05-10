@@ -234,7 +234,7 @@ class Bot(commands.AutoShardedBot):
                 ret = await func()
         except Exception:
             value = stdout.getvalue()
-            f"{value}{traceback.format_exc()}"
+            return f"{value}{traceback.format_exc()}"
         else:
             value = stdout.getvalue()
 
