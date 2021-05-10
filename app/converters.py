@@ -167,6 +167,7 @@ class Role(commands.RoleConverter):
         role = await super().convert(ctx, arg)
         if role.id == ctx.guild.default_role.id:
             raise RoleNotFound(arg)
+        return role
 
 
 class Emoji(commands.Converter):
@@ -263,6 +264,21 @@ class PermGroup(commands.Converter):
             raise errors.PermGroupNotFound(arg)
 
         return permgroup
+
+
+class PermRole(Role):
+    def __init__(self, group_arg_index: int):
+        self.group_arg_index = group_arg_index
+        super().__init__()
+
+    async def convert(self, ctx: commands.Context, arg: str) -> SQLObject:
+        group = ctx.args[self.group_arg_index]
+        role = await super().convert(ctx, arg)
+
+        permrole = await ctx.bot.db.permroles.get(role.id, int(group["id"]))
+        if not permrole:
+            raise errors.PermRoleNotFound(role.name, group["name"])
+        return SQLObject(role, permrole)
 
 
 class XPRole(Role):

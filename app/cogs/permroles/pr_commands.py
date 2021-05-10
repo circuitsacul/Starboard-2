@@ -403,16 +403,12 @@ class PermRoles(commands.Cog):
         self,
         ctx: commands.Context,
         group: converters.PermGroup,
-        role: converters.Role,
+        role: converters.PermRole(-1),
     ):
-        permrole = await self.bot.db.permroles.get(role.id, group["id"])
-        if not permrole:
-            raise errors.PermRoleNotFound(role.name, group["name"])
-
-        await self.bot.db.permroles.delete(role.id, group["id"])
+        await self.bot.db.permroles.delete(role.obj.id, group["id"])
         await ctx.send(
             t_("{0} is no longer a PermRole on the PermGroup {1}.").format(
-                role, group["name"]
+                role.obj.name, group["name"]
             )
         )
 
@@ -426,19 +422,15 @@ class PermRoles(commands.Cog):
         self,
         ctx: commands.Context,
         group: converters.PermGroup,
-        role: converters.Role,
+        role: converters.PermRole(-1),
         new_position: converters.myint,
     ):
-        permrole = await self.bot.db.permroles.get(role.id, group["id"])
-        if not permrole:
-            raise errors.PermRoleNotFound(role.name, group["name"])
-
         new_index = await self.bot.db.permroles.move(
-            role.id, group["id"], new_position
+            role.obj.id, group["id"], new_position
         )
         await ctx.send(
             t_("Moved the PermRole {0} from {1} to {2}.").format(
-                role.name, permrole["index"], new_index
+                role.name, role.sql["index"], new_index
             )
         )
 
@@ -453,18 +445,20 @@ class PermRoles(commands.Cog):
         self,
         ctx: commands.Context,
         group: converters.PermGroup,
-        role: converters.Role,
+        role: converters.PermRole(-1),
         allow_commands: converters.OrNone(converters.mybool),
     ):
-        pr = await self.bot.db.permroles.get(role.id, group["id"])
-        if not pr:
-            raise errors.PermRoleNotFound(role.name, group["name"])
         await self.bot.db.permroles.set_allow_commands(
-            role.id, group["id"], allow_commands
+            role.obj.id, group["id"], allow_commands
         )
         await ctx.send(
             embed=utils.cs_embed(
-                {"allowCommnads": (pr["allow_commands"], allow_commands)},
+                {
+                    "allowCommnads": (
+                        role.sql["allow_commands"],
+                        allow_commands,
+                    )
+                },
                 self.bot,
             )
         )
@@ -480,18 +474,16 @@ class PermRoles(commands.Cog):
         self,
         ctx: commands.Context,
         group: converters.PermGroup,
-        role: converters.Role,
+        role: converters.PermRole(-1),
         on_starboard: converters.OrNone(converters.mybool),
     ):
-        pr = await self.bot.db.permroles.get(role.id, group["id"])
-        if not pr:
-            raise errors.PermRoleNotFound(role.name, group["name"])
         await self.bot.db.permroles.set_on_starboard(
-            role.id, group["id"], on_starboard
+            role.obj.id, group["id"], on_starboard
         )
         await ctx.send(
             embed=utils.cs_embed(
-                {"onStarboard": (pr["on_starboard"], on_starboard)}, self.bot
+                {"onStarboard": (role.sql["on_starboard"], on_starboard)},
+                self.bot,
             )
         )
 
@@ -506,18 +498,15 @@ class PermRoles(commands.Cog):
         self,
         ctx: commands.Context,
         group: converters.PermGroup,
-        role: converters.Role,
+        role: converters.PermRole(-1),
         give_stars: converters.OrNone(converters.mybool),
     ):
-        pr = await self.bot.db.permroles.get(role.id, group["id"])
-        if not pr:
-            raise errors.PermRoleNotFound(role.name, group["name"])
         await self.bot.db.permroles.set_give_stars(
-            role.id, group["id"], give_stars
+            role.obj.id, group["id"], give_stars
         )
         await ctx.send(
             embed=utils.cs_embed(
-                {"giveStars": (pr["give_stars"], give_stars)}, self.bot
+                {"giveStars": (role.sql["give_stars"], give_stars)}, self.bot
             )
         )
 
@@ -532,16 +521,15 @@ class PermRoles(commands.Cog):
         self,
         ctx: commands.Context,
         group: converters.PermGroup,
-        role: converters.Role,
+        role: converters.PermRole(-1),
         gain_xp: converters.OrNone(converters.mybool),
     ):
-        pr = await self.bot.db.permroles.get(role.id, group["id"])
-        if not pr:
-            raise errors.PermRoleNotFound(role.name, group["name"])
-        await self.bot.db.permroles.set_gain_xp(role.id, group["id"], gain_xp)
+        await self.bot.db.permroles.set_gain_xp(
+            role.obj.id, group["id"], gain_xp
+        )
         await ctx.send(
             embed=utils.cs_embed(
-                {"gainXP": (pr["gain_xp"], gain_xp)}, self.bot
+                {"gainXP": (role.sql["gain_xp"], gain_xp)}, self.bot
             )
         )
 
@@ -556,18 +544,15 @@ class PermRoles(commands.Cog):
         self,
         ctx: commands.Context,
         group: converters.PermGroup,
-        role: converters.Role,
+        role: converters.PermRole(-1),
         pos_roles: converters.OrNone(converters.mybool),
     ):
-        pr = await self.bot.db.permroles.get(role.id, group["id"])
-        if not pr:
-            raise errors.PermRoleNotFound(role.name, group["name"])
         await self.bot.db.permroles.set_pos_roles(
-            role.id, group["id"], pos_roles
+            role.obj.id, group["id"], pos_roles
         )
         await ctx.send(
             embed=utils.cs_embed(
-                {"posRoles": (pr["pos_roles"], pos_roles)}, self.bot
+                {"posRoles": (role.sql["pos_roles"], pos_roles)}, self.bot
             )
         )
 
@@ -582,18 +567,15 @@ class PermRoles(commands.Cog):
         self,
         ctx: commands.Context,
         group: converters.PermGroup,
-        role: converters.Role,
+        role: converters.PermRole(-1),
         xp_roles: converters.OrNone(converters.mybool),
     ):
-        pr = await self.bot.db.permroles.get(role.id, group["id"])
-        if not pr:
-            raise errors.PermRoleNotFound(role.name, group["name"])
         await self.bot.db.permroles.set_xp_roles(
-            role.id, group["id"], xp_roles
+            role.obj.id, group["id"], xp_roles
         )
         await ctx.send(
             embed=utils.cs_embed(
-                {"xpRoles": (pr["xp_roles"], xp_roles)}, self.bot
+                {"xpRoles": (role.sql["xp_roles"], xp_roles)}, self.bot
             )
         )
 
