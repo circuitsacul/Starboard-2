@@ -91,10 +91,15 @@ class PermRoles(commands.Cog):
                 )
                 await ctx.send(embed=embed)
         else:
+            p = utils.clean_prefix(ctx)
             embed = (
                 discord.Embed(
                     title=f"PermGroup {group['name']}",
                     color=self.bot.theme_color,
+                    description=t_(
+                        "If you're looking for the PermRoles "
+                        "of this PermGroup, run {0}."
+                    ).format(f"`{p}pg roles {group['name']}`"),
                 )
                 .add_field(
                     name="channels",
