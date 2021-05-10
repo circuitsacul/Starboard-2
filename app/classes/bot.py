@@ -16,6 +16,7 @@ from discord_slash import SlashCommand
 from dotenv import load_dotenv
 from pretty_help import PrettyHelp
 
+import config
 from app import i18n
 from app.classes.context import CustomContext
 from app.classes.ipc_connection import WebsocketConnection
@@ -136,6 +137,11 @@ class Bot(commands.AutoShardedBot):
             raise e from e
         else:
             sys.exit(-1)
+
+    async def is_owner(self, user: discord.User):
+        if user.id in config.OWNER_IDS:
+            return True
+        return False
 
     async def get_context(self, message, *, cls=CustomContext):
         return await super().get_context(message, cls=cls)

@@ -4,6 +4,8 @@ import discord
 from discord.ext import commands, menus
 from pretty_help import PrettyMenu
 
+import config
+
 
 class HelpMenu(PrettyMenu):
     @staticmethod
@@ -16,7 +18,16 @@ class HelpMenu(PrettyMenu):
         await p.start(ctx, channel=destination)
 
 
-class Confirm(menus.Menu):
+class Menu(menus.Menu):
+    def reaction_check(self, payload):
+        if payload.message_id != self.message.id:
+            return False
+        if payload.user_id not in {self._author_id, *config.OWNER_IDS}:
+            return False
+        return payload.emoji in self.buttons
+
+
+class Confirm(Menu):
     def __init__(self, message: str) -> None:
         super().__init__(timeout=30, delete_message_after=True)
         self.msg = message
@@ -42,7 +53,7 @@ class Confirm(menus.Menu):
         return self.result
 
 
-class Paginator(menus.Menu):
+class Paginator(Menu):
     def __init__(
         self,
         embeds: Optional[list[discord.Embed]] = None,
