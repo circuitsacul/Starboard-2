@@ -285,7 +285,7 @@ class Starboards:
         await self._starboard_edited(starboard_id, int(s["guild_id"]))
 
     async def add_star_emoji(self, starboard_id: int, emoji: str) -> None:
-        if type(emoji) is not str:
+        if not isinstance(emoji, str):
             raise ValueError("Expected a str for emoji.")
 
         starboard = await self.get(starboard_id)
@@ -301,7 +301,7 @@ class Starboards:
         )
 
     async def remove_star_emoji(self, starboard_id: int, emoji: str) -> None:
-        if type(emoji) is not str:
+        if not isinstance(emoji, str):
             raise ValueError("Expected a str for emoji.")
 
         starboard = await self.get(starboard_id)

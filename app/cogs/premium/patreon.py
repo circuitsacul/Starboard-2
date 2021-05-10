@@ -66,7 +66,7 @@ class API(object):
 
         head, tail = head_and_tail(cursor_path)
         current_dict = jsonapi_document
-        while head and type(current_dict) == dict and head in current_dict:
+        while head and isinstance(current_dict, dict) and head in current_dict:
             current_dict = current_dict[head]
             head, tail = head_and_tail(tail)
 
@@ -74,7 +74,7 @@ class API(object):
         if current_dict is None or (head is not None and tail is None):
             return None
         # Path stopped before leaf was reached
-        elif current_dict and type(current_dict) != str:
+        elif current_dict and not isinstance(current_dict, str):
             raise Exception(
                 "Provided cursor path did not result in a link", current_dict
             )

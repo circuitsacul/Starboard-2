@@ -169,7 +169,7 @@ def convert_emojis(
     result: list[str] = []
     for e in emojis:
         eid = None
-        if type(e) is not discord.Emoji:
+        if not isinstance(e, discord.Emoji):
             try:
                 eid = int(e)
             except ValueError:

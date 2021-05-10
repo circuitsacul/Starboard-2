@@ -319,7 +319,7 @@ async def embed_message(
                 ref_content = ref_message.system_content
         else:
             ref_message = message.reference.resolved
-            if type(message.reference.resolved) is discord.Message:
+            if isinstance(message.reference.resolved, discord.Message):
                 ref_content = message.reference.resolved.system_content
                 ref_author = str(ref_message.author)
             else:
@@ -334,7 +334,7 @@ async def embed_message(
             inline=False,
         )
 
-        if type(ref_message) is discord.Message:
+        if isinstance(ref_message, discord.Message):
             ref_jump = t_("**[Replying to {0}]({1})**\n").format(
                 ref_author, ref_message.jump_url
             )

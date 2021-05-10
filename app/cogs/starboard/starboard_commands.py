@@ -243,8 +243,8 @@ class Starboard(commands.Cog):
     async def remove_starboard(
         self, ctx: commands.Context, channel: Union[discord.TextChannel, int]
     ) -> None:
-        cid = channel.id if type(channel) is not int else channel
-        cname = channel.mention if type(channel) is not int else channel
+        cid = channel.id if not isinstance(channel, int) else channel
+        cname = channel.mention if not isinstance(channel, int) else channel
         starboard = await self.bot.db.starboards.get(cid)
         if not starboard:
             raise errors.NotStarboard(cname)
