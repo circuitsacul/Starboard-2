@@ -37,6 +37,23 @@ def timeout(seconds=10, error_message=os.strerror(errno.ETIME)):
 
 
 # Functions
+async def get_prefix(
+    bot: "Bot", message: discord.Message, when_mentioned: bool = True
+) -> list[str]:
+    if message.guild:
+        guild = await bot.db.guilds.get(message.guild.id)
+        if not guild:
+            prefixes = ["sb!"]
+        else:
+            prefixes = guild["prefixes"]
+    else:
+        prefixes = ["sb!"]
+    prefixes = list(sorted(prefixes, key=len, reverse=True))
+    if when_mentioned:
+        return commands.when_mentioned_or(*prefixes)(bot, message)
+    return prefixes
+
+
 def webhooklog(content: str, url: Optional[str]) -> None:
     if not url:
         return

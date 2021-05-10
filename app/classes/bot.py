@@ -17,7 +17,7 @@ from dotenv import load_dotenv
 from pretty_help import PrettyHelp
 
 import config
-from app import i18n
+from app import i18n, utils
 from app.classes.context import CustomContext
 from app.classes.ipc_connection import WebsocketConnection
 from app.i18n.i18n import t_
@@ -96,7 +96,7 @@ class Bot(commands.AutoShardedBot):
                     True,
                 ),
             ),
-            command_prefix=self._prefix_callable,
+            command_prefix=utils.get_prefix,
             **kwargs,
             loop=loop,
             activity=discord.Activity(
@@ -195,22 +195,6 @@ class Bot(commands.AutoShardedBot):
     async def on_error(self, event: str, *args, **kwargs) -> None:
         _, error, _ = sys.exc_info()
         self.dispatch("log_error", "Error", error, args, kwargs)
-
-    async def _prefix_callable(
-        self, bot, message: discord.Message, when_mentioned: bool = True
-    ) -> list[str]:
-        if message.guild:
-            guild = await self.db.guilds.get(message.guild.id)
-            if not guild:
-                prefixes = ["sb!"]
-            else:
-                prefixes = guild["prefixes"]
-        else:
-            prefixes = ["sb!"]
-        prefixes = list(sorted(prefixes, key=len, reverse=True))
-        if when_mentioned:
-            return commands.when_mentioned_or(*prefixes)(bot, message)
-        return prefixes
 
     def cleanup_code(self, content):
         """Automatically removes code blocks from the code."""

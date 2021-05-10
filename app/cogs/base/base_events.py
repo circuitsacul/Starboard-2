@@ -150,9 +150,7 @@ class BaseEvents(commands.Cog):
             return
         await self.bot.set_locale(message.author)
         if message.content.replace("!", "") == self.bot.user.mention:
-            prefixes = await self.bot._prefix_callable(
-                self.bot, message, False
-            )
+            prefixes = await utils.get_prefix(self.bot, message, False)
             if not prefixes:
                 prefix = utils.clean_prefix_no_ctx(
                     self.bot.user.mention + " ", self.bot.user
