@@ -53,9 +53,10 @@ async def get_guild_channels(guild_id: int) -> dict[str, dict[int, str]]:
     return channels
 
 
-async def handle_login(next: str = ""):
+async def handle_login(after_login: str = ""):
     return await discord.create_session(
-        scope=["identify", "guilds"], data={"type": "user", "next": next}
+        scope=["identify", "guilds"],
+        data={"type": "user", "next": after_login},
     )
 
 
@@ -445,7 +446,7 @@ async def handle_donate_event():
 # Other
 @app.errorhandler(Unauthorized)
 async def handle_unauthorized(e):
-    return await handle_login(next=request.path)
+    return await handle_login(request.path)
 
 
 @app.errorhandler(AccessDenied)
