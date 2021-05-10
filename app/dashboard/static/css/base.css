@@ -74,10 +74,10 @@
   position: absolute;
   right: -8px;
   top: -8px;
-  width: 56px!important;
-  height: 56px!important;
+  width: 56px !important;
+  height: 56px !important;
   border: none;
-  opacity: 1!important;
+  opacity: 1 !important;
 }
 
 /* Select2 Styling */
@@ -86,74 +86,74 @@
   width: 100%;
 }
 .select2-container--default .select2-selection--single .select2-selection__rendered {
-  color: white!important;
+  color: white !important;
 }
 .select2-container .select2-selection {
-  background-color: hsl(var(--b1))!important;
-  border-color: hsla(var(--bc)/0.2)!important;
-  border-width: 1px!important;
+  background-color: hsl(var(--b1)) !important;
+  border-color: hsla(var(--bc)/0.2) !important;
+  border-width: 1px !important;
   color: white;
-  border-radius: .5rem!important;
+  border-radius: .5rem !important;
 }
 .select2-container--default.select2-container--open.select2-container--below .select2-selection--multiple {
-  border-bottom-left-radius: 0px!important;
-  border-bottom-right-radius: 0px!important;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
 }
 .select2-container--default.select2-container--open.select2-container--above .select2-selection--multiple {
-  border-top-left-radius: 0px!important;
-  border-top-right-radius: 0px!important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
 }
 .select2-container--default.select2-container--open.select2-container--below .select2-selection--single {
-  border-bottom-left-radius: 0px!important;
-  border-bottom-right-radius: 0px!important;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
 }
 .select2-container--default.select2-container--open.select2-container--above .select2-selection--single {
-  border-top-left-radius: 0px!important;
-  border-top-right-radius: 0px!important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
 }
 .select2-dropdown--below .select2-results .select2-results__options {
-  border-bottom-left-radius: 0.5rem!important;
-  border-bottom-right-radius: 0.5rem!important;
+  border-bottom-left-radius: 0.5rem !important;
+  border-bottom-right-radius: 0.5rem !important;
 }
 .select2-dropdown--above .select2-results .select2-results__options {
-  border-top-left-radius: 0.5rem!important;
-  border-top-right-radius: 0.5rem!important;
+  border-top-left-radius: 0.5rem !important;
+  border-top-right-radius: 0.5rem !important;
 }
 .select2-search {
   background-color: transparent;
 }
 .select2-search__field {
-  height: 25px!important;
-  background-color: transparent!important;
+  height: 25px !important;
+  background-color: transparent !important;
 }
 .select2-container--open .select2-dropdown--above {
   border-bottom: none;
-  border-bottom-left-radius: 0!important;
-  border-bottom-right-radius: 0!important;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
 }
 .select2-container--open .select2-dropdown--below {
   border-top: none;
-  border-top-left-radius: 0!important;
-  border-top-right-radius: 0!important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
 }
 .select2-results__option--highlighted {
-  background-color: hsl(var(--n))!important;
+  background-color: hsl(var(--n)) !important;
 }
 .select2-results__option--selected {
-  background-color: hsl(var(--n))!important;
+  background-color: hsl(var(--n)) !important;
 }
 
 .select2-dropdown {
-  border-color: hsla(var(--bc)/0.2)!important;
+  border-color: hsla(var(--bc)/0.2) !important;
   border-width: 1px;
-  background-color: hsl(var(--b1))!important;
-  border-radius: 0.5rem!important;
+  background-color: hsl(var(--b1)) !important;
+  border-radius: 0.5rem !important;
 }
 .select2-selection__choice__remove:hover {
-  background-color: hsl(var(--b1))!important;
-  color: white!important;
+  background-color: hsl(var(--b1)) !important;
+  color: white !important;
 }
 .select2-selection__choice {
-  background-color: hsl(var(--b1))!important;
-  border-radius: .5rem!important;
+  background-color: hsl(var(--b1)) !important;
+  border-radius: .5rem !important;
 }
