@@ -57,6 +57,29 @@ CLUSTER_NAMES = (
 NAMES = iter(CLUSTER_NAMES)
 
 
+def get_shard_count():
+    if SHARDS != 0:
+        log.info(f"Launching with {SHARDS} shards")
+        return SHARDS
+    data = requests.get(
+        "https://discordapp.com/api/v7/gateway/bot",
+        headers={
+            "Authorization": "Bot " + TOKEN,
+            "User-Agent": (
+                "DiscordBot (https://github.com/Rapptz/discord.py "
+                "1.3.0a) Python/3.7 aiohttp/3.6.1"
+            ),
+        },
+    )
+    data.raise_for_status()
+    content = data.json()
+    log.info(
+        f"Successfully got shard count of {content['shards']}"
+        f" ({data.status_code, data.reason})"
+    )
+    return content["shards"]
+
+
 class Launcher:
     def __init__(self, loop):
         log.info("Hello, world!")
@@ -69,28 +92,6 @@ class Launcher:
 
         self.keep_alive = None
         self.init = time.perf_counter()
-
-    def get_shard_count(self):
-        if SHARDS != 0:
-            log.info(f"Launching with {SHARDS} shards")
-            return SHARDS
-        data = requests.get(
-            "https://discordapp.com/api/v7/gateway/bot",
-            headers={
-                "Authorization": "Bot " + TOKEN,
-                "User-Agent": (
-                    "DiscordBot (https://github.com/Rapptz/discord.py "
-                    "1.3.0a) Python/3.7 aiohttp/3.6.1"
-                ),
-            },
-        )
-        data.raise_for_status()
-        content = data.json()
-        log.info(
-            f"Successfully got shard count of {content['shards']}"
-            f" ({data.status_code, data.reason})"
-        )
-        return content["shards"]
 
     def start(self):
         self.fut = asyncio.ensure_future(self.startup(), loop=self.loop)
@@ -117,7 +118,7 @@ class Launcher:
             self.keep_alive.add_done_callback(self.task_complete)
 
     async def startup(self):
-        shards = list(range(self.get_shard_count()))
+        shards = list(range(get_shard_count()))
         size = [shards[x : x + 4] for x in range(0, len(shards), 4)]
         log.info(f"Preparing {len(size)} clusters")
         for shard_ids in size:
