@@ -71,7 +71,7 @@ class FlexibleCooldownMapping:
     a different rate/per setting"""
 
     def __init__(self):
-        self._cache = {}
+        self._cache: dict[str, "Cooldown"] = {}
 
     def copy(self):
         ret = FlexibleCooldownMapping(self._cooldown)
@@ -93,7 +93,7 @@ class FlexibleCooldownMapping:
         for k in dead_keys:
             del self._cache[k]
 
-    def get_bucket(self, cooldown_key, rate, per, current=None):
+    def get_bucket(self, cooldown_key, rate, per, current=None) -> Cooldown:
         self._verify_cache_integrity(current)
         key = self._bucket_key(cooldown_key)
         if key not in self._cache:
@@ -104,13 +104,13 @@ class FlexibleCooldownMapping:
 
         return bucket
 
-    def update_rate_limit(self, cooldown_key, current=None):
-        bucket = self.get_bucket(cooldown_key, current)
+    def update_rate_limit(self, cooldown_key, rate, per, current=None):
+        bucket = self.get_bucket(cooldown_key, rate, per, current)
         return bucket.update_rate_limit(current)
 
 
 class CooldownMapping:
-    def __init__(self, original):
+    def __init__(self, original: "Cooldown"):
         self._cache = {}
         self._cooldown = original
 
