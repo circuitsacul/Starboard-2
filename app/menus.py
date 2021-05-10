@@ -1,10 +1,14 @@
-from typing import Optional
+from collections import OrderedDict
+from copy import deepcopy
+from typing import Awaitable, Callable, Optional
 
 import discord
 from discord.ext import commands, menus
 from pretty_help import PrettyMenu
 
 import config
+
+ZERO_WIDTH_SPACE = "\u200B"
 
 
 class HelpMenu(PrettyMenu):
@@ -19,6 +23,13 @@ class HelpMenu(PrettyMenu):
 
 
 class Menu(menus.Menu):
+    def __init__(self, delete_after: bool = False, timeout: float = 180.0):
+        super().__init__(
+            delete_message_after=delete_after,
+            clear_reactions_after=not delete_after,
+            timeout=timeout,
+        )
+
     def reaction_check(self, payload):
         if payload.message_id != self.message.id:
             return False
@@ -29,7 +40,7 @@ class Menu(menus.Menu):
 
 class Confirm(Menu):
     def __init__(self, message: str) -> None:
-        super().__init__(timeout=30, delete_message_after=True)
+        super().__init__(timeout=30, delete_after=True)
         self.msg = message
         self.result = None
 
@@ -60,10 +71,7 @@ class Paginator(Menu):
         text: Optional[list[str]] = None,
         delete_after: bool = False,
     ) -> None:
-        super().__init__(
-            clear_reactions_after=not delete_after,
-            delete_message_after=delete_after,
-        )
+        super().__init__(delete_after=True)
         self.embeds = embeds
         self.text = text
         self.current_page = 0
@@ -78,16 +86,6 @@ class Paginator(Menu):
                     else to_add
                 )
                 e.set_footer(text=footer, icon_url=e.footer.icon_url)
-
-    @classmethod
-    async def help_menu(
-        cls: "Paginator",
-        ctx: commands.Context,
-        destination: discord.abc.Messageable,
-        pages: list[discord.Embed],
-    ):
-        paginator = cls(pages, delete_after=True)
-        await paginator.start(ctx, channel=destination)
 
     async def send_initial_message(
         self, ctx: commands.Context, channel: discord.TextChannel
@@ -138,3 +136,91 @@ class Paginator(Menu):
     @menus.button("\N{BLACK SQUARE FOR STOP}")
     async def stop_menu(self, payload: discord.RawReactionActionEvent) -> None:
         self.stop()
+
+
+class _AccordionField:
+    def __init__(self, accordion: "Accordion", name: str, value: str):
+        self.name = name
+        self.value = value
+        self._accordion = accordion
+        self.embed: Optional[discord.Embed] = None
+
+    async def _set_to(self):
+        if not self.embed:
+            embed: discord.Embed = deepcopy(self._accordion._embed)
+            embed.clear_fields()
+            for field in self._accordion.fields:
+                if field is self:
+                    value = self.value
+                else:
+                    value = ZERO_WIDTH_SPACE
+                embed.add_field(name=field.name, value=value, inline=False)
+            self.embed = embed
+
+        await self._accordion.message.edit(embed=self.embed)
+
+
+NUMBER_EMOJIS = [
+    "1️⃣",
+    "2️⃣",
+    "3️⃣",
+    "4️⃣",
+    "5️⃣",
+    "6️⃣",
+    "7️⃣",
+    "8️⃣",
+    "9️⃣",
+    "🔟",
+]
+
+
+class Accordion(Menu):
+    def __init__(self, embed: discord.Embed):
+        super().__init__(delete_after=True)
+        self._embed = embed
+        self._embed.clear_fields()
+        self.fields: list["_AccordionField"] = []
+
+        self._buttons = OrderedDict()
+
+    async def start(self, ctx, *, channel=None, wait=False):
+        self.set_buttons()
+        return await super().start(ctx, channel=channel, wait=wait)
+
+    async def send_initial_message(
+        self, ctx: commands.Context, destination: discord.abc.Messageable
+    ):
+        for field in self.fields:
+            self._embed.add_field(
+                name=field.name, value=ZERO_WIDTH_SPACE, inline=False
+            )
+        return await destination.send(embed=self._embed)
+
+    def _set_field(
+        self, field: "_AccordionField"
+    ) -> Callable[
+        ["Accordion", discord.RawReactionActionEvent], Awaitable[None]
+    ]:
+        async def set_field(
+            menu: "Accordion", payload: discord.RawReactionActionEvent
+        ):
+            await field._set_to()
+
+        return set_field
+
+    def set_buttons(self):
+        for num, field in enumerate(self.fields):
+            self._buttons[NUMBER_EMOJIS[num]] = menus.Button(
+                NUMBER_EMOJIS[num],
+                self._set_field(field),
+            )
+        self._buttons["\N{BLACK SQUARE FOR STOP}"] = menus.Button(
+            "\N{BLACK SQUARE FOR STOP}", self.astop
+        )
+
+    async def astop(self, payload):
+        return self.stop()
+
+    def add_field(self, name: str, value: str) -> "Accordion":
+        self.fields.append(_AccordionField(self, name, value))
+        return self
