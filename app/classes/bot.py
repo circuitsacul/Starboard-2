@@ -196,7 +196,8 @@ class Bot(commands.AutoShardedBot):
         _, error, _ = sys.exc_info()
         self.dispatch("log_error", "Error", error, args, kwargs)
 
-    def cleanup_code(self, content):
+    @staticmethod
+    def cleanup_code(content):
         """Automatically removes code blocks from the code."""
         # remove ```py\n```
         if content.startswith("```") and content.endswith("```"):
