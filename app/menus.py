@@ -208,8 +208,9 @@ class Accordion(Menu):
             )
         return await destination.send(embed=self._embed)
 
+    @staticmethod
     def _set_field(
-        self, field: "_AccordionField"
+        field: "_AccordionField",
     ) -> Callable[
         ["Accordion", discord.RawReactionActionEvent], Awaitable[None]
     ]:
