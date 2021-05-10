@@ -71,7 +71,7 @@ class Paginator(Menu):
         text: Optional[list[str]] = None,
         delete_after: bool = False,
     ) -> None:
-        super().__init__(delete_after=True)
+        super().__init__(delete_after=delete_after)
         self.embeds = embeds
         self.text = text
         self.current_page = 0
@@ -86,6 +86,18 @@ class Paginator(Menu):
                     else to_add
                 )
                 e.set_footer(text=footer, icon_url=e.footer.icon_url)
+        if self.length == 1:
+            self.remove_button(self.skip_to_first.__menu_button__)
+            self.remove_button(self.skip_to_last.__menu_button__)
+            self.remove_button(self.next.__menu_button__)
+            self.remove_button(self.back.__menu_button__)
+            if not delete_after:
+                self.remove_button(self.stop_menu.__menu_button__)
+
+    async def start(self, ctx, *, channel=None, wait=False):
+        if self.length == 1 and not self.delete_message_after:
+            return await self.send_initial_message(ctx, channel or ctx.channel)
+        return await super().start(ctx, channel=channel, wait=wait)
 
     async def send_initial_message(
         self, ctx: commands.Context, channel: discord.TextChannel
