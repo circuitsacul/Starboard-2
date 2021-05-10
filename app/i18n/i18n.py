@@ -17,7 +17,7 @@ LOCALE_DEFAULT = "en_US"
 LOCALE_DIR = "locale"
 locales = frozenset(
     map(
-        lambda s: os.path.basename(s),
+        os.path.basename,
         filter(os.path.isdir, glob(os.path.join(BASE_DIR, LOCALE_DIR, "*"))),
     )
 )
