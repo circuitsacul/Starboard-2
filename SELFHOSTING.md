@@ -1,4 +1,5 @@
-# Steps (required)
+# Self Hosting
+## Steps (required)
 1.  Clone the repo by running `git clone https://github.com/CircuitsBots/Starboard-2.git`
 2.  Create a virtual environment (with conda or venv) and then run `pip install -r requirements.txt`
 3.  Create copies of `.env.example` and `.config.py.example` and name them `.env` and `.config.py`
@@ -13,7 +14,7 @@
 
 At this point, the bot should run correctly. You can follow the steps below to setup completely:
 
-# Steps (dashboard)
+## Steps (dashboard)
 Follow these steps if you want to run the dashboard
 1.  In the command line, run `python -c "import secrets; print(secrets.token_bytes(32))"` to generate your quart key.
 2.  Copy the output, and put the result in the `QUART_KEY` field in `.env`
