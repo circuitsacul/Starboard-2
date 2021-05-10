@@ -207,7 +207,7 @@ class Bot(commands.AutoShardedBot):
                 prefixes = guild["prefixes"]
         else:
             prefixes = ["sb!"]
-        prefixes = list(sorted(prefixes, key=lambda p: len(p), reverse=True))
+        prefixes = list(sorted(prefixes, key=len, reverse=True))
         if when_mentioned:
             return commands.when_mentioned_or(*prefixes)(bot, message)
         return prefixes
