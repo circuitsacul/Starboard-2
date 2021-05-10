@@ -68,37 +68,50 @@ class Starboard(commands.Cog):
             upvote_emoji_str = utils.pretty_emoji_string(
                 s["star_emojis"], ctx.guild
             )
-            embed = discord.Embed(
-                title=starboard.obj.name,
-                description=(
-                    f"emojis: **{upvote_emoji_str}**\n"
-                    f"displayEmoji: **{s['display_emoji']}**\n"
-                    f"color: **{s['color']}**\n"
-                    f"useWebhook: **{s['use_webhook']}**\n"
-                    f"username: **{s['webhook_name']}**\n"
-                    + (
-                        f"avatar: [view]({s['webhook_avatar']})\n"
-                        if s["webhook_avatar"]
-                        else "avatar: Default\n"
-                    )
-                    + "\n"
-                    f"requiredStars: **{s['required']}**\n"
-                    f"requiredRemove: **{s['required_remove']}**\n"
-                    f"selfStar: **{s['self_star']}**\n"
-                    f"allowBots: **{s['allow_bots']}**\n"
-                    f"imagesOnly: **{s['images_only']}**\n"
-                    f"regex: `{s['regex'] or 'None'}`\n"
-                    f"excludeRegex: `{s['exclude_regex'] or 'None'}`\n"
-                    "\n"
-                    f"ping: **{s['ping']}**\n"
-                    f"autoReact: **{s['autoreact']}**\n"
-                    f"linkDeletes: **{s['link_deletes']}**\n"
-                    f"linkEdits: **{s['link_edits']}**\n"
-                    f"removeInvalid: **{s['remove_invalid']}**\n"
-                    f"noXp: **{s['no_xp']}**\n"
-                    f"allowRandom: **{s['explore']}**\n"
-                ),
-                color=self.bot.theme_color,
+            embed = (
+                discord.Embed(
+                    title=starboard.obj.name,
+                    color=self.bot.theme_color,
+                )
+                .add_field(
+                    name="Appearance",
+                    value=(
+                        f"displayEmoji: **{s['display_emoji']}**\n"
+                        f"color: **{s['color']}**\n"
+                        f"useWebhook: **{s['use_webhook']}**\n"
+                        f"username: **{s['webhook_name']}**\n"
+                        + (
+                            f"avatar: [view]({s['webhook_avatar']})\n"
+                            if s["webhook_avatar"]
+                            else "avatar: Default\n"
+                        )
+                    ),
+                )
+                .add_field(
+                    name="Requirements",
+                    value=(
+                        f"emojis: **{upvote_emoji_str}**\n"
+                        f"requiredStars: **{s['required']}**\n"
+                        f"requiredRemove: **{s['required_remove']}**\n"
+                        f"selfStar: **{s['self_star']}**\n"
+                        f"allowBots: **{s['allow_bots']}**\n"
+                        f"imagesOnly: **{s['images_only']}**\n"
+                        f"regex: `{s['regex'] or 'None'}`\n"
+                        f"excludeRegex: `{s['exclude_regex'] or 'None'}`\n"
+                    ),
+                )
+                .add_field(
+                    name="Behaviour",
+                    value=(
+                        f"ping: **{s['ping']}**\n"
+                        f"autoReact: **{s['autoreact']}**\n"
+                        f"linkDeletes: **{s['link_deletes']}**\n"
+                        f"linkEdits: **{s['link_edits']}**\n"
+                        f"removeInvalid: **{s['remove_invalid']}**\n"
+                        f"noXp: **{s['no_xp']}**\n"
+                        f"allowRandom: **{s['explore']}**\n"
+                    ),
+                )
             )
             await ctx.send(embed=embed)
 
