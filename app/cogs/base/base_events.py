@@ -107,9 +107,11 @@ class BaseEvents(commands.Cog):
         self,
         title: str,
         error: Exception,
-        args: list[Any] = [],
-        kwargs: dict = {},
+        args: list[Any] = None,
+        kwargs: dict = None,
     ) -> None:
+        args = args or []
+        kwargs = kwargs or {}
         p = commands.Paginator(prefix="```python")
 
         p.add_line(title)
