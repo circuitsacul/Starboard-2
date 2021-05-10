@@ -19,7 +19,7 @@
   --su: 151 97% 38%;
   --wa: 44 100% 50%;
   --er: 0 88% 61%;
-  --rounded-box: .5rem;
+  --rounded-box: 0.5rem;
 }
 
 .min-h-screen-minus-nav {
@@ -94,7 +94,7 @@
   border-color: hsla(var(--bc)/0.2) !important;
   border-width: 1px !important;
   color: white;
-  border-radius: .5rem !important;
+  border-radius: 0.5rem !important;
 }
 
 .select2-container--default.select2-container--open.select2-container--below .select2-selection--multiple {
@@ -170,5 +170,5 @@
 
 .select2-selection__choice {
   background-color: hsl(var(--b1)) !important;
-  border-radius: .5rem !important;
+  border-radius: 0.5rem !important;
 }
