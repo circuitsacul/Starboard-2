@@ -358,6 +358,13 @@ class PermRoles(commands.Cog):
         group: converters.PermGroup,
     ):
         permroles = await self.bot.db.permroles.get_many(group["id"])
+        if not permroles:
+            await ctx.send(
+                t_("There are no PermRoles for the PermGroup **{0}**.").format(
+                    group["name"]
+                )
+            )
+            return
         embeds = []
         for role_group in utils.chunk_list(permroles, 9):
             embed = discord.Embed(
