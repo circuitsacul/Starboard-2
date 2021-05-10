@@ -6,6 +6,7 @@ import sys
 import time
 
 import requests
+import uvloop
 from dotenv import load_dotenv
 
 import config
@@ -83,7 +84,7 @@ def get_shard_count():
 class Launcher:
     def __init__(self, loop):
         log.info("Hello, world!")
-        self.cluster_queue = []
+        self.cluster_queue: list["Cluster"] = []
         self.clusters = []
 
         self.fut = None
@@ -186,6 +187,7 @@ if __name__ == "__main__":
     p.start()
     loop = asyncio.get_event_loop()
     webhooklog(":white_circle: Bot logging in...", WEBHOOK_URL)
+    uvloop.install()
     Launcher(loop).start()
     p.kill()
     webhooklog(":brown_circle: Bot logged out.", WEBHOOK_URL)

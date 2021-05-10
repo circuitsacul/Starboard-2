@@ -11,6 +11,7 @@ from typing import Any, Optional, SupportsIndex, Union
 
 import aiohttp
 import discord
+import uvloop
 from discord.ext import commands
 from discord_slash import SlashCommand
 from dotenv import load_dotenv
@@ -29,6 +30,7 @@ if typing.TYPE_CHECKING:
     from app.cogs.cache.cache import Cache
 
 load_dotenv()
+uvloop.install()
 
 
 class LimitedList:
