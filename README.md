@@ -9,10 +9,10 @@
 A complete rewrite of Starboard
 
 ## Links
- - [Changes from Starboard-1](https://circuit.gitbook.io/starboard/2.0-changes)
- - [Contribute to Starboard-2](https://github.com/CircuitsBots/Starboard-2/blob/main/CONTRIBUTING.md)
- - [Join the Support Server](https://discord.gg/3gK8mSA)
- - [Original Repo](https://github.com/CircuitsBots/Starboard)
+-   [Changes from Starboard-1](https://circuit.gitbook.io/starboard/2.0-changes)
+-   [Contribute to Starboard-2](https://github.com/CircuitsBots/Starboard-2/blob/main/CONTRIBUTING.md)
+-   [Join the Support Server](https://discord.gg/3gK8mSA)
+-   [Original Repo](https://github.com/CircuitsBots/Starboard)
 
 ## Credits
 Thanks to TheNoob27 and [his starboard](https://top.gg/bot/655390915325591629) for inspiring me to create this bot and allowing me to base much of this bot on his.
