@@ -3,7 +3,6 @@ from typing import Union
 
 import discord
 from discord.ext import commands
-from discord.ext.commands.errors import NoPrivateMessage
 
 from app.i18n import t_
 
@@ -368,6 +367,15 @@ class NoPrivateMessages(commands.CheckFailure):
         return cls()
 
 
+class NotOwner(commands.CheckFailure):
+    def __init__(self):
+        super().__init__(t_("This command can only be used by the bot owner."))
+
+    @classmethod
+    def from_original(cls, exc: commands.NotOwner):
+        return cls()
+
+
 ERROR_MAP = {
     "MissingRequiredArgument": MissingRequiredArgument,
     "MessageNotFound": MessageNotFound,
@@ -378,7 +386,8 @@ ERROR_MAP = {
     "CommandOnCooldown": CommandOnCooldown,
     "ExpectedClosingQuoteError": ExpectedClosingQuoteError,
     "BotMissingPermissions": BotMissingPermissions,
-    "NoPrivateMessages": NoPrivateMessage,
+    "NoPrivateMessages": NoPrivateMessages,
+    "NotOwner": NotOwner,
 }
 
 
