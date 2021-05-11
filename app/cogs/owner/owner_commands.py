@@ -178,14 +178,16 @@ class Owner(*OPTIONAL_FEATURES, *STANDARD_FEATURES):
         times.sort(key=sorter, reverse=True)
         for sql, exec_time in times:
             pag.add_line(
-                f"```{sql}```"
+                f"```sql\n{sql}```"
                 f"{utils.ms(exec_time[0])} MS AVG | "
                 f"{round(exec_time[1], 2)} SECONDS TOTAL | "
                 f"{exec_time[2]} EXECUTIONS\n"
             )
 
         await menus.Paginator(
-            text=pag.pages,
+            text=[
+                p + f"{n}/{len(pag.pages)}" for n, p in enumerate(pag.pages, 1)
+            ],
             delete_after=True,
         ).start(ctx)
 
