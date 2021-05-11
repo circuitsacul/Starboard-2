@@ -16,7 +16,7 @@ cfgv==3.2.0
 chardet==4.0.0
 click==7.1.2
 discord-ext-menus @ git+git://github.com/Rapptz/discord-ext-menus.git@309c70222eec33acacb8c21bbb0fbe9bc57de661
-discord-pretty-help @ git+git://github.com/CircuitsBots/discord-pretty-help.git@6ca879a16863d2aaf1003fa742309177479b38ba
+discord-pretty-help @ git+git://github.com/CircuitsBots/discord-pretty-help.git@a4523bb5a51bdd9f6a16bac2d214bdca820dfd0d
 discord-py-slash-command==1.1.2
 discord.py==1.7.2
 distlib==0.3.1
@@ -35,7 +35,7 @@ idna==2.10
 import-expression==1.1.4
 itsdangerous==1.1.0
 Jinja2==2.11.3
-jishaku==1.20.0.220
+jishaku @ git+git://github.com/Gorialis/jishaku.git@873f863052a663efab3b6184d2516e03bf16bcf9
 MarkupSafe==1.1.1
 mccabe==0.6.1
 msgpack==1.0.2
