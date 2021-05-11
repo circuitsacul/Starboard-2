@@ -77,7 +77,7 @@ class Paginator(Menu):
         self.current_page = 0
         self.length = len(embeds) if embeds else len(text)
 
-        if self.embeds:
+        if self.embeds and self.length != 1:
             for x, e in enumerate(self.embeds):
                 to_add = f"({x+1}/{self.length})"
                 footer = (
