@@ -94,13 +94,14 @@ class Launcher:
         self.init = time.perf_counter()
 
     def start(self):
-        self.fut = asyncio.ensure_future(self.startup(), loop=self.loop)
+        self.loop.run_until_complete(self.startup())
 
         try:
-            self.loop.run_forever()
+            self.loop.run_until_complete(self.rebooter())
         except KeyboardInterrupt:
-            self.loop.run_until_complete(self.shutdown())
+            pass
         finally:
+            self.loop.run_until_complete(self.shutdown())
             self.cleanup()
 
     def cleanup(self):
@@ -114,8 +115,7 @@ class Launcher:
             return
         if task.exception():
             task.print_stack()
-            self.keep_alive = self.loop.create_task(self.rebooter())
-            self.keep_alive.add_done_callback(self.task_complete)
+            self.cleanup()
 
     async def startup(self):
         shards = list(range(get_shard_count()))
@@ -144,7 +144,7 @@ class Launcher:
             # log.info("Cycle!")
             if not self.clusters:
                 log.warning("All clusters appear to be dead")
-                asyncio.ensure_future(self.shutdown())
+                return
             to_remove = []
             for cluster in self.clusters:
                 if not cluster.process.is_alive():
@@ -153,18 +153,18 @@ class Launcher:
                         "is offline.",
                         WEBHOOK_URL,
                     )
-                    # if cluster.process.exitcode != 0:
-                    #    # ignore safe exits
-                    log.info(
-                        f"Cluster#{cluster.name} exited with code "
-                        f"{cluster.process.exitcode}"
-                    )
-                    log.info(f"Restarting cluster#{cluster.name}")
-                    await cluster.start()
-                    # else:
-                    #    log.info(f"Cluster#{cluster.name} found dead")
-                    #    to_remove.append(cluster)
-                    #    cluster.stop()  # ensure stopped
+                    if cluster.process.exitcode != 0:
+                        # ignore safe exits
+                        log.info(
+                            f"Cluster#{cluster.name} exited with code "
+                            f"{cluster.process.exitcode}"
+                        )
+                        log.info(f"Restarting cluster#{cluster.name}")
+                        await cluster.start()
+                    else:
+                        log.info(f"Cluster#{cluster.name} found dead")
+                        to_remove.append(cluster)
+                        cluster.stop()  # ensure stopped
             for rem in to_remove:
                 self.clusters.remove(rem)
             await asyncio.sleep(5)
