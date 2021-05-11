@@ -14,6 +14,10 @@ from ... import checks, menus, utils
 from ...classes.bot import Bot
 
 
+class Rollback(Exception):
+    pass
+
+
 class RunSqlConverter(commands.Converter):
     async def convert(self, ctx: commands.Context, arg: str):
         try:
@@ -56,8 +60,8 @@ class Owner(*OPTIONAL_FEATURES, *STANDARD_FEATURES):
                                     _times.append(time.perf_counter() - s)
                                 results.append(r if r else [None])
                                 times.append(sum(_times) / len(_times))
-                    raise Exception
-        except Exception:
+                    raise Rollback
+        except Rollback:
             pass
 
         message = "\n".join(
