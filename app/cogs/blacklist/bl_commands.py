@@ -3,6 +3,7 @@ from discord.ext import commands
 
 from app import converters, errors, menus, utils
 from app.classes.bot import Bot
+from app.classes.context import MyContext
 from app.i18n import t_
 
 
@@ -21,7 +22,7 @@ class Blacklist(commands.Cog):
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def blacklist(
-        self, ctx: commands.Context, starboard: converters.Starboard
+        self, ctx: "MyContext", starboard: converters.Starboard
     ) -> None:
         bl_channels = starboard.sql["channel_bl"]
         wl_channels = starboard.sql["channel_wl"]
@@ -59,7 +60,7 @@ class Blacklist(commands.Cog):
     @commands.has_guild_permissions(manage_channels=True)
     async def blacklist_channel(
         self,
-        ctx: commands.Context,
+        ctx: "MyContext",
         starboard: converters.Starboard,
         channel: discord.TextChannel,
     ) -> None:
@@ -84,7 +85,7 @@ class Blacklist(commands.Cog):
     @commands.has_guild_permissions(manage_channels=True)
     async def unblacklist_channel(
         self,
-        ctx: commands.Context,
+        ctx: "MyContext",
         starboard: converters.Starboard,
         channel: discord.TextChannel,
     ) -> None:
@@ -108,7 +109,7 @@ class Blacklist(commands.Cog):
     )
     @commands.guild_only()
     async def clear_channel_blacklist(
-        self, ctx: commands.Context, starboard: converters.Starboard
+        self, ctx: "MyContext", starboard: converters.Starboard
     ) -> None:
         if not await menus.Confirm(
             t_("Are you sure you want to clear the blacklist for {0}?").format(
@@ -132,7 +133,7 @@ class Blacklist(commands.Cog):
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def whitelist(
-        self, ctx: commands.Context, starboard: converters.Starboard
+        self, ctx: "MyContext", starboard: converters.Starboard
     ) -> None:
         # Invoke the blacklist command, since the output is the same.
         cmd = self.bot.get_command("blacklist")
@@ -146,7 +147,7 @@ class Blacklist(commands.Cog):
     @commands.has_guild_permissions(manage_channels=True)
     async def whitelist_channel(
         self,
-        ctx: commands.Context,
+        ctx: "MyContext",
         starboard: converters.Starboard,
         channel: discord.TextChannel,
     ) -> None:
@@ -171,7 +172,7 @@ class Blacklist(commands.Cog):
     @commands.has_guild_permissions(manage_channels=True)
     async def unwhitelist_channel(
         self,
-        ctx: commands.Context,
+        ctx: "MyContext",
         starboard: converters.Starboard,
         channel: discord.TextChannel,
     ) -> None:
@@ -195,7 +196,7 @@ class Blacklist(commands.Cog):
     )
     @commands.guild_only()
     async def clear_channel_whitelist(
-        self, ctx: commands.Context, starboard: converters.Starboard
+        self, ctx: "MyContext", starboard: converters.Starboard
     ) -> None:
         if not await menus.Confirm(
             t_("Are you sure you want to clear the whitelist for {0}?").format(

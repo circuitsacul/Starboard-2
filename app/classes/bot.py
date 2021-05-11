@@ -19,7 +19,7 @@ from pretty_help import PrettyHelp
 
 import config
 from app import i18n, utils
-from app.classes.context import CustomContext
+from app.classes.context import MyContext
 from app.classes.ipc_connection import WebsocketConnection
 from app.i18n.i18n import t_
 from app.menus import HelpMenu
@@ -145,7 +145,7 @@ class Bot(commands.AutoShardedBot):
             return True
         return False
 
-    async def get_context(self, message, *, cls=CustomContext):
+    async def get_context(self, message, *, cls=MyContext):
         return await super().get_context(message, cls=cls)
 
     def register_cleanup(self, message: discord.Message):

@@ -5,6 +5,7 @@ from discord.ext import commands, flags
 
 from app import converters, menus
 from app.classes.bot import Bot
+from app.classes.context import MyContext
 from app.cogs.starboard import starboard_funcs
 from app.i18n import t_
 
@@ -26,7 +27,7 @@ class Fun(commands.Cog):
         embed_links=True, add_reactions=True, read_message_history=True
     )
     @commands.guild_only()
-    async def guild_leaderboard(self, ctx: commands.Context) -> None:
+    async def guild_leaderboard(self, ctx: "MyContext") -> None:
         leaderboard = await fun_funcs.get_guild_leaderboard(
             self.bot, ctx.guild
         )
@@ -71,7 +72,7 @@ class Fun(commands.Cog):
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def user_stats(
-        self, ctx: commands.Context, user: discord.Member = None
+        self, ctx: "MyContext", user: discord.Member = None
     ) -> None:
         user: discord.Member = user or ctx.message.author
         sql_user = await self.bot.db.users.get(user.id)
@@ -143,7 +144,7 @@ class Fun(commands.Cog):
         embed_links=True, add_reactions=True, read_message_history=True
     )
     @commands.guild_only()
-    async def moststarred(self, ctx: commands.Context, **options) -> None:
+    async def moststarred(self, ctx: "MyContext", **options) -> None:
         starboard_id = (
             options["starboard"].obj.id if options["starboard"] else None
         )
@@ -232,7 +233,7 @@ class Fun(commands.Cog):
     @commands.cooldown(3, 5, type=commands.BucketType.user)
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
-    async def random_message(self, ctx: commands.Context, **options):
+    async def random_message(self, ctx: "MyContext", **options):
         author_id = options["by"].id if options["by"] else None
         channel_id = options["in"].id if options["in"] else None
         starboard_id = (
@@ -304,7 +305,7 @@ class Fun(commands.Cog):
     )
     @commands.guild_only()
     async def starworthy(
-        self, ctx: commands.Context, message: converters.GuildMessage
+        self, ctx: "MyContext", message: converters.GuildMessage
     ) -> None:
         r = random.Random(message.id)
         worthiness: float = r.randrange(0, 100)
@@ -317,7 +318,7 @@ class Fun(commands.Cog):
     )
     @commands.guild_only()
     async def save(
-        self, ctx: commands.Context, message: converters.GuildMessage
+        self, ctx: "MyContext", message: converters.GuildMessage
     ) -> None:
         orig_sql_message = await starboard_funcs.orig_message(
             self.bot, message.id

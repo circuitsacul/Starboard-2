@@ -4,6 +4,7 @@ from discord_slash import SlashContext, cog_ext
 
 import config
 from app.classes.bot import Bot
+from app.classes.context import MyContext
 from app.i18n import t_
 
 
@@ -27,7 +28,7 @@ class SlashCommands(commands.Cog):
     )
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
-    async def check_slash(self, ctx: commands.Context) -> None:
+    async def check_slash(self, ctx: "MyContext") -> None:
         slash_auth = config.SLASH_AUTH + f"&guild_id={ctx.guild.id}"
         embed = discord.Embed(
             title="Slash Commands",

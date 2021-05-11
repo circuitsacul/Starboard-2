@@ -5,6 +5,7 @@ from discord.ext import commands
 
 import config
 from app import converters
+from app.classes.context import MyContext
 from app.i18n import t_
 from app.utils import clean_prefix, ms
 
@@ -34,7 +35,7 @@ class Base(commands.Cog):
     @commands.command(name="credits", help=t_("Show credits", True))
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
-    async def show_credits(self, ctx: commands.Context):
+    async def show_credits(self, ctx: "MyContext"):
         embed = (
             discord.Embed(
                 title=t_("Starboard Credits"),
@@ -73,9 +74,7 @@ class Base(commands.Cog):
 
     @commands.command(name="help", help=t_("Get help with Starboard", True))
     @commands.bot_has_permissions(embed_links=True)
-    async def starboard_help(
-        self, ctx: commands.Context, *, command=None
-    ) -> None:
+    async def starboard_help(self, ctx: "MyContext", *, command=None) -> None:
         if command:
             await converters.CommandOrCog().convert(ctx, command)
             return await ctx.send_help(command)
@@ -106,7 +105,7 @@ class Base(commands.Cog):
         embed_links=True, add_reactions=True, read_message_history=True
     )
     async def invoke_pretty_help(
-        self, ctx: commands.Context, *, command: str = None
+        self, ctx: "MyContext", *, command: str = None
     ) -> None:
         if command:
             await converters.CommandOrCog().convert(ctx, command)
@@ -118,7 +117,7 @@ class Base(commands.Cog):
         name="botstats", aliases=["botinfo"], help=t_("Shows bot statistics")
     )
     @commands.bot_has_permissions(embed_links=True)
-    async def botinfo(self, ctx: commands.Context) -> None:
+    async def botinfo(self, ctx: "MyContext") -> None:
         clusters = [c for _, c in self.bot.stats.items()]
         total_guilds = sum([c["guilds"] for c in clusters])
         total_members = sum([c["members"] for c in clusters])
@@ -147,7 +146,7 @@ class Base(commands.Cog):
     )
     @commands.cooldown(1, 3, commands.BucketType.member)
     @commands.bot_has_permissions(embed_links=True)
-    async def ping(self, ctx: commands.Context) -> None:
+    async def ping(self, ctx: "MyContext") -> None:
         cluster = self.bot.cluster_name
         shard = self.bot.get_shard(ctx.guild.shard_id if ctx.guild else 0)
 
@@ -188,7 +187,7 @@ class Base(commands.Cog):
         help=t_("Lists important/useful links", True),
     )
     @commands.bot_has_permissions(embed_links=True)
-    async def links(self, ctx: commands.Context) -> None:
+    async def links(self, ctx: "MyContext") -> None:
         embed = (
             discord.Embed(
                 title=t_("Important Links"),
@@ -228,9 +227,7 @@ class Base(commands.Cog):
         help=t_("View vote links and number of times you've voted", True),
     )
     @commands.bot_has_permissions(embed_links=True)
-    async def vote(
-        self, ctx: commands.Context, user: discord.User = None
-    ) -> None:
+    async def vote(self, ctx: "MyContext", user: discord.User = None) -> None:
         user = user or ctx.message.author
         if user.bot:
             await ctx.send(

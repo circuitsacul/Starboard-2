@@ -2,10 +2,11 @@ from discord.ext import commands
 
 from app import errors
 from app.classes.bot import Bot
+from app.classes.context import MyContext
 from app.cogs.permroles import pr_functions
 
 
-async def not_disabled(ctx: commands.Context) -> bool:
+async def not_disabled(ctx: "MyContext") -> bool:
     if ctx.guild is None:
         return True
     if ctx.channel.permissions_for(ctx.message.author).manage_guild:
@@ -19,7 +20,7 @@ async def not_disabled(ctx: commands.Context) -> bool:
     return True
 
 
-async def can_use_commands(ctx: commands.Context) -> bool:
+async def can_use_commands(ctx: "MyContext") -> bool:
     if ctx.guild is None:
         return True
     if ctx.channel.permissions_for(ctx.message.author).administrator:
@@ -36,7 +37,7 @@ async def can_use_commands(ctx: commands.Context) -> bool:
     return True
 
 
-async def can_send_messages(ctx: commands.Context) -> bool:
+async def can_send_messages(ctx: "MyContext") -> bool:
     user = ctx.me
     if not ctx.channel.permissions_for(user).send_messages:
         raise commands.BotMissingPermissions(("Send Messages",))

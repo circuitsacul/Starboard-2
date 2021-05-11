@@ -3,11 +3,12 @@ from discord.ext import commands, flags
 
 from app import converters, errors, i18n, menus, utils
 from app.classes.bot import Bot
+from app.classes.context import MyContext
 from app.cogs.quick_actions import qa_funcs
 from app.i18n import t_
 
 
-async def raise_if_exists(emoji: str, ctx: commands.Context) -> None:
+async def raise_if_exists(emoji: str, ctx: "MyContext") -> None:
     guild = await ctx.bot.db.guilds.get(ctx.guild.id)
     if qa_funcs.get_qa_type(emoji, guild) is not None:
         raise errors.AlreadyQuickAction()
@@ -27,7 +28,7 @@ class Settings(commands.Cog):
     @commands.has_guild_permissions(manage_guild=True)
     @commands.guild_only()
     async def set_guild_lang(
-        self, ctx: commands.Context, locale: converters.language = None
+        self, ctx: "MyContext", locale: converters.language = None
     ) -> None:
         if not locale:
             await ctx.send(
@@ -50,7 +51,7 @@ class Settings(commands.Cog):
     )
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
-    async def disabled_cmds(self, ctx: commands.Context) -> None:
+    async def disabled_cmds(self, ctx: "MyContext") -> None:
         p = ctx.prefix
 
         guild = await self.bot.db.guilds.get(ctx.guild.id)
@@ -80,7 +81,7 @@ class Settings(commands.Cog):
     @commands.command(name="disable", help=t_("Disables a command", True))
     @commands.has_guild_permissions(manage_guild=True)
     async def disable_command(
-        self, ctx: commands.Context, command: converters.Command
+        self, ctx: "MyContext", command: converters.Command
     ) -> None:
         guild = await self.bot.db.guilds.get(ctx.guild.id)
         name = command.qualified_name
@@ -100,7 +101,7 @@ class Settings(commands.Cog):
     @commands.command(name="enable", help=t_("Enables a command", True))
     @commands.has_guild_permissions(manage_guild=True)
     async def enable_command(
-        self, ctx: commands.Context, command: converters.Command
+        self, ctx: "MyContext", command: converters.Command
     ) -> None:
         guild = await self.bot.db.guilds.get(ctx.guild.id)
         name = command.qualified_name
@@ -124,7 +125,7 @@ class Settings(commands.Cog):
     )
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
-    async def guild_settings(self, ctx: commands.Context) -> None:
+    async def guild_settings(self, ctx: "MyContext") -> None:
         guild = await self.bot.db.guilds.get(ctx.guild.id)
         log_channel = (
             "**None**"
@@ -161,7 +162,7 @@ class Settings(commands.Cog):
     @commands.guild_only()
     async def set_cooldown(
         self,
-        ctx: commands.Context,
+        ctx: "MyContext",
         ammount: converters.myint,
         per: converters.myint,
     ):
@@ -189,7 +190,7 @@ class Settings(commands.Cog):
     @commands.has_guild_permissions(manage_messages=True)
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
-    async def quickactions(self, ctx: commands.Context) -> None:
+    async def quickactions(self, ctx: "MyContext") -> None:
         p = ctx.prefix
         guild = await self.bot.db.guilds.get(ctx.guild.id)
         embed = discord.Embed(
@@ -213,7 +214,7 @@ class Settings(commands.Cog):
         help=t_("Enables quickActions", True),
     )
     @commands.has_guild_permissions(manage_messages=True)
-    async def enable_quickactions(self, ctx: commands.Context) -> None:
+    async def enable_quickactions(self, ctx: "MyContext") -> None:
         await self.bot.db.execute(
             """UPDATE guilds SET qa_enabled=True WHERE id=$1""", ctx.guild.id
         )
@@ -225,7 +226,7 @@ class Settings(commands.Cog):
         help=t_("Disables quickActions", True),
     )
     @commands.has_guild_permissions(manage_messages=True)
-    async def disable_quickactions(self, ctx: commands.Context) -> None:
+    async def disable_quickactions(self, ctx: "MyContext") -> None:
         await self.bot.db.execute(
             """UPDATE guilds SET qa_enabled=False WHERE id=$1""", ctx.guild.id
         )
@@ -235,7 +236,7 @@ class Settings(commands.Cog):
         name="reset", help=t_("Resets quickActions to their default", True)
     )
     @commands.has_guild_permissions(manage_messages=True)
-    async def reset_quickactions(self, ctx: commands.Context) -> None:
+    async def reset_quickactions(self, ctx: "MyContext") -> None:
         await self.bot.db.execute(
             """UPDATE guilds
             SET qa_force='🔒',
@@ -254,7 +255,7 @@ class Settings(commands.Cog):
     )
     @commands.has_guild_permissions(manage_messages=True)
     async def force_quickaction(
-        self, ctx: commands.Context, emoji: converters.Emoji
+        self, ctx: "MyContext", emoji: converters.Emoji
     ) -> None:
         clean = utils.clean_emoji(emoji)
         await raise_if_exists(clean, ctx)
@@ -272,7 +273,7 @@ class Settings(commands.Cog):
     )
     @commands.has_guild_permissions(manage_messages=True)
     async def unforce_quickaction(
-        self, ctx: commands.Context, emoji: converters.Emoji
+        self, ctx: "MyContext", emoji: converters.Emoji
     ) -> None:
         clean = utils.clean_emoji(emoji)
         await raise_if_exists(clean, ctx)
@@ -292,7 +293,7 @@ class Settings(commands.Cog):
     )
     @commands.has_guild_permissions(manage_messages=True)
     async def freeze_quickaction(
-        self, ctx: commands.Context, emoji: converters.Emoji
+        self, ctx: "MyContext", emoji: converters.Emoji
     ) -> None:
         clean = utils.clean_emoji(emoji)
         await raise_if_exists(clean, ctx)
@@ -312,7 +313,7 @@ class Settings(commands.Cog):
     )
     @commands.has_guild_permissions(manage_messages=True)
     async def trash_quickaction(
-        self, ctx: commands.Context, emoji: converters.Emoji
+        self, ctx: "MyContext", emoji: converters.Emoji
     ) -> None:
         clean = utils.clean_emoji(emoji)
         await raise_if_exists(clean, ctx)
@@ -332,7 +333,7 @@ class Settings(commands.Cog):
     )
     @commands.has_guild_permissions(manage_messages=True)
     async def recount_quickaction(
-        self, ctx: commands.Context, emoji: converters.Emoji
+        self, ctx: "MyContext", emoji: converters.Emoji
     ) -> None:
         clean = utils.clean_emoji(emoji)
         await raise_if_exists(clean, ctx)
@@ -350,7 +351,7 @@ class Settings(commands.Cog):
     )
     @commands.has_guild_permissions(manage_messages=True)
     async def save_quickaction(
-        self, ctx: commands.Context, emoji: converters.Emoji
+        self, ctx: "MyContext", emoji: converters.Emoji
     ) -> None:
         clean = utils.clean_emoji(emoji)
         await raise_if_exists(clean, ctx)
@@ -371,7 +372,7 @@ class Settings(commands.Cog):
     )
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
-    async def prefixes(self, ctx: commands.Context) -> None:
+    async def prefixes(self, ctx: "MyContext") -> None:
         guild = await self.bot.db.guilds.get(ctx.guild.id)
         embed = discord.Embed(
             title=t_("Prefixes for {0}:").format(ctx.guild.name),
@@ -392,7 +393,7 @@ class Settings(commands.Cog):
     )
     @commands.has_guild_permissions(manage_messages=True)
     async def add_prefix(
-        self, ctx: commands.Context, prefix: str, **options
+        self, ctx: "MyContext", prefix: str, **options
     ) -> None:
         if options["space"] is True:
             prefix += " "
@@ -425,7 +426,7 @@ class Settings(commands.Cog):
         add_reactions=True, read_message_history=True
     )
     @commands.guild_only()
-    async def remove_prefix(self, ctx: commands.Context, prefix: str) -> None:
+    async def remove_prefix(self, ctx: "MyContext", prefix: str) -> None:
         to_remove = prefix
         guild = await self.bot.db.guilds.get(ctx.guild.id)
         if prefix not in guild["prefixes"]:
@@ -481,7 +482,7 @@ class Settings(commands.Cog):
         add_reactions=True, read_message_history=True
     )
     @commands.guild_only()
-    async def reset_prefixes(self, ctx: commands.Context) -> None:
+    async def reset_prefixes(self, ctx: "MyContext") -> None:
         if not await menus.Confirm(
             t_("Are you sure you want to reset all prefixes?")
         ).start(ctx):
@@ -502,7 +503,7 @@ class Settings(commands.Cog):
     )
     @commands.has_guild_permissions(manage_guild=True)
     async def set_level_channel(
-        self, ctx: commands.Context, channel: discord.TextChannel = None
+        self, ctx: "MyContext", channel: discord.TextChannel = None
     ) -> None:
         if channel:
             perms = channel.permissions_for(ctx.guild.me)
@@ -543,7 +544,7 @@ class Settings(commands.Cog):
     )
     @commands.has_guild_permissions(manage_guild=True)
     async def set_level_ping(
-        self, ctx: commands.Context, ping: converters.mybool
+        self, ctx: "MyContext", ping: converters.mybool
     ) -> None:
         await self.bot.db.execute(
             """UPDATE guilds SET ping_user=$1 WHERE id=$2""",
@@ -562,7 +563,7 @@ class Settings(commands.Cog):
     )
     @commands.has_guild_permissions(manage_guild=True)
     async def set_logchannel(
-        self, ctx: commands.Context, channel: discord.TextChannel = None
+        self, ctx: "MyContext", channel: discord.TextChannel = None
     ) -> None:
         if channel:
             perms = channel.permissions_for(ctx.guild.me)
@@ -614,7 +615,7 @@ class Settings(commands.Cog):
     )
     @commands.has_guild_permissions(administrator=True)
     async def set_allow_commands(
-        self, ctx: commands.Context, value: converters.mybool
+        self, ctx: "MyContext", value: converters.mybool
     ) -> None:
         await self.bot.db.execute(
             """UPDATE guilds

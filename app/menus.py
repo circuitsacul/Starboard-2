@@ -3,10 +3,11 @@ from copy import deepcopy
 from typing import Awaitable, Callable, Optional
 
 import discord
-from discord.ext import commands, menus
+from discord.ext import menus
 from pretty_help import PrettyMenu
 
 import config
+from app.classes.context import MyContext
 
 ZERO_WIDTH_SPACE = "\u200B"
 
@@ -14,7 +15,7 @@ ZERO_WIDTH_SPACE = "\u200B"
 class HelpMenu(PrettyMenu):
     @staticmethod
     async def send_pages(
-        ctx: commands.Context,
+        ctx: "MyContext",
         destination: discord.abc.Messageable,
         embeds: list[discord.Embed],
     ):
@@ -45,7 +46,7 @@ class Confirm(Menu):
         self.result = None
 
     async def send_initial_message(
-        self, ctx: commands.Context, channel: discord.TextChannel
+        self, ctx: "MyContext", channel: discord.TextChannel
     ) -> discord.Message:
         return await ctx.send(self.msg)
 
@@ -59,7 +60,7 @@ class Confirm(Menu):
         self.result = False
         self.stop()
 
-    async def start(self, ctx: commands.Context) -> Optional[bool]:
+    async def start(self, ctx: "MyContext") -> Optional[bool]:
         await super().start(ctx, wait=True)
         return self.result
 
@@ -100,7 +101,7 @@ class Paginator(Menu):
         return await super().start(ctx, channel=channel, wait=wait)
 
     async def send_initial_message(
-        self, ctx: commands.Context, channel: discord.TextChannel
+        self, ctx: "MyContext", channel: discord.TextChannel
     ) -> discord.Message:
         return await ctx.send(
             self.text[self.current_page] if self.text else None,
@@ -200,7 +201,7 @@ class Accordion(Menu):
         return await super().start(ctx, channel=channel, wait=wait)
 
     async def send_initial_message(
-        self, ctx: commands.Context, destination: discord.abc.Messageable
+        self, ctx: "MyContext", destination: discord.abc.Messageable
     ):
         for field in self.fields:
             self._embed.add_field(

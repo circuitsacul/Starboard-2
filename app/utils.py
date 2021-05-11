@@ -10,6 +10,7 @@ import discord
 from discord import RequestsWebhookAdapter, Webhook
 from discord.ext import commands
 
+from app.classes.context import MyContext
 from app.i18n import t_
 
 if typing.TYPE_CHECKING:
@@ -196,7 +197,7 @@ def pretty_channel_string(channels: list[int], guild: discord.Guild) -> str:
     return ", ".join([f"<#{c}>" for c in channels]) or t_("None")
 
 
-def clean_prefix(ctx: commands.Context):
+def clean_prefix(ctx: "MyContext"):
     """:class:`str`: The cleaned up invoke prefix. i.e. mentions
     are ``@name`` instead of ``<@id>``."""
     user = ctx.guild.me if ctx.guild else ctx.bot.user

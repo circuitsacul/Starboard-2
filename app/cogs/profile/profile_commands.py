@@ -3,6 +3,7 @@ from discord.ext import commands
 
 from app import converters, i18n, utils
 from app.classes.bot import Bot
+from app.classes.context import MyContext
 from app.i18n import t_
 
 
@@ -18,7 +19,7 @@ class Profile(commands.Cog):
         help=t_("Sets your language", True),
     )
     async def set_user_language(
-        self, ctx: commands.Context, *, locale: converters.language = None
+        self, ctx: "MyContext", *, locale: converters.language = None
     ):
         if not locale:
             await ctx.send(
@@ -38,7 +39,7 @@ class Profile(commands.Cog):
         aliases=["visible"],
         help=t_("Whether or not your profile is visible to others.", True),
     )
-    async def set_user_public(self, ctx: commands.Context, public: bool):
+    async def set_user_public(self, ctx: "MyContext", public: bool):
         await self.bot.db.users.edit(ctx.author.id, public=public)
         if public:
             await ctx.send(t_("Your profile is now public."))
@@ -52,7 +53,7 @@ class Profile(commands.Cog):
     )
     @commands.cooldown(1, 3, type=commands.BucketType.user)
     @commands.bot_has_permissions(embed_links=True)
-    async def profile(self, ctx: commands.Context):
+    async def profile(self, ctx: "MyContext"):
         sql_user = await self.bot.db.users.get(ctx.author.id)
 
         total = sql_user["donation_total"] + sql_user["last_patreon_total"]

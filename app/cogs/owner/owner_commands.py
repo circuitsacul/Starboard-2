@@ -10,6 +10,8 @@ from jishaku.cog import OPTIONAL_FEATURES, STANDARD_FEATURES
 from jishaku.exception_handling import ReplResponseReactor
 from jishaku.features.baseclass import Feature
 
+from app.classes.context import MyContext
+
 from ... import checks, menus, utils
 from ...classes.bot import Bot
 
@@ -19,7 +21,7 @@ class Rollback(Exception):
 
 
 class RunSqlConverter(commands.Converter):
-    async def convert(self, ctx: commands.Context, arg: str):
+    async def convert(self, ctx: "MyContext", arg: str):
         try:
             arg = int(arg)
         except ValueError:
@@ -42,7 +44,7 @@ class Owner(*OPTIONAL_FEATURES, *STANDARD_FEATURES):
         aliases=["timeit"],
         help="Times postgres queries. Rolls back any changes.",
     )
-    async def jsk_runpg(self, ctx: commands.Context, *to_run: RunSqlConverter):
+    async def jsk_runpg(self, ctx: "MyContext", *to_run: RunSqlConverter):
         results: list[str] = []
         times: list[float] = []
 
@@ -149,7 +151,7 @@ class Owner(*OPTIONAL_FEATURES, *STANDARD_FEATURES):
     @commands.command(name="sqltimes")
     @checks.is_owner()
     async def get_sql_times(
-        self, ctx: commands.Context, sort_by: str = "total"
+        self, ctx: "MyContext", sort_by: str = "total"
     ) -> None:
         """Shows stats on SQL queries"""
         if sort_by not in ["avg", "total", "exec"]:
@@ -197,7 +199,7 @@ class Owner(*OPTIONAL_FEATURES, *STANDARD_FEATURES):
 
     @commands.command(name="reconnect")
     @checks.is_owner()
-    async def reconnect_bot(self, ctx: commands.Context) -> None:
+    async def reconnect_bot(self, ctx: "MyContext") -> None:
         """Restars all clusters"""
         if not await menus.Confirm("Reconnect all clusters?").start(ctx):
             await ctx.send("Cancelled")
@@ -208,7 +210,7 @@ class Owner(*OPTIONAL_FEATURES, *STANDARD_FEATURES):
 
     @commands.command(name="restart")
     @checks.is_owner()
-    async def restart_bot(self, ctx: commands.Context):
+    async def restart_bot(self, ctx: "MyContext"):
         if not await menus.Confirm("**Restart** the bot?").start(ctx):
             await ctx.send("Cancelled.")
             return

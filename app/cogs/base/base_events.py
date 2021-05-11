@@ -9,6 +9,7 @@ from discord.ext import commands, flags
 from dotenv import load_dotenv
 
 from app import utils
+from app.classes.context import MyContext
 from app.i18n import t_
 
 from ... import errors
@@ -166,9 +167,7 @@ class BaseEvents(commands.Cog):
             await self.bot.process_commands(message)
 
     @commands.Cog.listener()
-    async def on_command_error(
-        self, ctx: commands.Context, e: Exception
-    ) -> None:
+    async def on_command_error(self, ctx: "MyContext", e: Exception) -> None:
         try:
             e = e.original
         except AttributeError:
@@ -267,7 +266,9 @@ def setup(bot: Bot) -> None:
     bot.add_cog(BaseEvents(bot))
 
     @bot.before_invoke
-    async def before_invoke(ctx: commands.Context) -> None:
+    # TODO: put this as async def _before_invoke
+    # in bot class
+    async def before_invoke(ctx: "MyContext") -> None:
         if ctx.guild is None:
             return
 

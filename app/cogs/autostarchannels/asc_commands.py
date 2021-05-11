@@ -5,6 +5,7 @@ from discord.ext import commands
 
 from app import converters, errors, menus, utils
 from app.classes.bot import Bot
+from app.classes.context import MyContext
 from app.i18n import t_
 
 
@@ -27,7 +28,7 @@ class AutoStarChannels(commands.Cog):
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def aschannels(
-        self, ctx: commands.Context, aschannel: converters.ASChannel = None
+        self, ctx: "MyContext", aschannel: converters.ASChannel = None
     ) -> None:
         if not aschannel:
             p = utils.escmd(ctx.prefix)
@@ -90,7 +91,7 @@ class AutoStarChannels(commands.Cog):
     )
     @commands.has_guild_permissions(manage_channels=True)
     async def add_aschannel(
-        self, ctx: commands.Context, channel: discord.TextChannel
+        self, ctx: "MyContext", channel: discord.TextChannel
     ) -> None:
         await self.bot.db.aschannels.create(channel.id, ctx.guild.id)
         await ctx.send(
@@ -104,7 +105,7 @@ class AutoStarChannels(commands.Cog):
     )
     @commands.has_guild_permissions(manage_channels=True)
     async def remove_aschannel(
-        self, ctx: commands.Context, aschannel: converters.ASChannel
+        self, ctx: "MyContext", aschannel: converters.ASChannel
     ) -> None:
         await self.bot.db.aschannels.delete(aschannel.obj.id)
         await ctx.send(
@@ -118,7 +119,7 @@ class AutoStarChannels(commands.Cog):
         invoke_without_command=True,
     )
     @commands.has_guild_permissions(manage_channels=True)
-    async def asemojis(self, ctx: commands.Context) -> None:
+    async def asemojis(self, ctx: "MyContext") -> None:
         await ctx.send_help(ctx.command)
 
     @asemojis.command(
@@ -129,7 +130,7 @@ class AutoStarChannels(commands.Cog):
     @commands.guild_only()
     async def set_asemojis(
         self,
-        ctx: commands.Context,
+        ctx: "MyContext",
         aschannel: converters.ASChannel,
         *emojis: converters.Emoji,
     ) -> None:
@@ -158,7 +159,7 @@ class AutoStarChannels(commands.Cog):
     @commands.guild_only()
     async def add_asemoji(
         self,
-        ctx: commands.Context,
+        ctx: "MyContext",
         aschannel: converters.ASChannel,
         emoji: converters.Emoji,
     ) -> None:
@@ -187,7 +188,7 @@ class AutoStarChannels(commands.Cog):
     @commands.guild_only()
     async def remove_asemoji(
         self,
-        ctx: commands.Context,
+        ctx: "MyContext",
         aschannel: converters.ASChannel,
         emoji: converters.Emoji,
     ) -> None:
@@ -217,7 +218,7 @@ class AutoStarChannels(commands.Cog):
     @commands.bot_has_permissions(embed_links=True, read_message_history=True)
     @commands.guild_only()
     async def clear_asemojis(
-        self, ctx: commands.Context, aschannel: converters.ASChannel
+        self, ctx: "MyContext", aschannel: converters.ASChannel
     ) -> None:
         if not await menus.Confirm(
             t_("Are you sure you want to clear all emojis for {0}?").format(
@@ -243,7 +244,7 @@ class AutoStarChannels(commands.Cog):
     @commands.guild_only()
     async def set_min_chars(
         self,
-        ctx: commands.Context,
+        ctx: "MyContext",
         aschannel: converters.ASChannel,
         min_chars: converters.myint,
     ) -> None:
@@ -266,7 +267,7 @@ class AutoStarChannels(commands.Cog):
     @commands.guild_only()
     async def set_require_image(
         self,
-        ctx: commands.Context,
+        ctx: "MyContext",
         aschannel: converters.ASChannel,
         require_image: converters.mybool,
     ) -> None:
@@ -295,7 +296,7 @@ class AutoStarChannels(commands.Cog):
     @commands.guild_only()
     async def set_regex(
         self,
-        ctx: commands.Context,
+        ctx: "MyContext",
         aschannel: converters.ASChannel,
         regex: Optional[str] = None,
     ) -> None:
@@ -316,7 +317,7 @@ class AutoStarChannels(commands.Cog):
     @commands.guild_only()
     async def set_eregex(
         self,
-        ctx: commands.Context,
+        ctx: "MyContext",
         aschannel: converters.ASChannel,
         exclude_regex: Optional[str] = None,
     ) -> None:
@@ -345,7 +346,7 @@ class AutoStarChannels(commands.Cog):
     @commands.guild_only()
     async def set_delete_invalid(
         self,
-        ctx: commands.Context,
+        ctx: "MyContext",
         aschannel: converters.ASChannel,
         delete_invalid: converters.mybool,
     ) -> None:
