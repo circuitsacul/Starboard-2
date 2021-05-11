@@ -7,9 +7,14 @@ from contextlib import redirect_stdout
 import discord
 from asyncpg.exceptions import InterfaceError
 from discord.ext import commands
+from jishaku.cog import OPTIONAL_FEATURES, STANDARD_FEATURES
 
 from ... import checks, menus, utils
 from ...classes.bot import Bot
+
+
+class CustomJishaku(*OPTIONAL_FEATURES, *STANDARD_FEATURES):
+    pass
 
 
 class Owner(commands.Cog):
@@ -184,3 +189,4 @@ class Owner(commands.Cog):
 
 def setup(bot: Bot) -> None:
     bot.add_cog(Owner(bot))
+    bot.add_cog(CustomJishaku(bot=bot))
