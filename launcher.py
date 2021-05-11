@@ -83,7 +83,7 @@ def get_shard_count():
 class Launcher:
     def __init__(self, loop):
         log.info("Hello, world!")
-        self.cluster_queue = []
+        self.cluster_queue: list["Cluster"] = []
         self.clusters = []
 
         self.fut = None
