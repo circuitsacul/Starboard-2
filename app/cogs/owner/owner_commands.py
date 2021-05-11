@@ -195,16 +195,27 @@ class Owner(*OPTIONAL_FEATURES, *STANDARD_FEATURES):
             delete_after=True,
         ).start(ctx)
 
-    @commands.command(name="restart")
+    @commands.command(name="reconnect")
     @checks.is_owner()
-    async def restart_bot(self, ctx: commands.Context) -> None:
+    async def reconnect_bot(self, ctx: commands.Context) -> None:
         """Restars all clusters"""
-        if not await menus.Confirm("Restart all clusters?").start(ctx):
+        if not await menus.Confirm("Reconnect all clusters?").start(ctx):
             await ctx.send("Cancelled")
             return
 
-        await ctx.send("Restarting...")
+        await ctx.send("Reconnecting...")
         await self.bot.websocket.send_command("restart", {}, expect_resp=False)
+
+    @commands.command(name="restart")
+    @checks.is_owner()
+    async def restart_bot(self, ctx: commands.Context):
+        if not await menus.Confirm("**Restart** the bot?").start(ctx):
+            await ctx.send("Cancelled.")
+            return
+        await ctx.send("Restarting...")
+        await self.bot.websocket.send_command(
+            "shutdown", {}, expect_resp=False
+        )
 
 
 def setup(bot: Bot) -> None:

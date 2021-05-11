@@ -259,6 +259,8 @@ class Bot(commands.AutoShardedBot):
 
         if cmd == "restart":
             await self.close()
+        elif cmd == "shutdown":
+            sys.exit(0)
         elif cmd == "eval":
             content = data["content"]
             ret = str(await self.exec(content))
