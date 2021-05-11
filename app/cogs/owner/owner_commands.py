@@ -204,8 +204,7 @@ class Owner(*OPTIONAL_FEATURES, *STANDARD_FEATURES):
             return
 
         await ctx.send("Restarting...")
-        cmd: commands.Command = self.bot.get_command("evall")
-        await ctx.invoke(cmd, body="await bot.close()")
+        await self.bot.websocket.send_command("restart", {}, expect_resp=False)
 
 
 def setup(bot: Bot) -> None:

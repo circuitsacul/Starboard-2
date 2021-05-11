@@ -257,8 +257,8 @@ class Bot(commands.AutoShardedBot):
 
         ret: Optional[Union[list, str, dict[Any, Any]]] = None
 
-        if cmd == "ping":
-            ret = "pong"
+        if cmd == "restart":
+            await self.close()
         elif cmd == "eval":
             content = data["content"]
             ret = str(await self.exec(content))
