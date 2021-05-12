@@ -6,7 +6,7 @@ from aiocache import Cache, SimpleMemoryCache
 from discord.ext import commands
 
 from app import errors
-from app.classes.nonexist import nonexist
+from app.constants import MISSING
 from app.i18n import t_
 
 
@@ -18,14 +18,14 @@ class ASChannels:
     async def get(self, aschannel_id: int) -> Optional[dict]:
         r = await self.id_cache.get(aschannel_id)
         if r is not None:
-            return r if r is not nonexist else None
+            return r if r is not MISSING else None
 
         r = await self.db.fetchrow(
             """SELECT * FROM aschannels
             WHERE id=$1""",
             aschannel_id,
         )
-        await self.id_cache.set(aschannel_id, r if r else nonexist)
+        await self.id_cache.set(aschannel_id, r if r else MISSING)
         return r
 
     async def get_many(self, guild_id: int) -> list[dict]:
