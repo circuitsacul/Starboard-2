@@ -45,6 +45,16 @@ class Guilds:
         )
         await self.cache.delete(guild_id)
 
+    async def set_cooldown_enabled(self, guild_id: int, enabled: bool):
+        await self.db.execute(
+            """UPDATE guilds
+            SET xp_cooldown_on=$1
+            WHERE id=$2""",
+            enabled,
+            guild_id,
+        )
+        await self.cache.delete(guild_id)
+
     async def set_locale(self, guild_id: int, locale: str) -> None:
         if locale not in i18n.locales:
             raise errors.InvalidLocale(locale)

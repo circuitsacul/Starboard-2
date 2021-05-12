@@ -137,6 +137,9 @@ class Settings(commands.Cog):
             if guild["level_channel"] is None
             else f"<#{guild['level_channel']}>"
         )
+        enabled_str = (
+            t_("enabled") if guild["xp_cooldown_on"] else t_("disabled")
+        )
         embed = discord.Embed(
             title=t_("Settings for {0}:").format(ctx.guild.name),
             description=(
@@ -147,15 +150,18 @@ class Settings(commands.Cog):
                 f"allowCommands: **{guild['allow_commands']}**\n"
                 f"quickActionsOn: **{guild['qa_enabled']}**\n"
                 f"cooldown: **{guild['xp_cooldown']}**"
-                f"/**{guild['xp_cooldown_per']}**s\n"
+                f"/**{guild['xp_cooldown_per']}**s "
+                f"(**{enabled_str}**)\n"
                 f"disabledCommands: **{len(guild['disabled_commands'])}**\n"
             ),
             color=self.bot.theme_color,
         )
         await ctx.send(embed=embed)
 
-    @commands.command(
-        name="cooldown", help=t_("Sets the cooldown for xp", True)
+    @commands.group(
+        name="cooldown",
+        help=t_("Sets the cooldown for xp", True),
+        invoke_without_command=True,
     )
     @commands.has_guild_permissions(manage_messages=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -180,6 +186,22 @@ class Settings(commands.Cog):
                 {"cooldown": (orig, new)}, self.bot, noticks=True
             )
         )
+
+    @set_cooldown.command(name="disable", help=t_("Disables the XP cooldown."))
+    @commands.has_guild_permissions(manage_messages=True)
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def disable_cooldown(self, ctx: "MyContext"):
+        await self.bot.db.guilds.set_cooldown_enabled(ctx.guild.id, False)
+        await ctx.send(t_("Disabled the XP cooldown."))
+
+    @set_cooldown.command(name="enable", help=t_("Enables the XP cooldown."))
+    @commands.has_guild_permissions(manage_messages=True)
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def enable_cooldown(self, ctx: "MyContext"):
+        await self.bot.db.guilds.set_cooldown_enabled(ctx.guild.id, True)
+        await ctx.send(t_("Enabled the XP cooldown."))
 
     @commands.group(
         name="quickactions",

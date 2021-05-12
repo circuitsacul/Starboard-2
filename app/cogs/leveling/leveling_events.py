@@ -87,7 +87,7 @@ class LevelingEvents(commands.Cog):
         sql_guild = await self.bot.db.guilds.get(guild_id)
         cooldown, per = sql_guild["xp_cooldown"], sql_guild["xp_cooldown_per"]
 
-        if per != 0:
+        if per != 0 and sql_guild["xp_cooldown_on"]:
             bucket = self.cooldown.get_bucket(
                 (giver_id, receiver_id), cooldown, per
             )

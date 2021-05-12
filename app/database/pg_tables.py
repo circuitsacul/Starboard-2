@@ -20,6 +20,7 @@ GUILDS = """CREATE TABLE IF NOT EXISTS guilds (
 
         prefixes VARCHAR(8)[] NOT NULL DEFAULT '{"sb!"}',
 
+        xp_cooldown_on BOOL NOT NULL DEFAULT true,
         xp_cooldown SMALLINT DEFAULT 3,
         xp_cooldown_per SMALLINT DEFAULT 60,
 
