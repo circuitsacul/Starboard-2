@@ -6,7 +6,7 @@ from aiocache import SimpleMemoryCache
 
 from app import utils
 from app.classes.bot import Bot
-from app.classes.nonexist import nonexist
+from app.constants import MISSING
 
 
 class Cache:
@@ -62,9 +62,9 @@ class Cache:
                 message = await channel.fetch_message(message_id)
             except discord.errors.NotFound:
                 message = None
-            await self.messages.set(message_id, message or nonexist)
+            await self.messages.set(message_id, message or MISSING)
             return message
-        return cached if cached is not nonexist else None
+        return cached if cached is not MISSING else None
 
 
 def setup(bot: Bot) -> None:

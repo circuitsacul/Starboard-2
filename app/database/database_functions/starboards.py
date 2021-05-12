@@ -1,6 +1,7 @@
-from typing import Optional
+from typing import Optional, Union
 
 import asyncpg
+import buildpg
 from aiocache import Cache, SimpleMemoryCache
 from discord.ext import commands
 
@@ -108,6 +109,9 @@ class Starboards:
         await self._starboard_edited(starboard_id, int(s["guild_id"]))
 
     async def set_webhook(self, starboard_id: int, url: Optional[str]):
+        """This is not a user customizable setting.
+
+        It does not belong under edit."""
         await self.db.execute(
             """UPDATE starboards
             SET webhook_url=$1
@@ -117,100 +121,41 @@ class Starboards:
         )
         await self._starboard_edited(starboard_id)
 
-    async def set_webhook_name(self, starboard_id: int, name: str):
-        await self.db.execute(
-            """UPDATE starboards
-            SET webhook_name=$1
-            WHERE id=$2""",
-            name,
-            starboard_id,
-        )
-        await self._starboard_edited(starboard_id)
-
-    async def set_webhook_avatar(self, starboard_id: int, url: str):
-        await self.db.execute(
-            """UPDATE starboards
-            SET webhook_avatar=$1
-            WHERE id=$2""",
-            url,
-            starboard_id,
-        )
-        await self._starboard_edited(starboard_id)
-
     async def edit(
-        self,
-        starboard_id: int,
-        required: int = None,
-        required_remove: int = None,
-        remove_invalid: bool = None,
-        autoreact: bool = None,
-        self_star: bool = None,
-        allow_bots: bool = None,
-        link_deletes: bool = None,
-        link_edits: bool = None,
-        images_only: bool = None,
-        no_xp: bool = None,
-        explore: bool = None,
-        star_emojis: list[str] = None,
-        display_emoji: str = None,
-        ping: bool = None,
-        regex: str = None,
-        exclude_regex: str = None,
-        color: int = None,
-        channel_bl: list[int] = None,
-        channel_wl: list[int] = None,
-        use_webhook: bool = None,
+        self, starboard_id: int, **attrs: Union[int, bool, str, None]
     ) -> None:
         s = await self.get(starboard_id)
         if not s:
             raise errors.NotStarboard(starboard_id)
 
-        settings = {
-            "required": s["required"] if required is None else required,
-            "required_remove": s["required_remove"]
-            if required_remove is None
-            else required_remove,
-            "remove_invalid": s["remove_invalid"]
-            if remove_invalid is None
-            else remove_invalid,
-            "autoreact": s["autoreact"] if autoreact is None else autoreact,
-            "self_star": s["self_star"] if self_star is None else self_star,
-            "allow_bots": s["allow_bots"]
-            if allow_bots is None
-            else allow_bots,
-            "link_deletes": s["link_deletes"]
-            if link_deletes is None
-            else link_deletes,
-            "link_edits": s["link_edits"]
-            if link_edits is None
-            else link_edits,
-            "images_only": s["images_only"]
-            if images_only is None
-            else images_only,
-            "no_xp": s["no_xp"] if no_xp is None else no_xp,
-            "explore": s["explore"] if explore is None else explore,
-            "star_emojis": s["star_emojis"]
-            if star_emojis is None
-            else star_emojis,
-            "display_emoji": s["display_emoji"]
-            if display_emoji is None
-            else display_emoji,
-            "regex": s["regex"] if regex is None else regex,
-            "exclude_regex": s["exclude_regex"]
-            if exclude_regex is None
-            else exclude_regex,
-            "ping": s["ping"] if ping is None else ping,
-            "color": s["color"] if color is None else color,
-            "channel_bl": s["channel_bl"]
-            if channel_bl is None
-            else channel_bl,
-            "channel_wl": s["channel_wl"]
-            if channel_wl is None
-            else channel_wl,
-            "use_webhook": s["use_webhook"]
-            if use_webhook is None
-            else use_webhook,
-        }
+        valid_settings = [
+            "required",
+            "required_remove",
+            "autoreact",
+            "self_star",
+            "allow_bots",
+            "link_deletes",
+            "link_edits",
+            "images_only",
+            "no_xp",
+            "explore",
+            "star_emojis",
+            "display_emoji",
+            "regex",
+            "exclude_regex",
+            "color",
+            "ping",
+            "channel_bl",
+            "channel_wl",
+            "use_webhook",
+            "remove_invalid",
+            "webhook_avatar",
+            "webhook_name",
+        ]
+
+        settings = {}
+        for key in valid_settings:
+            settings[key] = attrs.get(key, s[key])
 
         if settings["required"] <= settings["required_remove"]:
             raise commands.BadArgument(
@@ -236,52 +181,35 @@ class Starboards:
                 t_("requiredRemove cannot be greater than 495.")
             )
 
-        await self.db.execute(
+        query, args = buildpg.render(
             """UPDATE starboards
-            SET required = $1,
-            required_remove = $2,
-            autoreact = $3,
-            self_star = $4,
-            allow_bots = $5,
-            link_deletes = $6,
-            link_edits = $7,
-            images_only = $8,
-            no_xp = $9,
-            explore = $10,
-            star_emojis = $11,
-            display_emoji = $12,
-            regex = $13,
-            exclude_regex = $14,
-            color = $15,
-            ping = $16,
-            channel_bl = $17,
-            channel_wl = $18,
-            use_webhook = $19,
-            remove_invalid = $20
-            WHERE id = $21""",
-            settings["required"],
-            settings["required_remove"],
-            settings["autoreact"],
-            settings["self_star"],
-            settings["allow_bots"],
-            settings["link_deletes"],
-            settings["link_edits"],
-            settings["images_only"],
-            settings["no_xp"],
-            settings["explore"],
-            settings["star_emojis"],
-            settings["display_emoji"],
-            settings["regex"],
-            settings["exclude_regex"],
-            settings["color"],
-            settings["ping"],
-            settings["channel_bl"],
-            settings["channel_wl"],
-            settings["use_webhook"],
-            settings["remove_invalid"],
-            starboard_id,
+            SET required = :required,
+            required_remove = :required_remove,
+            autoreact = :autoreact,
+            self_star = :self_star,
+            allow_bots = :allow_bots,
+            link_deletes = :link_deletes,
+            link_edits = :link_edits,
+            images_only = :images_only,
+            no_xp = :no_xp,
+            explore = :explore,
+            star_emojis = :star_emojis,
+            display_emoji = :display_emoji,
+            regex = :regex,
+            exclude_regex = :exclude_regex,
+            color = :color,
+            ping = :ping,
+            channel_bl = :channel_bl,
+            channel_wl = :channel_wl,
+            use_webhook = :use_webhook,
+            remove_invalid = :remove_invalid,
+            webhook_avatar = :webhook_avatar,
+            webhook_name = :webhook_name
+            WHERE id = :starboard_id""",
+            **settings,
+            starboard_id=starboard_id,
         )
-
+        await self.db.execute(query, *args)
         await self._starboard_edited(starboard_id, int(s["guild_id"]))
 
     async def add_star_emoji(self, starboard_id: int, emoji: str) -> None:

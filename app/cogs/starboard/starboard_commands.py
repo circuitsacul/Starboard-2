@@ -168,8 +168,8 @@ class Starboard(commands.Cog):
                     starboard.obj.mention
                 )
             )
-        await self.bot.db.starboards.set_webhook_avatar(
-            starboard.obj.id, avatar_url
+        await self.bot.db.starboards.edit(
+            starboard.obj.id, webhook_avatar=avatar_url
         )
 
         if avatar_url:
@@ -203,7 +203,7 @@ class Starboard(commands.Cog):
                 starboard.obj.id, use_webhook=True
             )
             enabled = True
-        await self.bot.db.starboards.set_webhook_name(starboard.obj.id, name)
+        await self.bot.db.starboards.edit(starboard.obj.id, webhook_name=name)
 
         settings = {"webhookName": (starboard.sql["webhook_name"], name)}
         if enabled:
