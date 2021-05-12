@@ -1,6 +1,7 @@
 from typing import Optional
 
 import asyncpg
+import buildpg
 from aiocache import Cache, SimpleMemoryCache
 from discord.ext import commands
 
@@ -70,31 +71,24 @@ class ASChannels:
     async def edit(
         self,
         aschannel_id: int,
-        emojis: list[str] = None,
-        min_chars: int = None,
-        require_image: bool = None,
-        regex: str = None,
-        exclude_regex: str = None,
-        delete_invalid: str = None,
+        **attrs,
     ) -> None:
         asc = await self.get(aschannel_id)
         if not asc:
             raise errors.NotAutoStarChannel(str(aschannel_id))
 
-        settings = {
-            "emojis": asc["emojis"] if emojis is None else emojis,
-            "min_chars": asc["min_chars"] if min_chars is None else min_chars,
-            "require_image": asc["require_image"]
-            if require_image is None
-            else require_image,
-            "delete_invalid": asc["delete_invalid"]
-            if delete_invalid is None
-            else delete_invalid,
-            "regex": asc["regex"] if regex is None else regex,
-            "exclude_regex": asc["exclude_regex"]
-            if exclude_regex is None
-            else exclude_regex,
-        }
+        valid_settings = [
+            "emojis",
+            "min_chars",
+            "require_image",
+            "regex",
+            "exclude_regex",
+            "delete_invalid",
+        ]
+
+        settings = {}
+        for key in valid_settings:
+            settings[key] = attrs.get(key, asc[key])
 
         if settings["min_chars"] < 0:
             raise commands.BadArgument(t_("minChars cannot be less than 0."))
@@ -103,23 +97,20 @@ class ASChannels:
                 t_("minChars cannot be grater than 2,000.")
             )
 
-        await self.db.execute(
+        query, args = buildpg.render(
             """UPDATE aschannels
-            SET emojis=$2::text[],
-            min_chars=$3,
-            require_image=$4,
-            delete_invalid=$5,
-            regex=$6,
-            exclude_regex=$7
-            WHERE id=$1""",
-            aschannel_id,
-            settings["emojis"],
-            settings["min_chars"],
-            settings["require_image"],
-            settings["delete_invalid"],
-            settings["regex"],
-            settings["exclude_regex"],
+            SET emojis=:emojis,
+            min_chars=:min_chars,
+            require_image=:require_image,
+            delete_invalid=:delete_invalid,
+            regex=:regex,
+            exclude_regex=:exclude_regex
+            WHERE id=:asc_id""",
+            **settings,
+            asc_id=aschannel_id,
         )
+
+        await self.db.execute(query, *args)
         await self.id_cache.delete(aschannel_id)
 
     async def add_asemoji(self, aschannel_id: int, emoji: str) -> None:
@@ -130,8 +121,7 @@ class ASChannels:
             )
         if emoji in aschannel["emojis"]:
             raise errors.AlreadyASEmoji(emoji, aschannel_id)
-        new_emojis: list = aschannel["emojis"]
-        new_emojis.append(emoji)
+        new_emojis: list = aschannel["emojis"] + [emoji]
         await self.edit(aschannel_id, emojis=new_emojis)
 
     async def remove_asemojis(self, aschannel_id: int, emoji: str) -> None:
@@ -142,6 +132,6 @@ class ASChannels:
             )
         if emoji not in aschannel["emojis"]:
             raise errors.NotASEmoji(emoji, str(aschannel_id))
-        new_emojis: list = aschannel["emojis"]
+        new_emojis: list = aschannel["emojis"].copy()
         new_emojis.remove(emoji)
         await self.edit(aschannel_id, emojis=new_emojis)
