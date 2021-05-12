@@ -14,7 +14,7 @@ cachetools==4.2.2
 certifi==2020.12.5
 cfgv==3.2.0
 chardet==4.0.0
-click==7.1.2
+click==8.0.0
 discord-ext-menus @ git+git://github.com/Rapptz/discord-ext-menus.git@309c70222eec33acacb8c21bbb0fbe9bc57de661
 discord-pretty-help @ git+git://github.com/CircuitsBots/discord-pretty-help.git@a4523bb5a51bdd9f6a16bac2d214bdca820dfd0d
 discord-py-slash-command==1.1.2
