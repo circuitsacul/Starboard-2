@@ -1,4 +1,5 @@
 # Starboard-2
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d1cb01c751324d9d9147c42a58c8ee75)](https://app.codacy.com/gh/CircuitsBots/Starboard-2?utm_source=github.com&utm_medium=referral&utm_content=CircuitsBots/Starboard-2&utm_campaign=Badge_Grade_Settings)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Maintainability](https://api.codeclimate.com/v1/badges/5d3130a4875e587f28e4/maintainability)](https://codeclimate.com/github/CircuitsBots/Starboard-2/maintainability)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/CircuitsBots/Starboard-2/graphs/commit-activity)
