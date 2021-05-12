@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-26 20:49-0400\n"
+"POT-Creation-Date: 2021-05-05 14:12-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -439,15 +439,15 @@ msgid "{0} is no longer a starboard."
 msgstr ""
 
 #: app/cogs/starboard/starboard_commands.py:248
-#: app/cogs/settings/settings_commands.py:456
-#: app/cogs/settings/settings_commands.py:487
-#: app/cogs/permroles/pr_commands.py:233
-#: app/cogs/utility/utility_commands.py:55
-#: app/cogs/utility/utility_commands.py:58
-#: app/cogs/utility/utility_commands.py:62
-#: app/cogs/utility/utility_commands.py:77
-#: app/cogs/utility/utility_commands.py:304
-#: app/cogs/utility/utility_commands.py:373
+#: app/cogs/settings/settings_commands.py:459
+#: app/cogs/settings/settings_commands.py:490
+#: app/cogs/permroles/pr_commands.py:236
+#: app/cogs/utility/utility_commands.py:79
+#: app/cogs/utility/utility_commands.py:82
+#: app/cogs/utility/utility_commands.py:86
+#: app/cogs/utility/utility_commands.py:101
+#: app/cogs/utility/utility_commands.py:326
+#: app/cogs/utility/utility_commands.py:395
 msgid "Cancelled."
 msgstr ""
 
@@ -619,157 +619,157 @@ msgstr ""
 msgid "Sets the cooldown for xp"
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:185
+#: app/cogs/settings/settings_commands.py:188
 msgid "Modify quickActions"
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:206
+#: app/cogs/settings/settings_commands.py:209
 #, python-brace-format
 msgid "To modify these, run `{0}help qa`."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:212
+#: app/cogs/settings/settings_commands.py:215
 msgid "Enables quickActions"
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:219
+#: app/cogs/settings/settings_commands.py:222
 msgid "Enabled quickActions."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:224
+#: app/cogs/settings/settings_commands.py:227
 msgid "Disables quickActions"
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:231
+#: app/cogs/settings/settings_commands.py:234
 msgid "Disabled quickActions."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:234
+#: app/cogs/settings/settings_commands.py:237
 msgid "Resets quickActions to their default"
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:249
+#: app/cogs/settings/settings_commands.py:252
 msgid "Reset quickActions."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:252
+#: app/cogs/settings/settings_commands.py:255
 msgid "Sets the force quickAction emoji"
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:267
+#: app/cogs/settings/settings_commands.py:270
 #, python-brace-format
 msgid "Set the force quickAction to {0}."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:270
+#: app/cogs/settings/settings_commands.py:273
 msgid "Set the unforce quickAction emoji"
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:285
+#: app/cogs/settings/settings_commands.py:288
 #, python-brace-format
 msgid "Set the unforce quickAction to {0}."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:290
+#: app/cogs/settings/settings_commands.py:293
 msgid "Sets the freeze/unfreeze emoji"
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:306
+#: app/cogs/settings/settings_commands.py:309
 #, python-brace-format
 msgid "Set the freeze/unfreeze quickAction to {0}."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:310
+#: app/cogs/settings/settings_commands.py:313
 msgid "Sets the trash/untrash quickAction emoji"
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:326
+#: app/cogs/settings/settings_commands.py:329
 #, python-brace-format
 msgid "Set the trash/untrash quickAction to {0}."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:330
+#: app/cogs/settings/settings_commands.py:333
 msgid "Sets the recount quickAction emoji"
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:345
+#: app/cogs/settings/settings_commands.py:348
 #, python-brace-format
 msgid "Set the recount quickAction to {0}."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:348
+#: app/cogs/settings/settings_commands.py:351
 msgid "Sets the save quickAction emoji"
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:363
+#: app/cogs/settings/settings_commands.py:366
 #, python-brace-format
 msgid "Set the save quickAction to {0}."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:368
+#: app/cogs/settings/settings_commands.py:371
 msgid "List and manage prefixes"
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:376
+#: app/cogs/settings/settings_commands.py:379
 #, python-brace-format
 msgid "Prefixes for {0}:"
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:390
+#: app/cogs/settings/settings_commands.py:393
 msgid "Adds a prefix"
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:400
+#: app/cogs/settings/settings_commands.py:403
 #, python-brace-format
 msgid "`{0}` is too long (max length is 8 characters)."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:417
+#: app/cogs/settings/settings_commands.py:420
 #, python-brace-format
 msgid "Added `{0}` to the prefixes."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:420
+#: app/cogs/settings/settings_commands.py:423
 msgid "Removes a prefix"
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:440
+#: app/cogs/settings/settings_commands.py:443
 #, python-brace-format
 msgid "I found {0} matches for `{1}`. Please be more specific."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:447
+#: app/cogs/settings/settings_commands.py:450
 #, python-brace-format
 msgid "No matches found for `{0}`."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:453
+#: app/cogs/settings/settings_commands.py:456
 #, python-brace-format
 msgid "Did you want to remove `{0}` from the prefixes?"
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:472
+#: app/cogs/settings/settings_commands.py:475
 #, python-brace-format
 msgid "Removed `{0}` from the prefixes."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:476
+#: app/cogs/settings/settings_commands.py:479
 msgid "Removes all prefixes and adds \"sb!\""
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:485
+#: app/cogs/settings/settings_commands.py:488
 msgid "Are you sure you want to reset all prefixes?"
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:495
+#: app/cogs/settings/settings_commands.py:498
 msgid "Cleared all prefixes and added `sb!`."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:500
+#: app/cogs/settings/settings_commands.py:503
 msgid "Sets the channel for level up messages"
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:518
+#: app/cogs/settings/settings_commands.py:521
 #, python-brace-format
 msgid ""
 "I need the following permissions in {0} in order to set that as the "
@@ -777,32 +777,32 @@ msgid ""
 "{1}"
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:533
+#: app/cogs/settings/settings_commands.py:536
 #, python-brace-format
 msgid "Set the LevelUpChannel to {0}."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:536
+#: app/cogs/settings/settings_commands.py:539
 msgid "Unset the LevelUpChannel."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:541
+#: app/cogs/settings/settings_commands.py:544
 msgid "Whether or not to ping users when they level up"
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:553
+#: app/cogs/settings/settings_commands.py:556
 msgid "I will now ping users when the level up."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:555
+#: app/cogs/settings/settings_commands.py:558
 msgid "I will not ping users when the level up."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:560
+#: app/cogs/settings/settings_commands.py:563
 msgid "Sets the channel where logs are sent to"
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:578
+#: app/cogs/settings/settings_commands.py:581
 #, python-brace-format
 msgid ""
 "I need the following permissions in {0} in order to set that as the log "
@@ -810,22 +810,22 @@ msgid ""
 "{1}"
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:594
+#: app/cogs/settings/settings_commands.py:597
 #, python-brace-format
 msgid "Set the log channel to {0}."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:600
+#: app/cogs/settings/settings_commands.py:603
 msgid ""
 "This channel has been set as a log channel. I'll send errors and important "
 "info here."
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:612
+#: app/cogs/settings/settings_commands.py:615
 msgid "Wether or not to allow commands from non-admins"
 msgstr ""
 
-#: app/cogs/settings/settings_commands.py:625
+#: app/cogs/settings/settings_commands.py:628
 #, python-brace-format
 msgid "Set allowCommands to **{0}**."
 msgstr ""
@@ -887,35 +887,44 @@ msgstr ""
 msgid "--place must be greater than 0"
 msgstr ""
 
-#: app/cogs/fun/fun_commands.py:210
+#: app/cogs/fun/fun_commands.py:213
 msgid "Nothing to show."
 msgstr ""
 
-#: app/cogs/fun/fun_commands.py:227
+#: app/cogs/fun/fun_commands.py:230
 msgid "Shows a random starred message from the server"
 msgstr ""
 
-#: app/cogs/fun/fun_commands.py:270
+#: app/cogs/fun/fun_commands.py:273
 msgid "No messages were found that matched those requirements."
 msgstr ""
 
-#: app/cogs/fun/fun_commands.py:284
+#: app/cogs/fun/fun_commands.py:287
 msgid "Something went wrong. Please try again."
 msgstr ""
 
-#: app/cogs/fun/fun_commands.py:315
+#: app/cogs/fun/fun_commands.py:303
+msgid "Tells you how starworthy a message is"
+msgstr ""
+
+#: app/cogs/fun/fun_commands.py:312
+#, python-format
+msgid "That message is {}% starworthy."
+msgstr ""
+
+#: app/cogs/fun/fun_commands.py:316
 msgid "Saves a message to your DM's"
 msgstr ""
 
-#: app/cogs/fun/fun_commands.py:327 app/cogs/quick_actions/qa_events.py:172
+#: app/cogs/fun/fun_commands.py:328 app/cogs/quick_actions/qa_events.py:172
 msgid "You cannot save a trashed message."
 msgstr ""
 
-#: app/cogs/fun/fun_commands.py:336
+#: app/cogs/fun/fun_commands.py:337
 msgid "That message was deleted, so you can't save it."
 msgstr ""
 
-#: app/cogs/fun/fun_commands.py:345
+#: app/cogs/fun/fun_commands.py:346
 msgid "I can't DM you, so you can't save that message."
 msgstr ""
 
@@ -970,140 +979,140 @@ msgstr ""
 msgid "Sets the position of a permgroup"
 msgstr ""
 
-#: app/cogs/permroles/pr_commands.py:145
+#: app/cogs/permroles/pr_commands.py:148
 #, python-brace-format
 msgid "Moved the PermGroup {0} from {1} to {2}."
 msgstr ""
 
-#: app/cogs/permroles/pr_commands.py:153
+#: app/cogs/permroles/pr_commands.py:156
 msgid "Manage the channels that a PermGroup affects"
 msgstr ""
 
-#: app/cogs/permroles/pr_commands.py:165
+#: app/cogs/permroles/pr_commands.py:168
 msgid "Adds channel(s) to the list of channels for a PermGroup"
 msgstr ""
 
-#: app/cogs/permroles/pr_commands.py:185
+#: app/cogs/permroles/pr_commands.py:188
 #, python-brace-format
 msgid "Added {0} to the channels on PermGroup {1}."
 msgstr ""
 
-#: app/cogs/permroles/pr_commands.py:194
+#: app/cogs/permroles/pr_commands.py:197
 msgid "Removes channel(s) from the list of channels on a PermGroup"
 msgstr ""
 
-#: app/cogs/permroles/pr_commands.py:214
+#: app/cogs/permroles/pr_commands.py:217
 #, python-brace-format
 msgid "Removed {0} from the channels on PermGroup {1}."
 msgstr ""
 
-#: app/cogs/permroles/pr_commands.py:220
+#: app/cogs/permroles/pr_commands.py:223
 msgid "Clears all channels from a PermGroup"
 msgstr ""
 
-#: app/cogs/permroles/pr_commands.py:229
+#: app/cogs/permroles/pr_commands.py:232
 #, python-brace-format
 msgid "Are you sure you want to clear all channels for the PermGroup {0}?"
 msgstr ""
 
-#: app/cogs/permroles/pr_commands.py:238
+#: app/cogs/permroles/pr_commands.py:241
 #, python-brace-format
 msgid "Cleared all channels for the PermGroup {0}."
 msgstr ""
 
-#: app/cogs/permroles/pr_commands.py:246
+#: app/cogs/permroles/pr_commands.py:249
 msgid "Manage the starboards that a PermGroup affects"
 msgstr ""
 
-#: app/cogs/permroles/pr_commands.py:261
+#: app/cogs/permroles/pr_commands.py:264
 msgid "Adds starboard(s) to the list of starboards for a PermGroup"
 msgstr ""
 
-#: app/cogs/permroles/pr_commands.py:280
+#: app/cogs/permroles/pr_commands.py:283
 #, python-brace-format
 msgid "Added {0} to the starboards on PermGroup {1}."
 msgstr ""
 
-#: app/cogs/permroles/pr_commands.py:289
+#: app/cogs/permroles/pr_commands.py:292
 msgid "Removes starboard(s) from the list of starboars on a PermGroup"
 msgstr ""
 
-#: app/cogs/permroles/pr_commands.py:310
+#: app/cogs/permroles/pr_commands.py:313
 #, python-brace-format
 msgid "Removed {0} from the starboards on PermGroup {1}."
 msgstr ""
 
-#: app/cogs/permroles/pr_commands.py:316
+#: app/cogs/permroles/pr_commands.py:319
 msgid "Clears all starboards on a PermGroup"
 msgstr ""
 
-#: app/cogs/permroles/pr_commands.py:325
+#: app/cogs/permroles/pr_commands.py:328
 #, python-brace-format
 msgid "Are you sure you want to clear all starboards for the PermGroup {0}?"
 msgstr ""
 
-#: app/cogs/permroles/pr_commands.py:334
+#: app/cogs/permroles/pr_commands.py:337
 #, python-brace-format
 msgid "Cleared all starboards for PermGroup {0}."
 msgstr ""
 
-#: app/cogs/permroles/pr_commands.py:342
+#: app/cogs/permroles/pr_commands.py:345
 msgid "Manage/View PermRoles for a PermGroup"
 msgstr ""
 
-#: app/cogs/permroles/pr_commands.py:356
+#: app/cogs/permroles/pr_commands.py:359
 #, python-brace-format
 msgid "PermRoles for {0}"
 msgstr ""
 
-#: app/cogs/permroles/pr_commands.py:372
+#: app/cogs/permroles/pr_commands.py:375
 msgid "Adds a PermRole to a PermGroup"
 msgstr ""
 
-#: app/cogs/permroles/pr_commands.py:387
+#: app/cogs/permroles/pr_commands.py:390
 #, python-brace-format
 msgid "{0} is now a PermRole on the PermGroup {1}."
 msgstr ""
 
-#: app/cogs/permroles/pr_commands.py:395
+#: app/cogs/permroles/pr_commands.py:398
 msgid "Removes a PermRole from a PermGroup"
 msgstr ""
 
-#: app/cogs/permroles/pr_commands.py:411
+#: app/cogs/permroles/pr_commands.py:414
 #, python-brace-format
 msgid "{0} is no longer a PermRole on the PermGroup {1}."
 msgstr ""
 
-#: app/cogs/permroles/pr_commands.py:418
+#: app/cogs/permroles/pr_commands.py:421
 msgid "Changes the position of a PermRole in a PermGroup"
 msgstr ""
 
-#: app/cogs/permroles/pr_commands.py:437
+#: app/cogs/permroles/pr_commands.py:440
 #, python-brace-format
 msgid "Moved the PermRole {0} from {1} to {2}."
 msgstr ""
 
-#: app/cogs/permroles/pr_commands.py:445
+#: app/cogs/permroles/pr_commands.py:448
 msgid "Sets the allowCommands permission for a PermRole"
 msgstr ""
 
-#: app/cogs/permroles/pr_commands.py:472
+#: app/cogs/permroles/pr_commands.py:475
 msgid "Sets the onStarboard permission for a PermRole"
 msgstr ""
 
-#: app/cogs/permroles/pr_commands.py:498
+#: app/cogs/permroles/pr_commands.py:501
 msgid "Sets the giveStars permission for a PermRole"
 msgstr ""
 
-#: app/cogs/permroles/pr_commands.py:524
+#: app/cogs/permroles/pr_commands.py:527
 msgid "Sets the gainXP permission for a PermRole"
 msgstr ""
 
-#: app/cogs/permroles/pr_commands.py:548
+#: app/cogs/permroles/pr_commands.py:551
 msgid "Sets the posRoles permission for a PermRole"
 msgstr ""
 
-#: app/cogs/permroles/pr_commands.py:574
+#: app/cogs/permroles/pr_commands.py:577
 msgid "Sets the xpRoles permission for a PermRole"
 msgstr ""
 
@@ -1443,34 +1452,34 @@ msgid ""
 "you currently have."
 msgstr ""
 
-#: app/cogs/base/base_events.py:153
+#: app/cogs/base/base_events.py:162
 #, python-brace-format
 msgid "My prefix is `{0}`."
 msgstr ""
 
-#: app/cogs/base/base_events.py:183
+#: app/cogs/base/base_events.py:193
 #, python-brace-format
 msgid ""
 "I don't have permission to send messages in {0}, so I can't respond to your "
 "command."
 msgstr ""
 
-#: app/cogs/base/base_events.py:189
+#: app/cogs/base/base_events.py:199
 msgid "Something's Not Right"
 msgstr ""
 
-#: app/cogs/base/base_events.py:191
+#: app/cogs/base/base_events.py:201
 msgid ""
 "Something went wrong while running this command. If the problem persists, "
 "please report this in the support server."
 msgstr ""
 
-#: app/cogs/base/base_events.py:243
+#: app/cogs/base/base_events.py:253
 #, python-brace-format
 msgid "{0} Leveled up!"
 msgstr ""
 
-#: app/cogs/base/base_events.py:244
+#: app/cogs/base/base_events.py:254
 #, python-brace-format
 msgid "They are now level **{0}**!"
 msgstr ""
@@ -1541,10 +1550,10 @@ msgstr ""
 #: app/cogs/base/base_commands.py:112
 #, python-brace-format
 msgid ""
-"guilds: **{0}**\n"
-"users: **{1}**\n"
-"clusters: **{2}**\n"
-"shards: **{3}**"
+"Guilds: **{0}**\n"
+"Users: **{1}**\n"
+"Clusters: **{2}**\n"
+"Shards: **{3}**"
 msgstr ""
 
 #: app/cogs/base/base_commands.py:129
@@ -1644,279 +1653,283 @@ msgstr ""
 msgid "**{0}** has voted **{1}** time(s)."
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:23
+#: app/cogs/utility/utility_commands.py:24
+msgid "Removes command invocations and their responses for this bot."
+msgstr ""
+
+#: app/cogs/utility/utility_commands.py:48
 msgid "A utility for resetting aspects of the bot."
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:32
+#: app/cogs/utility/utility_commands.py:56
 msgid "Resets the bot for your guild."
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:38
+#: app/cogs/utility/utility_commands.py:62
 msgid ""
 "You are about to reset all settings, starboards, autostarchannels, and "
 "leaderboard data for this server. Please type the name of this server to "
 "continue, or anything else to cancel."
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:61
+#: app/cogs/utility/utility_commands.py:85
 msgid "Are you certain?"
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:66
+#: app/cogs/utility/utility_commands.py:90
 msgid "Starboard has been reset for this server."
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:71
+#: app/cogs/utility/utility_commands.py:95
 msgid "Resets the leaderboard."
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:76
+#: app/cogs/utility/utility_commands.py:100
 msgid "Reset the leaderboard?"
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:86
+#: app/cogs/utility/utility_commands.py:110
 msgid "Reset the leaderboard."
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:88
+#: app/cogs/utility/utility_commands.py:112
 msgid "Sets the XP for a user."
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:94
+#: app/cogs/utility/utility_commands.py:118
 msgid "XP must be greater than 0."
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:96
+#: app/cogs/utility/utility_commands.py:120
 msgid "XP must be less than 10,000."
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:101
+#: app/cogs/utility/utility_commands.py:125
 msgid "That user does not exist in the database for this guild."
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:119
+#: app/cogs/utility/utility_commands.py:143
 #, python-brace-format
 msgid "Changed {0}'s XP to {1} and Level to {2} (was {3} XP and Level {4})."
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:128
+#: app/cogs/utility/utility_commands.py:152
 msgid "Recounts the reactions on lots of messages at once"
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:136
+#: app/cogs/utility/utility_commands.py:162
 msgid "Must recount at least 1 message."
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:139
+#: app/cogs/utility/utility_commands.py:165
 msgid "Can only recount up to 1,000 messages."
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:148
+#: app/cogs/utility/utility_commands.py:174
 msgid "Recounts the reactions on a message"
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:179
+#: app/cogs/utility/utility_commands.py:205
 msgid ""
 "Cleans things like #deleted-channel and @deleted-role.\n"
 "Note that this can change the functionality of things such as PermRoles and "
 "channel blacklists/whitelists."
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:195
+#: app/cogs/utility/utility_commands.py:221
 msgid "Nothing to remove"
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:197
+#: app/cogs/utility/utility_commands.py:223
 msgid "Database Cleaning"
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:205
+#: app/cogs/utility/utility_commands.py:231
 msgid "Looks for problems with your current setup"
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:220
+#: app/cogs/utility/utility_commands.py:246
 #, python-brace-format
 msgid "{0} errors, {1} warnings, {2} notes, and {3} suggestions."
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:229
+#: app/cogs/utility/utility_commands.py:255
 msgid ""
 "\n"
 "\n"
 "**Errors:**"
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:233
+#: app/cogs/utility/utility_commands.py:259
 msgid ""
 "\n"
 "\n"
 "**Warnings:**"
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:237
+#: app/cogs/utility/utility_commands.py:263
 msgid ""
 "\n"
 "\n"
 "**Notes:**"
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:241
+#: app/cogs/utility/utility_commands.py:267
 msgid ""
 "\n"
 "\n"
 "**Suggestions:**"
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:247
+#: app/cogs/utility/utility_commands.py:273
 msgid "Debugging Results"
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:255
+#: app/cogs/utility/utility_commands.py:281
 msgid "Freezes a message."
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:270
+#: app/cogs/utility/utility_commands.py:294
 msgid "Unfreezes a message"
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:283
+#: app/cogs/utility/utility_commands.py:305
 msgid "Message unfrozen."
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:286
+#: app/cogs/utility/utility_commands.py:308
 msgid "Forced a message to certain starboards"
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:302
+#: app/cogs/utility/utility_commands.py:324
 msgid "Force this message to all starboards?"
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:330
+#: app/cogs/utility/utility_commands.py:352
 msgid "Message forced to all starboards."
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:334
+#: app/cogs/utility/utility_commands.py:356
 #, python-brace-format
 msgid "Message forced to {0}."
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:339
+#: app/cogs/utility/utility_commands.py:361
 msgid "Unforces a message from certain starboards"
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:362
+#: app/cogs/utility/utility_commands.py:384
 #, python-brace-format
 msgid ""
 "The message you passed appears to be a starboard message. Would you like to "
 "unforce this message from {0} instead?"
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:371
+#: app/cogs/utility/utility_commands.py:393
 msgid "Unforce this message from all starboards?"
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:383
+#: app/cogs/utility/utility_commands.py:405
 msgid "Message unforced from all starboards."
-msgstr ""
-
-#: app/cogs/utility/utility_commands.py:387
-#, python-brace-format
-msgid "Message unforced from {0}."
-msgstr ""
-
-#: app/cogs/utility/utility_commands.py:393
-msgid "Sets the reason for trashing a message"
 msgstr ""
 
 #: app/cogs/utility/utility_commands.py:409
 #, python-brace-format
+msgid "Message unforced from {0}."
+msgstr ""
+
+#: app/cogs/utility/utility_commands.py:415
+msgid "Sets the reason for trashing a message"
+msgstr ""
+
+#: app/cogs/utility/utility_commands.py:431
+#, python-brace-format
 msgid "Set the reason to {0}."
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:412
+#: app/cogs/utility/utility_commands.py:434
 msgid "Trashes a message so it can't be viewed"
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:434
+#: app/cogs/utility/utility_commands.py:456
 msgid "Message trashed."
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:436
+#: app/cogs/utility/utility_commands.py:458
 msgid "Untrashes a message"
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:452
+#: app/cogs/utility/utility_commands.py:476
 msgid "Message untrashed."
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:457
+#: app/cogs/utility/utility_commands.py:481
 msgid "Shows a list of trashed messages"
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:472
+#: app/cogs/utility/utility_commands.py:496
 msgid "You have no trashed messages."
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:483
+#: app/cogs/utility/utility_commands.py:507
 msgid "Trashed Messages"
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:494
+#: app/cogs/utility/utility_commands.py:518
 msgid "Empties the trashcan"
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:503
+#: app/cogs/utility/utility_commands.py:527
 msgid "Are you sure you want to untrash all messages?"
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:512
+#: app/cogs/utility/utility_commands.py:536
 msgid "All messages have been untrashed."
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:519
+#: app/cogs/utility/utility_commands.py:543
 msgid "Trashes a large number of messages at once"
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:529
+#: app/cogs/utility/utility_commands.py:553
 msgid "Can only purge up to 200 messages at once."
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:532
+#: app/cogs/utility/utility_commands.py:556
 msgid "Must purge at least 1 message."
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:545
+#: app/cogs/utility/utility_commands.py:569
 #, python-brace-format
 msgid "Purged {0} Messages."
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:557
+#: app/cogs/utility/utility_commands.py:581
 msgid "Untrashes a large number of messages at once"
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:566
+#: app/cogs/utility/utility_commands.py:590
 msgid "Can only unpurge up to 200 messages at once."
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:569
+#: app/cogs/utility/utility_commands.py:593
 msgid "Must unpurge at least 1 message."
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:582
+#: app/cogs/utility/utility_commands.py:606
 #, python-brace-format
 msgid "Unpurged {0} Messages."
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:592
+#: app/cogs/utility/utility_commands.py:616
 msgid "Shows information on a message"
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:606
+#: app/cogs/utility/utility_commands.py:630
 msgid "Message Info"
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:609
+#: app/cogs/utility/utility_commands.py:633
 #, python-brace-format
 msgid ""
 "[Jump to Message]({0})\n"
@@ -1927,16 +1940,16 @@ msgid ""
 "Frozen: {1[frozen]}"
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:628
+#: app/cogs/utility/utility_commands.py:652
 msgid "Not On Starboard"
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:637
+#: app/cogs/utility/utility_commands.py:661
 #, python-brace-format
 msgid "[Jump]({0})"
 msgstr ""
 
-#: app/cogs/utility/utility_commands.py:644
+#: app/cogs/utility/utility_commands.py:668
 #, python-brace-format
 msgid ""
 "Points: **{0}**/{1}\n"
@@ -2154,6 +2167,15 @@ msgstr ""
 
 #: app/cogs/utility/utility_funcs.py:51
 msgid "Purged"
+msgstr ""
+
+#: app/cogs/base/base_commands.py:112
+#, python-brace-format
+msgid ""
+"guilds: **{0}**\n"
+"users: **{1}**\n"
+"clusters: **{2}**\n"
+"shards: **{3}**"
 msgstr ""
 
 #: app/cogs/slash/slash_commands.py:18

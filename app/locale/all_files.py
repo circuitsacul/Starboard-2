@@ -1,4 +1,4 @@
-import os.path
+import os
 
 for dir, subdirs, files in os.walk("."):
     if "venv" in dir or "locale" in dir:
