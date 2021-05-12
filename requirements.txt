@@ -33,7 +33,7 @@ hyperframe==6.0.1
 identify==2.2.4
 idna==2.10
 import-expression==1.1.4
-itsdangerous==1.1.0
+itsdangerous==2.0.0
 Jinja2==3.0.0
 jishaku @ git+git://github.com/Gorialis/jishaku.git@873f863052a663efab3b6184d2516e03bf16bcf9
 MarkupSafe==2.0.0
