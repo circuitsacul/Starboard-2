@@ -461,8 +461,8 @@ class PermRoles(commands.Cog):
         role: converters.PermRole(-1),
         allow_commands: converters.OrNone(converters.mybool),
     ):
-        await self.bot.db.permroles.set_allow_commands(
-            role.obj.id, group["id"], allow_commands
+        await self.bot.db.permroles.edit(
+            role.obj.id, group["id"], allow_commands=allow_commands
         )
         await ctx.send(
             embed=utils.cs_embed(
@@ -490,8 +490,8 @@ class PermRoles(commands.Cog):
         role: converters.PermRole(-1),
         on_starboard: converters.OrNone(converters.mybool),
     ):
-        await self.bot.db.permroles.set_on_starboard(
-            role.obj.id, group["id"], on_starboard
+        await self.bot.db.permroles.edit(
+            role.obj.id, group["id"], on_starboard=on_starboard
         )
         await ctx.send(
             embed=utils.cs_embed(
@@ -514,8 +514,8 @@ class PermRoles(commands.Cog):
         role: converters.PermRole(-1),
         give_stars: converters.OrNone(converters.mybool),
     ):
-        await self.bot.db.permroles.set_give_stars(
-            role.obj.id, group["id"], give_stars
+        await self.bot.db.permroles.edit(
+            role.boj.id, group["id"], give_stars=give_stars
         )
         await ctx.send(
             embed=utils.cs_embed(
@@ -537,8 +537,8 @@ class PermRoles(commands.Cog):
         role: converters.PermRole(-1),
         gain_xp: converters.OrNone(converters.mybool),
     ):
-        await self.bot.db.permroles.set_gain_xp(
-            role.obj.id, group["id"], gain_xp
+        await self.bot.db.permroles.edit(
+            role.obj.id, group["id"], gain_xp=gain_xp
         )
         await ctx.send(
             embed=utils.cs_embed(
@@ -560,8 +560,8 @@ class PermRoles(commands.Cog):
         role: converters.PermRole(-1),
         pos_roles: converters.OrNone(converters.mybool),
     ):
-        await self.bot.db.permroles.set_pos_roles(
-            role.obj.id, group["id"], pos_roles
+        await self.bot.db.permroles.edit(
+            role.obj.id, group["id"], pos_roles=pos_roles
         )
         await ctx.send(
             embed=utils.cs_embed(
@@ -583,8 +583,8 @@ class PermRoles(commands.Cog):
         role: converters.PermRole(-1),
         xp_roles: converters.OrNone(converters.mybool),
     ):
-        await self.bot.db.permroles.set_xp_roles(
-            role.obj.id, group["id"], xp_roles
+        await self.bot.db.permroles.edit(
+            role.obj.id, group["id"], xp_roles=xp_roles
         )
         await ctx.send(
             embed=utils.cs_embed(
