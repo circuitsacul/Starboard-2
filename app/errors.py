@@ -44,7 +44,7 @@ class PermRoleNotFound(commands.BadArgument):
 class PermGroupNotFound(commands.BadArgument):
     def __init__(self, arg: str):
         message = t_(
-            "I couldn't find any permgroups with the name {0}."
+            "I couldn't find any PermGroups with the name **{0}**."
         ).format(arg)
         super().__init__(message=message)
 
@@ -52,7 +52,7 @@ class PermGroupNotFound(commands.BadArgument):
 class GroupNameAlreadyExists(commands.BadArgument):
     def __init__(self, arg: str):
         message = t_(
-            "{0} is already the name of another Permission Group."
+            "**{0}** is already the name of another PermGroup."
         ).format(arg)
         super().__init__(message=message)
 
@@ -93,22 +93,22 @@ class CommandCategoryNotFound(commands.BadArgument):
 
 class NotAutoStarChannel(commands.BadArgument):
     def __init__(self, arg: str):
-        message = t_("The channel {0} is not an AutoStarChannel.").format(arg)
+        message = t_("The channel {0} is not an AutoStar channel.").format(arg)
         super().__init__(message=message)
 
 
 class NotASEmoji(commands.BadArgument):
     def __init__(self, emoji: str, aschannel: str):
-        message = t_("{0} is not an emoji on the AutoStarChannel {1}.").format(
-            emoji, aschannel
-        )
+        message = t_(
+            "{0} is not an emoji on the AutoStar channel {1}."
+        ).format(emoji, aschannel)
         super().__init__(message=message)
 
 
 class AlreadyASEmoji(commands.BadArgument):
     def __init__(self, emoji: str, aschannel: str):
         message = t_(
-            "{0} is already an emoji on the AutoStarChannel {1}."
+            "{0} is already an emoji on the AutoStar channel {1}."
         ).format(emoji, aschannel)
         super().__init__(message=message)
 
@@ -207,7 +207,7 @@ class AlreadyPrefix(commands.BadArgument):
 class CannotBeStarboardAndAutostar(commands.BadArgument):
     def __init__(self):
         message = t_(
-            "A channel cannot be both a starboard and an AutoStarChannel"
+            "A channel cannot be both a starboard and an AutoStar channel"
         )
         super().__init__(message=message)
 

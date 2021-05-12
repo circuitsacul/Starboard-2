@@ -16,7 +16,9 @@ class Blacklist(commands.Cog):
     @commands.group(
         name="blacklist",
         aliases=["bl"],
-        help=t_("Lists the channel blacklist/whitelist for a starboard", True),
+        help=t_(
+            "Lists the channel blacklist/whitelist for a starboard.", True
+        ),
         invoke_without_command=True,
     )
     @commands.bot_has_permissions(embed_links=True)
@@ -55,7 +57,7 @@ class Blacklist(commands.Cog):
     @blacklist.command(
         name="add",
         aliases=["addChannel", "a", "ac"],
-        help=t_("Adds a channel to the blacklist", True),
+        help=t_("Adds a channel to the blacklist.", True),
     )
     @commands.has_guild_permissions(manage_channels=True)
     async def blacklist_channel(
@@ -80,7 +82,7 @@ class Blacklist(commands.Cog):
     @blacklist.command(
         name="remove",
         aliases=["removeChannel", "r", "rc", "del", "d"],
-        help=t_("Removes a channel from the blacklist", True),
+        help=t_("Removes a channel from the blacklist.", True),
     )
     @commands.has_guild_permissions(manage_channels=True)
     async def unblacklist_channel(
@@ -101,7 +103,7 @@ class Blacklist(commands.Cog):
         )
 
     @blacklist.command(
-        name="clear", help=t_("Removes everything from the blacklist", True)
+        name="clear", help=t_("Removes everything from the blacklist.", True)
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(
@@ -127,7 +129,9 @@ class Blacklist(commands.Cog):
     @commands.group(
         name="whitelist",
         aliases=["wl"],
-        help=t_("Shows the channel blacklist/whitelist for a starboard", True),
+        help=t_(
+            "Shows the channel blacklist/whitelist for a starboard.", True
+        ),
         invoke_without_command=True,
     )
     @commands.bot_has_permissions(embed_links=True)
@@ -142,7 +146,7 @@ class Blacklist(commands.Cog):
     @whitelist.command(
         name="add",
         aliases=["addChannel", "a", "ac"],
-        help=t_("Adds a channel to the whitelist", True),
+        help=t_("Adds a channel to the whitelist.", True),
     )
     @commands.has_guild_permissions(manage_channels=True)
     async def whitelist_channel(
@@ -167,7 +171,7 @@ class Blacklist(commands.Cog):
     @whitelist.command(
         name="remove",
         aliases=["removeChannel", "r", "rc"],
-        help=t_("Removes a channel from the whitelist", True),
+        help=t_("Removes a channel from the whitelist.", True),
     )
     @commands.has_guild_permissions(manage_channels=True)
     async def unwhitelist_channel(
@@ -188,7 +192,7 @@ class Blacklist(commands.Cog):
         )
 
     @whitelist.command(
-        name="clear", help=t_("Clears the whitelist for a starboard", True)
+        name="clear", help=t_("Clears the whitelist for a starboard.", True)
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(

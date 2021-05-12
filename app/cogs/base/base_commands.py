@@ -32,7 +32,7 @@ class Base(commands.Cog):
             True,
         )
 
-    @commands.command(name="credits", help=t_("Show credits", True))
+    @commands.command(name="credits", help=t_("Show credits.", True))
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def show_credits(self, ctx: "MyContext"):
@@ -72,7 +72,7 @@ class Base(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command(name="help", help=t_("Get help with Starboard", True))
+    @commands.command(name="help", help=t_("Get help with Starboard.", True))
     @commands.bot_has_permissions(embed_links=True)
     async def starboard_help(self, ctx: "MyContext", *, command=None) -> None:
         if command:
@@ -114,7 +114,7 @@ class Base(commands.Cog):
             await ctx.send_help()
 
     @commands.command(
-        name="botstats", aliases=["botinfo"], help=t_("Shows bot statistics")
+        name="botstats", aliases=["botinfo"], help=t_("Shows bot statistics.")
     )
     @commands.bot_has_permissions(embed_links=True)
     async def botinfo(self, ctx: "MyContext") -> None:
@@ -142,7 +142,7 @@ class Base(commands.Cog):
     @commands.command(
         name="ping",
         aliases=["latency"],
-        help=t_("Shows current clusters and shards latency", True),
+        help=t_("Shows current clusters and shards latency.", True),
     )
     @commands.cooldown(1, 3, commands.BucketType.member)
     @commands.bot_has_permissions(embed_links=True)
@@ -184,7 +184,7 @@ class Base(commands.Cog):
     @commands.command(
         name="links",
         aliases=["invite", "support"],
-        help=t_("Lists important/useful links", True),
+        help=t_("Lists important/useful links.", True),
     )
     @commands.bot_has_permissions(embed_links=True)
     async def links(self, ctx: "MyContext") -> None:
@@ -224,7 +224,7 @@ class Base(commands.Cog):
     @commands.command(
         name="vote",
         aliases=["votes"],
-        help=t_("View vote links and number of times you've voted", True),
+        help=t_("View vote links and number of times you've voted.", True),
     )
     @commands.bot_has_permissions(embed_links=True)
     async def vote(self, ctx: "MyContext", user: discord.User = None) -> None:

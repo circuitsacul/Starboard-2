@@ -10,7 +10,7 @@ from app.i18n import t_
 
 
 class AutoStarChannels(commands.Cog):
-    """Manage AutoStarChannels"""
+    """Manage AutoStar channels"""
 
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
@@ -20,7 +20,7 @@ class AutoStarChannels(commands.Cog):
         aliases=["autostarchannels", "asc"],
         help=t_(
             "List AutoStar Channels, or show "
-            "settings for a specific autostarchannel",
+            "settings for a specific AutoStar channel.",
             True,
         ),
         invoke_without_command=True,
@@ -37,16 +37,16 @@ class AutoStarChannels(commands.Cog):
             if len(aschannels) == 0:
                 await ctx.send(
                     t_(
-                        "You do not have any AutoStarChannels. use "
+                        "You do not have any AutoStar channels. use "
                         "`{0}asc add <channel>` to create one."
                     ).format(p)
                 )
                 return
 
             embed = discord.Embed(
-                title="AutoStarChannels",
+                title=t_("AutoStar channels"),
                 description=t_(
-                    "This lists all AutoStarChannels and their most "
+                    "This lists all AutoStar channels and their most "
                     "important settings. Use `{0}asc <aschannel>` to "
                     "view all settings."
                 ).format(p),
@@ -87,7 +87,7 @@ class AutoStarChannels(commands.Cog):
     @aschannels.command(
         name="add",
         aliases=["a", "+"],
-        help=t_("Adds an AutoStarChannel", True),
+        help=t_("Adds an AutoStar channel.", True),
     )
     @commands.has_guild_permissions(manage_channels=True)
     async def add_aschannel(
@@ -95,13 +95,13 @@ class AutoStarChannels(commands.Cog):
     ) -> None:
         await self.bot.db.aschannels.create(channel.id, ctx.guild.id)
         await ctx.send(
-            t_("Created AutoStarChannel {0}.").format(channel.mention)
+            t_("Created AutoStar channel {0}.").format(channel.mention)
         )
 
     @aschannels.command(
         name="remove",
         aliases=["r", "-"],
-        help=t_("Removes an AutoStarChannel", True),
+        help=t_("Removes an AutoStar channel.", True),
     )
     @commands.has_guild_permissions(manage_channels=True)
     async def remove_aschannel(
@@ -109,13 +109,13 @@ class AutoStarChannels(commands.Cog):
     ) -> None:
         await self.bot.db.aschannels.delete(aschannel.obj.id)
         await ctx.send(
-            t_("Deleted AutoStarChannel {0}.").format(aschannel.obj.mention)
+            t_("Deleted AutoStar channel {0}.").format(aschannel.obj.mention)
         )
 
     @aschannels.group(
         name="emojis",
         aliases=["e"],
-        help=t_("Modify the emojis for AutoStarChannels", True),
+        help=t_("Modify the emojis for AutoStar channels.", True),
         invoke_without_command=True,
     )
     @commands.has_guild_permissions(manage_channels=True)
@@ -123,7 +123,7 @@ class AutoStarChannels(commands.Cog):
         await ctx.send_help(ctx.command)
 
     @asemojis.command(
-        name="set", help=t_("Sets the emojis for an AutoStarChannel", True)
+        name="set", help=t_("Sets the emojis for an AutoStar channel.", True)
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -152,7 +152,7 @@ class AutoStarChannels(commands.Cog):
     @asemojis.command(
         name="add",
         aliases=["a"],
-        help=t_("Adds an emoji to an AutoStarChannel", True),
+        help=t_("Adds an emoji to an AutoStar channel.", True),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -181,7 +181,7 @@ class AutoStarChannels(commands.Cog):
     @asemojis.command(
         name="remove",
         aliases=["r", "d", "del", "delete"],
-        help=t_("Removes an emojis from an AutoStarChannel", True),
+        help=t_("Removes an emojis from an AutoStar channel.", True),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -212,7 +212,7 @@ class AutoStarChannels(commands.Cog):
     @asemojis.command(
         name="clear",
         aliases=["reset"],
-        help=t_("Removes all emojis from an AutoStarChannel", True),
+        help=t_("Removes all emojis from an AutoStar channel.", True),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True, read_message_history=True)
@@ -237,7 +237,7 @@ class AutoStarChannels(commands.Cog):
     @aschannels.command(
         name="minChars",
         aliases=["min", "mc"],
-        help=t_("Sets the minimum number of characters for messages", True),
+        help=t_("Sets the minimum number of characters for messages.", True),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -260,7 +260,7 @@ class AutoStarChannels(commands.Cog):
     @aschannels.command(
         name="requireImage",
         aliases=["imagesOnly", "ri"],
-        help=t_("Whether or not messages must include an image", True),
+        help=t_("Whether or not messages must include an image.", True),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -289,7 +289,7 @@ class AutoStarChannels(commands.Cog):
     @aschannels.command(
         name="regex",
         aliases=["reg"],
-        help=t_("A regex string that all messages must match", True),
+        help=t_("A regex string that all messages must match.", True),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -310,7 +310,7 @@ class AutoStarChannels(commands.Cog):
     @aschannels.command(
         name="excludeRegex",
         alaises=["eregex", "ereg"],
-        help=t_("A regex string that all messages must not match", True),
+        help=t_("A regex string that all messages must not match.", True),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -339,7 +339,7 @@ class AutoStarChannels(commands.Cog):
     @aschannels.command(
         name="deleteInvalid",
         aliases=["di"],
-        help=t_("Whether or not to delete invalid messages", True),
+        help=t_("Whether or not to delete invalid messages.", True),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)

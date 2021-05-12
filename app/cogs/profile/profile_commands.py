@@ -16,7 +16,7 @@ class Profile(commands.Cog):
     @commands.command(
         name="language",
         aliases=["lang", "locale"],
-        help=t_("Sets your language", True),
+        help=t_("Sets your language.", True),
     )
     async def set_user_language(
         self, ctx: "MyContext", *, locale: converters.language = None

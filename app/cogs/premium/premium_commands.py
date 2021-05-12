@@ -21,7 +21,7 @@ class Premium(commands.Cog):
     @commands.cooldown(1, 5, type=commands.BucketType.user)
     async def refresh_roles(self, ctx: "MyContext"):
         self.bot.dispatch("update_prem_roles", ctx.author.id)
-        await ctx.send("Your roles should update momentarily.")
+        await ctx.send(t_("Your roles should update momentarily."))
 
 
 def setup(bot: "Bot"):

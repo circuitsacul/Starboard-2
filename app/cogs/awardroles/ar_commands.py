@@ -45,7 +45,7 @@ class AwardRoles(commands.Cog):
         await ctx.send(embed=embed)
 
     @xproles.command(
-        name="add", aliases=["a"], help=t_("Adds an XPRole", True)
+        name="add", aliases=["a"], help=t_("Adds an XPRole.", True)
     )
     @commands.has_guild_permissions(manage_roles=True)
     @commands.guild_only()
@@ -63,7 +63,7 @@ class AwardRoles(commands.Cog):
         await ctx.send(t_("Created XPRole **{0}**.").format(role.name))
 
     @xproles.command(
-        name="remove", aliases=["r"], help=t_("Removes an XpRole", True)
+        name="remove", aliases=["r"], help=t_("Removes an XPRole.", True)
     )
     @commands.has_guild_permissions(manage_roles=True)
     @commands.guild_only()
@@ -76,7 +76,7 @@ class AwardRoles(commands.Cog):
     @xproles.command(
         name="set",
         aliases=["required"],
-        help=t_("Sets the ammount of xp needed to gain an XPRole", True),
+        help=t_("Sets the ammount of xp needed to gain an XPRole.", True),
     )
     @commands.has_guild_permissions(manage_roles=True)
     @commands.guild_only()

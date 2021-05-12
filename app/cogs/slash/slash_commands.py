@@ -24,7 +24,7 @@ class SlashCommands(commands.Cog):
 
     @commands.command(
         name="slash",
-        help=t_("Get a link for authorizing slash commands", True),
+        help=t_("Get a link for authorizing slash commands.", True),
     )
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()

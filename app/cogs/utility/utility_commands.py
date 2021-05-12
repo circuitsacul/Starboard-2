@@ -150,7 +150,7 @@ class Utility(commands.Cog):
 
     @commands.command(
         name="scan",
-        help=t_("Recounts the reactions on lots of messages at once", True),
+        help=t_("Recounts the reactions on lots of messages at once.", True),
     )
     @commands.max_concurrency(1, per=commands.BucketType.guild)
     @commands.has_guild_permissions(manage_guild=True)
@@ -172,7 +172,7 @@ class Utility(commands.Cog):
     @commands.command(
         name="recount",
         aliases=["refresh"],
-        help=t_("Recounts the reactions on a message", True),
+        help=t_("Recounts the reactions on a message.", True),
     )
     @commands.cooldown(3, 6, type=commands.BucketType.guild)
     @commands.has_guild_permissions(manage_messages=True)
@@ -229,7 +229,7 @@ class Utility(commands.Cog):
 
     @commands.command(
         name="debug",
-        help=t_("Looks for problems with your current setup", True),
+        help=t_("Looks for problems with your current setup.", True),
     )
     @commands.cooldown(2, 5, type=commands.BucketType.guild)
     @commands.has_guild_permissions(manage_guild=True)
@@ -292,7 +292,7 @@ class Utility(commands.Cog):
         )
         await ctx.send("Message frozen.")
 
-    @commands.command(name="unfreeze", help=t_("Unfreezes a message", True))
+    @commands.command(name="unfreeze", help=t_("Unfreezes a message.", True))
     @commands.has_guild_permissions(manage_messages=True)
     async def unfreeze_message(
         self, ctx: "MyContext", message: converters.PartialGuildMessage
@@ -306,7 +306,7 @@ class Utility(commands.Cog):
         await ctx.send(t_("Message unfrozen."))
 
     @commands.command(
-        name="force", help=t_("Forced a message to certain starboards", True)
+        name="force", help=t_("Force a message to certain starboards.", True)
     )
     @commands.has_guild_permissions(manage_messages=True)
     @commands.bot_has_permissions(
@@ -359,7 +359,7 @@ class Utility(commands.Cog):
 
     @commands.command(
         name="unforce",
-        help=t_("Unforces a message from certain starboards", True),
+        help=t_("Unforces a message from certain starboards.", True),
     )
     @commands.has_guild_permissions(manage_messages=True)
     @commands.bot_has_permissions(
@@ -413,7 +413,7 @@ class Utility(commands.Cog):
     @commands.command(
         name="trashreason",
         aliases=["reason"],
-        help=t_("Sets the reason for trashing a message", True),
+        help=t_("Sets the reason for trashing a message.", True),
     )
     @commands.has_guild_permissions(manage_messages=True)
     async def set_trash_reason(
@@ -432,7 +432,7 @@ class Utility(commands.Cog):
         await ctx.send(t_("Set the reason to {0}.").format(reason))
 
     @commands.command(
-        name="trash", help=t_("Trashes a message so it can't be viewed", True)
+        name="trash", help=t_("Trashes a message so it can't be viewed.", True)
     )
     @commands.has_guild_permissions(manage_messages=True)
     async def trash_message(
@@ -456,7 +456,7 @@ class Utility(commands.Cog):
         )
         await ctx.send(t_("Message trashed."))
 
-    @commands.command(name="untrash", help=t_("Untrashes a message", True))
+    @commands.command(name="untrash", help=t_("Untrashes a message.", True))
     @commands.has_guild_permissions(manage_messages=True)
     async def untrash_message(
         self,
@@ -479,7 +479,7 @@ class Utility(commands.Cog):
     @commands.group(
         name="trashcan",
         aliases=["trashed"],
-        help=t_("Shows a list of trashed messages", True),
+        help=t_("Shows a list of trashed messages.", True),
         invoke_without_command=True,
     )
     @commands.has_guild_permissions(manage_messages=True)
@@ -516,7 +516,7 @@ class Utility(commands.Cog):
     @trashcan.command(
         name="empty",
         aliases=["clear"],
-        help=t_("Empties the trashcan", True),
+        help=t_("Empties the trashcan.", True),
     )
     @commands.has_guild_permissions(manage_messages=True)
     @commands.bot_has_permissions(
@@ -541,7 +541,7 @@ class Utility(commands.Cog):
     @flags.add_flag("--contains", type=str)
     @flags.command(
         name="purge",
-        help=t_("Trashes a large number of messages at once", True),
+        help=t_("Trashes a large number of messages at once.", True),
     )
     @commands.has_guild_permissions(manage_messages=True)
     @commands.bot_has_permissions(read_message_history=True, embed_links=True)
@@ -579,7 +579,7 @@ class Utility(commands.Cog):
     @flags.add_flag("--contains", type=str)
     @flags.command(
         name="unpurge",
-        help=t_("Untrashes a large number of messages at once", True),
+        help=t_("Untrashes a large number of messages at once.", True),
     )
     @commands.has_guild_permissions(manage_messages=True)
     @commands.bot_has_permissions(read_message_history=True, embed_links=True)
@@ -614,7 +614,7 @@ class Utility(commands.Cog):
     @commands.command(
         name="messageInfo",
         aliases=["mi"],
-        help=t_("Shows information on a message", True),
+        help=t_("Shows information on a message.", True),
     )
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()

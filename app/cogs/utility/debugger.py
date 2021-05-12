@@ -163,13 +163,13 @@ async def debug_guild(bot: Bot, guild: discord.Guild) -> dict:
                     ).format(s["id"], whitelisted)
                 )
 
-    # Check AutoStarChannels
+    # Check AutoStar channels
     sql_aschannels = await bot.db.aschannels.get_many(guild.id)
     aschannels = [guild.get_channel(int(asc["id"])) for asc in sql_aschannels]
     if None in aschannels:
         result["warns"].append(
             t_(
-                "There are some AutoStarChannels where the original channel "
+                "There are some AutoStar channels where the original channel "
                 "was deleted. This can be resolved by running the `clean` "
                 "command."
             )
@@ -181,7 +181,7 @@ async def debug_guild(bot: Bot, guild: discord.Guild) -> dict:
         if len(asc["emojis"]) == 0:
             result["light_warns"].append(
                 t_(
-                    "The AutoStarChannel {0} has no emojis set. "
+                    "The AutoStar channel {0} has no emojis set. "
                     "This means that none of the messages there will receive "
                     "any reactions automatically."
                 ).format(obj.mention)
@@ -192,7 +192,7 @@ async def debug_guild(bot: Bot, guild: discord.Guild) -> dict:
             if asc["min_chars"] != 0:
                 result["light_warns"].append(
                     t_(
-                        "The AutoStarChannel {0} has minChars set to "
+                        "The AutoStar channel {0} has minChars set to "
                         "{asc['min_chars']}, so messages less than that will "
                         "be ignored."
                     ).format(obj.mention)
@@ -200,7 +200,7 @@ async def debug_guild(bot: Bot, guild: discord.Guild) -> dict:
             if asc["require_image"]:
                 result["light_warns"].append(
                     t_(
-                        "The AutoStarChannel {0} has requireImage "
+                        "The AutoStar channel {0} has requireImage "
                         "enabled, so all messages must include an image or "
                         "they will be ignored."
                     ).format(obj.mention)
@@ -208,7 +208,7 @@ async def debug_guild(bot: Bot, guild: discord.Guild) -> dict:
             if asc["regex"]:
                 result["light_warns"].append(
                     t_(
-                        "The AutoStarChannel {0} has a regex string "
+                        "The AutoStar channel {0} has a regex string "
                         "(`{1}`) that all messages must match or "
                         "they will be ignored."
                     ).format(obj.mention, asc["regex"])
@@ -216,7 +216,7 @@ async def debug_guild(bot: Bot, guild: discord.Guild) -> dict:
             if asc["exclude_regex"]:
                 result["light_warns"].append(
                     t_(
-                        "The AutoStarChannel {0} has a regex string "
+                        "The AutoStar channel {0} has a regex string "
                         "(`{1}`) that all messages must not "
                         "match or they will be ignored."
                     ).format(obj.mention, asc["exclude_regex"])
@@ -227,7 +227,7 @@ async def debug_guild(bot: Bot, guild: discord.Guild) -> dict:
             result["errors"].append(
                 t_(
                     "I'm missing the `Read Messages` permission in {0}"
-                    ", which is an AutoStarChannel. Without this "
+                    ", which is an AutoStar channel. Without this "
                     "permission, I won't be able to autoreact to "
                     "messages there."
                 ).format(obj.mention)
@@ -236,7 +236,7 @@ async def debug_guild(bot: Bot, guild: discord.Guild) -> dict:
             result["errors"].append(
                 t_(
                     "I'm missing the `Add Reactions` permission in {0}"
-                    ", which is an AutoStarChannel. Without this "
+                    ", which is an AutoStar channel. Without this "
                     "permision, I won't be able to autoreact to messages "
                     "there."
                 ).format(obj.mention)
@@ -245,7 +245,7 @@ async def debug_guild(bot: Bot, guild: discord.Guild) -> dict:
             result["errors"].append(
                 t_(
                     "I'm missing the `Manage Messages` permission in "
-                    "{0}, which is an AutoStarChannel. Without that "
+                    "{0}, which is an AutoStar channel. Without that "
                     "permission, I won't be able to delete messages "
                     "that don't meet the requirements."
                 ).format(obj.mention)

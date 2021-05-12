@@ -30,7 +30,7 @@ class AutoStarEvents(commands.Cog):
             self.bot.dispatch(
                 "guild_log",
                 t_(
-                    "`{0}` was deleted so I removed that AutoStarChannel."
+                    "`{0}` was deleted so I removed that AutoStar channel."
                 ).format(channel.name),
                 "info",
                 channel.guild,

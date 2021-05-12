@@ -15,7 +15,7 @@ async def clean_guild(guild: discord.Guild, bot: Bot) -> list[tuple[str, int]]:
     return [
         (t_("Starboards"), starboards),
         (t_("Star Emojis"), star_emojis),
-        (t_("AutoStarChannels"), aschannels),
+        (t_("AutoStar channels"), aschannels),
         (t_("AutoStar emojis"), asemojis),
         (t_("Blacklisted Channels"), channel_bl),
         (t_("Whitelisted Channels"), channel_wl),

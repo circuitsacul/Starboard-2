@@ -21,7 +21,7 @@ class Fun(commands.Cog):
     @commands.command(
         name="leaderboard",
         aliases=["lb"],
-        help=t_("Shows the servers top 200 users", True),
+        help=t_("Shows the servers top 200 users.", True),
     )
     @commands.bot_has_permissions(
         embed_links=True, add_reactions=True, read_message_history=True
@@ -67,7 +67,7 @@ class Fun(commands.Cog):
     @commands.command(
         name="rank",
         aliases=["stats"],
-        help=t_("Shows statistics for yourself or another user", True),
+        help=t_("Shows statistics for yourself or another user.", True),
     )
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
@@ -137,7 +137,7 @@ class Fun(commands.Cog):
     @flags.add_flag("--starboard", "--sb", type=converters.Starboard)
     @flags.add_flag("--place", type=converters.myint, default=1)
     @flags.command(
-        name="moststarred", help=t_("Shows the most starred messages", True)
+        name="moststarred", help=t_("Shows the most starred messages.", True)
     )
     @commands.cooldown(1, 10, type=commands.BucketType.user)
     @commands.bot_has_permissions(
@@ -228,7 +228,7 @@ class Fun(commands.Cog):
     @flags.command(
         name="random",
         aliases=["explore", "rand"],
-        help=t_("Shows a random starred message from the server", True),
+        help=t_("Shows a random starred message from the server.", True),
     )
     @commands.cooldown(3, 5, type=commands.BucketType.user)
     @commands.bot_has_permissions(embed_links=True)
@@ -301,7 +301,7 @@ class Fun(commands.Cog):
     @commands.command(
         name="starworthy",
         aliases=["worthy"],
-        help=t_("Tells you how starworthy a message is", True),
+        help=t_("Tells you how starworthy a message is.", True),
     )
     @commands.guild_only()
     async def starworthy(
@@ -314,7 +314,7 @@ class Fun(commands.Cog):
         )
 
     @commands.command(
-        name="save", help=t_("Saves a message to your DM's", True)
+        name="save", help=t_("Saves a message to your DM's.", True)
     )
     @commands.guild_only()
     async def save(

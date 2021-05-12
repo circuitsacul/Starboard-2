@@ -19,7 +19,7 @@ class Starboard(commands.Cog):
     @commands.group(
         name="starboards",
         aliases=["s"],
-        help=t_("List starboards", True),
+        help=t_("List starboards.", True),
         invoke_without_command=True,
     )
     @commands.bot_has_permissions(embed_links=True)
@@ -217,7 +217,7 @@ class Starboard(commands.Cog):
         )
 
     @starboards.command(
-        name="add", aliases=["a"], help=t_("Adds a starboard", True)
+        name="add", aliases=["a"], help=t_("Adds a starboard.", True)
     )
     @commands.has_guild_permissions(manage_channels=True)
     async def add_starboard(
@@ -234,7 +234,7 @@ class Starboard(commands.Cog):
     @starboards.command(
         name="remove",
         aliases=["delete", "del", "r"],
-        help=t_("Removes a starboard", True),
+        help=t_("Removes a starboard.", True),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(
@@ -264,7 +264,7 @@ class Starboard(commands.Cog):
     @starboards.command(
         name="displayEmoji",
         aliases=["de"],
-        help=t_("Set the emoji to show next to the points", True),
+        help=t_("Set the emoji to show next to the points.", True),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -289,7 +289,7 @@ class Starboard(commands.Cog):
     @starboards.command(
         name="color",
         aliases=["colour"],
-        help=t_("Sets the embed color of starboard messages", True),
+        help=t_("Sets the embed color of starboard messages.", True),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -317,7 +317,7 @@ class Starboard(commands.Cog):
     @starboards.command(
         name="required",
         aliases=["requiredStars", "requiredPoints"],
-        help=t_("Sets the number of reactions a message needs", True),
+        help=t_("Sets the number of reactions a message needs.", True),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -338,7 +338,7 @@ class Starboard(commands.Cog):
     @starboards.command(
         name="requiredRemove",
         aliases=["rtm"],
-        help=t_("How few stars a message has before it is removed", True),
+        help=t_("How few stars a message has before it is removed.", True),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -367,7 +367,7 @@ class Starboard(commands.Cog):
     @starboards.command(
         name="selfStar",
         aliases=["ss"],
-        help=t_("Whether or not users can star their own messages", True),
+        help=t_("Whether or not users can star their own messages.", True),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -391,7 +391,7 @@ class Starboard(commands.Cog):
         name="allowBots",
         aliases=["ab"],
         help=t_(
-            "Whether or not bot messages can appear on the starboard", True
+            "Whether or not bot messages can appear on the starboard.", True
         ),
     )
     @commands.has_guild_permissions(manage_channels=True)
@@ -416,7 +416,7 @@ class Starboard(commands.Cog):
     @starboards.command(
         name="imagesOnly",
         aliases=["requireImage", "io"],
-        help=t_("Whether messages must include an image", True),
+        help=t_("Whether messages must include an image.", True),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -440,7 +440,7 @@ class Starboard(commands.Cog):
     @starboards.command(
         name="regex",
         aliases=["reg"],
-        help=t_("A regex string that all messages must match", True),
+        help=t_("A regex string that all messages must match.", True),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -461,7 +461,7 @@ class Starboard(commands.Cog):
     @starboards.command(
         name="excludeRegex",
         aliases=["eregex", "ereg"],
-        help=t_("A regex string that all messages must not match", True),
+        help=t_("A regex string that all messages must not match.", True),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -491,7 +491,8 @@ class Starboard(commands.Cog):
         name="ping",
         aliases=["mentionAuthor"],
         help=t_(
-            "Whether or not to mention the author of a starboard message", True
+            "Whether or not to mention the author of a starboard message.",
+            True,
         ),
     )
     @commands.has_guild_permissions(manage_channels=True)
@@ -513,7 +514,7 @@ class Starboard(commands.Cog):
     @starboards.command(
         name="autoReact",
         aliases=["ar"],
-        help=t_("Whether to automatically react to starboard messages", True),
+        help=t_("Whether to automatically react to starboard messages.", True),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -538,7 +539,7 @@ class Starboard(commands.Cog):
         name="linkDeletes",
         aliases=["ld"],
         help=t_(
-            "Whether to delete the starboard message if the original is", True
+            "Whether to delete the starboard message if the original is.", True
         ),
     )
     @commands.has_guild_permissions(manage_channels=True)
@@ -564,7 +565,7 @@ class Starboard(commands.Cog):
         name="linkEdits",
         aliases=["le"],
         help=t_(
-            "Whether to update starboard messages with edited content", True
+            "Whether to update starboard messages with edited content.", True
         ),
     )
     @commands.has_guild_permissions(manage_channels=True)
@@ -588,7 +589,7 @@ class Starboard(commands.Cog):
 
     @starboards.command(
         name="noXp",
-        help=t_("Set to True to disable gaining XP for this starboard", True),
+        help=t_("Set to True to disable gaining XP for this starboard.", True),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -609,7 +610,7 @@ class Starboard(commands.Cog):
     @starboards.command(
         name="removeInvalid",
         aliases=["rmi", "rminvalid"],
-        help=t_("Whether or not invalid reactions should be removed", True),
+        help=t_("Whether or not invalid reactions should be removed.", True),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -639,7 +640,7 @@ class Starboard(commands.Cog):
         name="allowRandom",
         aliases=["rand", "explore"],
         help=t_(
-            "Whether or not the random command can pull from this starboard",
+            "Whether or not the random command can pull from this starboard.",
             True,
         ),
     )
@@ -665,7 +666,7 @@ class Starboard(commands.Cog):
     @starboards.group(
         name="starEmojis",
         aliases=["emojis", "se", "e"],
-        help=t_("Modify starEmojis for a starboard", True),
+        help=t_("Modify starEmojis for a starboard.", True),
         invoke_without_command=True,
     )
     @commands.has_guild_permissions(manage_channels=True)
@@ -673,7 +674,7 @@ class Starboard(commands.Cog):
         await ctx.send_help(ctx.command)
 
     @star_emojis.command(
-        name="set", help=t_("Sets the starEmojis for a starboard", True)
+        name="set", help=t_("Sets the starEmojis for a starboard.", True)
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -707,7 +708,7 @@ class Starboard(commands.Cog):
         )
 
     @star_emojis.command(
-        name="add", aliases=["a"], help=t_("Add a starEmoji", True)
+        name="add", aliases=["a"], help=t_("Add a starEmoji.", True)
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -747,7 +748,7 @@ class Starboard(commands.Cog):
     @star_emojis.command(
         name="remove",
         aliases=["r", "del"],
-        help=t_("Removes a starEmoji", True),
+        help=t_("Removes a starEmoji.", True),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(embed_links=True)
@@ -788,7 +789,7 @@ class Starboard(commands.Cog):
     @star_emojis.command(
         name="clear",
         aliases=["removeAll"],
-        help=t_("Clears all starEmojis for a starboard", True),
+        help=t_("Clears all starEmojis for a starboard.", True),
     )
     @commands.has_guild_permissions(manage_channels=True)
     @commands.bot_has_permissions(

@@ -27,7 +27,7 @@ class PermRoles(commands.Cog):
     @flags.command(
         name="dummy",
         help=t_(
-            "Tests the permissions of a fake user with certain roles", True
+            "Tests the permissions of a fake user with certain roles.", True
         ),
     )
     @commands.has_guild_permissions(manage_guild=True)
@@ -68,7 +68,7 @@ class PermRoles(commands.Cog):
     @commands.group(
         name="permgroups",
         aliases=["pg", "permroles", "pr"],
-        help=t_("Lists permgroups, or views settings for a permgroup.", True),
+        help=t_("Lists PermGroups, or views settings for a PermGroup.", True),
         invoke_without_command=True,
     )
     @commands.bot_has_permissions(embed_links=True)
@@ -81,7 +81,7 @@ class PermRoles(commands.Cog):
         if not group:
             groups = await self.bot.db.permgroups.get_many(ctx.guild.id)
             if not groups:
-                await ctx.send(t_("You have no permgroups."))
+                await ctx.send(t_("You have no PermGroups."))
             else:
                 embed = discord.Embed(
                     title=t_("PermGroups for {0}").format(ctx.guild),
@@ -117,7 +117,7 @@ class PermRoles(commands.Cog):
             )
             await ctx.send(embed=embed)
 
-    @permgroups.command(name="add", help=t_("Add a permgroup", True))
+    @permgroups.command(name="add", help=t_("Add a PermGroup.", True))
     @commands.bot_has_permissions(embed_links=True)
     @commands.has_guild_permissions(manage_guild=True)
     @commands.guild_only()
@@ -128,7 +128,7 @@ class PermRoles(commands.Cog):
     @permgroups.command(
         name="delete",
         aliases=["remove", "rm", "del"],
-        help=t_("Deletes a permgroup", True),
+        help=t_("Deletes a PermGroup.", True),
     )
     @commands.has_guild_permissions(manage_guild=True)
     @commands.guild_only()
@@ -139,7 +139,7 @@ class PermRoles(commands.Cog):
         await ctx.send(t_("Deleted PermGroup {0}").format(group["name"]))
 
     @permgroups.command(
-        name="move", help=t_("Sets the position of a permgroup", True)
+        name="move", help=t_("Sets the position of a PermGroup.", True)
     )
     @commands.has_guild_permissions(manage_guild=True)
     @commands.guild_only()
@@ -159,7 +159,7 @@ class PermRoles(commands.Cog):
     @permgroups.group(
         name="channels",
         aliases=["c"],
-        help=t_("Manage the channels that a PermGroup affects", True),
+        help=t_("Manage the channels that a PermGroup affects.", True),
         invoke_without_command=True,
     )
     @commands.has_guild_permissions(manage_guild=True)
@@ -171,7 +171,7 @@ class PermRoles(commands.Cog):
         name="add",
         aliases=["a"],
         help=t_(
-            "Adds channel(s) to the list of channels for a PermGroup", True
+            "Adds channel(s) to the list of channels for a PermGroup.", True
         ),
     )
     @commands.has_guild_permissions(manage_guild=True)
@@ -200,7 +200,8 @@ class PermRoles(commands.Cog):
         name="remove",
         aliases=["rm", "r", "del", "delete"],
         help=t_(
-            "Removes channel(s) from the list of channels on a PermGroup", True
+            "Removes channel(s) from the list of channels on a PermGroup.",
+            True,
         ),
     )
     @commands.has_guild_permissions(manage_guild=True)
@@ -226,7 +227,7 @@ class PermRoles(commands.Cog):
         )
 
     @pg_channels.command(
-        name="clear", help=t_("Clears all channels from a PermGroup", True)
+        name="clear", help=t_("Clears all channels from a PermGroup.", True)
     )
     @commands.has_guild_permissions(manage_guild=True)
     @commands.guild_only()
@@ -252,7 +253,7 @@ class PermRoles(commands.Cog):
     @permgroups.group(
         name="starboards",
         aliases=["s"],
-        help=t_("Manage the starboards that a PermGroup affects", True),
+        help=t_("Manage the starboards that a PermGroup affects.", True),
         invoke_without_command=True,
     )
     @commands.has_guild_permissions(manage_guild=True)
@@ -267,7 +268,8 @@ class PermRoles(commands.Cog):
         name="add",
         aliases=["a"],
         help=t_(
-            "Adds starboard(s) to the list of starboards for a PermGroup", True
+            "Adds starboard(s) to the list of starboards for a PermGroup.",
+            True,
         ),
     )
     @commands.has_guild_permissions(manage_guild=True)
@@ -296,7 +298,7 @@ class PermRoles(commands.Cog):
         aliases=["r", "rm", "del", "delete"],
         help=t_(
             "Removes starboard(s) from the list "
-            "of starboars on a PermGroup",
+            "of starboars on a PermGroup.",
             True,
         ),
     )
@@ -322,7 +324,7 @@ class PermRoles(commands.Cog):
         )
 
     @pg_starboards.command(
-        name="clear", help=t_("Clears all starboards on a PermGroup", True)
+        name="clear", help=t_("Clears all starboards on a PermGroup.", True)
     )
     @commands.has_guild_permissions(manage_guild=True)
     @commands.guild_only()
@@ -348,7 +350,7 @@ class PermRoles(commands.Cog):
     @permgroups.group(
         name="roles",
         aliases=["permroles", "pr"],
-        help=t_("Manage/View PermRoles for a PermGroup", True),
+        help=t_("Manage/View PermRoles for a PermGroup.", True),
         invoke_without_command=True,
     )
     @commands.has_guild_permissions(manage_guild=True)
@@ -385,7 +387,7 @@ class PermRoles(commands.Cog):
     @permroles.command(
         name="add",
         aliases=["a"],
-        help=t_("Adds a PermRole to a PermGroup", True),
+        help=t_("Adds a PermRole to a PermGroup.", True),
     )
     @commands.has_guild_permissions(manage_guild=True)
     @commands.guild_only()
@@ -408,7 +410,7 @@ class PermRoles(commands.Cog):
     @permroles.command(
         name="remove",
         aliases=["r", "rm", "del", "delete"],
-        help=t_("Removes a PermRole from a PermGroup", True),
+        help=t_("Removes a PermRole from a PermGroup.", True),
     )
     @commands.has_guild_permissions(manage_guild=True)
     @commands.guild_only()
@@ -427,7 +429,7 @@ class PermRoles(commands.Cog):
 
     @permroles.command(
         name="move",
-        help=t_("Changes the position of a PermRole in a PermGroup", True),
+        help=t_("Changes the position of a PermRole in a PermGroup.", True),
     )
     @commands.has_guild_permissions(manage_guild=True)
     @commands.guild_only()
@@ -450,7 +452,7 @@ class PermRoles(commands.Cog):
     @permroles.command(
         name="allowCommands",
         aliases=["commands"],
-        help=t_("Sets the allowCommands permission for a PermRole", True),
+        help=t_("Sets the allowCommands permission for a PermRole.", True),
     )
     @commands.has_guild_permissions(manage_guild=True)
     @commands.guild_only()
@@ -479,7 +481,7 @@ class PermRoles(commands.Cog):
     @permroles.command(
         name="onStarboard",
         aliases=["starbaord"],
-        help=t_("Sets the onStarboard permission for a PermRole", True),
+        help=t_("Sets the onStarboard permission for a PermRole.", True),
     )
     @commands.has_guild_permissions(manage_guild=True)
     @commands.guild_only()
@@ -503,7 +505,7 @@ class PermRoles(commands.Cog):
     @permroles.command(
         name="giveStars",
         aliases=["give"],
-        help=t_("Sets the giveStars permission for a PermRole", True),
+        help=t_("Sets the giveStars permission for a PermRole.", True),
     )
     @commands.has_guild_permissions(manage_guild=True)
     @commands.guild_only()
@@ -526,7 +528,7 @@ class PermRoles(commands.Cog):
     @permroles.command(
         name="gainXP",
         aliases=["xp"],
-        help=t_("Sets the gainXP permission for a PermRole", True),
+        help=t_("Sets the gainXP permission for a PermRole.", True),
     )
     @commands.has_guild_permissions(manage_guild=True)
     @commands.guild_only()
@@ -549,7 +551,7 @@ class PermRoles(commands.Cog):
     @permroles.command(
         name="posRoles",
         aliases=["pr"],
-        help=t_("Sets the posRoles permission for a PermRole", True),
+        help=t_("Sets the posRoles permission for a PermRole.", True),
     )
     @commands.has_guild_permissions(manage_guild=True)
     @commands.guild_only()
@@ -572,7 +574,7 @@ class PermRoles(commands.Cog):
     @permroles.command(
         name="xpRoles",
         aliases=["xpr"],
-        help=t_("Sets the xpRoles permission for a PermRole", True),
+        help=t_("Sets the xpRoles permission for a PermRole.", True),
     )
     @commands.has_guild_permissions(manage_guild=True)
     @commands.guild_only()
