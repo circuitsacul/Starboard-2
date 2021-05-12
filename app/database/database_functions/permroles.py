@@ -1,6 +1,10 @@
 import typing
 from typing import Optional
 
+import buildpg
+
+from app import errors
+
 if typing.TYPE_CHECKING:
     from app.database.database import Database
 
@@ -97,98 +101,36 @@ class PermRoles:
             group_id,
         )
 
-    async def set_allow_commands(
-        self,
-        role_id: int,
-        group_id: int,
-        allow_commands: Optional[bool],
-    ):
-        await self.db.execute(
+    async def edit(self, role_id: int, group_id: int, **attrs):
+        valid_settings = [
+            "allow_commands",
+            "on_starboard",
+            "give_stars",
+            "gain_xp",
+            "pos_roles",
+            "xp_roles",
+        ]
+
+        permrole = await self.get(role_id, group_id)
+        if not permrole:
+            raise errors.PermRoleNotFound(role_id, group_id)
+
+        settings = {}
+        for key in valid_settings:
+            settings[key] = attrs.get(key, permrole[key])
+
+        query, args = buildpg.render(
             """UPDATE permroles
-            SET allow_commands=$1
-            WHERE role_id=$2
-            AND permgroup_id=$3""",
-            allow_commands,
-            role_id,
-            group_id,
+            SET allow_commands=:allow_commands,
+            on_starboard=:on_starboard,
+            give_stars=:give_stars,
+            gain_xp=:gain_xp,
+            pos_roles=:pos_roles,
+            xp_roles=:xp_roles
+            WHERE role_id=:role_id AND permgroup_id=:group_id""",
+            **settings,
+            role_id=role_id,
+            group_id=group_id,
         )
 
-    async def set_on_starboard(
-        self,
-        role_id: int,
-        group_id: int,
-        on_starboard: Optional[bool],
-    ):
-        await self.db.execute(
-            """UPDATE permroles
-            SET on_starboard=$1
-            WHERE role_id=$2
-            AND permgroup_id=$3""",
-            on_starboard,
-            role_id,
-            group_id,
-        )
-
-    async def set_give_stars(
-        self,
-        role_id: int,
-        group_id: int,
-        give_stars: Optional[bool],
-    ):
-        await self.db.execute(
-            """UPDATE permroles
-            SET give_stars=$1
-            WHERE role_id=$2
-            AND permgroup_id=$3""",
-            give_stars,
-            role_id,
-            group_id,
-        )
-
-    async def set_gain_xp(
-        self,
-        role_id: int,
-        group_id: int,
-        gain_xp: Optional[bool],
-    ):
-        await self.db.execute(
-            """UPDATE permroles
-            SET gain_xp=$1
-            WHERE role_id=$2
-            AND permgroup_id=$3""",
-            gain_xp,
-            role_id,
-            group_id,
-        )
-
-    async def set_pos_roles(
-        self,
-        role_id: int,
-        group_id: int,
-        pos_roles: Optional[bool],
-    ):
-        await self.db.execute(
-            """UPDATE permroles
-            SET pos_roles=$1
-            WHERE role_id=$2
-            AND permgroup_id=$3""",
-            pos_roles,
-            role_id,
-            group_id,
-        )
-
-    async def set_xp_roles(
-        self,
-        role_id: int,
-        group_id: int,
-        xp_roles: Optional[bool],
-    ):
-        await self.db.execute(
-            """UPDATE permroles
-            SET xp_roles=$1
-            WHERE role_id=$2
-            AND permgroup_id=$3""",
-            xp_roles,
-            role_id,
-            group_id,
-        )
+        await self.db.execute(query, *args)
