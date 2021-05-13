@@ -451,7 +451,7 @@ class Starboard(commands.Cog):
         self,
         ctx: "MyContext",
         starboard: converters.Starboard,
-        regex: Optional[str] = None,
+        regex: Optional[str] = "",
     ) -> None:
         await self.bot.db.starboards.edit(starboard.obj.id, regex=regex)
         await ctx.send(
@@ -472,7 +472,7 @@ class Starboard(commands.Cog):
         self,
         ctx: "MyContext",
         starboard: converters.Starboard,
-        exclude_regex: Optional[str] = None,
+        exclude_regex: Optional[str] = "",
     ) -> None:
         await self.bot.db.starboards.edit(
             starboard.obj.id, exclude_regex=exclude_regex
