@@ -30,7 +30,7 @@ function post(path, params, method="post") {
 
 
 function removeToast(toastId) {
-    $("#${toastId}").remove();
+    $(`#${toastId}`).remove();
 }
 
 
