@@ -74,6 +74,7 @@ class Bot(commands.AutoShardedBot):
                 type=discord.ActivityType.watching, name="@Starboard help"
             ),
         )
+        self._before_invoke = self.before_invoke_hook
 
         self.log = logging.getLogger(f"Cluster#{self.cluster_name}")
         self.log.setLevel(logging.DEBUG)
@@ -108,6 +109,21 @@ class Bot(commands.AutoShardedBot):
             raise e from e
         else:
             sys.exit(-1)
+
+    async def on_message(self, message):
+        pass
+
+    async def on_error(self, event: str, *args, **kwargs) -> None:
+        _, error, _ = sys.exc_info()
+        self.dispatch("log_error", "Error", error, args, kwargs)
+
+    async def before_invoke_hook(self, ctx: "MyContext"):
+        if ctx.guild is None:
+            return
+
+        await self.db.guilds.create(ctx.guild.id)
+        await self.db.users.create(ctx.author.id, ctx.author.bot)
+        await self.db.members.create(ctx.author.id, ctx.guild.id)
 
     async def is_owner(self, user: discord.User):
         if user.id in config.OWNER_IDS:
@@ -159,13 +175,6 @@ class Bot(commands.AutoShardedBot):
             self.locale_cache[obj.id] = locale
 
         i18n.current_locale.set(locale)
-
-    async def on_message(self, message):
-        pass
-
-    async def on_error(self, event: str, *args, **kwargs) -> None:
-        _, error, _ = sys.exc_info()
-        self.dispatch("log_error", "Error", error, args, kwargs)
 
     @staticmethod
     def cleanup_code(content):

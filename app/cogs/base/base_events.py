@@ -264,14 +264,3 @@ class BaseEvents(commands.Cog):
 
 def setup(bot: Bot) -> None:
     bot.add_cog(BaseEvents(bot))
-
-    @bot.before_invoke
-    # TODO: put this as async def _before_invoke
-    # in bot class
-    async def before_invoke(ctx: "MyContext") -> None:
-        if ctx.guild is None:
-            return
-
-        await bot.db.guilds.create(ctx.guild.id)
-        await bot.db.users.create(ctx.author.id, ctx.author.bot)
-        await bot.db.members.create(ctx.author.id, ctx.guild.id)
