@@ -62,7 +62,7 @@ class Fun(commands.Cog):
             for page in p.pages
         ]
 
-        await menus.Paginator(embeds=embeds).start(ctx)
+        await menus.Paginator(embeds=embeds, delete_after=True).start(ctx)
 
     @commands.command(
         name="rank",
