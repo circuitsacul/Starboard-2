@@ -283,7 +283,9 @@ class Starboard(commands.Cog):
             starboard.sql["display_emoji"], ctx.guild
         )
         await ctx.send(
-            embed=utils.cs_embed({"displayEmoji": (orig, emoji)}, self.bot)
+            embed=utils.cs_embed(
+                {"displayEmoji": (orig, emoji)}, self.bot, noticks=True
+            )
         )
 
     @starboards.command(
