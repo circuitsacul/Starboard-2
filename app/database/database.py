@@ -64,30 +64,30 @@ class Database:
     async def execute(self, sql: str, *args: Any) -> None:
         async with self.pool.acquire() as con:
             async with con.transaction():
-                s = time.time()
+                s = time.perf_counter()
                 await con.execute(sql, *args)
-        self.log(sql, time.time() - s)
+        self.log(sql, time.perf_counter() - s)
 
     async def fetch(self, sql: str, *args: Any) -> list[dict]:
         async with self.pool.acquire() as con:
             async with con.transaction():
-                s = time.time()
+                s = time.perf_counter()
                 result = await con.fetch(sql, *args)
-        self.log(sql, time.time() - s)
+        self.log(sql, time.perf_counter() - s)
         return result
 
     async def fetchrow(self, sql: str, *args: Any) -> Optional[dict]:
         async with self.pool.acquire() as con:
             async with con.transaction():
-                s = time.time()
+                s = time.perf_counter()
                 result = await con.fetchrow(sql, *args)
-        self.log(sql, time.time() - s)
+        self.log(sql, time.perf_counter() - s)
         return result
 
     async def fetchval(self, sql: str, *args: Any) -> Optional[Any]:
         async with self.pool.acquire() as con:
             async with con.transaction():
-                s = time.time()
+                s = time.perf_counter()
                 result = await con.fetchval(sql, *args)
-        self.log(sql, time.time() - s)
+        self.log(sql, time.perf_counter() - s)
         return result
