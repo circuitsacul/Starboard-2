@@ -136,7 +136,7 @@ class PermRoles(commands.Cog):
         self, ctx: "MyContext", group: converters.PermGroup
     ):
         await self.bot.db.permgroups.delete(group["id"])
-        await ctx.send(t_("Deleted PermGroup {0}").format(group["name"]))
+        await ctx.send(t_("Deleted PermGroup **{0}**.").format(group["name"]))
 
     @permgroups.command(
         name="move", help=t_("Sets the position of a PermGroup.", True)
@@ -151,7 +151,7 @@ class PermRoles(commands.Cog):
     ):
         new_index = await self.bot.db.permgroups.move(group["id"], position)
         await ctx.send(
-            t_("Moved the PermGroup {0} from {1} to {2}.").format(
+            t_("Moved the PermGroup **{0}** from {1} to {2}.").format(
                 group["name"], group["index"], new_index
             )
         )
@@ -191,7 +191,7 @@ class PermRoles(commands.Cog):
             group["id"], current_channels
         )
         await ctx.send(
-            t_("Added {0} to the channels on PermGroup {1}.").format(
+            t_("Added {0} to the channels on PermGroup **{1}**.").format(
                 ", ".join(c.mention for c in channels), group["name"]
             )
         )
@@ -221,7 +221,7 @@ class PermRoles(commands.Cog):
             group["id"], current_channels
         )
         await ctx.send(
-            t_("Removed {0} from the channels on PermGroup {1}.").format(
+            t_("Removed {0} from the channels on PermGroup **{1}**.").format(
                 ", ".join(c.mention for c in channels), group["name"]
             )
         )
@@ -237,7 +237,7 @@ class PermRoles(commands.Cog):
         if not await menus.Confirm(
             t_(
                 "Are you sure you want to clear all channels for "
-                "the PermGroup {0}?"
+                "the PermGroup **{0}**?"
             ).format(group["name"])
         ).start(ctx):
             await ctx.send(t_("Cancelled."))
@@ -245,7 +245,7 @@ class PermRoles(commands.Cog):
 
         await self.bot.db.permgroups.set_channels(group["id"], [])
         await ctx.send(
-            t_("Cleared all channels for the PermGroup {0}.").format(
+            t_("Cleared all channels for the PermGroup **{0}**.").format(
                 group["name"]
             )
         )
@@ -288,7 +288,7 @@ class PermRoles(commands.Cog):
             group["id"], current_starboards
         )
         await ctx.send(
-            t_("Added {0} to the starboards on PermGroup {1}.").format(
+            t_("Added {0} to the starboards on PermGroup **{1}**.").format(
                 ", ".join(s.obj.mention for s in starboards), group["name"]
             )
         )
@@ -318,7 +318,7 @@ class PermRoles(commands.Cog):
             group["id"], current_starboards
         )
         await ctx.send(
-            t_("Removed {0} from the starboards on PermGroup {1}.").format(
+            t_("Removed {0} from the starboards on PermGroup **{1}**.").format(
                 ", ".join(s.obj.mention for s in starboards), group["name"]
             )
         )
@@ -334,7 +334,7 @@ class PermRoles(commands.Cog):
         if not await menus.Confirm(
             t_(
                 "Are you sure you want to clear all starboards "
-                "for the PermGroup {0}?"
+                "for the PermGroup **{0}**?"
             ).format(group["name"])
         ).start(ctx):
             await ctx.send("Cancelled.")
@@ -342,7 +342,7 @@ class PermRoles(commands.Cog):
 
         await self.bot.db.permgroups.set_starboards(group["id"], [])
         await ctx.send(
-            t_("Cleared all starboards for PermGroup {0}.").format(
+            t_("Cleared all starboards for PermGroup **{0}**.").format(
                 group["name"]
             )
         )
@@ -402,7 +402,7 @@ class PermRoles(commands.Cog):
 
         await self.bot.db.permroles.create(group["id"], role.id)
         await ctx.send(
-            t_("{0} is now a PermRole on the PermGroup {1}.").format(
+            t_("{0} is now a PermRole on the PermGroup **{1}**.").format(
                 role.name, group["name"]
             )
         )
@@ -422,7 +422,7 @@ class PermRoles(commands.Cog):
     ):
         await self.bot.db.permroles.delete(role.obj.id, group["id"])
         await ctx.send(
-            t_("{0} is no longer a PermRole on the PermGroup {1}.").format(
+            t_("{0} is no longer a PermRole on the PermGroup **{1}**.").format(
                 role.obj.name, group["name"]
             )
         )
