@@ -62,7 +62,7 @@ def get_shard_count():
         log.info(f"Launching with {SHARDS} shards")
         return SHARDS
     data = requests.get(
-        "https://discordapp.com/api/v7/gateway/bot",
+        "https://discordapp.com/api/v9/gateway/bot",
         headers={
             "Authorization": "Bot " + TOKEN,
             "User-Agent": (
