@@ -8,8 +8,7 @@ from pretty_help import PrettyMenu
 
 import config
 from app.classes.context import MyContext
-
-ZERO_WIDTH_SPACE = "\u200B"
+from app.constants import ZWS
 
 
 class HelpMenu(PrettyMenu):
@@ -166,7 +165,7 @@ class _AccordionField:
                 if field is self:
                     value = self.value
                 else:
-                    value = ZERO_WIDTH_SPACE
+                    value = ZWS
                 embed.add_field(name=field.name, value=value, inline=False)
             self.embed = embed
 
@@ -204,9 +203,7 @@ class Accordion(Menu):
         self, ctx: "MyContext", destination: discord.abc.Messageable
     ):
         for field in self.fields:
-            self._embed.add_field(
-                name=field.name, value=ZERO_WIDTH_SPACE, inline=False
-            )
+            self._embed.add_field(name=field.name, value=ZWS, inline=False)
         return await destination.send(embed=self._embed)
 
     @staticmethod

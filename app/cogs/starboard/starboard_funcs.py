@@ -6,9 +6,8 @@ import discord
 from app import gifs, utils
 from app.classes.bot import Bot
 from app.cogs.permroles import pr_functions
+from app.constants import ZWS
 from app.i18n import t_
-
-ZERO_WIDTH_SPACE = "\u200B"
 
 
 async def can_add(
@@ -346,7 +345,7 @@ async def embed_message(
             ).format(message.reference)
 
     embed.add_field(
-        name=ZERO_WIDTH_SPACE,
+        name=ZWS,
         value=str(
             str(ref_jump if ref_message else "")
             + t_("**[Jump to Message]({0})**").format(message.jump_url),
@@ -389,7 +388,7 @@ async def embed_message(
     )
 
     if len(to_show) != 0:
-        embed.add_field(name=ZERO_WIDTH_SPACE, value=to_show)
+        embed.add_field(name=ZWS, value=to_show)
 
     embed.timestamp = message.created_at
 
