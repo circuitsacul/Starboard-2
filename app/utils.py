@@ -11,6 +11,7 @@ from discord import RequestsWebhookAdapter, Webhook
 from discord.ext import commands
 
 from app.classes.context import MyContext
+from app.constants import ARROW_RIGHT
 from app.i18n import t_
 
 if typing.TYPE_CHECKING:
@@ -89,7 +90,7 @@ def cs_text(changes: dict[str, tuple[Any, Any]], noticks: bool = False) -> str:
         [
             f"{name}: "
             f"{t}{o[0] if o[0] not in [None, ''] else 'None'}{t}"
-            " **-->** "
+            f" **{ARROW_RIGHT}** "
             f"{t}{o[1] if o[1] not in [None, ''] else 'None'}{t}"
             for name, o in changes.items()
         ]
