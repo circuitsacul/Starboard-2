@@ -61,9 +61,10 @@ class Bot(commands.AutoShardedBot):
                 },
                 menu=HelpMenu,
                 ending_note=t_(
-                    "Type s-commands command for more info on a command.\n"
-                    "You can also type s-commands category for more info on "
-                    "a category.",
+                    "Type {help.clean_prefix}commands <command> for more info "
+                    "on a command.\n"
+                    "You can also type {help.clean_prefix}commands <category> "
+                    "for more info on a category.",
                     True,
                 ),
             ),
