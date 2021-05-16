@@ -32,7 +32,7 @@ class Confirm(Menu):
         self.stop()
 
     async def start(
-        self, ctx: "MyContext", channel=None, wait=True
+        self, ctx: "MyContext", *, channel=None, wait=True
     ) -> Optional[bool]:
         await super().start(ctx, wait=wait)
         return self.result
