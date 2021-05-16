@@ -57,7 +57,4 @@ class Menu(menus.Menu):
 
     async def on_menu_button_error(self, exc: Exception):
         self.stop()
-        if isinstance(exc, discord.NotFound):
-            await self.start(self.ctx, self.channel, wait=self.wait)
-        else:
-            self.bot.dispatch("command_error", self.ctx, exc)
+        self.bot.dispatch("command_error", self.ctx, exc)
