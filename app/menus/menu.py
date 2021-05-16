@@ -33,7 +33,8 @@ class Menu(menus.Menu):
             return False
         return payload.emoji in self.buttons
 
-    def _get_missing(self, permissions: discord.Permissions) -> list[str]:
+    @staticmethod
+    def _get_missing(permissions: discord.Permissions) -> list[str]:
         missing: list[str] = []
         if not permissions.read_messages:
             missing.append("View Channel")
