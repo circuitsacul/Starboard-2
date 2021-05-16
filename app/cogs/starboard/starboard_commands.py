@@ -35,7 +35,7 @@ class Starboard(commands.Cog):
                 f"Starboard created! View it with `{p}s #{channel.name}`"
             )
 
-        w = starboard_wizard(done)
+        w = starboard_wizard(done, ctx)
         await w.start(ctx)
 
     @commands.group(
@@ -91,6 +91,9 @@ class Starboard(commands.Cog):
             upvote_emoji_str = utils.pretty_emoji_string(
                 s["star_emojis"], ctx.guild
             )
+            display_emoji_str = utils.pretty_emoji_string(
+                [s["display_emoji"]], ctx.guild
+            )
             embed = (
                 discord.Embed(
                     title=starboard.obj.name,
@@ -99,7 +102,7 @@ class Starboard(commands.Cog):
                 .add_field(
                     name="Appearance",
                     value=(
-                        f"displayEmoji: **{s['display_emoji']}**\n"
+                        f"displayEmoji: **{display_emoji_str}**\n"
                         f"color: **{s['color']}**\n"
                         f"useWebhook: **{s['use_webhook']}**\n"
                         f"username: **{s['webhook_name']}**\n"

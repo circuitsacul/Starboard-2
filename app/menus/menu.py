@@ -1,4 +1,3 @@
-import traceback
 from typing import TYPE_CHECKING
 
 import discord
@@ -21,6 +20,11 @@ class Menu(menus.Menu):
 
         if TYPE_CHECKING:
             self.bot: "Bot" = self.bot
+
+    async def start(self, ctx, *, channel=None, wait=False):
+        self.channel = channel
+        self.wait = wait
+        return await super().start(ctx, channel=channel, wait=wait)
 
     def reaction_check(self, payload):
         if payload.message_id != self.message.id:
@@ -52,5 +56,8 @@ class Menu(menus.Menu):
             raise commands.BotMissingPermissions(missing)
 
     async def on_menu_button_error(self, exc: Exception):
-        tb = traceback.format_tb(exc.__traceback__)
-        print("".join(tb), "\n", exc)
+        self.stop()
+        if isinstance(exc, discord.NotFound):
+            await self.start(self.ctx, self.channel, wait=self.wait)
+        else:
+            self.bot.dispatch("command_error", self.ctx, exc)

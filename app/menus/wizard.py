@@ -11,6 +11,15 @@ from .confirm import Confirm
 from .menu import Menu
 
 
+def wrap(func: Callable[[Any], Any]):
+    """Make a non async function async."""
+
+    async def predicate(*args, **kwargs) -> Any:
+        return func(*args, **kwargs)
+
+    return predicate
+
+
 class WizardStep:
     def __init__(
         self,
@@ -21,11 +30,13 @@ class WizardStep:
         default_value: Any,
         can_skip: bool,
         wizard: "Wizard",
+        display_converter: Callable[[Any], Awaitable[str]],
     ):
         self.title = title
         self.description = description
         self.result_name = result_name
         self.converter = converter
+        self.display_converter = display_converter
         self.can_skip = can_skip
         self.wizard = wizard
 
@@ -34,6 +45,14 @@ class WizardStep:
 
         self.task: asyncio.Task = None
         self.to_cleanup: set[int] = set()
+
+    def _done_callback(self, task: asyncio.Task):
+        try:
+            task.result()
+        except Exception as e:
+            self.wizard.bot.loop.run_until_complete(
+                self.wizard.on_menu_button_error(e)
+            )
 
     async def _send(self, message: str):
         m = await self.wizard.ctx.send(message)
@@ -55,11 +74,11 @@ class WizardStep:
             return self.converter(arg)
 
     async def _do_step(self):
-        embed = self.wizard._get_embed(self)
+        embed = await self.wizard._get_embed(self)
         if self.wizard.message:
             await self.wizard.message.edit(content="", embed=embed)
         else:
-            self.wizard.messsage = await self.wizard.ctx.send(embed=embed)
+            self.wizard.message = await self.wizard.ctx.send(embed=embed)
 
         def check(message: discord.Message) -> bool:
             if message.author.id != self.wizard._author_id:
@@ -81,6 +100,7 @@ class WizardStep:
 
     def do_step(self):
         self.task = self.wizard.bot.loop.create_task(self._do_step())
+        self.task.add_done_callback(self._done_callback)
 
     def cancel(self):
         if self.task:
@@ -136,6 +156,7 @@ class Wizard(Menu):
         converter: Union[Callable[[str], Any], commands.Converter] = str,
         can_skip: bool = False,
         default: Optional[Any] = None,
+        display_converter: Callable[[Any], Awaitable[str]] = wrap(str),
     ):
         self.steps.append(
             WizardStep(
@@ -146,19 +167,24 @@ class Wizard(Menu):
                 default_value=default,
                 can_skip=can_skip,
                 wizard=self,
+                display_converter=display_converter,
             )
         )
 
-    def _get_embed(
+    async def _get_embed(
         self, current_step: Optional["WizardStep"]
     ) -> discord.Embed:
         desc: list[str] = []
         for n, step in enumerate(self.steps, 1):
             selector = f" **{ARROW_LEFT}**" if step is current_step else ""
-            result = (
-                f" **{step.result}**" if step.result is not MISSING else ""
+            presult = (
+                MISSING
+                if step.result is MISSING
+                else await step.display_converter(step.result)
             )
-            default = f" (Default {step.default})" if step.can_skip else ""
+            result = f" **{presult}**" if presult is not MISSING else ""
+            pdefault = await step.display_converter(step.default)
+            default = f" (Default {pdefault})" if step.can_skip else ""
             desc.append(f"{n}. {step.title}:{result}{default}{selector}")
         desc = "\n".join(desc)
         desc = self.description + "\n" * 2 + desc
@@ -180,7 +206,7 @@ class Wizard(Menu):
         try:
             step = self.steps[self.current_step]
         except IndexError:
-            embed = self._get_embed(None)
+            embed = await self._get_embed(None)
             await self.message.edit(embed=embed)
             if await self.confirm():
                 self.finished = True
@@ -193,9 +219,14 @@ class Wizard(Menu):
         else:
             step.do_step()
 
-    async def start(self, ctx: commands.Context):
+    async def on_menu_button_error(self, exc: Exception):
+        self.steps[self.current_step].cancel()
+        await self.steps[self.current_step].cleanup()
+        return await super().on_menu_button_error(exc)
+
+    async def start(self, ctx: commands.Context, channel=None, wait=False):
         self.message = await ctx.send("Starting...")
-        await super().start(ctx)
+        await super().start(ctx, channel=channel, wait=wait)
         self.steps[0].do_step()
 
     @menus.button("\N{BLACK SQUARE FOR STOP}")
