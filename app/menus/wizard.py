@@ -5,6 +5,7 @@ import discord
 from discord.ext import commands, menus
 
 from app.constants import ARROW_LEFT, MISSING
+from app.i18n import t_
 
 from .confirm import Confirm
 from .menu import Menu
@@ -96,10 +97,12 @@ class Wizard(Menu):
     def __init__(
         self,
         name: str,
+        description: str = "",
         done_callback: Callable[["Wizard"], Awaitable[None]] = None,
     ):
         super().__init__(delete_after=True)
         self.name = name
+        self.description = description
         self.current_step = 0
         self.steps: list["WizardStep"] = []
         self.finished = False
@@ -120,7 +123,7 @@ class Wizard(Menu):
         return missing
 
     async def confirm(self) -> bool:
-        c = Confirm("Does everything look good?")
+        c = Confirm(t_("Does everything look good?"))
         if await c.start(self.ctx):
             return True
         return False
@@ -150,14 +153,15 @@ class Wizard(Menu):
         self, current_step: Optional["WizardStep"]
     ) -> discord.Embed:
         desc: list[str] = []
-        for step in self.steps:
+        for n, step in enumerate(self.steps, 1):
             selector = f" **{ARROW_LEFT}**" if step is current_step else ""
             result = (
                 f" **{step.result}**" if step.result is not MISSING else ""
             )
             default = f" (Default {step.default})" if step.can_skip else ""
-            desc.append(f"{step.title}:{result}{default}{selector}")
+            desc.append(f"{n}. {step.title}:{result}{default}{selector}")
         desc = "\n".join(desc)
+        desc = self.description + "\n" * 2 + desc
         embed = discord.Embed(
             title=self.name,
             description=desc,

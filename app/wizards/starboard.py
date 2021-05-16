@@ -34,7 +34,15 @@ def required_stars(arg: str) -> int:
 def starboard_wizard(
     done_callback: Callable[[Wizard], Awaitable[None]]
 ) -> Wizard:
-    w = Wizard("Create a Starboard", done_callback)
+    w = Wizard(
+        t_("Starboard Setup Wizard"),
+        t_(
+            "This will walk you through *some* of the key settings for "
+            "a starboard. To edit the rest of the settings, you can use "
+            "the commands."
+        ),
+        done_callback,
+    )
     w.add_step(
         "Channel",
         "channel",
