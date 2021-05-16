@@ -1,5 +1,5 @@
 import asyncio
-from typing import Any, Callable, Optional, Union
+from typing import Any, Awaitable, Callable, Optional, Union
 
 import discord
 from discord.ext import commands, menus
@@ -93,12 +93,24 @@ class WizardStep:
 
 
 class Wizard(Menu):
-    def __init__(self, name: str):
+    def __init__(
+        self,
+        name: str,
+        done_callback: Callable[["Wizard"], Awaitable[None]] = None,
+    ):
         super().__init__(delete_after=True)
         self.name = name
         self.current_step = 0
         self.steps: list["WizardStep"] = []
         self.finished = False
+        self.done_callback = done_callback
+
+    @property
+    def result(self) -> dict[str, Any]:
+        dct = {}
+        for s in self.steps:
+            dct[s.result_name] = s.default if s.result is MISSING else s.result
+        return dct
 
     def _get_missing(self, permissions: discord.Permissions) -> list[str]:
         missing: list[str] = []
@@ -168,6 +180,8 @@ class Wizard(Menu):
             await self.message.edit(embed=embed)
             if await self.confirm():
                 self.finished = True
+                if self.done_callback:
+                    await self.done_callback(self)
                 self.stop()
             else:
                 self.current_step = -1

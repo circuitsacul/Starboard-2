@@ -5,6 +5,8 @@ from discord.ext import commands
 
 from app.classes.context import MyContext
 from app.i18n import t_
+from app.menus.wizard import Wizard
+from app.wizards.starboard import starboard_wizard
 
 from ... import converters, errors, menus, utils
 from ...classes.bot import Bot
@@ -15,6 +17,26 @@ class Starboard(commands.Cog):
 
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
+
+    @commands.command(
+        name="setup",
+        help=t_("Runs a setup wizard to create a starboard.", True),
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    @commands.guild_only()
+    async def wizard_starboard(self, ctx: commands.Context):
+        async def done(wizard: Wizard):
+            p = utils.clean_prefix(ctx)
+            result = wizard.result
+            channel = result.pop("channel")
+            await self.bot.db.starboards.create(channel.id, ctx.guild.id)
+            await self.bot.db.starboards.edit(channel.id, **result)
+            await ctx.send(
+                f"Starboard created! View it with `{p}s #{channel.name}`"
+            )
+
+        w = starboard_wizard(done)
+        await w.start(ctx)
 
     @commands.group(
         name="starboards",
