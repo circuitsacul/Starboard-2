@@ -30,7 +30,7 @@ class ListOfEmojis(converters.Emoji):
         for arg in args:
             try:
                 converted = await super().convert(ctx, arg)
-            except Exception:
+            except (errors.CustomEmojiFromOtherGuild, errors.NotAnEmoji):
                 continue
             else:
                 set_emojis.add(converted)
