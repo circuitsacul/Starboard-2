@@ -1,5 +1,5 @@
 import asyncio
-from typing import Any, Awaitable, Callable, Optional, Union
+from typing import TYPE_CHECKING, Any, Awaitable, Callable, Optional, Union
 
 import discord
 from discord.ext import commands, menus
@@ -9,6 +9,9 @@ from app.i18n import t_
 
 from .confirm import Confirm
 from .menu import Menu
+
+if TYPE_CHECKING:
+    from app.classes.context import MyContext
 
 
 def wrap(func: Callable[[Any], Any]):
@@ -224,7 +227,7 @@ class Wizard(Menu):
         await self.steps[self.current_step].cleanup()
         return await super().on_menu_button_error(exc)
 
-    async def start(self, ctx: commands.Context, channel=None, wait=False):
+    async def start(self, ctx: "MyContext", *, channel=None, wait=False):
         self.message = await ctx.send("Starting...")
         await super().start(ctx, channel=channel, wait=wait)
         self.steps[0].do_step()
