@@ -624,6 +624,17 @@ class Utility(commands.Cog):
         orig = await starboard_funcs.orig_message(self.bot, message.id)
         if not orig:
             raise errors.MessageNotInDatabse()
+        if (
+            orig["trashed"]
+            and not ctx.message.author.guild_permissions.manage_messages
+        ):
+            await ctx.send(
+                t_(
+                    "This message was trashed, and you do not have permission to "
+                    "view trashed messages (Manage Messages)."
+                )
+            )
+            return
         jump = utils.jump_link(
             orig["id"], orig["channel_id"], orig["guild_id"]
         )
