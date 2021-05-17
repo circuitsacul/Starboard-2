@@ -85,18 +85,53 @@ class StarboardWizard(wizards.Wizard):
         await self.stop(True)
 
     @wizards.step(
-        "What channel should I setup a new starboard in?", position=1
+        "Do you want to (1) create a new channel or (2) use an "
+        "existing channel?",
+        name="channel",
+        position=1,
     )
-    async def channel(self, step: wizards.Step, message: discord.Message):
+    async def create_or_use(
+        self, step: wizards.Step, message: discord.Message
+    ):
+        if message.content == "1":
+            try:
+                step.result = await self.create_channel.do_step(self)
+            except discord.Forbidden:
+                await self.send("I don't have permission to create channels.")
+                return await step.do_step(self)
+        elif message.content == "2":
+            step.result = await self.use_channel.do_step(self)
+        else:
+            await self.send("Please choose 1 or 2.")
+            return await step.do_step(self)
+
+    @wizards.step(
+        "What channel should I setup a new starboard in?",
+        call_internally=False,
+    )
+    async def use_channel(
+        self, step: wizards.Step, message: discord.Message
+    ) -> discord.TextChannel:
         try:
             channel = await CanBeStarboard().convert(
                 self._ctx, message.content
             )
         except Exception as e:
             await self.send(e)
-            return await self.channel.do_step(self)
+            return await step.do_step(self)
         else:
-            step.result = channel
+            return channel
+
+    @wizards.step(
+        "What should the channel be named?",
+        call_internally=False,
+    )
+    async def create_channel(
+        self,
+        step: wizards.Step,
+        message: discord.Message,
+    ) -> discord.TextChannel:
+        return await self._ctx.guild.create_text_channel(message.content)
 
     @wizards.step(
         "How many stars should a message need to appear on the starboard?",
@@ -107,7 +142,7 @@ class StarboardWizard(wizards.Wizard):
             value = required_stars(message.content)
         except Exception as e:
             await self.send(e)
-            return await self.required.do_step(self)
+            return await step.do_step(self)
         else:
             step.result = value
 
