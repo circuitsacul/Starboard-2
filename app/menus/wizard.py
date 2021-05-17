@@ -52,6 +52,8 @@ class WizardStep:
     def _done_callback(self, task: asyncio.Task):
         try:
             task.result()
+        except asyncio.CancelledError:
+            pass
         except Exception as e:
             self.wizard.bot.loop.run_until_complete(
                 self.wizard.on_menu_button_error(e)
