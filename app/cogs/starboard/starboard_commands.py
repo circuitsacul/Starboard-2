@@ -5,8 +5,7 @@ from discord.ext import commands
 
 from app.classes.context import MyContext
 from app.i18n import t_
-from app.menus.wizard import Wizard
-from app.wizards.starboard import starboard_wizard
+from app.wizards.starboard import StarboardWizard
 
 from ... import converters, errors, menus, utils
 from ...classes.bot import Bot
@@ -25,18 +24,18 @@ class Starboard(commands.Cog):
     @commands.has_guild_permissions(manage_channels=True)
     @commands.guild_only()
     async def wizard_starboard(self, ctx: commands.Context):
-        async def done(wizard: Wizard):
-            p = utils.clean_prefix(ctx)
-            result = wizard.result
-            channel = result.pop("channel")
-            await self.bot.db.starboards.create(channel.id, ctx.guild.id)
-            await self.bot.db.starboards.edit(channel.id, **result)
-            await ctx.send(
-                f"Starboard created! View it with `{p}s #{channel.name}`"
-            )
+        w = StarboardWizard()
+        r = await w.start(ctx)
+        if w.cancelled:
+            return await ctx.send("Cancelled.")
 
-        w = starboard_wizard(done, ctx)
-        await w.start(ctx)
+        p = utils.clean_prefix(ctx)
+        channel = r.pop("channel")
+        await self.bot.db.starboards.create(channel.id, ctx.guild.id)
+        await self.bot.db.starboards.edit(channel.id, **r)
+        await ctx.send(
+            f"Starboard created! View it with `{p}s #{channel.name}`"
+        )
 
     @commands.group(
         name="starboards",

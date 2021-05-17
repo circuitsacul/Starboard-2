@@ -1,11 +1,10 @@
 from typing import TYPE_CHECKING, Awaitable, Callable, Union
 
 import discord
-from discord.ext import commands
+from discord.ext import commands, wizards
 
 from app import converters, errors, utils
 from app.i18n import t_
-from app.menus import Wizard
 
 if TYPE_CHECKING:
     from app.classes.context import MyContext
@@ -80,64 +79,47 @@ def pretty_emoji_str(
     return predicate
 
 
-def starboard_wizard(
-    done_callback: Callable[[Wizard], Awaitable[None]],
-    ctx: "MyContext",
-) -> Wizard:
-    w = Wizard(
-        t_("Starboard Setup Wizard"),
-        t_(
-            "This will walk you through *some* of the key settings for "
-            "a starboard. To edit the rest of the settings, you can use "
-            "the commands."
-        ),
-        done_callback,
+class StarboardWizard(wizards.Wizard):
+    @wizards.step(
+        "What channel should I setup a new starboard in?", position=1
     )
-    w.add_step(
-        "Channel",
-        "channel",
-        "Please choose a channel to setup a new starboard in.",
-        CanBeStarboard(),
+    async def channel(self, step: wizards.Step, message: discord.Message):
+        try:
+            channel = await CanBeStarboard().convert(
+                self._ctx, message.content
+            )
+        except Exception as e:
+            await self.send(e)
+            return await self.channel.do_step(self)
+        else:
+            step.result = channel
+
+    @wizards.step(
+        "How many stars should a message need to appear on the starboard?",
+        position=2,
     )
-    w.add_step(
-        "Required Stars",
-        "required",
-        t_("How many stars should a message need to appear on the starboard?"),
-        required_stars,
-        True,
-        3,
+    async def required(self, step: wizards.Step, message: discord.Message):
+        try:
+            value = required_stars(message.content)
+        except Exception as e:
+            await self.send(e)
+            return await self.required.do_step(self)
+        else:
+            step.result = value
+
+    @wizards.step(
+        "Should users be allowed to star their own messages?",
+        position=3,
     )
-    w.add_step(
-        "Self Star",
-        "self_star",
-        t_("Should users be allowed to star their own messages?"),
-        converters.mybool,
-        True,
-        False,
-    )
-    w.add_step(
-        "Emojis",
-        "star_emojis",
-        t_(
-            'What emojis should count as "stars"? '
-            "(These emojis will count towards the points "
-            "on a starboard message)"
-        ),
-        ListOfEmojis(),
-        True,
-        ["⭐"],
-        pretty_emoji_str_list(ctx.guild),
-    )
-    w.add_step(
-        "Display Emoji",
-        "display_emoji",
-        t_(
-            "What emoji should show up next to the "
-            "points on a starboard message?"
-        ),
-        Emoji(),
-        True,
-        "⭐",
-        pretty_emoji_str(ctx.guild),
-    )
-    return w
+    async def self_star(self, step: wizards.Step, message: discord.Message):
+        try:
+            value = converters.mybool(message.content)
+        except Exception as e:
+            await self.send(e)
+        else:
+            step.result = value
+
+    @wizards.step('What emojis should count as "stars"?', position=4)
+    async def star_emojis(self, step: wizards.Step, message: discord.Message):
+        value = await ListOfEmojis().convert(self._ctx, message.content)
+        step.result = value

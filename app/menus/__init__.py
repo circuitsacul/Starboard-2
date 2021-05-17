@@ -3,7 +3,6 @@ from .confirm import Confirm
 from .help_menu import HelpMenu
 from .menu import Menu
 from .paginator import Paginator
-from .wizard import Wizard
 
 __all__ = [
     "HelpMenu",
@@ -11,5 +10,4 @@ __all__ = [
     "Confirm",
     "Paginator",
     "Accordion",
-    "Wizard",
 ]
