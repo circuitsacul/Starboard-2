@@ -80,6 +80,10 @@ def pretty_emoji_str(
 
 
 class StarboardWizard(wizards.Wizard):
+    @wizards.action("cancel")
+    async def cancel_wizard(self, message: discord.Message):
+        await self.stop(True)
+
     @wizards.step(
         "What channel should I setup a new starboard in?", position=1
     )
