@@ -1,5 +1,5 @@
 aiocache==0.11.1
-aiofiles==0.6.0
+aiofiles==0.7.0
 aiohttp==3.7.4.post0
 alt-discord-flags==0.0.3
 appdirs==1.4.4
