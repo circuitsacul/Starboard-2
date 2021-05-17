@@ -7,12 +7,11 @@ from discord.ext import commands
 from discord.ext.commands.errors import ChannelNotFound, RoleNotFound
 
 import config
+from app import errors
 from app.classes.bot import Bot
 from app.classes.context import MyContext
+from app.classes.sql_object import SQLObject
 from app.i18n import t_
-
-from . import errors
-from .classes.sql_object import SQLObject
 
 
 def myhex(arg: str) -> str:

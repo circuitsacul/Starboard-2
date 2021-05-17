@@ -3,12 +3,11 @@ from typing import Optional, Union
 import discord
 from discord.ext import commands
 
+from app import converters, errors, menus, utils
+from app.classes.bot import Bot
 from app.classes.context import MyContext
 from app.i18n import t_
 from app.wizards.starboard import StarboardWizard
-
-from ... import converters, errors, menus, utils
-from ...classes.bot import Bot
 
 
 class Starboard(commands.Cog):

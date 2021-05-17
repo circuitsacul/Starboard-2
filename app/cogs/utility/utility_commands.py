@@ -630,8 +630,8 @@ class Utility(commands.Cog):
         ):
             await ctx.send(
                 t_(
-                    "This message was trashed, and you do not have permission to "
-                    "view trashed messages (Manage Messages)."
+                    "This message was trashed, and you do not have permission "
+                    "to view trashed messages (Manage Messages)."
                 )
             )
             return

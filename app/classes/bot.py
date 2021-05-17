@@ -22,10 +22,9 @@ from app import i18n, utils
 from app.classes.context import MyContext
 from app.classes.ipc_connection import WebsocketConnection
 from app.classes.limited_list import LimitedList
+from app.database.database import Database
 from app.i18n.i18n import t_
 from app.menus import HelpMenu
-
-from ..database.database import Database
 
 if typing.TYPE_CHECKING:
     from app.cogs.cache.cache import Cache
