@@ -4,6 +4,7 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/daf8ca2749704d6a971a9d2f689715ae)](https://www.codacy.com/gh/CircuitsBots/Starboard-2/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=CircuitsBots/Starboard-2&amp;utm_campaign=Badge_Grade)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/CircuitsBots/Starboard-2/graphs/commit-activity)
 [![Stars](https://img.shields.io/github/stars/CircuitsBots/Starboard-2?style=social)](https://GitHub.com/CircuitsBots/Starboard-2/stargazers)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FCircuitsBots%2FStarboard-2.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FCircuitsBots%2FStarboard-2?ref=badge_shield)
 
 :warning: This repo is under constant development, and I'm making breaking changes on a daily basis. Until I finish the basics of this bot, I will not include database migrations. I would highly recommend waiting until I finish (maybe a month) before trying to self-host this bot. :warning:
 
@@ -17,3 +18,7 @@ A complete rewrite of Starboard
 
 ## Credits
 Thanks to TheNoob27 and [his starboard](https://top.gg/bot/655390915325591629) for inspiring me to create this bot and allowing me to base much of this bot on his.
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FCircuitsBots%2FStarboard-2.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FCircuitsBots%2FStarboard-2?ref=badge_large)
