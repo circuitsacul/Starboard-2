@@ -69,7 +69,7 @@ urllib3==1.26.4
 uvloop==0.15.2
 virtualenv==20.4.6
 websockets==9.0.2
-Werkzeug==2.0.0
+Werkzeug==2.0.1
 wsproto==1.0.0
 WTForms==2.3.3
 yarl==1.6.3
