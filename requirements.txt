@@ -6,7 +6,7 @@ appdirs==1.4.4
 astunparse==1.6.3
 Async-OAuthlib==0.0.9
 async-timeout==3.0.1
-asyncpg==0.22.0
+asyncpg==0.23.0
 attrs==21.2.0
 blinker==1.4
 braceexpand==0.1.7
