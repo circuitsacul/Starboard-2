@@ -80,6 +80,10 @@ def pretty_emoji_str(
 
 
 class StarboardWizard(wizards.Wizard):
+    async def on_step_error(self, step: wizards.Step, err: Exception):
+        await self.send(err)
+        return await step.do_step(self)
+
     @wizards.action("cancel")
     async def cancel_wizard(self, message: discord.Message):
         await self.stop(True)
@@ -94,11 +98,12 @@ class StarboardWizard(wizards.Wizard):
         self, step: wizards.Step, message: discord.Message
     ):
         if message.content == "1":
-            try:
-                step.result = await self.create_channel.do_step(self)
-            except discord.Forbidden:
+            result = await self.create_channel.do_step(self)
+            if result is None:
                 await self.send("I don't have permission to create channels.")
                 return await step.do_step(self)
+            else:
+                step.result = result
         elif message.content == "2":
             step.result = await self.use_channel.do_step(self)
         else:
@@ -112,15 +117,7 @@ class StarboardWizard(wizards.Wizard):
     async def use_channel(
         self, step: wizards.Step, message: discord.Message
     ) -> discord.TextChannel:
-        try:
-            channel = await CanBeStarboard().convert(
-                self._ctx, message.content
-            )
-        except Exception as e:
-            await self.send(e)
-            return await step.do_step(self)
-        else:
-            return channel
+        return await CanBeStarboard().convert(self._ctx, message.content)
 
     @wizards.step(
         "What should the channel be named?",
@@ -131,35 +128,25 @@ class StarboardWizard(wizards.Wizard):
         step: wizards.Step,
         message: discord.Message,
     ) -> discord.TextChannel:
-        return await self._ctx.guild.create_text_channel(message.content)
+        try:
+            return await self._ctx.guild.create_text_channel(message.content)
+        except discord.Forbidden:
+            return None
 
     @wizards.step(
         "How many stars should a message need to appear on the starboard?",
         position=2,
     )
     async def required(self, step: wizards.Step, message: discord.Message):
-        try:
-            value = required_stars(message.content)
-        except Exception as e:
-            await self.send(e)
-            return await step.do_step(self)
-        else:
-            step.result = value
+        step.result = required_stars(message.content)
 
     @wizards.step(
         "Should users be allowed to star their own messages?",
         position=3,
     )
     async def self_star(self, step: wizards.Step, message: discord.Message):
-        try:
-            value = converters.mybool(message.content)
-        except Exception as e:
-            await self.send(e)
-            return await step.do_step(self)
-        else:
-            step.result = value
+        step.result = converters.mybool(message.content)
 
     @wizards.step('What emojis should count as "stars"?', position=4)
     async def star_emojis(self, step: wizards.Step, message: discord.Message):
-        value = await ListOfEmojis().convert(self._ctx, message.content)
-        step.result = value
+        step.result = await ListOfEmojis().convert(self._ctx, message.content)

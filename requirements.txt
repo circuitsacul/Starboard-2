@@ -17,7 +17,7 @@ cfgv==3.2.0
 chardet==4.0.0
 click==8.0.0
 discord-ext-menus @ git+git://github.com/Rapptz/discord-ext-menus.git@309c70222eec33acacb8c21bbb0fbe9bc57de661
-discord-ext-wizards @ git+git://github.com/CircuitsBots/discord-ext-wizards.git@b8dbd24fdc7e547e477165859bbb13d9f8a0b434
+discord-ext-wizards @ git+git://github.com/CircuitsBots/discord-ext-wizards.git@2b119398405c68102b0a3b8072d63cffd4640fad
 discord-pretty-help @ git+git://github.com/CircuitsBots/discord-pretty-help.git@a4523bb5a51bdd9f6a16bac2d214bdca820dfd0d
 discord-py-slash-command==1.1.2
 discord.py==1.7.2
