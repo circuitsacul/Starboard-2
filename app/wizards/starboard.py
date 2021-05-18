@@ -155,6 +155,7 @@ class StarboardWizard(wizards.Wizard):
             value = converters.mybool(message.content)
         except Exception as e:
             await self.send(e)
+            return await step.do_step(self)
         else:
             step.result = value
 
