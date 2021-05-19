@@ -38,7 +38,7 @@ import-expression==1.1.4
 itsdangerous==2.0.0
 Jinja2==3.0.0
 jishaku @ git+git://github.com/Gorialis/jishaku.git@873f863052a663efab3b6184d2516e03bf16bcf9
-MarkupSafe==2.0.0
+MarkupSafe==2.0.1
 mccabe==0.6.1
 msgpack==1.0.2
 multidict==5.1.0
