@@ -1,11 +1,11 @@
-import typing
+from typing import TYPE_CHECKING, List
 
 import discord
 from discord.ext import commands
 
 import config
 
-if typing.TYPE_CHECKING:
+if TYPE_CHECKING:
     from app.classes.bot import Bot
 
 
@@ -41,8 +41,8 @@ class PremiumEvents(commands.Cog):
         ) != 0
         patron = sql_user["patron_status"] == "yes"
 
-        to_give: list[int] = []
-        to_remove: list[int] = []
+        to_give: List[int] = []
+        to_remove: List[int] = []
         if donor:
             to_give += config.DONATE_ROLES
         else:
@@ -52,8 +52,8 @@ class PremiumEvents(commands.Cog):
         else:
             to_remove += config.PATRON_ROLES
 
-        to_give_obj: list[discord.Role] = []
-        to_remove_obj: list[discord.Role] = []
+        to_give_obj: List[discord.Role] = []
+        to_remove_obj: List[discord.Role] = []
         for rid in to_give:
             if rid in curr_roles:
                 continue

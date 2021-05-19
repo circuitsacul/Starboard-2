@@ -1,9 +1,9 @@
-from typing import Any, SupportsIndex, Union
+from typing import Any, List, SupportsIndex, Union
 
 
 class LimitedList:
     def __init__(self, limit: int = None):
-        self._values: list[Any] = []
+        self._values: List[Any] = []
         self.limit = limit
 
     def append(self, value: Any):

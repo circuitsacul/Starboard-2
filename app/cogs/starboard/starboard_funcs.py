@@ -1,5 +1,5 @@
 import asyncio
-from typing import Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 import discord
 
@@ -17,10 +17,10 @@ async def can_add(
     member: discord.Member,
     channel_id: int,
     sql_author: dict,
-    author_roles: list[int],
+    author_roles: List[int],
     frozen: bool,
     trashed: bool,
-) -> tuple[bool, bool]:
+) -> Tuple[bool, bool]:
     """Whether or not a user has permission to add a reaction,
     and returns two values:
 
@@ -40,7 +40,7 @@ async def can_add(
         guild_id,
         emoji,
     )
-    starboards: list[dict] = []
+    starboards: List[Dict[Any, Any]] = []
     for s in _starboards:
         if s["channel_wl"]:
             if channel_id not in [int(cid) for cid in s["channel_wl"]]:
@@ -155,7 +155,7 @@ async def get_or_set_webhook(
     return webhook
 
 
-async def sbemojis(bot: Bot, guild_id: int) -> list[str]:
+async def sbemojis(bot: Bot, guild_id: int) -> List[str]:
     return await bot.db.starboards.star_emojis(guild_id)
 
 
@@ -170,7 +170,7 @@ async def orig_message(bot: Bot, message_id: int) -> Optional[dict]:
 
 async def embed_message(
     bot: Bot, message: discord.Message, color: str = None, files: bool = True
-) -> tuple[discord.Embed, list[discord.File]]:
+) -> Tuple[discord.Embed, List[discord.File]]:
     nsfw = message.channel.is_nsfw()
     content = utils.escmask(utils.escesc(message.system_content))
 

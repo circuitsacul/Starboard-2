@@ -7,7 +7,7 @@ import textwrap
 import traceback
 import typing
 from contextlib import asynccontextmanager, redirect_stdout
-from typing import Any, Optional, Union
+from typing import Any, Dict, Optional, Union
 
 import aiohttp
 import discord
@@ -46,7 +46,7 @@ class Bot(commands.AutoShardedBot):
         self._last_result = None
         self.stats = {}
         self.locale_cache = {}
-        self.to_cleanup: dict[int, LimitedList] = {}
+        self.to_cleanup: Dict[int, LimitedList] = {}
 
         self.cache: "Cache"
 
@@ -228,12 +228,12 @@ class Bot(commands.AutoShardedBot):
                 return f"{value}{ret}"
 
     async def handle_websocket_command(
-        self, msg: dict[str, Any]
-    ) -> Optional[Union[list, str, bool, dict[Any, Any]]]:
+        self, msg: Dict[str, Any]
+    ) -> Optional[Union[list, str, bool, Dict[Any, Any]]]:
         cmd = msg["name"]
         data = msg["data"]
 
-        ret: Optional[Union[list, str, dict[Any, Any]]] = None
+        ret: Optional[Union[list, str, Dict[Any, Any]]] = None
 
         if cmd == "restart":
             await self.close()

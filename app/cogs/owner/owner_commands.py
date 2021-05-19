@@ -3,6 +3,7 @@ import textwrap
 import time
 import traceback
 from contextlib import redirect_stdout
+from typing import List
 
 import discord
 from discord.ext import commands
@@ -45,8 +46,8 @@ class Owner(*OPTIONAL_FEATURES, *STANDARD_FEATURES):
         help="Times postgres queries. Rolls back any changes.",
     )
     async def jsk_runpg(self, ctx: "MyContext", *to_run: RunSqlConverter):
-        results: list[str] = []
-        times: list[float] = []
+        results: List[str] = []
+        times: List[float] = []
 
         try:
             async with ctx.bot.db.pool.acquire() as con:
@@ -54,7 +55,7 @@ class Owner(*OPTIONAL_FEATURES, *STANDARD_FEATURES):
                     async with ReplResponseReactor(ctx.message):
                         with self.submit(ctx):
                             for count, sql in to_run:
-                                _times: list[float] = []
+                                _times: List[float] = []
                                 r = None
                                 for _ in range(0, count):
                                     s = time.perf_counter()

@@ -1,17 +1,17 @@
 import asyncio
-import typing
+from typing import TYPE_CHECKING, Dict, List
 
 import discord
 from discord.ext import commands, tasks
 
 from app.cogs.permroles import pr_functions
 
-if typing.TYPE_CHECKING:
+if TYPE_CHECKING:
     from app.classes.bot import Bot
 
 
 async def set_xp_roles(
-    to_add: list[int], to_remove: list[int], member: discord.Member
+    to_add: List[int], to_remove: List[int], member: discord.Member
 ):
     curr = [r.id for r in member.roles]
     to_add = [member.guild.get_role(r) for r in to_add if r not in curr]
@@ -26,7 +26,7 @@ async def set_xp_roles(
 class XPREvents(commands.Cog):
     def __init__(self, bot: "Bot"):
         self.bot = bot
-        self.queue: dict[int, list[int]] = {}
+        self.queue: Dict[int, List[int]] = {}
         self.update_xpr_loop.start()
 
     @commands.Cog.listener()
@@ -36,7 +36,7 @@ class XPREvents(commands.Cog):
 
     @tasks.loop(seconds=5)
     async def update_xpr_loop(self):
-        tasks: list[asyncio.Task] = []
+        tasks: List[asyncio.Task] = []
         for gid in list(self.queue.keys()):
             to_update = self.queue[gid]
             if len(to_update) == 0:

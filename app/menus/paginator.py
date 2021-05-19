@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, List, Optional
 
 import discord
 from discord.ext import menus
@@ -12,8 +12,8 @@ if TYPE_CHECKING:
 class Paginator(Menu):
     def __init__(
         self,
-        embeds: Optional[list[discord.Embed]] = None,
-        text: Optional[list[str]] = None,
+        embeds: Optional[List[discord.Embed]] = None,
+        text: Optional[List[str]] = None,
         delete_after: bool = False,
     ) -> None:
         super().__init__(delete_after=delete_after)

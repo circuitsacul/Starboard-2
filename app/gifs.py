@@ -1,6 +1,6 @@
 import os
 import re
-from typing import Optional
+from typing import Optional, Tuple
 
 from dotenv import load_dotenv
 
@@ -22,7 +22,7 @@ GIPHY_PATTERN = re.compile(
 )
 
 
-def _get_gif_id(url: str) -> Optional[tuple[str, str]]:
+def _get_gif_id(url: str) -> Optional[Tuple[str, str]]:
     tenor_result = TENOR_PATTERN.match(url)
     if tenor_result:
         return tenor_result.groupdict()["id"], "tenor"

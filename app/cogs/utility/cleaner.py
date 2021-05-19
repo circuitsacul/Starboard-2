@@ -1,10 +1,12 @@
+from typing import List, Tuple
+
 import discord
 
 from app.classes.bot import Bot
 from app.i18n import t_
 
 
-async def clean_guild(guild: discord.Guild, bot: Bot) -> list[tuple[str, int]]:
+async def clean_guild(guild: discord.Guild, bot: Bot) -> List[Tuple[str, int]]:
     starboards = await clean_starboards(guild, bot)
     star_emojis = await clean_star_emojis(guild, bot)
     aschannels = await clean_aschannels(guild, bot)

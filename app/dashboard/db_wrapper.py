@@ -1,5 +1,5 @@
 import os
-from typing import Any
+from typing import Any, Dict, List
 
 from app.database.database import Database
 
@@ -26,10 +26,10 @@ class Wrapper:
         await self.db.init_database()
         self.ready = True
 
-    async def get_starboards(self, guild_id: int) -> list[dict[str, Any]]:
+    async def get_starboards(self, guild_id: int) -> List[Dict[str, Any]]:
         self.raise_if_not_ready()
         return await self.db.starboards.get_many(guild_id)
 
-    async def get_starboard(self, starboard_id: int) -> dict[str, Any]:
+    async def get_starboard(self, starboard_id: int) -> Dict[str, Any]:
         self.raise_if_not_ready()
         return await self.db.starboards.get(starboard_id)

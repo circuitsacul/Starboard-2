@@ -1,5 +1,5 @@
 import time
-from typing import Any, Optional
+from typing import Any, Dict, List, Optional
 
 import asyncpg
 
@@ -68,7 +68,7 @@ class Database:
                 await con.execute(sql, *args)
         self.log(sql, time.perf_counter() - s)
 
-    async def fetch(self, sql: str, *args: Any) -> list[dict]:
+    async def fetch(self, sql: str, *args: Any) -> List[Dict]:
         async with self.pool.acquire() as con:
             async with con.transaction():
                 s = time.perf_counter()

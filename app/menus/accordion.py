@@ -1,5 +1,5 @@
 from copy import deepcopy
-from typing import TYPE_CHECKING, Awaitable, Callable, Optional
+from typing import TYPE_CHECKING, Awaitable, Callable, List, Optional
 
 import discord
 from discord.ext import menus
@@ -53,7 +53,7 @@ class Accordion(Menu):
         super().__init__(delete_after=True)
         self._embed = embed
         self._embed.clear_fields()
-        self.fields: list["_AccordionField"] = []
+        self.fields: List["_AccordionField"] = []
 
         self._buttons = {}
 

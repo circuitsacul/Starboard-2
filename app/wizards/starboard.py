@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Awaitable, Callable, Union
+from typing import TYPE_CHECKING, Awaitable, Callable, List, Union
 
 import discord
 from discord.ext import commands, wizards
@@ -23,7 +23,7 @@ class CanBeStarboard(commands.TextChannelConverter):
 
 
 class ListOfEmojis(converters.Emoji):
-    async def convert(self, ctx: "MyContext", arg: str) -> list[str]:
+    async def convert(self, ctx: "MyContext", arg: str) -> List[str]:
         args = [a.strip() for a in arg.split()]
         set_emojis: set[str] = set()
         for arg in args:
@@ -33,7 +33,7 @@ class ListOfEmojis(converters.Emoji):
                 continue
             else:
                 set_emojis.add(converted)
-        emojis: list[str] = []
+        emojis: List[str] = []
         for e in set_emojis:
             if isinstance(e, discord.Emoji):
                 emojis.append(str(e.id))
@@ -63,8 +63,8 @@ def required_stars(arg: str) -> int:
 
 def pretty_emoji_str_list(
     guild: discord.Guild,
-) -> Callable[[list[Union[str, discord.Emoji]]], Awaitable[str]]:
-    async def predicate(emojis: list[Union[str, discord.Emoji]]) -> str:
+) -> Callable[[List[Union[str, discord.Emoji]]], Awaitable[str]]:
+    async def predicate(emojis: List[Union[str, discord.Emoji]]) -> str:
         return utils.pretty_emoji_string(emojis, guild)
 
     return predicate

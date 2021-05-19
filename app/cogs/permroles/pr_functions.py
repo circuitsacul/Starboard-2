@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Dict, List, Optional, Tuple
 
 import discord
 
@@ -6,8 +6,8 @@ from app.classes.bot import Bot
 
 
 def pretty_permrole_string(
-    role: dict[str, bool], guild: discord.Guild
-) -> tuple[str, str]:
+    role: Dict[str, bool], guild: discord.Guild
+) -> Tuple[str, str]:
     obj = guild.get_role(role["role_id"])
     role_name = obj.name if obj else f"Delete Role {role['role_id']}"
     role_name = "{0}. {1}".format(role["index"], role_name)
@@ -17,7 +17,7 @@ def pretty_permrole_string(
     return role_name, result
 
 
-def pretty_perm_string(perms: dict[str, bool]):
+def pretty_perm_string(perms: Dict[str, bool]):
     def setting(name: str) -> str:
         mapping = {
             None: "<:slash2:832256485010571265>",
@@ -39,11 +39,11 @@ def pretty_perm_string(perms: dict[str, bool]):
 
 async def get_perms(
     bot: Bot,
-    roles: list[int],
+    roles: List[int],
     guild_id: int,
     channel_id: Optional[int],
     starboard_id: Optional[int],
-) -> dict[str, bool]:
+) -> Dict[str, bool]:
     groups = await bot.db.fetch(
         """SELECT * FROM permgroups
         WHERE guild_id=$1

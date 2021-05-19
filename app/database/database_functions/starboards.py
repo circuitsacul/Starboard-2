@@ -1,4 +1,4 @@
-from typing import Optional, Union
+from typing import Any, Dict, List, Optional, Union
 
 import asyncpg
 import buildpg
@@ -26,7 +26,7 @@ class Starboards:
             await self.emoji_cache.delete(guild_id)
             await self.many_cache.delete(guild_id)
 
-    async def star_emojis(self, guild_id: int) -> list[str]:
+    async def star_emojis(self, guild_id: int) -> List[str]:
         r = await self.emoji_cache.get(guild_id)
         if r:
             return r
@@ -58,7 +58,7 @@ class Starboards:
         await self.cache.set(starboard_id, sql_starboard)
         return sql_starboard
 
-    async def get_many(self, guild_id: int) -> list[dict]:
+    async def get_many(self, guild_id: int) -> List[Dict[Any, Any]]:
         r = await self.many_cache.get(guild_id)
         if r:
             return r

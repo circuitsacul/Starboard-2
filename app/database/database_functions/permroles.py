@@ -1,5 +1,5 @@
 import typing
-from typing import Optional
+from typing import Any, Dict, List, Optional
 
 import buildpg
 
@@ -85,14 +85,16 @@ class PermRoles:
 
         return index
 
-    async def get_many(self, group_id: int) -> list[dict]:
+    async def get_many(self, group_id: int) -> List[Dict[Any, Any]]:
         return await self.db.fetch(
             """SELECT * FROM permroles
             WHERE permgroup_id=$1 ORDER BY index""",
             group_id,
         )
 
-    async def get(self, role_id: int, group_id: int) -> Optional[dict]:
+    async def get(
+        self, role_id: int, group_id: int
+    ) -> Optional[Dict[Any, Any]]:
         return await self.db.fetchrow(
             """SELECT * FROM permroles
             WHERE role_id=$1

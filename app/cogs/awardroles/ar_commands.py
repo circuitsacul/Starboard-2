@@ -1,4 +1,4 @@
-import typing
+from typing import TYPE_CHECKING, List, Tuple
 
 import discord
 from discord.ext import commands
@@ -7,7 +7,7 @@ from app import converters, errors
 from app.classes.context import MyContext
 from app.i18n import t_
 
-if typing.TYPE_CHECKING:
+if TYPE_CHECKING:
     from app.classes.bot import Bot
 
 
@@ -31,7 +31,7 @@ class AwardRoles(commands.Cog):
         if len(_xproles) == 0:
             await ctx.send(t_("This server has no XP Roles."))
             return
-        xpr: list[tuple[discord.Role, int]] = [
+        xpr: List[Tuple[discord.Role, int]] = [
             (ctx.guild.get_role(r["role_id"]), r["required"]) for r in _xproles
         ]
         xpr.sort(key=lambda r: r[1], reverse=True)

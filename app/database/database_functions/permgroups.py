@@ -1,5 +1,5 @@
 import typing
-from typing import Optional
+from typing import List, Optional
 
 from app import errors
 
@@ -82,7 +82,7 @@ class PermGroups:
         )
         return new_index
 
-    async def set_starboards(self, permgroup_id: int, starboards: list[int]):
+    async def set_starboards(self, permgroup_id: int, starboards: List[int]):
         await self.db.execute(
             """UPDATE permgroups
             SET starboards=$1
@@ -91,7 +91,7 @@ class PermGroups:
             permgroup_id,
         )
 
-    async def set_channels(self, permgroup_id: int, channels: list[int]):
+    async def set_channels(self, permgroup_id: int, channels: List[int]):
         await self.db.execute(
             """UPDATE permgroups
             SET channels=$1
@@ -100,7 +100,7 @@ class PermGroups:
             permgroup_id,
         )
 
-    async def get_many(self, guild_id: int) -> list[dict]:
+    async def get_many(self, guild_id: int) -> List[dict]:
         return await self.db.fetch(
             """SELECT * FROM permgroups
             WHERE guild_id=$1 ORDER BY index""",

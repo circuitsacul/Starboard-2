@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, List
 
 import discord
 from discord.ext import commands, menus
@@ -34,8 +34,8 @@ class Menu(menus.Menu):
         return payload.emoji in self.buttons
 
     @staticmethod
-    def _get_missing(permissions: discord.Permissions) -> list[str]:
-        missing: list[str] = []
+    def _get_missing(permissions: discord.Permissions) -> List[str]:
+        missing: List[str] = []
         if not permissions.read_messages:
             missing.append("View Channel")
         if not permissions.read_message_history:

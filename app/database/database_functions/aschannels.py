@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Dict, List, Optional
 
 import asyncpg
 import buildpg
@@ -28,7 +28,7 @@ class ASChannels:
         await self.id_cache.set(aschannel_id, r if r else MISSING)
         return r
 
-    async def get_many(self, guild_id: int) -> list[dict]:
+    async def get_many(self, guild_id: int) -> List[Dict]:
         return await self.db.fetch(
             """SELECT * FROM aschannels
             WHERE guild_id=$1""",

@@ -1,4 +1,5 @@
 import random
+from typing import List
 
 import discord
 from discord.ext import commands, flags
@@ -184,8 +185,8 @@ class Fun(commands.Cog):
             channel_id,
             maxpoints,
         )
-        embeds: list[discord.Embed] = []
-        text_pages: list[str] = []
+        embeds: List[discord.Embed] = []
+        text_pages: List[str] = []
         async with ctx.typing():
             for m in messages[place : place + 10]:
                 orig = await self.bot.db.messages.get(m["orig_id"])

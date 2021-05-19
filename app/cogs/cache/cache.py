@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Dict, List, Optional
 
 import discord
 from aiocache import Cache as MemCache
@@ -26,11 +26,11 @@ class Cache:
         return user
 
     async def get_members(
-        self, uids: list[int], guild: discord.Guild
-    ) -> dict[int, Optional[discord.Member]]:
+        self, uids: List[int], guild: discord.Guild
+    ) -> Dict[int, Optional[discord.Member]]:
         await self.bot.wait_until_ready()
-        not_found: list[int] = []
-        result: dict[int, Optional[discord.Member]] = {}
+        not_found: List[int] = []
+        result: Dict[int, Optional[discord.Member]] = {}
 
         for uid in uids:
             cached = guild.get_member(uid)

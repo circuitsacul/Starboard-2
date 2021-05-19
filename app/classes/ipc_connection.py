@@ -2,7 +2,7 @@ import asyncio
 import json
 import pathlib
 import ssl
-from typing import Any, Callable, Optional
+from typing import Any, Callable, Dict, List, Optional
 
 import websockets
 
@@ -14,12 +14,12 @@ class WebsocketConnection:
     def __init__(
         self,
         name: str,
-        on_command: Callable[[dict[str, Any]], Any],
+        on_command: Callable[[Dict[str, Any]], Any],
         loop: Optional[asyncio.AbstractEventLoop] = None,
     ):
         self.on_command = on_command
 
-        self.callbacks: dict[str, list[dict[str, Any]]] = {}
+        self.callbacks: Dict[str, List[Dict[str, Any]]] = {}
         self.current_callback = 0
 
         self.websocket: Optional[websockets.WebSocketCommonProtocol] = None
@@ -29,12 +29,12 @@ class WebsocketConnection:
         self.name_id = name
 
     async def send_command(
-        self, name: str, data: dict, expect_resp: bool = False
-    ) -> Optional[list[dict[str, Any]]]:
+        self, name: str, data: Dict[Any, Any], expect_resp: bool = False
+    ) -> Optional[List[Dict[str, Any]]]:
         if not self.websocket:
             raise Exception("Websocket not initialized.")
 
-        to_send: dict[str, Any] = {
+        to_send: Dict[str, Any] = {
             "type": "command",
             "name": name,
             "respond": expect_resp,
@@ -76,7 +76,7 @@ class WebsocketConnection:
                 return
             raise
 
-    async def handle_command(self, msg: dict[str, Any]):
+    async def handle_command(self, msg: Dict[str, Any]):
         resp = await self.on_command(msg)
         if msg["respond"] and resp:
             await self.send_response(msg["callback"], resp)
@@ -93,7 +93,7 @@ class WebsocketConnection:
                     return
                 raise
 
-            msg: dict[str, Any] = json.loads(msg)
+            msg: Dict[str, Any] = json.loads(msg)
 
             if msg["type"] == "response":
                 if msg["callback"] in self.callbacks:

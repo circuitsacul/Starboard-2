@@ -1,7 +1,7 @@
 import datetime
 import os
 import traceback
-from typing import Any
+from typing import Any, List
 
 import discord
 from discord import AsyncWebhookAdapter, Webhook
@@ -108,7 +108,7 @@ class BaseEvents(commands.Cog):
         self,
         title: str,
         error: Exception,
-        args: list[Any] = None,
+        args: List[Any] = None,
         kwargs: dict = None,
     ) -> None:
         args = args or []

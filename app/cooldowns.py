@@ -1,4 +1,5 @@
 import time
+from typing import Dict
 
 
 class Cooldown:
@@ -71,7 +72,7 @@ class FlexibleCooldownMapping:
     a different rate/per setting"""
 
     def __init__(self):
-        self._cache: dict[str, "Cooldown"] = {}
+        self._cache: Dict[str, "Cooldown"] = {}
 
     def copy(self):
         ret = FlexibleCooldownMapping()

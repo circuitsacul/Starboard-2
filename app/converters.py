@@ -1,5 +1,5 @@
 import re
-from typing import Any, Callable, Union
+from typing import Any, Callable, Tuple, Union
 
 import discord
 import emoji
@@ -70,7 +70,7 @@ def myfloat(arg: str) -> float:
         )
 
 
-def language(arg: str) -> tuple[str, str]:
+def language(arg: str) -> Tuple[str, str]:
     arg = arg.lower()
 
     langs = config.LANGUAGE_MAP

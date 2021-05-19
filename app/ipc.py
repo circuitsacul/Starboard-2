@@ -2,10 +2,11 @@ import asyncio
 import pathlib
 import signal
 import ssl
+from typing import Dict
 
 import websockets
 
-CLIENTS: dict[str, websockets.WebSocketServerProtocol] = {}
+CLIENTS: Dict[str, websockets.WebSocketServerProtocol] = {}
 
 SSL_CONTEXT = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
 SSL_CONTEXT.load_cert_chain(pathlib.Path("localhost.pem"))

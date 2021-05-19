@@ -1,6 +1,6 @@
 import asyncio
 import os
-import typing
+from typing import TYPE_CHECKING, Any, Dict, List
 
 import discord
 from discord.ext import commands, tasks
@@ -9,7 +9,7 @@ from app.i18n import t_
 
 from . import patreon
 
-if typing.TYPE_CHECKING:
+if TYPE_CHECKING:
     from app.classes.bot import Bot
 
 
@@ -129,7 +129,7 @@ class PatreonEvents(commands.Cog):
                 ),
             )
 
-    async def get_all_patrons(self) -> list[dict]:
+    async def get_all_patrons(self) -> List[Dict[Any, Any]]:
         """Get the list of all patrons"""
         # return [
         #    {

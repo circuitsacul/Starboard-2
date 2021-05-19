@@ -4,6 +4,7 @@ import multiprocessing
 import os
 import sys
 import time
+from typing import List
 
 import requests
 from dotenv import load_dotenv
@@ -83,7 +84,7 @@ def get_shard_count():
 class Launcher:
     def __init__(self, loop):
         log.info("Hello, world!")
-        self.cluster_queue: list["Cluster"] = []
+        self.cluster_queue: List["Cluster"] = []
         self.clusters = []
 
         self.fut = None

@@ -1,5 +1,5 @@
 import os
-from typing import Optional, Union
+from typing import Dict, Optional, Tuple, Union
 
 import dotenv
 import humanize
@@ -44,8 +44,8 @@ async def get_guild(guild_id: int):
     return guild
 
 
-async def get_guild_channels(guild_id: int) -> dict[str, dict[int, str]]:
-    channels: dict[str, dict[int, str]] = {}
+async def get_guild_channels(guild_id: int) -> Dict[str, Dict[int, str]]:
+    channels: Dict[str, Dict[int, str]] = {}
     for c in await app.config["WEBSOCKET"].send_command(
         "guild_channels", {"guild_id": guild_id}, expect_resp=True
     ):
@@ -85,7 +85,7 @@ async def handle_command(msg: dict) -> Optional[Union[dict, str]]:
     return resp
 
 
-def bot_stats() -> tuple[str, str, str]:
+def bot_stats() -> Tuple[str, str, str]:
     return (
         humanize.intcomma(7124),
         humanize.intcomma(3579381),

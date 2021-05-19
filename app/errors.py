@@ -1,5 +1,5 @@
 import inspect
-from typing import Union
+from typing import List, Union
 
 import discord
 from discord.ext import commands
@@ -335,7 +335,7 @@ class CannotUseCommands(commands.CheckFailure):
 
 # Subclassed CheckFailures
 class BotMissingPermissions(commands.CheckFailure):
-    def __init__(self, missing_perms: list[str]):
+    def __init__(self, missing_perms: List[str]):
         self.missing_perms = missing_perms
 
         missing = [

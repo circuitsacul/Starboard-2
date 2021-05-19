@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 import discord
 
@@ -15,7 +15,7 @@ async def handle_purging(
     by: Optional[discord.Member],
     notby: Optional[discord.Member],
     contains: Optional[str],
-) -> tuple[int, dict]:
+) -> Tuple[int, Dict[Any, Any]]:
     purged = {}
     total = 0
 
@@ -74,7 +74,7 @@ async def handle_forcing(
     bot: Bot,
     message_id: int,
     guild_id: int,
-    _starboards: list[int],
+    _starboards: List[int],
     force: bool,
 ) -> None:
     sql_message = await bot.db.messages.get(message_id)

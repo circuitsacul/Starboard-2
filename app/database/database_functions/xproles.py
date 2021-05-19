@@ -1,10 +1,10 @@
-import typing
+from typing import TYPE_CHECKING, Any, Dict, List
 
 from discord.ext import commands
 
 from app.i18n import t_
 
-if typing.TYPE_CHECKING:
+if TYPE_CHECKING:
     from app.database.database import Database
 
 
@@ -17,7 +17,7 @@ class XPRoles:
             """SELECT * FROM xproles WHERE role_id=$1""", role_id
         )
 
-    async def get_many(self, guild_id: int) -> list[dict]:
+    async def get_many(self, guild_id: int) -> List[Dict[Any, Any]]:
         return await self.db.fetch(
             """SELECT * FROM xproles WHERE guild_id=$1""", guild_id
         )
