@@ -1,6 +1,6 @@
 jishaku @ git+git://github.com/Gorialis/jishaku.git@873f863052a663efab3b6184d2516e03bf16bcf9
 discord-ext-menus @ git+git://github.com/Rapptz/discord-ext-menus.git@309c70222eec33acacb8c21bbb0fbe9bc57de661
-discord-ext-wizards @ git+git://github.com/CircuitsBots/discord-ext-wizards.git@2b119398405c68102b0a3b8072d63cffd4640fad
+discord-ext-wizards @ git+git://github.com/CircuitsBots/discord-ext-wizards.git@99fcd57a71b59d47222c65ea9805829281a39f68
 discord-pretty-help @ git+git://github.com/CircuitsBots/discord-pretty-help.git@a4523bb5a51bdd9f6a16bac2d214bdca820dfd0d
 requests==2.25.1
 discord.py==1.7.2
