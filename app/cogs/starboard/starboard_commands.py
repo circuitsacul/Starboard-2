@@ -2,6 +2,7 @@ from typing import Optional, Union
 
 import discord
 from discord.ext import commands
+from discord.ext.wizards.stopreason import StopReason
 
 from app import converters, errors, menus, utils
 from app.classes.bot import Bot
@@ -23,10 +24,14 @@ class Starboard(commands.Cog):
     @commands.has_guild_permissions(manage_channels=True)
     @commands.guild_only()
     async def wizard_starboard(self, ctx: commands.Context):
-        w = StarboardWizard()
+        w = StarboardWizard(timeout=30)
         r = await w.start(ctx)
-        if w.cancelled:
+        if w.stop_reason == StopReason.CANCELLED:
             return await ctx.send("Cancelled.")
+        elif w.stop_reason == StopReason.ERROR:
+            return await ctx.send("Exitted due to an error.")
+        elif w.stop_reason == StopReason.TIMED_OUT:
+            return await ctx.send("Wizard timed out.")
 
         p = utils.clean_prefix(ctx)
         channel = r.pop("channel")

@@ -2,6 +2,7 @@ from typing import TYPE_CHECKING, Awaitable, Callable, List, Union
 
 import discord
 from discord.ext import commands, wizards
+from discord.ext.wizards.stopreason import StopReason
 
 from app import converters, errors, utils
 from app.i18n import t_
@@ -86,7 +87,7 @@ class StarboardWizard(wizards.Wizard):
 
     @wizards.action("cancel")
     async def cancel_wizard(self, message: discord.Message):
-        await self.stop(True)
+        await self.stop(StopReason.CANCELLED)
 
     @wizards.step(
         "Do you want to (1) create a new channel or (2) use an "
