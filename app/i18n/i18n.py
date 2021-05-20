@@ -45,7 +45,17 @@ def use_current_gettext(*args, **kwargs) -> str:
     ).gettext(*args, **kwargs)
 
 
-def t_(string: str, as_obj: bool = False) -> TString:
+@typing.overload
+def t_(string: str, as_obj: True) -> TString:
+    ...
+
+
+@typing.overload
+def t_(string: str) -> str:
+    ...
+
+
+def t_(string, as_obj=False):
     tstring = TString(string, use_current_gettext)
     if as_obj:
         return tstring
