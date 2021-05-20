@@ -144,6 +144,51 @@ class Starboard(commands.Cog, description=t_("Manage starboards.", True)):
             await ctx.send(embed=embed)
 
     @starboards.command(
+        name="add", aliases=["a"], help=t_("Adds a starboard.", True)
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    async def add_starboard(
+        self, ctx: "MyContext", channel: discord.TextChannel
+    ) -> None:
+        existed = await self.bot.db.starboards.create(channel.id, ctx.guild.id)
+        if existed:
+            raise errors.AlreadyStarboard(channel.mention)
+        else:
+            await ctx.send(
+                t_("Created starboard {0}.").format(channel.mention)
+            )
+
+    @starboards.command(
+        name="remove",
+        aliases=["delete", "del", "r"],
+        help=t_("Removes a starboard.", True),
+    )
+    @commands.has_guild_permissions(manage_channels=True)
+    @commands.bot_has_permissions(
+        add_reactions=True, read_message_history=True
+    )
+    @commands.guild_only()
+    async def remove_starboard(
+        self, ctx: "MyContext", channel: Union[discord.TextChannel, int]
+    ) -> None:
+        cid = channel.id if not isinstance(channel, int) else channel
+        cname = channel.mention if not isinstance(channel, int) else channel
+        starboard = await self.bot.db.starboards.get(cid)
+        if not starboard:
+            raise errors.NotStarboard(cname)
+        else:
+            confirmed = await menus.Confirm(
+                t_("Are you sure? All starboard messages will be lost.")
+            ).start(ctx)
+            if confirmed is True:
+                await self.bot.db.starboards.delete(cid)
+                await ctx.send(
+                    t_("{0} is no longer a starboard.").format(cname)
+                )
+            if confirmed is False:
+                await ctx.send(t_("Cancelled."))
+
+    @starboards.command(
         name="webhook",
         aliases=["useWebhook"],
         help=t_(
@@ -242,51 +287,6 @@ class Starboard(commands.Cog, description=t_("Manage starboards.", True)):
                 self.bot,
             )
         )
-
-    @starboards.command(
-        name="add", aliases=["a"], help=t_("Adds a starboard.", True)
-    )
-    @commands.has_guild_permissions(manage_channels=True)
-    async def add_starboard(
-        self, ctx: "MyContext", channel: discord.TextChannel
-    ) -> None:
-        existed = await self.bot.db.starboards.create(channel.id, ctx.guild.id)
-        if existed:
-            raise errors.AlreadyStarboard(channel.mention)
-        else:
-            await ctx.send(
-                t_("Created starboard {0}.").format(channel.mention)
-            )
-
-    @starboards.command(
-        name="remove",
-        aliases=["delete", "del", "r"],
-        help=t_("Removes a starboard.", True),
-    )
-    @commands.has_guild_permissions(manage_channels=True)
-    @commands.bot_has_permissions(
-        add_reactions=True, read_message_history=True
-    )
-    @commands.guild_only()
-    async def remove_starboard(
-        self, ctx: "MyContext", channel: Union[discord.TextChannel, int]
-    ) -> None:
-        cid = channel.id if not isinstance(channel, int) else channel
-        cname = channel.mention if not isinstance(channel, int) else channel
-        starboard = await self.bot.db.starboards.get(cid)
-        if not starboard:
-            raise errors.NotStarboard(cname)
-        else:
-            confirmed = await menus.Confirm(
-                t_("Are you sure? All starboard messages will be lost.")
-            ).start(ctx)
-            if confirmed is True:
-                await self.bot.db.starboards.delete(cid)
-                await ctx.send(
-                    t_("{0} is no longer a starboard.").format(cname)
-                )
-            if confirmed is False:
-                await ctx.send(t_("Cancelled."))
 
     @starboards.command(
         name="displayEmoji",
