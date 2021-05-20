@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, Awaitable, Callable, List, Optional
 import discord
 from discord.ext import menus
 
-from app.constants import ZWS
+from app.constants import NUMBER_EMOJIS, ZWS
 
 from .menu import Menu
 
@@ -12,21 +12,7 @@ if TYPE_CHECKING:
     from app.classes.context import MyContext
 
 
-NUMBER_EMOJIS = [
-    "1️⃣",
-    "2️⃣",
-    "3️⃣",
-    "4️⃣",
-    "5️⃣",
-    "6️⃣",
-    "7️⃣",
-    "8️⃣",
-    "9️⃣",
-    "🔟",
-]
-
-
-class _AccordionField:
+class AccordionField:
     def __init__(self, accordion: "Accordion", name: str, value: str):
         self.name = name
         self.value = value
@@ -53,7 +39,7 @@ class Accordion(Menu):
         super().__init__(delete_after=True)
         self._embed = embed
         self._embed.clear_fields()
-        self.fields: List["_AccordionField"] = []
+        self.fields: List["AccordionField"] = []
 
         self._buttons = {}
 
@@ -70,7 +56,7 @@ class Accordion(Menu):
 
     @staticmethod
     def _set_field(
-        field: "_AccordionField",
+        field: "AccordionField",
     ) -> Callable[
         ["Accordion", discord.RawReactionActionEvent], Awaitable[None]
     ]:
@@ -97,5 +83,5 @@ class Accordion(Menu):
         return self.stop()
 
     def add_field(self, name: str, value: str) -> "Accordion":
-        self.fields.append(_AccordionField(self, name, value))
+        self.fields.append(AccordionField(self, name, value))
         return self
