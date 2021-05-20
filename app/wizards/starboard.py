@@ -81,9 +81,13 @@ def pretty_emoji_str(
 
 
 class StarboardWizard(wizards.Wizard):
+    def __init__(self):
+        self.result = {}
+        super().__init__(timeout=30.0)
+
     async def on_step_error(self, step: wizards.Step, err: Exception):
         await self.send(err)
-        return await step.do_step(self)
+        return await self.do_step(step)
 
     @wizards.action("cancel")
     async def cancel_wizard(self, message: discord.Message):
@@ -92,31 +96,28 @@ class StarboardWizard(wizards.Wizard):
     @wizards.step(
         "Do you want to (1) create a new channel or (2) use an "
         "existing channel?",
-        name="channel",
         position=1,
     )
-    async def create_or_use(
-        self, step: wizards.Step, message: discord.Message
-    ):
+    async def create_or_use(self, message: discord.Message):
         if message.content == "1":
             result = await self.create_channel.do_step(self)
             if result is None:
                 await self.send("I don't have permission to create channels.")
-                return await step.do_step(self)
+                return await self.do_step(self.create_or_use)
             else:
-                step.result = result
+                self.result["channel"] = result
         elif message.content == "2":
-            step.result = await self.use_channel.do_step(self)
+            self.result["channel"] = await self.do_step(self.use_channel)
         else:
             await self.send("Please choose 1 or 2.")
-            return await step.do_step(self)
+            return await self.do_step(self.create_or_use)
 
     @wizards.step(
         "What channel should I setup a new starboard in?",
         call_internally=False,
     )
     async def use_channel(
-        self, step: wizards.Step, message: discord.Message
+        self, message: discord.Message
     ) -> discord.TextChannel:
         return await CanBeStarboard().convert(self._ctx, message.content)
 
@@ -126,7 +127,6 @@ class StarboardWizard(wizards.Wizard):
     )
     async def create_channel(
         self,
-        step: wizards.Step,
         message: discord.Message,
     ) -> discord.TextChannel:
         try:
@@ -138,16 +138,18 @@ class StarboardWizard(wizards.Wizard):
         "How many stars should a message need to appear on the starboard?",
         position=2,
     )
-    async def required(self, step: wizards.Step, message: discord.Message):
-        step.result = required_stars(message.content)
+    async def required(self, message: discord.Message):
+        self.result["required"] = required_stars(message.content)
 
     @wizards.step(
         "Should users be allowed to star their own messages?",
         position=3,
     )
-    async def self_star(self, step: wizards.Step, message: discord.Message):
-        step.result = converters.mybool(message.content)
+    async def self_star(self, message: discord.Message):
+        self.result["self_star"] = converters.mybool(message.content)
 
     @wizards.step('What emojis should count as "stars"?', position=4)
-    async def star_emojis(self, step: wizards.Step, message: discord.Message):
-        step.result = await ListOfEmojis().convert(self._ctx, message.content)
+    async def star_emojis(self, message: discord.Message):
+        self.result["star_emojis"] = await ListOfEmojis().convert(
+            self._ctx, message.content
+        )

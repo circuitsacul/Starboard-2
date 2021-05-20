@@ -22,8 +22,9 @@ class Starboard(commands.Cog, description=t_("Manage starboards.", True)):
     @commands.has_guild_permissions(manage_channels=True)
     @commands.guild_only()
     async def wizard_starboard(self, ctx: commands.Context):
-        w = StarboardWizard(timeout=30)
-        r = await w.start(ctx)
+        w = StarboardWizard()
+        await w.start(ctx)
+        r = w.result
         if w.stop_reason == StopReason.CANCELLED:
             return await ctx.send("Cancelled.")
         elif w.stop_reason == StopReason.ERROR:
