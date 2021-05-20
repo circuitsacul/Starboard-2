@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING, List
 
 import discord
-from pretty_help import PrettyMenu
+from discord.ext import prettyhelp
 
 from .paginator import Paginator
 
@@ -9,7 +9,7 @@ if TYPE_CHECKING:
     from app.classes.context import MyContext
 
 
-class HelpMenu(PrettyMenu):
+class HelpMenu(prettyhelp.PrettyMenu):
     @staticmethod
     async def send_pages(
         ctx: "MyContext",

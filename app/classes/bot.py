@@ -12,10 +12,9 @@ from typing import Any, Dict, Optional, Union
 import aiohttp
 import discord
 import uvloop
-from discord.ext import commands
+from discord.ext import commands, prettyhelp
 from discord_slash import SlashCommand
 from dotenv import load_dotenv
-from pretty_help import PrettyHelp
 
 import config
 from app import i18n, utils
@@ -51,7 +50,7 @@ class Bot(commands.AutoShardedBot):
         self.cache: "Cache"
 
         super().__init__(
-            help_command=PrettyHelp(
+            help_command=prettyhelp.PrettyHelp(
                 color=self.theme_color,
                 command_attrs={
                     "name": "_commands",
