@@ -7,9 +7,10 @@ from app.classes.context import MyContext
 from app.i18n import t_
 
 
-class Profile(commands.Cog):
-    """Manage personal settings"""
-
+class Profile(
+    commands.Cog,
+    description=t_("Manage personal settings.", True),
+):
     def __init__(self, bot: Bot):
         self.bot = bot
 

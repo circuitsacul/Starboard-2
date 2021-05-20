@@ -12,9 +12,9 @@ from app.utils import clean_prefix, ms
 from ...classes.bot import Bot
 
 
-class Base(commands.Cog):
-    "Basic information and commands"
-
+class Base(
+    commands.Cog, description=t_("Basic informational commands.", True)
+):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
         self.about_starboard = t_(

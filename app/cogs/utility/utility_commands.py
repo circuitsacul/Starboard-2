@@ -13,9 +13,9 @@ from app.i18n import t_
 from . import cleaner, debugger, recounter, utility_funcs
 
 
-class Utility(commands.Cog):
-    "Utility and starboard moderation"
-
+class Utility(
+    commands.Cog, description=t_("Utility and moderation commands.", True)
+):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
 

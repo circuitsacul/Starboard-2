@@ -10,7 +10,7 @@ if typing.TYPE_CHECKING:
     from app.classes.bot import Bot
 
 
-class Premium(commands.Cog):
+class Premium(commands.Cog, description=t_("Premium related commands.", True)):
     def __init__(self, bot: "Bot"):
         self.bot = bot
 

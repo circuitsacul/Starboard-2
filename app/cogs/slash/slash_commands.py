@@ -8,9 +8,10 @@ from app.classes.context import MyContext
 from app.i18n import t_
 
 
-class SlashCommands(commands.Cog):
-    "Slash commands"
-
+class SlashCommands(
+    commands.Cog,
+    description=t_("Slash commands.", True),
+):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
 

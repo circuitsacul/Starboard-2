@@ -9,9 +9,9 @@ from app.classes.context import MyContext
 from app.i18n import t_
 
 
-class AutoStarChannels(commands.Cog):
-    """Manage AutoStar channels"""
-
+class AutoStarChannels(
+    commands.Cog, description=t_("Manage AutoStar channels.", True)
+):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
 

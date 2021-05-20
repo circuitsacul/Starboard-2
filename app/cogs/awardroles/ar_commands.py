@@ -11,7 +11,7 @@ if TYPE_CHECKING:
     from app.classes.bot import Bot
 
 
-class AwardRoles(commands.Cog):
+class AwardRoles(commands.Cog, description=t_("Manage AwardRoles.", True)):
     def __init__(self, bot: "Bot"):
         self.bot = bot
 

@@ -13,9 +13,7 @@ from app.i18n import t_
 from . import fun_funcs
 
 
-class Fun(commands.Cog):
-    "Fun commands for Starboard"
-
+class Fun(commands.Cog, description=t_("Fun commands for Starboard.", True)):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
 

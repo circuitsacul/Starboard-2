@@ -14,9 +14,9 @@ async def raise_if_exists(emoji: str, ctx: "MyContext") -> None:
         raise errors.AlreadyQuickAction()
 
 
-class Settings(commands.Cog):
-    "Manage settings for a server (not starboard settings)"
-
+class Settings(
+    commands.Cog, description=t_("Manage settings for the server.", True)
+):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
 

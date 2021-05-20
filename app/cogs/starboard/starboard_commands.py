@@ -11,9 +11,7 @@ from app.i18n import t_
 from app.wizards.starboard import StarboardWizard
 
 
-class Starboard(commands.Cog):
-    "Manage starboards"
-
+class Starboard(commands.Cog, description=t_("Manage starboards.", True)):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
 

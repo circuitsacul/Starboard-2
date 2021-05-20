@@ -7,9 +7,12 @@ from app.classes.context import MyContext
 from app.i18n import t_
 
 
-class Blacklist(commands.Cog):
-    "Manage the channel blacklist/whitelist for starboards"
-
+class Blacklist(
+    commands.Cog,
+    description=t_(
+        "Manage the channel whitelist/blacklist for starboards.", True
+    ),
+):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
 
