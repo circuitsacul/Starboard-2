@@ -5,11 +5,10 @@ from discord.ext import commands
 
 import config
 from app import converters
+from app.classes.bot import Bot
 from app.classes.context import MyContext
 from app.i18n import t_
 from app.utils import clean_prefix, ms
-
-from ...classes.bot import Bot
 
 
 class Base(
