@@ -8,12 +8,10 @@ from discord import AsyncWebhookAdapter, Webhook
 from discord.ext import commands, flags
 from dotenv import load_dotenv
 
-from app import utils
+from app import errors, utils
+from app.classes.bot import Bot
 from app.classes.context import MyContext
 from app.i18n import t_
-
-from ... import errors
-from ...classes.bot import Bot
 
 load_dotenv()
 
