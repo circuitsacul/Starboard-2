@@ -6,6 +6,7 @@ from discord.ext.wizards.stopreason import StopReason
 
 from app import converters, errors, utils
 from app.i18n import t_
+from app.menus.confirm import Confirm
 
 if TYPE_CHECKING:
     from app.classes.context import MyContext
@@ -14,12 +15,15 @@ if TYPE_CHECKING:
 class CanBeStarboard(commands.TextChannelConverter):
     async def convert(self, ctx: "MyContext", arg: str) -> discord.TextChannel:
         obj = await super().convert(ctx, arg)
-        exists = await ctx.bot.db.starboards.get(obj.id)
-        if exists:
-            raise errors.AlreadyStarboard(obj.mention)
         is_asc = await ctx.bot.db.aschannels.get(obj.id)
         if is_asc:
             raise errors.CannotBeStarboardAndAutostar()
+        exists = await ctx.bot.db.starboards.get(obj.id)
+        if exists:
+            if not await Confirm(
+                t_("That is already a starboard. Run the wizard anyways?")
+            ).start(ctx):
+                raise errors.AlreadyStarboard(obj.mention)
         return obj
 
 
@@ -119,7 +123,10 @@ class StarboardWizard(wizards.Wizard):
     async def use_channel(
         self, message: discord.Message
     ) -> discord.TextChannel:
-        return await CanBeStarboard().convert(self._ctx, message.content)
+        try:
+            return await CanBeStarboard().convert(self._ctx, message.content)
+        except errors.AlreadyStarboard:
+            return await self.do_step(self.use_channel)
 
     @wizards.step(
         "What should the channel be named?",
