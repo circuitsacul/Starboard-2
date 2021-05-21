@@ -334,6 +334,22 @@ class CannotUseCommands(commands.CheckFailure):
 
 
 # Subclassed CheckFailures
+class MaxConcurrencyReached(commands.CheckFailure):
+    def __init__(self, number: int, per: commands.BucketType):
+        self.number = number
+        self.per = per
+        super().__init__(
+            t_(
+                "This command is being used too much. "
+                "Please wait and try again."
+            )
+        )
+
+    @classmethod
+    def from_original(cls, exc: commands.MaxConcurrencyReached):
+        return cls(exc.number, exc.per)
+
+
 class BotMissingPermissions(commands.CheckFailure):
     def __init__(self, missing_perms: List[str]):
         self.missing_perms = missing_perms
@@ -388,6 +404,7 @@ ERROR_MAP = {
     "BotMissingPermissions": BotMissingPermissions,
     "NoPrivateMessages": NoPrivateMessages,
     "NotOwner": NotOwner,
+    "MaxConcurrencyReached": MaxConcurrencyReached,
 }
 
 
