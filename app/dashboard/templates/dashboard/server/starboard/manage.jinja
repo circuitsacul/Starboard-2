@@ -4,24 +4,11 @@
 
 {% block topstatic %}
     {{ super() }}
-    <script type="module" defer>
-        import { EmojiButton } from "https://unpkg.com/@joeattardi/emoji-button";
-        const picker = new EmojiButton({
-            theme: "dark",
-            showRecents: false,
-            showVariants: false,
-        });
-        const displayEmojiTrigger = document.querySelector("#display_emoji");
-
-        picker.on("emoji", selection => {
-            displayEmojiTrigger.innerHTML = selection.emoji
-        });
-
-        displayEmojiTrigger.addEventListener("click", () => picker.togglePicker(displayEmojiTrigger));
-    </script>
+    <script src="{{ url_for('static', filename='js/manage_sb.js') }}"></script>
 {% endblock %}
 
 {% block dashboardcontent %}
+<emoji-picker style="position: fixed; top: 5px; left: 50%; transform: translateX(-50%); z-index: 9999" class="hidden"></emoji-picker>
 <div class="p-3 flex items-center" style="width: 100%; border-bottom: 1px solid grey;">
     <a href="{{ url_for('server_starboards', guild_id=guild.id) }}" class="btn btn-ghost btn-sm">Back</a>
     <a class="btn btn-success btn-sm ml-1">Save</a>
