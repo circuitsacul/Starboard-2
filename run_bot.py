@@ -1,6 +1,5 @@
 import asyncio
 import logging
-import multiprocessing
 import os
 import sys
 import time
@@ -10,7 +9,6 @@ import requests
 from dotenv import load_dotenv
 
 import config
-from app import ipc
 from app.classes.cluster import Cluster
 from app.utils import webhooklog
 
@@ -183,10 +181,7 @@ class Launcher:
 
 
 if __name__ == "__main__":
-    p = multiprocessing.Process(target=ipc.run, daemon=True)
-    p.start()
     loop = asyncio.get_event_loop()
     webhooklog(":white_circle: Bot logging in...", WEBHOOK_URL)
     Launcher(loop).start()
-    p.kill()
     webhooklog(":brown_circle: Bot logged out.", WEBHOOK_URL)
