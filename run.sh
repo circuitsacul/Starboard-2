@@ -1,6 +1,4 @@
 #!/bin/bash
-trap "kill 0" EXIT
-
 python3 run_ipc.py &
 python3 run_dashboard.py &
 
