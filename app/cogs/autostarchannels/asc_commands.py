@@ -2,6 +2,7 @@ from typing import Optional
 
 import discord
 from discord.ext import commands
+from discord.ext.prettyhelp import bot_has_permissions, has_guild_permissions
 
 from app import converters, errors, menus, utils
 from app.classes.bot import Bot
@@ -25,7 +26,7 @@ class AutoStarChannels(
         ),
         invoke_without_command=True,
     )
-    @commands.bot_has_permissions(embed_links=True)
+    @bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def aschannels(
         self, ctx: "MyContext", aschannel: converters.ASChannel = None
@@ -89,7 +90,7 @@ class AutoStarChannels(
         aliases=["a", "+"],
         help=t_("Adds an AutoStar channel.", True),
     )
-    @commands.has_guild_permissions(manage_channels=True)
+    @has_guild_permissions(manage_channels=True)
     async def add_aschannel(
         self, ctx: "MyContext", channel: discord.TextChannel
     ) -> None:
@@ -103,7 +104,7 @@ class AutoStarChannels(
         aliases=["r", "-"],
         help=t_("Removes an AutoStar channel.", True),
     )
-    @commands.has_guild_permissions(manage_channels=True)
+    @has_guild_permissions(manage_channels=True)
     async def remove_aschannel(
         self, ctx: "MyContext", aschannel: converters.ASChannel
     ) -> None:
@@ -118,15 +119,15 @@ class AutoStarChannels(
         help=t_("Modify the emojis for AutoStar channels.", True),
         invoke_without_command=True,
     )
-    @commands.has_guild_permissions(manage_channels=True)
+    @has_guild_permissions(manage_channels=True)
     async def asemojis(self, ctx: "MyContext") -> None:
         await ctx.send_help(ctx.command)
 
     @asemojis.command(
         name="set", help=t_("Sets the emojis for an AutoStar channel.", True)
     )
-    @commands.has_guild_permissions(manage_channels=True)
-    @commands.bot_has_permissions(embed_links=True)
+    @has_guild_permissions(manage_channels=True)
+    @bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def set_asemojis(
         self,
@@ -154,8 +155,8 @@ class AutoStarChannels(
         aliases=["a"],
         help=t_("Adds an emoji to an AutoStar channel.", True),
     )
-    @commands.has_guild_permissions(manage_channels=True)
-    @commands.bot_has_permissions(embed_links=True)
+    @has_guild_permissions(manage_channels=True)
+    @bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def add_asemoji(
         self,
@@ -183,8 +184,8 @@ class AutoStarChannels(
         aliases=["r", "d", "del", "delete"],
         help=t_("Removes an emojis from an AutoStar channel.", True),
     )
-    @commands.has_guild_permissions(manage_channels=True)
-    @commands.bot_has_permissions(embed_links=True)
+    @has_guild_permissions(manage_channels=True)
+    @bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def remove_asemoji(
         self,
@@ -214,8 +215,8 @@ class AutoStarChannels(
         aliases=["reset"],
         help=t_("Removes all emojis from an AutoStar channel.", True),
     )
-    @commands.has_guild_permissions(manage_channels=True)
-    @commands.bot_has_permissions(embed_links=True, read_message_history=True)
+    @has_guild_permissions(manage_channels=True)
+    @bot_has_permissions(embed_links=True, read_message_history=True)
     @commands.guild_only()
     async def clear_asemojis(
         self, ctx: "MyContext", aschannel: converters.ASChannel
@@ -239,8 +240,8 @@ class AutoStarChannels(
         aliases=["min", "mc"],
         help=t_("Sets the minimum number of characters for messages.", True),
     )
-    @commands.has_guild_permissions(manage_channels=True)
-    @commands.bot_has_permissions(embed_links=True)
+    @has_guild_permissions(manage_channels=True)
+    @bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def set_min_chars(
         self,
@@ -262,8 +263,8 @@ class AutoStarChannels(
         aliases=["imagesOnly", "ri"],
         help=t_("Whether or not messages must include an image.", True),
     )
-    @commands.has_guild_permissions(manage_channels=True)
-    @commands.bot_has_permissions(embed_links=True)
+    @has_guild_permissions(manage_channels=True)
+    @bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def set_require_image(
         self,
@@ -291,8 +292,8 @@ class AutoStarChannels(
         aliases=["reg"],
         help=t_("A regex string that all messages must match.", True),
     )
-    @commands.has_guild_permissions(manage_channels=True)
-    @commands.bot_has_permissions(embed_links=True)
+    @has_guild_permissions(manage_channels=True)
+    @bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def set_regex(
         self,
@@ -312,8 +313,8 @@ class AutoStarChannels(
         alaises=["eregex", "ereg"],
         help=t_("A regex string that all messages must not match.", True),
     )
-    @commands.has_guild_permissions(manage_channels=True)
-    @commands.bot_has_permissions(embed_links=True)
+    @has_guild_permissions(manage_channels=True)
+    @bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def set_eregex(
         self,
@@ -341,8 +342,8 @@ class AutoStarChannels(
         aliases=["di"],
         help=t_("Whether or not to delete invalid messages.", True),
     )
-    @commands.has_guild_permissions(manage_channels=True)
-    @commands.bot_has_permissions(embed_links=True)
+    @has_guild_permissions(manage_channels=True)
+    @bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def set_delete_invalid(
         self,

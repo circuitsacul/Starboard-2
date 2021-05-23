@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from discord.ext.prettyhelp import bot_has_permissions, has_guild_permissions
 
 from app import converters, errors, menus, utils
 from app.classes.bot import Bot
@@ -24,7 +25,7 @@ class Blacklist(
         ),
         invoke_without_command=True,
     )
-    @commands.bot_has_permissions(embed_links=True)
+    @bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def blacklist(
         self, ctx: "MyContext", starboard: converters.Starboard
@@ -62,7 +63,7 @@ class Blacklist(
         aliases=["addChannel", "a", "ac"],
         help=t_("Adds a channel to the blacklist.", True),
     )
-    @commands.has_guild_permissions(manage_channels=True)
+    @has_guild_permissions(manage_channels=True)
     async def blacklist_channel(
         self,
         ctx: "MyContext",
@@ -87,7 +88,7 @@ class Blacklist(
         aliases=["removeChannel", "r", "rc", "del", "d"],
         help=t_("Removes a channel from the blacklist.", True),
     )
-    @commands.has_guild_permissions(manage_channels=True)
+    @has_guild_permissions(manage_channels=True)
     async def unblacklist_channel(
         self,
         ctx: "MyContext",
@@ -108,10 +109,8 @@ class Blacklist(
     @blacklist.command(
         name="clear", help=t_("Removes everything from the blacklist.", True)
     )
-    @commands.has_guild_permissions(manage_channels=True)
-    @commands.bot_has_permissions(
-        read_message_history=True, add_reactions=True
-    )
+    @has_guild_permissions(manage_channels=True)
+    @bot_has_permissions(read_message_history=True, add_reactions=True)
     @commands.guild_only()
     async def clear_channel_blacklist(
         self, ctx: "MyContext", starboard: converters.Starboard
@@ -137,7 +136,7 @@ class Blacklist(
         ),
         invoke_without_command=True,
     )
-    @commands.bot_has_permissions(embed_links=True)
+    @bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def whitelist(
         self, ctx: "MyContext", starboard: converters.Starboard
@@ -151,7 +150,7 @@ class Blacklist(
         aliases=["addChannel", "a", "ac"],
         help=t_("Adds a channel to the whitelist.", True),
     )
-    @commands.has_guild_permissions(manage_channels=True)
+    @has_guild_permissions(manage_channels=True)
     async def whitelist_channel(
         self,
         ctx: "MyContext",
@@ -176,7 +175,7 @@ class Blacklist(
         aliases=["removeChannel", "r", "rc"],
         help=t_("Removes a channel from the whitelist.", True),
     )
-    @commands.has_guild_permissions(manage_channels=True)
+    @has_guild_permissions(manage_channels=True)
     async def unwhitelist_channel(
         self,
         ctx: "MyContext",
@@ -197,10 +196,8 @@ class Blacklist(
     @whitelist.command(
         name="clear", help=t_("Clears the whitelist for a starboard.", True)
     )
-    @commands.has_guild_permissions(manage_channels=True)
-    @commands.bot_has_permissions(
-        add_reactions=True, read_message_history=True
-    )
+    @has_guild_permissions(manage_channels=True)
+    @bot_has_permissions(add_reactions=True, read_message_history=True)
     @commands.guild_only()
     async def clear_channel_whitelist(
         self, ctx: "MyContext", starboard: converters.Starboard

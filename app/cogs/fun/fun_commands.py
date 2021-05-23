@@ -3,6 +3,7 @@ from typing import List
 
 import discord
 from discord.ext import commands, flags
+from discord.ext.prettyhelp import bot_has_permissions
 
 from app import converters, menus
 from app.classes.bot import Bot
@@ -22,7 +23,7 @@ class Fun(commands.Cog, description=t_("Fun commands for Starboard.", True)):
         aliases=["lb"],
         help=t_("Shows the servers top 200 users.", True),
     )
-    @commands.bot_has_permissions(
+    @bot_has_permissions(
         embed_links=True, add_reactions=True, read_message_history=True
     )
     @commands.guild_only()
@@ -68,7 +69,7 @@ class Fun(commands.Cog, description=t_("Fun commands for Starboard.", True)):
         aliases=["stats"],
         help=t_("Shows statistics for yourself or another user.", True),
     )
-    @commands.bot_has_permissions(embed_links=True)
+    @bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def user_stats(
         self, ctx: "MyContext", user: discord.Member = None
@@ -139,7 +140,7 @@ class Fun(commands.Cog, description=t_("Fun commands for Starboard.", True)):
         name="moststarred", help=t_("Shows the most starred messages.", True)
     )
     @commands.cooldown(1, 10, type=commands.BucketType.user)
-    @commands.bot_has_permissions(
+    @bot_has_permissions(
         embed_links=True, add_reactions=True, read_message_history=True
     )
     @commands.guild_only()
@@ -230,7 +231,7 @@ class Fun(commands.Cog, description=t_("Fun commands for Starboard.", True)):
         help=t_("Shows a random starred message from the server.", True),
     )
     @commands.cooldown(3, 5, type=commands.BucketType.user)
-    @commands.bot_has_permissions(embed_links=True)
+    @bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def random_message(self, ctx: "MyContext", **options):
         author_id = options["by"].id if options["by"] else None

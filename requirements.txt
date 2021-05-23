@@ -1,7 +1,7 @@
 jishaku @ git+git://github.com/Gorialis/jishaku.git@873f863052a663efab3b6184d2516e03bf16bcf9
 discord-ext-menus @ git+git://github.com/Rapptz/discord-ext-menus.git@309c70222eec33acacb8c21bbb0fbe9bc57de661
 discord-ext-wizards==0.3.0
-discord-ext-prettyhelp==0.1.2
+discord-ext-prettyhelp==0.2.2
 requests==2.25.1
 discord.py==1.7.2
 humanize==3.5.0

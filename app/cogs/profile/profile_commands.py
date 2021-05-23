@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from discord.ext.prettyhelp import bot_has_permissions
 
 from app import converters, i18n, utils
 from app.classes.bot import Bot
@@ -53,7 +54,7 @@ class Profile(
         help=t_("Shows your settings.", True),
     )
     @commands.cooldown(1, 3, type=commands.BucketType.user)
-    @commands.bot_has_permissions(embed_links=True)
+    @bot_has_permissions(embed_links=True)
     async def profile(self, ctx: "MyContext"):
         sql_user = await self.bot.db.users.get(ctx.author.id)
 

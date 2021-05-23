@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from discord.ext.prettyhelp import bot_has_permissions
 from discord_slash import SlashContext, cog_ext
 
 import config
@@ -27,7 +28,7 @@ class SlashCommands(
         name="slash",
         help=t_("Get a link for authorizing slash commands.", True),
     )
-    @commands.bot_has_permissions(embed_links=True)
+    @bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def check_slash(self, ctx: "MyContext") -> None:
         slash_auth = config.SLASH_AUTH + f"&guild_id={ctx.guild.id}"

@@ -2,6 +2,7 @@ import time
 
 import discord
 from discord.ext import commands
+from discord.ext.prettyhelp import bot_has_permissions
 
 import config
 from app import converters
@@ -32,7 +33,7 @@ class Base(
         )
 
     @commands.command(name="credits", help=t_("Show credits.", True))
-    @commands.bot_has_permissions(embed_links=True)
+    @bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def show_credits(self, ctx: "MyContext"):
         embed = (
@@ -72,7 +73,7 @@ class Base(
         await ctx.send(embed=embed)
 
     @commands.command(name="help", help=t_("Get help with Starboard.", True))
-    @commands.bot_has_permissions(embed_links=True)
+    @bot_has_permissions(embed_links=True)
     async def starboard_help(self, ctx: "MyContext", *, command=None) -> None:
         if command:
             await converters.CommandOrCog().convert(ctx, command)
@@ -100,7 +101,7 @@ class Base(
     @commands.command(
         name="commands", help=t_("See a list of commands.", True)
     )
-    @commands.bot_has_permissions(
+    @bot_has_permissions(
         embed_links=True, add_reactions=True, read_message_history=True
     )
     async def invoke_pretty_help(
@@ -115,7 +116,7 @@ class Base(
     @commands.command(
         name="botstats", aliases=["botinfo"], help=t_("Shows bot statistics.")
     )
-    @commands.bot_has_permissions(embed_links=True)
+    @bot_has_permissions(embed_links=True)
     async def botinfo(self, ctx: "MyContext") -> None:
         clusters = [c for _, c in self.bot.stats.items()]
         total_guilds = sum([c["guilds"] for c in clusters])
@@ -144,7 +145,7 @@ class Base(
         help=t_("Shows current clusters and shards latency.", True),
     )
     @commands.cooldown(1, 3, commands.BucketType.member)
-    @commands.bot_has_permissions(embed_links=True)
+    @bot_has_permissions(embed_links=True)
     async def ping(self, ctx: "MyContext") -> None:
         cluster = self.bot.cluster_name
         shard = self.bot.get_shard(ctx.guild.shard_id if ctx.guild else 0)
@@ -185,7 +186,7 @@ class Base(
         aliases=["invite", "support"],
         help=t_("Lists important/useful links.", True),
     )
-    @commands.bot_has_permissions(embed_links=True)
+    @bot_has_permissions(embed_links=True)
     async def links(self, ctx: "MyContext") -> None:
         embed = (
             discord.Embed(
@@ -225,7 +226,7 @@ class Base(
         aliases=["votes"],
         help=t_("View vote links and number of times you've voted.", True),
     )
-    @commands.bot_has_permissions(embed_links=True)
+    @bot_has_permissions(embed_links=True)
     async def vote(self, ctx: "MyContext", user: discord.User = None) -> None:
         user = user or ctx.message.author
         if user.bot:

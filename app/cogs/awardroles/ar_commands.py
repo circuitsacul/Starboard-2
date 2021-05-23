@@ -2,6 +2,7 @@ from typing import TYPE_CHECKING, List, Tuple
 
 import discord
 from discord.ext import commands
+from discord.ext.prettyhelp import bot_has_permissions, has_guild_permissions
 
 from app import converters, errors
 from app.classes.context import MyContext
@@ -21,8 +22,8 @@ class AwardRoles(commands.Cog, description=t_("Manage AwardRoles.", True)):
         help=t_("View and manage XPRoles for your server.", True),
         invoke_without_command=True,
     )
-    @commands.has_guild_permissions(manage_roles=True)
-    @commands.bot_has_permissions(
+    @has_guild_permissions(manage_roles=True)
+    @bot_has_permissions(
         embed_links=True,
     )
     @commands.guild_only()
@@ -47,7 +48,7 @@ class AwardRoles(commands.Cog, description=t_("Manage AwardRoles.", True)):
     @xproles.command(
         name="add", aliases=["a"], help=t_("Adds an XPRole.", True)
     )
-    @commands.has_guild_permissions(manage_roles=True)
+    @has_guild_permissions(manage_roles=True)
     @commands.guild_only()
     async def add_xprole(
         self,
@@ -65,7 +66,7 @@ class AwardRoles(commands.Cog, description=t_("Manage AwardRoles.", True)):
     @xproles.command(
         name="remove", aliases=["r"], help=t_("Removes an XPRole.", True)
     )
-    @commands.has_guild_permissions(manage_roles=True)
+    @has_guild_permissions(manage_roles=True)
     @commands.guild_only()
     async def remove_xprole(self, ctx: "MyContext", xprole: converters.XPRole):
         await self.bot.db.xproles.delete(xprole.obj.id)
@@ -78,7 +79,7 @@ class AwardRoles(commands.Cog, description=t_("Manage AwardRoles.", True)):
         aliases=["required"],
         help=t_("Sets the ammount of xp needed to gain an XPRole.", True),
     )
-    @commands.has_guild_permissions(manage_roles=True)
+    @has_guild_permissions(manage_roles=True)
     @commands.guild_only()
     async def set_xprole_required(
         self,
