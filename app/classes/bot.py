@@ -54,6 +54,8 @@ class Bot(commands.AutoShardedBot):
                 color=self.theme_color,
                 show_user_perms=True,
                 user_guild_perms_title=t_("Required Permissions", True),
+                usage_string=t_("Usage String", True),
+                aliases_string=t_("Aliases", True),
                 command_attrs={
                     "name": "_commands",
                     "hidden": True,
