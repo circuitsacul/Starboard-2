@@ -2,8 +2,9 @@ import asyncio
 from typing import TYPE_CHECKING, Dict, List
 
 import discord
-from discord.ext import commands, tasks
+from discord.ext import tasks
 
+from app import commands
 from app.cogs.permroles import pr_functions
 
 if TYPE_CHECKING:

@@ -2,9 +2,9 @@ import os
 import typing
 
 import discord
-from discord.ext import commands
 
 import config
+from app import commands
 from app.i18n import t_
 
 if typing.TYPE_CHECKING:

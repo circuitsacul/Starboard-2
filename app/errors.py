@@ -2,8 +2,8 @@ import inspect
 from typing import List, Union
 
 import discord
-from discord.ext import commands
 
+from app import commands
 from app.i18n import t_
 
 

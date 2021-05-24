@@ -12,12 +12,12 @@ from typing import Any, Dict, Optional, Union
 import aiohttp
 import discord
 import uvloop
-from discord.ext import commands, prettyhelp
+from discord.ext import prettyhelp
 from discord_slash import SlashCommand
 from dotenv import load_dotenv
 
 import config
-from app import i18n, utils
+from app import commands, i18n, utils
 from app.classes.context import MyContext
 from app.classes.ipc_connection import WebsocketConnection
 from app.classes.limited_list import LimitedList

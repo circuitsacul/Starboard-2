@@ -1,10 +1,9 @@
 import asyncio
 
 import discord
-from discord.ext import commands, flags
 from discord.ext.prettyhelp import bot_has_permissions, has_guild_permissions
 
-from app import converters, errors, menus, utils
+from app import commands, converters, errors, flags, menus, utils
 from app.classes.bot import Bot
 from app.classes.context import MyContext
 from app.cogs.leveling import leveling_funcs

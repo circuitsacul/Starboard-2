@@ -3,9 +3,8 @@ from typing import Dict, List, Optional
 import asyncpg
 import buildpg
 from aiocache import Cache, SimpleMemoryCache
-from discord.ext import commands
 
-from app import errors
+from app import commands, errors
 from app.constants import MISSING
 from app.i18n import t_
 

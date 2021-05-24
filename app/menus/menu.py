@@ -1,9 +1,10 @@
 from typing import TYPE_CHECKING, List
 
 import discord
-from discord.ext import commands, menus
+from discord.ext import menus
 
 import config
+from app import commands
 
 if TYPE_CHECKING:
     from app.classes.bot import Bot

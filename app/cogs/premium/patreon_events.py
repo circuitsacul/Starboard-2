@@ -3,8 +3,9 @@ import os
 from typing import TYPE_CHECKING, Any, Dict, List
 
 import discord
-from discord.ext import commands, tasks
+from discord.ext import tasks
 
+from app import commands
 from app.i18n import t_
 
 from . import patreon

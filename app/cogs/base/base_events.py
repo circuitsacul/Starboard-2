@@ -5,10 +5,9 @@ from typing import Any, List
 
 import discord
 from discord import AsyncWebhookAdapter, Webhook
-from discord.ext import commands, flags
 from dotenv import load_dotenv
 
-from app import errors, utils
+from app import commands, errors, flags, utils
 from app.classes.bot import Bot
 from app.classes.context import MyContext
 from app.i18n import t_

@@ -1,9 +1,9 @@
 from typing import TYPE_CHECKING, List
 
 import discord
-from discord.ext import commands
 
 import config
+from app import commands
 
 if TYPE_CHECKING:
     from app.classes.bot import Bot

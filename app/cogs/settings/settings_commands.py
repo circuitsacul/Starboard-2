@@ -1,8 +1,7 @@
 import discord
-from discord.ext import commands, flags
 from discord.ext.prettyhelp import bot_has_permissions, has_guild_permissions
 
-from app import converters, errors, i18n, menus, utils
+from app import commands, converters, errors, flags, i18n, menus, utils
 from app.classes.bot import Bot
 from app.classes.context import MyContext
 from app.cogs.quick_actions import qa_funcs

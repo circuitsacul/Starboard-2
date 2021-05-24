@@ -6,7 +6,7 @@ requests==2.25.1
 discord.py==1.7.2
 humanize==3.5.0
 quart==0.15.0
-alt-discord-flags==0.0.3
+alt-discord-flags==0.0.5
 discord-py-slash-command==1.1.2
 python-dotenv==0.17.1
 websockets==9.0.2

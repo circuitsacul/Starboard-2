@@ -1,7 +1,6 @@
 from typing import TYPE_CHECKING, Any, Dict, List
 
-from discord.ext import commands
-
+from app import commands
 from app.i18n import t_
 
 if TYPE_CHECKING:

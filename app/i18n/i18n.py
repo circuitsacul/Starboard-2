@@ -46,6 +46,8 @@ def use_current_gettext(*args, **kwargs) -> str:
         return gettext.gettext(*args, **kwargs)
 
     locale = current_locale.get()
+    if locale == "testing":
+        return "<testing worked>"
     return gettext_translations.get(
         locale, gettext_translations[LOCALE_DEFAULT]
     ).gettext(*args, **kwargs)

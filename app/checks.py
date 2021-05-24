@@ -1,7 +1,5 @@
-from discord.ext import commands
-
 import config
-from app import errors
+from app import commands, errors
 from app.classes.context import MyContext
 
 

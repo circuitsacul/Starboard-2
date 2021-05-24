@@ -2,9 +2,8 @@ from typing import Optional
 
 import asyncpg
 from aiocache import Cache, SimpleMemoryCache
-from discord.ext import commands
 
-from app import errors, i18n
+from app import commands, errors, i18n
 from app.i18n import t_
 
 

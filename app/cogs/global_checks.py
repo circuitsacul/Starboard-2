@@ -1,6 +1,4 @@
-from discord.ext import commands
-
-from app import errors
+from app import commands, errors
 from app.classes.bot import Bot
 from app.classes.context import MyContext
 from app.cogs.permroles import pr_functions

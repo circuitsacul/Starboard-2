@@ -1,10 +1,9 @@
 from typing import TYPE_CHECKING, List, Tuple
 
 import discord
-from discord.ext import commands
 from discord.ext.prettyhelp import bot_has_permissions, has_guild_permissions
 
-from app import converters, errors
+from app import commands, converters, errors
 from app.classes.context import MyContext
 from app.i18n import t_
 

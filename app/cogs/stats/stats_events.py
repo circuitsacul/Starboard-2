@@ -1,5 +1,6 @@
-from discord.ext import commands, tasks
+from discord.ext import tasks
 
+from app import commands
 from app.classes.bot import Bot
 
 

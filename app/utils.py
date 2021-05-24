@@ -8,8 +8,8 @@ from typing import Any, Dict, Generator, Iterable, List, Optional, Tuple, Union
 
 import discord
 from discord import RequestsWebhookAdapter, Webhook
-from discord.ext import commands
 
+from app import commands
 from app.classes.context import MyContext
 from app.constants import ARROW_RIGHT
 from app.i18n import t_

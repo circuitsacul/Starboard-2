@@ -1,8 +1,8 @@
 import datetime
 
 import discord
-from discord.ext import commands
 
+from app import commands
 from app.classes.bot import Bot
 from app.i18n import t_
 

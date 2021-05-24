@@ -1,8 +1,7 @@
 import discord
-from discord.ext import commands
 from discord.ext.prettyhelp import bot_has_permissions
 
-from app import converters, i18n, utils
+from app import commands, converters, i18n, utils
 from app.classes.bot import Bot
 from app.classes.context import MyContext
 from app.i18n import t_

@@ -3,11 +3,10 @@ from typing import Any, Callable, Tuple, Union
 
 import discord
 import emoji
-from discord.ext import commands
 from discord.ext.commands.errors import ChannelNotFound, RoleNotFound
 
 import config
-from app import errors
+from app import commands, errors
 from app.classes.bot import Bot
 from app.classes.context import MyContext
 from app.classes.sql_object import SQLObject

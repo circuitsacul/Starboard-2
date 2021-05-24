@@ -11,9 +11,6 @@ class TString:
         """Translates and then formats"""
         return str(self).format(*args, **kwargs)
 
-    def expandtabs(self, *args, **kwargs) -> str:
-        return str(self).expandtabs(*args, **kwargs)
-
     def __len__(self) -> int:
         """Translates and then calls __len__"""
         return len(str(self))

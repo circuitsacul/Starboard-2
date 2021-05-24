@@ -2,10 +2,9 @@ import random
 from typing import List
 
 import discord
-from discord.ext import commands, flags
 from discord.ext.prettyhelp import bot_has_permissions
 
-from app import converters, menus
+from app import commands, converters, flags, menus
 from app.classes.bot import Bot
 from app.classes.context import MyContext
 from app.cogs.starboard import starboard_funcs

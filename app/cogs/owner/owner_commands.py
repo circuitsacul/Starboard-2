@@ -6,15 +6,13 @@ from contextlib import redirect_stdout
 from typing import List
 
 import discord
-from discord.ext import commands
 from jishaku.cog import OPTIONAL_FEATURES, STANDARD_FEATURES
 from jishaku.exception_handling import ReplResponseReactor
 from jishaku.features.baseclass import Feature
 
+from app import checks, commands, menus, utils
+from app.classes.bot import Bot
 from app.classes.context import MyContext
-
-from ... import checks, menus, utils
-from ...classes.bot import Bot
 
 
 class Rollback(Exception):

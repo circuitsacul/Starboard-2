@@ -1,8 +1,6 @@
 import typing
 
-from discord.ext import commands
-
-from app import checks
+from app import checks, commands
 from app.classes.context import MyContext
 from app.i18n import t_
 

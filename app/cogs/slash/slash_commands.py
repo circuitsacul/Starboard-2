@@ -1,9 +1,9 @@
 import discord
-from discord.ext import commands
 from discord.ext.prettyhelp import bot_has_permissions
 from discord_slash import SlashContext, cog_ext
 
 import config
+from app import commands
 from app.classes.bot import Bot
 from app.classes.context import MyContext
 from app.i18n import t_

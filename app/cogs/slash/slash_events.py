@@ -1,6 +1,6 @@
-from discord.ext import commands
 from discord_slash import SlashContext
 
+from app import commands
 from app.classes.bot import Bot
 
 

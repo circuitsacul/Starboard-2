@@ -1,7 +1,6 @@
 import discord
-from discord.ext import commands
 
-from app import utils
+from app import commands, utils
 from app.classes.bot import Bot
 from app.cogs.utility import utility_funcs
 from app.i18n import t_
