@@ -7,7 +7,7 @@ OWNER_IDS = []  # List of owner ids
 BOT_ID = 0  # Your bots id
 BOT_PERM_INT = 0  # The permission int for the bot invite
 
-REDIRECT_URI = "http://0.0.0.0:5000/api/callback/"
+WEBSITE_URL = "https://example.com"
 
 DONATEBOT_PRODUCT_IDS = []
 

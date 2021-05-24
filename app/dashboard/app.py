@@ -23,7 +23,7 @@ CSRFProtect(app)
 app.secret_key = os.getenv("QUART_KEY")
 app.config["DISCORD_CLIENT_ID"] = config.BOT_ID
 app.config["DISCORD_CLIENT_SECRET"] = os.getenv("CLIENT_SECRET")
-app.config["DISCORD_REDIRECT_URI"] = config.REDIRECT_URI
+app.config["DISCORD_REDIRECT_URI"] = config.WEBSITE_URL + "/api/callback/"
 app.config["DISCORD_BOT_TOKEN"] = os.getenv("TOKEN")
 
 app.config["STATS"] = {}
