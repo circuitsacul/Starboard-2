@@ -23,6 +23,14 @@ GIPHY_PATTERN = re.compile(
 
 
 def _get_gif_id(url: str) -> Optional[Tuple[str, str]]:
+    """Gets the id of a gif as well as the service it was from
+    based on a url.
+
+    :param url: The url of the possible gif
+    :type url: str
+    :return: The gif id and the service, or None if not found
+    :rtype: Optional[Tuple[str, str]]
+    """
     tenor_result = TENOR_PATTERN.match(url)
     if tenor_result:
         return tenor_result.groupdict()["id"], "tenor"
@@ -33,6 +41,16 @@ def _get_gif_id(url: str) -> Optional[Tuple[str, str]]:
 
 
 async def _get(bot: Bot, url: str, *args, **kwargs) -> dict:
+    """Call bot.session.get, resp.raise_for_status, and then return
+    the resulting json.
+
+    :param bot: The bot instance
+    :type bot: Bot
+    :param url: The url to get from
+    :type url: str
+    :return: The json that was returned
+    :rtype: dict
+    """
     async with bot.session.get(url, *args, timeout=3, **kwargs) as resp:
         resp.raise_for_status()
         data = await resp.json()
@@ -40,6 +58,15 @@ async def _get(bot: Bot, url: str, *args, **kwargs) -> dict:
 
 
 async def _get_tenor(bot: Bot, gifid: str) -> Optional[str]:
+    """Get the media url of a gif from tenor's api.
+
+    :param bot: The bot instance
+    :type bot: Bot
+    :param gifid: The id of the gif
+    :type gifid: str
+    :return: The media url, or None if not found
+    :rtype: Optional[str]
+    """
     if not TENOR_TOKEN:
         return None
 
@@ -51,6 +78,15 @@ async def _get_tenor(bot: Bot, gifid: str) -> Optional[str]:
 
 
 async def _get_giphy(bot: Bot, gifid: str) -> Optional[str]:
+    """Get the media url of a gif from giphy's api.
+
+    :param bot: The bot instance
+    :type bot: Bot
+    :param gifid: The id of the gif
+    :type gifid: str
+    :return: The media url, or None if not found
+    :rtype: Optional[str]
+    """
     if not GIPHY_TOKEN:
         return None
 
@@ -63,6 +99,16 @@ async def _get_giphy(bot: Bot, gifid: str) -> Optional[str]:
 
 
 async def get_gif_url(bot: Bot, url: str) -> Optional[str]:
+    """Get the media url of either a tenor or giphy gif, or None
+    if it's not a gif.
+
+    :param bot: The bot instance
+    :type bot: Bot
+    :param url: The url of the possible gif
+    :type url: str
+    :return: The media url, or None if not a gif
+    :rtype: Optional[str]
+    """
     result = _get_gif_id(url)
     if not result:
         return None

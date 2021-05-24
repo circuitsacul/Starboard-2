@@ -1,5 +1,10 @@
 class SpecialType:
     def __init__(self, name: str):
+        """A class for generating custom types.
+
+        :param name: The name of the constant/type
+        :type name: str
+        """
         self.name = name
 
     def __repr__(self):

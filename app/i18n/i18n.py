@@ -36,6 +36,12 @@ locales |= {"en_US"}
 
 
 def use_current_gettext(*args, **kwargs) -> str:
+    """Translate a string using the proper gettext based
+    on the current_locale context var.
+
+    :return: The translated string
+    :rtype: str
+    """
     if not gettext_translations:
         return gettext.gettext(*args, **kwargs)
 
@@ -56,6 +62,15 @@ def t_(string: str) -> str:
 
 
 def t_(string, as_obj=False):
+    """Translates or lazy-translates a string.
+
+    :param string: The string that needs translation
+    :type string: str
+    :param as_obj: Whether or not to use lazy translation, defaults to False
+    :type as_obj: bool, optional
+    :return: The translated string, or the TString object if lazy
+    :rtype: Union[str, TString]
+    """
     tstring = TString(string, use_current_gettext)
     if as_obj:
         return tstring
@@ -66,10 +81,20 @@ current_locale: contextvars.ContextVar = contextvars.ContextVar("i18n")
 
 
 def set_current_locale():
+    """Sets the locale to the LOCALE_DEFAULT."""
     current_locale.set(LOCALE_DEFAULT)
 
 
 def language_embed(bot: "Bot", p: str) -> discord.Embed:
+    """Generates an embed with a list of valid languages.
+
+    :param bot: The bot instance
+    :type bot: Bot
+    :param p: The used prefix
+    :type p: str
+    :return: The embed with language info
+    :rtype: discord.Embed
+    """
     return discord.Embed(
         title="Languages",
         color=bot.theme_color,
