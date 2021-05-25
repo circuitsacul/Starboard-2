@@ -49,7 +49,7 @@ MEMBERS = """CREATE TABLE IF NOT EXISTS members (
         stars_given SMALLINT NOT NULL DEFAULT 0,
         stars_received SMALLINT NOT NULL DEFAULT 0,
 
-        xp SMALLINT NOT NULL DEFAULT 0,
+        xp INT NOT NULL DEFAULT 0,
         level SMALLINT NOT NULL DEFAULT 0,
 
         roles NUMERIC [] NOT NULL DEFAULT '{}',

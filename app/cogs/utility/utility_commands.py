@@ -114,9 +114,11 @@ class Utility(
         self, ctx: "MyContext", user: discord.User, xp: converters.myint
     ):
         if xp < 0:
-            raise commands.BadArgument(t_("XP must be greater than 0."))
-        if xp > 9999:
-            raise commands.BadArgument(t_("XP must be less than 10,000."))
+            raise commands.BadArgument(t_("XP cannot be less than 0."))
+        if xp > 2_147_483_647:
+            raise commands.BadArgument(
+                t_("XP cannot be greater than 2,147,483,647.")
+            )
 
         sql_member = await self.bot.db.members.get(user.id, ctx.guild.id)
         if not sql_member:
