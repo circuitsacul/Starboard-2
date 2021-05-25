@@ -46,8 +46,8 @@ MEMBERS = """CREATE TABLE IF NOT EXISTS members (
         user_id NUMERIC NOT NULL,
         guild_id NUMERIC NOT NULL,
 
-        stars_given SMALLINT NOT NULL DEFAULT 0,
-        stars_received SMALLINT NOT NULL DEFAULT 0,
+        stars_given INT NOT NULL DEFAULT 0,
+        stars_received INT NOT NULL DEFAULT 0,
 
         xp INT NOT NULL DEFAULT 0,
         level SMALLINT NOT NULL DEFAULT 0,
