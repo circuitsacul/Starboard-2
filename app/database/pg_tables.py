@@ -64,34 +64,38 @@ STARBOARDS = """CREATE TABLE IF NOT EXISTS starboards (
         id NUMERIC PRIMARY KEY,
         guild_id NUMERIC NOT NULL,
 
+        webhook_url TEXT DEFAULT NULL,
+
+        -- Appearance:
+        color TEXT DEFAULT NULL,
+        display_emoji TEXT DEFAULT '⭐',
+        ping BOOL NOT NULL DEFAULT False,
+        nicknames BOOL NOT NULL DEFAULT False,
+        use_webhook BOOL NOT NULL DEFAULT false,
+        webhook_name VARCHAR(32) DEFAULT NULL,
+        webhook_avatar TEXT DEFAULT NULL,
+
+        -- Requirements:
         required SMALLINT NOT NULL DEFAULT 3,
         required_remove SMALLINT NOT NULL DEFAULT 0,
-        autoreact BOOL NOT NULL DEFAULT True,
+        star_emojis TEXT[] DEFAULT '{⭐}',
         self_star BOOL NOT NULL DEFAULT False,
         allow_bots BOOL NOT NULL DEFAULT True,
-        link_deletes BOOL NOT NULL DEFAULT False,
-        link_edits BOOL NOT NULL DEFAULT True,
         images_only BOOL NOT NULL DEFAULT False,
-        no_xp BOOL NOT NULL DEFAULT False,
-        explore BOOL NOT NULL DEFAULT True,
-        ping BOOL NOT NULL DEFAULT False,
-        remove_invalid BOOL NOT NULL DEFAULT True,
-
-        channel_bl NUMERIC[] NOT NULL DEFAULT '{}',
-        channel_wl NUMERIC[] NOT NULL DEFAULT '{}',
 
         regex TEXT NOT NULL DEFAULT '',
         exclude_regex TEXT NOT NULL DEFAULT '',
 
-        color TEXT DEFAULT NULL,
+        channel_bl NUMERIC[] NOT NULL DEFAULT '{}',
+        channel_wl NUMERIC[] NOT NULL DEFAULT '{}',
 
-        star_emojis TEXT[] DEFAULT '{⭐}',
-        display_emoji TEXT DEFAULT '⭐',
-
-        use_webhook BOOL NOT NULL DEFAULT false,
-        webhook_name VARCHAR(32) DEFAULT NULL,
-        webhook_avatar TEXT DEFAULT NULL,
-        webhook_url TEXT DEFAULT NULL,
+        -- Behaviour:
+        autoreact BOOL NOT NULL DEFAULT True,
+        remove_invalid BOOL NOT NULL DEFAULT True,
+        link_deletes BOOL NOT NULL DEFAULT False,
+        link_edits BOOL NOT NULL DEFAULT True,
+        no_xp BOOL NOT NULL DEFAULT False,
+        explore BOOL NOT NULL DEFAULT True,
 
         FOREIGN KEY (guild_id) REFERENCES guilds (id)
             ON DELETE CASCADE
@@ -194,7 +198,7 @@ REACTIONS = """CREATE TABLE IF NOT EXISTS reactions (
     )"""
 
 REACTION_USERS = """CREATE TABLE IF NOT EXISTS reaction_users (
-        reaction_id BIGINT NOT NULL,
+        reaction_id INT NOT NULL,
         user_id NUMERIC NOT NULL,
 
         FOREIGN KEY (reaction_id) REFERENCES reactions (id)

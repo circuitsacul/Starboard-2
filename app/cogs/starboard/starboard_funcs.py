@@ -447,7 +447,7 @@ async def calculate_points(
 
     _reactions = await bot.db.fetch(
         """SELECT * FROM reaction_users
-        WHERE reaction_id=any($1::BIGINT[])
+        WHERE reaction_id=any($1::INT[])
         AND ($2::numeric IS NULL OR $2::numeric!=user_id)""",
         [r["id"] for r in _reactions],
         uid,
