@@ -10,6 +10,7 @@ from .database_functions import (
     messages,
     permgroups,
     permroles,
+    posroles,
     reactions,
     sb_messags,
     starboards,
@@ -39,6 +40,7 @@ class Database:
         self.permgroups = permgroups.PermGroups(self)
         self.permroles = permroles.PermRoles(self)
         self.xproles = xproles.XPRoles(self)
+        self.posroles = posroles.PosRoles(self)
         self.messages = messages.Messages(self)
         self.sb_messages = sb_messags.SBMessages(self)
         self.reactions = reactions.Reactions(self)
