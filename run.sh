@@ -1,6 +1,5 @@
 #!/bin/bash
 python3 run_ipc.py &
-python3 run_dashboard.py &
 
 while true
 do
