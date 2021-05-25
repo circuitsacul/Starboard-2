@@ -193,14 +193,17 @@ class Fun(commands.Cog, description=t_("Fun commands for Starboard.", True)):
                     int(orig["channel_id"]),
                     int(orig["id"]),
                 )
+                if not obj:
+                    continue
                 sql_starboard = await self.bot.db.starboards.get(
                     m["starboard_id"]
                 )
                 color = sql_starboard["color"]
-                if not obj:
-                    continue
                 e, _ = await starboard_funcs.embed_message(
-                    self.bot, obj, color=color
+                    self.bot,
+                    obj,
+                    color=color,
+                    nicknames=sql_starboard["nicknames"],
                 )
                 text_pages.append(
                     starboard_funcs.get_plain_text(
@@ -290,7 +293,10 @@ class Fun(commands.Cog, description=t_("Fun commands for Starboard.", True)):
         points = choice["points"]
 
         embed, attachments = await starboard_funcs.embed_message(
-            self.bot, orig_message, color=sql_starboard["color"]
+            self.bot,
+            orig_message,
+            color=sql_starboard["color"],
+            nicknames=sql_starboard["nicknames"],
         )
         plain_text = starboard_funcs.get_plain_text(
             sql_starboard, orig_sql_message, points, ctx.guild

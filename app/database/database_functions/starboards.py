@@ -150,6 +150,7 @@ class Starboards:
             "remove_invalid",
             "webhook_avatar",
             "webhook_name",
+            "nicknames",
         ]
 
         settings = {}
@@ -203,7 +204,8 @@ class Starboards:
             use_webhook = :use_webhook,
             remove_invalid = :remove_invalid,
             webhook_avatar = :webhook_avatar,
-            webhook_name = :webhook_name
+            webhook_name = :webhook_name,
+            nicknames = :nicknames
             WHERE id = :starboard_id""",
             **settings,
             starboard_id=starboard_id,

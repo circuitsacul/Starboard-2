@@ -106,6 +106,7 @@ class Starboard(commands.Cog, description=t_("Manage starboards.", True)):
                     value=(
                         f"displayEmoji: **{display_emoji_str}**\n"
                         f"color: **{s['color']}**\n"
+                        f"nicknames: **{s['nicknames']}**\n"
                         f"useWebhook: **{s['use_webhook']}**\n"
                         f"username: **{s['webhook_name']}**\n"
                         + (
@@ -313,6 +314,30 @@ class Starboard(commands.Cog, description=t_("Manage starboards.", True)):
         await ctx.send(
             embed=utils.cs_embed(
                 {"displayEmoji": (orig, emoji)}, self.bot, noticks=True
+            )
+        )
+
+    @starboards.command(
+        name="nicknames",
+        aliases=["nicks", "nick"],
+        help=t_("Whether or not to show nicknames on starboard embeds.", True),
+    )
+    @has_guild_permissions(manage_channels=True)
+    @bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def set_nicknames(
+        self,
+        ctx: "MyContext",
+        starboard: converters.Starboard,
+        show_nicknames: converters.mybool,
+    ) -> None:
+        await self.bot.db.starboards.edit(
+            starboard.obj.id, nicknames=show_nicknames
+        )
+        orig = starboard.sql["nicknames"]
+        await ctx.send(
+            embed=utils.cs_embed(
+                {"nicknames": (orig, show_nicknames)}, self.bot
             )
         )
 

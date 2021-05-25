@@ -169,7 +169,11 @@ async def orig_message(bot: Bot, message_id: int) -> Optional[dict]:
 
 
 async def embed_message(
-    bot: Bot, message: discord.Message, color: str = None, files: bool = True
+    bot: Bot,
+    message: discord.Message,
+    color: str = None,
+    nicknames: bool = False,
+    files: bool = True,
 ) -> Tuple[discord.Embed, List[discord.File]]:
     nsfw = message.channel.is_nsfw()
     content = utils.escmask(utils.escesc(message.system_content))
@@ -292,12 +296,19 @@ async def embed_message(
         to_remove = len(content + " ...") - 2048
         content = content[:-to_remove]
 
+    _a = message.author
+    author_name = (
+        f"{_a.display_name}#{_a.discriminator}"
+        if nicknames
+        else f"{_a.name}#{_a.discriminator}"
+    )
+
     embed = discord.Embed(
         color=bot.theme_color
         if color is None
         else int(color.replace("#", ""), 16),
         description=content,
-    ).set_author(name=str(message.author), icon_url=message.author.avatar_url)
+    ).set_author(name=author_name, icon_url=message.author.avatar_url)
 
     ref_message = None
     ref_jump = None
@@ -677,7 +688,10 @@ async def handle_starboard(
 
         if starboard_message is None and add and message:
             embed, attachments = await embed_message(
-                bot, message, color=sql_starboard["color"]
+                bot,
+                message,
+                color=sql_starboard["color"],
+                nicknames=sql_starboard["nicknames"],
             )
             # starboard = guild.get_channel(int(sql_starboard["id"]))
             try:
@@ -756,7 +770,11 @@ async def handle_starboard(
             try:
                 if edit:
                     embed, _ = await embed_message(
-                        bot, message, color=sql_starboard["color"], files=False
+                        bot,
+                        message,
+                        color=sql_starboard["color"],
+                        files=False,
+                        nicknames=sql_starboard["nicknames"],
                     )
                     if starboard_message.author.id == bot.user.id:
                         await starboard_message.edit(
