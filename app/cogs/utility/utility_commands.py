@@ -3,7 +3,7 @@ import asyncio
 import discord
 from discord.ext.prettyhelp import bot_has_permissions, has_guild_permissions
 
-from app import commands, converters, errors, flags, menus, utils
+from app import checks, commands, converters, errors, flags, menus, utils
 from app.classes.bot import Bot
 from app.classes.context import MyContext
 from app.cogs.leveling import leveling_funcs
@@ -156,6 +156,7 @@ class Utility(
     @has_guild_permissions(manage_guild=True)
     @bot_has_permissions(read_message_history=True)
     @commands.guild_only()
+    @checks.premium_guild()
     async def scan_recount(
         self, ctx: "MyContext", limit: converters.myint
     ) -> None:

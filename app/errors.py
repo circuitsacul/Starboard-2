@@ -316,6 +316,16 @@ class NotInDatabase(Exception):
 
 
 # Custom CheckFailures
+class NoPremium(commands.CheckFailure):
+    def __init__(self):
+        super().__init__(
+            t_(
+                "This server does not have premium, which is required "
+                "to use this command."
+            )
+        )
+
+
 class AllCommandsDisabled(commands.CheckFailure):
     pass
 
