@@ -283,3 +283,12 @@ class XPRole(Role):
         if not xprole:
             raise errors.XpRoleNotFound(role.name)
         return SQLObject(role, xprole)
+
+
+class PosRole(Role):
+    async def convert(self, ctx: "MyContext", arg: str) -> SQLObject:
+        role = await super().convert(ctx, arg)
+        posrole = await ctx.bot.db.posroles.get(role.id)
+        if not posrole:
+            raise errors.PosRoleNotFound(role.name)
+        return SQLObject(role, posrole)

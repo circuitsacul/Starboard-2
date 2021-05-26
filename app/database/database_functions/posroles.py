@@ -104,7 +104,7 @@ class PosRoles:
 
         await self.db.execute(
             """UPDATE posroles
-            SET max_uses=$1
+            SET max_users=$1
             WHERE role_id=$2""",
             max_users,
             role_id,
