@@ -52,8 +52,6 @@ MEMBERS = """CREATE TABLE IF NOT EXISTS members (
         xp INT NOT NULL DEFAULT 0,
         level SMALLINT NOT NULL DEFAULT 0,
 
-        roles NUMERIC [] NOT NULL DEFAULT '{}',
-
         FOREIGN KEY (user_id) REFERENCES users (id)
             ON DELETE CASCADE,
         FOREIGN KEY (guild_id) REFERENCES guilds (id)
