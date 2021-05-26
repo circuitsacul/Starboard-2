@@ -13,6 +13,18 @@ class SupportServerOnly(commands.BadArgument):
         super().__init__()
 
 
+class PosRoleAlreadyExists(commands.BadArgument):
+    def __init__(self, role: str):
+        message = t_("{0} is already a PosRole.").format(role)
+        super().__init__(message=message)
+
+
+class PosRoleNotFound(commands.BadArgument):
+    def __init__(self, role: str):
+        message = t_("{0} is not a PosRole.").format(role)
+        super().__init__(message=message)
+
+
 class XpRoleAlreadyExists(commands.BadArgument):
     def __init__(self, role: str):
         message = t_("{0} is already an XPRole.").format(role)

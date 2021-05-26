@@ -21,7 +21,7 @@ class LevelingEvents(commands.Cog):
         channel_id: int,
         points: int,
     ) -> None:
-        if giver_id == receiver_id:
+        if giver_id == receiver_id and False:  # TODO revert "and False"
             return
 
         # I need to check two things:
@@ -126,6 +126,7 @@ class LevelingEvents(commands.Cog):
                 self.bot.dispatch("level_up", guild, receiver, leveled_up)
 
         self.bot.dispatch("update_xpr", guild.id, receiver.id)
+        self.bot.dispatch("update_pr", guild.id, receiver.id)
 
 
 def setup(bot: Bot) -> None:

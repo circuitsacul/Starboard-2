@@ -155,6 +155,30 @@ XP_ROLES = """CREATE TABLE IF NOT EXISTS xproles (
             ON DELETE CASCADE
     )"""
 
+POS_ROLES = """CREATE TABLE IF NOT EXISTS posroles (
+        role_id NUMERIC PRIMARY KEY,
+        guild_id NUMERIC NOT NULL,
+        max_users SMALLINT NOT NULL,
+
+        FOREIGN KEY (guild_id) REFERENCES guilds (id)
+            ON DELETE CASCADE
+    )"""
+
+MEMBERS_POSROLES = """CREATE TABLE IF NOT EXISTS members_posroles (
+        role_id NUMERIC NOT NULL,
+        user_id NUMERIC NOT NULL,
+        guild_id NUMERIC NOT NULL,
+
+        unique (role_id, user_id),
+
+        FOREIGN KEY (role_id) REFERENCES posroles (role_id)
+            ON DELETE CASCADE,
+        FOREIGN KEY (user_id) REFERENCES users (id)
+            ON DELETE CASCADE,
+        FOREIGN KEY (guild_id) REFERENCES guilds (id)
+            ON DELETE CASCADE
+    )"""
+
 MESSAGES = """CREATE TABLE IF NOT EXISTS messages (
         id NUMERIC PRIMARY KEY,
         guild_id NUMERIC NOT NULL,
@@ -216,6 +240,8 @@ ALL_TABLES = [
     PERMGROUPS,
     PERMROLES,
     XP_ROLES,
+    POS_ROLES,
+    MEMBERS_POSROLES,
     MESSAGES,
     STARBOARD_MESSAGES,
     REACTIONS,

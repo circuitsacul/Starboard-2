@@ -44,6 +44,8 @@ class XPRoles:
         )
 
     async def set_required(self, role_id: int, required: int):
+        if required <= 0:
+            raise commands.BadArgument(t_("Required must be greater than 0."))
         await self.db.execute(
             """UPDATE xproles SET required=$1
             WHERE role_id=$2""",
