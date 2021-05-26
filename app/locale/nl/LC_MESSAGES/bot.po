@@ -68,44 +68,45 @@ msgstr ""
 #: app/errors.py:18
 #, python-brace-format
 msgid "{0} is already an XPRole."
-msgstr ""
+msgstr "{0} is al een XPRole."
 
 #: app/errors.py:24
 #, python-brace-format
 msgid "{0} is not a XPRole."
-msgstr ""
+msgstr "{0} is geen XPRole."
 
 #: app/errors.py:31
 #, python-brace-format
 msgid "**{0}** is already a PermRole on the PermGroup **{1}**."
-msgstr ""
+msgstr "**{0}** is al een PermRole in PermGroup **{1}**."
 
 #: app/errors.py:39
 #, python-brace-format
 msgid "**{0}** is not a PermRole on the PermGroup **{1}**."
-msgstr ""
+msgstr "**[0}** is geen PermRole in PermGroup **[1}**"
 
 #: app/errors.py:47
 #, python-brace-format
 msgid "I couldn't find any PermGroups with the name **{0}**."
-msgstr ""
+msgstr "I kon geen PermGroups vinden met de naam **{0}**."
 
 #: app/errors.py:55
 #, python-brace-format
 msgid "**{0}** is already the name of another PermGroup."
-msgstr ""
+msgstr "**{0}** is al de naam van een andere PermGroup."
 
 #: app/errors.py:62
 #, python-brace-format
 msgid "{0} is not an emoji."
-msgstr ""
+msgstr "{0} is geen emoji."
 
 #: app/errors.py:69
 #, python-brace-format
 msgid ""
 "{0} is an emoji, but from another server. Please pass a default emoji or a "
 "custom emoji from this server."
-msgstr ""
+msgstr "{0} is een emoji, maar het komt van een andere server. Geef een "
+"standaard emoji of een aangepaste emoji van deze server."
 
 #: app/errors.py:78
 #, python-brace-format
