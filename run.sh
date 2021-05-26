@@ -1,9 +1,10 @@
 #!/bin/bash
-python3 run_ipc.py &
+$1 run_ipc.py &
+$1 run_dashboard.py &
 
 while true
 do
-    python3 run_bot.py
+    $1 run_bot.py
 
     echo "Hit CTRL+C to shutdown."
     sleep 3s
