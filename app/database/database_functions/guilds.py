@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 import asyncpg
 from aiocache import Cache, SimpleMemoryCache
@@ -6,14 +6,37 @@ from aiocache import Cache, SimpleMemoryCache
 from app import commands, errors, i18n
 from app.i18n import t_
 
+if TYPE_CHECKING:
+    from app.database.database import Database
+
 
 class Guilds:
-    def __init__(self, db) -> None:
+    def __init__(self, db: "Database") -> None:
         self.db = db
         self.cache: SimpleMemoryCache = Cache(namespace="guilds", ttl=10)
 
     async def delete(self, guild_id: int):
         await self.db.execute("""DELETE FROM guilds WHERE id=$1""", guild_id)
+        await self.cache.delete(guild_id)
+
+    async def set_xprole_stack(self, guild_id: int, stack: bool):
+        await self.db.execute(
+            """UPDATE guilds
+            SET stack_xp_roles=$1
+            WHERE id=$2""",
+            stack,
+            guild_id,
+        )
+        await self.cache.delete(guild_id)
+
+    async def set_posrole_stack(self, guild_id: int, stack: bool):
+        await self.db.execute(
+            """UPDATE guilds
+            SET stack_pos_roles=$1
+            WHERE id=$2""",
+            stack,
+            guild_id,
+        )
         await self.cache.delete(guild_id)
 
     async def set_cooldown(self, guild_id: int, ammount: int, per: int):

@@ -55,6 +55,22 @@ class AwardRoles(commands.Cog, description=t_("Manage AwardRoles.", True)):
         await ctx.send(embed=embed)
 
     @posroles.command(
+        name="stack", help=t_("Whether or not to stack PosRoles.", True)
+    )
+    @has_guild_permissions(manage_roles=True)
+    @commands.guild_only()
+    async def set_posrole_stack(
+        self,
+        ctx: "MyContext",
+        stack: converters.mybool,
+    ):
+        await self.bot.db.guilds.set_posrole_stack(ctx.guild.id, stack)
+        if stack:
+            await ctx.send(t_("PosRoles will be stacked from now on."))
+        else:
+            await ctx.send(t_("I will no longer stack PosRoles."))
+
+    @posroles.command(
         name="add", aliases=["a"], help=t_("Adds a PosRole.", True)
     )
     @has_guild_permissions(manage_roles=True)
@@ -138,6 +154,21 @@ class AwardRoles(commands.Cog, description=t_("Manage AwardRoles.", True)):
             color=self.bot.theme_color,
         )
         await ctx.send(embed=embed)
+
+    @xproles.command(
+        name="stack", help=t_("Whether or not to stack XPRoles.", True)
+    )
+    @has_guild_permissions(manage_roles=True)
+    async def set_xprole_stacking(
+        self,
+        ctx: "MyContext",
+        stack: converters.mybool,
+    ):
+        await self.bot.db.guilds.set_xprole_stack(ctx.guild.id, stack)
+        if stack:
+            await ctx.send(t_("XPRoles will be stacked from now on."))
+        else:
+            await ctx.send(t_("I will no longer stack XPRoles."))
 
     @xproles.command(
         name="add", aliases=["a"], help=t_("Adds an XPRole.", True)
