@@ -40,8 +40,13 @@ class AwardRoles(commands.Cog, description=t_("Manage AwardRoles.", True)):
             for r in _posroles
         ]
         pr.sort(key=lambda r: r[2], reverse=True)
-        string = "\n".join(f"{name}: **{req}**" for name, req, _ in pr)
 
+        sql_guild = await self.bot.db.guilds.get(ctx.guild.id)
+        string = (
+            t_("Stack PosRoles: **{}**").format(sql_guild["stack_pos_roles"])
+            + "\n\n"
+            + "\n".join(f"{name}: **{req}**" for name, req, _ in pr)
+        )
         embed = discord.Embed(
             title=t_("PosRoles"),
             description=string,
@@ -120,7 +125,12 @@ class AwardRoles(commands.Cog, description=t_("Manage AwardRoles.", True)):
             (ctx.guild.get_role(r["role_id"]), r["required"]) for r in _xproles
         ]
         xpr.sort(key=lambda r: r[1], reverse=True)
-        string = "\n".join(f"{name}: **{req}**" for name, req in xpr)
+        sql_guild = await self.bot.db.guilds.get(ctx.guild.id)
+        string = (
+            t_("Stack XPRoles: **{}**").format(sql_guild["stack_xp_roles"])
+            + "\n\n"
+            + "\n".join(f"{name}: **{req}**" for name, req in xpr)
+        )
 
         embed = discord.Embed(
             title=t_("XP Roles"),
