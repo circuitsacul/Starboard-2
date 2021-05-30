@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-26 12:31-0400\n"
+"POT-Creation-Date: 2021-05-30 12:49-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -288,15 +288,15 @@ msgstr ""
 msgid "MaxUsers must be greater than 0."
 msgstr ""
 
-#: app/database/database_functions/guilds.py:22
+#: app/database/database_functions/guilds.py:45
 msgid "The cooldown ammount must be greater than 0."
 msgstr ""
 
-#: app/database/database_functions/guilds.py:26
+#: app/database/database_functions/guilds.py:49
 msgid "The cooldown time must be 0 or greater."
 msgstr ""
 
-#: app/database/database_functions/guilds.py:31
+#: app/database/database_functions/guilds.py:54
 msgid "The cooldown time can be at most 10 minutes (600 seconds)."
 msgstr ""
 
@@ -1406,76 +1406,108 @@ msgid "This server has no PosRoles set."
 msgstr ""
 
 #: app/cogs/awardroles/ar_commands.py:46
+msgid "Stack PosRoles: **{}**"
+msgstr ""
+
+#: app/cogs/awardroles/ar_commands.py:51
 msgid "PosRoles"
 msgstr ""
 
-#: app/cogs/awardroles/ar_commands.py:53
+#: app/cogs/awardroles/ar_commands.py:58
+msgid "Whether or not to stack PosRoles."
+msgstr ""
+
+#: app/cogs/awardroles/ar_commands.py:69
+msgid "PosRoles will be stacked from now on."
+msgstr ""
+
+#: app/cogs/awardroles/ar_commands.py:71
+msgid "I will no longer stack PosRoles."
+msgstr ""
+
+#: app/cogs/awardroles/ar_commands.py:74
 msgid "Adds a PosRole."
 msgstr ""
 
-#: app/cogs/awardroles/ar_commands.py:68
+#: app/cogs/awardroles/ar_commands.py:89
 #, python-brace-format
 msgid "Created PosRole **{0}**."
 msgstr ""
 
-#: app/cogs/awardroles/ar_commands.py:73
+#: app/cogs/awardroles/ar_commands.py:94
 msgid "Removes a PosRole."
 msgstr ""
 
-#: app/cogs/awardroles/ar_commands.py:83
+#: app/cogs/awardroles/ar_commands.py:104
 #, python-brace-format
 msgid "Deleted PosRole **{0}**."
 msgstr ""
 
-#: app/cogs/awardroles/ar_commands.py:88
+#: app/cogs/awardroles/ar_commands.py:109
 msgid "Sets the max users for a PosRole."
 msgstr ""
 
-#: app/cogs/awardroles/ar_commands.py:100
+#: app/cogs/awardroles/ar_commands.py:121
 #, python-brace-format
 msgid "Set the maximum users for the PosRole **{0}** to {1}."
 msgstr ""
 
-#: app/cogs/awardroles/ar_commands.py:109
+#: app/cogs/awardroles/ar_commands.py:130
 msgid "View and manage XPRoles for your server."
 msgstr ""
 
-#: app/cogs/awardroles/ar_commands.py:117
+#: app/cogs/awardroles/ar_commands.py:138
 msgid "This server has no XP Roles."
 msgstr ""
 
-#: app/cogs/awardroles/ar_commands.py:126
+#: app/cogs/awardroles/ar_commands.py:146
+msgid "Stack XPRoles: **{}**"
+msgstr ""
+
+#: app/cogs/awardroles/ar_commands.py:152
 msgid "XP Roles"
 msgstr ""
 
-#: app/cogs/awardroles/ar_commands.py:133
+#: app/cogs/awardroles/ar_commands.py:159
+msgid "Whether or not to stack XPRoles."
+msgstr ""
+
+#: app/cogs/awardroles/ar_commands.py:169
+msgid "XPRoles will be stacked from now on."
+msgstr ""
+
+#: app/cogs/awardroles/ar_commands.py:171
+msgid "I will no longer stack XPRoles."
+msgstr ""
+
+#: app/cogs/awardroles/ar_commands.py:174
 msgid "Adds an XPRole."
 msgstr ""
 
-#: app/cogs/awardroles/ar_commands.py:148
+#: app/cogs/awardroles/ar_commands.py:189
 #, python-brace-format
 msgid "Created XPRole **{0}**."
 msgstr ""
 
-#: app/cogs/awardroles/ar_commands.py:151
+#: app/cogs/awardroles/ar_commands.py:192
 msgid "Removes an XPRole."
 msgstr ""
 
-#: app/cogs/awardroles/ar_commands.py:158
+#: app/cogs/awardroles/ar_commands.py:199
 #, python-brace-format
 msgid "Deleted the XPRole **{0}**."
 msgstr ""
 
-#: app/cogs/awardroles/ar_commands.py:164
+#: app/cogs/awardroles/ar_commands.py:205
 msgid "Sets the ammount of xp needed to gain an XPRole."
 msgstr ""
 
-#: app/cogs/awardroles/ar_commands.py:176
+#: app/cogs/awardroles/ar_commands.py:217
 #, python-brace-format
 msgid "Set the needed xp to {0} for the XPRole **{1}**."
 msgstr ""
 
-#: app/cogs/awardroles/pr_events.py:107
+#: app/cogs/awardroles/pr_events.py:136
 #, python-brace-format
 msgid "The role **{role.name}** was deleted, so I removed that PosRole."
 msgstr ""
