@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 
 async def remove_pr(member: discord.Member, bot: "Bot", *roles: discord.Role):
     try:
-        await member.remove_roles(*roles)
+        await member.remove_roles(*roles, reason="PosRoles.")
     except discord.Forbidden:
         pass
     for r in roles:
@@ -22,11 +22,34 @@ async def remove_pr(member: discord.Member, bot: "Bot", *roles: discord.Role):
 
 async def add_pr(member: discord.Member, bot: "Bot", *roles: discord.Role):
     try:
-        await member.add_roles(*roles)
+        await member.add_roles(*roles, reason="PosRoles")
     except discord.Forbidden:
         pass
     for r in roles:
         await bot.db.posroles.give_posrole(member.id, r.id, member.guild.id)
+
+
+def get_pr_less_than(
+    roles: List[discord.Role],
+    role_id: int,
+) -> List[discord.Role]:
+    """Returns all PosRoles lower than a specified PosRole.
+    Useful for if PosRoles are stacked.
+
+    :param roles: The list of (sorted) PosRoles.
+    :type roles: List[Tuple[discord.Role, Dict[str, Any]]]
+    :param role_id: The id of the PosRole to get all roles less than.
+    :type role_id: int
+    :return: A list of roles less than the specified role_id.
+    :rtype: List[discord.Role]
+    """
+
+    passed: List[discord.Role] = []
+    for role in reversed(roles):
+        if role.id == role_id:
+            return passed
+        passed.append(role)
+    return []
 
 
 async def get_proper_posrole(
@@ -34,7 +57,7 @@ async def get_proper_posrole(
     guild: discord.Guild,
     member_id: int,
     xp: int,
-) -> Tuple[Optional[int], Optional[int]]:
+) -> Tuple[Optional[int], Optional[int], List[discord.Role]]:
     """Gets the PositionRole a member should belong to.
 
     :param bot: The bot instance.
@@ -46,8 +69,9 @@ async def get_proper_posrole(
     :param xp: The ammount of xp this member has.
     :type xp: int
     :return: 1) The id of the role they should have, 2)
-        Optionally the member who was replaced.
-    :rtype: Tuple[Optional[int], Optional[int]]
+        Optionally the member who was replaced 3) the
+        list of roles that should be stacked.
+    :rtype: Tuple[Optional[int], Optional[int], List[discord.Role]]
     """
 
     _all_posroles = await bot.db.posroles.get_many(guild.id)
@@ -62,6 +86,7 @@ async def get_proper_posrole(
         key=lambda r: r[0].position,
         reverse=True,
     )
+    all_objs = [pr[0] for pr in all_posroles]
 
     for obj, pr in all_posroles:
         is_current = False
@@ -78,12 +103,16 @@ async def get_proper_posrole(
         if len(current_pr_members) < pr["max_users"] + (
             1 if is_current else 0
         ):
-            return obj.id, None
+            return obj.id, None, get_pr_less_than(all_objs, obj.id)
 
         least_xp = list(sorted(current_pr_members, key=lambda m: m["xp"]))[0]
         if xp > least_xp["xp"]:
-            return obj.id, least_xp["user_id"]
-    return None, None
+            return (
+                obj.id,
+                least_xp["user_id"],
+                get_pr_less_than(all_objs, obj.id),
+            )
+    return None, None, []
 
 
 class PREvents(commands.Cog):
@@ -124,6 +153,7 @@ class PREvents(commands.Cog):
 
             n = to_update.pop()
             guild: discord.Guild = self.bot.get_guild(gid)
+            sql_guild = await self.bot.db.guilds.get(guild.id)
             _member = await self.bot.cache.get_members([n], guild)
             if n not in _member:
                 continue
@@ -137,7 +167,7 @@ class PREvents(commands.Cog):
                 None,
             )
             if perms["pos_roles"]:
-                role, replaced = await get_proper_posrole(
+                role, replaced, stacked = await get_proper_posrole(
                     self.bot,
                     guild,
                     member.id,
@@ -145,9 +175,16 @@ class PREvents(commands.Cog):
                 )
             else:
                 role = replaced = None
+                stacked = []
 
             _all_posroles = await self.bot.db.posroles.get_many(guild.id)
             to_remove = [guild.get_role(r["role_id"]) for r in _all_posroles]
+
+            if sql_guild["stack_pos_roles"]:
+                for srole in stacked:
+                    if srole in to_remove:
+                        to_remove.remove(srole)
+
             if role:
                 role = guild.get_role(role)
                 to_remove.remove(role)
@@ -157,6 +194,8 @@ class PREvents(commands.Cog):
 
             await add_pr(member, self.bot, *to_add)
             await remove_pr(member, self.bot, *to_remove)
+            if sql_guild["stack_pos_roles"]:
+                await member.add_roles(*stacked, reason="PosRole stacking.")
 
             if replaced:
                 self.bot.dispatch("update_pr", guild.id, replaced)
