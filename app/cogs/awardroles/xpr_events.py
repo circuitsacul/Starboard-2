@@ -67,11 +67,13 @@ class XPREvents(commands.Cog):
                     for r in await self.bot.db.fetch(
                         """SELECT * FROM xproles
                         WHERE guild_id=$1
-                        AND required <= $2""",
+                        AND required <= $2
+                        ORDER BY required DESC""",
                         gid,
                         sql_member["xp"],
                     )
                 ]
+                sql_guild = await self.bot.db.guilds.get(guild.id)
                 to_remove = [
                     int(r["role_id"])
                     for r in await self.bot.db.fetch(
@@ -82,6 +84,11 @@ class XPREvents(commands.Cog):
                         sql_member["xp"],
                     )
                 ]
+                if not sql_guild["stack_xp_roles"]:
+                    if len(to_add) > 1:
+                        to_remove.extend(to_add[1:])
+                        to_add = [to_add[0]]
+
             else:
                 to_add = []
                 to_remove = [

@@ -24,6 +24,9 @@ GUILDS = """CREATE TABLE IF NOT EXISTS guilds (
         xp_cooldown SMALLINT DEFAULT 3,
         xp_cooldown_per SMALLINT DEFAULT 60,
 
+        stack_pos_roles BOOL NOT NULL DEFAULT false,
+        stack_xp_roles BOOL NOT NULL DEFAULT false,
+
         locale TEXT NOT NULL DEFAULT 'en_US'
     )"""
 
