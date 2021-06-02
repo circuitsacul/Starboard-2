@@ -13,6 +13,7 @@ import aiohttp
 import discord
 import uvloop
 from discord.ext import prettyhelp
+from discord_components import DiscordComponents
 from discord_slash import SlashCommand
 from dotenv import load_dotenv
 
@@ -78,6 +79,8 @@ class Bot(commands.AutoShardedBot):
             ),
         )
         self._before_invoke = self.before_invoke_hook
+
+        DiscordComponents(self)
 
         self.log = logging.getLogger(f"Cluster#{self.cluster_name}")
         self.log.setLevel(logging.DEBUG)
