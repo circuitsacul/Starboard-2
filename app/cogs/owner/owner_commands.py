@@ -10,7 +10,7 @@ from jishaku.cog import OPTIONAL_FEATURES, STANDARD_FEATURES
 from jishaku.exception_handling import ReplResponseReactor
 from jishaku.features.baseclass import Feature
 
-from app import checks, commands, menus, utils
+from app import buttons, checks, commands, menus, utils
 from app.classes.bot import Bot
 from app.classes.context import MyContext
 
@@ -200,7 +200,7 @@ class Owner(*OPTIONAL_FEATURES, *STANDARD_FEATURES):
     @checks.is_owner()
     async def reconnect_bot(self, ctx: "MyContext") -> None:
         """Restars all clusters"""
-        if not await menus.Confirm("Reconnect all clusters?").start(ctx):
+        if not await buttons.Confirm(ctx, "Reconnect all clusters?").start():
             await ctx.send("Cancelled")
             return
 
@@ -210,7 +210,7 @@ class Owner(*OPTIONAL_FEATURES, *STANDARD_FEATURES):
     @commands.command(name="restart")
     @checks.is_owner()
     async def restart_bot(self, ctx: "MyContext"):
-        if not await menus.Confirm("**Restart** the bot?").start(ctx):
+        if not await buttons.Confirm(ctx, "**Restart** the bot?").start():
             await ctx.send("Cancelled.")
             return
         await ctx.send("Restarting...")
