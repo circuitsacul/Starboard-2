@@ -11,12 +11,19 @@ if TYPE_CHECKING:
 
 class Confirm(ButtonMenu):
     def __init__(self, ctx: "MyContext", text: str):
-        super().__init__(ctx.bot, ctx.channel, ctx.author.id, 60)
+        super().__init__(
+            ctx.bot,
+            ctx.channel,
+            ctx.author.id,
+            60,
+            False,
+        )
         self.result = None
         self.text = text
 
     async def start(self):
         await super().start()
+        await self.message.delete()
         return self.result
 
     async def send_initial_message(self):
@@ -31,15 +38,10 @@ class Confirm(ButtonMenu):
     async def set_no(self, ctx: Context):
         self.result = False
         self.running = False
-        await ctx.respond(
-            type=InteractionType.UpdateMessage, content="Cancelled."
-        )
+        await ctx.respond(type=InteractionType.DeferredUpdateMessage)
 
     @button(Button(label="Yes", style=ButtonStyle.green), pos=0)
     async def set_yes(self, ctx: Context):
         self.result = True
         self.running = False
-        await ctx.respond(
-            type=InteractionType.UpdateMessage,
-            content="Confirmed!",
-        )
+        await ctx.respond(type=InteractionType.DeferredUpdateMessage)

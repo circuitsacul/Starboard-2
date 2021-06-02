@@ -29,12 +29,14 @@ class ButtonMenu:
         destination: discord.abc.Messageable,
         owner_id: int,
         timeout: float = 60.0,
+        remove_after: bool = True,
     ):
         self.bot = bot
         self.destination = destination
         self.owner_id = owner_id
         self.running = True
         self.timeout = timeout
+        self.remove_after = remove_after
         self.message: Optional[ComponentMessage] = None
         self.buttons: Dict[str, MenuButton] = {}
         self.grouped_buttons: Dict[int, List[MenuButton]] = {}
@@ -84,13 +86,14 @@ class ButtonMenu:
         except asyncio.TimeoutError:
             self.timed_out = True
 
-        to_leave: List[List[Button]] = []
-        for _, buttons in self.grouped_buttons.items():
-            group = [b.button for b in buttons if not b.remove]
-            if group:
-                to_leave.append(group)
+        if self.remove_after:
+            to_leave: List[List[Button]] = []
+            for _, buttons in self.grouped_buttons.items():
+                group = [b.button for b in buttons if not b.remove]
+                if group:
+                    to_leave.append(group)
 
-        await self.message.edit(components=to_leave or None)
+            await self.message.edit(components=to_leave or None)
 
 
 def button(
