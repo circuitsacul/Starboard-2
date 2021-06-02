@@ -13,6 +13,12 @@ class SupportServerOnly(commands.BadArgument):
         super().__init__()
 
 
+class PosRoleAndXpRole(commands.BadArgument):
+    def __init__(self):
+        message = t_("A role cannot be both an XPRole and a PosRole.")
+        super().__init__(message)
+
+
 class PosRoleAlreadyExists(commands.BadArgument):
     def __init__(self, role: str):
         message = t_("{0} is already a PosRole.").format(role)
