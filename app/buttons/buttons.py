@@ -4,12 +4,13 @@ from typing import TYPE_CHECKING, Any, Callable, Dict, List, Optional
 import discord
 from discord_components import Button
 from discord_components import Context as ButtonContext
+from discord_components.interaction import InteractionType
 from discord_components.message import ComponentMessage
 
 if TYPE_CHECKING:
     from app.classes.bot import Bot
 
-ACTION = Callable[["ButtonMenu", ButtonContext], None]
+ACTION = Callable[[ButtonContext], None]
 
 
 class MenuButton:
@@ -41,15 +42,20 @@ class ButtonMenu:
 
         self.timed_out = False
 
-        for attr_name in dir(self):
-            attr = self.__getattribute__(attr_name)
+        button_funcs = []
+        for name in dir(self):
+            attr = self.__getattribute__(name)
             if not hasattr(attr, "__button_data__"):
                 continue
+            button_funcs.append((attr))
+        button_funcs.sort(key=lambda f: f.__button_data__["pos"])
+
+        for attr in button_funcs:
             data = attr.__button_data__
             btn: Button = data["button"]
             btn._id = str(bot.next_button_id)
             mbtn = MenuButton(btn, attr, data["remove"])
-            self.buttons[btn.id] = btn
+            self.buttons[btn.id] = mbtn
             self.grouped_buttons.setdefault(data["group"], []).append(mbtn)
 
     async def start(self):
@@ -61,17 +67,19 @@ class ButtonMenu:
 
     async def _internal_loop(self):
         def check(ctx: ButtonContext) -> bool:
-            if ctx.user.id != self.owner.id:
+            if ctx.user.id != self.owner_id:
                 return False
             if ctx.component.id not in self.buttons:
                 return False
             return True
 
+        res = None
         while self.running:
             try:
-                await self.bot.wait_for(
+                res: ButtonContext = await self.bot.wait_for(
                     "button_click", timeout=self.timeout, check=check
                 )
+                await self.buttons[res.component.id].action(res)
             except asyncio.TimeoutError:
                 self.running = False
                 self.timed_out = True
@@ -89,12 +97,14 @@ def button(
     btn: Button,
     remove: bool = True,
     group: int = 0,
+    pos: int = -1,
 ):
     def decorator(coro: ACTION) -> ACTION:
         coro.__button_data__ = {
             "button": btn,
             "remove": remove,
             "group": group,
+            "pos": pos,
         }
         return coro
 

@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING, List
 
-from discord_components.button import Button
+from discord_components import Button, Context, InteractionType
+from discord_components.button import ButtonStyle
 
 from .buttons import ButtonMenu, button
 
@@ -26,7 +27,19 @@ class Confirm(ButtonMenu):
 
         return await self.destination.send(self.text, components=comps)
 
-    @button(Button(label="yes"))
-    async def set_yes(self, ctx):
+    @button(Button(label="no", style=ButtonStyle.red), pos=1)
+    async def set_no(self, ctx: Context):
+        self.result = False
+        self.running = False
+        await ctx.respond(
+            type=InteractionType.UpdateMessage, content="Cancelled."
+        )
+
+    @button(Button(label="yes", style=ButtonStyle.green), pos=0)
+    async def set_yes(self, ctx: Context):
         self.result = True
         self.running = False
+        await ctx.respond(
+            type=InteractionType.UpdateMessage,
+            content="Confirmed!",
+        )
