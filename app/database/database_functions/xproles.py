@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Any, Dict, List
 
-from app import commands
+from app import commands, errors
 from app.i18n import t_
 
 if TYPE_CHECKING:
@@ -29,6 +29,9 @@ class XPRoles:
     ):
         if required <= 0:
             raise commands.BadArgument(t_("Required must be greater than 0."))
+
+        if await self.db.posroles.get(role_id) is not None:
+            raise errors.PosRoleAndXpRole()
 
         await self.db.execute(
             """INSERT INTO xproles (role_id, guild_id, required)

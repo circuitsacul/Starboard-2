@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING, Any, Dict, List, Optional
 
 import asyncpg
 
-from app import commands
+from app import commands, errors
 from app.i18n import t_
 
 if TYPE_CHECKING:
@@ -75,6 +75,9 @@ class PosRoles:
     ) -> None:
         if max_users <= 0:
             raise commands.BadArgument(t_("MaxUsers must be greater than 0."))
+
+        if await self.db.xproles.get(role_id) is not None:
+            raise errors.PosRoleAndXpRole()
 
         await self.db.execute(
             """INSERT INTO posroles
