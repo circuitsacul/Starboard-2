@@ -4,7 +4,6 @@ from typing import TYPE_CHECKING, Any, Callable, Dict, List, Optional
 import discord
 from discord_components import Button
 from discord_components import Context as ButtonContext
-from discord_components.interaction import InteractionType
 from discord_components.message import ComponentMessage
 
 if TYPE_CHECKING:
@@ -60,7 +59,8 @@ class ButtonMenu:
 
     async def start(self):
         self.message = await self.send_initial_message()
-        await self._internal_loop()
+        t = self.bot.loop.create_task(self._internal_loop())
+        await t
 
     async def send_initial_message(self):
         raise NotImplementedError
@@ -71,18 +71,18 @@ class ButtonMenu:
                 return False
             if ctx.component.id not in self.buttons:
                 return False
+            if ctx.message.id != self.message.id:
+                return False
             return True
 
-        res = None
-        while self.running:
-            try:
+        try:
+            while self.running:
                 res: ButtonContext = await self.bot.wait_for(
                     "button_click", timeout=self.timeout, check=check
                 )
                 await self.buttons[res.component.id].action(res)
-            except asyncio.TimeoutError:
-                self.running = False
-                self.timed_out = True
+        except asyncio.TimeoutError:
+            self.timed_out = True
 
         to_leave: List[List[Button]] = []
         for _, buttons in self.grouped_buttons.items():

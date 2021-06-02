@@ -27,7 +27,7 @@ class Confirm(ButtonMenu):
 
         return await self.destination.send(self.text, components=comps)
 
-    @button(Button(label="no", style=ButtonStyle.red), pos=1)
+    @button(Button(label="No", style=ButtonStyle.red), pos=1)
     async def set_no(self, ctx: Context):
         self.result = False
         self.running = False
@@ -35,7 +35,7 @@ class Confirm(ButtonMenu):
             type=InteractionType.UpdateMessage, content="Cancelled."
         )
 
-    @button(Button(label="yes", style=ButtonStyle.green), pos=0)
+    @button(Button(label="Yes", style=ButtonStyle.green), pos=0)
     async def set_yes(self, ctx: Context):
         self.result = True
         self.running = False

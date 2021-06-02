@@ -6,7 +6,6 @@ from discord_components.button import Button, ButtonStyle
 
 import config
 from app import commands, converters
-from app.buttons.confirm import Confirm
 from app.classes.bot import Bot
 from app.classes.context import MyContext
 from app.i18n import t_
@@ -32,11 +31,6 @@ class Base(
             "your starboard.",
             True,
         )
-
-    @commands.command()
-    async def test(self, ctx):
-        conf = Confirm(ctx, "Yes?")
-        await ctx.send(await conf.start())
 
     @commands.command(name="credits", help=t_("Show credits.", True))
     @bot_has_permissions(embed_links=True)
