@@ -131,11 +131,12 @@ class PREvents(commands.Cog):
         await self.bot.db.posroles.delete(role.id)
         self.bot.dispatch(
             "guild_log",
-            "info",
             t_(
-                f"The role **{role.name}** was deleted, so I "
+                f"The role `{role.name}` was deleted, so I "
                 "removed that PosRole."
             ),
+            "info",
+            role.guild,
         )
 
     @commands.Cog.listener()

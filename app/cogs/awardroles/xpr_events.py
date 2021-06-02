@@ -6,6 +6,7 @@ from discord.ext import tasks
 
 from app import commands
 from app.cogs.permroles import pr_functions
+from app.i18n import t_
 
 if TYPE_CHECKING:
     from app.classes.bot import Bot
@@ -29,6 +30,24 @@ class XPREvents(commands.Cog):
         self.bot = bot
         self.queue: Dict[int, List[int]] = {}
         self.update_xpr_loop.start()
+
+    @commands.Cog.listener()
+    async def on_guild_role_delete(self, role: discord.Role):
+        xprole = await self.bot.db.xproles.get(role.id)
+
+        if not xprole:
+            return
+
+        await self.bot.db.xproles.delete(role.id)
+        self.bot.dispatch(
+            "guild_log",
+            t_(
+                f"The role `{role.name}` was deleted, so "
+                "I removed that XPRole."
+            ),
+            "info",
+            role.guild,
+        )
 
     @commands.Cog.listener()
     async def on_update_xpr(self, guild_id: int, user_id: int):
