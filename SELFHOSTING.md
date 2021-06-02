@@ -2,15 +2,12 @@
 ## Steps (required)
 1.  Clone the repo by running `git clone https://github.com/CircuitsBots/Starboard-2.git`
 2.  Create a virtual environment (with conda or venv) and then run `pip install -r requirements.txt`
-3.  Create copies of `.env.example` and `.config.py.example` and name them `.env` and `.config.py`
 4.  Go to the discord developer portal and create a new bot application (don't forget to add a bot user)
-5.  Add the bot token into the `TOKEN` field of `.env`
-6.  Install PostgreSQL (Starboard-2 has only been tested with PostgreSQL 13)
-7.  Create a PostgreSQL user with a password, and put the username and password into the `DB_USER` and `DB_PASSWORD` fields in `.env`
-8.  Create a new database owned by the user you created, and put the database name into the `DB_NAME` field in `.env`
-9.  Put your discord id into the `OWNER_IDS` list in `config.py`, so it looks like this: `OWNER_IDS = [your_id_here]` (keeping the `[ ]`)
-10. Put your bots id into the `BOT_ID` field in `config.py`
-11. Run `python launcher.py` (if python doesn't work, you can also try `python3`, `py`, and `py3`)
+5.  Create a PostgreSQL user with a password.
+6.  Create a new database owned by the user you created.
+7.  Create copies of `.env.example` and `.config.py.example` and name them `.env` and `.config.py`. Fill out these files.
+8. Run `openssl req -new -x509 -days 1460 -nodes -out localhost.pem -keyout localhost.pem` and follow the prompts.
+9. Run `./run.sh python`. Replace `python` with whatever python executable you want (py, py3, python3, etc)
 
 At this point, the bot should run correctly. You can follow the steps below to setup completely:
 
