@@ -81,7 +81,7 @@ class Base(
         p = clean_prefix(ctx)
 
         embed = discord.Embed(
-            title="Staboard Help",
+            title="Starboard Help",
             description=t_(
                 "**[Starboard Documentation]({0.DOCS})**\n\n"
                 "To see a complete command list, run `{1}commands`.\n"
