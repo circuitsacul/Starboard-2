@@ -92,7 +92,7 @@ class StarboardWizard(wizards.Wizard):
         super().__init__(timeout=30.0)
 
     async def on_step_error(self, step: wizards.Step, err: Exception):
-        await self.send(err)
+        await self.send(str(err))
         return await self.do_step(step)
 
     @wizards.action("cancel")
