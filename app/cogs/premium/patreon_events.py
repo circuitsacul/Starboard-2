@@ -66,15 +66,17 @@ class PatreonEvents(commands.Cog):
                 patron["payment"],
                 sql_user["id"],
             )
-            if patron["declined"] and sql_user["patron_status"] != "declined":
-                await self.bot.db.users.set_patron_status(
-                    int(patron["discord_id"]), "declined"
-                )
-                text = t_(
-                    "Looks like your payment on patreon has been declined. "
-                    "Please make sure that you entered your info on patreon "
-                    "correctly, and feel free to DM @Circuit#5585 for help."
-                )
+            if patron["declined"]:
+                if sql_user["patron_status"] != "declined":
+                    await self.bot.db.users.set_patron_status(
+                        int(patron["discord_id"]), "declined"
+                    )
+                    text = t_(
+                        "Looks like your payment on patreon has been "
+                        "declined. Please make sure that you entered your "
+                        "info on patreon correctly, and feel free to DM "
+                        "@Circuit#5585 for help."
+                    )
             elif sql_user["patron_status"] != "yes":
                 await self.bot.db.users.set_patron_status(
                     int(patron["discord_id"]), "yes"
