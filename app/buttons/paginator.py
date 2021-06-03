@@ -31,7 +31,7 @@ class Paginator(ButtonMenu):
             ctx.bot,
             ctx.channel,
             ctx.author.id,
-            timeout=5,
+            timeout=180.0,
             remove_after=not delete_after,
         )
 
