@@ -3,6 +3,9 @@ class TString:
         self._value = string
         self._translator = translate
 
+    def __call__(self, *args, **kwargs) -> str:
+        return str(self)
+
     def __str__(self) -> str:
         """Returns a translated str"""
         return self._translator(self._value)

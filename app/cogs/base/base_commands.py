@@ -2,9 +2,10 @@ import time
 
 import discord
 from discord.ext.prettyhelp import bot_has_permissions
+from discord_components.button import Button, ButtonStyle
 
 import config
-from app import commands, converters
+from app import buttons, commands, converters
 from app.classes.bot import Bot
 from app.classes.context import MyContext
 from app.i18n import t_
@@ -30,6 +31,14 @@ class Base(
             "your starboard.",
             True,
         )
+
+    @commands.command()
+    async def test(self, ctx):
+        pag = buttons.Paginator(
+            ctx,
+            text_pages=["page1", "page2"],
+        )
+        await pag.start()
 
     @commands.command(name="credits", help=t_("Show credits.", True))
     @bot_has_permissions(embed_links=True)
@@ -83,19 +92,37 @@ class Base(
         embed = discord.Embed(
             title="Starboard Help",
             description=t_(
-                "**[Starboard Documentation]({0.DOCS})**\n\n"
                 "To see a complete command list, run `{1}commands`.\n"
                 "To see a list of disabled commands, run `{1}disabled`.\n"
                 "To list all prefixes, run `{1}prefixes`.\n"
-                "For a list of useful links, run `{1}links`\n\n"
-                "If you need any help, you can join [the support server]"
-                "({0.SUPPORT_INVITE})"
+                "For a list of useful links, run `{1}links`\n"
             ).format(config, p),
             color=self.bot.theme_color,
         ).add_field(
             name=t_("What is a Starboard?"), value=str(self.about_starboard)
         )
-        await ctx.send(embed=embed)
+        await ctx.send(
+            embed=embed,
+            components=[
+                [
+                    Button(
+                        style=ButtonStyle.URL,
+                        label="Documentation",
+                        url=config.DOCS,
+                    ),
+                    Button(
+                        style=ButtonStyle.URL,
+                        label="Support Server",
+                        url=config.SUPPORT_INVITE,
+                    ),
+                    Button(
+                        style=ButtonStyle.URL,
+                        label="Invite Starboard",
+                        url=config.BOT_INVITE,
+                    ),
+                ]
+            ],
+        )
 
     @commands.command(
         name="commands", help=t_("See a list of commands.", True)

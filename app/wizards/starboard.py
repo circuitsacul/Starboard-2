@@ -4,9 +4,8 @@ import discord
 from discord.ext import wizards
 from discord.ext.wizards.stopreason import StopReason
 
-from app import commands, converters, errors, utils
+from app import buttons, commands, converters, errors, utils
 from app.i18n import t_
-from app.menus.confirm import Confirm
 
 if TYPE_CHECKING:
     from app.classes.context import MyContext
@@ -20,9 +19,12 @@ class CanBeStarboard(commands.TextChannelConverter):
             raise errors.CannotBeStarboardAndAutostar()
         exists = await ctx.bot.db.starboards.get(obj.id)
         if exists:
-            if not await Confirm(
-                t_("That is already a starboard. Run the wizard anyways?")
-            ).start(ctx):
+            conf = buttons.Confirm(
+                ctx, t_("That is already a starboard. Run the wizard anyways?")
+            )
+            if not await conf.start():
+                if conf.timed_out:
+                    raise TimeoutError
                 raise errors.AlreadyStarboard(obj.mention)
         return obj
 
@@ -90,7 +92,7 @@ class StarboardWizard(wizards.Wizard):
         super().__init__(timeout=30.0)
 
     async def on_step_error(self, step: wizards.Step, err: Exception):
-        await self.send(err)
+        await self.send(str(err))
         return await self.do_step(step)
 
     @wizards.action("cancel")
@@ -98,8 +100,11 @@ class StarboardWizard(wizards.Wizard):
         await self.stop(StopReason.CANCELLED)
 
     @wizards.step(
-        "Do you want to (1) create a new channel or (2) use an "
-        "existing channel?",
+        t_(
+            "Do you want to (1) create a new channel or (2) use an "
+            "existing channel?",
+            True,
+        ),
         position=1,
     )
     async def create_or_use(self, message: discord.Message):
@@ -117,7 +122,7 @@ class StarboardWizard(wizards.Wizard):
             return await self.do_step(self.create_or_use)
 
     @wizards.step(
-        "What channel should I setup a new starboard in?",
+        t_("What channel should I setup a new starboard in?", True),
         call_internally=False,
     )
     async def use_channel(
@@ -129,7 +134,7 @@ class StarboardWizard(wizards.Wizard):
             return await self.do_step(self.use_channel)
 
     @wizards.step(
-        "What should the channel be named?",
+        t_("What should the channel be named?", True),
         call_internally=False,
     )
     async def create_channel(
@@ -142,20 +147,23 @@ class StarboardWizard(wizards.Wizard):
             return None
 
     @wizards.step(
-        "How many stars should a message need to appear on the starboard?",
+        t_(
+            "How many stars should a message need to appear on the starboard?",
+            True,
+        ),
         position=2,
     )
     async def required(self, message: discord.Message):
         self.result["required"] = required_stars(message.content)
 
     @wizards.step(
-        "Should users be allowed to star their own messages?",
+        t_("Should users be allowed to star their own messages?", True),
         position=3,
     )
     async def self_star(self, message: discord.Message):
         self.result["self_star"] = converters.mybool(message.content)
 
-    @wizards.step('What emojis should count as "stars"?', position=4)
+    @wizards.step(t_('What emojis should count as "stars"?', True), position=4)
     async def star_emojis(self, message: discord.Message):
         self.result["star_emojis"] = await ListOfEmojis().convert(
             self._ctx, message.content

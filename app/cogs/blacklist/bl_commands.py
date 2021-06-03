@@ -1,7 +1,7 @@
 import discord
 from discord.ext.prettyhelp import bot_has_permissions, has_guild_permissions
 
-from app import commands, converters, errors, menus, utils
+from app import buttons, commands, converters, errors, utils
 from app.classes.bot import Bot
 from app.classes.context import MyContext
 from app.i18n import t_
@@ -114,11 +114,12 @@ class Blacklist(
     async def clear_channel_blacklist(
         self, ctx: "MyContext", starboard: converters.Starboard
     ) -> None:
-        if not await menus.Confirm(
+        if not await buttons.Confirm(
+            ctx,
             t_("Are you sure you want to clear the blacklist for {0}?").format(
-                starboard.mention
-            )
-        ).start(ctx):
+                starboard.obj.mention
+            ),
+        ).start():
             await ctx.send("Cancelled")
             return
 
@@ -201,11 +202,12 @@ class Blacklist(
     async def clear_channel_whitelist(
         self, ctx: "MyContext", starboard: converters.Starboard
     ) -> None:
-        if not await menus.Confirm(
+        if not await buttons.Confirm(
+            ctx,
             t_("Are you sure you want to clear the whitelist for {0}?").format(
                 starboard.obj.mention
-            )
-        ).start(ctx):
+            ),
+        ).start():
             await ctx.send("Cancelled")
             return
 

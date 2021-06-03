@@ -1,7 +1,7 @@
 import discord
 from discord.ext.prettyhelp import bot_has_permissions, has_guild_permissions
 
-from app import commands, converters, errors, flags, i18n, menus, utils
+from app import buttons, commands, converters, errors, flags, i18n, utils
 from app.classes.bot import Bot
 from app.classes.context import MyContext
 from app.cogs.quick_actions import qa_funcs
@@ -471,11 +471,12 @@ class Settings(
                 )
                 return
             else:
-                if not await menus.Confirm(
+                if not await buttons.Confirm(
+                    ctx,
                     t_(
                         "Did you want to remove `{0}` from the prefixes?"
-                    ).format(match)
-                ).start(ctx):
+                    ).format(match),
+                ).start():
                     await ctx.send(t_("Cancelled."))
                     return
                 to_remove = match
@@ -502,9 +503,9 @@ class Settings(
     @bot_has_permissions(add_reactions=True, read_message_history=True)
     @commands.guild_only()
     async def reset_prefixes(self, ctx: "MyContext") -> None:
-        if not await menus.Confirm(
-            t_("Are you sure you want to reset all prefixes?")
-        ).start(ctx):
+        if not await buttons.Confirm(
+            ctx, t_("Are you sure you want to reset all prefixes?")
+        ).start():
             await ctx.send(t_("Cancelled."))
             return
         await self.bot.db.execute(

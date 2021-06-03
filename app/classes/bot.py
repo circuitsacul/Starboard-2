@@ -13,17 +13,18 @@ import aiohttp
 import discord
 import uvloop
 from discord.ext import prettyhelp
+from discord_components import DiscordComponents
 from discord_slash import SlashCommand
 from dotenv import load_dotenv
 
 import config
 from app import commands, i18n, utils
+from app.buttons import HelpMenu
 from app.classes.context import MyContext
 from app.classes.ipc_connection import WebsocketConnection
 from app.classes.limited_list import LimitedList
 from app.database.database import Database
 from app.i18n.i18n import t_
-from app.menus import HelpMenu
 
 if typing.TYPE_CHECKING:
     from app.cogs.cache.cache import Cache
@@ -79,6 +80,9 @@ class Bot(commands.AutoShardedBot):
         )
         self._before_invoke = self.before_invoke_hook
 
+        DiscordComponents(self)
+        self._curr_button_id = 0
+
         self.log = logging.getLogger(f"Cluster#{self.cluster_name}")
         self.log.setLevel(logging.DEBUG)
 
@@ -112,6 +116,11 @@ class Bot(commands.AutoShardedBot):
             raise e from e
         else:
             sys.exit(-1)
+
+    @property
+    def next_button_id(self):
+        self._curr_button_id += 1
+        return self._curr_button_id
 
     async def on_message(self, message):
         pass
