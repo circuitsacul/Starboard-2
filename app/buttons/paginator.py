@@ -36,7 +36,7 @@ class Paginator(ButtonMenu):
         )
 
         self.grouped_buttons[0].insert(
-            1,
+            2,
             MenuButton(
                 Button(label=f"Page 1/{self.length}", disabled=True),
                 lambda ctx: None,
@@ -79,17 +79,22 @@ class Paginator(ButtonMenu):
             self.current_page = self.length - 1
 
         self.grouped_buttons[0][
-            1
+            2
         ].button.label = f"Page {self.current_page + 1}/{self.length}"
 
         await self.update_page()
 
-    @button(Button(label="Prev", style=ButtonStyle.blue), pos=0)
+    @button(Button(label="Stop", style=ButtonStyle.red), pos=0)
+    async def stop_pag(self, ctx: Interaction):
+        await ctx.respond(type=InteractionType.DeferredUpdateMessage)
+        self.running = False
+
+    @button(Button(label="Prev", style=ButtonStyle.blue), pos=1)
     async def prev_page(self, ctx: Interaction):
         await ctx.respond(type=InteractionType.DeferredUpdateMessage)
         await self.increment_page(-1)
 
-    @button(Button(label="Next", style=ButtonStyle.blue), pos=1)
+    @button(Button(label="Next", style=ButtonStyle.blue), pos=2)
     async def next_page(self, ctx: Interaction):
         await ctx.respond(type=InteractionType.DeferredUpdateMessage)
         await self.increment_page(1)
