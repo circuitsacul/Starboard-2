@@ -53,7 +53,10 @@ class Paginator(ButtonMenu):
 
     @property
     def length(self):
-        return max(len(self.text_pages), len(self.embed_pages))
+        return max(
+            len(self.text_pages) if self.text_pages else 0,
+            len(self.embed_pages) if self.embed_pages else 0,
+        )
 
     def page(self, num: int) -> Tuple[Optional[str], Optional[discord.Embed]]:
         return (
