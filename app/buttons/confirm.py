@@ -1,5 +1,6 @@
 from typing import TYPE_CHECKING
 
+import discord
 from discord_components import Context, InteractionType
 from discord_components.button import ButtonStyle
 
@@ -25,7 +26,10 @@ class Confirm(ButtonMenu):
 
     async def start(self):
         await super().start()
-        await self.message.delete()
+        try:
+            await self.message.delete()
+        except discord.NotFound:
+            pass
         return self.result
 
     async def send_initial_message(self):
