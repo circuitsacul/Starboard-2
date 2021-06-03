@@ -4,7 +4,7 @@ from typing import Optional
 import discord
 from discord.ext.prettyhelp import bot_has_permissions, has_guild_permissions
 
-from app import buttons, commands, converters, errors, flags, menus, utils
+from app import buttons, commands, converters, errors, flags, utils
 from app.classes.context import MyContext
 from app.i18n import t_
 
@@ -383,8 +383,11 @@ class PermRoles(
                 embed.add_field(name=name, value=value)
             embeds.append(embed)
 
-        paginator = menus.Paginator(embeds, delete_after=True)
-        await paginator.start(ctx)
+        await buttons.Paginator(
+            ctx,
+            embed_pages=embeds,
+            delete_after=True,
+        ).start()
 
     @permroles.command(
         name="add",

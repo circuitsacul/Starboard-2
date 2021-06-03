@@ -19,12 +19,12 @@ from dotenv import load_dotenv
 
 import config
 from app import commands, i18n, utils
+from app.buttons import HelpMenu
 from app.classes.context import MyContext
 from app.classes.ipc_connection import WebsocketConnection
 from app.classes.limited_list import LimitedList
 from app.database.database import Database
 from app.i18n.i18n import t_
-from app.menus import HelpMenu
 
 if typing.TYPE_CHECKING:
     from app.cogs.cache.cache import Cache

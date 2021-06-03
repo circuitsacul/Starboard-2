@@ -10,7 +10,7 @@ from jishaku.cog import OPTIONAL_FEATURES, STANDARD_FEATURES
 from jishaku.exception_handling import ReplResponseReactor
 from jishaku.features.baseclass import Feature
 
-from app import buttons, checks, commands, menus, utils
+from app import buttons, checks, commands, utils
 from app.classes.bot import Bot
 from app.classes.context import MyContext
 
@@ -75,11 +75,11 @@ class Owner(*OPTIONAL_FEATURES, *STANDARD_FEATURES):
         paginator = commands.Paginator(max_size=1985)
         for line in message.split("\n"):
             paginator.add_line(line)
-        pages = [
-            p + f"{n}/{len(paginator.pages)}"
-            for n, p in enumerate(paginator.pages, 1)
-        ]
-        await menus.Paginator(text=pages, delete_after=True).start(ctx)
+        await buttons.Paginator(
+            ctx,
+            text_pages=paginator.pages,
+            delete_after=True,
+        ).start()
 
     @Feature.Command(name="evall", help="Runs code on all clusters.")
     async def evall(self, ctx, *, body: str):
@@ -93,11 +93,12 @@ class Owner(*OPTIONAL_FEATURES, *STANDARD_FEATURES):
         pag = commands.Paginator(max_size=1985, prefix="```py")
         for line in msgs.split("\n"):
             pag.add_line(line)
-        pages = [
-            p + f"{n}/{len(pag.pages)}" for n, p in enumerate(pag.pages, 1)
-        ]
 
-        await menus.Paginator(text=pages, delete_after=True).start(ctx)
+        await buttons.Paginator(
+            ctx,
+            text_pages=pag.pages,
+            delete_after=True,
+        ).start()
 
     @commands.command(name="eval")
     @checks.is_owner()
@@ -189,12 +190,11 @@ class Owner(*OPTIONAL_FEATURES, *STANDARD_FEATURES):
                 f"{exec_time[2]} EXECUTIONS\n"
             )
 
-        await menus.Paginator(
-            text=[
-                p + f"{n}/{len(pag.pages)}" for n, p in enumerate(pag.pages, 1)
-            ],
+        await buttons.Paginator(
+            ctx,
+            text_pages=pag.pages,
             delete_after=True,
-        ).start(ctx)
+        ).start()
 
     @commands.command(name="reconnect")
     @checks.is_owner()

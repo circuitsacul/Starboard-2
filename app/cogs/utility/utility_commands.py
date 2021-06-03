@@ -3,16 +3,7 @@ import asyncio
 import discord
 from discord.ext.prettyhelp import bot_has_permissions, has_guild_permissions
 
-from app import (
-    buttons,
-    checks,
-    commands,
-    converters,
-    errors,
-    flags,
-    menus,
-    utils,
-)
+from app import buttons, checks, commands, converters, errors, flags, utils
 from app.classes.bot import Bot
 from app.classes.context import MyContext
 from app.cogs.leveling import leveling_funcs
@@ -289,7 +280,11 @@ class Utility(
             )
             for page in p.pages
         ]
-        await menus.Paginator(embeds=embeds, delete_after=True).start(ctx)
+        await buttons.Paginator(
+            ctx,
+            embed_pages=embeds,
+            delete_after=True,
+        ).start()
 
     @commands.command(name="freeze", help=t_("Freezes a message.", True))
     @has_guild_permissions(manage_messages=True)
@@ -520,7 +515,11 @@ class Utility(
             )
             for page in p.pages
         ]
-        await menus.Paginator(embeds=embeds).start(ctx)
+        await buttons.Paginator(
+            ctx,
+            embed_pages=embeds,
+            delete_after=True,
+        ).start()
 
     @trashcan.command(
         name="empty",
