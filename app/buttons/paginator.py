@@ -40,7 +40,7 @@ class Paginator(ButtonMenu):
         self.grouped_buttons[0].insert(
             2,
             MenuButton(
-                Button(label=f"Page 1/{self.length}", disabled=True),
+                Button(label=self.page_num_text, disabled=True),
                 lambda ctx: None,
                 remove=False,
             ),
@@ -53,6 +53,10 @@ class Paginator(ButtonMenu):
                 await self.message.delete()
             except discord.NotFound:
                 pass
+
+    @property
+    def page_num_text(self):
+        return t_("Page {0}/{1}").format(self.current_page + 1, self.length)
 
     @property
     def length(self):
@@ -86,9 +90,7 @@ class Paginator(ButtonMenu):
         elif self.current_page < 0:
             self.current_page = self.length - 1
 
-        self.grouped_buttons[0][
-            2
-        ].button._label = f"Page {self.current_page + 1}/{self.length}"
+        self.grouped_buttons[0][2].button._label = self.page_num_text
 
         await self.update_page()
 
