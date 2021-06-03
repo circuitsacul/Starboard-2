@@ -183,7 +183,7 @@ class BaseEvents(commands.Cog):
                         f"{ctx.command.signature}```"
                     )
                 else:
-                    await ctx.send(e)
+                    await ctx.send(str(e))
             except discord.Forbidden:
                 await ctx.message.author.send(
                     t_(
