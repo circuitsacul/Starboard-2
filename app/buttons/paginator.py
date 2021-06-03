@@ -1,11 +1,13 @@
 from typing import TYPE_CHECKING, List, Optional, Tuple
 
 import discord
-from discord_components.button import Button, ButtonStyle
+from discord_components.button import ButtonStyle
 from discord_components.context import Context as Interaction
 from discord_components.interaction import InteractionType
 
-from .buttons import ButtonMenu, MenuButton, button
+from app.i18n.i18n import t_
+
+from .buttons import Button, ButtonMenu, MenuButton, button
 
 if TYPE_CHECKING:
     from app.classes.context import MyContext
@@ -80,21 +82,21 @@ class Paginator(ButtonMenu):
 
         self.grouped_buttons[0][
             2
-        ].button.label = f"Page {self.current_page + 1}/{self.length}"
+        ].button._label = f"Page {self.current_page + 1}/{self.length}"
 
         await self.update_page()
 
-    @button(Button(label="Stop", style=ButtonStyle.red), pos=0)
+    @button(Button(label=t_("Stop", True), style=ButtonStyle.red), pos=0)
     async def stop_pag(self, ctx: Interaction):
         await ctx.respond(type=InteractionType.DeferredUpdateMessage)
         self.running = False
 
-    @button(Button(label="Prev", style=ButtonStyle.blue), pos=1)
+    @button(Button(label=t_("Prev", True), style=ButtonStyle.blue), pos=1)
     async def prev_page(self, ctx: Interaction):
         await ctx.respond(type=InteractionType.DeferredUpdateMessage)
         await self.increment_page(-1)
 
-    @button(Button(label="Next", style=ButtonStyle.blue), pos=2)
+    @button(Button(label=t_("Next", True), style=ButtonStyle.blue), pos=2)
     async def next_page(self, ctx: Interaction):
         await ctx.respond(type=InteractionType.DeferredUpdateMessage)
         await self.increment_page(1)

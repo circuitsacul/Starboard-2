@@ -1,9 +1,11 @@
 from typing import TYPE_CHECKING
 
-from discord_components import Button, Context, InteractionType
+from discord_components import Context, InteractionType
 from discord_components.button import ButtonStyle
 
-from .buttons import ButtonMenu, button
+from app.i18n import t_
+
+from .buttons import Button, ButtonMenu, button
 
 if TYPE_CHECKING:
     from app.classes.context import MyContext
@@ -31,13 +33,13 @@ class Confirm(ButtonMenu):
             self.text, components=self.buttons_list
         )
 
-    @button(Button(label="No", style=ButtonStyle.red), pos=1)
+    @button(Button(label=t_("No", True), style=ButtonStyle.red), pos=1)
     async def set_no(self, ctx: Context):
         self.result = False
         self.running = False
         await ctx.respond(type=InteractionType.DeferredUpdateMessage)
 
-    @button(Button(label="Yes", style=ButtonStyle.green), pos=0)
+    @button(Button(label=t_("Yes", True), style=ButtonStyle.green), pos=0)
     async def set_yes(self, ctx: Context):
         self.result = True
         self.running = False

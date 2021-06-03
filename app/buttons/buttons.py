@@ -2,7 +2,7 @@ import asyncio
 from typing import TYPE_CHECKING, Any, Callable, Dict, List, Optional
 
 import discord
-from discord_components import Button
+from discord_components import Button as BaseButton
 from discord_components import Context as ButtonContext
 from discord_components.message import ComponentMessage
 
@@ -10,6 +10,15 @@ if TYPE_CHECKING:
     from app.classes.bot import Bot
 
 ACTION = Callable[[ButtonContext], None]
+
+
+class Button(BaseButton):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    @property
+    def label(self):
+        return str(self._label)
 
 
 class MenuButton:
