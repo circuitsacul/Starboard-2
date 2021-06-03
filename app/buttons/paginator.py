@@ -49,7 +49,10 @@ class Paginator(ButtonMenu):
     async def start(self):
         await super().start()
         if not self.remove_after:
-            await self.message.delete()
+            try:
+                await self.message.delete()
+            except discord.NotFound:
+                pass
 
     @property
     def length(self):
