@@ -18,8 +18,8 @@ class Paginator(ButtonMenu):
         self,
         ctx: "MyContext",
         *,
-        text_pages: List[str] = [],
-        embed_pages: List[discord.Embed] = [],
+        text_pages: List[str] = None,
+        embed_pages: List[discord.Embed] = None,
         delete_after: bool = False,
     ):
         if not (text_pages or embed_pages):
