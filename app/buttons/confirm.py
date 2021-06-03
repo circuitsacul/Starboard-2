@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, List
+from typing import TYPE_CHECKING
 
 from discord_components import Button, Context, InteractionType
 from discord_components.button import ButtonStyle
@@ -27,12 +27,9 @@ class Confirm(ButtonMenu):
         return self.result
 
     async def send_initial_message(self):
-        comps: List[List[Button]] = []
-        for _, buttons in self.grouped_buttons.items():
-            comps.append([])
-            comps[-1].extend([b.button for b in buttons])
-
-        return await self.destination.send(self.text, components=comps)
+        return await self.destination.send(
+            self.text, components=self.buttons_list
+        )
 
     @button(Button(label="No", style=ButtonStyle.red), pos=1)
     async def set_no(self, ctx: Context):

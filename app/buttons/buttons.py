@@ -59,12 +59,20 @@ class ButtonMenu:
             self.buttons[btn.id] = mbtn
             self.grouped_buttons.setdefault(data["group"], []).append(mbtn)
 
+    @property
+    def buttons_list(self) -> List[List[Button]]:
+        comps: List[List[Button]] = []
+        for _, buttons in self.grouped_buttons.items():
+            comps.append([])
+            comps[-1].extend([b.button for b in buttons])
+        return comps
+
     async def start(self):
         self.message = await self.send_initial_message()
         t = self.bot.loop.create_task(self._internal_loop())
         await t
 
-    async def send_initial_message(self):
+    async def send_initial_message(self) -> discord.Message:
         raise NotImplementedError
 
     async def _internal_loop(self):
@@ -93,7 +101,7 @@ class ButtonMenu:
                 if group:
                     to_leave.append(group)
 
-            await self.message.edit(components=to_leave or None)
+            await self.message.edit(components=to_leave)
 
 
 def button(

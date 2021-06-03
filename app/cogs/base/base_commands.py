@@ -5,7 +5,7 @@ from discord.ext.prettyhelp import bot_has_permissions
 from discord_components.button import Button, ButtonStyle
 
 import config
-from app import commands, converters
+from app import buttons, commands, converters
 from app.classes.bot import Bot
 from app.classes.context import MyContext
 from app.i18n import t_
@@ -31,6 +31,14 @@ class Base(
             "your starboard.",
             True,
         )
+
+    @commands.command()
+    async def test(self, ctx):
+        pag = buttons.Paginator(
+            ctx,
+            text_pages=["page1", "page2"],
+        )
+        await pag.start()
 
     @commands.command(name="credits", help=t_("Show credits.", True))
     @bot_has_permissions(embed_links=True)
