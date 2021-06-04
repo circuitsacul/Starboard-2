@@ -60,10 +60,10 @@ class ButtonMenu:
             button_funcs.append((attr))
         button_funcs.sort(key=lambda f: f.__button_data__["pos"])
 
-        for attr in button_funcs:
+        for x, attr in enumerate(button_funcs):
             data = attr.__button_data__
             btn: Button = data["button"]
-            btn._id = str(bot.next_button_id)
+            btn._id = str(x)
             mbtn = MenuButton(btn, attr, data["remove"])
             self.buttons[btn.id] = mbtn
             self.grouped_buttons.setdefault(data["group"], []).append(mbtn)
@@ -87,8 +87,6 @@ class ButtonMenu:
     async def _internal_loop(self):
         def check(ctx: ButtonContext) -> bool:
             if ctx.user.id != self.owner_id:
-                return False
-            if ctx.component.id not in self.buttons:
                 return False
             if ctx.message.id != self.message.id:
                 return False

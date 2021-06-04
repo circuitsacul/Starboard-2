@@ -81,7 +81,6 @@ class Bot(commands.AutoShardedBot):
         self._before_invoke = self.before_invoke_hook
 
         DiscordComponents(self)
-        self._curr_button_id = 0
 
         self.log = logging.getLogger(f"Cluster#{self.cluster_name}")
         self.log.setLevel(logging.DEBUG)
@@ -116,11 +115,6 @@ class Bot(commands.AutoShardedBot):
             raise e from e
         else:
             sys.exit(-1)
-
-    @property
-    def next_button_id(self):
-        self._curr_button_id += 1
-        return self._curr_button_id
 
     async def on_message(self, message):
         pass
