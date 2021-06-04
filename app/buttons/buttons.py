@@ -6,7 +6,6 @@ from discord_components import Button as BaseButton
 from discord_components import Interaction
 from discord_components.message import ComponentMessage
 
-from app import utils
 from app.i18n import t_
 
 if TYPE_CHECKING:
