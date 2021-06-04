@@ -6,6 +6,9 @@ from discord_components import Button as BaseButton
 from discord_components import Interaction
 from discord_components.message import ComponentMessage
 
+from app import utils
+from app.i18n import t_
+
 if TYPE_CHECKING:
     from app.classes.bot import Bot
 
@@ -85,18 +88,22 @@ class ButtonMenu:
         raise NotImplementedError
 
     async def _internal_loop(self):
-        def check(r: Interaction) -> bool:
-            if r.user.id != self.owner_id:
-                return False
-            if r.message.id != self.message.id:
-                return False
-            return True
+        async def go() -> Interaction:
+            while True:
+                res: Interaction = await self.bot.wait_for("button_click")
+                if res.message.id != self.message.id:
+                    continue
+                if res.user.id != self.owner_id:
+                    async with self.bot.temp_locale(res.user):
+                        await res.respond(
+                            content=t_("You can't use this menu.")
+                        )
+                    continue
+                return res
 
         try:
             while self.running:
-                res: Interaction = await self.bot.wait_for(
-                    "button_click", timeout=self.timeout, check=check
-                )
+                res = await asyncio.wait_for(go(), timeout=self.timeout)
                 await self.buttons[res.component.id].action(res)
         except asyncio.TimeoutError:
             self.timed_out = True
