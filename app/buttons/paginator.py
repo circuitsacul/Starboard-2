@@ -1,9 +1,7 @@
 from typing import TYPE_CHECKING, List, Optional, Tuple
 
 import discord
-from discord_components.button import ButtonStyle
-from discord_components.context import Context as Interaction
-from discord_components.interaction import InteractionType
+from discord_components import ButtonStyle, Interaction, InteractionType
 
 from app.i18n.i18n import t_
 
@@ -95,16 +93,16 @@ class Paginator(ButtonMenu):
         await self.update_page()
 
     @button(Button(label=t_("Stop", True), style=ButtonStyle.red), pos=0)
-    async def stop_pag(self, ctx: Interaction):
-        await ctx.respond(type=InteractionType.DeferredUpdateMessage)
+    async def stop_pag(self, res: Interaction):
+        await res.respond(type=InteractionType.DeferredUpdateMessage)
         self.running = False
 
     @button(Button(label=t_("Prev", True), style=ButtonStyle.blue), pos=1)
-    async def prev_page(self, ctx: Interaction):
-        await ctx.respond(type=InteractionType.DeferredUpdateMessage)
+    async def prev_page(self, res: Interaction):
+        await res.respond(type=InteractionType.DeferredUpdateMessage)
         await self.increment_page(-1)
 
     @button(Button(label=t_("Next", True), style=ButtonStyle.blue), pos=2)
-    async def next_page(self, ctx: Interaction):
-        await ctx.respond(type=InteractionType.DeferredUpdateMessage)
+    async def next_page(self, res: Interaction):
+        await res.respond(type=InteractionType.DeferredUpdateMessage)
         await self.increment_page(1)

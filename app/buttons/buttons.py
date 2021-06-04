@@ -3,13 +3,13 @@ from typing import TYPE_CHECKING, Any, Callable, Dict, List, Optional
 
 import discord
 from discord_components import Button as BaseButton
-from discord_components import Context as ButtonContext
+from discord_components import Interaction
 from discord_components.message import ComponentMessage
 
 if TYPE_CHECKING:
     from app.classes.bot import Bot
 
-ACTION = Callable[[ButtonContext], None]
+ACTION = Callable[[Interaction], None]
 
 
 class Button(BaseButton):
@@ -85,16 +85,16 @@ class ButtonMenu:
         raise NotImplementedError
 
     async def _internal_loop(self):
-        def check(ctx: ButtonContext) -> bool:
-            if ctx.user.id != self.owner_id:
+        def check(r: Interaction) -> bool:
+            if r.user.id != self.owner_id:
                 return False
-            if ctx.message.id != self.message.id:
+            if r.message.id != self.message.id:
                 return False
             return True
 
         try:
             while self.running:
-                res: ButtonContext = await self.bot.wait_for(
+                res: Interaction = await self.bot.wait_for(
                     "button_click", timeout=self.timeout, check=check
                 )
                 await self.buttons[res.component.id].action(res)
