@@ -26,6 +26,7 @@ class AwardRoles(commands.Cog, description=t_("Manage AwardRoles.", True)):
         invoke_without_command=True,
     )
     @bot_has_permissions(embed_links=True)
+    @commands.guild_only()
     async def posroles(self, ctx: "MyContext"):
         _posroles = await self.bot.db.posroles.get_many(ctx.guild.id)
         if len(_posroles) == 0:
