@@ -32,14 +32,6 @@ class Base(
             True,
         )
 
-    @commands.command()
-    async def test(self, ctx):
-        pag = buttons.Paginator(
-            ctx,
-            text_pages=["page1", "page2"],
-        )
-        await pag.start()
-
     @commands.command(name="credits", help=t_("Show credits.", True))
     @bot_has_permissions(embed_links=True)
     @commands.guild_only()
