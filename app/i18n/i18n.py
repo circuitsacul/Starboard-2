@@ -110,7 +110,13 @@ def language_embed(bot: "Bot", p: str) -> discord.Embed:
         ).format(
             p=p,
             languages=" - "
-            + "\n - ".join([lang["name"] for lang in config.LANGUAGE_MAP]),
+            + "\n - ".join(
+                [
+                    lang["name"]
+                    + (" (Partial)" if lang.get("partial", False) else "")
+                    for lang in config.LANGUAGE_MAP
+                ]
+            ),
         ),
     )
 
