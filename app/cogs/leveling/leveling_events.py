@@ -21,7 +21,7 @@ class LevelingEvents(commands.Cog):
         channel_id: int,
         points: int,
     ) -> None:
-        if giver_id == receiver_id and False:  # TODO revert "and False"
+        if giver_id == receiver_id:
             return
 
         # I need to check two things:
