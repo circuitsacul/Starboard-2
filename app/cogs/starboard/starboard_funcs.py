@@ -671,16 +671,10 @@ async def handle_starboard(
 
     if delete and starboard_message is not None:
         await bot.db.sb_messages.delete(starboard_message.id)
-        if starboard_message.author.id == bot.user.id:
-            try:
-                await starboard_message.delete()
-            except discord.errors.NotFound:
-                pass
-        elif webhook and starboard_message.author.id == webhook.id:
-            try:
-                await webhook.delete_message(starboard_message.id)
-            except discord.errors.NotFound:
-                pass
+        try:
+            await starboard_message.delete()
+        except (discord.NotFound, discord.Forbidden):
+            pass
     elif not delete:
         guild = bot.get_guild(int(sql_message["guild_id"]))
 
