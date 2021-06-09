@@ -112,10 +112,13 @@ class XPREvents(commands.Cog):
                 to_add = []
                 to_remove = [
                     int(r["role_id"])
-                    for r in await self.bot.db.execute(
-                        """SELECT * FROM xproles
+                    for r in (
+                        await self.bot.db.execute(
+                            """SELECT * FROM xproles
                         WHERE guild_id=$1""",
-                        gid,
+                            gid,
+                        )
+                        or []
                     )
                 ]
             t = asyncio.create_task(set_xp_roles(to_add, to_remove, member))
