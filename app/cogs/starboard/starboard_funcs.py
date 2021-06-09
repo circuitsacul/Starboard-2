@@ -264,7 +264,10 @@ async def embed_message(
             if embed.type == "image":
                 new_url = {"name": "Image", **new_url}
             elif embed.type == "gifv":
+                gif_url = await gifs.get_gif_url(bot, embed.url)
                 new_url = {"name": "GIF", **new_url}
+                if gif_url:
+                    new_url["url"] = gif_url
             elif embed.type == "video":
                 new_url = {"name": embed.title, **new_url}
 
