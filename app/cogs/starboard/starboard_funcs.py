@@ -3,7 +3,7 @@ from typing import Any, Dict, List, Optional, Tuple
 
 import discord
 
-from app import gifs, utils
+from app import constants, gifs, utils
 from app.classes.bot import Bot
 from app.cogs.permroles import pr_functions
 from app.constants import ZWS
@@ -292,8 +292,8 @@ async def embed_message(
                     }
                 )
 
-    if len(content) > 2048:
-        to_remove = len(content + " ...") - 2048
+    if len(content) > constants.MAX_EMBED_DESC_LENGTH:
+        to_remove = len(content + " ...") - constants.MAX_EMBED_DESC_LENGTH
         content = content[:-to_remove]
 
     _a = message.author

@@ -21,6 +21,9 @@ ZWS = "\u200B"
 ARROW_LEFT = "←"
 ARROW_RIGHT = "→"
 
+# Values
+MAX_EMBED_DESC_LENGTH = 6_000
+
 # Emoji Lists
 NUMBER_EMOJIS = [
     "1️⃣",
