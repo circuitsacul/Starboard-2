@@ -1,3 +1,4 @@
+import pathlib
 import time
 from typing import Any, Dict, List, Optional
 
@@ -17,9 +18,6 @@ from .database_functions import (
     users,
     xproles,
 )
-from .pg_indexes import ALL_INDEXES
-from .pg_tables import ALL_TABLES
-from .pg_types import ALL_TYPES
 
 
 class Database:
@@ -53,15 +51,16 @@ class Database:
         self.pool = await asyncpg.create_pool(
             database=self.name, user=self.user, password=self.password
         )
+        app_dir = pathlib.Path("app/database/")
 
         async with self.pool.acquire() as con:
             async with con.transaction():
-                for table in ALL_TABLES:
-                    await con.execute(table)
-                for index in ALL_INDEXES:
-                    await con.execute(index)
-                for pg_type in ALL_TYPES:
-                    await con.execute(pg_type)
+                with open(app_dir / "tables.sql", "r") as f:
+                    await con.execute(f.read())
+                with open(app_dir / "indexes.sql", "r") as f:
+                    await con.execute(f.read())
+                with open(app_dir / "types.sql", "r") as f:
+                    await con.execute(f.read())
 
     async def execute(self, sql: str, *args: Any) -> None:
         async with self.pool.acquire() as con:
