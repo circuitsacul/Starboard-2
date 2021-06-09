@@ -188,9 +188,7 @@ async def embed_message(
 
     _a = message.author
     author_name = (
-        f"{_a.display_name}#{_a.discriminator}"
-        if nicknames
-        else f"{_a.name}#{_a.discriminator}"
+        f"{_a.display_name}" if nicknames else f"{_a.name}#{_a.discriminator}"
     )
 
     embed = discord.Embed(
