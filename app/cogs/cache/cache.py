@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 import discord
 from aiocache import Cache as MemCache
@@ -7,6 +7,36 @@ from aiocache import SimpleMemoryCache
 from app import utils
 from app.classes.bot import Bot
 from app.constants import MISSING
+
+
+def cached(  # for future use
+    namespace: str,
+    ttl: int,
+    *,
+    cache_args: Tuple[int] = None,
+    cache_kwargs: Tuple[str] = None,
+):
+    cache: SimpleMemoryCache = MemCache(namespace=namespace, ttl=ttl)
+
+    def get_cache_sig(args: List[Any], kwargs: Dict[Any, Any]) -> List[Any]:
+        return [
+            *[args[i] for i in cache_args],
+            *[kwargs.get(k, None) for k in cache_kwargs],
+        ]
+
+    def wrapper(coro):
+        async def predicate(*args, **kwargs):
+            sig = get_cache_sig(args, kwargs)
+            if await cache.exists(sig):
+                return await cache.get(sig)
+
+            result = await coro(*args, **kwargs)
+            await cache.set(sig, result)
+            return result
+
+        return predicate
+
+    return wrapper
 
 
 class Cache:
