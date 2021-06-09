@@ -251,46 +251,24 @@ async def embed_message(
                         "thumbnail_only": True,
                     }
                 )
-        elif embed.type == "image":
-            if embed.url is not embed.Empty:
-                urls.append(
-                    {
-                        "name": "Image",
-                        "display_url": embed.thumbnail.url,
-                        "url": embed.url,
-                        "type": "image",
-                        "spoiler": False,
-                        "show_link": True,
-                        "thumbnail_only": False,
-                    }
-                )
-        elif embed.type == "gifv":
-            if embed.url is not embed.Empty:
-                gif_url = await gifs.get_gif_url(bot, embed.url)
-                urls.append(
-                    {
-                        "name": "GIF",
-                        "display_url": gif_url or embed.thumbnail.url,
-                        "url": embed.url,
-                        "type": "gif",
-                        "spoiler": False,
-                        "show_link": True,
-                        "thumbnail_only": False,
-                    }
-                )
-        elif embed.type == "video":
-            if embed.url is not embed.Empty:
-                urls.append(
-                    {
-                        "name": embed.title,
-                        "display_url": embed.thumbnail.url,
-                        "url": embed.url,
-                        "type": "video",
-                        "spoiler": False,
-                        "show_link": True,
-                        "thumbnail_only": False,
-                    }
-                )
+
+        elif embed.url is not embed.Empty:
+            new_url = {
+                "display_url": embed.thumbnail.url,
+                "url": embed.url,
+                "type": "gif" if embed.type == "gifv" else embed.type,
+                "spoiler": False,
+                "show_link": True,
+                "thumbnail_only": False,
+            }
+            if embed.type == "image":
+                new_url = {"name": "Image", **new_url}
+            elif embed.type == "gifv":
+                new_url = {"name": "GIF", **new_url}
+            elif embed.type == "video":
+                new_url = {"name": embed.title, **new_url}
+
+            urls.append(new_url)
 
     if len(content) > constants.MAX_EMBED_DESC_LENGTH:
         to_remove = len(content + " ...") - constants.MAX_EMBED_DESC_LENGTH
