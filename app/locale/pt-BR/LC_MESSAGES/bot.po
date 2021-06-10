@@ -106,7 +106,7 @@ msgstr "Eu não consegui encontrar nenhum PermGroups com o nome **{0}**."
 #: app/errors.py:73
 #, python-brace-format
 msgid "**{0}** is already the name of another PermGroup."
-msgstr "**{0}** já é o nome de outro PermGroup."
+msgstr "**{0}** já é o nome de um outro PermGroup."
 
 #: app/errors.py:80
 #, python-brace-format
@@ -150,114 +150,114 @@ msgstr "{0} não é um emoji no canal AutoStar {1}."
 #: app/errors.py:129
 #, python-brace-format
 msgid "{0} is already an emoji on the AutoStar channel {1}."
-msgstr ""
+msgstr "{0} já é um emoji no canal AutoStar {1}."
 
 #: app/errors.py:136
 #, python-brace-format
 msgid "{0} is not an emoji on the starboard {1}."
-msgstr ""
+msgstr "{0} não é um emoji no starboard {1}."
 
 #: app/errors.py:144
 #, python-brace-format
 msgid "{0} is already an emoji on the starboard {1}."
-msgstr ""
+msgstr "{0} is already an emoji on the starboard {1}."
 
 #: app/errors.py:152
 #, python-brace-format
 msgid "{0} is not blacklisted on {1}."
-msgstr ""
+msgstr "{0} não está na lista negra em {1}."
 
 #: app/errors.py:160
 #, python-brace-format
 msgid "{0} is already blacklisted on {1}."
-msgstr ""
+msgstr "{0} já está na lista negra em {1}."
 
 #: app/errors.py:168
 #, python-brace-format
 msgid "{0} is not whitelisted on {1}."
-msgstr ""
+msgstr "{0} não está na lista branca em {1}."
 
 #: app/errors.py:176
 #, python-brace-format
 msgid "{0} is already whitelisted on {1}."
-msgstr ""
+msgstr "{0} já está na lista branca em {1}."
 
 #: app/errors.py:185
 #, python-brace-format
 msgid "{0} is not a valid language code."
-msgstr ""
+msgstr "{0} não é um código de idioma válido."
 
 #: app/errors.py:191
 msgid "That message does not exist in the database."
-msgstr ""
+msgstr "Essa mensagem não existe na base de dados."
 
 #: app/errors.py:197
 #, python-brace-format
 msgid "The command `{0}` is not disabled."
-msgstr ""
+msgstr "O commando `{0}` não está desabilitado."
 
 #: app/errors.py:203
 #, python-brace-format
 msgid "{0} is already a starboard."
-msgstr ""
+msgstr "{0} já é um starboard."
 
 #: app/errors.py:209
 #, python-brace-format
 msgid "The command `{0}` is already disabled."
-msgstr ""
+msgstr "O comando `{0}` já está desabilitado."
 
 #: app/errors.py:215
 msgid "That emoji is already used for another QuickAction"
-msgstr ""
+msgstr "Esse emoji já é usado para um outro QuickAction"
 
 #: app/errors.py:221
 #, python-brace-format
 msgid "{0} is already a prefix."
-msgstr ""
+msgstr "{0} já é um prefixo."
 
 #: app/errors.py:228
 msgid "A channel cannot be both a starboard and an AutoStar channel"
-msgstr ""
+msgstr "Um canal não pode ser ao mesmo tempo um starboard e um canal AutoStar"
 
 #: app/errors.py:237
 #, python-brace-format
 msgid "Message {0} not found."
-msgstr ""
+msgstr "Mensagem {0} não encontrada."
 
 #: app/errors.py:248
 #, python-brace-format
 msgid "**{0}** is a required argument that you didn't pass."
-msgstr ""
+msgstr "**{0}** é um argumento obrigatório que você não passou."
 
 #: app/errors.py:261
 #, python-brace-format
 msgid "Channel {0} not found."
-msgstr ""
+msgstr "Canal {0} não encontrada."
 
 #: app/errors.py:271
 #, python-brace-format
 msgid "I can't read messages in {0}."
-msgstr ""
+msgstr "Eu não consigo ler mensagens em {0}."
 
 #: app/errors.py:281
 #, python-brace-format
 msgid "Role {0} not found."
-msgstr ""
+msgstr "Cargo {0} não encontrado."
 
 #: app/errors.py:291
 #, python-brace-format
 msgid "User {0} not found."
-msgstr ""
+msgstr "Usuário {0} não encontrado."
 
 #: app/errors.py:303
 #, python-brace-format
 msgid "You are on cooldown. Try again in {0}s."
-msgstr ""
+msgstr "Você está no tempo de espera. Tente novamente em {0} s."
 
 #: app/errors.py:316
 #, python-brace-format
 msgid "Expected closing {0}."
-msgstr ""
+msgstr "Encerramento do comando esperado: {0}."
 
 #: app/errors.py:341
 msgid ""
