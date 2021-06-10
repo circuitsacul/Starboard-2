@@ -10,8 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-06-08 11:17-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Last-Translator: Davi 6596#6596 <d68961978@gmail.com>\n"
 "Language: pt-BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,15 +18,15 @@ msgstr ""
 
 #: app/utils.py:143
 msgid "Changed Settings:"
-msgstr ""
+msgstr "Configurações Alteradas:"
 
 #: app/utils.py:168
 msgid "No changed settings."
-msgstr ""
+msgstr "Nenhuma configuração alterada."
 
 #: app/utils.py:334 app/utils.py:349
 msgid "None"
-msgstr ""
+msgstr "Nenhum"
 
 #: app/converters.py:23
 #, python-brace-format
@@ -35,6 +34,8 @@ msgid ""
 "I couldn't interpret `{0}` as a hex value. Please pass something like "
 "`#FFE16C`."
 msgstr ""
+"Eu não consegui interpretar `{0}` como um valor hexadecimal. Por favor, passe algo como "
+"`#FFE16C`."
 
 #: app/converters.py:40
 #, python-brace-format
@@ -42,6 +43,8 @@ msgid ""
 "I couldn't interpret `{0}` as yes or no. Please pass one of 'yes', 'no', "
 "'true', or 'false'."
 msgstr ""
+"Eu não consegui interpretar `{0}` como sim ou não. Por favor, passe 'yes', 'no', "
+"'true' ou 'false'."
 
 #: app/converters.py:53
 #, python-brace-format
@@ -49,6 +52,8 @@ msgid ""
 "I couldn't interpret `{0}` as an integer (number). Please pass something "
 "like `10` or `2`."
 msgstr ""
+"Eu não consegui interpretar `{0}` como um número inteiro. Por favor, passe algo "
+"como `10` or `2`."
 
 #: app/converters.py:66
 #, python-brace-format
@@ -56,55 +61,57 @@ msgid ""
 "I couldn't interpret `{0}` as a floating-point number. Please pass something "
 "like `10.9` or `6`."
 msgstr ""
+"Eu não consegui interpretar `{0}` como um número de ponto flutuante. Poir favor, passe algo "
+"como `10.9` or `6`."
 
 #: app/errors.py:18
 msgid "A role cannot be both an XPRole and a PosRole."
-msgstr ""
+msgstr "Um cargo não pode ser ao mesmo tempo um XPRole e um PosRole."
 
 #: app/errors.py:24
 #, python-brace-format
 msgid "{0} is already a PosRole."
-msgstr ""
+msgstr "{0} já é um PosRole."
 
 #: app/errors.py:30
 #, python-brace-format
 msgid "{0} is not a PosRole."
-msgstr ""
+msgstr "{0} não é um PosRole."
 
 #: app/errors.py:36
 #, python-brace-format
 msgid "{0} is already an XPRole."
-msgstr ""
+msgstr "{0} já é um XPRole."
 
 #: app/errors.py:42
 #, python-brace-format
 msgid "{0} is not a XPRole."
-msgstr ""
+msgstr "{0} não é um XPRole."
 
 #: app/errors.py:49
 #, python-brace-format
 msgid "**{0}** is already a PermRole on the PermGroup **{1}**."
-msgstr ""
+msgstr "**{0}** já é um PermRole no PermGroup **{1}**."
 
 #: app/errors.py:57
 #, python-brace-format
 msgid "**{0}** is not a PermRole on the PermGroup **{1}**."
-msgstr ""
+msgstr "**{0}** não é um PermRole no PermGroup **{1}**."
 
 #: app/errors.py:65
 #, python-brace-format
 msgid "I couldn't find any PermGroups with the name **{0}**."
-msgstr ""
+msgstr "Eu não consegui encontrar nenhum PermGroups com o nome **{0}**."
 
 #: app/errors.py:73
 #, python-brace-format
 msgid "**{0}** is already the name of another PermGroup."
-msgstr ""
+msgstr "**{0}** já é o nome de outro PermGroup."
 
 #: app/errors.py:80
 #, python-brace-format
 msgid "{0} is not an emoji."
-msgstr ""
+msgstr "{0} não é um emoji."
 
 #: app/errors.py:87
 #, python-brace-format
@@ -112,31 +119,33 @@ msgid ""
 "{0} is an emoji, but from another server. Please pass a default emoji or a "
 "custom emoji from this server."
 msgstr ""
+"{0} é um emoji, mas de outro servidor. Passe um emoji padrão ou um "
+"emoji personalizado deste servidor."
 
 #: app/errors.py:96
 #, python-brace-format
 msgid "The channel {0} is not a starboard."
-msgstr ""
+msgstr "O canal {0} não é um starboard."
 
 #: app/errors.py:102
 #, python-brace-format
 msgid "`{0}` is not a valid command."
-msgstr ""
+msgstr "`{0}` não é um comando válido."
 
 #: app/errors.py:108
 #, python-brace-format
 msgid "`{0}` is not a valid command or category."
-msgstr ""
+msgstr "`{0}` não é um comando válido ou uma categoria válida."
 
 #: app/errors.py:114
 #, python-brace-format
 msgid "The channel {0} is not an AutoStar channel."
-msgstr ""
+msgstr "O canal {0} não é um canal AutoStar."
 
 #: app/errors.py:121
 #, python-brace-format
 msgid "{0} is not an emoji on the AutoStar channel {1}."
-msgstr ""
+msgstr "{0} não é um emoji no canal AutoStar {1}."
 
 #: app/errors.py:129
 #, python-brace-format
