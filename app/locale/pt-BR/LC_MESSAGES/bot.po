@@ -297,60 +297,60 @@ msgstr "minChars não pode ser menor que 0."
 
 #: app/database/database_functions/aschannels.py:96
 msgid "minChars cannot be grater than 2,000."
-msgstr ""
+msgstr "minChars não pode ser maior que 2.000."
 
 #: app/database/database_functions/posroles.py:77
 #: app/database/database_functions/posroles.py:106
 msgid "MaxUsers must be greater than 0."
-msgstr ""
+msgstr "MaxUsers deve ser maior que 0."
 
 #: app/database/database_functions/guilds.py:45
 msgid "The cooldown ammount must be greater than 0."
-msgstr ""
+msgstr "A quantidade de tempo de espera deve ser maior que 0."
 
 #: app/database/database_functions/guilds.py:49
 msgid "The cooldown time must be 0 or greater."
-msgstr ""
+msgstr "O tempo de espera deve ser 0 ou maior."
 
 #: app/database/database_functions/guilds.py:54
 msgid "The cooldown time can be at most 10 minutes (600 seconds)."
-msgstr ""
+msgstr "O tempo de espera pode ser de no máximo 10 minutos (600 segundos)."
 
 #: app/database/database_functions/starboards.py:163
 msgid "requiredStars cannot be less than or equal to requiredRemove."
-msgstr ""
+msgstr "requiredStars não pode ser menor ou igual a requiredRemove."
 
 #: app/database/database_functions/starboards.py:169
 #: app/wizards/starboard.py:63
 msgid "requiredStars cannot be less than 1."
-msgstr ""
+msgstr "requiredStars não pode ser menor que 1."
 
 #: app/database/database_functions/starboards.py:173
 #: app/wizards/starboard.py:66
 msgid "requiredStars cannot be greater than 500."
-msgstr ""
+msgstr "requiredStars não pode ser maior que 500."
 
 #: app/database/database_functions/starboards.py:177
 msgid "requiredRemove cannot be less than -1."
-msgstr ""
+msgstr "requiredRemove não pode ser menor que -1."
 
 #: app/database/database_functions/starboards.py:181
 msgid "requiredRemove cannot be greater than 495."
-msgstr ""
+msgstr "requiredRemove não pode ser maior que 495."
 
 #: app/database/database_functions/xproles.py:31
 #: app/database/database_functions/xproles.py:51
 msgid "Required must be greater than 0."
-msgstr ""
+msgstr "Required deve ser maior que 0."
 
 #: app/buttons/paginator.py:57
 #, python-brace-format
 msgid "Page {0}/{1}"
-msgstr ""
+msgstr "Página {0}/{1}"
 
 #: app/buttons/paginator.py:95
 msgid "Stop"
-msgstr ""
+msgstr "Pare"
 
 #: app/buttons/paginator.py:100
 msgid "Prev"
