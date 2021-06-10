@@ -263,15 +263,16 @@ msgstr "Encerramento do comando esperado: {0}."
 msgid ""
 "This server does not have premium, which is required to use this command."
 msgstr ""
+"Este servidor não possui premium, que é necessário para usar este comando."
 
 #: app/errors.py:354
 #, python-brace-format
 msgid "The command `{0}` has been disabled by the moderators of this server."
-msgstr ""
+msgstr "O comando `{0}` foi desabilitado pelos moderadores deste servidor."
 
 #: app/errors.py:371
 msgid "This command is being used too much. Please wait and try again."
-msgstr ""
+msgstr "Este comando está sendo usado demais. Por favor, aguarde e tente novamente."
 
 #: app/errors.py:393
 #, python-brace-format
@@ -279,18 +280,20 @@ msgid ""
 "Bot requires the following permissions to run this command:\n"
 "{0}"
 msgstr ""
+"O bot requer as seguintes permissões para executar este comando:\n"
+"{0}"
 
 #: app/errors.py:406
 msgid "This command cannot be used in private messages."
-msgstr ""
+msgstr "Este comando não pode ser usado em mensagens privadas."
 
 #: app/errors.py:416
 msgid "This command can only be used by the bot owner."
-msgstr ""
+msgstr "Este comando só pode ser usado pelo dono do bot."
 
 #: app/database/database_functions/aschannels.py:93
 msgid "minChars cannot be less than 0."
-msgstr ""
+msgstr "minChars não pode ser menor que 0."
 
 #: app/database/database_functions/aschannels.py:96
 msgid "minChars cannot be grater than 2,000."
