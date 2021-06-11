@@ -5,7 +5,7 @@ from discord.ext.prettyhelp import bot_has_permissions
 from discord_components.button import Button, ButtonStyle
 
 import config
-from app import buttons, commands, converters
+from app import commands, converters
 from app.classes.bot import Bot
 from app.classes.context import MyContext
 from app.i18n import t_
