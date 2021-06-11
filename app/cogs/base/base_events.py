@@ -5,8 +5,10 @@ from typing import Any, List
 
 import discord
 from discord import AsyncWebhookAdapter, Webhook
+from discord.errors import NotFound
 from dotenv import load_dotenv
 
+import config
 from app import commands, errors, flags, utils
 from app.classes.bot import Bot
 from app.classes.context import MyContext
@@ -36,6 +38,7 @@ EXPECTED_ERRORS = (
 UPTIME = os.getenv("UPTIME_HOOK")
 ERROR = os.getenv("ERROR_HOOK")
 GUILD = os.getenv("GUILD_HOOK")
+VOTE = os.getenv("VOTE_HOOK")
 
 
 class BaseEvents(commands.Cog):
@@ -45,6 +48,7 @@ class BaseEvents(commands.Cog):
         self.guild_webhook: Webhook = None
         self.error_webhook: Webhook = None
         self.uptime_webhook: Webhook = None
+        self.vote_webhook: Webhook = None
 
         self.type_map = {
             "error": {"color": self.bot.error_color, "title": "Error"},
@@ -80,6 +84,15 @@ class BaseEvents(commands.Cog):
             embed=embed, username="Starboard Guild Log"
         )
 
+    async def vote_log(self, embed: discord.Embed) -> None:
+        if not VOTE:
+            return
+        if not self.vote_webhook:
+            self.vote_webhook = Webhook.from_url(
+                VOTE, adapter=AsyncWebhookAdapter(self.bot.session)
+            )
+        await self.vote_webhook.send(embed=embed, username="Starboard Votes")
+
     @commands.Cog.listener()
     async def on_guild_join(self, guild: discord.Guild) -> None:
         embed = discord.Embed(
@@ -99,6 +112,26 @@ class BaseEvents(commands.Cog):
         )
         embed.timestamp = datetime.datetime.utcnow()
         await self.join_leave_log(embed)
+
+    @commands.Cog.listener()
+    async def on_log_vote(self, user_id: int) -> None:
+        if 0 not in self.bot.shard_ids:
+            return
+        try:
+            user = await self.bot.cache.fetch_user(user_id)
+        except NotFound:
+            username = f"<@{user_id}>"
+        else:
+            username = user.name
+        vote_link = f"https://top.gg/bot/{self.bot.user.id}/vote"
+        embed = discord.Embed(
+            description=(
+                f"**{username}** voted for starboard!\n\n"
+                f"You can vote **[here]({vote_link})** every 12 hours."
+            ),
+            color=self.bot.theme_color,
+        )
+        await self.vote_log(embed)
 
     @commands.Cog.listener()
     async def on_log_error(
