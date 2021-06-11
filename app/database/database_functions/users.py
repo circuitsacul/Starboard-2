@@ -1,10 +1,13 @@
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 import asyncpg
 
+if TYPE_CHECKING:
+    from app.database.database import Database
+
 
 class Users:
-    def __init__(self, db) -> None:
+    def __init__(self, db: "Database") -> None:
         self.db = db
 
     async def set_patron_status(
@@ -15,6 +18,14 @@ class Users:
         await self.db.execute(
             """UPDATE users SET patron_status=$1 WHERE id=$2""",
             status,
+            user_id,
+        )
+
+    async def add_vote(self, user_id: int):
+        await self.db.execute(
+            """UPDATE users
+            SET votes = votes + 1
+            WHERE id=$1""",
             user_id,
         )
 

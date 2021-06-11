@@ -18,13 +18,15 @@ from . import app_config
 dotenv.load_dotenv()
 
 app = Quart(__name__)
-CSRFProtect(app)
+csrf = CSRFProtect(app)
 
 app.secret_key = os.getenv("QUART_KEY")
 app.config["DISCORD_CLIENT_ID"] = config.BOT_ID
 app.config["DISCORD_CLIENT_SECRET"] = os.getenv("CLIENT_SECRET")
 app.config["DISCORD_REDIRECT_URI"] = config.WEBSITE_URL + "/api/callback/"
 app.config["DISCORD_BOT_TOKEN"] = os.getenv("TOKEN")
+
+app.config["TOPGG_TOKEN"] = os.getenv("TOPGG_VOTE_TOKEN")
 
 app.config["STATS"] = {}
 
@@ -399,7 +401,7 @@ async def err404(err):
         user = await discord.fetch_user()
     except Unauthorized:
         user = None
-    return await render_template("error/404.jinja", user=user)
+    return await render_template("error/404.jinja", user=user), 404
 
 
 # Api routes
@@ -431,6 +433,7 @@ async def login_callback():
         return redirect(url_for("server_general", guild_id=gid))
 
 
+@csrf.exempt
 @app.route("/api/donatebot/", methods=["POST"])
 async def handle_donate_event():
     data = {
@@ -441,6 +444,19 @@ async def handle_donate_event():
         "donate_event", data, expect_resp=False
     )
     return "OK"
+
+
+@csrf.exempt
+@app.route("/api/topggvote/", methods=["POST"])
+async def handle_topgg_vote():
+    data = await request.get_json()
+    if app.config["TOPGG_TOKEN"] != request.headers["Authorization"]:
+        return "Invalid Token", 401
+    if data["type"] == "upvote":
+        await db.db.users.add_vote(data["user"])
+    else:
+        print("Test successful.")
+    return "OK", 200
 
 
 # Other
