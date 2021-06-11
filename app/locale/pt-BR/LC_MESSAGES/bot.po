@@ -887,85 +887,85 @@ msgstr "Defina o emoji de QuickAction para congelar/descongelar uma mensagem com
 
 #: app/cogs/settings/settings_commands.py:335
 msgid "Sets the trash/untrash QuickAction emoji."
-msgstr ""
+msgstr "Define o emoji de QuickAction para destruir/reconstruir uma mensagem."
 
 #: app/cogs/settings/settings_commands.py:351
 #, python-brace-format
 msgid "Set the trash/untrash QuickAction to {0}."
-msgstr ""
+msgstr "Defina o emoji de QuickAction para destruir/reconstruir uma mensagem como {0}."
 
 #: app/cogs/settings/settings_commands.py:355
 msgid "Sets the recount QuickAction emoji."
-msgstr ""
+msgstr "Define o emoji QuickAction para recontar."
 
 #: app/cogs/settings/settings_commands.py:370
 #, python-brace-format
 msgid "Set the recount QuickAction to {0}."
-msgstr ""
+msgstr "Defina o emoji QuickAction para recontar como {0}."
 
 #: app/cogs/settings/settings_commands.py:373
 msgid "Sets the save QuickAction emoji."
-msgstr ""
+msgstr "Define o emoji QuickAction para salvar."
 
 #: app/cogs/settings/settings_commands.py:388
 #, python-brace-format
 msgid "Set the save QuickAction to {0}."
-msgstr ""
+msgstr "Defina o emoji QuickAction para salvar como {0}."
 
 #: app/cogs/settings/settings_commands.py:393
 msgid "List and manage prefixes."
-msgstr ""
+msgstr "Liste e gerencie prefixos."
 
 #: app/cogs/settings/settings_commands.py:401
 #, python-brace-format
 msgid "Prefixes for {0}:"
-msgstr ""
+msgstr "Prefixos para {0}:"
 
 #: app/cogs/settings/settings_commands.py:415
 msgid "Adds a prefix."
-msgstr ""
+msgstr "Adiciona um prefixo."
 
 #: app/cogs/settings/settings_commands.py:425
 #, python-brace-format
 msgid "`{0}` is too long (max length is 8 characters)."
-msgstr ""
+msgstr "`{0}` é muito longo (o comprimento máximo é 8 caracteres)."
 
 #: app/cogs/settings/settings_commands.py:442
 #, python-brace-format
 msgid "Added `{0}` to the prefixes."
-msgstr ""
+msgstr "Eu adicionei `{0}` aos prefixos."
 
 #: app/cogs/settings/settings_commands.py:445
 msgid "Removes a prefix."
-msgstr ""
+msgstr "Remove um prefixo."
 
 #: app/cogs/settings/settings_commands.py:463
 #, python-brace-format
 msgid "I found {0} matches for `{1}`. Please be more specific."
-msgstr ""
+msgstr "Encontrei {0} correspondências para `{1}`. Por favor, seja mais específico."
 
 #: app/cogs/settings/settings_commands.py:470
 #, python-brace-format
 msgid "No matches found for `{0}`."
-msgstr ""
+msgstr "Nenhuma correspondência encontrada para `{0}`."
 
 #: app/cogs/settings/settings_commands.py:477
 #, python-brace-format
 msgid "Did you want to remove `{0}` from the prefixes?"
-msgstr ""
+msgstr "Você deseja remover `{0}` dos prefixos?"
 
 #: app/cogs/settings/settings_commands.py:496
 #, python-brace-format
 msgid "Removed `{0}` from the prefixes."
-msgstr ""
+msgstr "Removi `{0}` dos prefixos."
 
 #: app/cogs/settings/settings_commands.py:500
 msgid "Removes all prefixes and adds \"sb!\"."
-msgstr ""
+msgstr "Remove todos os prefixos e adiciona \"sb!\"."
 
 #: app/cogs/settings/settings_commands.py:507
 msgid "Are you sure you want to reset all prefixes?"
-msgstr ""
+msgstr "Tem certeza de que deseja redefinir todos os prefixos?"
 
 #: app/cogs/settings/settings_commands.py:517
 msgid "Cleared all prefixes and added `sb!`."
