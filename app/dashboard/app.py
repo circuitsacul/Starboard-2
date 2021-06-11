@@ -88,7 +88,7 @@ async def handle_command(msg: dict) -> Optional[Union[dict, str]]:
 
 
 def bot_stats() -> Tuple[str, str, str]:
-    return (
+    return (  # TODO FIX THIS LOL
         humanize.intcomma(7124),
         humanize.intcomma(3579381),
         humanize.intcomma(3179750),
