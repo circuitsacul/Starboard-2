@@ -724,42 +724,42 @@ msgstr "Limpa todos os starEmojis para um starboard."
 #: app/cogs/autostarchannels/asc_commands.py:225
 #, python-brace-format
 msgid "Are you sure you want to clear all emojis for {0}?"
-msgstr ""
+msgstr "Você tem certeza de que deseja limpar todos os emojis para {0}?"
 
 #: app/cogs/starboard/starboard_events.py:28
 #, python-brace-format
 msgid "`{0}` was deleted, so I removed that starboard."
-msgstr ""
+msgstr "`{0}` foi excluído, então eu removi esse starboard."
 
 #: app/cogs/starboard/starboard_events.py:51
 msgid "Starboard message was deleted, so I autotrashed it."
-msgstr ""
+msgstr "A mensagem de starboard foi excluída, então eu a destruí automaticamente."
 
 #: app/cogs/settings/settings_commands.py:18
 msgid "Manage settings for the server."
-msgstr ""
+msgstr "Gerencie configurações para o servidor."
 
 #: app/cogs/settings/settings_commands.py:26
 msgid "Set the language for the server."
-msgstr ""
+msgstr "Defina o idioma para o servidor."
 
 #: app/cogs/settings/settings_commands.py:45
 #, python-brace-format
 msgid "Set the language for this server to {0}."
-msgstr ""
+msgstr "Defina o idioma para este servidor como {0}."
 
 #: app/cogs/settings/settings_commands.py:50
 msgid "Lists disabled commands."
-msgstr ""
+msgstr "Lista comandos desabilitados."
 
 #: app/cogs/settings/settings_commands.py:61
 #, python-brace-format
 msgid "No disabled commands. Disable a command with `{0}disable <command>`."
-msgstr ""
+msgstr "Nenhum comando desabilitado. Desabilite um comando com `{0}disable <comando>`."
 
 #: app/cogs/settings/settings_commands.py:70
 msgid "Disabled Commands:"
-msgstr ""
+msgstr "Comandos Desabilitados:"
 
 #: app/cogs/settings/settings_commands.py:75
 #, python-brace-format
@@ -767,121 +767,123 @@ msgid ""
 "Disable a command with `{0}disable <command>`.\n"
 "Enable a command with `{0}enable <command>`."
 msgstr ""
+"Desabilite um comando com `{0}disable <comando>`.\n"
+"Habilite um comando com `{0}enable <comando>`."
 
 #: app/cogs/settings/settings_commands.py:81
 msgid "Disables a command."
-msgstr ""
+msgstr "Desabilita um comando."
 
 #: app/cogs/settings/settings_commands.py:99
 #, python-brace-format
 msgid "Disabled `{0}`."
-msgstr ""
+msgstr "Desabilitei `{0}`."
 
 #: app/cogs/settings/settings_commands.py:101
 msgid "Enables a command."
-msgstr ""
+msgstr "Habilita um comando."
 
 #: app/cogs/settings/settings_commands.py:119
 #, python-brace-format
 msgid "Enabled `{0}`."
-msgstr ""
+msgstr "Habilitei `{0}`."
 
 #: app/cogs/settings/settings_commands.py:124
 msgid "View guild settings."
-msgstr ""
+msgstr "Veja as configurações do servidor."
 
 #: app/cogs/settings/settings_commands.py:141
 msgid "enabled"
-msgstr ""
+msgstr "habilitado"
 
 #: app/cogs/settings/settings_commands.py:141
 msgid "disabled"
-msgstr ""
+msgstr "desabilitado"
 
 #: app/cogs/settings/settings_commands.py:144
 #, python-brace-format
 msgid "Settings for {0}:"
-msgstr ""
+msgstr "Configurações para {0}:"
 
 #: app/cogs/settings/settings_commands.py:163
 msgid "Sets the cooldown for xp."
-msgstr ""
+msgstr "Define o tempo de espera para XP."
 
 #: app/cogs/settings/settings_commands.py:190
 msgid "Disables the XP cooldown."
-msgstr ""
+msgstr "Desabilita o tempo de espera para XP."
 
 #: app/cogs/settings/settings_commands.py:196
 msgid "Disabled the XP cooldown."
-msgstr ""
+msgstr "Desabiltei o tempo de espera para XP."
 
 #: app/cogs/settings/settings_commands.py:198
 msgid "Enables the XP cooldown."
-msgstr ""
+msgstr "Habilita o tempo de espera para XP."
 
 #: app/cogs/settings/settings_commands.py:204
 msgid "Enabled the XP cooldown."
-msgstr ""
+msgstr "Habilitei o tempo de espera para XP."
 
 #: app/cogs/settings/settings_commands.py:209
 msgid "Modify QuickActions."
-msgstr ""
+msgstr "Modifique os QuickActions."
 
 #: app/cogs/settings/settings_commands.py:230
 #, python-brace-format
 msgid "To modify these, run `{0}help qa`."
-msgstr ""
+msgstr "Para modificá-los, execute `{0}help qa`."
 
 #: app/cogs/settings/settings_commands.py:236
 msgid "Enables QuickActions."
-msgstr ""
+msgstr "Habilita os QuickActions."
 
 #: app/cogs/settings/settings_commands.py:243
 msgid "Enabled QuickActions."
-msgstr ""
+msgstr "Habilitei os QuickActions."
 
 #: app/cogs/settings/settings_commands.py:248
 msgid "Disables QuickActions."
-msgstr ""
+msgstr "Desabilita os QuickActions."
 
 #: app/cogs/settings/settings_commands.py:255
 msgid "Disabled QuickActions."
-msgstr ""
+msgstr "Desabilitei os QuickActions."
 
 #: app/cogs/settings/settings_commands.py:258
 msgid "Resets QuickActions to their default."
-msgstr ""
+msgstr "Redefine os QuickActions para as opções padrões deles."
 
 #: app/cogs/settings/settings_commands.py:273
 msgid "Reset quickActions."
-msgstr ""
+msgstr "Redefina os QuickActions."
 
 #: app/cogs/settings/settings_commands.py:276
 msgid "Sets the force QuickAction emoji."
-msgstr ""
+msgstr "Define o emoji de QuickAction para forçar uma mensagem."
 
 #: app/cogs/settings/settings_commands.py:291
 #, python-brace-format
 msgid "Set the force QuickAction to {0}."
-msgstr ""
+msgstr "Defina o emoji de QuickAction para forçar uma mensagem como {0}."
 
 #: app/cogs/settings/settings_commands.py:294
 msgid "Set the unforce QuickAction emoji."
-msgstr ""
+msgstr "Define o emoji de QuickAction para desforçar uma mensagem."
 
 #: app/cogs/settings/settings_commands.py:309
 #, python-brace-format
 msgid "Set the unforce QuickAction to {0}."
-msgstr ""
+msgstr "Define o emoji de QuickAction para forçar uma mensagem como {0}."
 
 #: app/cogs/settings/settings_commands.py:314
 msgid "Sets the freeze/unfreeze QuickAction emoji."
-msgstr ""
+msgstr "Define o emoji de QuickAction para congelar/descongelar uma mensagem."
 
 #: app/cogs/settings/settings_commands.py:330
 #, python-brace-format
 msgid "Set the freeze/unfreeze QuickAction to {0}."
-msgstr ""
+msgstr "Defina o emoji de QuickAction para congelar/descongelar uma mensagem como {0}."
 
 #: app/cogs/settings/settings_commands.py:335
 msgid "Sets the trash/untrash QuickAction emoji."
