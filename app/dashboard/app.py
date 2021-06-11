@@ -456,7 +456,7 @@ async def handle_topgg_vote():
     if data["type"] == "upvote":
         if not await db.db.users.get(int(data["user"])):
             try:
-                await db.db.users.create(int(data["user"]))
+                await db.db.users.create(int(data["user"]), False)
             except asyncpg.exceptions.UniqueViolationError:
                 pass
         await db.db.users.add_vote(int(data["user"]))
