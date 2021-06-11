@@ -51,6 +51,12 @@ class StarboardEvents(commands.Cog):
                     "Starboard message was deleted, so I autotrashed it."
                 ),
             )
+        else:
+            await starboard_funcs.update_message(
+                self.bot,
+                payload.message_id,
+                payload.guild_id,
+            )
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(
