@@ -1,6 +1,7 @@
 import os
 from typing import Dict, Optional, Tuple, Union
 
+import asyncpg
 import dotenv
 import humanize
 from quart import Quart, redirect, render_template, request, url_for
@@ -453,7 +454,15 @@ async def handle_topgg_vote():
     if app.config["TOPGG_TOKEN"] != request.headers["Authorization"]:
         return "Invalid Token", 401
     if data["type"] == "upvote":
-        await db.db.users.add_vote(data["user"])
+        if not await db.db.users.get(int(data["user"])):
+            try:
+                await db.db.users.create(int(data["user"]))
+            except asyncpg.exceptions.UniqueViolationError:
+                pass
+        await db.db.users.add_vote(int(data["user"]))
+        await app.config["WEBSOCKET"].send_command(
+            "vote", data, expect_resp=False
+        )
     else:
         print("Test successful.")
     return "OK", 200
