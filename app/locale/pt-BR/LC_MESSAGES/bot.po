@@ -562,25 +562,25 @@ msgstr "Canal Excluído {0}"
 
 #: app/cogs/starboard/starboard_commands.py:148
 msgid "Adds a starboard."
-msgstr ""
+msgstr "Adiciona um starboard."
 
 #: app/cogs/starboard/starboard_commands.py:159
 #, python-brace-format
 msgid "Created starboard {0}."
-msgstr ""
+msgstr "Starboard criado {0}."
 
 #: app/cogs/starboard/starboard_commands.py:165
 msgid "Removes a starboard."
-msgstr ""
+msgstr "Remove um starboard."
 
 #: app/cogs/starboard/starboard_commands.py:180
 msgid "Are you sure? All starboard messages will be lost."
-msgstr ""
+msgstr "Você tem certeza? Todas as mensagens de starboard serão perdidas."
 
 #: app/cogs/starboard/starboard_commands.py:184
 #, python-brace-format
 msgid "{0} is no longer a starboard."
-msgstr ""
+msgstr "{0} não é mais um starboard."
 
 #: app/cogs/starboard/starboard_commands.py:187
 #: app/cogs/starboard/starboard_commands.py:870
@@ -594,15 +594,15 @@ msgstr ""
 #: app/cogs/utility/utility_commands.py:332
 #: app/cogs/utility/utility_commands.py:400
 msgid "Cancelled."
-msgstr ""
+msgstr "Cancelado."
 
 #: app/cogs/starboard/starboard_commands.py:193
 msgid "Whether or not to use webhooks for starboard messages."
-msgstr ""
+msgstr "Se deve usar ou não webhooks para mensagens de starboard."
 
 #: app/cogs/starboard/starboard_commands.py:217
 msgid "Sets the avatar for webhook starboard messages."
-msgstr ""
+msgstr "Define o avatar para os webhooks das mensagens de starboard."
 
 #: app/cogs/starboard/starboard_commands.py:233
 #: app/cogs/starboard/starboard_commands.py:278
@@ -610,113 +610,115 @@ msgid ""
 "This feature only works if `useWebhook` is enabled. Would you like to also "
 "enable this setting?"
 msgstr ""
+"Este recurso só funciona se `useWebhook` estiver habilitado. Você também gostaria de "
+"ativar essa configuração?"
 
 #: app/cogs/starboard/starboard_commands.py:242
 #, python-brace-format
 msgid "Webhooks have been enabled for {0}."
-msgstr ""
+msgstr "Os webhooks foram ativados para {0}."
 
 #: app/cogs/starboard/starboard_commands.py:251
 msgid "Avatar set!"
-msgstr ""
+msgstr "Avatar definido!"
 
 #: app/cogs/starboard/starboard_commands.py:253
 msgid "Avatar reset to default."
-msgstr ""
+msgstr "Avatar redefinido para o padrão."
 
 #: app/cogs/starboard/starboard_commands.py:258
 msgid "Sets the username for webhook starboard messages."
-msgstr ""
+msgstr "Define o nome de usuário para os webhooks das mensagens de starboard."
 
 #: app/cogs/starboard/starboard_commands.py:303
 msgid "Set the emoji to show next to the points."
-msgstr ""
+msgstr "Defina o emoji para mostrar ao lado dos pontos."
 
 #: app/cogs/starboard/starboard_commands.py:330
 msgid "Whether or not to show nicknames on starboard embeds."
-msgstr ""
+msgstr "Se deve mostrar ou não apelidos nos embeds de starboards."
 
 #: app/cogs/starboard/starboard_commands.py:354
 msgid "Sets the embed color of starboard messages."
-msgstr ""
+msgstr "Define a cor dos embeds das mensagens de starboard."
 
 #: app/cogs/starboard/starboard_commands.py:382
 msgid "Sets the number of reactions a message needs."
-msgstr ""
+msgstr "Define o número de reações de que uma mensagem precisa."
 
 #: app/cogs/starboard/starboard_commands.py:403
 msgid "How few stars a message has before it is removed."
-msgstr ""
+msgstr "Quantas estrelas a menos uma mensagem tem antes de ser removida."
 
 #: app/cogs/starboard/starboard_commands.py:432
 msgid "Whether or not users can star their own messages."
-msgstr ""
+msgstr "Se usuários podem ou não estrelar as próprias mensagens deles."
 
 #: app/cogs/starboard/starboard_commands.py:456
 msgid "Whether or not bot messages can appear on the starboard."
-msgstr ""
+msgstr "Se mensagens do bot podem aparecer ou não no starboard."
 
 #: app/cogs/starboard/starboard_commands.py:481
 msgid "Whether messages must include an image."
-msgstr ""
+msgstr "Se as mensagens estreladas devem ou não incluírem uma imagem."
 
 #: app/cogs/starboard/starboard_commands.py:505
 #: app/cogs/autostarchannels/asc_commands.py:295
 msgid "A regex string that all messages must match."
-msgstr ""
+msgstr "Uma string de regex à qual todas as mensagens devem corresponder."
 
 #: app/cogs/starboard/starboard_commands.py:526
 #: app/cogs/autostarchannels/asc_commands.py:316
 msgid "A regex string that all messages must not match."
-msgstr ""
+msgstr "Uma string de regex à qual todas as mensagens não devem corresponder."
 
 #: app/cogs/starboard/starboard_commands.py:556
 msgid "Whether or not to mention the author of a starboard message."
-msgstr ""
+msgstr "Se deve ou não mencionar o autor de uma mensagem de starboard."
 
 #: app/cogs/starboard/starboard_commands.py:579
 msgid "Whether to automatically react to starboard messages."
-msgstr ""
+msgstr "Se deve ou não reagir automaticamente às mensagens de starboard."
 
 #: app/cogs/starboard/starboard_commands.py:604
 msgid "Whether to delete the starboard message if the original is."
-msgstr ""
+msgstr "Se deve ou não excluir a mensagem de starboard se a original é excluída."
 
 #: app/cogs/starboard/starboard_commands.py:630
 msgid "Whether to update starboard messages with edited content."
-msgstr ""
+msgstr "Se deve ou não atualizar mensagens de starboard com conteúdo editado."
 
 #: app/cogs/starboard/starboard_commands.py:654
 msgid "Set to True to disable gaining XP for this starboard."
-msgstr ""
+msgstr "Defina como True (verdadeiro) para desativar o ganho de XP para este estibordo."
 
 #: app/cogs/starboard/starboard_commands.py:675
 msgid "Whether or not invalid reactions should be removed."
-msgstr ""
+msgstr "Se reações inválidas devem ser removidas ou não."
 
 #: app/cogs/starboard/starboard_commands.py:705
 msgid "Whether or not the random command can pull from this starboard."
-msgstr ""
+msgstr "Se a execução do comando random deve ou não incluir mensagens deste starboard."
 
 #: app/cogs/starboard/starboard_commands.py:731
 msgid "Modify starEmojis for a starboard."
-msgstr ""
+msgstr "Modifique starEmojis para um starboard."
 
 #: app/cogs/starboard/starboard_commands.py:739
 msgid "Sets the starEmojis for a starboard."
-msgstr ""
+msgstr "Define os starEmojis para um starboard."
 
 #: app/cogs/starboard/starboard_commands.py:773
 msgid "Add a starEmoji."
-msgstr ""
+msgstr "Adicione um starEmoji."
 
 #: app/cogs/starboard/starboard_commands.py:813
 msgid "Removes a starEmoji."
-msgstr ""
+msgstr "Remove um starEmoji."
 
 #: app/cogs/starboard/starboard_commands.py:854
 msgid "Clears all starEmojis for a starboard."
-msgstr ""
+msgstr "Limpa todos os starEmojis para um starboard."
 
 #: app/cogs/starboard/starboard_commands.py:866
 #: app/cogs/autostarchannels/asc_commands.py:225
