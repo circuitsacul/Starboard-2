@@ -122,17 +122,17 @@ msgstr ""
 #: app/errors.py:90
 #, python-brace-format
 msgid "The channel {0} is not a starboard."
-msgstr ""
+msgstr "Het kanaal {0} is geen starboard."
 
 #: app/errors.py:96
 #, python-brace-format
 msgid "`{0}` is not a valid command."
-msgstr ""
+msgstr "`{0}` is geen geldig commando."
 
 #: app/errors.py:102
 #, python-brace-format
 msgid "`{0}` is not a valid command or category."
-msgstr ""
+msgstr "`{0}` is geen geldig commando of categorie."
 
 #: app/errors.py:108
 #, python-brace-format
