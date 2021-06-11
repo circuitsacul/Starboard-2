@@ -518,29 +518,33 @@ msgid ""
 "proper permissions. If you don't want me to autoreact to messages, set the "
 "AutoReact setting to False with `starboards cs #{0} --autoReact False`."
 msgstr ""
+"Eu tentei reagir automaticamente a uma mensagem no starboard, mas eu não tenho as "
+"permissões apropriadas. Se você não quer que eu reaja automaticamente às mensagens, defina "
+"a configuração AutoReact como `False` (falsa) com `starboards cs #{0} --autoReact False`."
 
 #: app/cogs/starboard/starboard_commands.py:14
 msgid "Manage starboards."
-msgstr ""
+msgstr "Gerencie starboards."
 
 #: app/cogs/starboard/starboard_commands.py:20
 msgid "Runs a setup wizard to create a starboard."
-msgstr ""
+msgstr "Executa um assistente de configuração para criar um starboard."
 
 #: app/cogs/starboard/starboard_commands.py:46
 msgid "List starboards."
-msgstr ""
+msgstr "Liste starboards."
 
 #: app/cogs/starboard/starboard_commands.py:60
 #, python-brace-format
 msgid ""
 "You do not have any starboards. Add starboards with `{0}s add #channel`."
 msgstr ""
+"Você não tem nenhum starboard. Adicione starboards com `{0}s add #canal`."
 
 #: app/cogs/starboard/starboard_commands.py:68
 #, python-brace-format
 msgid "Starboards for **{0}**:"
-msgstr ""
+msgstr "Starboards para **{0}**:"
 
 #: app/cogs/starboard/starboard_commands.py:70
 #, python-brace-format
@@ -548,11 +552,13 @@ msgid ""
 "This lists the starboards and their most important settings. To view all "
 "settings, run `{0}starboards #starboard`."
 msgstr ""
+"Isto lista os starboards e as configurações mais importantes deles. Para ver todas as "
+"configurações, execute `{0}starboards #starboard`."
 
 #: app/cogs/starboard/starboard_commands.py:84
 #, python-brace-format
 msgid "Deleted Channel {0}"
-msgstr ""
+msgstr "Canal Excluído {0}"
 
 #: app/cogs/starboard/starboard_commands.py:148
 msgid "Adds a starboard."
