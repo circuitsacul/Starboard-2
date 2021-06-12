@@ -952,7 +952,7 @@ msgstr "Nenhuma correspondência encontrada para `{0}`."
 #: app/cogs/settings/settings_commands.py:477
 #, python-brace-format
 msgid "Did you want to remove `{0}` from the prefixes?"
-msgstr "Você deseja remover `{0}` dos prefixos?"
+msgstr "Você quis remover `{0}` dos prefixos?"
 
 #: app/cogs/settings/settings_commands.py:496
 #, python-brace-format
@@ -969,11 +969,11 @@ msgstr "Tem certeza de que deseja redefinir todos os prefixos?"
 
 #: app/cogs/settings/settings_commands.py:517
 msgid "Cleared all prefixes and added `sb!`."
-msgstr ""
+msgstr "Apaguei todos os prefixos e adicionei `sb!`."
 
 #: app/cogs/settings/settings_commands.py:522
 msgid "Sets the channel for level up messages."
-msgstr ""
+msgstr "Define o canal para mensagens de subida de nível."
 
 #: app/cogs/settings/settings_commands.py:540
 #, python-brace-format
@@ -982,31 +982,34 @@ msgid ""
 "levelUpChannel:\n"
 "{1}"
 msgstr ""
+"Preciso das seguintes permissões em {0} para definir isso como "
+"o levelUpChannel:\n"
+"{1}"
 
 #: app/cogs/settings/settings_commands.py:555
 #, python-brace-format
 msgid "Set the LevelUpChannel to {0}."
-msgstr ""
+msgstr "Defina o LevelUpChannel como {0}."
 
 #: app/cogs/settings/settings_commands.py:558
 msgid "Unset the LevelUpChannel."
-msgstr ""
+msgstr "Remova o LevelUpChannel."
 
 #: app/cogs/settings/settings_commands.py:563
 msgid "Whether or not to ping users when they level up."
-msgstr ""
+msgstr "Se deve ou não mencionar usuários quando eles sobem de nível."
 
 #: app/cogs/settings/settings_commands.py:575
 msgid "I will now ping users when the level up."
-msgstr ""
+msgstr "Eu vou agora mencionar usuários quando eles sobem de nível."
 
 #: app/cogs/settings/settings_commands.py:577
 msgid "I will not ping users when the level up."
-msgstr ""
+msgstr "Eu não vou mais mencionar usuários quando eles sobem de nível."
 
 #: app/cogs/settings/settings_commands.py:582
 msgid "Sets the channel where logs are sent to."
-msgstr ""
+msgstr "Define o canal para o qual os registros são enviados."
 
 #: app/cogs/settings/settings_commands.py:600
 #, python-brace-format
@@ -1015,17 +1018,22 @@ msgid ""
 "channel:\n"
 "{1}"
 msgstr ""
+"Preciso das seguintes permissões em {0} para definir isso como o canal "
+"de registro:\n"
+"{1}"
 
 #: app/cogs/settings/settings_commands.py:616
 #, python-brace-format
 msgid "Set the log channel to {0}."
-msgstr ""
+msgstr "Defina o canal de registro como {0}."
 
 #: app/cogs/settings/settings_commands.py:622
 msgid ""
 "This channel has been set as a log channel. I'll send errors and important "
 "info here."
 msgstr ""
+"Este canal foi definido como o canal de registro. Vou enviar erros e informações"
+"inportantes aqui."
 
 #: app/cogs/settings/settings_commands.py:634
 msgid "Wether or not to allow commands from non-admins."
