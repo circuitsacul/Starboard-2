@@ -1033,7 +1033,7 @@ msgid ""
 "info here."
 msgstr ""
 "Este canal foi definido como o canal de registro. Vou enviar erros e informações"
-"inportantes aqui."
+"importantes aqui."
 
 #: app/cogs/settings/settings_commands.py:634
 msgid "Wether or not to allow commands from non-admins."
