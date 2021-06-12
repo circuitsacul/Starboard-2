@@ -36,6 +36,8 @@ class StarboardEvents(commands.Cog):
     async def on_raw_message_delete(
         self, payload: discord.RawMessageDeleteEvent
     ) -> None:
+        if payload.guild_id is None:
+            return
         sb_message = await self.bot.db.sb_messages.get(payload.message_id)
         if sb_message:
             # Delete the starboard message
