@@ -80,7 +80,7 @@ def get_shard_count():
 
 
 class Launcher:
-    def __init__(self, loop):
+    def __init__(self, loop: asyncio.AbstractEventLoop):
         log.info("Hello, world!")
         self.cluster_queue: List["Cluster"] = []
         self.clusters = []
