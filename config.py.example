@@ -19,7 +19,7 @@ LANGUAGE_MAP = [
     {"code": "en_US", "name": "English (US)", "aliases": ["english", "en"]}
 ]
 
-# Premium Limits
+# Premium Stuffs
 DEFAULT_LIMITS = {
     "starboards": 3,
     "sb_emojis": 5,
@@ -39,6 +39,8 @@ PREMIUM_LIMITS = {
     "xproles": 20,
     "posroles": 20,
 }
+
+CREDITS_PER_MONTH = 3
 
 # Appearance
 THEME_COLOR = int('FFE16C', 16)  # Main bot color
