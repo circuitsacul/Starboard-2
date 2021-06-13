@@ -1,9 +1,12 @@
+from datetime import datetime
 from typing import TYPE_CHECKING, List
 
 import discord
+from discord.ext import tasks
 
 import config
 from app import commands
+from app.i18n import t_
 
 if TYPE_CHECKING:
     from app.classes.bot import Bot
@@ -12,6 +15,32 @@ if TYPE_CHECKING:
 class PremiumEvents(commands.Cog):
     def __init__(self, bot: "Bot"):
         self.bot = bot
+        self.check_expired_premium.start()
+
+    @tasks.loop(hours=1)
+    async def check_expired_premium(self):
+        now = datetime.utcnow()
+        expired_guilds = await self.bot.db.fetch(
+            """SELECT * FROM guilds
+            WHERE premium_end < $1""",
+            now,
+        )
+        for sql_guild in expired_guilds:
+            await self.bot.db.execute(
+                """UPDATE guilds
+                SET premium_end = null
+                WHERE id = $1""",
+                sql_guild["id"],
+            )
+            obj = self.bot.get_guild(int(sql_guild["id"]))
+            if not obj:
+                continue
+            self.bot.dispatch(
+                "guild_log",
+                t_("Premium has expired for this server."),
+                "info",
+                obj,
+            )
 
     @commands.Cog.listener()
     async def on_member_join(self, member: discord.Member):
