@@ -23,6 +23,7 @@ ARROW_RIGHT = "→"
 
 # Values
 MAX_EMBED_DESC_LENGTH = 2_048
+PREMIUM_MONTH_DAYS = 31
 
 # Emoji Lists
 NUMBER_EMOJIS = [

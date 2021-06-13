@@ -1,9 +1,10 @@
+import datetime
 from typing import TYPE_CHECKING, Optional
 
 import asyncpg
 from aiocache import Cache, SimpleMemoryCache
 
-from app import commands, errors, i18n
+from app import commands, constants, errors, i18n
 from app.i18n import t_
 
 if TYPE_CHECKING:
@@ -18,6 +19,20 @@ class Guilds:
     async def delete(self, guild_id: int):
         await self.db.execute("""DELETE FROM guilds WHERE id=$1""", guild_id)
         await self.cache.delete(guild_id)
+
+    async def add_months(self, guild_id: int, months: int):
+        guild = await self.get(guild_id)
+        current: datetime.datetime = (
+            guild["premium_end"] or datetime.datetime.utcnow()
+        )
+        to_add = datetime.timedelta(days=constants.PREMIUM_MONTH_DAYS * months)
+        await self.db.execute(
+            """UPDATE guilds
+            SET premium_end=$1
+            WHERE id=$2""",
+            current + to_add,
+            guild_id,
+        )
 
     async def set_xprole_stack(self, guild_id: int, stack: bool):
         await self.db.execute(

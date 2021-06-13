@@ -20,3 +20,22 @@ async def limit_for(key: str, guild_id: int, bot: "Bot") -> int:
         return premium_limit_for(key)
     else:
         return normal_limit_for(key)
+
+
+async def redeem_credits(bot: "Bot", guild_id: int, user_id: int, months: int):
+    assert await bot.db.guilds.get(guild_id) is not None, "guild was none"
+    user = await bot.db.users.get(user_id)
+
+    credits = config.CREDITS_PER_MONTH * months
+    if credits > user["credits"]:
+        # TODO: Raise actual exception
+        raise Exception
+
+    await bot.db.guilds.add_months(guild_id, months)
+    await bot.db.execute(
+        """UPDATE users
+        SET credits=credits-$1
+        WHERE id=$2""",
+        credits,
+        user_id,
+    )
