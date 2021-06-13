@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING
 
 import config
+from app.errors import NotEnoughCredits
 
 if TYPE_CHECKING:
     from app.classes.bot import Bot
@@ -29,7 +30,7 @@ async def redeem_credits(bot: "Bot", guild_id: int, user_id: int, months: int):
     credits = config.CREDITS_PER_MONTH * months
     if credits > user["credits"]:
         # TODO: Raise actual exception
-        raise Exception
+        raise NotEnoughCredits()
 
     await bot.db.guilds.add_months(guild_id, months)
     await bot.db.execute(

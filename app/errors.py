@@ -7,6 +7,16 @@ from app import commands
 from app.i18n import t_
 
 
+# Premium Errors
+class PremiumError(commands.CommandError):
+    pass
+
+
+class NotEnoughCredits(PremiumError):
+    def __init__(self):
+        super().__init__(t_("You don't have enough credits."))
+
+
 # Custom CommandErrors
 class SupportServerOnly(commands.BadArgument):
     def __init__(self):

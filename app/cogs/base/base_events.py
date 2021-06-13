@@ -32,6 +32,7 @@ EXPECTED_ERRORS = (
     commands.UserInputError,
     commands.CheckFailure,
     errors.CommandOnCooldown,
+    errors.PremiumError,
     flags.ArgumentParsingError,
 )
 UPTIME = os.getenv("UPTIME_HOOK")
