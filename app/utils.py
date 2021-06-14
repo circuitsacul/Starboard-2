@@ -106,6 +106,23 @@ def get_intersect(list1: Iterable[Any], list2: Iterable[Any]) -> List[Any]:
     return [value for value in list1 if value in list2]
 
 
+def truncate(content: str, max_length: int, truncate_str: str = "...") -> str:
+    """Truncates a string to a certain length.
+
+    Args:
+        content (str): The string that may need to be truncated.
+        max_length (int): The length to truncate the string to.
+        truncate_str (str, optional): The string to append to the end if
+            truncated. Defaults to "...".
+
+    Returns:
+        str: The truncated string.
+    """
+    if len(content) > max_length:
+        content = content[0 : max_length - len(truncate_str)] + truncate_str
+    return content
+
+
 def chunk_list(
     lst: List[Any], max_size: int
 ) -> Generator[List[Any], None, None]:

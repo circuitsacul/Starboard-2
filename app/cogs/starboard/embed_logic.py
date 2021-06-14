@@ -10,12 +10,6 @@ if TYPE_CHECKING:
     from app.classes.bot import Bot
 
 
-def truncate(content: str, max_length: int, truncate_str: str = "...") -> str:
-    if len(content) > max_length:
-        content = content[0 : max_length - len(truncate_str)] + truncate_str
-    return content
-
-
 async def add_jump_links(
     bot: "Bot", message: discord.Message, embed: discord.Embed
 ):
@@ -49,7 +43,7 @@ async def add_jump_links(
 
         embed.add_field(
             name=f'Replying to {ref_author or t_("Unknown")}',
-            value=truncate(ref_content, MAX_EMBED_FIELD_LENGTH),
+            value=utils.truncate(ref_content, MAX_EMBED_FIELD_LENGTH),
             inline=False,
         )
 
@@ -187,7 +181,7 @@ async def embed_message(
 
     await extract_attachments(message, files, urls)
     content += await extract_embeds(bot, message, urls)
-    content = truncate(content, MAX_EMBED_DESC_LENGTH)
+    content = utils.truncate(content, MAX_EMBED_DESC_LENGTH)
 
     _a = message.author
     author_name = (
