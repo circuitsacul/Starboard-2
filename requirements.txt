@@ -5,7 +5,7 @@ discord-ext-wizards==0.3.0
 discord-ext-prettyhelp==0.2.3
 discord-py-slash-command==1.2.2
 requests==2.25.1
-discord.py==1.7.2
+discord.py==1.7.3
 humanize==3.8.0
 quart==0.15.1
 alt-discord-flags==0.0.5
