@@ -15,7 +15,8 @@ if TYPE_CHECKING:
 class PremiumEvents(commands.Cog):
     def __init__(self, bot: "Bot"):
         self.bot = bot
-        self.check_expired_premium.start()
+        if 0 in self.bot.shard_ids:
+            self.check_expired_premium.start()
 
     @tasks.loop(hours=1)
     async def check_expired_premium(self):
