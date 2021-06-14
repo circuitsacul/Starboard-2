@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, List, Tuple
 import discord
 
 from app import gifs, utils
-from app.constants import MAX_EMBED_DESC_LENGTH, ZWS
+from app.constants import MAX_EMBED_DESC_LENGTH, MAX_EMBED_FIELD_LENGTH, ZWS
 from app.i18n import t_
 
 if TYPE_CHECKING:
@@ -228,11 +228,27 @@ async def embed_message(
                 embed.set_image(url=data["display_url"])
                 image_used = True
 
-    to_show = str(
-        "\n".join(
-            f"**[{d['name']}]({d['url']})**" for d in urls if d["show_link"]
-        )
-    )
+    to_show = ""
+    left = len(urls)
+    for d in urls:
+        and_others_str = t_("{0} additional attachments.").format(left)
+        left -= 1
+        if not d["show_link"]:
+            continue
+        newline = True
+        if d is urls[0]:
+            newline = False
+        to_add = f"**[{d['name']}]({d['url']})**"
+        if (
+            len("\n" if newline else "")
+            + len(to_show)
+            + len(to_add)
+            + len(and_others_str)
+            > MAX_EMBED_FIELD_LENGTH
+        ):
+            to_show += and_others_str
+            break
+        to_show += ("\n" if newline else "") + to_add
 
     if len(to_show) != 0:
         embed.add_field(name=ZWS, value=to_show)
