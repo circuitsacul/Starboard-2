@@ -201,10 +201,6 @@ def pretty_channel_string(channels: List[int], guild: discord.Guild) -> str:
 
 def clean_prefix(ctx: "MyContext") -> str:
     user = ctx.guild.me if ctx.guild else ctx.bot.user
-    # this breaks if the prefix mention is not the bot itself but I
-    # consider this to be an *incredibly* strange use case. I'd rather go
-    # for this common use case rather than waste performance for the
-    # odd one.
     pattern = re.compile(r"<@!?%s>" % user.id)
     return pattern.sub(
         "@%s" % user.display_name.replace("\\", r"\\"), ctx.prefix
