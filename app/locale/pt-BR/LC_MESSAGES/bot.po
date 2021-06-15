@@ -1055,7 +1055,7 @@ msgstr ""
 #: app/cogs/fun/fun_commands.py:57
 #, python-brace-format
 msgid "Leaderboard for {0}:"
-msgstr "Leaderboard para {0}"
+msgstr "Leaderboard para {0}:"
 
 #: app/cogs/fun/fun_commands.py:73
 msgid "Shows statistics for yourself or another user."
