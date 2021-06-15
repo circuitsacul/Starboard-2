@@ -1037,16 +1037,16 @@ msgstr ""
 
 #: app/cogs/settings/settings_commands.py:634
 msgid "Wether or not to allow commands from non-admins."
-msgstr ""
+msgstr "Se deve ou não aceitar commandos de não administratores."
 
 #: app/cogs/settings/settings_commands.py:647
 #, python-brace-format
 msgid "Set allowCommands to **{0}**."
-msgstr ""
+msgstr "Defina allowCommands como **{0}**."
 
 #: app/cogs/fun/fun_commands.py:16
 msgid "Fun commands for Starboard."
-msgstr ""
+msgstr "Comandos divertidos para Starboard."
 
 #: app/cogs/fun/fun_commands.py:23
 msgid "Shows the servers top 200 users."
@@ -1055,7 +1055,7 @@ msgstr ""
 #: app/cogs/fun/fun_commands.py:57
 #, python-brace-format
 msgid "Leaderboard for {0}:"
-msgstr ""
+msgstr "Leaderboard para {0}"
 
 #: app/cogs/fun/fun_commands.py:73
 msgid "Shows statistics for yourself or another user."
