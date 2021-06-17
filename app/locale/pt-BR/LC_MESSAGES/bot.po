@@ -690,7 +690,7 @@ msgstr "Se deve ou não atualizar mensagens de starboard com conteúdo editado."
 
 #: app/cogs/starboard/starboard_commands.py:654
 msgid "Set to True to disable gaining XP for this starboard."
-msgstr "Defina como True (verdadeiro) para desativar o ganho de XP para este estibordo."
+msgstr "Defina como True (verdadeiro) para desativar o ganho de pontos de experiência para este starboard."
 
 #: app/cogs/starboard/starboard_commands.py:675
 msgid "Whether or not invalid reactions should be removed."
@@ -807,23 +807,23 @@ msgstr "Configurações para {0}:"
 
 #: app/cogs/settings/settings_commands.py:163
 msgid "Sets the cooldown for xp."
-msgstr "Define o tempo de espera para XP."
+msgstr "Define o tempo de espera para pontos de experiência."
 
 #: app/cogs/settings/settings_commands.py:190
 msgid "Disables the XP cooldown."
-msgstr "Desabilita o tempo de espera para XP."
+msgstr "Desabilita o tempo de espera para pontos de experiência."
 
 #: app/cogs/settings/settings_commands.py:196
 msgid "Disabled the XP cooldown."
-msgstr "Desabiltei o tempo de espera para XP."
+msgstr "Desabiltei o tempo de espera para pontos de experiência."
 
 #: app/cogs/settings/settings_commands.py:198
 msgid "Enables the XP cooldown."
-msgstr "Habilita o tempo de espera para XP."
+msgstr "Habilita o tempo de espera para pontos de experiência."
 
 #: app/cogs/settings/settings_commands.py:204
 msgid "Enabled the XP cooldown."
-msgstr "Habilitei o tempo de espera para XP."
+msgstr "Habilitei o tempo de espera para pontos de experiência."
 
 #: app/cogs/settings/settings_commands.py:209
 msgid "Modify QuickActions."
@@ -1046,11 +1046,11 @@ msgstr "Defina allowCommands como **{0}**."
 
 #: app/cogs/fun/fun_commands.py:16
 msgid "Fun commands for Starboard."
-msgstr "Comandos divertidos para Starboard."
+msgstr "Comandos divertidos para o bot Starboard."
 
 #: app/cogs/fun/fun_commands.py:23
 msgid "Shows the servers top 200 users."
-msgstr ""
+msgstr "Mostra um rank de 200 usuários no servidor."
 
 #: app/cogs/fun/fun_commands.py:57
 #, python-brace-format
@@ -1059,21 +1059,21 @@ msgstr "Leaderboard para {0}:"
 
 #: app/cogs/fun/fun_commands.py:73
 msgid "Shows statistics for yourself or another user."
-msgstr ""
+msgstr "Mostra estatísticas de você ou outro usuário."
 
 #: app/cogs/fun/fun_commands.py:83
 #, python-brace-format
 msgid "**{0}** has no stats to show."
-msgstr ""
+msgstr "**{0}** não tem estatísticas a mostrar."
 
 #: app/cogs/fun/fun_commands.py:87
 msgid "That user has their profile set to private."
-msgstr ""
+msgstr "Esse utilizador tem o seu perfil definido para privado."
 
 #: app/cogs/fun/fun_commands.py:114
 #, python-brace-format
 msgid "Stats for {0}"
-msgstr ""
+msgstr "Estatísticas de {0}"
 
 #: app/cogs/fun/fun_commands.py:116
 #, python-brace-format
@@ -1084,10 +1084,15 @@ msgid ""
 "XP: **{3}**\n"
 "Level: **{4}**"
 msgstr ""
+"Posição: **#{0}**\n"
+"Estrelas Dadas: **{1}**\n"
+"Estrelas Recebidas: **{2}**\n"
+"Pontos de Experiência: **{3}**\n"
+"Nível: **{4}**"
 
 #: app/cogs/fun/fun_commands.py:125
 msgid "Global Stats"
-msgstr ""
+msgstr "Estatísticas Globais"
 
 #: app/cogs/fun/fun_commands.py:127
 #, python-brace-format
@@ -1096,26 +1101,29 @@ msgid ""
 "Total Stars Received: **{1}**\n"
 "Total Votes: **{2}**"
 msgstr ""
+"Total de Estrelas Dadas: **{0}**\n"
+"Total de Estrelas Recebidas: **{1}**\n"
+"Total de Votos: **{2}**"
 
 #: app/cogs/fun/fun_commands.py:143
 msgid "Shows the most starred messages."
-msgstr ""
+msgstr "Mostra as mensagens mais estreladas."
 
 #: app/cogs/fun/fun_commands.py:169
 msgid "--place must be greater than 0"
-msgstr ""
+msgstr "--place deve ser maior que 0"
 
 #: app/cogs/fun/fun_commands.py:220
 msgid "Nothing to show."
-msgstr ""
+msgstr "Nada a mostrar."
 
 #: app/cogs/fun/fun_commands.py:240
 msgid "Shows a random starred message from the server."
-msgstr ""
+msgstr "Mostra uma messagem estrelada aletatória do servidor."
 
 #: app/cogs/fun/fun_commands.py:283
 msgid "No messages were found that matched those requirements."
-msgstr ""
+msgstr "Não foram encontradas mensagens que correspondessem a esses requisitos."
 
 #: app/cogs/fun/fun_commands.py:297
 msgid "Something went wrong. Please try again."
