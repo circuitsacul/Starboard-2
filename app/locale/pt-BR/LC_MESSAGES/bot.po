@@ -636,11 +636,11 @@ msgstr "Defina o emoji para mostrar ao lado dos pontos."
 
 #: app/cogs/starboard/starboard_commands.py:330
 msgid "Whether or not to show nicknames on starboard embeds."
-msgstr "Se deve mostrar ou não apelidos nos embeds de starboards."
+msgstr "Se deve mostrar ou não apelidos nos conteúdos integrados de starboards."
 
 #: app/cogs/starboard/starboard_commands.py:354
 msgid "Sets the embed color of starboard messages."
-msgstr "Define a cor dos embeds das mensagens de starboard."
+msgstr "Define a cor do conteúdo integrado das mensagens de starboard."
 
 #: app/cogs/starboard/starboard_commands.py:382
 msgid "Sets the number of reactions a message needs."
@@ -1127,7 +1127,7 @@ msgstr "Não foram encontradas mensagens que correspondessem a esses requisitos.
 
 #: app/cogs/fun/fun_commands.py:297
 msgid "Something went wrong. Please try again."
-msgstr ""
+msgstr "Alguma coisa deu errado. Por favor, tente novamente."
 
 #: app/cogs/fun/fun_commands.py:316
 msgid "Tells you how starworthy a message is."
@@ -1140,15 +1140,15 @@ msgstr ""
 
 #: app/cogs/fun/fun_commands.py:329
 msgid "Saves a message to your DM's."
-msgstr ""
+msgstr "Salva uma mensagem para as suas mensagwens diretas."
 
 #: app/cogs/fun/fun_commands.py:341 app/cogs/quick_actions/qa_events.py:171
 msgid "You cannot save a trashed message."
-msgstr ""
+msgstr "Você não pode salvar uma mensagem destruída."
 
 #: app/cogs/fun/fun_commands.py:350
 msgid "That message was deleted, so you can't save it."
-msgstr ""
+msgstr "Essa mensagem foi excluída, então você não pode salvá-la."
 
 #: app/cogs/fun/fun_commands.py:359
 msgid "I can't DM you, so you can't save that message."
