@@ -1050,7 +1050,7 @@ msgstr "Comandos divertidos para o bot Starboard."
 
 #: app/cogs/fun/fun_commands.py:23
 msgid "Shows the servers top 200 users."
-msgstr "Mostra um rank de 200 usuários no servidor."
+msgstr "Mostra os 200 melhores usuários no servidor com base nos pontos de experiência."
 
 #: app/cogs/fun/fun_commands.py:57
 #, python-brace-format
