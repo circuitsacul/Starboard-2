@@ -1131,16 +1131,16 @@ msgstr "Alguma coisa deu errado. Por favor, tente novamente."
 
 #: app/cogs/fun/fun_commands.py:316
 msgid "Tells you how starworthy a message is."
-msgstr ""
+msgstr "Diz-lhe como uma mensagem é digna de uma estrela."
 
 #: app/cogs/fun/fun_commands.py:325
 #, python-format
 msgid "That message is {}% starworthy."
-msgstr ""
+msgstr "Essa mensagem é {}% digna de uma estrela."
 
 #: app/cogs/fun/fun_commands.py:329
 msgid "Saves a message to your DM's."
-msgstr "Salva uma mensagem para as suas mensagwens diretas."
+msgstr "Salva uma mensagem para as suas mensagens diretas."
 
 #: app/cogs/fun/fun_commands.py:341 app/cogs/quick_actions/qa_events.py:171
 msgid "You cannot save a trashed message."
@@ -1152,19 +1152,19 @@ msgstr "Essa mensagem foi excluída, então você não pode salvá-la."
 
 #: app/cogs/fun/fun_commands.py:359
 msgid "I can't DM you, so you can't save that message."
-msgstr ""
+msgstr "Eu não posso te mandar uma mensagem direta, então você não pode salvar essa mensagem."
 
 #: app/cogs/permroles/pr_commands.py:18
 msgid "Manage PermRoles for a server."
-msgstr ""
+msgstr "Gerencie PermRoles para um servidor."
 
 #: app/cogs/permroles/pr_commands.py:30
 msgid "Tests the permissions of a fake user with certain roles."
-msgstr ""
+msgstr "Testa as permissões de um usuário falso com certos cargos."
 
 #: app/cogs/permroles/pr_commands.py:54
 msgid "Dummy Check"
-msgstr ""
+msgstr "Verificação Fictícia"
 
 #: app/cogs/permroles/pr_commands.py:57
 #, python-brace-format
@@ -1173,24 +1173,27 @@ msgid ""
 "Starboard: {1}\n"
 "Roles: {2}"
 msgstr ""
+"Canal: {0}\n"
+"Starboard: {1}\n"
+"Cargos: {2}"
 
 #: app/cogs/permroles/pr_commands.py:71
 msgid "Lists PermGroups, or views settings for a PermGroup."
-msgstr ""
+msgstr "Lista PermGroups ou vê configurações para um PermGroup."
 
 #: app/cogs/permroles/pr_commands.py:84
 msgid "You have no PermGroups."
-msgstr ""
+msgstr "Você não tem PermGroups."
 
 #: app/cogs/permroles/pr_commands.py:87
 #, python-brace-format
 msgid "PermGroups for {0}"
-msgstr ""
+msgstr "PermGroups para {0}"
 
 #: app/cogs/permroles/pr_commands.py:101
 #, python-brace-format
 msgid "If you're looking for the PermRoles of this PermGroup, run {0}."
-msgstr ""
+msgstr "Se você está procurando os PermRoles deste PermGroup, digite {0}."
 
 #: app/cogs/permroles/pr_commands.py:120
 msgid "Add a PermGroup."
