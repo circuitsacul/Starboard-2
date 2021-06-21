@@ -17,6 +17,118 @@ class NotEnoughCredits(PremiumError):
         super().__init__(t_("You don't have enough credits."))
 
 
+class LimitReached(PremiumError):
+    pass
+
+
+class StarboardLimitReached(LimitReached):
+    def __init__(self, can_increase: bool = False):
+        if can_increase:
+            message = t_(
+                "You have reached the limit for starboards, so "
+                "you can't add any more unless this server "
+                "receives premium."
+            )
+        else:
+            message = t_("You have reached the limit for starboards.")
+        super().__init__(message)
+
+
+class SbEmojiLimitReached(LimitReached):
+    def __init__(self, can_incrase: bool = False):
+        if can_incrase:
+            message = t_(
+                "You have reached the limit for emojis on this starboard, "
+                "so you can't add any more unless this server recieves "
+                "premium."
+            )
+        else:
+            message = t_(
+                "You have reached the limit for emoji on this starboard."
+            )
+        super().__init__(message)
+
+
+class AutoStarChannelLimitReached(LimitReached):
+    def __init__(self, can_increase: bool = False):
+        if can_increase:
+            message = t_(
+                "You have reached the limit for AutoStar channels, so "
+                "you can't add any more unless this server receives "
+                "premium."
+            )
+        else:
+            message = t_("You have reached the limit for AutoStar channels.")
+        super().__init__(message)
+
+
+class AsEmojiLimitReached(LimitReached):
+    def __init__(self, can_incrase: bool = False):
+        if can_incrase:
+            message = t_(
+                "You have reached the limit for emojis on this AutoStar "
+                "channel, so you can't add anymore unless this server "
+                "receives premium."
+            )
+        else:
+            message = t_(
+                "You have reached the limit for emojis on this AutoStar "
+                "channel."
+            )
+        super().__init__(message)
+
+
+class XpRoleLimitReached(LimitReached):
+    def __init__(self, can_increase: bool = False):
+        if can_increase:
+            message = t_(
+                "You have reached the limit for XPRoles, so you can't add "
+                "any more unless this server receives premium."
+            )
+        else:
+            message = t_("You have reached the limit for XPRoles.")
+        super().__init__(message)
+
+
+class PosRoleLimitReached(LimitReached):
+    def __init__(self, can_increase: bool = False):
+        if can_increase:
+            message = t_(
+                "You have reached the limit for PosRoles, so you can't add "
+                "any more unless this server receives premium."
+            )
+        else:
+            message = t_("You have reached the limit for PosRoles.")
+        super().__init__(message)
+
+
+class PermGroupLimitReached(LimitReached):
+    def __init__(self, can_increase: bool = False):
+        if can_increase:
+            message = t_(
+                "You have reached the limit for PermGroups, so you can't add "
+                "any more unless this server receives premium."
+            )
+        else:
+            message = t_("You have reached the limit for PermGroups.")
+        super().__init__(message)
+
+
+class PermRoleLimitReached(LimitReached):
+    def __init__(self, can_increase: bool = False):
+        if can_increase:
+            message = t_(
+                "You have reached the limit for PermRoles on this PermGroup, "
+                "so you can't add any more unless this server receives "
+                "premium."
+            )
+        else:
+            message = t_(
+                "You have reached the limit for PermRoles on this PermGroup"
+            )
+        super().__init__(message)
+
+
 # Custom CommandErrors
 class SupportServerOnly(commands.BadArgument):
     def __init__(self):
