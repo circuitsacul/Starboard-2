@@ -29,7 +29,6 @@ async def redeem_credits(bot: "Bot", guild_id: int, user_id: int, months: int):
 
     credits = config.CREDITS_PER_MONTH * months
     if credits > user["credits"]:
-        # TODO: Raise actual exception
         raise NotEnoughCredits()
 
     await bot.db.guilds.add_months(guild_id, months)
