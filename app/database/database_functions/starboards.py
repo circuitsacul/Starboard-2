@@ -5,6 +5,7 @@ import buildpg
 from aiocache import Cache, SimpleMemoryCache
 
 from app import commands, errors
+from app.cogs.premium.premium_funcs import can_increase, limit_for
 from app.i18n import t_
 
 if TYPE_CHECKING:
@@ -83,6 +84,15 @@ class Starboards:
         is_asc = await self.db.aschannels.get(channel_id) is not None
         if is_asc:
             raise errors.CannotBeStarboardAndAutostar()
+        count = await self.db.fetchval(
+            """SELECT COUNT(1) FROM starboards WHERE guild_id=$1""",
+            guild_id,
+        )
+        limit = await limit_for("starboards", guild_id, self.db)
+        if count >= limit:
+            raise errors.StarboardLimitReached(
+                await can_increase("starboards", guild_id, self.db)
+            )
 
         await self.db.guilds.create(guild_id)
         try:
