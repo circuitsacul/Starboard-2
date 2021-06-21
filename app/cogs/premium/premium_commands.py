@@ -48,7 +48,7 @@ class Premium(commands.Cog, description=t_("Premium related commands.", True)):
             await ctx.send(t_("Cancelled."))
             return
         await premium_funcs.redeem_credits(
-            self.bot, ctx.guild.id, ctx.author.id, months
+            self.bot.db, ctx.guild.id, ctx.author.id, months
         )
         await ctx.send(t_("Done."))
 
