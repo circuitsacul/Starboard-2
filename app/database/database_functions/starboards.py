@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Optional, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Union
 
 import asyncpg
 import buildpg
@@ -7,9 +7,12 @@ from aiocache import Cache, SimpleMemoryCache
 from app import commands, errors
 from app.i18n import t_
 
+if TYPE_CHECKING:
+    from app.database.database import Database
+
 
 class Starboards:
-    def __init__(self, db) -> None:
+    def __init__(self, db: "Database") -> None:
         self.db = db
         self.cache: SimpleMemoryCache = Cache(namespace="starboards", ttl=10)
         self.many_cache: SimpleMemoryCache = Cache(namespace="many_sb", ttl=10)
