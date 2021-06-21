@@ -544,7 +544,7 @@ msgstr ""
 #: app/cogs/starboard/starboard_commands.py:68
 #, python-brace-format
 msgid "Starboards for **{0}**:"
-msgstr "Starboards para **{0}**:"
+msgstr "Starboards de **{0}**:"
 
 #: app/cogs/starboard/starboard_commands.py:70
 #, python-brace-format
@@ -803,7 +803,7 @@ msgstr "desabilitado"
 #: app/cogs/settings/settings_commands.py:144
 #, python-brace-format
 msgid "Settings for {0}:"
-msgstr "Configurações para {0}:"
+msgstr "Configurações de {0}:"
 
 #: app/cogs/settings/settings_commands.py:163
 msgid "Sets the cooldown for xp."
@@ -919,7 +919,7 @@ msgstr "Liste e gerencie prefixos."
 #: app/cogs/settings/settings_commands.py:401
 #, python-brace-format
 msgid "Prefixes for {0}:"
-msgstr "Prefixos para {0}:"
+msgstr "Prefixos de {0}:"
 
 #: app/cogs/settings/settings_commands.py:415
 msgid "Adds a prefix."
@@ -1055,7 +1055,7 @@ msgstr "Mostra os 200 melhores usuários no servidor com base nos pontos de expe
 #: app/cogs/fun/fun_commands.py:57
 #, python-brace-format
 msgid "Leaderboard for {0}:"
-msgstr "Leaderboard para {0}:"
+msgstr "Leaderboard de {0}:"
 
 #: app/cogs/fun/fun_commands.py:73
 msgid "Shows statistics for yourself or another user."
@@ -1188,7 +1188,7 @@ msgstr "Você não tem PermGroups."
 #: app/cogs/permroles/pr_commands.py:87
 #, python-brace-format
 msgid "PermGroups for {0}"
-msgstr "PermGroups para {0}"
+msgstr "PermGroups de {0}"
 
 #: app/cogs/permroles/pr_commands.py:101
 #, python-brace-format
@@ -1197,52 +1197,52 @@ msgstr "Se você está procurando os PermRoles deste PermGroup, digite {0}."
 
 #: app/cogs/permroles/pr_commands.py:120
 msgid "Add a PermGroup."
-msgstr ""
+msgstr "Adicione um PermGroup."
 
 #: app/cogs/permroles/pr_commands.py:126
 #, python-brace-format
 msgid "Created PermGroup {0}"
-msgstr ""
+msgstr "Criei o PermGroup {0}"
 
 #: app/cogs/permroles/pr_commands.py:131
 msgid "Deletes a PermGroup."
-msgstr ""
+msgstr "Excluí um PermGroup."
 
 #: app/cogs/permroles/pr_commands.py:139
 #, python-brace-format
 msgid "Deleted PermGroup **{0}**."
-msgstr ""
+msgstr "Apaguei o PermGroup **{0}**."
 
 #: app/cogs/permroles/pr_commands.py:142
 msgid "Sets the position of a PermGroup."
-msgstr ""
+msgstr "Define a posição de um PermGroup."
 
 #: app/cogs/permroles/pr_commands.py:154
 #, python-brace-format
 msgid "Moved the PermGroup **{0}** from {1} to {2}."
-msgstr ""
+msgstr "Movi o PermGroup **{0}** de {1} para {2}."
 
 #: app/cogs/permroles/pr_commands.py:162
 msgid "Manage the channels that a PermGroup affects."
-msgstr ""
+msgstr "Gerencie os canais que um PermGroup afeta."
 
 #: app/cogs/permroles/pr_commands.py:174
 msgid "Adds channel(s) to the list of channels for a PermGroup."
-msgstr ""
+msgstr "Adiciona canal(is) à lista de canais num PermGroup."
 
 #: app/cogs/permroles/pr_commands.py:194
 #, python-brace-format
 msgid "Added {0} to the channels on PermGroup **{1}**."
-msgstr ""
+msgstr "Adicionei {0} aos canais no PermGroup **{1}**."
 
 #: app/cogs/permroles/pr_commands.py:203
 msgid "Removes channel(s) from the list of channels on a PermGroup."
-msgstr ""
+msgstr "Remove canal(is) da lista de canais num PermGroup."
 
 #: app/cogs/permroles/pr_commands.py:224
 #, python-brace-format
 msgid "Removed {0} from the channels on PermGroup **{1}**."
-msgstr ""
+msgstr "Removi {0} dos canais no PermGroup **{1}**."
 
 #: app/cogs/permroles/pr_commands.py:230
 msgid "Clears all channels from a PermGroup."
