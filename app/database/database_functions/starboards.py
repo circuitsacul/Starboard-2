@@ -194,6 +194,18 @@ class Starboards:
                 t_("requiredRemove cannot be greater than 495.")
             )
 
+        sbemojis_limit = await limit_for(
+            "sbemojis", int(s["guild_id"]), self.db
+        )
+        if (
+            len(settings["star_emojis"]) > sbemojis_limit
+            # make sure they're actually adding an emoji:
+            and len(settings["star_emojis"]) > len(s["star_emojis"])
+        ):
+            raise errors.SbEmojiLimitReached(
+                await can_increase("sbemojis", int(s["guild_id"]), self.db)
+            )
+
         query, args = buildpg.render(
             """UPDATE starboards
             SET required = :required,
