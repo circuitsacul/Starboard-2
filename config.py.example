@@ -28,7 +28,7 @@ DEFAULT_LIMITS = {
     "permgroups": 50,
     "permroles": 50,
     "xproles": 5,
-    "posroles": False,
+    "posroles": 0,
 }
 
 PREMIUM_LIMITS = {
