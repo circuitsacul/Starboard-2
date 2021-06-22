@@ -1,5 +1,7 @@
 import typing
 
+import humanize
+
 import config
 from app import buttons, checks, commands
 from app.classes.context import MyContext
@@ -14,6 +16,21 @@ if typing.TYPE_CHECKING:
 class Premium(commands.Cog, description=t_("Premium related commands.", True)):
     def __init__(self, bot: "Bot"):
         self.bot = bot
+
+    @commands.command(
+        name="serverpremium",
+        aliases=["guildpremium", "serverprem", "guildprem"],
+        help=t_("Shows the servers current premium status.", True),
+    )
+    async def show_guild_prem_status(self, ctx: "MyContext"):
+        guild = await self.bot.db.guilds.get(ctx.guild.id)
+        if guild["premium_end"] is not None:
+            message = t_("This server has premium until {0}.").format(
+                humanize.naturaldate(guild["premium_end"])
+            )
+        else:
+            message = t_("This server does not have premium currently.")
+        await ctx.send(message)
 
     @commands.command(
         name="refreshroles", help=t_("Refresh your donor/patron roles.", True)
