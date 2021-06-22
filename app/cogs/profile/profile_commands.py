@@ -59,7 +59,7 @@ class Profile(
 
         total = sql_user["donation_total"] + sql_user["last_patreon_total"]
         patron = (
-            f"Patreon: {sql_user['patron_status']} "
+            f"{sql_user['patron_status']}, "
             f"${sql_user['last_known_monthly']}/month "
             f"(${sql_user['last_patreon_total']})"
         )
@@ -68,7 +68,7 @@ class Profile(
             discord.Embed(title=str(ctx.author), color=self.bot.theme_color)
             .add_field(
                 name=t_("Settings"),
-                value=t_("Language: {0}\n" "Public Profile: {1}").format(
+                value=t_("Language: {0}\nPublic Profile: {1}").format(
                     sql_user["locale"], sql_user["public"]
                 ),
                 inline=False,
