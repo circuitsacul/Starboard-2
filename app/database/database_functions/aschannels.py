@@ -109,6 +109,16 @@ class ASChannels:
                 t_("minChars cannot be grater than 2,000.")
             )
 
+        asemojis_limit = await limit_for(
+            "asemojis", int(asc["guild_id"]), self.db
+        )
+        if len(settings["emojis"]) > asemojis_limit and len(
+            settings["emojis"]
+        ) > len(asc["emojis"]):
+            raise errors.AsEmojiLimitReached(
+                await can_increase("asemojis", int(asc["guild_id"]), self.db)
+            )
+
         query, args = buildpg.render(
             """UPDATE aschannels
             SET emojis=:emojis,
