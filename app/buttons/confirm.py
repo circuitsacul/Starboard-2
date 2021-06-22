@@ -1,8 +1,7 @@
 from typing import TYPE_CHECKING
 
 import discord
-from discord_components import Interaction, InteractionType
-from discord_components.button import ButtonStyle
+from discord_components import ButtonStyle, Interaction, InteractionType
 
 from app.i18n import t_
 

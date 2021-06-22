@@ -2,7 +2,7 @@ import time
 
 import discord
 from discord.ext.prettyhelp import bot_has_permissions
-from discord_components.button import Button, ButtonStyle
+from discord_components import Button, ButtonStyle
 
 import config
 from app import commands, converters

@@ -80,8 +80,6 @@ class Bot(commands.AutoShardedBot):
         )
         self._before_invoke = self.before_invoke_hook
 
-        DiscordComponents(self)
-
         self.log = logging.getLogger(f"Cluster#{self.cluster_name}")
         self.log.setLevel(logging.DEBUG)
 
@@ -95,6 +93,8 @@ class Bot(commands.AutoShardedBot):
         self.websocket = WebsocketConnection(
             self.cluster_name, self.handle_websocket_command, self.loop
         )
+
+        DiscordComponents(self)
 
         self.loop.run_until_complete(self.websocket.ensure_connection())
         self.loop.run_until_complete(self.db.init_database())
