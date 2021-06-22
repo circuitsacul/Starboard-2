@@ -22,9 +22,9 @@ LANGUAGE_MAP = [
 # Premium Stuffs
 DEFAULT_LIMITS = {
     "starboards": 3,
-    "sb_emojis": 5,
+    "sbemojis": 5,
     "aschannels": 3,
-    "as_emojis": 5,
+    "asemojis": 5,
     "permgroups": 50,
     "permroles": 50,
     "xproles": 5,
@@ -33,9 +33,9 @@ DEFAULT_LIMITS = {
 
 PREMIUM_LIMITS = {
     "starboards": 10,
-    "sb_emojis": 10,
+    "sbemojis": 10,
     "aschannels": 10,
-    "as_emojis": 10,
+    "asemojis": 10,
     "xproles": 20,
     "posroles": 20,
 }
