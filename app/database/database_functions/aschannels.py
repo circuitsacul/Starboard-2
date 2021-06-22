@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional
+from typing import TYPE_CHECKING, Dict, List, Optional
 
 import asyncpg
 import buildpg
@@ -8,9 +8,12 @@ from app import commands, errors
 from app.constants import MISSING
 from app.i18n import t_
 
+if TYPE_CHECKING:
+    from app.database.database import Database
+
 
 class ASChannels:
-    def __init__(self, db) -> None:
+    def __init__(self, db: "Database") -> None:
         self.db = db
         self.id_cache: SimpleMemoryCache = Cache(namespace="asc_id", ttl=10)
 
