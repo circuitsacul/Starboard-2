@@ -1246,17 +1246,17 @@ msgstr "Removi {0} dos canais no PermGroup **{1}**."
 
 #: app/cogs/permroles/pr_commands.py:230
 msgid "Clears all channels from a PermGroup."
-msgstr ""
+msgstr "Limpa todos os canais de um PermGroup."
 
 #: app/cogs/permroles/pr_commands.py:240
 #, python-brace-format
 msgid "Are you sure you want to clear all channels for the PermGroup **{0}**?"
-msgstr ""
+msgstr "Você tem certeza de que você quer limpar todos os canais do PermGroup **{0}**?"
 
 #: app/cogs/permroles/pr_commands.py:249
 #, python-brace-format
 msgid "Cleared all channels for the PermGroup **{0}**."
-msgstr ""
+msgstr "Limpei todos os canais do PermGroup **{0}**."
 
 #: app/cogs/permroles/pr_commands.py:257
 msgid "Manage the starboards that a PermGroup affects."
