@@ -101,7 +101,7 @@ async def extract_embeds(bot: "Bot", message: discord.Message, urls) -> str:
                         "display_url": embed.image.url,
                         "type": "image",
                         "spoiler": False,
-                        "show_link": False,
+                        "show_link": True,
                         "thumbnail_only": False,
                     }
                 )
@@ -113,8 +113,8 @@ async def extract_embeds(bot: "Bot", message: discord.Message, urls) -> str:
                         "display_url": embed.thumbnail.url,
                         "type": "image",
                         "spoiler": False,
-                        "show_link": False,
-                        "thumbnail_only": True,
+                        "show_link": True,
+                        "thumbnail_only": embed.type != "article",
                     }
                 )
 
