@@ -35,8 +35,8 @@ class XPRoles:
             raise errors.PosRoleAndXpRole()
 
         count = len(await self.get_many(guild_id))
-        max = await limit_for("xproles", guild_id, self.db)
-        if count >= max:
+        xproles_limit = await limit_for("xproles", guild_id, self.db)
+        if count >= xproles_limit:
             raise errors.XpRoleLimitReached(
                 await can_increase("xproles", guild_id, self.db)
             )
