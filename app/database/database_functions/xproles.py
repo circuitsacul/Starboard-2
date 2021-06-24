@@ -34,7 +34,9 @@ class XPRoles:
         if await self.db.posroles.get(role_id) is not None:
             raise errors.PosRoleAndXpRole()
 
-        count = len(await self.get_many(guild_id))
+        count = await self.db.execute(
+            "SELECT COUNT(1) FROM xproles WHERE guild_id=$1", guild_id
+        )
         xproles_limit = await limit_for("xproles", guild_id, self.db)
         if count >= xproles_limit:
             raise errors.XpRoleLimitReached(
