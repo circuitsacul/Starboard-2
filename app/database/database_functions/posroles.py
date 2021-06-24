@@ -3,6 +3,7 @@ from typing import TYPE_CHECKING, Any, Dict, List, Optional
 import asyncpg
 
 from app import commands, errors
+from app.cogs.premium.premium_funcs import can_increase, limit_for
 from app.i18n import t_
 
 if TYPE_CHECKING:
@@ -78,6 +79,16 @@ class PosRoles:
 
         if await self.db.xproles.get(role_id) is not None:
             raise errors.PosRoleAndXpRole()
+
+        count = await self.db.fetchval(
+            """SELECT COUNT(1) FROM posroles WHERE guild_id=$1""",
+            guild_id,
+        )
+        posroles_limit = await limit_for("posroles", guild_id, self.db)
+        if count >= posroles_limit:
+            raise errors.PosRoleLimitReached(
+                await can_increase("posroles", guild_id, self.db)
+            )
 
         await self.db.execute(
             """INSERT INTO posroles
