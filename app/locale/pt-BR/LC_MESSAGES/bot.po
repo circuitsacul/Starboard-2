@@ -1228,7 +1228,7 @@ msgstr "Gerencie os canais que um PermGroup afeta."
 
 #: app/cogs/permroles/pr_commands.py:174
 msgid "Adds channel(s) to the list of channels for a PermGroup."
-msgstr "Adiciona canal(is) à lista de canais num PermGroup."
+msgstr "Adiciona canal(is) à lista de canais em um PermGroup."
 
 #: app/cogs/permroles/pr_commands.py:194
 #, python-brace-format
@@ -1237,7 +1237,7 @@ msgstr "Adicionei {0} aos canais no PermGroup **{1}**."
 
 #: app/cogs/permroles/pr_commands.py:203
 msgid "Removes channel(s) from the list of channels on a PermGroup."
-msgstr "Remove canal(is) da lista de canais num PermGroup."
+msgstr "Remove canal(is) da lista de canais em um PermGroup."
 
 #: app/cogs/permroles/pr_commands.py:224
 #, python-brace-format
@@ -1260,20 +1260,20 @@ msgstr "Limpei todos os canais do PermGroup **{0}**."
 
 #: app/cogs/permroles/pr_commands.py:257
 msgid "Manage the starboards that a PermGroup affects."
-msgstr ""
+msgstr "Gerencie os starboards que um PermGroup afeta."
 
 #: app/cogs/permroles/pr_commands.py:272
 msgid "Adds starboard(s) to the list of starboards for a PermGroup."
-msgstr ""
+msgstr "Adiciona starboard(s) à lista de starboards de um PermGroup."
 
 #: app/cogs/permroles/pr_commands.py:292
 #, python-brace-format
 msgid "Added {0} to the starboards on PermGroup **{1}**."
-msgstr ""
+msgstr "Adicionei {0} aos starboards no PermGroup **{1}**."
 
 #: app/cogs/permroles/pr_commands.py:301
 msgid "Removes starboard(s) from the list of starboars on a PermGroup."
-msgstr ""
+msgstr "Remove starboard(s) da lista de starboards em um PerGroup."
 
 #: app/cogs/permroles/pr_commands.py:322
 #, python-brace-format
