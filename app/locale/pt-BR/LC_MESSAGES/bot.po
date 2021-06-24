@@ -1273,63 +1273,64 @@ msgstr "Adicionei {0} aos starboards no PermGroup **{1}**."
 
 #: app/cogs/permroles/pr_commands.py:301
 msgid "Removes starboard(s) from the list of starboars on a PermGroup."
-msgstr "Remove starboard(s) da lista de starboards em um PerGroup."
+msgstr "Remove starboard(s) da lista de starboards em um PermGroup."
 
 #: app/cogs/permroles/pr_commands.py:322
 #, python-brace-format
 msgid "Removed {0} from the starboards on PermGroup **{1}**."
-msgstr ""
+msgstr "Removi {0} dos starboards no PermGroup **{1}**."
 
 #: app/cogs/permroles/pr_commands.py:328
 msgid "Clears all starboards on a PermGroup."
-msgstr ""
+msgstr "Limpa todos os starboards em um PermGroup."
 
 #: app/cogs/permroles/pr_commands.py:338
 #, python-brace-format
 msgid ""
 "Are you sure you want to clear all starboards for the PermGroup **{0}**?"
 msgstr ""
+"Você tem certeza de que você quer limpar todos os starboards do PermGroup **{0}**?"
 
 #: app/cogs/permroles/pr_commands.py:347
 #, python-brace-format
 msgid "Cleared all starboards for PermGroup **{0}**."
-msgstr ""
+msgstr "Limpei todos os starboards do PermGroup **{0}**."
 
 #: app/cogs/permroles/pr_commands.py:355
 msgid "Manage/View PermRoles for a PermGroup."
-msgstr ""
+msgstr "Gerencie/Veja PermRoles de um PermGroup."
 
 #: app/cogs/permroles/pr_commands.py:368
 #, python-brace-format
 msgid "There are no PermRoles for the PermGroup **{0}**."
-msgstr ""
+msgstr "Não há PermRoles para o PermGroup **{0}**."
 
 #: app/cogs/permroles/pr_commands.py:376
 #, python-brace-format
 msgid "PermRoles for {0}"
-msgstr ""
+msgstr "PermRoles para {0}"
 
 #: app/cogs/permroles/pr_commands.py:395
 msgid "Adds a PermRole to a PermGroup."
-msgstr ""
+msgstr "Adiciona um PermRole para um PermGroup."
 
 #: app/cogs/permroles/pr_commands.py:410
 #, python-brace-format
 msgid "{0} is now a PermRole on the PermGroup **{1}**."
-msgstr ""
+msgstr "{0} é agora um PermRole no permGroup **{1}**."
 
 #: app/cogs/permroles/pr_commands.py:418
 msgid "Removes a PermRole from a PermGroup."
-msgstr ""
+msgstr "Remove um PermRole de um PermGroup."
 
 #: app/cogs/permroles/pr_commands.py:430
 #, python-brace-format
 msgid "{0} is no longer a PermRole on the PermGroup **{1}**."
-msgstr ""
+msgstr "{0} não é mais um PermRole no PermGroup **{1}**."
 
 #: app/cogs/permroles/pr_commands.py:437
 msgid "Changes the position of a PermRole in a PermGroup."
-msgstr ""
+msgstr "Muda uma posição de um PermRole em um PermGroup."
 
 #: app/cogs/permroles/pr_commands.py:452
 #, python-brace-format
