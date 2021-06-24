@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING, Any, Dict, List
 
 from app import commands, errors
+from app.cogs.premium.premium_funcs import can_increase, limit_for
 from app.i18n import t_
 
 if TYPE_CHECKING:
@@ -32,6 +33,13 @@ class XPRoles:
 
         if await self.db.posroles.get(role_id) is not None:
             raise errors.PosRoleAndXpRole()
+
+        count = len(await self.get_many(guild_id))
+        max = await limit_for("xproles", guild_id, self.db)
+        if count >= max:
+            raise errors.XpRoleLimitReached(
+                await can_increase("xproles", guild_id, self.db)
+            )
 
         await self.db.execute(
             """INSERT INTO xproles (role_id, guild_id, required)
