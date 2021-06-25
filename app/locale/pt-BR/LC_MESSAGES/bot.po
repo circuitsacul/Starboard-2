@@ -1343,70 +1343,72 @@ msgstr "Define a permissão allowCommands para um PermRole."
 
 #: app/cogs/permroles/pr_commands.py:489
 msgid "Sets the onStarboard permission for a PermRole."
-msgstr ""
+msgstr "Define a permissão onStarboard para um PermRole."
 
 #: app/cogs/permroles/pr_commands.py:513
 msgid "Sets the giveStars permission for a PermRole."
-msgstr ""
+msgstr "Define a permissão giveStars para um PermRole."
 
 #: app/cogs/permroles/pr_commands.py:536
 msgid "Sets the gainXP permission for a PermRole."
-msgstr ""
+msgstr "Define a permissão gainXP para um PermRole."
 
 #: app/cogs/permroles/pr_commands.py:559
 msgid "Sets the posRoles permission for a PermRole."
-msgstr ""
+msgstr "Define a permissão posRoles para um PermRole."
 
 #: app/cogs/permroles/pr_commands.py:582
 msgid "Sets the xpRoles permission for a PermRole."
-msgstr ""
+msgstr "Define a permissão xpRoles para um PermRole."
 
 #: app/cogs/slash/slash_commands.py:14
 msgid "Slash commands."
-msgstr ""
+msgstr "Comandos de barra (/)."
 
 #: app/cogs/slash/slash_commands.py:29
 msgid "Get a link for authorizing slash commands."
-msgstr ""
+msgstr "Obtenha um link para autorizar comandos de barra."
 
 #: app/cogs/slash/slash_commands.py:38
 msgid ""
 "Try running `/ping` to see if slash commands are working. If not, a server "
 "admin can use [this link]({}) to give me the proper permissions."
 msgstr ""
+"Tente digitar `/ping` para ver se comandos de barra estão funcionando. Se não, um administrator "
+"do servidor pode usar [this link]({}) para me dar as permissões apropriadas."
 
 #: app/cogs/profile/profile_commands.py:12
 msgid "Manage personal settings."
-msgstr ""
+msgstr "Gerencie configurações pessoais:"
 
 #: app/cogs/profile/profile_commands.py:20
 msgid "Sets your language."
-msgstr ""
+msgstr "Define o seu idioma."
 
 #: app/cogs/profile/profile_commands.py:36
 #, python-brace-format
 msgid "Set your language to {0}."
-msgstr ""
+msgstr "Defini o seu idioma como {0}."
 
 #: app/cogs/profile/profile_commands.py:41
 msgid "Whether or not your profile is visible to others."
-msgstr ""
+msgstr "Se seu perfil deve ou não ser vísivel para outros usuários."
 
 #: app/cogs/profile/profile_commands.py:46
 msgid "Your profile is now public."
-msgstr ""
+msgstr "Seu perfil é agora público."
 
 #: app/cogs/profile/profile_commands.py:48
 msgid "Your profile is no longer public."
-msgstr ""
+msgstr "Seu perfil não é mais público."
 
 #: app/cogs/profile/profile_commands.py:53
 msgid "Shows your settings."
-msgstr ""
+msgstr "Mostra as suas configurações."
 
 #: app/cogs/profile/profile_commands.py:70
 msgid "Settings"
-msgstr ""
+msgstr "Configurações"
 
 #: app/cogs/profile/profile_commands.py:71
 #, python-brace-format
@@ -1414,22 +1416,24 @@ msgid ""
 "Language: {0}\n"
 "Public Profile: {1}"
 msgstr ""
+"Idioma: {0}\n"
+"Perfil Público: {1}"
 
 #: app/cogs/profile/profile_commands.py:77
 msgid "Premium Info"
-msgstr ""
+msgstr "Informação sobre a Versão Premium:"
 
 #: app/cogs/blacklist/bl_commands.py:13
 msgid "Manage the channel whitelist/blacklist for starboards."
-msgstr ""
+msgstr "Gerencie a lista branca/negra para starboards."
 
 #: app/cogs/blacklist/bl_commands.py:23
 msgid "Lists the channel blacklist/whitelist for a starboard."
-msgstr ""
+msgstr "Lista a lista branca/negra para um starboard."
 
 #: app/cogs/blacklist/bl_commands.py:42
 msgid " (All channels are blacklisted, since there are whitelisted channels)"
-msgstr ""
+msgstr " (Todos os canais estão na lista negra, já que há canais na lista branca)"
 
 #: app/cogs/blacklist/bl_commands.py:49
 #, python-brace-format
