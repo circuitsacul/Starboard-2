@@ -1335,11 +1335,11 @@ msgstr "Muda uma posição de um PermRole em um PermGroup."
 #: app/cogs/permroles/pr_commands.py:452
 #, python-brace-format
 msgid "Moved the PermRole {0} from {1} to {2}."
-msgstr ""
+msgstr "Movi o PermRole {0} de {1} para {2}."
 
 #: app/cogs/permroles/pr_commands.py:460
 msgid "Sets the allowCommands permission for a PermRole."
-msgstr ""
+msgstr "Define a permissão allowCommands para um PermRole."
 
 #: app/cogs/permroles/pr_commands.py:489
 msgid "Sets the onStarboard permission for a PermRole."
