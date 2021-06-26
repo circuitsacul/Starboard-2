@@ -498,7 +498,7 @@ msgid ""
 "improving the efficiency of your regex. If you need help, feel free to join "
 "the support server."
 msgstr ""
-"Eu tentei corresponder `{0}` a [uma mensagem]({1}), mas demorou muito. Tente "
+"Eu tentei corresponder `{0}` a [uma mensagem]({1}), mas demorou muito tempo. Tente "
 "melhorar a eficiência de sua regex. Se precisar de ajuda, sinta-se à vontade para juntar-se "
 "ao servidor de suporte."
 
@@ -1632,17 +1632,17 @@ msgstr "Define a quantidade de pontos de experiência necessária para ganhar um
 #: app/cogs/awardroles/ar_commands.py:218
 #, python-brace-format
 msgid "Set the needed xp to {0} for the XPRole **{1}**."
-msgstr ""
+msgstr "Defini os pontos de experiência necessários como {0} para o XPRole **{1}**."
 
 #: app/cogs/awardroles/pr_events.py:135
 #, python-brace-format
 msgid "The role `{role.name}` was deleted, so I removed that PosRole."
-msgstr ""
+msgstr "O cargo `{role.name}` foi excluído, então eu removi esse PosRole."
 
 #: app/cogs/awardroles/xpr_events.py:45
 #, python-brace-format
 msgid "The role `{role.name}` was deleted, so I removed that XPRole."
-msgstr ""
+msgstr "O cargo `{role.name}` foi excluído, então eu removi esse XPRole."
 
 #: app/cogs/autostarchannels/asc_funcs.py:21
 #, python-brace-format
@@ -1651,21 +1651,24 @@ msgid ""
 "Try improving the efficiency of your regex, and feel free to join the "
 "support server for help."
 msgstr ""
+"Tentei corresponder `{0}` a [uma mensagem]({1.jump_url}), mas demorou muito tempo. "
+"Tente melhorar a eficiência de seu regex, e sinta-se à vontade para juntar-se ao "
+"servidor de suporte para ajuda."
 
 #: app/cogs/autostarchannels/asc_funcs.py:40
 #, python-brace-format
 msgid "Messages must be at least {0} characters"
-msgstr ""
+msgstr "Mensagens devem ter pelo menos {0} caracteres."
 
 #: app/cogs/autostarchannels/asc_funcs.py:45
 #, python-brace-format
 msgid "Messages must match `{0}`"
-msgstr ""
+msgstr "Mensagens devem corresponder a `{0}`"
 
 #: app/cogs/autostarchannels/asc_funcs.py:50
 #, python-brace-format
 msgid "Messages must not match `{0}`"
-msgstr ""
+msgstr "Mensagens não devem corresponder a `{0}`"
 
 #: app/cogs/autostarchannels/asc_funcs.py:69
 #, python-brace-format
@@ -1673,25 +1676,28 @@ msgid ""
 "I tried to delete [a message]({0.jump_url}) that didn't meet the "
 "requirements of {0.channel.mention}, but I don't have the proper permissions."
 msgstr ""
+"Tentei apagar [uma mensagem]({0.jump_url}) que não atendeu as "
+"exigências do canal {0.channel.mention}, mas eu não tenho as permissões apropriadas."
 
 #: app/cogs/autostarchannels/asc_funcs.py:81
 #, python-brace-format
 msgid "Your message in {0} was deleted, because {1}. Here is your message:"
-msgstr ""
+msgstr "Sua mensagem em {0} foi excluída, porque {1}. Aqui está a sua messagem:"
 
 #: app/cogs/autostarchannels/asc_events.py:33
 #, python-brace-format
 msgid "`{0}` was deleted so I removed that AutoStar channel."
-msgstr ""
+msgstr "`{0}` foi excluído, então eu removi esse canal AutoStar."
 
 #: app/cogs/autostarchannels/asc_commands.py:13
 msgid "Manage AutoStar channels."
-msgstr ""
+msgstr "Gerencie canais AutoStar."
 
 #: app/cogs/autostarchannels/asc_commands.py:22
 msgid ""
 "List AutoStar Channels, or show settings for a specific AutoStar channel."
 msgstr ""
+"Liste Canais AutoStar ou mostre configurações para um canal AutoStar específico".
 
 #: app/cogs/autostarchannels/asc_commands.py:40
 #, python-brace-format
@@ -1699,10 +1705,12 @@ msgid ""
 "You do not have any AutoStar channels. use `{0}asc add <channel>` to create "
 "one."
 msgstr ""
+"Você não tem nenhum canal AutoStar. Use `{0}asc add <canal>` para criar "
+"one."
 
 #: app/cogs/autostarchannels/asc_commands.py:47 app/cogs/utility/cleaner.py:20
 msgid "AutoStar channels"
-msgstr ""
+msgstr "Canais AutoStar"
 
 #: app/cogs/autostarchannels/asc_commands.py:49
 #, python-brace-format
@@ -1710,68 +1718,70 @@ msgid ""
 "This lists all AutoStar channels and their most important settings. Use `{0}"
 "asc <aschannel>` to view all settings."
 msgstr ""
+"Isto lista todos os canais AutoStar e as configurações mais importantes deles. Utilize `{0}"
+"asc <canal autoStar>` para visualizar todas as configurações."
 
 #: app/cogs/autostarchannels/asc_commands.py:90
 msgid "Adds an AutoStar channel."
-msgstr ""
+msgstr "Adiciona um canal AutoStar."
 
 #: app/cogs/autostarchannels/asc_commands.py:98
 #, python-brace-format
 msgid "Created AutoStar channel {0}."
-msgstr ""
+msgstr "Criei o canal AutoStar {0}."
 
 #: app/cogs/autostarchannels/asc_commands.py:104
 msgid "Removes an AutoStar channel."
-msgstr ""
+msgstr "Remove um canal AutoStar."
 
 #: app/cogs/autostarchannels/asc_commands.py:112
 #, python-brace-format
 msgid "Deleted AutoStar channel {0}."
-msgstr ""
+msgstr "Excluí o canal AutoStar {0}."
 
 #: app/cogs/autostarchannels/asc_commands.py:118
 msgid "Modify the emojis for AutoStar channels."
-msgstr ""
+msgstr "Modifique os emojis para os canais AutoStar."
 
 #: app/cogs/autostarchannels/asc_commands.py:126
 msgid "Sets the emojis for an AutoStar channel."
-msgstr ""
+msgstr "Define os emojis para um canal AutoStar."
 
 #: app/cogs/autostarchannels/asc_commands.py:155
 msgid "Adds an emoji to an AutoStar channel."
-msgstr ""
+msgstr "Adiciona um emoji a um canal AutoStar."
 
 #: app/cogs/autostarchannels/asc_commands.py:184
 msgid "Removes an emojis from an AutoStar channel."
-msgstr ""
+msgstr "Remove um emoji de um canal AutoStar."
 
 #: app/cogs/autostarchannels/asc_commands.py:215
 msgid "Removes all emojis from an AutoStar channel."
-msgstr ""
+msgstr "Remove todos os emojis de um canal AutoStar."
 
 #: app/cogs/autostarchannels/asc_commands.py:243
 msgid "Sets the minimum number of characters for messages."
-msgstr ""
+msgstr "Define o número mínimo de caracteres para mensagens."
 
 #: app/cogs/autostarchannels/asc_commands.py:266
 msgid "Whether or not messages must include an image."
-msgstr ""
+msgstr "Se mensagens devem ou não incluir uma imagem."
 
 #: app/cogs/autostarchannels/asc_commands.py:345
 msgid "Whether or not to delete invalid messages."
-msgstr ""
+msgstr "Se deve ou não excluir mensagens inválidas."
 
 #: app/cogs/premium/premium_commands.py:11
 msgid "Premium related commands."
-msgstr ""
+msgstr "Comandos relacionados à versão premium."
 
 #: app/cogs/premium/premium_commands.py:16
 msgid "Refresh your donor/patron roles."
-msgstr ""
+msgstr "Atualize seus cargos de doador/patrocinador."
 
 #: app/cogs/premium/premium_commands.py:22
 msgid "Your roles should update momentarily."
-msgstr ""
+msgstr "Seus cargos devem ser atualizados momentaneamente."
 
 #: app/cogs/premium/donate_events.py:57
 #, python-brace-format
@@ -1780,6 +1790,9 @@ msgid ""
 "credit(s). If you have any questions feel free to dm Circuit#5585. Thanks "
 "for your donation!"
 msgstr ""
+"Recebemos sua doação de ${0} através do Donate Bot, e você ganhou {1} "
+"crédito(s)". Se você tiver alguma dúvida, sinta-se à vontade para enviar uma mensagem direta a Circuit#5585. Obrigado "
+"por sua doação!"
 
 #: app/cogs/premium/patreon_events.py:75
 msgid ""
@@ -1787,6 +1800,9 @@ msgid ""
 "you entered your info on patreon correctly, and feel free to DM "
 "@Circuit#5585 for help."
 msgstr ""
+"Parece que o seu pagamento no Patreon foi recusado. Por favor, certifique-se de que "
+"você inseriu suas informações no Patreon corretamente, e sinta-se à vontade para enviar uma mensagem direta a "
+"@Circuit#5585 para ajuda."
 
 #: app/cogs/premium/patreon_events.py:85
 msgid ""
