@@ -746,7 +746,7 @@ msgstr "Defina o idioma para o servidor."
 #: app/cogs/settings/settings_commands.py:45
 #, python-brace-format
 msgid "Set the language for this server to {0}."
-msgstr "Defina o idioma para este servidor como {0}."
+msgstr "Defini o idioma para este servidor como {0}."
 
 #: app/cogs/settings/settings_commands.py:50
 msgid "Lists disabled commands."
@@ -865,7 +865,7 @@ msgstr "Define o emoji de QuickAction para forçar uma mensagem."
 #: app/cogs/settings/settings_commands.py:291
 #, python-brace-format
 msgid "Set the force QuickAction to {0}."
-msgstr "Defina o emoji de QuickAction para forçar uma mensagem como {0}."
+msgstr "Defini o emoji de QuickAction para forçar uma mensagem como {0}."
 
 #: app/cogs/settings/settings_commands.py:294
 msgid "Set the unforce QuickAction emoji."
@@ -874,7 +874,7 @@ msgstr "Define o emoji de QuickAction para desforçar uma mensagem."
 #: app/cogs/settings/settings_commands.py:309
 #, python-brace-format
 msgid "Set the unforce QuickAction to {0}."
-msgstr "Define o emoji de QuickAction para forçar uma mensagem como {0}."
+msgstr "Defini o emoji de QuickAction para desforçar uma mensagem como {0}."
 
 #: app/cogs/settings/settings_commands.py:314
 msgid "Sets the freeze/unfreeze QuickAction emoji."
@@ -883,7 +883,7 @@ msgstr "Define o emoji de QuickAction para congelar/descongelar uma mensagem."
 #: app/cogs/settings/settings_commands.py:330
 #, python-brace-format
 msgid "Set the freeze/unfreeze QuickAction to {0}."
-msgstr "Defina o emoji de QuickAction para congelar/descongelar uma mensagem como {0}."
+msgstr "Defini o emoji de QuickAction para congelar/descongelar uma mensagem como {0}."
 
 #: app/cogs/settings/settings_commands.py:335
 msgid "Sets the trash/untrash QuickAction emoji."
@@ -892,7 +892,7 @@ msgstr "Define o emoji de QuickAction para destruir/reconstruir uma mensagem."
 #: app/cogs/settings/settings_commands.py:351
 #, python-brace-format
 msgid "Set the trash/untrash QuickAction to {0}."
-msgstr "Defina o emoji de QuickAction para destruir/reconstruir uma mensagem como {0}."
+msgstr "Defini o emoji de QuickAction para destruir/reconstruir uma mensagem como {0}."
 
 #: app/cogs/settings/settings_commands.py:355
 msgid "Sets the recount QuickAction emoji."
@@ -901,7 +901,7 @@ msgstr "Define o emoji QuickAction para recontar."
 #: app/cogs/settings/settings_commands.py:370
 #, python-brace-format
 msgid "Set the recount QuickAction to {0}."
-msgstr "Defina o emoji QuickAction para recontar como {0}."
+msgstr "Defini o emoji QuickAction para recontar como {0}."
 
 #: app/cogs/settings/settings_commands.py:373
 msgid "Sets the save QuickAction emoji."
@@ -910,7 +910,7 @@ msgstr "Define o emoji QuickAction para salvar."
 #: app/cogs/settings/settings_commands.py:388
 #, python-brace-format
 msgid "Set the save QuickAction to {0}."
-msgstr "Defina o emoji QuickAction para salvar como {0}."
+msgstr "Defini o emoji QuickAction para salvar como {0}."
 
 #: app/cogs/settings/settings_commands.py:393
 msgid "List and manage prefixes."
@@ -933,7 +933,7 @@ msgstr "`{0}` é muito longo (o comprimento máximo é 8 caracteres)."
 #: app/cogs/settings/settings_commands.py:442
 #, python-brace-format
 msgid "Added `{0}` to the prefixes."
-msgstr "Eu adicionei `{0}` aos prefixos."
+msgstr "Adicionei `{0}` aos prefixos."
 
 #: app/cogs/settings/settings_commands.py:445
 msgid "Removes a prefix."
@@ -942,7 +942,7 @@ msgstr "Remove um prefixo."
 #: app/cogs/settings/settings_commands.py:463
 #, python-brace-format
 msgid "I found {0} matches for `{1}`. Please be more specific."
-msgstr "Encontrei {0} correspondências para `{1}`. Por favor, seja mais específico."
+msgstr "Eu encontrei {0} correspondências para `{1}`. Por favor, seja mais específico."
 
 #: app/cogs/settings/settings_commands.py:470
 #, python-brace-format
@@ -989,7 +989,7 @@ msgstr ""
 #: app/cogs/settings/settings_commands.py:555
 #, python-brace-format
 msgid "Set the LevelUpChannel to {0}."
-msgstr "Defina o LevelUpChannel como {0}."
+msgstr "Defini o LevelUpChannel como {0}."
 
 #: app/cogs/settings/settings_commands.py:558
 msgid "Unset the LevelUpChannel."
@@ -1025,7 +1025,7 @@ msgstr ""
 #: app/cogs/settings/settings_commands.py:616
 #, python-brace-format
 msgid "Set the log channel to {0}."
-msgstr "Defina o canal de registro como {0}."
+msgstr "Defini o canal de registro como {0}."
 
 #: app/cogs/settings/settings_commands.py:622
 msgid ""
@@ -1317,7 +1317,7 @@ msgstr "Adiciona um PermRole para um PermGroup."
 #: app/cogs/permroles/pr_commands.py:410
 #, python-brace-format
 msgid "{0} is now a PermRole on the PermGroup **{1}**."
-msgstr "{0} é agora um PermRole no permGroup **{1}**."
+msgstr "{0} é agora um PermRole no PermGroup **{1}**."
 
 #: app/cogs/permroles/pr_commands.py:418
 msgid "Removes a PermRole from a PermGroup."
@@ -1504,90 +1504,92 @@ msgstr "Removi {0} da lista branca em {1}."
 
 #: app/cogs/blacklist/bl_commands.py:197
 msgid "Clears the whitelist for a starboard."
-msgstr ""
+msgstr "Limpa a lista branca de um starboard."
 
 #: app/cogs/blacklist/bl_commands.py:207
 #, python-brace-format
 msgid "Are you sure you want to clear the whitelist for {0}?"
-msgstr ""
+msgstr "Você tem certeza de que você quer limpar a lista branca de {0}?"
 
 #: app/cogs/blacklist/bl_commands.py:216
 #, python-brace-format
 msgid "Cleared the whitelist for {0}."
-msgstr ""
+msgstr "Limpei a lista branca de {0}."
 
 #: app/cogs/awardroles/ar_commands.py:14
 msgid "Manage AwardRoles."
-msgstr ""
+msgstr "Gerencie AwardRoles."
 
 #: app/cogs/awardroles/ar_commands.py:22
 msgid ""
 "View and manage PosRoles for your server.\n"
 "(PosRoles stands for Position-based Award Roles)"
 msgstr ""
+"Visualize e gerencie PosRoles do seu servidor.\n"
+"(PosRoles significa "cargos de premiação baseados em posição")".
 
 #: app/cogs/awardroles/ar_commands.py:33
 msgid "This server has no PosRoles set."
-msgstr ""
+msgstr "Este servidor não tem PosRoles definidos."
 
 #: app/cogs/awardroles/ar_commands.py:47
 msgid "Stack PosRoles: **{}**"
-msgstr ""
+msgstr "Empilhar PosRoles: **{}**"
 
 #: app/cogs/awardroles/ar_commands.py:52
 msgid "PosRoles"
-msgstr ""
+msgstr "PosRoles"
 
 #: app/cogs/awardroles/ar_commands.py:59
 msgid "Whether or not to stack PosRoles."
-msgstr ""
+msgstr "Se deve ou não empilhar PosRoles."
 
 #: app/cogs/awardroles/ar_commands.py:70
 msgid "PosRoles will be stacked from now on."
-msgstr ""
+msgstr "PosRoles serão empilhados a partir de agora."
 
 #: app/cogs/awardroles/ar_commands.py:72
 msgid "I will no longer stack PosRoles."
-msgstr ""
+msgstr "Eu não mais empilhar PosRoles."
 
 #: app/cogs/awardroles/ar_commands.py:75
 msgid "Adds a PosRole."
-msgstr ""
+msgstr "Adiciona um PosRole."
 
 #: app/cogs/awardroles/ar_commands.py:90
 #, python-brace-format
 msgid "Created PosRole **{0}**."
-msgstr ""
+msgstr "Criei o PosRole **{0}**."
 
 #: app/cogs/awardroles/ar_commands.py:95
 msgid "Removes a PosRole."
-msgstr ""
+msgstr "Remove um PosRole."
 
 #: app/cogs/awardroles/ar_commands.py:105
 #, python-brace-format
 msgid "Deleted PosRole **{0}**."
-msgstr ""
+msgstr "Excluí o PosRole **{0}**."
 
 #: app/cogs/awardroles/ar_commands.py:110
 msgid "Sets the max users for a PosRole."
-msgstr ""
+msgstr "Define o número máximo de usuários para um PosRole."
 
 #: app/cogs/awardroles/ar_commands.py:122
 #, python-brace-format
 msgid "Set the maximum users for the PosRole **{0}** to {1}."
-msgstr ""
+msgstr "Defina o número máximo de usuários para o PosRole **{0}** como {1}."
 
 #: app/cogs/awardroles/ar_commands.py:131
 msgid "View and manage XPRoles for your server."
-msgstr ""
+msgstr "Veja e gerencie XPRoles do seu servidor."
 
 #: app/cogs/awardroles/ar_commands.py:139
 msgid "This server has no XP Roles."
-msgstr ""
+msgstr "Este servidor não tem XPRoles."
 
 #: app/cogs/awardroles/ar_commands.py:147
 msgid "Stack XPRoles: **{}**"
-msgstr ""
+msgstr "Empilhar XPRoles: **{}**"
 
 #: app/cogs/awardroles/ar_commands.py:153
 msgid "XP Roles"
@@ -1595,37 +1597,37 @@ msgstr ""
 
 #: app/cogs/awardroles/ar_commands.py:160
 msgid "Whether or not to stack XPRoles."
-msgstr ""
+msgstr "Se deve ou não empilhar XPRoles."
 
 #: app/cogs/awardroles/ar_commands.py:170
 msgid "XPRoles will be stacked from now on."
-msgstr ""
+msgstr "XPRoles serão empilhados a partir de agora."
 
 #: app/cogs/awardroles/ar_commands.py:172
 msgid "I will no longer stack XPRoles."
-msgstr ""
+msgstr "Eu não vou mais empilhar XPRoles."
 
 #: app/cogs/awardroles/ar_commands.py:175
 msgid "Adds an XPRole."
-msgstr ""
+msgstr "Adiciona um XPRole."
 
 #: app/cogs/awardroles/ar_commands.py:190
 #, python-brace-format
 msgid "Created XPRole **{0}**."
-msgstr ""
+msgstr "Criei o XPRole **{0}**."
 
 #: app/cogs/awardroles/ar_commands.py:193
 msgid "Removes an XPRole."
-msgstr ""
+msgstr "Remove um XPRole."
 
 #: app/cogs/awardroles/ar_commands.py:200
 #, python-brace-format
 msgid "Deleted the XPRole **{0}**."
-msgstr ""
+msgstr "Excluí o XPRole **{0}**."
 
 #: app/cogs/awardroles/ar_commands.py:206
 msgid "Sets the ammount of xp needed to gain an XPRole."
-msgstr ""
+msgstr "Define a quantidade de pontos de experiência necessária para ganhar um XPRole."
 
 #: app/cogs/awardroles/ar_commands.py:218
 #, python-brace-format
