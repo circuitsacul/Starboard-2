@@ -4,6 +4,7 @@ from typing import Any, Dict, List, Optional
 import buildpg
 
 from app import errors
+from app.cogs.premium.premium_funcs import can_increase, limit_for
 
 if typing.TYPE_CHECKING:
     from app.database.database import Database
@@ -15,6 +16,15 @@ class PermRoles:
 
     async def create(self, permgroup_id: int, role_id: int):
         permroles = await self.get_many(permgroup_id)
+
+        permgroup = await self.db.permgroups.get_id(permgroup_id)
+        guild_id = int(permgroup["guild_id"])
+        limit = await limit_for("permroles", guild_id, self.db)
+        if len(permroles) >= limit:
+            raise errors.PermRoleLimitReached(
+                await can_increase("permroles", guild_id, self.db)
+            )
+
         if permroles:
             next_index = max(pr["index"] for pr in permroles) + 1
         else:

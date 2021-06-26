@@ -2,6 +2,7 @@ import typing
 from typing import List, Optional
 
 from app import errors
+from app.cogs.premium.premium_funcs import can_increase, limit_for
 
 if typing.TYPE_CHECKING:
     from app.database.database import Database
@@ -16,6 +17,12 @@ class PermGroups:
         groups = await self.get_many(guild_id)
         if name in [g["name"] for g in groups]:
             raise errors.GroupNameAlreadyExists(name)
+
+        limit = await limit_for("permgroups", guild_id, self.db)
+        if len(groups) >= limit:
+            raise errors.PermGroupLimitReached(
+                await can_increase("permgroups", guild_id, self.db)
+            )
 
         if groups:
             index = max([g["index"] for g in groups]) + 1
