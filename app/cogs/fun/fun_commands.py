@@ -232,7 +232,13 @@ class Fun(commands.Cog, description=t_("Fun commands for Starboard.", True)):
     @flags.add_flag(
         "--starboard", "--sb", type=converters.Starboard, default=None
     )
-    @flags.add_flag("--points", type=converters.myint)
+    @flags.add_flag(
+        "--minstars",
+        "--minpoints",
+        "--points",
+        "--stars",
+        type=converters.myint,
+    )
     @flags.add_flag("--maxstars", "--maxpoints", type=converters.myint)
     @flags.command(
         name="random",
@@ -273,7 +279,7 @@ class Fun(commands.Cog, description=t_("Fun commands for Starboard.", True)):
             )""",
             all_starboards,
             starboard_id,
-            options["points"],
+            options["minstars"],
             options["maxstars"],
             author_id,
             channel_id,
