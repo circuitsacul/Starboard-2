@@ -1468,39 +1468,39 @@ msgstr "Removi {0} da lista negra em {1}."
 
 #: app/cogs/blacklist/bl_commands.py:109
 msgid "Removes everything from the blacklist."
-msgstr ""
+msgstr "Remove tudo da lista negra."
 
 #: app/cogs/blacklist/bl_commands.py:119
 #, python-brace-format
 msgid "Are you sure you want to clear the blacklist for {0}?"
-msgstr ""
+msgstr "Você tem certeza de que você quer limpar a lista negra de {0}?"
 
 #: app/cogs/blacklist/bl_commands.py:128
 #, python-brace-format
 msgid "Cleared the blacklist for {0}."
-msgstr ""
+msgstr "Limpei a lista negra de {0}."
 
 #: app/cogs/blacklist/bl_commands.py:135
 msgid "Shows the channel blacklist/whitelist for a starboard."
-msgstr ""
+msgstr "Mostra a lista negra/branca de canais para um starboard."
 
 #: app/cogs/blacklist/bl_commands.py:151
 msgid "Adds a channel to the whitelist."
-msgstr ""
+msgstr "Adiciona um canal à lista branca."
 
 #: app/cogs/blacklist/bl_commands.py:168
 #, python-brace-format
 msgid "Added {0} to the whitelist for {1}."
-msgstr ""
+msgstr "Adicionei {0} à lista branca de {1}."
 
 #: app/cogs/blacklist/bl_commands.py:176
 msgid "Removes a channel from the whitelist."
-msgstr ""
+msgstr "Remove um canal da lista branca."
 
 #: app/cogs/blacklist/bl_commands.py:191
 #, python-brace-format
 msgid "Removed {0} from the whitelist on {1}."
-msgstr ""
+msgstr "Removi {0} da lista branca em {1}."
 
 #: app/cogs/blacklist/bl_commands.py:197
 msgid "Clears the whitelist for a starboard."
