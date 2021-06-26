@@ -1438,33 +1438,33 @@ msgstr " (Todos os canais estão na lista negra, já que há canais na lista bra
 #: app/cogs/blacklist/bl_commands.py:49
 #, python-brace-format
 msgid "Blacklist/Whitelist for {0}"
-msgstr ""
+msgstr "Lista Negra/Branca de {0}"
 
 #: app/cogs/blacklist/bl_commands.py:54
 msgid "Blacklisted Channels:"
-msgstr ""
+msgstr "Canais na Lista Negra:"
 
 #: app/cogs/blacklist/bl_commands.py:55
 msgid "Whitelisted Channels:"
-msgstr ""
+msgstr "Canais na Lista Branca:"
 
 #: app/cogs/blacklist/bl_commands.py:63
 msgid "Adds a channel to the blacklist."
-msgstr ""
+msgstr "Adiciona um canal à lista negra."
 
 #: app/cogs/blacklist/bl_commands.py:80
 #, python-brace-format
 msgid "Added {0} to the blacklist on {1}."
-msgstr ""
+msgstr "Adicionei {0} à lista negra em {1}."
 
 #: app/cogs/blacklist/bl_commands.py:88
 msgid "Removes a channel from the blacklist."
-msgstr ""
+msgstr "Remove um canal da lista negra."
 
 #: app/cogs/blacklist/bl_commands.py:103
 #, python-brace-format
 msgid "Removed {0} from the blacklist on {1}."
-msgstr ""
+msgstr "Removi {0} da lista negra em {1}."
 
 #: app/cogs/blacklist/bl_commands.py:109
 msgid "Removes everything from the blacklist."
