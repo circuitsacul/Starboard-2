@@ -189,7 +189,7 @@ msgstr "{0} não é um código de idioma válido."
 
 #: app/errors.py:191
 msgid "That message does not exist in the database."
-msgstr "Essa mensagem não existe na base de dados."
+msgstr "Essa mensagem não existe na banco de dados."
 
 #: app/errors.py:197
 #, python-brace-format
@@ -476,7 +476,7 @@ msgstr "**[Ir para a Mensagem]({0})**"
 
 #: app/cogs/starboard/starboard_funcs.py:509
 msgid "Trashed Message"
-msgstr "Mensagem Destruída"
+msgstr "Mensagem Descartada"
 
 #: app/cogs/starboard/starboard_funcs.py:511
 #, python-brace-format
@@ -486,7 +486,7 @@ msgid ""
 "Reason:```\n"
 "{2}```"
 msgstr ""
-"Esta mensagem foi destruída por um moderador. Para reconstruí-lo, execute ```\n"
+"Esta mensagem foi descartada por um moderador. Para restaurá-la, execute ```\n"
 "untrash {0}-{1}```\n"
 "Motivo:```\n"
 "{2}```"
@@ -733,7 +733,7 @@ msgstr "`{0}` foi excluído, então eu removi esse starboard."
 
 #: app/cogs/starboard/starboard_events.py:51
 msgid "Starboard message was deleted, so I autotrashed it."
-msgstr "A mensagem de starboard foi excluída, então eu a destruí automaticamente."
+msgstr "A mensagem de starboard foi excluída, então eu a descartei automaticamente."
 
 #: app/cogs/settings/settings_commands.py:18
 msgid "Manage settings for the server."
@@ -869,12 +869,12 @@ msgstr "Defini o emoji de QuickAction para forçar uma mensagem como {0}."
 
 #: app/cogs/settings/settings_commands.py:294
 msgid "Set the unforce QuickAction emoji."
-msgstr "Define o emoji de QuickAction para desforçar uma mensagem."
+msgstr "Defina o emoji de QuickAction para liberar uma mensagem."
 
 #: app/cogs/settings/settings_commands.py:309
 #, python-brace-format
 msgid "Set the unforce QuickAction to {0}."
-msgstr "Defini o emoji de QuickAction para desforçar uma mensagem como {0}."
+msgstr "Defini o emoji de QuickAction para liberar uma mensagem como {0}."
 
 #: app/cogs/settings/settings_commands.py:314
 msgid "Sets the freeze/unfreeze QuickAction emoji."
@@ -887,12 +887,12 @@ msgstr "Defini o emoji de QuickAction para congelar/descongelar uma mensagem com
 
 #: app/cogs/settings/settings_commands.py:335
 msgid "Sets the trash/untrash QuickAction emoji."
-msgstr "Define o emoji de QuickAction para destruir/reconstruir uma mensagem."
+msgstr "Define o emoji de QuickAction para descartar/restaurar uma mensagem."
 
 #: app/cogs/settings/settings_commands.py:351
 #, python-brace-format
 msgid "Set the trash/untrash QuickAction to {0}."
-msgstr "Defini o emoji de QuickAction para destruir/reconstruir uma mensagem como {0}."
+msgstr "Defini o emoji de QuickAction para descartar/restaurar uma mensagem como {0}."
 
 #: app/cogs/settings/settings_commands.py:355
 msgid "Sets the recount QuickAction emoji."
@@ -1144,7 +1144,7 @@ msgstr "Salva uma mensagem para as suas mensagens diretas."
 
 #: app/cogs/fun/fun_commands.py:341 app/cogs/quick_actions/qa_events.py:171
 msgid "You cannot save a trashed message."
-msgstr "Você não pode salvar uma mensagem destruída."
+msgstr "Você não pode salvar uma mensagem descartada."
 
 #: app/cogs/fun/fun_commands.py:350
 msgid "That message was deleted, so you can't save it."
@@ -2080,15 +2080,15 @@ msgstr "Comandos de utilidade e moderação."
 
 #: app/cogs/utility/utility_commands.py:25
 msgid "Removes command invocations and their responses for this bot."
-msgstr ""
+msgstr "Remove invocações de comando e as respostas delas para este bot."
 
 #: app/cogs/utility/utility_commands.py:47
 msgid "A utility for resetting aspects of the bot."
-msgstr ""
+msgstr "Um utilitário para redefinir aspectos do bot."
 
 #: app/cogs/utility/utility_commands.py:55
 msgid "Resets the bot for your guild."
-msgstr ""
+msgstr "Redefine o bot no seu servidor."
 
 #: app/cogs/utility/utility_commands.py:61
 msgid ""
@@ -2096,63 +2096,66 @@ msgid ""
 "leaderboard data for this server. Please type the name of this server to "
 "continue, or anything else to cancel."
 msgstr ""
+"Você está prestes a redefinir todas as configurações, os starboards, os canais AutoStar e "
+"dados do leaderboard deste servidor. Por favor, digite o nome deste servidor para "
+"continuar, ou qualquer outra coisa para cancelar."
 
 #: app/cogs/utility/utility_commands.py:84
 msgid "Are you certain?"
-msgstr ""
+msgstr "Você tem certeza?"
 
 #: app/cogs/utility/utility_commands.py:89
 msgid "Starboard has been reset for this server."
-msgstr ""
+msgstr "O bot Starboard foi redefinido neste servidor."
 
 #: app/cogs/utility/utility_commands.py:94
 msgid "Resets the leaderboard."
-msgstr ""
+msgstr "Redefine o leaderboard."
 
 #: app/cogs/utility/utility_commands.py:100
 msgid "Reset the leaderboard?"
-msgstr ""
+msgstr "Devo redefinir o leaderboard?"
 
 #: app/cogs/utility/utility_commands.py:111
 msgid "Reset the leaderboard."
-msgstr ""
+msgstr "Redefini o leaderboard."
 
 #: app/cogs/utility/utility_commands.py:113
 msgid "Sets the XP for a user."
-msgstr ""
+msgstr "Define os pontos de experiência para um usuário."
 
 #: app/cogs/utility/utility_commands.py:119
 msgid "XP cannot be less than 0."
-msgstr ""
+msgstr "Os pontos de experiência não podem ser menor que 0."
 
 #: app/cogs/utility/utility_commands.py:122
 msgid "XP cannot be greater than 2,147,483,647."
-msgstr ""
+msgstr "Os pontos de experiência não podem ser maior que 2.147.483.647."
 
 #: app/cogs/utility/utility_commands.py:128
 msgid "That user does not exist in the database for this guild."
-msgstr ""
+msgstr "Esse usuário não existe no banco de dados deste servidor."
 
 #: app/cogs/utility/utility_commands.py:146
 #, python-brace-format
 msgid "Changed {0}'s XP to {1} and Level to {2} (was {3} XP and Level {4})."
-msgstr ""
+msgstr "Mudei os pontos de experiência de {0} para {1} e o Nível para {2} (era {3} pontos de experiência e Nível {4})."
 
 #: app/cogs/utility/utility_commands.py:155
 msgid "Recounts the reactions on lots of messages at once."
-msgstr ""
+msgstr "Reconta as reações em muitas mensagens ao mesmo tempo."
 
 #: app/cogs/utility/utility_commands.py:166
 msgid "Must recount at least 1 message."
-msgstr ""
+msgstr "Devo recontar pelo menos 1 mensagem."
 
 #: app/cogs/utility/utility_commands.py:169
 msgid "Can only recount up to 1,000 messages."
-msgstr ""
+msgstr "Eu só posso recontar no máximo 1.000 mensagens."
 
 #: app/cogs/utility/utility_commands.py:178
 msgid "Recounts the reactions on a message."
-msgstr ""
+msgstr "Reconta as reações em uma mensagem."
 
 #: app/cogs/utility/utility_commands.py:209
 msgid ""
@@ -2160,23 +2163,26 @@ msgid ""
 "Note that this can change the functionality of things such as PermRoles and "
 "channel blacklists/whitelists."
 msgstr ""
+"Limpa coisas como #deleted-channel e @deleted-role.\n"
+"Note que isto pode mudar a funcionalidade de coisas como PermRoles e "
+"listas negras e brancas de canais."
 
 #: app/cogs/utility/utility_commands.py:225
 msgid "Nothing to remove"
-msgstr ""
+msgstr "Nada a remover"
 
 #: app/cogs/utility/utility_commands.py:227
 msgid "Database Cleaning"
-msgstr ""
+msgstr "Limpeza do Banco de Dados"
 
 #: app/cogs/utility/utility_commands.py:235
 msgid "Looks for problems with your current setup."
-msgstr ""
+msgstr "Procura problemas com o seu status atual."
 
 #: app/cogs/utility/utility_commands.py:250
 #, python-brace-format
 msgid "{0} errors, {1} warnings, {2} notes, and {3} suggestions."
-msgstr ""
+msgstr "{0} erros, {1} avisos, {2} notas e {3} sugestões."
 
 #: app/cogs/utility/utility_commands.py:259
 msgid ""
@@ -2184,6 +2190,9 @@ msgid ""
 "\n"
 "**Errors:**"
 msgstr ""
+"\n"
+"\n"
+"**Erros:**"
 
 #: app/cogs/utility/utility_commands.py:263
 msgid ""
@@ -2191,6 +2200,9 @@ msgid ""
 "\n"
 "**Warnings:**"
 msgstr ""
+"\n"
+"\n"
+"**Avisos:**"
 
 #: app/cogs/utility/utility_commands.py:267
 msgid ""
@@ -2198,6 +2210,9 @@ msgid ""
 "\n"
 "**Notes:**"
 msgstr ""
+"\n"
+"\n"
+"**Notas:**"
 
 #: app/cogs/utility/utility_commands.py:271
 msgid ""
@@ -2205,43 +2220,46 @@ msgid ""
 "\n"
 "**Suggestions:**"
 msgstr ""
+"\n"
+"\n"
+"**Sugestões:**"
 
 #: app/cogs/utility/utility_commands.py:277
 msgid "Debugging Results"
-msgstr ""
+msgstr "Resultados da Depuração"
 
 #: app/cogs/utility/utility_commands.py:289
 msgid "Freezes a message."
-msgstr ""
+msgstr "Congela uma mensagem."
 
 #: app/cogs/utility/utility_commands.py:302
 msgid "Unfreezes a message."
-msgstr ""
+msgstr "Descongela uma mensagem."
 
 #: app/cogs/utility/utility_commands.py:313
 msgid "Message unfrozen."
-msgstr ""
+msgstr "Mensagem descongelada."
 
 #: app/cogs/utility/utility_commands.py:316
 msgid "Force a message to certain starboards."
-msgstr ""
+msgstr "Force uma mensagem para certos starboards."
 
 #: app/cogs/utility/utility_commands.py:330
 msgid "Force this message to all starboards?"
-msgstr ""
+msgstr "Devo forçar esta mensagem para todos os starboards?"
 
 #: app/cogs/utility/utility_commands.py:358
 msgid "Message forced to all starboards."
-msgstr ""
+msgstr "Mensagem forçada para todos os starboards."
 
 #: app/cogs/utility/utility_commands.py:362
 #, python-brace-format
 msgid "Message forced to {0}."
-msgstr ""
+msgstr "Mensagem forçada para {0}."
 
 #: app/cogs/utility/utility_commands.py:367
 msgid "Unforces a message from certain starboards."
-msgstr ""
+msgstr "Libera uma mensagem de certos starboards."
 
 #: app/cogs/utility/utility_commands.py:389
 #, python-brace-format
@@ -2249,116 +2267,120 @@ msgid ""
 "The message you passed appears to be a starboard message. Would you like to "
 "unforce this message from {0} instead?"
 msgstr ""
+"A mensagem que você passou parece ser uma mensagem de starboard. Você gostaria de "
+"liberar esta mensagem de {0}?"
 
 #: app/cogs/utility/utility_commands.py:398
 msgid "Unforce this message from all starboards?"
-msgstr ""
+msgstr "Devo liberar esta mensagem de todos os starboards?"
 
 #: app/cogs/utility/utility_commands.py:410
 msgid "Message unforced from all starboards."
-msgstr ""
+msgstr "Mensagem liberada de todos os starboards."
 
 #: app/cogs/utility/utility_commands.py:414
 #, python-brace-format
 msgid "Message unforced from {0}."
-msgstr ""
+msgstr "Mensagem forçada de {0}."
 
 #: app/cogs/utility/utility_commands.py:420
 msgid "Sets the reason for trashing a message."
-msgstr ""
+msgstr "Define o motivo de descartar uma mensagem."
 
 #: app/cogs/utility/utility_commands.py:436
 #, python-brace-format
 msgid "Set the reason to {0}."
-msgstr ""
+msgstr "Defini o motivo como {0}."
 
 #: app/cogs/utility/utility_commands.py:439
 msgid "Trashes a message so it can't be viewed."
-msgstr ""
+msgstr "Descarta uma mensagem para que ela não seja vista."
 
 #: app/cogs/utility/utility_commands.py:461
 msgid "Message trashed."
-msgstr ""
+msgstr "Mensagem descartada."
 
 #: app/cogs/utility/utility_commands.py:463
 msgid "Untrashes a message."
-msgstr ""
+msgstr "Restaura uma mensagem."
 
 #: app/cogs/utility/utility_commands.py:481
 msgid "Message untrashed."
-msgstr ""
+msgstr "Mensagem restaurada."
 
 #: app/cogs/utility/utility_commands.py:486
 msgid "Shows a list of trashed messages."
-msgstr ""
+msgstr "Mostra uma lista de mensagens descartadas."
 
 #: app/cogs/utility/utility_commands.py:501
 msgid "You have no trashed messages."
-msgstr ""
+msgstr "Você não tem mensagens descartadas."
 
 #: app/cogs/utility/utility_commands.py:512
 msgid "Trashed Messages"
-msgstr ""
+msgstr "Mensagens Descartadas"
 
 #: app/cogs/utility/utility_commands.py:527
 msgid "Empties the trashcan."
-msgstr ""
+msgstr "Esvazia a lixeira."
 
 #: app/cogs/utility/utility_commands.py:536
 msgid "Are you sure you want to untrash all messages?"
-msgstr ""
+msgstr "Você tem certeza de que você quer restaurar todas as mensagens?"
 
 #: app/cogs/utility/utility_commands.py:545
 msgid "All messages have been untrashed."
-msgstr ""
+msgstr "Todas as mensagens foram restauradas."
 
 #: app/cogs/utility/utility_commands.py:552
 msgid "Trashes a large number of messages at once."
-msgstr ""
+msgstr "Descarta um grande número de mensagens ao mesmo tempo."
 
 #: app/cogs/utility/utility_commands.py:562
 msgid "Can only purge up to 200 messages at once."
-msgstr ""
+msgstr "Só posso descartar no máximo 200 mensagens ao mesmo tempo."
 
 #: app/cogs/utility/utility_commands.py:565
 msgid "Must purge at least 1 message."
-msgstr ""
+msgstr "Devo descartar pelo menos 1 mensagem."
 
 #: app/cogs/utility/utility_commands.py:578
 #, python-brace-format
 msgid "Purged {0} Messages."
-msgstr ""
+msgstr "Descartei {0} Mensagens."
 
 #: app/cogs/utility/utility_commands.py:590
 msgid "Untrashes a large number of messages at once."
-msgstr ""
+msgstr "Restaura um grande número de mensagens ao mesmo tempo."
 
 #: app/cogs/utility/utility_commands.py:600
 msgid "Can only unpurge up to 200 messages at once."
-msgstr ""
+msgstr "Só posso restaurar no máximo 200 mensagens ao mesmo tempo."
 
 #: app/cogs/utility/utility_commands.py:603
 msgid "Must unpurge at least 1 message."
-msgstr ""
+msgstr "Devo restaurar pelo menos 1 mensagem."
 
 #: app/cogs/utility/utility_commands.py:616
 #, python-brace-format
 msgid "Unpurged {0} Messages."
-msgstr ""
+msgstr "Restaurei {0} Mensagens."
 
 #: app/cogs/utility/utility_commands.py:626
 msgid "Shows information on a message."
-msgstr ""
+msgstr "Mostra informações sobre uma mensagem."
 
 #: app/cogs/utility/utility_commands.py:642
 msgid ""
 "This message was trashed, and you do not have permission to view trashed "
 "messages (Manage Messages)."
 msgstr ""
+"Esta mensagem foi descartada, e você não tem permissão para ver mensagens "
+"descartadas (Gerenciar Mensagens)."
 
 #: app/cogs/utility/utility_commands.py:651
 msgid "Message Info"
-msgstr ""
+msgstr "Informações da Mensagem"
 
 #: app/cogs/utility/utility_commands.py:654
 #, python-brace-format
@@ -2370,10 +2392,16 @@ msgid ""
 "Trashed: {1[trashed]}\n"
 "Frozen: {1[frozen]}"
 msgstr ""
+"[Ir para a Mensagem]({0})\n"
+"Canal: <#{1[channel_id]}>\n"
+"ID: {1[id]} (`{1[channel_id]}-{1[id]}`)\n"
+"Autor: <@{1[author_id]}> | `{1[author_id]}`\n"
+"Descartado: {1[trashed]}\n"
+"Congelado: {1[frozen]}"
 
 #: app/cogs/utility/utility_commands.py:673
 msgid "Not On Starboard"
-msgstr ""
+msgstr "Não Está em um Starboard"
 
 #: app/cogs/utility/utility_commands.py:682
 #, python-brace-format
