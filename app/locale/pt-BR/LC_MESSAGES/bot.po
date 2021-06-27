@@ -392,7 +392,7 @@ msgid ""
 "category."
 msgstr ""
 "Digite {help.clean_prefix}commands <comando> para obter mais informações sobre um comando.\n"
-"Yocê também pode digitar {help.clean_prefix}commands <categoria> para obter mais informações sobre uma"
+"Você também pode digitar {help.clean_prefix}commands <categoria> para obter mais informações sobre uma "
 "categoria."
 
 #: app/i18n/i18n.py:104
@@ -1379,7 +1379,7 @@ msgstr ""
 
 #: app/cogs/profile/profile_commands.py:12
 msgid "Manage personal settings."
-msgstr "Gerencie configurações pessoais:"
+msgstr "Gerencie configurações pessoais."
 
 #: app/cogs/profile/profile_commands.py:20
 msgid "Sets your language."
