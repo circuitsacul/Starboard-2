@@ -1811,6 +1811,10 @@ msgid ""
 "\n"
 "Your support is greatly appreciated."
 msgstr ""
+"Obrigado por se tornar um patrocinador! Cada dólar que é enviado através do Patreon será "
+"convertido em 1 crédito. DM `@Circuit#5585` se você tiver alguma dúvida.\n"
+"\n"
+"Seu apoio é muito apreciado."
 
 #: app/cogs/premium/patreon_events.py:92
 #, python-brace-format
@@ -1818,6 +1822,8 @@ msgid ""
 "Just wanted to alert you that your montly pledge on Patreon has changed from "
 "${0} to ${1}. Thanks for supporting Starboard!"
 msgstr ""
+"Só queria te alertar de que sua membresia mensal no Patreon mudou de "
+"${0} para ${1}. Obrigado por apoiar o Starboard!"
 
 #: app/cogs/premium/patreon_events.py:127
 msgid ""
@@ -1827,6 +1833,11 @@ msgid ""
 "You won't gain any more credits automatically, but you will *not* loose any "
 "you currently have."
 msgstr ""
+"Parece que você retirou sua membresia mensal no Patreon. Nós lamentamos vê-lo partir, "
+"mas ainda nós somos gratos por todo seu apoio anterior.\n"
+"\n"
+"Você não ganhará mais créditos automaticamente, mas *não* perderá nenhum "
+"que você tem atualmente."
 
 #: app/cogs/base/base_events.py:161
 #, python-brace-format
