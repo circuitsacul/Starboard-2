@@ -170,7 +170,7 @@ class Utility(
             return
         async with ctx.typing():
             await recounter.scan_recount(self.bot, ctx.channel, limit)
-        await ctx.send("Finished!")
+        await ctx.send(t_("Finished!"))
 
     @commands.command(
         name="recount",
