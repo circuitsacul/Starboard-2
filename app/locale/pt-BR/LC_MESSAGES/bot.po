@@ -2396,8 +2396,8 @@ msgstr ""
 "Canal: <#{1[channel_id]}>\n"
 "ID: {1[id]} (`{1[channel_id]}-{1[id]}`)\n"
 "Autor: <@{1[author_id]}> | `{1[author_id]}`\n"
-"Descartado: {1[trashed]}\n"
-"Congelado: {1[frozen]}"
+"Descartada: {1[trashed]}\n"
+"Congelada: {1[frozen]}"
 
 #: app/cogs/utility/utility_commands.py:673
 msgid "Not On Starboard"
@@ -2406,7 +2406,7 @@ msgstr "Não Está em um Starboard"
 #: app/cogs/utility/utility_commands.py:682
 #, python-brace-format
 msgid "[Jump]({0})"
-msgstr ""
+msgstr "[Ir]({0})"
 
 #: app/cogs/utility/utility_commands.py:689
 #, python-brace-format
@@ -2414,46 +2414,50 @@ msgid ""
 "Points: **{0}**/{1}\n"
 "Forced: {2}"
 msgstr ""
+"Pontos: **{0}**/{1}\n"
+"Forçada: {2}"
 
 #: app/cogs/utility/debugger.py:42
 #, python-brace-format
 msgid "Missing `Send Messages` in {0}/{1} channels."
-msgstr ""
+msgstr "Eu não tenho a permissão `Enviar mensagens` em {0}/{1} canais."
 
 #: app/cogs/utility/debugger.py:48
 #, python-brace-format
 msgid "Missing `Embed Links` in {0}/{1} channels."
-msgstr ""
+msgstr "Eu não tenho a permissão `Inserir links` em {0}/{1} canais."
 
 #: app/cogs/utility/debugger.py:54
 #, python-brace-format
 msgid "Missing `Read Messages` in {0}/{1} channels."
-msgstr ""
+msgstr "Eu não tenho a permissão `Ver canal` em {0}/{1} canais."
 
 #: app/cogs/utility/debugger.py:60
 #, python-brace-format
 msgid "Missing `Read Message History` in {0}/{1} channels."
-msgstr ""
+msgstr "Eu não tenho a permissão `Ver histórico de mensagens` em {0}/{1} canais."
 
 #: app/cogs/utility/debugger.py:69
 msgid "You have no starboards set."
-msgstr ""
+msgstr "Você não tem nenhum starboard configurado."
 
 #: app/cogs/utility/debugger.py:74
 msgid ""
 "There are some starboards where the original channel was deleted. This can "
 "be resolved by running the `clean` command."
 msgstr ""
+"Há alguns starboards em que o canal original foi excluído. Isso pode "
+"ser resolvido executando o comando `clean`."
 
 #: app/cogs/utility/debugger.py:86
 #, python-brace-format
 msgid "The starboard <#{0}> has no starEmojis set, so it can't be used."
-msgstr ""
+msgstr "O starboard <#{0}> não tem nenhum starEmojis configurado, então ele não pode ser usado."
 
 #: app/cogs/utility/debugger.py:93
 #, python-brace-format
 msgid "selfStar is disabled for {0}, so users can't star their own messages."
-msgstr ""
+msgstr "selfStar é desabilitado em {0}, então os usuários não podem estrelar as próprias mensagens deles."
 
 #: app/cogs/utility/debugger.py:100
 #, python-brace-format
@@ -2461,6 +2465,8 @@ msgid ""
 "{0} has a regex string, `{1}`, so all messages must match that regex or they "
 "can't be starred."
 msgstr ""
+"{0} tem uma string de regex, `{1}`, então todas as mensagens devem corresponder à essa regex or elas "
+"não podem ser estreladas."
 
 #: app/cogs/utility/debugger.py:108
 #, python-brace-format
@@ -2468,11 +2474,13 @@ msgid ""
 "{0} has an excludeRegex string, `{1}`, so all messages must **not** match "
 "this regex or they can't be starred."
 msgstr ""
+"{0} tem uma string excludeRegex, `{1}`, então todas as mensagens **não** devem corresponder "
+"à essa regex or elas não podem ser estreladas."
 
 #: app/cogs/utility/debugger.py:117
 #, python-brace-format
 msgid "I can't send messages in {0}."
-msgstr ""
+msgstr "Eu não posso enviar mensagens em {0}."
 
 #: app/cogs/utility/debugger.py:122
 #, python-brace-format
@@ -2480,6 +2488,8 @@ msgid ""
 "I don't have the `Embed Links` permission in {0}, so I can't send starboard "
 "messages."
 msgstr ""
+"Eu não tenho a permissão `Inserir links` em {0}, então eu não posso enviar mensagens de "
+"starboard."
 
 #: app/cogs/utility/debugger.py:129
 #, python-brace-format
@@ -2487,6 +2497,8 @@ msgid ""
 "I don't have the `Read Messages` permission in {0}, so I can't update "
 "starboard messages."
 msgstr ""
+"Eu não tenho a permissão `Ver canal` em {0}, então eu não posso atualizar "
+"mensagens de starboard."
 
 #: app/cogs/utility/debugger.py:136
 #, python-brace-format
@@ -2494,6 +2506,8 @@ msgid ""
 "I don't have the `Read Message History` permission in {0}, so I can't update "
 "starboard messages."
 msgstr ""
+"Eu não tenho a permissão `Ver histórico de mensagens` em {0}, então eu não posso atualizar "
+"mensagens de starboard."
 
 #: app/cogs/utility/debugger.py:143
 #, python-brace-format
@@ -2501,6 +2515,8 @@ msgid ""
 "I don't have the `Add Reactions` permission in {0}, so I can't autoreact to "
 "starboard messages there."
 msgstr ""
+"Eu não tenho a permissão `Adicionar reações` em {0}, então eu não posso reagir automaticamente a "
+"mensagens de starboard lá."
 
 #: app/cogs/utility/debugger.py:156
 #, python-brace-format
@@ -2508,6 +2524,8 @@ msgid ""
 "<#{0}> has {1} blacklisted channels, so messages from those channels can't "
 "be starred."
 msgstr ""
+"<#{0}> tem {1} canais na lista negra, então as mensagens desses canais não podem "
+"ser estreladas."
 
 #: app/cogs/utility/debugger.py:163
 #, python-brace-format
@@ -2515,12 +2533,16 @@ msgid ""
 "<#{0}> has {1} whitelisted channels, so only messages from those channels "
 "can be starred."
 msgstr ""
+"<#{0}> tem {1} canais na lista branca, então apenas as mensagens desses canais "
+"podem ser estreladas."
 
 #: app/cogs/utility/debugger.py:174
 msgid ""
 "There are some AutoStar channels where the original channel was deleted. "
 "This can be resolved by running the `clean` command."
 msgstr ""
+"Há alguns canais AutoStar em que o canal original foi excluído. "
+"Isso pode ser resolvido executando o comando `clean`."
 
 #: app/cogs/utility/debugger.py:186
 #, python-brace-format
@@ -2528,12 +2550,16 @@ msgid ""
 "The AutoStar channel {0} has no emojis set. This means that none of the "
 "messages there will receive any reactions automatically."
 msgstr ""
+"O canal AutoStar {0} não tem emojis configurados. Isso signfica que nenhuma "
+"mensagem ali vai receber uma reação automaticamente."
 
 #: app/cogs/utility/debugger.py:197
 msgid ""
 "The AutoStar channel {0} has minChars set to {asc['min_chars']}, so messages "
 "less than that will be ignored."
 msgstr ""
+"O canal AutoStar {0} tem minChars definido como {asc['min_chars']}, então mensagens "
+"menores que isso serão ignoradas."
 
 #: app/cogs/utility/debugger.py:205
 #, python-brace-format
@@ -2541,6 +2567,8 @@ msgid ""
 "The AutoStar channel {0} has requireImage enabled, so all messages must "
 "include an image or they will be ignored."
 msgstr ""
+"O channel AutoStar {0} tem requireImage habilitado, então todas as mensagens devem "
+"incluir uma imagem ou elas serão ignoradas."
 
 #: app/cogs/utility/debugger.py:213
 #, python-brace-format
@@ -2548,6 +2576,8 @@ msgid ""
 "The AutoStar channel {0} has a regex string (`{1}`) that all messages must "
 "match or they will be ignored."
 msgstr ""
+"O canal AutoStar {0} tem uma string de regex (`{1}`) à qual todas as mensagens devem "
+"corresponder ou elas serão ignoradas."
 
 #: app/cogs/utility/debugger.py:221
 #, python-brace-format
@@ -2555,6 +2585,8 @@ msgid ""
 "The AutoStar channel {0} has a regex string (`{1}`) that all messages must "
 "not match or they will be ignored."
 msgstr ""
+"O canal AutoStar {0} tem uma string de regex (`{1}`) à qual todas as mensagens não devem "
+"corresponder ou elas serão ignoradas."
 
 #: app/cogs/utility/debugger.py:231
 #, python-brace-format
@@ -2563,6 +2595,9 @@ msgid ""
 "channel. Without this permission, I won't be able to autoreact to messages "
 "there."
 msgstr ""
+"Eu não tenho a permissão `Ver canal` em {0}, que é um canal "
+"AutoStar. Sem essa permissão, eu não vou poder reagir automaticamente a mensagens "
+"ali."
 
 #: app/cogs/utility/debugger.py:240
 #, python-brace-format
@@ -2571,6 +2606,9 @@ msgid ""
 "channel. Without this permision, I won't be able to autoreact to messages "
 "there."
 msgstr ""
+"Eu não tenho a permissão `Adicionar reações` em {0}, que é um canal "
+"AutoStar. Sem essa permissão, eu não vou poder reagir automaticamente a mensagens "
+"ali."
 
 #: app/cogs/utility/debugger.py:249
 #, python-brace-format
@@ -2579,47 +2617,52 @@ msgid ""
 "channel. Without that permission, I won't be able to delete messages that "
 "don't meet the requirements."
 msgstr ""
+"Eu não tenho a permissão `Gerenciar mensagens` em {0}, que é um canal "
+"AutoStar. Sem essa permissão, eu não vou poder excluir mensagens que "
+"não cumprem os requisitos."
 
 #: app/cogs/utility/debugger.py:261
 msgid ""
 "Add a logChannel (`logChannel <channel>`), where I will send important "
 "information and errors."
 msgstr ""
+"Adicione um logChannel (`logChannel <canal>`), em que eu vou enviar informações "
+"importantes e erros."
 
 #: app/cogs/utility/debugger.py:269
 msgid "The log channel was deleted, please create a new one."
-msgstr ""
+msgstr "O canal de registro foi excluído, por favor crie um novo."
 
 #: app/cogs/utility/debugger.py:276
 #, python-brace-format
 msgid "I can't send messages in {0}, so I can't log errors."
-msgstr ""
+msgstr "Eu não posso enviar mensagens em {0}, então eu não posso registrar erros."
 
 #: app/cogs/utility/debugger.py:282
 #, python-brace-format
 msgid "I'm missing the `Embed Links` permission in {0}, so I can't log errors."
-msgstr ""
+msgstr "Eu não tenho a permissão `Inserir links` em {0}, então eu não posso registrar erros."
 
 #: app/cogs/utility/cleaner.py:18
 msgid "Starboards"
-msgstr ""
+msgstr "Starboards"
 
 #: app/cogs/utility/cleaner.py:19
 msgid "Star Emojis"
-msgstr ""
+msgstr "Emojis-estrela"
 
 #: app/cogs/utility/cleaner.py:21
 msgid "AutoStar emojis"
-msgstr ""
+msgstr "Emojis AutoStar"
 
 #: app/cogs/utility/cleaner.py:22
 msgid "Blacklisted Channels"
-msgstr ""
+msgstr "Canais na Lista Negra"
 
 #: app/cogs/utility/cleaner.py:23
 msgid "Whitelisted Channels"
-msgstr ""
+msgstr "Canais na Lista Branca"
 
 #: app/cogs/utility/utility_funcs.py:51
 msgid "Purged"
-msgstr ""
+msgstr "Descartados"
