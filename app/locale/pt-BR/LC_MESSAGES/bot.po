@@ -1526,7 +1526,7 @@ msgid ""
 "(PosRoles stands for Position-based Award Roles)"
 msgstr ""
 "Visualize e gerencie PosRoles do seu servidor.\n"
-"(PosRoles significa "cargos de premiação baseados em posição")".
+"(PosRoles significa cargos de premiação baseados em posição)."
 
 #: app/cogs/awardroles/ar_commands.py:33
 msgid "This server has no PosRoles set."
@@ -1697,7 +1697,7 @@ msgstr "Gerencie canais AutoStar."
 msgid ""
 "List AutoStar Channels, or show settings for a specific AutoStar channel."
 msgstr ""
-"Liste Canais AutoStar ou mostre configurações para um canal AutoStar específico".
+"Liste Canais AutoStar ou mostre configurações para um canal AutoStar específico."
 
 #: app/cogs/autostarchannels/asc_commands.py:40
 #, python-brace-format
@@ -1791,7 +1791,7 @@ msgid ""
 "for your donation!"
 msgstr ""
 "Recebemos sua doação de ${0} através do Donate Bot, e você ganhou {1} "
-"crédito(s)". Se você tiver alguma dúvida, sinta-se à vontade para enviar uma mensagem direta a Circuit#5585. Obrigado "
+"crédito(s). Se você tiver alguma dúvida, sinta-se à vontade para enviar uma mensagem direta a Circuit#5585. Obrigado "
 "por sua doação!"
 
 #: app/cogs/premium/patreon_events.py:75
