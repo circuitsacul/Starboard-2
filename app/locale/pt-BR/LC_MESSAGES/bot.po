@@ -1193,7 +1193,7 @@ msgstr "PermGroups de {0}"
 #: app/cogs/permroles/pr_commands.py:101
 #, python-brace-format
 msgid "If you're looking for the PermRoles of this PermGroup, run {0}."
-msgstr "Se você está procurando os PermRoles deste PermGroup, digite {0}."
+msgstr "Se você está procurando os PermRoles deste PermGroup, execute {0}."
 
 #: app/cogs/permroles/pr_commands.py:120
 msgid "Add a PermGroup."
@@ -1374,7 +1374,7 @@ msgid ""
 "Try running `/ping` to see if slash commands are working. If not, a server "
 "admin can use [this link]({}) to give me the proper permissions."
 msgstr ""
-"Tente digitar `/ping` para ver se comandos de barra estão funcionando. Se não, um administrator "
+"Tente executar `/ping` para ver se comandos de barra estão funcionando. Se não, um administrator "
 "do servidor pode usar [this link]({}) para me dar as permissões apropriadas."
 
 #: app/cogs/profile/profile_commands.py:12
@@ -1842,7 +1842,7 @@ msgstr ""
 #: app/cogs/base/base_events.py:161
 #, python-brace-format
 msgid "My prefix is `{0}`."
-msgstr ""
+msgstr "Meu prefixo é `{0}`."
 
 #: app/cogs/base/base_events.py:190
 #, python-brace-format
@@ -1850,30 +1850,34 @@ msgid ""
 "I don't have permission to send messages in {0}, so I can't respond to your "
 "command."
 msgstr ""
+"Eu não tenho permissão para enviar mensagens em {0}, então eu não posso responder ao seu "
+"comando."
 
 #: app/cogs/base/base_events.py:196
 msgid "Something's Not Right"
-msgstr ""
+msgstr "Alguma Coisa Não Está Certa"
 
 #: app/cogs/base/base_events.py:198
 msgid ""
 "Something went wrong while running this command. If the problem persists, "
 "please report this in the support server."
 msgstr ""
+"Algo deu errado durante a execução deste comando. Se o problema persistir, "
+"por favor informe isto no servidor de suporte."
 
 #: app/cogs/base/base_events.py:250
 #, python-brace-format
 msgid "{0} Leveled up!"
-msgstr ""
+msgstr "{0} Subiu de nível!"
 
 #: app/cogs/base/base_events.py:251
 #, python-brace-format
 msgid "They are now level **{0}**!"
-msgstr ""
+msgstr "Ele(a) está agora no nível {0}**!"
 
 #: app/cogs/base/base_commands.py:16
 msgid "Basic informational commands."
-msgstr ""
+msgstr "Comandos informativos básicos."
 
 #: app/cogs/base/base_commands.py:21
 msgid ""
@@ -1888,30 +1892,40 @@ msgid ""
 "Once a message reaches the requiredStars limit in  reactions, Starboard will "
 "essentially copy the message and repost it in your starboard."
 msgstr ""
+"Um Starboard é um bot que permite aos usuários de um servidor \"votar\" para \"fixar\" uma "
+"mensagem. A ideia principal é esta:\n"
+" - Você define um canal como o starboard, normalmente chamado `#starboard`\n"
+" - Você define um emoji para votar para fixar mensagens, geralmente o emoji :star:\n"
+" - Você define um limite (chamado de requiredStars neste bot) que diz ao Starboard "
+"de quantas reações (do emoji que você definir) uma mensagem precisa antes que ela seja enviada "
+"ao starboard.\n"
+"\n"
+"Assim que uma mensagem atingir o limite requiredStars em reações, o Starboard vai "
+"essencialmente copiar a mensagem e a repostar em seu starboard."
 
 #: app/cogs/base/base_commands.py:35
 msgid "Show credits."
-msgstr ""
+msgstr "Mostre créditos."
 
 #: app/cogs/base/base_commands.py:41
 msgid "Starboard Credits"
-msgstr ""
+msgstr "Créditos de Starboard:"
 
 #: app/cogs/base/base_commands.py:45
 msgid "Owner(s)"
-msgstr ""
+msgstr "Dono(s)"
 
 #: app/cogs/base/base_commands.py:54
 msgid "Developer(s)"
-msgstr ""
+msgstr "Desenvolvedor(es)"
 
 #: app/cogs/base/base_commands.py:63
 msgid "Translator(s)"
-msgstr ""
+msgstr "Tradutor(es)"
 
 #: app/cogs/base/base_commands.py:75
 msgid "Get help with Starboard."
-msgstr ""
+msgstr "Consiga ajuda com o Starboard."
 
 #: app/cogs/base/base_commands.py:87
 #, python-brace-format
@@ -1921,22 +1935,26 @@ msgid ""
 "To list all prefixes, run `{1}prefixes`.\n"
 "For a list of useful links, run `{1}links`\n"
 msgstr ""
+"Para ver uma lista de comandos completa, execute `{1}commands`.\n"
+"Para ver uma lista de comandos desabilitados, execute `{1}disabled`.\n"
+"Para listar todos os prefixos, execute `{1}prefixes`.\n"
+"Para uma lista de links úteis, execute `{1}links`\n"
 
 #: app/cogs/base/base_commands.py:94
 msgid "What is a Starboard?"
-msgstr ""
+msgstr "O que é um Starboard?"
 
 #: app/cogs/base/base_commands.py:120
 msgid "See a list of commands."
-msgstr ""
+msgstr "Veja uma lista de comandos."
 
 #: app/cogs/base/base_commands.py:135
 msgid "Shows bot statistics."
-msgstr ""
+msgstr "Mostra as estatísticas do bot."
 
 #: app/cogs/base/base_commands.py:144
 msgid "Bot Stats"
-msgstr ""
+msgstr "Estatísticas do Bot"
 
 #: app/cogs/base/base_commands.py:146
 #, python-brace-format
@@ -1946,22 +1964,26 @@ msgid ""
 "Clusters: **{2}**\n"
 "Shards: **{3}**"
 msgstr ""
+"Servidores: **{0}**\n"
+"Usuários: **{1}**\n"
+"Clusters: **{2}**\n"
+"Shards: **{3}**"
 
 #: app/cogs/base/base_commands.py:163
 msgid "Shows current clusters and shards latency."
-msgstr ""
+msgstr "Mostra a latência atual dos clusters e shards."
 
 #: app/cogs/base/base_commands.py:172
 msgid "Pinging..."
-msgstr ""
+msgstr "Pingando..."
 
 #: app/cogs/base/base_commands.py:174
 msgid "Editing..."
-msgstr ""
+msgstr "Editando..."
 
 #: app/cogs/base/base_commands.py:184
 msgid "Pong!"
-msgstr ""
+msgstr "Pongue!"
 
 #: app/cogs/base/base_commands.py:187
 #, python-brace-format
@@ -1970,29 +1992,32 @@ msgid ""
 "Edit: {1}ms\n"
 "Delete: {2}ms"
 msgstr ""
+"Enviar: {0}ms\n"
+"Editar: {1}ms\n"
+"Excluir: {2}ms"
 
 #: app/cogs/base/base_commands.py:191
 #, python-brace-format
 msgid "Cluster **{0}**"
-msgstr ""
+msgstr "Cluster **{0}**"
 
 #: app/cogs/base/base_commands.py:192 app/cogs/base/base_commands.py:197
 #, python-brace-format
 msgid "{0} ms"
-msgstr ""
+msgstr "{0} ms"
 
 #: app/cogs/base/base_commands.py:196
 #, python-brace-format
 msgid "Shard **{0}**"
-msgstr ""
+msgstr "Shard **{0}**"
 
 #: app/cogs/base/base_commands.py:205
 msgid "Lists important/useful links."
-msgstr ""
+msgstr "Lista links importants/´´uteis"
 
 #: app/cogs/base/base_commands.py:211
 msgid "Important Links"
-msgstr ""
+msgstr "Links Importantes"
 
 #: app/cogs/base/base_commands.py:214
 #, python-brace-format
@@ -2001,10 +2026,13 @@ msgid ""
 "**[Support Server]({0.SUPPORT_INVITE})**\n"
 "**[Invite Starboard]({0.BOT_INVITE})**\n"
 msgstr ""
+"**[Documentação]({0.DOCS})**\n"
+"**[Servidor de Suporte]({0.SUPPORT_INVITE})**\n"
+"**[Convide o Starboard]({0.BOT_INVITE})**\n"
 
 #: app/cogs/base/base_commands.py:220
 msgid "Support Starboard"
-msgstr ""
+msgstr "Apoie o Starboard"
 
 #: app/cogs/base/base_commands.py:224
 #, python-brace-format
