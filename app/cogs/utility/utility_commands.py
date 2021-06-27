@@ -297,7 +297,7 @@ class Utility(
         await utility_funcs.handle_freezing(
             self.bot, orig_message["id"], orig_message["guild_id"], True
         )
-        await ctx.send("Message frozen.")
+        await ctx.send(t_("Message frozen."))
 
     @commands.command(name="unfreeze", help=t_("Unfreezes a message.", True))
     @has_guild_permissions(manage_messages=True)
