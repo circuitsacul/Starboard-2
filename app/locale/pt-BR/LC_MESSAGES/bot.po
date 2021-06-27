@@ -2013,7 +2013,7 @@ msgstr "Shard **{0}**"
 
 #: app/cogs/base/base_commands.py:205
 msgid "Lists important/useful links."
-msgstr "Lista links importants/´´uteis"
+msgstr "Lista links importantes/úteis."
 
 #: app/cogs/base/base_commands.py:211
 msgid "Important Links"
@@ -2040,41 +2040,43 @@ msgid ""
 "\n"
 "[Become a Patron]({0.PATREON_LINK})**"
 msgstr ""
+"\n"
+"[Torne-se um Patrocinador]({0.PATREON_LINK})**"
 
 #: app/cogs/base/base_commands.py:230 app/cogs/base/base_commands.py:275
 msgid "Vote Links"
-msgstr ""
+msgstr "Links para Votar"
 
 #: app/cogs/base/base_commands.py:235 app/cogs/base/base_commands.py:280
 msgid "Review Links"
-msgstr ""
+msgstr "Links de Análise"
 
 #: app/cogs/base/base_commands.py:245
 msgid "View vote links and number of times you've voted."
-msgstr ""
+msgstr "Veja links para votar e o número de vezes que você votou."
 
 #: app/cogs/base/base_commands.py:253
 #, python-brace-format
 msgid "{0} is a bot. How many times do you think they've voted?"
-msgstr ""
+msgstr "{0} é um bot. Quantas vezes você acha que ele já votou?"
 
 #: app/cogs/base/base_commands.py:265
 msgid "Vote for Starboard"
-msgstr ""
+msgstr "Vote no Starboard"
 
 #: app/cogs/base/base_commands.py:267
 #, python-brace-format
 msgid "You have voted **{0}** time(s)."
-msgstr ""
+msgstr "Você votou **{0}** vez(es)."
 
 #: app/cogs/base/base_commands.py:269
 #, python-brace-format
 msgid "**{0}** has voted **{1}** time(s)."
-msgstr ""
+msgstr "**{0}** votou **{1}** vez(es)."
 
 #: app/cogs/utility/utility_commands.py:17
 msgid "Utility and moderation commands."
-msgstr ""
+msgstr "Comandos de utilidade e moderação."
 
 #: app/cogs/utility/utility_commands.py:25
 msgid "Removes command invocations and their responses for this bot."
