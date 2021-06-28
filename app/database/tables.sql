@@ -45,6 +45,17 @@ CREATE TABLE IF NOT EXISTS users (
     public BOOL NOT NULL DEFAULT true
 );
 
+CREATE TABLE IF NOT EXISTS autoredeem (
+    user_id NUMERIC NOT NULL,
+    guild_id NUMERIC NOT NULL,
+    enabled_on TIMESTAMPZ DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (user_id) REFERENCES users (id)
+        ON DELETE CASCADE,
+    FOREIGN KEY (guild_id) REFERENCES guilds (id)
+        ON DELETE CASCADE
+);
+
 CREATE TABLE IF NOT EXISTS members (
     user_id NUMERIC NOT NULL,
     guild_id NUMERIC NOT NULL,

@@ -6,6 +6,7 @@ import asyncpg
 
 from .database_functions import (
     aschannels,
+    autoredeem,
     guilds,
     members,
     messages,
@@ -33,6 +34,7 @@ class Database:
         self.guilds = guilds.Guilds(self)
         self.members = members.Members(self)
         self.users = users.Users(self)
+        self.autoredeem = autoredeem.Autoredeem(self)
         self.aschannels = aschannels.ASChannels(self)
         self.starboards = starboards.Starboards(self)
         self.permgroups = permgroups.PermGroups(self)
