@@ -1,5 +1,6 @@
 import asyncio
 import os
+from math import ceil
 from typing import TYPE_CHECKING, Any, Dict, List
 
 import discord
@@ -194,7 +195,7 @@ class PatreonEvents(commands.Cog):
             # Get the date of declined pledge
             # False if the pledge has not been declined
             declined_since = pledger.attribute("declined_since")
-            total_paid = int(
+            total_paid = ceil(
                 pledger.attribute("total_historical_amount_cents") / 100
             )
 
@@ -214,6 +215,7 @@ class PatreonEvents(commands.Cog):
                     pledger.relationship("reward").attribute("amount_cents")
                     / 100
                 )
+                print(payment)
 
             # Check if the patron has declined his pledge
             if declined_since is not None:
@@ -225,9 +227,9 @@ class PatreonEvents(commands.Cog):
                     "name": pledger.relationship("patron").attribute(
                         "first_name"
                     ),
-                    "payment": int(payment),
+                    "payment": payment,
                     "declined": is_declined,
-                    "total": int(total_paid),
+                    "total": total_paid,
                     "discord_id": int(discord_id) if discord_id else None,
                 }
             )
