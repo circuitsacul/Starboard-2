@@ -5,8 +5,10 @@ import discord
 from discord.ext import tasks
 
 import config
-from app import commands
+from app import commands, errors, utils
 from app.i18n import t_
+
+from .premium_funcs import redeem_credits
 
 if TYPE_CHECKING:
     from app.classes.bot import Bot
@@ -20,6 +22,7 @@ class PremiumEvents(commands.Cog):
 
     @tasks.loop(hours=1)
     async def check_expired_premium(self):
+        await self.bot.wait_until_ready()
         now = datetime.utcnow()
         expired_guilds = await self.bot.db.fetch(
             """SELECT * FROM guilds
@@ -27,21 +30,54 @@ class PremiumEvents(commands.Cog):
             now,
         )
         for sql_guild in expired_guilds:
+            autoredeemers = await self.bot.db.autoredeem.find_valid(
+                int(sql_guild["id"])
+            )
+            obj = self.bot.get_guild(int(sql_guild["id"]))
+            autoredeemed = False
+            if obj is not None:
+                for ar in autoredeemers:
+                    user = await self.bot.cache.fetch_user(int(ar["user_id"]))
+                    if not user:
+                        continue
+                    try:
+                        await redeem_credits(
+                            self.bot.db,
+                            int(sql_guild["id"]),
+                            int(ar["user_id"]),
+                            1,
+                        )
+                    except errors.NotEnoughCredits:
+                        pass
+                    else:
+                        await utils.try_send(
+                            user,
+                            t_(
+                                "You have AutoRedeem enabled in {0}, and that "
+                                "server ran out of premium so 3 credits were "
+                                "taken from your acccount. You can disable "
+                                "AutoRedeem for this server by running "
+                                "`sb!autoredeem disable {1}`."
+                            ).format(obj.name, obj.id),
+                        )
+                        autoredeemed = True
+                        break
+            if autoredeemed:
+                continue
+
             await self.bot.db.execute(
                 """UPDATE guilds
                 SET premium_end = null
                 WHERE id = $1""",
                 sql_guild["id"],
             )
-            obj = self.bot.get_guild(int(sql_guild["id"]))
-            if not obj:
-                continue
-            self.bot.dispatch(
-                "guild_log",
-                t_("Premium has expired for this server."),
-                "info",
-                obj,
-            )
+            if obj is not None:
+                self.bot.dispatch(
+                    "guild_log",
+                    t_("Premium has expired for this server."),
+                    "info",
+                    obj,
+                )
 
     @commands.Cog.listener()
     async def on_member_join(self, member: discord.Member):

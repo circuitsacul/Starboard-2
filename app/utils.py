@@ -39,6 +39,13 @@ def timeout(seconds=10, error_message=os.strerror(errno.ETIME)):
 
 
 # Functions
+async def try_send(dest: discord.abc.Messageable, *args, **kwargs) -> Any:
+    try:
+        return await dest.send(*args, **kwargs)
+    except Exception:
+        pass
+
+
 async def get_prefix(
     bot: "Bot", message: discord.Message, when_mentioned: bool = True
 ) -> List[str]:

@@ -20,10 +20,8 @@ class Autoredeem:
             user_id,
         )
 
-    async def find_first_valid(
-        self, guild_id: int
-    ) -> Optional[Dict[str, Any]]:
-        return await self.db.fetchrow(
+    async def find_valid(self, guild_id: int) -> List[Dict[str, Any]]:
+        return await self.db.fetch(
             """SELECT * FROM autoredeem
             WHERE guild_id=$1
             AND EXISTS (
@@ -31,7 +29,7 @@ class Autoredeem:
                 WHERE id=user_id
                 AND credits >= 3
             )
-            ORDER BY enabled_on DESC LIMIT 1""",
+            ORDER BY enabled_on DESC""",
             guild_id,
         )
 
