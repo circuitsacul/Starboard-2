@@ -215,7 +215,6 @@ class PatreonEvents(commands.Cog):
                     pledger.relationship("reward").attribute("amount_cents")
                     / 100
                 )
-                print(payment)
 
             # Check if the patron has declined his pledge
             if declined_since is not None:
