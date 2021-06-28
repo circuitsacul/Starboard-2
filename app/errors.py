@@ -129,6 +129,11 @@ class PermRoleLimitReached(LimitReached):
         super().__init__(message)
 
 
+class AutoRedeemAlreadyOn(commands.CommandError):
+    def __init__(self):
+        super().__init__(t_("AutoRedeem is already enabled for this server."))
+
+
 # Custom CommandErrors
 class SupportServerOnly(commands.BadArgument):
     def __init__(self):

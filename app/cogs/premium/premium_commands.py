@@ -124,6 +124,102 @@ class Premium(commands.Cog, description=t_("Premium related commands.", True)):
             )
         )
 
+    @commands.group(
+        name="autoredeem",
+        help=t_(
+            "Manage AutoRedeem for servers.\n"
+            "If run in DMs, will show all servers AutoRedeem is enabled for."
+        ),
+        invoke_without_command=True,
+    )
+    async def autoredeem(self, ctx: "MyContext"):
+        if ctx.guild is None:
+            all_autoredeem = await self.bot.db.autoredeem.get_user_guilds(
+                ctx.author.id
+            )
+            if len(all_autoredeem) == 0:
+                await ctx.send(
+                    t_("You don't have AutoRedeem enabled on any servers.")
+                )
+                return
+            p = commands.Paginator(prefix="", suffix="")
+            for ar in all_autoredeem:
+                g = self.bot.get_guild(int(ar["guild_id"]))
+                if g:
+                    p.add_line(g.name + f" (`{g.id}`)")
+                else:
+                    p.add_line(t_("Unknown Guild (`{0}`)").format(g.id))
+            embeds = [
+                discord.Embed(
+                    title="AutoRedeem",
+                    description=page,
+                    color=self.bot.theme_color,
+                )
+                for page in p.pages
+            ]
+            paginator = buttons.Paginator(ctx, embed_pages=embeds)
+            await paginator.start()
+        else:
+            enabled = bool(
+                await self.bot.db.autoredeem.get(ctx.guild.id, ctx.author.id)
+            )
+            if enabled:
+                await ctx.send(t_("AutoRedeem is enabled for this server."))
+            else:
+                await ctx.send(t_("AutoRedeem is disabled for this server."))
+
+    @autoredeem.command(
+        name="enable",
+        aliases=["on"],
+        help=t_("Enable AutoRedeem for the current server."),
+    )
+    @commands.guild_only()
+    async def enabled_autoredeem(self, ctx: "MyContext"):
+        conf = await buttons.Confirm(
+            ctx,
+            t_(
+                "Are you sure? When this server runs out of premium, "
+                "credits will automatically be taken from your account."
+            ),
+        ).start()
+        if not conf:
+            await ctx.send(t_("Cancelled."))
+            return
+        await self.bot.db.autoredeem.create(ctx.guild.id, ctx.author.id)
+        await ctx.send(t_("AutoRedeem has been enabled for this server."))
+
+    @autoredeem.command(
+        name="disable",
+        aliases=["off"],
+        help=t_("Disable AutoRedeem for a specific server."),
+    )
+    async def disable_autoredeem(
+        self, ctx: "MyContext", guild: discord.Guild = None
+    ):
+        guild = guild or ctx.guild
+        if not guild:
+            await ctx.send(
+                t_(
+                    "Please specify a guild or run this command in the guild "
+                    "you want to disable AutoRedeem in."
+                )
+            )
+            return
+        conf = await buttons.Confirm(
+            ctx,
+            t_(
+                "Are you sure? Credits will no longer be taken from "
+                "your account if {0} runs out of premium."
+            ).format(guild.name),
+        ).start()
+        if not conf:
+            await ctx.send(t_("Cancelled."))
+            return
+        await self.bot.db.autoredeem.delete(guild.id, ctx.author.id)
+        await ctx.send(
+            t_("AutoRedeem has been disabled for {0}.").format(guild.name)
+        )
+
 
 def setup(bot: "Bot"):
     bot.add_cog(Premium(bot))
