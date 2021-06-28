@@ -2888,97 +2888,103 @@ msgstr ""
 #: app/cogs/premium/premium_commands.py:96
 #, python-brace-format
 msgid "Up to {0} starboards instead of {1}."
-msgstr ""
+msgstr "Limite máximo de {0} starboards em vez de {1}."
 
 #: app/cogs/premium/premium_commands.py:97
 #, python-brace-format
 msgid "Up to {0} emojis per starboard instead of {1}."
-msgstr ""
+msgstr "Limite máximo de {0} emojis por starboard em vez de {1}."
 
 #: app/cogs/premium/premium_commands.py:98
 #, python-brace-format
 msgid "Up to {0} AutoStar channels instead of {1}."
-msgstr ""
+msgstr "Limite máximo de {0} canais AutoStar em vez de {1}."
 
 #: app/cogs/premium/premium_commands.py:100
 #, python-brace-format
 msgid "Up to {0} emojis per AutoStar channel instead of {1}."
-msgstr ""
+msgstr "Limite máximo de {0} emojis por canal AutoStar em vez de {1}."
 
 #: app/cogs/premium/premium_commands.py:102
 #, python-brace-format
 msgid "Up to {0} XPRoles instead of {1}."
-msgstr ""
+msgstr "Limite máximo de {0} XPRoles em vez de {1}."
 
 #: app/cogs/premium/premium_commands.py:103
 #, python-brace-format
 msgid "Up to {0} PosRoles instead of {1}."
-msgstr ""
+msgstr "Limite máximo de {0} PosRoles em vez de {1}."
 
 #: app/cogs/premium/premium_commands.py:104
 #, python-brace-format
 msgid "Up to {0} PermGroups instead of {1}."
-msgstr ""
+msgstr "Limite máximo de {0} PermGroups em vez de {1}."
 
 #: app/cogs/premium/premium_commands.py:106
 #, python-brace-format
 msgid "Up to {1} PermRoles per PermGroup instead of {1}."
-msgstr ""
+msgstr "Limite máximo de {1} PosRoles por PermGroup em vez de {1}."
 
 #: app/cogs/premium/premium_commands.py:109
 msgid "**Premium Perks:**"
-msgstr ""
+msgstr "**Vantagens da Versão Premium:**"
 
 #: app/cogs/premium/premium_commands.py:123
 msgid "Use `sb!profile` to view your credits."
-msgstr ""
+msgstr "Use `sb!profile` para ver seus créditos."
 
 #: app/cogs/premium/premium_commands.py:130
 msgid ""
 "Manage AutoRedeem for servers.\n"
 "If run in DMs, will show all servers AutoRedeem is enabled for."
 msgstr ""
+"Gerencie AutoRedeem em servidores.\n"
+"Se executado, ele vai mostrar todos os servidores em que AutoRedeem é habilitado."
 
 #: app/cogs/premium/premium_commands.py:142
 msgid "You don't have AutoRedeem enabled on any servers."
-msgstr ""
+msgstr "Você não tem AutoRedeem habilitado em nenhum servidor."
 
 #: app/cogs/premium/premium_commands.py:151
 #, python-brace-format
 msgid "Unknown Guild (`{0}`)"
-msgstr ""
+msgstr "Servidor Desconhecido (`{0}`)"
 
 #: app/cogs/premium/premium_commands.py:167
 msgid "AutoRedeem is enabled for this server."
-msgstr ""
+msgstr "AutoRedeem está habilitado neste servidor."
 
 #: app/cogs/premium/premium_commands.py:169
 msgid "AutoRedeem is disabled for this server."
-msgstr ""
+msgstr "AutoRedeem está desabilitado neste servidor."
 
 #: app/cogs/premium/premium_commands.py:174
 msgid "Enable AutoRedeem for the current server."
-msgstr ""
+msgstr "Habilite AutoRedeem neste servidor."
 
 #: app/cogs/premium/premium_commands.py:181
 msgid ""
 "Are you sure? When this server runs out of premium, credits will "
 "automatically be taken from your account."
 msgstr ""
+"Você tem certeza disso? Quando este servidor ficar sem a versão premium, créditos serão "
+"automaticamente retirados da sua conta."
 
 #: app/cogs/premium/premium_commands.py:189
 msgid "AutoRedeem has been enabled for this server."
-msgstr ""
+msgstr "AutoReedem foi habilitado neste servidor."
 
 #: app/cogs/premium/premium_commands.py:194
 msgid "Disable AutoRedeem for a specific server."
-msgstr ""
+msgstr "Desabilite AutoRedeem em um servidor específico."
 
 #: app/cogs/premium/premium_commands.py:203
 msgid ""
 "Please specify a guild or run this command in the guild you want to disable "
 "AutoRedeem in."
 msgstr ""
+"Por favor, especifique um servidor ou execute este comando no servidor em que você quer desabilitar "
+"AutoRedeem."
 
 #: app/cogs/premium/premium_commands.py:211
 #, python-brace-format
@@ -2986,16 +2992,18 @@ msgid ""
 "Are you sure? Credits will no longer be taken from your account if {0} runs "
 "out of premium."
 msgstr ""
+"Você tem certeza? Créditos não serão mais retirados da sua conta se {0} ficar "
+"sem a versão premium."
 
 #: app/cogs/premium/premium_commands.py:220
 #, python-brace-format
 msgid "AutoRedeem has been disabled for {0}."
-msgstr ""
+msgstr "AutoRedeem foi desabilitado em {0}."
 
 #: app/cogs/utility/utility_commands.py:173
 msgid "Finished!"
-msgstr ""
+msgstr "Completado!"
 
 #: app/cogs/utility/utility_commands.py:300
 msgid "Message frozen."
-msgstr ""
+msgstr "Mensagem congelada."
