@@ -228,7 +228,7 @@ class PatreonEvents(commands.Cog):
                     "payment": int(payment),
                     "declined": is_declined,
                     "total": int(total_paid),
-                    "discord_id": int(discord_id),
+                    "discord_id": int(discord_id) if discord_id else None,
                 }
             )
 
