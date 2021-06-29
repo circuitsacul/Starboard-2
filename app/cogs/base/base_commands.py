@@ -2,7 +2,6 @@ import time
 
 import discord
 from discord.ext.prettyhelp import bot_has_permissions
-from discord_components import Button, ButtonStyle
 
 import config
 from app import commands, converters
@@ -93,28 +92,7 @@ class Base(
         ).add_field(
             name=t_("What is a Starboard?"), value=str(self.about_starboard)
         )
-        await ctx.send(
-            embed=embed,
-            components=[
-                [
-                    Button(
-                        style=ButtonStyle.URL,
-                        label="Documentation",
-                        url=config.DOCS,
-                    ),
-                    Button(
-                        style=ButtonStyle.URL,
-                        label="Support Server",
-                        url=config.SUPPORT_INVITE,
-                    ),
-                    Button(
-                        style=ButtonStyle.URL,
-                        label="Invite Starboard",
-                        url=config.BOT_INVITE,
-                    ),
-                ]
-            ],
-        )
+        await ctx.send(embed=embed)
 
     @commands.command(
         name="commands", help=t_("See a list of commands.", True)
