@@ -26,18 +26,18 @@ class Starboard(commands.Cog, description=t_("Manage starboards.", True)):
         await w.start(ctx)
         r = w.result
         if w.stop_reason == StopReason.CANCELLED:
-            return await ctx.send("Cancelled.")
+            return await ctx.send(t_("Cancelled."))
         elif w.stop_reason == StopReason.ERROR:
-            return await ctx.send("Exitted due to an error.")
+            return await ctx.send(t_("Exitted due to an error."))
         elif w.stop_reason == StopReason.TIMED_OUT:
-            return await ctx.send("Wizard timed out.")
+            return await ctx.send(t_("Wizard timed out."))
 
         p = utils.clean_prefix(ctx)
         channel = r.pop("channel")
         await self.bot.db.starboards.create(channel.id, ctx.guild.id)
         await self.bot.db.starboards.edit(channel.id, **r)
         await ctx.send(
-            f"Starboard created! View it with `{p}s #{channel.name}`"
+            t_(f"Starboard created! View it with `{p}s #{channel.name}`")
         )
 
     @commands.group(
