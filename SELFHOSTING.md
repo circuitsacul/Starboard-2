@@ -5,9 +5,10 @@
 3.  Go to the discord developer portal and create a new bot application (don't forget to add a bot user)
 4.  Create a PostgreSQL user with a password.
 5.  Create a new database owned by the user you created.
-6.  Create copies of `.env.example` and `.config.py.example` and name them `.env` and `.config.py`. Fill out these files.
-7.  Run `openssl req -new -x509 -days 1460 -nodes -out localhost.pem -keyout localhost.pem` and follow the prompts.
-8.  Run `./run.sh python`. Replace `python` with whatever python executable you want (py, py3, python3, etc)
+6.  Make sure gettext is installed with `apt-get install gettext`.
+7.  Create copies of `.env.example` and `.config.py.example` and name them `.env` and `.config.py`. Fill out these files.
+8.  Run `openssl req -new -x509 -days 1460 -nodes -out localhost.pem -keyout localhost.pem` and follow the prompts.
+9.  Run `./run.sh python`. Replace `python` with whatever python executable you want (py, py3, python3, etc)
 
 At this point, the bot should run correctly. You can follow the steps below to setup completely:
 
