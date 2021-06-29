@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Literal, Tuple, Union
+from typing import TYPE_CHECKING
 
 import discord
 import humanize
@@ -13,13 +13,6 @@ from . import premium_funcs
 
 if TYPE_CHECKING:
     from app.classes.bot import Bot
-
-
-def pvsn(key: str) -> Union[Tuple[int, int], Literal[False]]:
-    prem, norm = premium_limit_for(key), normal_limit_for(key)
-    if prem == norm:
-        return False
-    return norm, prem
 
 
 class Premium(commands.Cog, description=t_("Premium-related commands.", True)):
