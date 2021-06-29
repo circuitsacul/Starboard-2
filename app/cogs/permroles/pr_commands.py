@@ -519,7 +519,7 @@ class PermRoles(
         give_stars: converters.OrNone(converters.mybool),
     ):
         await self.bot.db.permroles.edit(
-            role.boj.id, group["id"], give_stars=give_stars
+            role.obj.id, group["id"], give_stars=give_stars
         )
         await ctx.send(
             embed=utils.cs_embed(
