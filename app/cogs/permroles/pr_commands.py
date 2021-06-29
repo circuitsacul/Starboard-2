@@ -400,7 +400,7 @@ class PermRoles(
         self,
         ctx: "MyContext",
         group: converters.PermGroup,
-        role: converters.Role,
+        role: commands.RoleConverter,
     ):
         if (await self.bot.db.permroles.get(role.id, group["id"])) is not None:
             raise errors.PermRoleAlreadyExists(role.name, group["name"])
