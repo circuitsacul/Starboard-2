@@ -4,7 +4,7 @@ import discord
 from discord.ext.prettyhelp import bot_has_permissions, has_guild_permissions
 from discord.ext.wizards.stopreason import StopReason
 
-from app import buttons, commands, converters, errors, utils
+from app import commands, converters, errors, menus, utils
 from app.classes.bot import Bot
 from app.classes.context import MyContext
 from app.i18n import t_
@@ -176,9 +176,9 @@ class Starboard(commands.Cog, description=t_("Manage starboards.", True)):
         if not starboard:
             raise errors.NotStarboard(cname)
         else:
-            if await buttons.Confirm(
-                ctx, t_("Are you sure? All starboard messages will be lost.")
-            ).start():
+            if await menus.Confirm(
+                t_("Are you sure? All starboard messages will be lost.")
+            ).start(ctx):
                 await self.bot.db.starboards.delete(cid)
                 await ctx.send(
                     t_("{0} is no longer a starboard.").format(cname)
@@ -227,13 +227,12 @@ class Starboard(commands.Cog, description=t_("Manage starboards.", True)):
     ):
         if (
             not starboard.sql["use_webhook"]
-            and await buttons.Confirm(
-                ctx,
+            and await menus.Confirm(
                 t_(
                     "This feature only works if `useWebhook` is enabled. "
                     "Would you like to also enable this setting?"
                 ),
-            ).start()
+            ).start(ctx)
         ):
             await self.bot.db.starboards.edit(
                 starboard.obj.id, use_webhook=True
@@ -272,13 +271,12 @@ class Starboard(commands.Cog, description=t_("Manage starboards.", True)):
         enabled = False
         if (
             not starboard.sql["use_webhook"]
-            and await buttons.Confirm(
-                ctx,
+            and await menus.Confirm(
                 t_(
                     "This feature only works if `useWebhook` is enabled. "
                     "Would you like to also enable this setting?"
                 ),
-            ).start()
+            ).start(ctx)
         ):
             await self.bot.db.starboards.edit(
                 starboard.obj.id, use_webhook=True
@@ -861,12 +859,11 @@ class Starboard(commands.Cog, description=t_("Manage starboards.", True)):
     async def clear_star_emojis(
         self, ctx: "MyContext", starboard: converters.Starboard
     ) -> None:
-        if not await buttons.Confirm(
-            ctx,
+        if not await menus.Confirm(
             t_("Are you sure you want to clear all emojis for {0}?").format(
                 starboard.obj.mention
             ),
-        ).start():
+        ).start(ctx):
             await ctx.send(t_("Cancelled."))
             return
 

@@ -16,5 +16,5 @@ class HelpMenu(prettyhelp.PrettyMenu):
         destination: discord.abc.Messageable,
         embeds: List[discord.Embed],
     ):
-        p = Paginator(embeds=embeds, delete_after=True)
+        p = Paginator(embed_pages=embeds, delete_after=True)
         await p.start(ctx, channel=destination)

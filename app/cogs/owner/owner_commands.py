@@ -10,7 +10,7 @@ from jishaku.cog import OPTIONAL_FEATURES, STANDARD_FEATURES
 from jishaku.exception_handling import ReplResponseReactor
 from jishaku.features.baseclass import Feature
 
-from app import buttons, checks, commands, utils
+from app import checks, commands, menus, utils
 from app.classes.bot import Bot
 from app.classes.context import MyContext
 
@@ -75,11 +75,10 @@ class Owner(*OPTIONAL_FEATURES, *STANDARD_FEATURES):
         paginator = commands.Paginator(max_size=1985)
         for line in message.split("\n"):
             paginator.add_line(line)
-        await buttons.Paginator(
-            ctx,
+        await menus.Paginator(
             text_pages=paginator.pages,
             delete_after=True,
-        ).start()
+        ).start(ctx)
 
     @Feature.Command(name="evall", help="Runs code on all clusters.")
     async def evall(self, ctx, *, body: str):
@@ -94,11 +93,10 @@ class Owner(*OPTIONAL_FEATURES, *STANDARD_FEATURES):
         for line in msgs.split("\n"):
             pag.add_line(line)
 
-        await buttons.Paginator(
-            ctx,
+        await menus.Paginator(
             text_pages=pag.pages,
             delete_after=True,
-        ).start()
+        ).start(ctx)
 
     @commands.command(name="eval")
     @checks.is_owner()
@@ -190,17 +188,16 @@ class Owner(*OPTIONAL_FEATURES, *STANDARD_FEATURES):
                 f"{exec_time[2]} EXECUTIONS\n"
             )
 
-        await buttons.Paginator(
-            ctx,
+        await menus.Paginator(
             text_pages=pag.pages,
             delete_after=True,
-        ).start()
+        ).start(ctx)
 
     @commands.command(name="reconnect")
     @checks.is_owner()
     async def reconnect_bot(self, ctx: "MyContext") -> None:
         """Restars all clusters"""
-        if not await buttons.Confirm(ctx, "Reconnect all clusters?").start():
+        if not await menus.Confirm("Reconnect all clusters?").start(ctx):
             await ctx.send("Cancelled")
             return
 
@@ -210,7 +207,7 @@ class Owner(*OPTIONAL_FEATURES, *STANDARD_FEATURES):
     @commands.command(name="restart")
     @checks.is_owner()
     async def restart_bot(self, ctx: "MyContext"):
-        if not await buttons.Confirm(ctx, "**Restart** the bot?").start():
+        if not await menus.Confirm("**Restart** the bot?").start(ctx):
             await ctx.send("Cancelled.")
             return
         await ctx.send("Restarting...")

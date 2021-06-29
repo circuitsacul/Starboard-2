@@ -4,7 +4,7 @@ from typing import List
 import discord
 from discord.ext.prettyhelp import bot_has_permissions
 
-from app import buttons, commands, converters, flags
+from app import commands, converters, flags, menus
 from app.classes.bot import Bot
 from app.classes.context import MyContext
 from app.cogs.starboard import starboard_funcs
@@ -61,11 +61,10 @@ class Fun(commands.Cog, description=t_("Fun commands for Starboard.", True)):
             for page in p.pages
         ]
 
-        await buttons.Paginator(
-            ctx,
+        await menus.Paginator(
             embed_pages=embeds,
             delete_after=True,
-        ).start()
+        ).start(ctx)
 
     @commands.command(
         name="rank",
@@ -220,12 +219,11 @@ class Fun(commands.Cog, description=t_("Fun commands for Starboard.", True)):
             await ctx.send(t_("Nothing to show."))
             return
 
-        await buttons.Paginator(
-            ctx,
+        await menus.Paginator(
             embed_pages=embeds,
             text_pages=text_pages,
             delete_after=True,
-        ).start()
+        ).start(ctx)
 
     @flags.add_flag("--by", type=discord.User, default=None)
     @flags.add_flag("--in", type=discord.TextChannel, default=None)

@@ -74,7 +74,6 @@ EXTENSIONS = [
     "app.cogs.quick_actions",
     "app.cogs.stats",
     "app.cogs.autostarchannels",
-    # "app.cogs.slash",
     "app.cogs.blacklist",
     "app.cogs.global_checks",
     "jishaku",

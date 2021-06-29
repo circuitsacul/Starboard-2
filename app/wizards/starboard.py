@@ -4,7 +4,7 @@ import discord
 from discord.ext import wizards
 from discord.ext.wizards.stopreason import StopReason
 
-from app import buttons, commands, converters, errors, utils
+from app import commands, converters, errors, menus, utils
 from app.i18n import t_
 
 if TYPE_CHECKING:
@@ -19,10 +19,10 @@ class CanBeStarboard(commands.TextChannelConverter):
             raise errors.CannotBeStarboardAndAutostar()
         exists = await ctx.bot.db.starboards.get(obj.id)
         if exists:
-            conf = buttons.Confirm(
-                ctx, t_("That is already a starboard. Run the wizard anyways?")
+            conf = menus.Confirm(
+                t_("That is already a starboard. Run the wizard anyways?")
             )
-            if not await conf.start():
+            if not await conf.start(ctx):
                 if conf.timed_out:
                     raise TimeoutError
                 raise errors.AlreadyStarboard(obj.mention)

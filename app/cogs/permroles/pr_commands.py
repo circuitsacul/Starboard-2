@@ -4,7 +4,7 @@ from typing import Optional
 import discord
 from discord.ext.prettyhelp import bot_has_permissions, has_guild_permissions
 
-from app import buttons, commands, converters, errors, flags, utils
+from app import commands, converters, errors, flags, menus, utils
 from app.classes.context import MyContext
 from app.i18n import t_
 
@@ -234,13 +234,12 @@ class PermRoles(
     async def clear_pg_channels(
         self, ctx: "MyContext", group: converters.PermGroup
     ):
-        if not await buttons.Confirm(
-            ctx,
+        if not await menus.Confirm(
             t_(
                 "Are you sure you want to clear all channels for "
                 "the PermGroup **{0}**?"
             ).format(group["name"]),
-        ).start():
+        ).start(ctx):
             await ctx.send(t_("Cancelled."))
             return
 
@@ -332,13 +331,12 @@ class PermRoles(
     async def clear_pg_starboards(
         self, ctx: "MyContext", group: converters.PermGroup
     ):
-        if not await buttons.Confirm(
-            ctx,
+        if not await menus.Confirm(
             t_(
                 "Are you sure you want to clear all starboards "
                 "for the PermGroup **{0}**?"
             ).format(group["name"]),
-        ).start():
+        ).start(ctx):
             await ctx.send("Cancelled.")
             return
 
@@ -383,11 +381,10 @@ class PermRoles(
                 embed.add_field(name=name, value=value)
             embeds.append(embed)
 
-        await buttons.Paginator(
-            ctx,
+        await menus.Paginator(
             embed_pages=embeds,
             delete_after=True,
-        ).start()
+        ).start(ctx)
 
     @permroles.command(
         name="add",

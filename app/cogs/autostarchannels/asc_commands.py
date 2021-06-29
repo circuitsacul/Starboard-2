@@ -3,7 +3,7 @@ from typing import Optional
 import discord
 from discord.ext.prettyhelp import bot_has_permissions, has_guild_permissions
 
-from app import buttons, commands, converters, errors, utils
+from app import commands, converters, errors, menus, utils
 from app.classes.bot import Bot
 from app.classes.context import MyContext
 from app.i18n import t_
@@ -220,12 +220,11 @@ class AutoStarChannels(
     async def clear_asemojis(
         self, ctx: "MyContext", aschannel: converters.ASChannel
     ) -> None:
-        if not await buttons.Confirm(
-            ctx,
+        if not await menus.Confirm(
             t_("Are you sure you want to clear all emojis for {0}?").format(
                 aschannel.obj.mention
             ),
-        ).start():
+        ).start(ctx):
             await ctx.send("Cancelled.")
             return
 

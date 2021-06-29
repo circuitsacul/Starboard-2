@@ -12,15 +12,15 @@ if TYPE_CHECKING:
 class Paginator(Menu):
     def __init__(
         self,
-        embeds: Optional[List[discord.Embed]] = None,
-        text: Optional[List[str]] = None,
+        embed_pages: Optional[List[discord.Embed]] = None,
+        text_pages: Optional[List[str]] = None,
         delete_after: bool = False,
     ) -> None:
         super().__init__(delete_after=delete_after)
-        self.embeds = embeds
-        self.text = text
+        self.embeds = embed_pages
+        self.text = text_pages
         self.current_page = 0
-        self.length = len(embeds) if embeds else len(text)
+        self.length = len(embed_pages) if embed_pages else len(text_pages)
 
         if self.embeds and self.length != 1:
             for x, e in enumerate(self.embeds):

@@ -3,7 +3,7 @@ import asyncio
 import discord
 from discord.ext.prettyhelp import bot_has_permissions, has_guild_permissions
 
-from app import buttons, checks, commands, converters, errors, flags, utils
+from app import checks, commands, converters, errors, flags, menus, utils
 from app.classes.bot import Bot
 from app.classes.context import MyContext
 from app.cogs.leveling import leveling_funcs
@@ -81,7 +81,7 @@ class Utility(
             await ctx.send(t_("Cancelled."))
             return
 
-        if not await buttons.Confirm(ctx, t_("Are you certain?")).start():
+        if not await menus.Confirm(t_("Are you certain?")).start(ctx):
             await ctx.send(t_("Cancelled."))
             return
 
@@ -96,9 +96,7 @@ class Utility(
     @has_guild_permissions(manage_guild=True)
     @commands.guild_only()
     async def reset_lb(self, ctx: "MyContext"):
-        if not await buttons.Confirm(
-            ctx, t_("Reset the leaderboard?")
-        ).start():
+        if not await menus.Confirm(t_("Reset the leaderboard?")).start(ctx):
             await ctx.send(t_("Cancelled."))
             return
         await self.bot.db.execute(
@@ -280,11 +278,10 @@ class Utility(
             )
             for page in p.pages
         ]
-        await buttons.Paginator(
-            ctx,
+        await menus.Paginator(
             embed_pages=embeds,
             delete_after=True,
-        ).start()
+        ).start(ctx)
 
     @commands.command(name="freeze", help=t_("Freezes a message.", True))
     @has_guild_permissions(manage_messages=True)
@@ -326,9 +323,9 @@ class Utility(
     ) -> None:
         starboards = [int(s.sql["id"]) for s in starboards]
         if len(starboards) == 0:
-            if not await buttons.Confirm(
-                ctx, t_("Force this message to all starboards?")
-            ).start():
+            if not await menus.Confirm(
+                t_("Force this message to all starboards?")
+            ).start(ctx):
                 await ctx.send(t_("Cancelled."))
                 return
         orig_sql_message = await starboard_funcs.orig_message(
@@ -383,20 +380,19 @@ class Utility(
         if not orig_sql_message:
             raise errors.MessageNotInDatabse()
         if orig_sql_message["id"] != message_link.id and len(starboards) == 0:
-            if await buttons.Confirm(
-                ctx,
+            if await menus.Confirm(
                 t_(
                     "The message you passed appears to be a starboard "
                     "message. Would you like to unforce this message "
                     "from {0} instead?"
                 ).format(message_link.channel.mention),
-            ).start():
+            ).start(ctx):
                 starboards = [message_link.channel.id]
 
         if len(starboards) == 0:
-            if not await buttons.Confirm(
-                ctx, t_("Unforce this message from all starboards?")
-            ).start():
+            if not await menus.Confirm(
+                t_("Unforce this message from all starboards?")
+            ).start(ctx):
                 await ctx.send(t_("Cancelled."))
                 return
         await utility_funcs.handle_forcing(
@@ -515,11 +511,10 @@ class Utility(
             )
             for page in p.pages
         ]
-        await buttons.Paginator(
-            ctx,
+        await menus.Paginator(
             embed_pages=embeds,
             delete_after=True,
-        ).start()
+        ).start(ctx)
 
     @trashcan.command(
         name="empty",
@@ -532,9 +527,9 @@ class Utility(
     )
     @commands.guild_only()
     async def empty_trashcan(self, ctx: "MyContext"):
-        if not await buttons.Confirm(
-            ctx, t_("Are you sure you want to untrash all messages?")
-        ).start():
+        if not await menus.Confirm(
+            t_("Are you sure you want to untrash all messages?")
+        ).start(ctx):
             await ctx.send("Cancelled.")
         await self.bot.db.execute(
             """UPDATE messages

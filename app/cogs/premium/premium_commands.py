@@ -4,7 +4,7 @@ import discord
 import humanize
 
 import config
-from app import buttons, checks, commands, constants
+from app import checks, commands, constants, menus
 from app.classes.context import MyContext
 from app.cogs.premium.premium_funcs import normal_limit_for, premium_limit_for
 from app.i18n import t_
@@ -54,15 +54,14 @@ class Premium(commands.Cog, description=t_("Premium-related commands.", True)):
     @commands.cooldown(1, 3, type=commands.BucketType.user)
     async def redeem_credits(self, ctx: "MyContext", months: int = 1):
         credits = config.CREDITS_PER_MONTH * months
-        conf = await buttons.Confirm(
-            ctx,
+        conf = await menus.Confirm(
             t_(
                 "Are you sure you want to do this? "
                 "This will cost you {0} credits "
                 "and will give **{1}** {2} months of "
                 "premium."
             ).format(credits, ctx.guild.name, months),
-        ).start()
+        ).start(ctx)
         if not conf:
             await ctx.send(t_("Cancelled."))
             return
@@ -150,8 +149,8 @@ class Premium(commands.Cog, description=t_("Premium-related commands.", True)):
                 )
                 for page in p.pages
             ]
-            paginator = buttons.Paginator(ctx, embed_pages=embeds)
-            await paginator.start()
+            paginator = menus.Paginator(embed_pages=embeds)
+            await paginator.start(ctx)
         else:
             enabled = bool(
                 await self.bot.db.autoredeem.get(ctx.guild.id, ctx.author.id)
@@ -168,13 +167,12 @@ class Premium(commands.Cog, description=t_("Premium-related commands.", True)):
     )
     @commands.guild_only()
     async def enabled_autoredeem(self, ctx: "MyContext"):
-        conf = await buttons.Confirm(
-            ctx,
+        conf = await menus.Confirm(
             t_(
                 "Are you sure? When this server runs out of premium, "
                 "credits will automatically be taken from your account."
             ),
-        ).start()
+        ).start(ctx)
         if not conf:
             await ctx.send(t_("Cancelled."))
             return
@@ -198,13 +196,12 @@ class Premium(commands.Cog, description=t_("Premium-related commands.", True)):
                 )
             )
             return
-        conf = await buttons.Confirm(
-            ctx,
+        conf = await menus.Confirm(
             t_(
                 "Are you sure? Credits will no longer be taken from "
                 "your account if {0} runs out of premium."
             ).format(guild.name),
-        ).start()
+        ).start(ctx)
         if not conf:
             await ctx.send(t_("Cancelled."))
             return
