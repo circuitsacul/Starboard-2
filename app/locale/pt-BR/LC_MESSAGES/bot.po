@@ -2941,7 +2941,7 @@ msgid ""
 "If ran in DMs, will show all servers AutoRedeem is enabled for."
 msgstr ""
 "Gerencie AutoRedeem em servidores.\n"
-"Se executado, ele vai mostrar todos os servidores em que AutoRedeem é "
+"Se executado nas mensagens diretas do bot, ele vai mostrar todos os servidores em que AutoRedeem é "
 "habilitado."
 
 #: app/cogs/premium/premium_commands.py:142
