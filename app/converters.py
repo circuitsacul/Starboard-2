@@ -187,11 +187,11 @@ class Emoji(commands.Converter):
         else:
             decoded = emoji.demojize(arg)
             search = re.findall(":[^:]+:", decoded)
-            if len(search) > 0:
+            if len(search) == 1 and len(search[0]) == len(decoded):
                 as_emoji = search[0]
                 as_emoji = emoji.emojize(as_emoji)
                 if as_emoji in emoji.UNICODE_EMOJI["en"]:
-                    return as_emoji
+                    return arg
 
         if emoji_id is not None:
             raise errors.CustomEmojiFromOtherGuild(arg)
