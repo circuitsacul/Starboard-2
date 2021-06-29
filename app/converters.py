@@ -261,7 +261,7 @@ class PermGroup(commands.Converter):
         return permgroup
 
 
-class PermRole(Role):
+class PermRole(commands.RoleConverter):
     def __init__(self, group_arg_index: int):
         self.group_arg_index = group_arg_index
         super().__init__()
