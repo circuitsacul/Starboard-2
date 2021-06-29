@@ -750,7 +750,7 @@ msgstr ""
 
 #: app/cogs/settings/settings_commands.py:18
 msgid "Manage settings for the server."
-msgstr "Gerencie configurações para o servidor."
+msgstr "Gerencie configurações do servidor."
 
 #: app/cogs/settings/settings_commands.py:26
 msgid "Set the language for the server."
@@ -1066,7 +1066,7 @@ msgstr "Defina allowCommands como **{0}**."
 
 #: app/cogs/fun/fun_commands.py:16
 msgid "Fun commands for Starboard."
-msgstr "Comandos divertidos para o bot Starboard."
+msgstr "Comandos divertidos do bot Starboard."
 
 #: app/cogs/fun/fun_commands.py:23
 msgid "Shows the server's top 200 users."
@@ -1181,7 +1181,7 @@ msgstr ""
 
 #: app/cogs/permroles/pr_commands.py:18
 msgid "Manage PermRoles for a server."
-msgstr "Gerencie PermRoles para um servidor."
+msgstr "Gerencie PermRoles do servidor."
 
 #: app/cogs/permroles/pr_commands.py:30
 msgid "Tests the permissions of a fake user with certain roles."
@@ -1454,7 +1454,7 @@ msgstr "Informação sobre a Versão Premium:"
 
 #: app/cogs/blacklist/bl_commands.py:13
 msgid "Manage the channel whitelist/blacklist for starboards."
-msgstr "Gerencie a lista branca/negra para starboards."
+msgstr "Gerencie a lista branca/negra de starboards."
 
 #: app/cogs/blacklist/bl_commands.py:23
 msgid "Lists the channel blacklist/whitelist for a starboard."
