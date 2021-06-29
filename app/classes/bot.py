@@ -50,7 +50,6 @@ class Bot(commands.AutoShardedBot):
         self.cache: "Cache"
 
         super().__init__(
-            allowed_mentions=discord.AllowedMentions.none(),
             help_command=prettyhelp.PrettyHelp(
                 color=self.theme_color,
                 show_user_perms=True,
