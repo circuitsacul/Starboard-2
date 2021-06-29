@@ -447,7 +447,7 @@ class PermRoles(
         )
         await ctx.send(
             t_("Moved the PermRole {0} from {1} to {2}.").format(
-                role.name, role.sql["index"], new_index
+                role.obj.name, role.sql["index"], new_index
             )
         )
 
