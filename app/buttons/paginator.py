@@ -92,12 +92,12 @@ class Paginator(ButtonMenu):
 
         await self.update_page()
 
-    @button(Button(label="◀", style=ButtonStyle.blue), pos=1)
+    @button(Button(label="◀", style=ButtonStyle.green), pos=1)
     async def prev_page(self, res: Interaction):
         await res.respond(type=InteractionType.DeferredUpdateMessage)
         await self.increment_page(-1)
 
-    @button(Button(label="▶", style=ButtonStyle.blue), pos=2)
+    @button(Button(label="▶", style=ButtonStyle.green), pos=2)
     async def next_page(self, res: Interaction):
         await res.respond(type=InteractionType.DeferredUpdateMessage)
         await self.increment_page(1)
