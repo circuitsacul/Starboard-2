@@ -101,6 +101,8 @@ class PremiumEvents(commands.Cog):
         curr_roles = [r.id for r in member.roles]
 
         sql_user = await self.bot.db.users.get(user_id)
+        if not sql_user:
+            return
 
         donor = (
             sql_user["last_patreon_total"] + sql_user["donation_total"]
