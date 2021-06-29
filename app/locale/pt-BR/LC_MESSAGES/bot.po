@@ -2830,7 +2830,7 @@ msgid ""
 "server by running `sb!autoredeem disable {1}`."
 msgstr ""
 "Você tem AutoRedeem habilitado em {0}, e esse servidor ficou sem a versão "
-"premium, então 3créditos foram retirados da sua conta. Você pode desabilitar "
+"premium, então 3 créditos foram retirados da sua conta. Você pode desabilitar "
 "AutoRedeem neste servidor executando `sb!autoredeem disable {1}`."
 
 #: app/cogs/premium/premium_events.py:77
