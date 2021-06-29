@@ -1855,8 +1855,8 @@ msgstr ""
 #: app/cogs/premium/patreon_events.py:92
 #, python-brace-format
 msgid ""
-"Just wanted to alert you that your monthly pledge on Patreon has changed from "
-"${0} to ${1}. Thanks for supporting Starboard!"
+"Just wanted to alert you that your monthly pledge on Patreon has changed "
+"from ${0} to ${1}. Thanks for supporting Starboard!"
 msgstr ""
 "Só queria te alertar de que sua membresia mensal no Patreon mudou de ${0} "
 "para ${1}. Obrigado por apoiar o Starboard!"
@@ -2830,8 +2830,8 @@ msgid ""
 "server by running `sb!autoredeem disable {1}`."
 msgstr ""
 "Você tem AutoRedeem habilitado em {0}, e esse servidor ficou sem a versão "
-"premium, então 3 créditos foram retirados da sua conta. Você pode desabilitar "
-"AutoRedeem neste servidor executando `sb!autoredeem disable {1}`."
+"premium, então 3 créditos foram retirados da sua conta. Você pode "
+"desabilitar AutoRedeem neste servidor executando `sb!autoredeem disable {1}`."
 
 #: app/cogs/premium/premium_events.py:77
 msgid "Premium has expired for this server."
@@ -2941,8 +2941,8 @@ msgid ""
 "If ran in DMs, will show all servers AutoRedeem is enabled for."
 msgstr ""
 "Gerencie AutoRedeem em servidores.\n"
-"Se executado nas mensagens diretas do bot, ele vai mostrar todos os servidores em que AutoRedeem é "
-"habilitado."
+"Se executado nas mensagens diretas do bot, ele vai mostrar todos os "
+"servidores em que AutoRedeem é habilitado."
 
 #: app/cogs/premium/premium_commands.py:142
 msgid "You don't have AutoRedeem enabled on any servers."
