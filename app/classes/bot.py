@@ -14,6 +14,7 @@ import discord
 import uvloop
 from discord.ext import prettyhelp
 from dotenv import load_dotenv
+from statcord import StatcordClusterClient
 
 import config
 from app import commands, i18n, utils
@@ -77,6 +78,12 @@ class Bot(commands.AutoShardedBot):
             ),
         )
         self._before_invoke = self.before_invoke_hook
+
+        self.statcord_client = StatcordClusterClient(
+            self,
+            os.getenv("STATCORD_TOKEN"),
+            self.cluster_name,
+        )
 
         self.log = logging.getLogger(f"Cluster#{self.cluster_name}")
         self.log.setLevel(logging.DEBUG)
