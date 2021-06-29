@@ -2590,3 +2590,268 @@ msgstr ""
 #: app/cogs/utility/utility_funcs.py:51
 msgid "Purged"
 msgstr ""
+
+#: app/errors.py:134
+msgid "AutoRedeem is already enabled for this server."
+msgstr ""
+
+#: app/database/database_functions/aschannels.py:109
+msgid "minChars cannot be greater than 2,000."
+msgstr ""
+
+#: app/database/database_functions/guilds.py:60
+msgid "The cooldown amount must be greater than 0."
+msgstr ""
+
+#: app/cogs/starboard/starboard_commands.py:31
+msgid "Exitted due to an error."
+msgstr ""
+
+#: app/cogs/starboard/starboard_commands.py:33
+msgid "Wizard timed out."
+msgstr ""
+
+#: app/cogs/starboard/starboard_commands.py:40
+#, python-brace-format
+msgid "Starboard created! View it with `{p}s #{channel.name}`"
+msgstr ""
+
+#: app/cogs/settings/settings_commands.py:574
+msgid "I will now ping users when they level up."
+msgstr ""
+
+#: app/cogs/settings/settings_commands.py:576
+msgid "I will not ping users when they level up."
+msgstr ""
+
+#: app/cogs/settings/settings_commands.py:633
+msgid "Whether or not to allow commands from non-admins."
+msgstr ""
+
+#: app/cogs/fun/fun_commands.py:23
+msgid "Shows the server's top 200 users."
+msgstr ""
+
+#: app/cogs/permroles/pr_commands.py:300
+msgid "Removes starboard(s) from the list of starboards on a PermGroup."
+msgstr ""
+
+#: app/cogs/awardroles/ar_commands.py:139
+msgid "This server has no XPRoles."
+msgstr ""
+
+#: app/cogs/awardroles/ar_commands.py:206
+msgid "Sets the amount of xp needed to gain an XPRole."
+msgstr ""
+
+#: app/cogs/autostarchannels/asc_commands.py:40
+#, python-brace-format
+msgid ""
+"You do not have any AutoStar channels. Use `{0}asc add <channel>` to create "
+"one."
+msgstr ""
+
+#: app/cogs/autostarchannels/asc_commands.py:184
+msgid "Removes an emoji from an AutoStar channel."
+msgstr ""
+
+#: app/cogs/premium/premium_events.py:56
+#, python-brace-format
+msgid ""
+"You have AutoRedeem enabled in {0}, and that server ran out of premium, so 3 "
+"credits were taken from your acccount. You can disable AutoRedeem for this "
+"server by running `sb!autoredeem disable {1}`."
+msgstr ""
+
+#: app/cogs/premium/premium_commands.py:18
+msgid "Premium-related commands."
+msgstr ""
+
+#: app/cogs/premium/premium_commands.py:25
+msgid "Shows the server's current premium status."
+msgstr ""
+
+#: app/cogs/premium/premium_commands.py:76
+msgid "Shows info on premium."
+msgstr ""
+
+#: app/cogs/premium/premium_commands.py:80
+msgid ""
+"We use a credit system for premium. It works like Discord boosts -- every $ "
+"you send to us gives you 1 premium credit, and once you have 3 credits you "
+"can convert that to 1 month of premium for 1 server. You can gain credits by "
+"donating, or by becoming a patron (which will give you X credits/month, "
+"depending on your tier)."
+msgstr ""
+
+#: app/cogs/premium/premium_commands.py:88
+#, python-brace-format
+msgid "Up to {0} starboards instead of {1}."
+msgstr ""
+
+#: app/cogs/premium/premium_commands.py:89
+#, python-brace-format
+msgid "Up to {0} emojis per starboard instead of {1}."
+msgstr ""
+
+#: app/cogs/premium/premium_commands.py:90
+#, python-brace-format
+msgid "Up to {0} AutoStar channels instead of {1}."
+msgstr ""
+
+#: app/cogs/premium/premium_commands.py:92
+#, python-brace-format
+msgid "Up to {0} emojis per AutoStar channel instead of {1}."
+msgstr ""
+
+#: app/cogs/premium/premium_commands.py:94
+#, python-brace-format
+msgid "Up to {0} XPRoles instead of {1}."
+msgstr ""
+
+#: app/cogs/premium/premium_commands.py:95
+#, python-brace-format
+msgid "Up to {0} PosRoles instead of {1}."
+msgstr ""
+
+#: app/cogs/premium/premium_commands.py:96
+#, python-brace-format
+msgid "Up to {0} PermGroups instead of {1}."
+msgstr ""
+
+#: app/cogs/premium/premium_commands.py:98
+#, python-brace-format
+msgid "Up to {1} PermRoles per PermGroup instead of {1}."
+msgstr ""
+
+#: app/cogs/premium/premium_commands.py:101
+msgid "**Premium Perks:**"
+msgstr ""
+
+#: app/cogs/premium/premium_commands.py:115
+msgid "Use `sb!profile` to view your credits."
+msgstr ""
+
+#: app/cogs/premium/premium_commands.py:122
+msgid ""
+"Manage AutoRedeem for servers.\n"
+"If ran in DMs, will show all servers AutoRedeem is enabled for."
+msgstr ""
+
+#: app/cogs/premium/premium_commands.py:134
+msgid "You don't have AutoRedeem enabled on any servers."
+msgstr ""
+
+#: app/cogs/premium/premium_commands.py:143
+#, python-brace-format
+msgid "Unknown Guild (`{0}`)"
+msgstr ""
+
+#: app/cogs/premium/premium_commands.py:159
+msgid "AutoRedeem is enabled for this server."
+msgstr ""
+
+#: app/cogs/premium/premium_commands.py:161
+msgid "AutoRedeem is disabled for this server."
+msgstr ""
+
+#: app/cogs/premium/premium_commands.py:166
+msgid "Enable AutoRedeem for the current server."
+msgstr ""
+
+#: app/cogs/premium/premium_commands.py:172
+msgid ""
+"Are you sure? When this server runs out of premium, credits will "
+"automatically be taken from your account."
+msgstr ""
+
+#: app/cogs/premium/premium_commands.py:180
+msgid "AutoRedeem has been enabled for this server."
+msgstr ""
+
+#: app/cogs/premium/premium_commands.py:185
+msgid "Disable AutoRedeem for a specific server."
+msgstr ""
+
+#: app/cogs/premium/premium_commands.py:194
+msgid ""
+"Please specify a guild or run this command in the guild you want to disable "
+"AutoRedeem in."
+msgstr ""
+
+#: app/cogs/premium/premium_commands.py:201
+#, python-brace-format
+msgid ""
+"Are you sure? Credits will no longer be taken from your account if {0} runs "
+"out of premium."
+msgstr ""
+
+#: app/cogs/premium/premium_commands.py:210
+#, python-brace-format
+msgid "AutoRedeem has been disabled for {0}."
+msgstr ""
+
+#: app/cogs/premium/donate_events.py:57
+#, python-brace-format
+msgid ""
+"We received your donation of ${0} through DonateBot, and you have gained {1} "
+"credit(s). If you have any questions feel free to DM Circuit#5585. Thanks "
+"for your donation!"
+msgstr ""
+
+#: app/cogs/premium/patreon_events.py:86
+msgid ""
+"Thanks for becoming a patron! Each $ that is sent through Patreon will be "
+"converted to 1 credit. DM `@Circuit#5585` if you have any questions.\n"
+"\n"
+"Your support is greatly appreciated."
+msgstr ""
+
+#: app/cogs/premium/patreon_events.py:93
+#, python-brace-format
+msgid ""
+"Just wanted to alert you that your monthly pledge on Patreon has changed "
+"from ${0} to ${1}. Thanks for supporting Starboard!"
+msgstr ""
+
+#: app/cogs/premium/patreon_events.py:128
+msgid ""
+"It looks like you removed your pledge on Patreon. We're sorry to see you go, "
+"but we are still grateful for all of your previous support.\n"
+"\n"
+"You won't gain any more credits automatically, but you will *not* lose any "
+"you currently have."
+msgstr ""
+
+#: app/cogs/base/base_commands.py:231
+#, python-brace-format
+msgid "{0} is a bot. How many times do you think it's voted?"
+msgstr ""
+
+#: app/cogs/utility/utility_commands.py:171
+msgid "Finished!"
+msgstr ""
+
+#: app/cogs/utility/utility_commands.py:297
+msgid "Message frozen."
+msgstr ""
+
+#: app/cogs/utility/debugger.py:54
+#, python-brace-format
+msgid "Missing `View Channel` in {0}/{1} channels."
+msgstr ""
+
+#: app/cogs/utility/debugger.py:129
+#, python-brace-format
+msgid ""
+"I don't have the `View Channel` permission in {0}, so I can't update "
+"starboard messages."
+msgstr ""
+
+#: app/cogs/utility/debugger.py:231
+#, python-brace-format
+msgid ""
+"I'm missing the `View Channel` permission in {0}, which is an AutoStar "
+"channel. Without this permission, I won't be able to autoreact to messages "
+"there."
+msgstr ""
