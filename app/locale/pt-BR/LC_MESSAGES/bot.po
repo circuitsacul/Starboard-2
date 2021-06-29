@@ -2722,8 +2722,8 @@ msgid ""
 "You have reached the limit for starboards, so you can't add any more unless "
 "this server receives premium."
 msgstr ""
-"Você alcançou o limite de starboards; então você não pode adicionar mais nenhum, exceto "
-"se este servidor receber a versão premium."
+"Você alcançou o limite de starboards; então você não pode adicionar mais "
+"nenhum, exceto se este servidor receber a versão premium."
 
 #: app/errors.py:33
 msgid "You have reached the limit for starboards."
@@ -2734,8 +2734,8 @@ msgid ""
 "You have reached the limit for emojis on this starboard, so you can't add "
 "any more unless this server recieves premium."
 msgstr ""
-"Você alcançou o limite de emojis neste starboard; então você não pode adicionar "
-"mais nenhum, exceto se este servidor receber a versão premium."
+"Você alcançou o limite de emojis neste starboard; então você não pode "
+"adicionar mais nenhum, exceto se este servidor receber a versão premium."
 
 #: app/errors.py:47
 msgid "You have reached the limit for emoji on this starboard."
@@ -2746,8 +2746,8 @@ msgid ""
 "You have reached the limit for AutoStar channels, so you can't add any more "
 "unless this server receives premium."
 msgstr ""
-"Você alcançou o limite de canais AutoStar; então você não pode adicionar mais nenhum, "
-"exceto se este servidor receber a versão premium."
+"Você alcançou o limite de canais AutoStar; então você não pode adicionar "
+"mais nenhum, exceto se este servidor receber a versão premium."
 
 #: app/errors.py:61
 msgid "You have reached the limit for AutoStar channels."
@@ -2770,8 +2770,8 @@ msgid ""
 "You have reached the limit for XPRoles, so you can't add any more unless "
 "this server receives premium."
 msgstr ""
-"Você alcançou o limite de XPRoles; então você não pode adicionar mais nenhum, exceto "
-"se este servidor receber a versão premium."
+"Você alcançou o limite de XPRoles; então você não pode adicionar mais "
+"nenhum, exceto se este servidor receber a versão premium."
 
 #: app/errors.py:89
 msgid "You have reached the limit for XPRoles."
@@ -2782,8 +2782,8 @@ msgid ""
 "You have reached the limit for PosRoles, so you can't add any more unless "
 "this server receives premium."
 msgstr ""
-"Você alcançou o limite de PosRoles; então você não pode adicionar mais nenhum, exceto "
-"se este servidor receber a versão premium."
+"Você alcançou o limite de PosRoles; então você não pode adicionar mais "
+"nenhum, exceto se este servidor receber a versão premium."
 
 #: app/errors.py:101
 msgid "You have reached the limit for PosRoles."
@@ -2794,8 +2794,8 @@ msgid ""
 "You have reached the limit for PermGroups, so you can't add any more unless "
 "this server receives premium."
 msgstr ""
-"Você alcançou o limite de PermGroups; então você não pode adicionar mais nenhum, exceto "
-"se este servidor receber a versão premium."
+"Você alcançou o limite de PermGroups; então você não pode adicionar mais "
+"nenhum, exceto se este servidor receber a versão premium."
 
 #: app/errors.py:113
 msgid "You have reached the limit for PermGroups."
@@ -2806,8 +2806,8 @@ msgid ""
 "You have reached the limit for PermRoles on this PermGroup, so you can't add "
 "any more unless this server receives premium."
 msgstr ""
-"Você alcançou o limite de PermRoles neste PermGroup; então você não pode adicionar "
-"mais nenhum, exceto se este servidor receber a versão premium."
+"Você alcançou o limite de PermRoles neste PermGroup; então você não pode "
+"adicionar mais nenhum, exceto se este servidor receber a versão premium."
 
 #: app/errors.py:127
 msgid "You have reached the limit for PermRoles on this PermGroup"
@@ -2829,9 +2829,9 @@ msgid ""
 "credits were taken from your acccount. You can disable AutoRedeem for this "
 "server by running `sb!autoredeem disable {1}`."
 msgstr ""
-"Você tem AutoRedeem habilitado em {0}, e esse servidor ficou sem a versão premium, então 3"
-"créditos foram retirados da sua conta. Você pode desabilitar AutoRedeem neste "
-"servidor executando `sb!autoredeem disable {1}`."
+"Você tem AutoRedeem habilitado em {0}, e esse servidor ficou sem a versão "
+"premium, então 3créditos foram retirados da sua conta. Você pode desabilitar "
+"AutoRedeem neste servidor executando `sb!autoredeem disable {1}`."
 
 #: app/cogs/premium/premium_events.py:77
 msgid "Premium has expired for this server."
@@ -2852,7 +2852,8 @@ msgstr "Este servidor não tem a versão premium atualmente."
 
 #: app/cogs/premium/premium_commands.py:56
 msgid "Uses some of your credits to give the current server premium."
-msgstr "Usa alguns dos seus créditos para dar a versão premium a este servidor."
+msgstr ""
+"Usa alguns dos seus créditos para dar a versão premium a este servidor."
 
 #: app/cogs/premium/premium_commands.py:67
 #, python-brace-format
@@ -2860,8 +2861,8 @@ msgid ""
 "Are you sure you want to do this? This will cost you {0} credits and will "
 "give **{1}** {2} months of premium."
 msgstr ""
-"Você tem certeza de que você quer fazer isto? Isto vai custar {0} créditos e vai "
-"dar **{1}** {2} meses de versão premium."
+"Você tem certeza de que você quer fazer isto? Isto vai custar {0} créditos e "
+"vai dar **{1}** {2} meses de versão premium."
 
 #: app/cogs/premium/premium_commands.py:79
 msgid "Done."
@@ -2879,11 +2880,12 @@ msgid ""
 "donating, or by becoming a patron (which will give you X credits/month, "
 "depending on your tier)."
 msgstr ""
-"Nós usamos um sistema de crédito para a versão premium. Funciona como impulsos em servidores do Discord -- cada dólar "
-"que você nos envia lhe dá 1 crédito premium; e uma vez que você tenha 3 créditos, você "
-"pode convertê-los em 1 mês de premium para 1 servidor. Você pode ganhar créditos "
-"doando, ou tornando-se um patrocinador (o que lhe dará X créditos/mês, "
-"dependendo do seu nível)."
+"Nós usamos um sistema de crédito para a versão premium. Funciona como "
+"impulsos em servidores do Discord -- cada dólar que você nos envia lhe dá 1 "
+"crédito premium; e uma vez que você tenha 3 créditos, você pode convertê-los "
+"em 1 mês de premium para 1 servidor. Você pode ganhar créditos doando, ou "
+"tornando-se um patrocinador (o que lhe dará X créditos/mês, dependendo do "
+"seu nível)."
 
 #: app/cogs/premium/premium_commands.py:96
 #, python-brace-format
@@ -2939,7 +2941,8 @@ msgid ""
 "If run in DMs, will show all servers AutoRedeem is enabled for."
 msgstr ""
 "Gerencie AutoRedeem em servidores.\n"
-"Se executado, ele vai mostrar todos os servidores em que AutoRedeem é habilitado."
+"Se executado, ele vai mostrar todos os servidores em que AutoRedeem é "
+"habilitado."
 
 #: app/cogs/premium/premium_commands.py:142
 msgid "You don't have AutoRedeem enabled on any servers."
@@ -2967,8 +2970,8 @@ msgid ""
 "Are you sure? When this server runs out of premium, credits will "
 "automatically be taken from your account."
 msgstr ""
-"Você tem certeza disso? Quando este servidor ficar sem a versão premium, créditos serão "
-"automaticamente retirados da sua conta."
+"Você tem certeza disso? Quando este servidor ficar sem a versão premium, "
+"créditos serão automaticamente retirados da sua conta."
 
 #: app/cogs/premium/premium_commands.py:189
 msgid "AutoRedeem has been enabled for this server."
@@ -2983,8 +2986,8 @@ msgid ""
 "Please specify a guild or run this command in the guild you want to disable "
 "AutoRedeem in."
 msgstr ""
-"Por favor, especifique um servidor ou execute este comando no servidor em que você quer desabilitar "
-"AutoRedeem."
+"Por favor, especifique um servidor ou execute este comando no servidor em "
+"que você quer desabilitar AutoRedeem."
 
 #: app/cogs/premium/premium_commands.py:211
 #, python-brace-format
@@ -2992,8 +2995,8 @@ msgid ""
 "Are you sure? Credits will no longer be taken from your account if {0} runs "
 "out of premium."
 msgstr ""
-"Você tem certeza? Créditos não serão mais retirados da sua conta se {0} ficar "
-"sem a versão premium."
+"Você tem certeza? Créditos não serão mais retirados da sua conta se {0} "
+"ficar sem a versão premium."
 
 #: app/cogs/premium/premium_commands.py:220
 #, python-brace-format
