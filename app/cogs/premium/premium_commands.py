@@ -22,14 +22,14 @@ def pvsn(key: str) -> Union[Tuple[int, int], Literal[False]]:
     return norm, prem
 
 
-class Premium(commands.Cog, description=t_("Premium related commands.", True)):
+class Premium(commands.Cog, description=t_("Premium-related commands.", True)):
     def __init__(self, bot: "Bot"):
         self.bot = bot
 
     @commands.command(
         name="serverpremium",
         aliases=["guildpremium", "serverprem", "guildprem"],
-        help=t_("Shows the servers current premium status.", True),
+        help=t_("Shows the server's current premium status.", True),
     )
     async def show_guild_prem_status(self, ctx: "MyContext"):
         guild = await self.bot.db.guilds.get(ctx.guild.id)
@@ -85,7 +85,7 @@ class Premium(commands.Cog, description=t_("Premium related commands.", True)):
     )
     async def show_premium_info(self, ctx: "MyContext"):
         info = t_(
-            "We use a credit system for premium. It works like discord boosts "
+            "We use a credit system for premium. It works like Discord boosts "
             "-- every $ you send to us gives you 1 premium credit, and once "
             "you have 3 credits you can convert that to 1 month of premium "
             "for 1 server. You can gain credits by donating, or by becoming "
@@ -128,7 +128,7 @@ class Premium(commands.Cog, description=t_("Premium related commands.", True)):
         name="autoredeem",
         help=t_(
             "Manage AutoRedeem for servers.\n"
-            "If run in DMs, will show all servers AutoRedeem is enabled for."
+            "If ran in DMs, will show all servers AutoRedeem is enabled for."
         ),
         invoke_without_command=True,
     )

@@ -106,7 +106,7 @@ class ASChannels:
             raise commands.BadArgument(t_("minChars cannot be less than 0."))
         if settings["min_chars"] > 2000:
             raise commands.BadArgument(
-                t_("minChars cannot be grater than 2,000.")
+                t_("minChars cannot be greater than 2,000.")
             )
 
         asemojis_limit = await limit_for(

@@ -37,7 +37,7 @@ class AutoStarChannels(
             if len(aschannels) == 0:
                 await ctx.send(
                     t_(
-                        "You do not have any AutoStar channels. use "
+                        "You do not have any AutoStar channels. Use "
                         "`{0}asc add <channel>` to create one."
                     ).format(p)
                 )
@@ -181,7 +181,7 @@ class AutoStarChannels(
     @asemojis.command(
         name="remove",
         aliases=["r", "d", "del", "delete"],
-        help=t_("Removes an emojis from an AutoStar channel.", True),
+        help=t_("Removes an emoji from an AutoStar channel.", True),
     )
     @has_guild_permissions(manage_channels=True)
     @bot_has_permissions(embed_links=True)

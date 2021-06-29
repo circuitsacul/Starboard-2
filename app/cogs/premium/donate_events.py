@@ -54,9 +54,9 @@ class DonateEvents(commands.Cog):
             self.bot,
             discord_id,
             t_(
-                "We received your donation of ${0} through donatebot, "
+                "We received your donation of ${0} through DonateBot, "
                 "and you have gained {1} credit(s). If you have any "
-                "questions feel free to dm Circuit#5585. Thanks for "
+                "questions feel free to DM Circuit#5585. Thanks for "
                 "your donation!"
             ).format(data["price"], round(float(data["price"]))),
         )

@@ -84,13 +84,13 @@ class PatreonEvents(commands.Cog):
                 )
                 text = t_(
                     "Thanks for becoming a patron! Each $ that is sent "
-                    "through patreon will be converted to 1 credit. DM "
+                    "through Patreon will be converted to 1 credit. DM "
                     "`@Circuit#5585` if you have any questions.\n\nYour "
                     "support is greatly appreciated."
                 )
             elif sql_user["last_known_monthly"] != patron["payment"]:
                 text = t_(
-                    "Just wanted to alert you that your montly pledge on "
+                    "Just wanted to alert you that your monthly pledge on "
                     "Patreon has changed from ${0} to ${1}. Thanks for "
                     "supporting Starboard!"
                 ).format(sql_user["last_known_monthly"], patron["payment"])
@@ -129,7 +129,7 @@ class PatreonEvents(commands.Cog):
                     "We're sorry to see you go, but we are still grateful "
                     "for all of your previous support.\n\nYou won't gain "
                     "any more credits automatically, but you will *not* "
-                    "loose any you currently have."
+                    "lose any you currently have."
                 ),
             )
 

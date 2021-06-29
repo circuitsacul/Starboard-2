@@ -20,7 +20,7 @@ class Fun(commands.Cog, description=t_("Fun commands for Starboard.", True)):
     @commands.command(
         name="leaderboard",
         aliases=["lb"],
-        help=t_("Shows the servers top 200 users.", True),
+        help=t_("Shows the server's top 200 users.", True),
     )
     @bot_has_permissions(
         embed_links=True, add_reactions=True, read_message_history=True

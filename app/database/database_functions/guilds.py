@@ -57,7 +57,7 @@ class Guilds:
     async def set_cooldown(self, guild_id: int, ammount: int, per: int):
         if ammount < 1:
             raise commands.BadArgument(
-                t_("The cooldown ammount must be greater than 0.")
+                t_("The cooldown amount must be greater than 0.")
             )
         if per < 0:
             raise commands.BadArgument(

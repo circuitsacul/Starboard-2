@@ -250,8 +250,7 @@ class Base(
         if user.bot:
             await ctx.send(
                 t_(
-                    "{0} is a bot. How many times do you "
-                    "think they've voted?"
+                    "{0} is a bot. How many times do you " "think it's voted?"
                 ).format(user)
             )
             return

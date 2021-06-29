@@ -572,9 +572,9 @@ class Settings(
             ctx.guild.id,
         )
         if ping:
-            await ctx.send(t_("I will now ping users when the level up."))
+            await ctx.send(t_("I will now ping users when they level up."))
         else:
-            await ctx.send(t_("I will not ping users when the level up."))
+            await ctx.send(t_("I will not ping users when they level up."))
 
     @commands.command(
         name="logChannel",
@@ -631,7 +631,7 @@ class Settings(
     @commands.command(
         name="allowCommands",
         aliases=["ac"],
-        help=t_("Wether or not to allow commands from non-admins.", True),
+        help=t_("Whether or not to allow commands from non-admins.", True),
     )
     @has_guild_permissions(administrator=True)
     async def set_allow_commands(

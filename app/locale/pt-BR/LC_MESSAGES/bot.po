@@ -297,7 +297,7 @@ msgid "minChars cannot be less than 0."
 msgstr "minChars não pode ser menor que 0."
 
 #: app/database/database_functions/aschannels.py:96
-msgid "minChars cannot be grater than 2,000."
+msgid "minChars cannot be greater than 2,000."
 msgstr "minChars não pode ser maior que 2.000."
 
 #: app/database/database_functions/posroles.py:77
@@ -306,7 +306,7 @@ msgid "MaxUsers must be greater than 0."
 msgstr "MaxUsers deve ser maior que 0."
 
 #: app/database/database_functions/guilds.py:45
-msgid "The cooldown ammount must be greater than 0."
+msgid "The cooldown amount must be greater than 0."
 msgstr "A quantidade de tempo de espera deve ser maior que 0."
 
 #: app/database/database_functions/guilds.py:49
@@ -1020,11 +1020,11 @@ msgid "Whether or not to ping users when they level up."
 msgstr "Se deve ou não mencionar usuários quando eles sobem de nível."
 
 #: app/cogs/settings/settings_commands.py:575
-msgid "I will now ping users when the level up."
+msgid "I will now ping users when they level up."
 msgstr "Eu vou agora mencionar usuários quando eles sobem de nível."
 
 #: app/cogs/settings/settings_commands.py:577
-msgid "I will not ping users when the level up."
+msgid "I will not ping users when they level up."
 msgstr "Eu não vou mais mencionar usuários quando eles sobem de nível."
 
 #: app/cogs/settings/settings_commands.py:582
@@ -1056,7 +1056,7 @@ msgstr ""
 "informações importantes aqui."
 
 #: app/cogs/settings/settings_commands.py:634
-msgid "Wether or not to allow commands from non-admins."
+msgid "Whether or not to allow commands from non-admins."
 msgstr "Se deve ou não aceitar commandos de não administratores."
 
 #: app/cogs/settings/settings_commands.py:647
@@ -1069,7 +1069,7 @@ msgid "Fun commands for Starboard."
 msgstr "Comandos divertidos para o bot Starboard."
 
 #: app/cogs/fun/fun_commands.py:23
-msgid "Shows the servers top 200 users."
+msgid "Shows the server's top 200 users."
 msgstr ""
 "Mostra os 200 melhores usuários no servidor com base nos pontos de "
 "experiência."
@@ -1299,7 +1299,7 @@ msgid "Added {0} to the starboards on PermGroup **{1}**."
 msgstr "Adicionei {0} aos starboards no PermGroup **{1}**."
 
 #: app/cogs/permroles/pr_commands.py:301
-msgid "Removes starboard(s) from the list of starboars on a PermGroup."
+msgid "Removes starboard(s) from the list of starboards on a PermGroup."
 msgstr "Remove starboard(s) da lista de starboards em um PermGroup."
 
 #: app/cogs/permroles/pr_commands.py:322
@@ -1614,7 +1614,7 @@ msgid "View and manage XPRoles for your server."
 msgstr "Veja e gerencie XPRoles do seu servidor."
 
 #: app/cogs/awardroles/ar_commands.py:139
-msgid "This server has no XP Roles."
+msgid "This server has no XPRoles."
 msgstr "Este servidor não tem XPRoles."
 
 #: app/cogs/awardroles/ar_commands.py:147
@@ -1656,7 +1656,7 @@ msgid "Deleted the XPRole **{0}**."
 msgstr "Excluí o XPRole **{0}**."
 
 #: app/cogs/awardroles/ar_commands.py:206
-msgid "Sets the ammount of xp needed to gain an XPRole."
+msgid "Sets the amount of xp needed to gain an XPRole."
 msgstr ""
 "Define a quantidade de pontos de experiência necessária para ganhar um "
 "XPRole."
@@ -1737,7 +1737,7 @@ msgstr ""
 #: app/cogs/autostarchannels/asc_commands.py:40
 #, python-brace-format
 msgid ""
-"You do not have any AutoStar channels. use `{0}asc add <channel>` to create "
+"You do not have any AutoStar channels. Use `{0}asc add <channel>` to create "
 "one."
 msgstr ""
 "Você não tem nenhum canal AutoStar. Use `{0}asc add <canal>` para criar um."
@@ -1787,7 +1787,7 @@ msgid "Adds an emoji to an AutoStar channel."
 msgstr "Adiciona um emoji a um canal AutoStar."
 
 #: app/cogs/autostarchannels/asc_commands.py:184
-msgid "Removes an emojis from an AutoStar channel."
+msgid "Removes an emoji from an AutoStar channel."
 msgstr "Remove um emoji de um canal AutoStar."
 
 #: app/cogs/autostarchannels/asc_commands.py:215
@@ -1807,7 +1807,7 @@ msgid "Whether or not to delete invalid messages."
 msgstr "Se deve ou não excluir mensagens inválidas."
 
 #: app/cogs/premium/premium_commands.py:11
-msgid "Premium related commands."
+msgid "Premium-related commands."
 msgstr "Comandos relacionados à versão premium."
 
 #: app/cogs/premium/premium_commands.py:16
@@ -1821,8 +1821,8 @@ msgstr "Seus cargos devem ser atualizados momentaneamente."
 #: app/cogs/premium/donate_events.py:57
 #, python-brace-format
 msgid ""
-"We received your donation of ${0} through donatebot, and you have gained {1} "
-"credit(s). If you have any questions feel free to dm Circuit#5585. Thanks "
+"We received your donation of ${0} through DonateBot, and you have gained {1} "
+"credit(s). If you have any questions feel free to DM Circuit#5585. Thanks "
 "for your donation!"
 msgstr ""
 "Recebemos sua doação de ${0} através do Donate Bot, e você ganhou {1} "
@@ -1841,7 +1841,7 @@ msgstr ""
 
 #: app/cogs/premium/patreon_events.py:85
 msgid ""
-"Thanks for becoming a patron! Each $ that is sent through patreon will be "
+"Thanks for becoming a patron! Each $ that is sent through Patreon will be "
 "converted to 1 credit. DM `@Circuit#5585` if you have any questions.\n"
 "\n"
 "Your support is greatly appreciated."
@@ -1855,7 +1855,7 @@ msgstr ""
 #: app/cogs/premium/patreon_events.py:92
 #, python-brace-format
 msgid ""
-"Just wanted to alert you that your montly pledge on Patreon has changed from "
+"Just wanted to alert you that your monthly pledge on Patreon has changed from "
 "${0} to ${1}. Thanks for supporting Starboard!"
 msgstr ""
 "Só queria te alertar de que sua membresia mensal no Patreon mudou de ${0} "
@@ -1866,7 +1866,7 @@ msgid ""
 "It looks like you removed your pledge on Patreon. We're sorry to see you go, "
 "but we are still grateful for all of your previous support.\n"
 "\n"
-"You won't gain any more credits automatically, but you will *not* loose any "
+"You won't gain any more credits automatically, but you will *not* lose any "
 "you currently have."
 msgstr ""
 "Parece que você retirou sua membresia mensal no Patreon. Nós lamentamos vê-"
@@ -2094,7 +2094,7 @@ msgstr "Veja links para votar e o número de vezes que você votou."
 
 #: app/cogs/base/base_commands.py:253
 #, python-brace-format
-msgid "{0} is a bot. How many times do you think they've voted?"
+msgid "{0} is a bot. How many times do you think it's voted?"
 msgstr "{0} é um bot. Quantas vezes você acha que ele já votou?"
 
 #: app/cogs/base/base_commands.py:265
@@ -2468,7 +2468,7 @@ msgstr "Eu não tenho a permissão `Inserir links` em {0}/{1} canais."
 
 #: app/cogs/utility/debugger.py:54
 #, python-brace-format
-msgid "Missing `Read Messages` in {0}/{1} channels."
+msgid "Missing `View Channel` in {0}/{1} channels."
 msgstr "Eu não tenho a permissão `Ver canal` em {0}/{1} canais."
 
 #: app/cogs/utility/debugger.py:60
@@ -2538,7 +2538,7 @@ msgstr ""
 #: app/cogs/utility/debugger.py:129
 #, python-brace-format
 msgid ""
-"I don't have the `Read Messages` permission in {0}, so I can't update "
+"I don't have the `View Channel` permission in {0}, so I can't update "
 "starboard messages."
 msgstr ""
 "Eu não tenho a permissão `Ver canal` em {0}, então eu não posso atualizar "
@@ -2635,7 +2635,7 @@ msgstr ""
 #: app/cogs/utility/debugger.py:231
 #, python-brace-format
 msgid ""
-"I'm missing the `Read Messages` permission in {0}, which is an AutoStar "
+"I'm missing the `View Channel` permission in {0}, which is an AutoStar "
 "channel. Without this permission, I won't be able to autoreact to messages "
 "there."
 msgstr ""
@@ -2825,7 +2825,7 @@ msgstr "{0} anexos adicionais."
 #: app/cogs/premium/premium_events.py:56
 #, python-brace-format
 msgid ""
-"You have AutoRedeem enabled in {0}, and that server ran out of premium so 3 "
+"You have AutoRedeem enabled in {0}, and that server ran out of premium, so 3 "
 "credits were taken from your acccount. You can disable AutoRedeem for this "
 "server by running `sb!autoredeem disable {1}`."
 msgstr ""
@@ -2838,7 +2838,7 @@ msgid "Premium has expired for this server."
 msgstr "A versão premium expirou neste servidor."
 
 #: app/cogs/premium/premium_commands.py:32
-msgid "Shows the servers current premium status."
+msgid "Shows the server's current premium status."
 msgstr "Mostra o status da versão premium no servidor."
 
 #: app/cogs/premium/premium_commands.py:37
@@ -2874,7 +2874,7 @@ msgstr "Mostra informações sobre o premium."
 
 #: app/cogs/premium/premium_commands.py:88
 msgid ""
-"We use a credit system for premium. It works like discord boosts -- every $ "
+"We use a credit system for premium. It works like Discord boosts -- every $ "
 "you send to us gives you 1 premium credit, and once you have 3 credits you "
 "can convert that to 1 month of premium for 1 server. You can gain credits by "
 "donating, or by becoming a patron (which will give you X credits/month, "
@@ -2938,7 +2938,7 @@ msgstr "Use `sb!profile` para ver seus créditos."
 #: app/cogs/premium/premium_commands.py:130
 msgid ""
 "Manage AutoRedeem for servers.\n"
-"If run in DMs, will show all servers AutoRedeem is enabled for."
+"If ran in DMs, will show all servers AutoRedeem is enabled for."
 msgstr ""
 "Gerencie AutoRedeem em servidores.\n"
 "Se executado, ele vai mostrar todos os servidores em que AutoRedeem é "

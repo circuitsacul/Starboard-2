@@ -51,7 +51,7 @@ async def debug_guild(bot: Bot, guild: discord.Guild) -> Dict[Any, Any]:
         )
     if len(missing_read_messages) > 0:
         result["warns"].append(
-            t_("Missing `Read Messages` in {0}/{1} channels.").format(
+            t_("Missing `View Channel` in {0}/{1} channels.").format(
                 len(missing_read_messages), total_channels
             )
         )
@@ -126,7 +126,7 @@ async def debug_guild(bot: Bot, guild: discord.Guild) -> Dict[Any, Any]:
             if not perms.read_messages:
                 result["errors"].append(
                     t_(
-                        "I don't have the `Read Messages` permission in "
+                        "I don't have the `View Channel` permission in "
                         "{0}, so I can't update starboard messages."
                     ).format(obj.mention)
                 )
@@ -228,7 +228,7 @@ async def debug_guild(bot: Bot, guild: discord.Guild) -> Dict[Any, Any]:
         if not perms.read_messages:
             result["errors"].append(
                 t_(
-                    "I'm missing the `Read Messages` permission in {0}"
+                    "I'm missing the `View Channel` permission in {0}"
                     ", which is an AutoStar channel. Without this "
                     "permission, I won't be able to autoreact to "
                     "messages there."

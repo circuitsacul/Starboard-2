@@ -54,7 +54,7 @@ class PremiumEvents(commands.Cog):
                             user,
                             t_(
                                 "You have AutoRedeem enabled in {0}, and that "
-                                "server ran out of premium so 3 credits were "
+                                "server ran out of premium, so 3 credits were "
                                 "taken from your acccount. You can disable "
                                 "AutoRedeem for this server by running "
                                 "`sb!autoredeem disable {1}`."

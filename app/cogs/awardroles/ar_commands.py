@@ -136,7 +136,7 @@ class AwardRoles(commands.Cog, description=t_("Manage AwardRoles.", True)):
     async def xproles(self, ctx: "MyContext"):
         _xproles = await self.bot.db.xproles.get_many(ctx.guild.id)
         if len(_xproles) == 0:
-            await ctx.send(t_("This server has no XP Roles."))
+            await ctx.send(t_("This server has no XPRoles."))
             return
         xpr: List[Tuple[discord.Role, int]] = [
             (ctx.guild.get_role(r["role_id"]), r["required"]) for r in _xproles
@@ -150,7 +150,7 @@ class AwardRoles(commands.Cog, description=t_("Manage AwardRoles.", True)):
         )
 
         embed = discord.Embed(
-            title=t_("XP Roles"),
+            title="XPRoles",
             description=string,
             color=self.bot.theme_color,
         )
@@ -203,7 +203,7 @@ class AwardRoles(commands.Cog, description=t_("Manage AwardRoles.", True)):
     @xproles.command(
         name="set",
         aliases=["required"],
-        help=t_("Sets the ammount of xp needed to gain an XPRole.", True),
+        help=t_("Sets the amount of xp needed to gain an XPRole.", True),
     )
     @has_guild_permissions(manage_roles=True)
     @commands.guild_only()

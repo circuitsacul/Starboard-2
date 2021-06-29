@@ -299,7 +299,7 @@ class PermRoles(
         aliases=["r", "rm", "del", "delete"],
         help=t_(
             "Removes starboard(s) from the list "
-            "of starboars on a PermGroup.",
+            "of starboards on a PermGroup.",
             True,
         ),
     )
