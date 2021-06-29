@@ -51,17 +51,20 @@ class Database:
 
     async def init_database(self) -> None:
         self.pool = await asyncpg.create_pool(
-            database=self.name, user=self.user, password=self.password
+            database=self.name,
+            user=self.user,
+            password=self.password,
+            host="127.0.0.1",
         )
         app_dir = pathlib.Path("app/database/")
 
         async with self.pool.acquire() as con:
             async with con.transaction():
+                with open(app_dir / "types.sql", "r") as f:
+                    await con.execute(f.read())
                 with open(app_dir / "tables.sql", "r") as f:
                     await con.execute(f.read())
                 with open(app_dir / "indexes.sql", "r") as f:
-                    await con.execute(f.read())
-                with open(app_dir / "types.sql", "r") as f:
                     await con.execute(f.read())
 
     async def execute(self, sql: str, *args: Any) -> None:
