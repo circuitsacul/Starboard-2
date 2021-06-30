@@ -42,10 +42,10 @@ def cached(  # for future use
 class Cache:
     def __init__(self, bot) -> None:
         self.messages: SimpleMemoryCache = MemCache(
-            namespace="messages", ttl=10
+            namespace="messages", ttl=30
         )
         self.bot = bot
-        self.users: SimpleMemoryCache = MemCache(namespace="users", ttl=10)
+        self.users: SimpleMemoryCache = MemCache(namespace="users", ttl=15)
 
     async def fetch_user(self, user_id: int) -> discord.User:
         cached = await self.users.get(user_id)
