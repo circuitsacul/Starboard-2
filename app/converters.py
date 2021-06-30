@@ -268,7 +268,12 @@ class PermRole(commands.RoleConverter):
 
     async def convert(self, ctx: "MyContext", arg: str) -> SQLObject:
         group = ctx.args[self.group_arg_index]
-        role = await super().convert(ctx, arg)
+        try:
+            role = await super().convert(ctx, arg)
+        except RoleNotFound:
+            if arg.lower() != "default":
+                raise
+            role = ctx.guild.default_role
 
         permrole = await ctx.bot.db.permroles.get(role.id, int(group["id"]))
         if not permrole:
