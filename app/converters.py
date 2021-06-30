@@ -160,9 +160,19 @@ class Role(commands.RoleConverter):
     """Same as default role converter, except that it ignores
     @everyone"""
 
+    def __init__(self, allow_default: bool = False):
+        self.allow_default = allow_default
+        super().__init__()
+
     async def convert(self, ctx: "MyContext", arg: str) -> discord.Role:
-        role = await super().convert(ctx, arg)
-        if role.id == ctx.guild.default_role.id:
+        try:
+            role = await super().convert(ctx, arg)
+        except RoleNotFound:
+            if arg == "default":
+                role = ctx.guild.default_role
+            else:
+                raise
+        if role.id == ctx.guild.default_role.id and not self.allow_default:
             raise RoleNotFound(arg)
         return role
 
@@ -261,19 +271,14 @@ class PermGroup(commands.Converter):
         return permgroup
 
 
-class PermRole(commands.RoleConverter):
+class PermRole(Role):
     def __init__(self, group_arg_index: int):
         self.group_arg_index = group_arg_index
-        super().__init__()
+        super().__init__(allow_default=True)
 
     async def convert(self, ctx: "MyContext", arg: str) -> SQLObject:
         group = ctx.args[self.group_arg_index]
-        try:
-            role = await super().convert(ctx, arg)
-        except RoleNotFound:
-            if arg.lower() != "default":
-                raise
-            role = ctx.guild.default_role
+        role = await super().convert(ctx, arg)
 
         permrole = await ctx.bot.db.permroles.get(role.id, int(group["id"]))
         if not permrole:
