@@ -121,6 +121,7 @@ class PermRoles:
             "gain_xp",
             "pos_roles",
             "xp_roles",
+            "index",
         ]
 
         permrole = await self.get(role_id, group_id)
@@ -138,7 +139,8 @@ class PermRoles:
             give_stars=:give_stars,
             gain_xp=:gain_xp,
             pos_roles=:pos_roles,
-            xp_roles=:xp_roles
+            xp_roles=:xp_roles,
+            index=:index
             WHERE role_id=:role_id AND permgroup_id=:group_id""",
             **settings,
             role_id=role_id,
