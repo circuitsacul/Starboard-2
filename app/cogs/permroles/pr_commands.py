@@ -397,7 +397,7 @@ class PermRoles(
         self,
         ctx: "MyContext",
         group: converters.PermGroup,
-        role: commands.RoleConverter,
+        role: converters.Role(allow_default=True),
     ):
         if (await self.bot.db.permroles.get(role.id, group["id"])) is not None:
             raise errors.PermRoleAlreadyExists(role.name, group["name"])
@@ -450,6 +450,41 @@ class PermRoles(
                 role.obj.name, role.sql["index"], new_index
             )
         )
+
+    @permroles.command(
+        name="sort",
+        help=t_(
+            "Sorts the PermRoles in a PermGroup by their order in the server "
+            "settings.",
+            True,
+        ),
+    )
+    @has_guild_permissions(manage_guild=True)
+    @commands.guild_only()
+    async def sort_permroles(
+        self,
+        ctx: "MyContext",
+        group: converters.PermGroup,
+    ):
+        conf = await menus.Confirm(
+            t_(
+                "Are you sure? This will permanently change the order of the "
+                "PermRoles in the PermGroup **{0}**."
+            ).format(group["name"])
+        ).start(ctx)
+        if not conf:
+            await ctx.send(t_("Cancelled."))
+            return
+        async with ctx.typing():
+            permroles = await self.bot.db.permroles.get_many(group["id"])
+            permroles.sort(
+                key=lambda pr: ctx.guild.get_role(int(pr["role_id"])).position,
+            )
+            for x, pr in enumerate(permroles, 1):
+                await self.bot.db.permroles.edit(
+                    int(pr["role_id"]), int(group["id"]), index=x
+                )
+        await ctx.send(t_("Done!"))
 
     @permroles.command(
         name="allowCommands",
