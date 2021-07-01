@@ -40,6 +40,16 @@ async def is_valid(
         return False, t_("Messages must be at least {0} characters").format(
             aschannel["min_chars"]
         )
+    if (
+        aschannel["max_chars"] is not None
+        and len(message.system_content) > aschannel["max_chars"]
+    ):
+        return (
+            False,
+            t_("Messages cannot be greater than {0} characters").format(
+                aschannel["max_chars"]
+            ),
+        )
     if aschannel["regex"]:
         if not await try_regex(bot, message, aschannel["regex"]):
             return False, t_("Messages must match `{0}`").format(

@@ -74,6 +74,7 @@ class AutoStarChannels(
                 description=(
                     f"emojis: **{emoji_str}**\n"
                     f"minChars: **{a['min_chars']}**\n"
+                    f"maxChars: **{a['max_chars']}**\n"
                     f"requireImage: **{a['require_image']}**\n"
                     f"deleteInvalid: **{a['delete_invalid']}**\n"
                     f"regex: `{utils.escmd(a['regex']) or 'None'}`\n"
@@ -256,6 +257,29 @@ class AutoStarChannels(
         await ctx.send(
             embed=utils.cs_embed(
                 {"minChars": (aschannel.sql["min_chars"], min_chars)}, self.bot
+            )
+        )
+
+    @aschannels.command(
+        name="maxChars",
+        aliases=["max"],
+        help=t_("Sets the maximum number of characters for messages.", True),
+    )
+    @has_guild_permissions(manage_channels=True)
+    @bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def set_max_chars(
+        self,
+        ctx: "MyContext",
+        aschannel: converters.ASChannel,
+        max_chars: converters.OrNone(converters.myint) = None,
+    ):
+        await self.bot.db.aschannels.edit(
+            aschannel.obj.id, max_chars=max_chars
+        )
+        await ctx.send(
+            embed=utils.cs_embed(
+                {"maxChars": (aschannel.sql["max_chars"], max_chars)}, self.bot
             )
         )
 

@@ -120,6 +120,7 @@ CREATE TABLE IF NOT EXISTS aschannels (
 
     emojis TEXT[] DEFAULT '{⭐}',
     min_chars SMALLINT NOT NULL DEFAULT 0,
+    max_chars SMALLINT DEFAULT NULL,
     require_image BOOL NOT NULL DEFAULT False,
     regex TEXT NOT NULL DEFAULT '',
     exclude_regex TEXT NOT NULL DEFAULT '',

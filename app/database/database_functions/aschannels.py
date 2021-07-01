@@ -92,6 +92,7 @@ class ASChannels:
         valid_settings = [
             "emojis",
             "min_chars",
+            "max_chars",
             "require_image",
             "regex",
             "exclude_regex",
@@ -104,9 +105,15 @@ class ASChannels:
 
         if settings["min_chars"] < 0:
             raise commands.BadArgument(t_("minChars cannot be less than 0."))
-        if settings["min_chars"] > 2000:
+        if settings["min_chars"] > 4_000:
             raise commands.BadArgument(
-                t_("minChars cannot be greater than 2,000.")
+                t_("minChars cannot be greater than 4,000.")
+            )
+        if (settings["max_chars"] or 0) < 0:
+            raise commands.BadArgument(t_("maxChars cannot be less than 0."))
+        if (settings["max_chars"] or 0) > 4_000:
+            raise commands.BadArgument(
+                t_("maxChars cannot be greater tahn 4,000.")
             )
 
         asemojis_limit = await limit_for(
@@ -123,6 +130,7 @@ class ASChannels:
             """UPDATE aschannels
             SET emojis=:emojis,
             min_chars=:min_chars,
+            max_chars=:max_chars,
             require_image=:require_image,
             delete_invalid=:delete_invalid,
             regex=:regex,
