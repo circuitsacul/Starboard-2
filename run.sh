@@ -1,4 +1,6 @@
 #!/bin/bash
+$1 update_db.py
+
 $1 run_ipc.py &
 $1 run_dashboard.py &
 

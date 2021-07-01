@@ -49,15 +49,17 @@ class Database:
         self.sql_times.setdefault(sql, [])
         self.sql_times[sql].append(time)
 
-    async def init_database(self) -> None:
+    async def init_database(self, create_data: bool = False) -> None:
         self.pool = await asyncpg.create_pool(
             database=self.name,
             user=self.user,
             password=self.password,
             host="127.0.0.1",
         )
-        app_dir = pathlib.Path("app/database/")
+        if not create_data:
+            return
 
+        app_dir = pathlib.Path("app/database/")
         async with self.pool.acquire() as con:
             async with con.transaction():
                 with open(app_dir / "types.sql", "r") as f:
