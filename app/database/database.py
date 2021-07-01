@@ -68,6 +68,8 @@ class Database:
                     await con.execute(f.read())
                 with open(app_dir / "indexes.sql", "r") as f:
                     await con.execute(f.read())
+                with open(app_dir / "migrations.sql", "r") as f:
+                    await con.execute(f.read())
 
     async def execute(self, sql: str, *args: Any) -> None:
         async with self.pool.acquire() as con:
