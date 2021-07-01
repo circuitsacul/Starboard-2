@@ -3,6 +3,7 @@ from .confirm import Confirm
 from .help_menu import HelpMenu
 from .menu import Menu
 from .paginator import Paginator
+from .scroller import Scroll
 
 __all__ = [
     "HelpMenu",
@@ -10,4 +11,5 @@ __all__ = [
     "Confirm",
     "Paginator",
     "Accordion",
+    "Scroll",
 ]

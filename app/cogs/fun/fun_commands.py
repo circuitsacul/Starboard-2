@@ -1,5 +1,4 @@
 import random
-from typing import List
 
 import discord
 from discord.ext.prettyhelp import bot_has_permissions
@@ -186,43 +185,43 @@ class Fun(commands.Cog, description=t_("Fun commands for Starboard.", True)):
             channel_id,
             maxpoints,
         )
-        embeds: List[discord.Embed] = []
-        text_pages: List[str] = []
-        async with ctx.typing():
-            for m in messages[place : place + 5]:
-                orig = await self.bot.db.messages.get(m["orig_id"])
-                obj = await self.bot.cache.fetch_message(
-                    ctx.guild.id,
-                    int(orig["channel_id"]),
-                    int(orig["id"]),
-                )
-                if not obj:
-                    continue
-                sql_starboard = await self.bot.db.starboards.get(
-                    m["starboard_id"]
-                )
-                color = sql_starboard["color"]
-                e, _ = await starboard_funcs.embed_message(
-                    self.bot,
-                    obj,
-                    color=color,
-                    nicknames=sql_starboard["nicknames"],
-                )
-                text_pages.append(
-                    starboard_funcs.get_plain_text(
-                        sql_starboard, orig, m["points"], ctx.guild
-                    )
-                )
-                embeds.append(e)
 
-        if len(embeds) == 0:
+        async def getter(page: int):
+            try:
+                m = messages[page]
+            except IndexError:
+                return None
+            orig = await self.bot.db.messages.get(int(m["orig_id"]))
+            obj = await self.bot.cache.fetch_message(
+                ctx.guild.id,
+                int(orig["channel_id"]),
+                int(orig["id"]),
+            )
+            if not obj:
+                del messages[page]
+                return await getter(page)
+            sql_starboard = await self.bot.db.starboards.get(m["starboard_id"])
+            color = sql_starboard["color"]
+            e, _ = await starboard_funcs.embed_message(
+                self.bot,
+                obj,
+                color=color,
+                nicknames=sql_starboard["nicknames"],
+                files=False,
+            )
+            e.set_footer(text=t_("Page {0}").format(page + 1))
+            text = starboard_funcs.get_plain_text(
+                sql_starboard, orig, m["points"], ctx.guild
+            )
+            return text, e
+
+        first = await getter(0)
+        if not first:
             await ctx.send(t_("Nothing to show."))
             return
 
-        await menus.Paginator(
-            embed_pages=embeds,
-            text_pages=text_pages,
-            delete_after=True,
+        await menus.Scroll(
+            getter,
         ).start(ctx)
 
     @flags.add_flag("--by", type=discord.User, default=None)
