@@ -37,7 +37,8 @@ async def can_add(
     _starboards = await bot.db.fetch(
         """SELECT * FROM starboards
         WHERE guild_id=$1
-        AND $2=any(star_emojis)""",
+        AND $2=any(star_emojis)
+        AND locked=False""",
         guild_id,
         emoji,
     )
@@ -182,6 +183,8 @@ async def update_message(bot: Bot, message_id: int, guild_id: int) -> None:
     all_tasks = []
     if not sql_message["trashed"]:
         for s in sql_starboards:
+            if s["locked"]:
+                continue
             all_tasks.append(
                 asyncio.create_task(
                     handle_starboard(bot, s, sql_message, sql_author, guild)
@@ -191,6 +194,8 @@ async def update_message(bot: Bot, message_id: int, guild_id: int) -> None:
             await t
     else:
         for s in sql_starboards:
+            if s["locked"]:
+                continue
             await handle_trashed_message(bot, s, sql_message, sql_author)
 
 
