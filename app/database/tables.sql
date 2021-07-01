@@ -77,6 +77,7 @@ CREATE TABLE IF NOT EXISTS starboards (
     guild_id NUMERIC NOT NULL,
 
     webhook_url TEXT DEFAULT NULL,
+    locked BOOL NOT NULL DEFAULT False,
 
     -- Appearance:
     color TEXT DEFAULT NULL,
