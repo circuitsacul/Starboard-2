@@ -29,6 +29,7 @@ DEFAULT_LIMITS = {
     "permroles": 50,
     "xproles": 5,
     "posroles": 0,
+    "prefixes": 15,
 }
 
 PREMIUM_LIMITS = {

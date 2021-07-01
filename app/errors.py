@@ -129,6 +129,18 @@ class PermRoleLimitReached(LimitReached):
         super().__init__(message)
 
 
+class PrefixLimitReached(LimitReached):
+    def __init__(self, can_increase: bool = False):
+        if can_increase:
+            message = t_(
+                "You have reached the limit for prefixes, so you can't "
+                "add any more unless this server receives premium."
+            )
+        else:
+            message = t_("You have reached the limit for prefixes.")
+        super().__init__(message)
+
+
 class AutoRedeemAlreadyOn(commands.CommandError):
     def __init__(self):
         super().__init__(t_("AutoRedeem is already enabled for this server."))

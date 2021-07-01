@@ -5,6 +5,7 @@ import asyncpg
 from aiocache import Cache, SimpleMemoryCache
 
 from app import commands, constants, errors, i18n
+from app.cogs.premium.premium_funcs import can_increase, limit_for
 from app.i18n import t_
 
 if TYPE_CHECKING:
@@ -18,6 +19,47 @@ class Guilds:
 
     async def delete(self, guild_id: int):
         await self.db.execute("""DELETE FROM guilds WHERE id=$1""", guild_id)
+        await self.cache.delete(guild_id)
+
+    async def add_prefix(self, guild_id: int, prefix: str):
+        if len(prefix) > 8:
+            raise commands.BadArgument(
+                t_("`{0}` is too long (max length is 8 characters).").format(
+                    prefix
+                )
+            )
+        guild = await self.get(guild_id)
+        if prefix in guild["prefixes"]:
+            raise errors.AlreadyPrefix(prefix)
+
+        new_prefixes = [*guild["prefixes"], prefix]
+        if len(new_prefixes) > await limit_for("prefixes", guild_id, self.db):
+            raise errors.PrefixLimitReached(
+                await can_increase("prefixes", guild_id, self.db)
+            )
+
+        await self.db.execute(
+            """UPDATE guilds
+            SET prefixes=$1
+            WHERE id=$2""",
+            new_prefixes,
+            guild_id,
+        )
+        await self.cache.delete(guild_id)
+
+    async def remove_prefix(self, guild_id: int, prefix: str):
+        guild = await self.get(guild_id)
+        new_prefixes = [*guild["prefixes"]]
+        if prefix not in new_prefixes:
+            return
+        new_prefixes.remove(prefix)
+        await self.db.execute(
+            """UPDATE guilds
+            SET prefixes=$1
+            WHERE id=$2""",
+            new_prefixes,
+            guild_id,
+        )
         await self.cache.delete(guild_id)
 
     async def add_months(self, guild_id: int, months: int):

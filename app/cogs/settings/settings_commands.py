@@ -420,24 +420,7 @@ class Settings(
     ) -> None:
         if options["space"] is True:
             prefix += " "
-        if len(prefix) > 8:
-            raise commands.BadArgument(
-                t_("`{0}` is too long (max length is 8 characters).").format(
-                    prefix
-                )
-            )
-        guild = await self.bot.db.guilds.get(ctx.guild.id)
-        if prefix in guild["prefixes"]:
-            raise errors.AlreadyPrefix(prefix)
-        new_prefixes = guild["prefixes"] + [prefix]
-        await self.bot.db.execute(
-            """UPDATE guilds
-            SET prefixes=$1
-            WHERE id=$2""",
-            new_prefixes,
-            ctx.guild.id,
-        )
-        await self.bot.db.guilds.cache.delete(ctx.guild.id)
+        await self.bot.db.guilds.add_prefix(ctx.guild.id, prefix)
 
         await ctx.send(t_("Added `{0}` to the prefixes.").format(prefix))
 
@@ -479,17 +462,7 @@ class Settings(
                     await ctx.send(t_("Cancelled."))
                     return
                 to_remove = match
-        new_prefixes = guild["prefixes"]
-        new_prefixes.remove(to_remove)
-
-        await self.bot.db.execute(
-            """UPDATE guilds
-            SET prefixes=$1
-            WHERE id=$2""",
-            new_prefixes,
-            ctx.guild.id,
-        )
-        await self.bot.db.guilds.cache.delete(ctx.guild.id)
+        await self.bot.db.guilds.remove_prefix(ctx.guild.id, to_remove)
 
         await ctx.send(
             t_("Removed `{0}` from the prefixes.").format(to_remove)
@@ -513,6 +486,7 @@ class Settings(
             WHERE id=$1""",
             ctx.guild.id,
         )
+        await self.bot.db.guilds.cache.delete(ctx.guild.id)
         await ctx.send(t_("Cleared all prefixes and added `sb!`."))
 
     @commands.command(
