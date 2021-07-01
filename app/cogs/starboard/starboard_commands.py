@@ -1,6 +1,7 @@
 from typing import Optional, Union
 
 import discord
+from discord.embeds import Embed
 from discord.ext.prettyhelp import bot_has_permissions, has_guild_permissions
 from discord.ext.wizards.stopreason import StopReason
 
@@ -96,10 +97,17 @@ class Starboard(commands.Cog, description=t_("Manage starboards.", True)):
             display_emoji_str = utils.pretty_emoji_string(
                 [s["display_emoji"]], ctx.guild
             )
+            msg = Embed.Empty
+            if s["locked"]:
+                msg = t_(
+                    "Note: This starboard has been disabled. "
+                    "Enable it with `{p}s enable #{s}`."
+                ).format(p=utils.clean_prefix(ctx), s=starboard.obj.name)
             embed = (
                 discord.Embed(
                     title=starboard.obj.name,
                     color=self.bot.theme_color,
+                    description=msg,
                 )
                 .add_field(
                     name="Appearance",
@@ -185,6 +193,40 @@ class Starboard(commands.Cog, description=t_("Manage starboards.", True)):
                 )
             else:
                 await ctx.send(t_("Cancelled."))
+
+    @starboards.command(
+        name="disable",
+        aliases=["lock"],
+        help=t_("Disables a starboard.", True),
+    )
+    @has_guild_permissions(manage_channels=True)
+    @commands.guild_only()
+    async def disable_starboard(
+        self, ctx: "MyContext", starboard: converters.Starboard
+    ):
+        await self.bot.db.starboards.edit(starboard.obj.id, locked=True)
+        await ctx.send(
+            t_("The starboard {0} has been disabled.").format(
+                starboard.obj.mention
+            )
+        )
+
+    @starboards.command(
+        name="enable",
+        aliases=["unlock"],
+        help=t_("Enables a starboard.", True),
+    )
+    @has_guild_permissions(manage_channels=True)
+    @commands.guild_only()
+    async def enable_starboard(
+        self, ctx: "MyContext", starboard: converters.Starboard
+    ):
+        await self.bot.db.starboards.edit(starboard.obj.id, locked=False)
+        await ctx.send(
+            t_("The starboard {0} has been enabled.").format(
+                starboard.obj.mention
+            )
+        )
 
     @starboards.command(
         name="webhook",
