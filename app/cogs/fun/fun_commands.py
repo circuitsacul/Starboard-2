@@ -189,7 +189,7 @@ class Fun(commands.Cog, description=t_("Fun commands for Starboard.", True)):
         embeds: List[discord.Embed] = []
         text_pages: List[str] = []
         async with ctx.typing():
-            for m in messages[place : place + 10]:
+            for m in messages[place : place + 5]:
                 orig = await self.bot.db.messages.get(m["orig_id"])
                 obj = await self.bot.cache.fetch_message(
                     ctx.guild.id,
