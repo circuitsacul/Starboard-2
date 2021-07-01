@@ -215,13 +215,14 @@ class Fun(commands.Cog, description=t_("Fun commands for Starboard.", True)):
             )
             return text, e
 
-        first = await getter(0)
+        first = await getter(place)
         if not first:
             await ctx.send(t_("Nothing to show."))
             return
 
         await menus.Scroll(
             getter,
+            start=place,
         ).start(ctx)
 
     @flags.add_flag("--by", type=discord.User, default=None)
