@@ -54,6 +54,7 @@ class Bot(commands.AutoShardedBot):
         super().__init__(
             help_command=prettyhelp.PrettyHelp(
                 color=self.theme_color,
+                verify_checks=False,
                 show_user_perms=True,
                 user_guild_perms_title=t_("Required Permissions", True),
                 usage_string=t_("Usage", True),

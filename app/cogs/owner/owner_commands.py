@@ -218,3 +218,5 @@ class Owner(*OPTIONAL_FEATURES, *STANDARD_FEATURES):
 
 def setup(bot: Bot) -> None:
     bot.add_cog(Owner(bot=bot))
+    for c in bot.get_cog("Owner").walk_commands():
+        c.hidden = True
