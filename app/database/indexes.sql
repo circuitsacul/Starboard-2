@@ -9,6 +9,10 @@ CREATE UNIQUE INDEX IF NOT EXISTS
     (reaction_id, user_id);
 
 CREATE INDEX IF NOT EXISTS
+    reaction_users__reaction_id ON reaction_users
+    (reaction_id);
+
+CREATE INDEX IF NOT EXISTS
     starboard_messages__starboard_id ON starboard_messages
     USING HASH (starboard_id);
 
