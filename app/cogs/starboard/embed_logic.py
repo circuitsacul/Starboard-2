@@ -16,8 +16,10 @@ async def add_jump_links(
     ref_message = None
     ref_jump = None
     ref_author = None
-    if message.reference is not None and bot.get_guild(
-        message.reference.guild_id
+    if (
+        message.reference is not None
+        and message.reference.message_id is not None
+        and bot.get_guild(message.reference.guild_id)
     ):
         if message.reference.resolved is None:
             ref_message = await bot.cache.fetch_message(
