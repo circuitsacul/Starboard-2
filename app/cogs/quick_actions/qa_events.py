@@ -38,6 +38,8 @@ class QAEvents(commands.Cog):
 
         if not payload.guild_id:
             user = await self.bot.fetch_user(payload.user_id)
+            if user.bot:
+                return
             if payload.emoji.name == "❌":
                 m = await user.fetch_message(payload.message_id)
                 if m.author.id != self.bot.user.id:
