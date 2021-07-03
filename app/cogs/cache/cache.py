@@ -29,8 +29,9 @@ def cached(  # for future use
     def wrapper(coro):
         async def predicate(*args, **kwargs):
             sig = get_cache_sig(args, kwargs)
-            if await cache.exists(sig):
-                return await cache.get(sig)
+            cached = await cache.get(sig, default=MISSING)
+            if cached is not MISSING:
+                return cached
 
             result = await coro(*args, **kwargs)
             await cache.set(sig, result)
