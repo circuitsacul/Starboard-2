@@ -19,10 +19,12 @@ def cached(  # for future use
     cache: SimpleMemoryCache = MemCache(namespace=namespace, ttl=ttl)
 
     def get_cache_sig(args: List[Any], kwargs: Dict[Any, Any]) -> List[Any]:
-        return [
-            *[args[i] for i in cache_args],
-            *[kwargs.get(k, None) for k in cache_kwargs],
-        ]
+        result = []
+        if cache_args:
+            result.extend([args[i] for i in cache_args])
+        if cache_kwargs:
+            result.extend([kwargs.get(k, None) for k in cache_kwargs])
+        return result
 
     def wrapper(coro):
         async def predicate(*args, **kwargs):
