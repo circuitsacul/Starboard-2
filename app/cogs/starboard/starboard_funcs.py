@@ -5,6 +5,7 @@ import discord
 
 from app import utils
 from app.classes.bot import Bot
+from app.classes.key_lock import Locked
 from app.cogs.permroles import pr_functions
 from app.i18n import t_
 
@@ -171,6 +172,17 @@ async def orig_message(bot: Bot, message_id: int) -> Optional[dict]:
 
 
 async def update_message(bot: Bot, message_id: int, guild_id: int) -> None:
+    try:
+        bot.update_message_lock.acquire(message_id)
+    except Locked:
+        return
+    try:
+        await _update_message(bot, message_id, guild_id)
+    finally:
+        bot.update_message_lock.release(message_id)
+
+
+async def _update_message(bot: Bot, message_id: int, guild_id: int) -> None:
     sql_message = await bot.db.messages.get(message_id)
 
     guild = bot.get_guild(guild_id)
