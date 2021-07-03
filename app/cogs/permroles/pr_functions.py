@@ -3,6 +3,7 @@ from typing import Dict, List, Optional, Tuple
 import discord
 
 from app.classes.bot import Bot
+from app.cogs.cache.cache import cached
 
 
 def pretty_permrole_string(
@@ -37,6 +38,11 @@ def pretty_perm_string(perms: Dict[str, bool]):
     return result
 
 
+@cached(
+    "filter_permissions",
+    30,
+    cache_args=[1, 2, 3, 4],
+)
 async def get_perms(
     bot: Bot,
     roles: List[int],
