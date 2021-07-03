@@ -3045,7 +3045,7 @@ msgid "maxChars cannot be less than 0."
 msgstr "maxChars não pode ser menor que 0."
 
 #: app/database/database_functions/aschannels.py:116
-msgid "maxChars cannot be greater tahn 4,000."
+msgid "maxChars cannot be greater than 4,000."
 msgstr "maxChars não pode ser maior que 1.000."
 
 #: app/cogs/starboard/starboard_commands.py:103
