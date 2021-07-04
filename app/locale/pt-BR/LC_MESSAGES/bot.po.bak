@@ -3013,13 +3013,95 @@ msgstr "Mensagem congelada."
 
 #: app/cogs/starboard/starboard_commands.py:31
 msgid "Exitted due to an error."
-msgstr ""
+msgstr "O assistente de configuração fechou devido a um erro."
 
 #: app/cogs/starboard/starboard_commands.py:33
 msgid "Wizard timed out."
-msgstr ""
+msgstr "O tempo do assistente de configuração esgotou."
 
 #: app/cogs/starboard/starboard_commands.py:40
 #, python-brace-format
 msgid "Starboard created! View it with `{p}s #{channel.name}`"
+msgstr "Starboard criado! Veja-o com `{p}s #{channel.name}`"
+
+#: app/errors.py:136
+msgid ""
+"You have reached the limit for prefixes, so you can't add any more unless "
+"this server receives premium."
 msgstr ""
+"Você alcançou o limite de prefixos; então você não pode adicionar nenhum, exceto "
+"se este servidor receber a versão premium."
+
+#: app/errors.py:140
+msgid "You have reached the limit for prefixes."
+msgstr "Você alcançou o limite de prefixos."
+
+#: app/database/database_functions/aschannels.py:110
+msgid "minChars cannot be greater than 4,000."
+msgstr "minChars não pode ser maior que 4.000."
+
+#: app/database/database_functions/aschannels.py:113
+msgid "maxChars cannot be less than 0."
+msgstr "maxChars não pode ser menor que 0."
+
+#: app/database/database_functions/aschannels.py:116
+msgid "maxChars cannot be greater than 4,000."
+msgstr "maxChars não pode ser maior que 1.000."
+
+#: app/cogs/starboard/starboard_commands.py:103
+#, python-brace-format
+msgid ""
+"Note: This starboard has been disabled. Enable it with `{p}s enable #{s}`."
+msgstr ""
+"Nota: Este starboard foi desabilitado. Habilite-o com `{p}s enable #{s}`."
+
+#: app/cogs/starboard/starboard_commands.py:200
+msgid "Disables a starboard."
+msgstr "Desabilita um starboard."
+
+#: app/cogs/starboard/starboard_commands.py:209
+#, python-brace-format
+msgid "The starboard {0} has been disabled."
+msgstr "O starboard {0} foi desabilitado."
+
+#: app/cogs/starboard/starboard_commands.py:217
+msgid "Enables a starboard."
+msgstr "Habilita um starboard."
+
+#: app/cogs/starboard/starboard_commands.py:226
+#, python-brace-format
+msgid "The starboard {0} has been enabled."
+msgstr "O starboard {0} foi habilitado."
+
+#: app/cogs/fun/fun_commands.py:212
+#, python-brace-format
+msgid "Page {0}"
+msgstr "Página {0}"
+
+#: app/cogs/permroles/pr_commands.py:457
+msgid ""
+"Sorts the PermRoles in a PermGroup by their order in the server settings."
+msgstr ""
+"Ordena os PermRoles em um PermGroup pela ordem deles nas configurações do servidor."
+
+#: app/cogs/permroles/pr_commands.py:471
+#, python-brace-format
+msgid ""
+"Are you sure? This will permanently change the order of the PermRoles in the "
+"PermGroup **{0}**."
+msgstr ""
+"Você tem certeza? Isto vai permanentemente mudar a ordem dos PermRoles no "
+"PermGroup **{0}**."
+
+#: app/cogs/permroles/pr_commands.py:487
+msgid "Done!"
+msgstr "Pronto!"
+
+#: app/cogs/autostarchannels/asc_funcs.py:49
+#, python-brace-format
+msgid "Messages cannot be greater than {0} characters"
+msgstr "Mensagens não podem ter mais que {0] caracteres"
+
+#: app/cogs/autostarchannels/asc_commands.py:266
+msgid "Sets the maximum number of characters for messages."
+msgstr "Define o número máximo de caracteres para mensagens."
