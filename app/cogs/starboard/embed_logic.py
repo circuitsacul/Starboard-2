@@ -14,7 +14,6 @@ async def add_jump_links(
     bot: "Bot", message: discord.Message, embed: discord.Embed
 ):
     ref_message = None
-    ref_jump = None
     ref_author = None
     if (
         message.reference is not None
@@ -49,23 +48,9 @@ async def add_jump_links(
             inline=False,
         )
 
-        if isinstance(ref_message, discord.Message):
-            ref_jump = t_("**[Replying to {0}]({1})**\n").format(
-                ref_author, ref_message.jump_url
-            )
-        else:
-            ref_jump = t_(
-                "**[Replying to Unknown (deleted)]"
-                "(https://discord.com/channels/{0.guild_id}/"
-                "{0.channel_id}/{0.message_id})**\n"
-            ).format(message.reference)
-
     embed.add_field(
         name=ZWS,
-        value=str(
-            str(ref_jump if ref_message else "")
-            + t_("**[Jump to Message]({0})**").format(message.jump_url),
-        ),
+        value=t_("**[Jump to Message]({0})**").format(message.jump_url),
         inline=False,
     )
 
