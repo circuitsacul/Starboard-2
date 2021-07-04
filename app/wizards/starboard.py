@@ -101,6 +101,9 @@ class StarboardWizard(wizards.Wizard):
 
     @wizards.step(
         t_(
+            "This setup wizard will walk you through setting up a "
+            "basic starboard and custimizing the most frequently used "
+            "settings. Type `cancel` at any time to cancel.\n\n"
             "Do you want to (1) create a new channel or (2) use an "
             "existing channel?",
             True,
