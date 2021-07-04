@@ -80,6 +80,10 @@ def truncate(content: str, max_length: int, truncate_str: str = "...") -> str:
     return content
 
 
+def quote(m: str) -> str:
+    return "\n".join(["> " + line for line in m.split("\n")])
+
+
 def chunk_list(
     lst: List[Any], max_size: int
 ) -> Generator[List[Any], None, None]:
