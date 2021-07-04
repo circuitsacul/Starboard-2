@@ -19,7 +19,6 @@ import config
 from app import commands, i18n, utils
 from app.classes.context import MyContext
 from app.classes.ipc_connection import WebsocketConnection
-from app.classes.key_lock import KeyLock
 from app.classes.limited_list import LimitedList
 from app.database.database import Database
 from app.i18n.i18n import t_
@@ -50,7 +49,7 @@ class Bot(commands.AutoShardedBot):
         self.locale_cache = {}
         self.to_cleanup: Dict[int, LimitedList] = {}
 
-        self.update_message_lock = KeyLock()
+        self.update_message_lock = set()
 
         self.cache: "Cache"
 
