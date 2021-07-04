@@ -3029,8 +3029,8 @@ msgid ""
 "You have reached the limit for prefixes, so you can't add any more unless "
 "this server receives premium."
 msgstr ""
-"Você alcançou o limite de prefixos; então você não pode adicionar nenhum, exceto "
-"se este servidor receber a versão premium."
+"Você alcançou o limite de prefixos; então você não pode adicionar nenhum, "
+"exceto se este servidor receber a versão premium."
 
 #: app/errors.py:140
 msgid "You have reached the limit for prefixes."
@@ -3082,7 +3082,8 @@ msgstr "Página {0}"
 msgid ""
 "Sorts the PermRoles in a PermGroup by their order in the server settings."
 msgstr ""
-"Ordena os PermRoles em um PermGroup pela ordem deles nas configurações do servidor."
+"Ordena os PermRoles em um PermGroup pela ordem deles nas configurações do "
+"servidor."
 
 #: app/cogs/permroles/pr_commands.py:471
 #, python-brace-format
@@ -3105,3 +3106,17 @@ msgstr "Mensagens não podem ter mais que {0] caracteres"
 #: app/cogs/autostarchannels/asc_commands.py:266
 msgid "Sets the maximum number of characters for messages."
 msgstr "Define o número máximo de caracteres para mensagens."
+
+#: app/wizards/starboard.py:104
+msgid ""
+"This setup wizard will walk you through setting up a basic starboard and "
+"customizing the most frequently used settings. Type `cancel` at any time to "
+"cancel.\n"
+"\n"
+"Do you want to (1) create a new channel or (2) use an existing channel?"
+msgstr ""
+"Este assistente de configuração irá te guiar através da configuração de um starboard básico e "
+"da personalização das configurações mais frequentemente utilizadas. Digite `cancel` a qualquer momento para "
+"cancelar.\n"
+"\n"
+"Você quer (1) criar um novo canal ou (2) utilizar um canal já existente?"
