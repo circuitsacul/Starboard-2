@@ -2686,3 +2686,16 @@ msgstr ""
 #: app/cogs/utility/utility_funcs.py:51
 msgid "Purged"
 msgstr ""
+
+#: app/cogs/starboard/starboard_commands.py:31
+msgid "Exitted due to an error."
+msgstr ""
+
+#: app/cogs/starboard/starboard_commands.py:33
+msgid "Wizard timed out."
+msgstr ""
+
+#: app/cogs/starboard/starboard_commands.py:40
+#, python-brace-format
+msgid "Starboard created! View it with `{p}s #{channel.name}`"
+msgstr ""
