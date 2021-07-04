@@ -43,7 +43,9 @@ async def add_jump_links(
             ref_content = t_("*File Only*")
 
         embed.add_field(
-            name=f'Replying to {ref_author or t_("Unknown")}',
+            name=t_("Replying to {0}, who said:").format(
+                ref_author or t_("Unknown")
+            ),
             value=utils.truncate(ref_content, MAX_EMBED_FIELD_LENGTH),
             inline=False,
         )
