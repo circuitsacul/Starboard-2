@@ -29,7 +29,7 @@ class BotBlockStats(commands.Cog):
             "https://botblock.org/api/count", data=params
         ) as resp:
             resp.raise_for_status()
-            data = resp.json()
+            data = await resp.json()
             print(data)
 
 
