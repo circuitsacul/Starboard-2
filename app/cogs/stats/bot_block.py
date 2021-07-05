@@ -19,7 +19,9 @@ class BotBlockStats(commands.Cog):
     async def post_stats(self):
         await self.bot.wait_until_ready()
         params = {
-            "server_count": self.bot.stats["guilds"],
+            "server_count": sum(
+                [s["guilds"] for _, s in self.bot.stats.items()]
+            ),
             "bot_id": self.bot.user.id,
             **config.BOT_LISTS,
         }
