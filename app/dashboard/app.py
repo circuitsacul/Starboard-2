@@ -137,11 +137,6 @@ async def invite():
     return redirect(config.BOT_INVITE)
 
 
-@app.route("/slash-auth/")
-async def slash_auth():
-    return redirect(config.SLASH_AUTH)
-
-
 @app.route("/docs/")
 async def docs():
     return redirect(config.DOCS)

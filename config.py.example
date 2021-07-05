@@ -1,6 +1,4 @@
 # Behaviour
-SLASH_GUILD_IDS = None  # Leave None for most cases.
-
 SHARDS = 0  # Leave 0 for it to adjust automatically
 
 OWNER_IDS = []  # List of owner ids
@@ -60,7 +58,6 @@ PATREON_LINK = ""  # Link to your patreon
 DONATE_LINKS = []  # List of doantion links
 SUPPORT_INVITE = ""  # Invite to support server
 BOT_INVITE = ""  # Bot invite
-SLASH_AUTH = ""  # Link to authorize slash commands
 DOCS = ""  # Link to documentation
 
 # Extensions
