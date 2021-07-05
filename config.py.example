@@ -1,4 +1,7 @@
 # Behaviour
+DEVELOPMENT = False  # set to True to avoid posting stats to bot lists
+POST_STATCORD = True  # set to False to disable statcord posting
+
 SHARDS = 0  # Leave 0 for it to adjust automatically
 
 OWNER_IDS = []  # List of owner ids

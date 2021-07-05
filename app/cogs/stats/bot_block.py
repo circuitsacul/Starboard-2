@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 class BotBlockStats(commands.Cog):
     def __init__(self, bot: "Bot"):
         self.bot = bot
-        if 0 in self.bot.shard_ids:
+        if 0 in self.bot.shard_ids and not config.DEVELOPMENT:
             self.post_stats.start()
 
     @tasks.loop(minutes=30)
