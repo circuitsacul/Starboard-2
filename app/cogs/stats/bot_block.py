@@ -17,6 +17,7 @@ class BotBlockStats(commands.Cog):
 
     @tasks.loop(minutes=30)
     async def post_stats(self):
+        await self.bot.wait_until_ready()
         params = {
             "server_count": self.bot.stats["servers"],
             "bot_id": self.bot.user.id,
@@ -24,8 +25,8 @@ class BotBlockStats(commands.Cog):
         }
         async with self.bot.session.post(
             "https://botblock.org/api/count", data=params
-        ):
-            pass
+        ) as resp:
+            resp.raise_for_status()
 
 
 def setup(bot: "Bot"):
