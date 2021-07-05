@@ -87,6 +87,8 @@ class Bot(commands.AutoShardedBot):
             os.getenv("STATCORD_TOKEN"),
             self.cluster_name,
         )
+        logger = logging.getLogger("statcord")
+        logger.setLevel(logging.DEBUG)
 
         self.log = logging.getLogger(f"Cluster#{self.cluster_name}")
         self.log.setLevel(logging.DEBUG)
