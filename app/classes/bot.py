@@ -89,7 +89,6 @@ class Bot(commands.AutoShardedBot):
             os.getenv("STATCORD_TOKEN"),
             self.cluster_name,
             mem_stats=first,
-            cpu_stats=first,
             net_stats=first,
         )
 
