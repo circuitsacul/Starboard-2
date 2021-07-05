@@ -31,6 +31,8 @@ if typing.TYPE_CHECKING:
 load_dotenv()
 uvloop.install()
 
+logging.basicConfig(level=logging.DEBUG)
+
 
 class Bot(commands.AutoShardedBot):
     def __init__(self, **kwargs):
