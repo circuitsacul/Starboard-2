@@ -871,11 +871,11 @@ msgstr "*Apenas arquivo*"
 #: app/cogs/starboard/embed_logic.py:46
 #, python-brace-format
 msgid "Replying to {0}, who said:"
-msgstr ""
+msgstr "Respondendo a {0}, que disse:"
 
 #: app/cogs/starboard/embed_logic.py:47
 msgid "Unknown"
-msgstr ""
+msgstr "um Desconhecido"
 
 #: app/cogs/starboard/starboard_funcs.py:362
 #, python-brace-format
