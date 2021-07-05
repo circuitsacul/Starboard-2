@@ -14,6 +14,7 @@ import discord
 import uvloop
 from discord.ext import prettyhelp
 from dotenv import load_dotenv
+from statcord import StatcordClusterClient
 
 import config
 from app import commands, i18n, utils
@@ -23,9 +24,6 @@ from app.classes.limited_list import LimitedList
 from app.database.database import Database
 from app.i18n.i18n import t_
 from app.menus import HelpMenu
-
-# from statcord import StatcordClusterClient
-
 
 if typing.TYPE_CHECKING:
     from app.cogs.cache.cache import Cache
@@ -84,11 +82,11 @@ class Bot(commands.AutoShardedBot):
         )
         self._before_invoke = self.before_invoke_hook
 
-        # self.statcord_client = StatcordClusterClient(
-        #    self,
-        #    os.getenv("STATCORD_TOKEN"),
-        #    self.cluster_name,
-        # )
+        self.statcord_client = StatcordClusterClient(
+            self,
+            os.getenv("STATCORD_TOKEN"),
+            self.cluster_name,
+        )
 
         self.log = logging.getLogger(f"Cluster#{self.cluster_name}")
         self.log.setLevel(logging.DEBUG)
