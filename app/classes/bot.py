@@ -82,12 +82,16 @@ class Bot(commands.AutoShardedBot):
         )
         self._before_invoke = self.before_invoke_hook
 
+        first = 0 in self.shard_ids
+
         self.statcord_client = StatcordClusterClient(
             self,
             os.getenv("STATCORD_TOKEN"),
             self.cluster_name,
+            mem_stats=first,
+            cpu_stats=first,
+            net_stats=first,
         )
-        self.statcord_client.logger.setLevel(logging.INFO)
 
         self.log = logging.getLogger(f"Cluster#{self.cluster_name}")
         self.log.setLevel(logging.DEBUG)
