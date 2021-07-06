@@ -5,7 +5,6 @@ from typing import Any, List
 
 import discord
 from discord import AsyncWebhookAdapter, Webhook
-from discord.errors import NotFound
 from dotenv import load_dotenv
 
 from app import commands, errors, flags, utils
@@ -117,9 +116,8 @@ class BaseEvents(commands.Cog):
     async def on_log_vote(self, user_id: int) -> None:
         if 0 not in self.bot.shard_ids:
             return
-        try:
-            user = await self.bot.cache.fetch_user(user_id)
-        except NotFound:
+        user = await self.bot.cache.fetch_user(user_id)
+        if not user:
             username = f"<@{user_id}>"
         else:
             username = user.name

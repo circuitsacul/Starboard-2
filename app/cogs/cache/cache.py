@@ -51,10 +51,13 @@ class Cache:
         self.users: SimpleMemoryCache = MemCache(namespace="users", ttl=15)
 
     async def fetch_user(self, user_id: int) -> discord.User:
-        cached = await self.users.get(user_id)
-        if cached:
+        cached = await self.users.get(user_id, default=MISSING)
+        if cached is not MISSING:
             return cached
-        user = await self.bot.fetch_user(user_id)
+        try:
+            user = await self.bot.fetch_user(user_id)
+        except discord.NotFound:
+            user = None
         await self.users.set(user_id, user)
         return user
 
