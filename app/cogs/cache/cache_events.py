@@ -14,7 +14,8 @@ class CacheEvents(commands.Cog):
     ) -> None:
         if not payload.guild_id:
             return
-        await self.bot.cache.messages.delete(payload.message_id)
+        if payload.message_id in self.bot.cache.messages:
+            del self.bot.cache.messages[payload.message_id]
 
     @commands.Cog.listener()
     async def on_raw_bulk_message_delete(
@@ -23,7 +24,8 @@ class CacheEvents(commands.Cog):
         if not payload.guild_id:
             return
         for mid in payload.message_ids:
-            await self.bot.cache.messages.delete(mid)
+            if mid in self.bot.cache.messages:
+                del self.bot.cache.messages[mid]
 
 
 def setup(bot: Bot) -> None:
