@@ -2,7 +2,7 @@ import datetime
 from typing import TYPE_CHECKING, Optional
 
 import asyncpg
-from aiocache import Cache, SimpleMemoryCache
+import cachetools
 
 from app import commands, constants, errors, i18n
 from app.cogs.premium.premium_funcs import can_increase, limit_for
@@ -15,11 +15,15 @@ if TYPE_CHECKING:
 class Guilds:
     def __init__(self, db: "Database") -> None:
         self.db = db
-        self.cache: SimpleMemoryCache = Cache(namespace="guilds", ttl=10)
+        self.cache = cachetools.TTLCache(1_000, ttl=30)
+
+    def edited(self, guild_id: int):
+        if guild_id in self.cache:
+            del self.cache[guild_id]
 
     async def delete(self, guild_id: int):
         await self.db.execute("""DELETE FROM guilds WHERE id=$1""", guild_id)
-        await self.cache.delete(guild_id)
+        del self.cache[guild_id]
 
     async def add_prefix(self, guild_id: int, prefix: str):
         if len(prefix) > 8:
@@ -45,7 +49,7 @@ class Guilds:
             new_prefixes,
             guild_id,
         )
-        await self.cache.delete(guild_id)
+        self.edited(guild_id)
 
     async def remove_prefix(self, guild_id: int, prefix: str):
         guild = await self.get(guild_id)
@@ -60,7 +64,7 @@ class Guilds:
             new_prefixes,
             guild_id,
         )
-        await self.cache.delete(guild_id)
+        self.edited(guild_id)
 
     async def add_months(self, guild_id: int, months: int):
         guild = await self.get(guild_id)
@@ -84,7 +88,7 @@ class Guilds:
             stack,
             guild_id,
         )
-        await self.cache.delete(guild_id)
+        self.edited(guild_id)
 
     async def set_posrole_stack(self, guild_id: int, stack: bool):
         await self.db.execute(
@@ -94,7 +98,7 @@ class Guilds:
             stack,
             guild_id,
         )
-        await self.cache.delete(guild_id)
+        self.edited(guild_id)
 
     async def set_cooldown(self, guild_id: int, ammount: int, per: int):
         if ammount < 1:
@@ -122,7 +126,7 @@ class Guilds:
             per,
             guild_id,
         )
-        await self.cache.delete(guild_id)
+        self.edited(guild_id)
 
     async def set_cooldown_enabled(self, guild_id: int, enabled: bool):
         await self.db.execute(
@@ -132,7 +136,7 @@ class Guilds:
             enabled,
             guild_id,
         )
-        await self.cache.delete(guild_id)
+        self.edited(guild_id)
 
     async def set_locale(self, guild_id: int, locale: str) -> None:
         if locale not in i18n.locales:
@@ -144,18 +148,18 @@ class Guilds:
             locale,
             guild_id,
         )
-        await self.cache.delete(guild_id)
+        self.edited(guild_id)
 
     async def get(self, guild_id: int) -> Optional[dict]:
-        r = await self.cache.get(guild_id)
-        if r:
+        r = self.cache.get(guild_id, default=constants.MISSING)
+        if r is not constants.MISSING:
             return r
         sql_guild = await self.db.fetchrow(
             """SELECT * FROM guilds
             WHERE id=$1""",
             guild_id,
         )
-        await self.cache.set(guild_id, sql_guild)
+        self.cache[guild_id] = sql_guild
         return sql_guild
 
     async def create(self, guild_id: int, check_first: bool = True) -> bool:
@@ -172,5 +176,5 @@ class Guilds:
             )
         except asyncpg.exceptions.UniqueViolationError:
             return False
-        await self.cache.delete(guild_id)
+        self.edited(guild_id)
         return True

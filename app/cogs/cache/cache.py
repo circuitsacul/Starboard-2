@@ -1,40 +1,43 @@
 from typing import Any, Dict, List, Optional, Tuple
 
+import cachetools
 import discord
-from aiocache import Cache as MemCache
-from aiocache import SimpleMemoryCache
 
 from app import utils
 from app.classes.bot import Bot
 from app.constants import MISSING
 
 
-def cached(  # for future use
-    namespace: str,
+def cached(
     ttl: int,
+    maxsize: int,
     *,
     cache_args: Tuple[int] = None,
     cache_kwargs: Tuple[str] = None,
 ):
-    cache: SimpleMemoryCache = MemCache(namespace=namespace, ttl=ttl)
+    cache = cachetools.TTLCache(maxsize, ttl)
 
-    def get_cache_sig(args: List[Any], kwargs: Dict[Any, Any]) -> List[Any]:
+    def get_cache_sig(args: List[Any], kwargs: Dict[Any, Any]) -> Tuple[Any]:
         result = []
         if cache_args:
             result.extend([args[i] for i in cache_args])
         if cache_kwargs:
             result.extend([kwargs.get(k, None) for k in cache_kwargs])
-        return result
+        for x, item in enumerate(result):
+            if isinstance(item, list):
+                result[x] = tuple(item)
+        return tuple(result)
 
     def wrapper(coro):
         async def predicate(*args, **kwargs):
             sig = get_cache_sig(args, kwargs)
-            cached = await cache.get(sig, default=MISSING)
-            if cached is not MISSING:
-                return cached
+            try:
+                return cache[sig]
+            except KeyError:
+                pass
 
             result = await coro(*args, **kwargs)
-            await cache.set(sig, result)
+            cache[sig] = result
             return result
 
         return predicate
@@ -43,22 +46,20 @@ def cached(  # for future use
 
 
 class Cache:
-    def __init__(self, bot) -> None:
-        self.messages: SimpleMemoryCache = MemCache(
-            namespace="messages", ttl=30
-        )
+    def __init__(self, bot: "Bot") -> None:
+        self.messages = cachetools.TTLCache(5_000, 30)
+        self.users = cachetools.TTLCache(5_000, 15)
         self.bot = bot
-        self.users: SimpleMemoryCache = MemCache(namespace="users", ttl=15)
 
     async def fetch_user(self, user_id: int) -> discord.User:
-        cached = await self.users.get(user_id, default=MISSING)
+        cached = self.users.get(user_id, default=MISSING)
         if cached is not MISSING:
             return cached
         try:
             user = await self.bot.fetch_user(user_id)
         except discord.NotFound:
             user = None
-        await self.users.set(user_id, user)
+        self.users.setdefault(user_id, user)
         return user
 
     async def get_members(
@@ -86,7 +87,7 @@ class Cache:
     async def fetch_message(
         self, guild_id: int, channel_id: int, message_id: int
     ) -> Optional[discord.Message]:
-        cached = await self.messages.get(message_id, default=MISSING)
+        cached = self.messages.get(message_id, default=MISSING)
         if cached is not MISSING:
             return cached
 
@@ -100,7 +101,7 @@ class Cache:
             except discord.errors.NotFound:
                 pass
 
-        await self.messages.set(message_id, message)
+        self.messages.setdefault(message_id, message)
         return message
 
 

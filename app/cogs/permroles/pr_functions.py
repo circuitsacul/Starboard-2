@@ -39,7 +39,7 @@ def pretty_perm_string(perms: Dict[str, bool]):
 
 
 @cached(
-    "filter_permissions",
+    5_000,
     30,
     cache_args=[1, 2, 3, 4],
 )

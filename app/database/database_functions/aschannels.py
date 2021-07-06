@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING, Dict, List, Optional
 
 import asyncpg
 import buildpg
-from aiocache import Cache, SimpleMemoryCache
+import cachetools
 
 from app import commands, errors
 from app.cogs.premium.premium_funcs import can_increase, limit_for
@@ -16,19 +16,19 @@ if TYPE_CHECKING:
 class ASChannels:
     def __init__(self, db: "Database") -> None:
         self.db = db
-        self.id_cache: SimpleMemoryCache = Cache(namespace="asc_id", ttl=10)
+        self.id_cache = cachetools.TTLCache(5_000, 30)
 
     async def get(self, aschannel_id: int) -> Optional[dict]:
-        r = await self.id_cache.get(aschannel_id)
-        if r is not None:
-            return r if r is not MISSING else None
+        r = self.id_cache.get(aschannel_id, default=MISSING)
+        if r is not MISSING:
+            return r
 
         r = await self.db.fetchrow(
             """SELECT * FROM aschannels
             WHERE id=$1""",
             aschannel_id,
         )
-        await self.id_cache.set(aschannel_id, r if r else MISSING)
+        self.id_cache[aschannel_id] = r
         return r
 
     async def get_many(self, guild_id: int) -> List[Dict]:
@@ -69,7 +69,7 @@ class ASChannels:
             )
         except asyncpg.exceptions.UniqueViolationError:
             return True
-        await self.id_cache.delete(channel_id)
+        del self.id_cache[channel_id]
         return False
 
     async def delete(self, aschannel_id: int) -> None:
@@ -78,7 +78,7 @@ class ASChannels:
             WHERE id=$1""",
             aschannel_id,
         )
-        await self.id_cache.delete(aschannel_id)
+        del self.id_cache[aschannel_id]
 
     async def edit(
         self,
@@ -141,7 +141,7 @@ class ASChannels:
         )
 
         await self.db.execute(query, *args)
-        await self.id_cache.delete(aschannel_id)
+        del self.id_cache[aschannel_id]
 
     async def add_asemoji(self, aschannel_id: int, emoji: str) -> None:
         aschannel = await self.get(aschannel_id)

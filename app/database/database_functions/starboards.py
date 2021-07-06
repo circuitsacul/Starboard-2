@@ -2,10 +2,11 @@ from typing import TYPE_CHECKING, Any, Dict, List, Optional, Union
 
 import asyncpg
 import buildpg
-from aiocache import Cache, SimpleMemoryCache
+import cachetools
 
 from app import commands, errors
 from app.cogs.premium.premium_funcs import can_increase, limit_for
+from app.constants import MISSING
 from app.i18n import t_
 
 if TYPE_CHECKING:
@@ -15,23 +16,24 @@ if TYPE_CHECKING:
 class Starboards:
     def __init__(self, db: "Database") -> None:
         self.db = db
-        self.cache: SimpleMemoryCache = Cache(namespace="starboards", ttl=10)
-        self.many_cache: SimpleMemoryCache = Cache(namespace="many_sb", ttl=10)
-        self.emoji_cache: SimpleMemoryCache = Cache(
-            namespace="sb_emojis", ttl=10
-        )
+        self.cache = cachetools.TTLCache(500, 30)
+        self.many_cache = cachetools.TTLCache(500, 30)
+        self.emoji_cache = cachetools.TTLCache(500, 30)
 
-    async def _starboard_edited(
+    def _starboard_edited(
         self, starboard_id: int, guild_id: Optional[int] = None
     ):
-        await self.cache.delete(starboard_id)
+        if starboard_id in self.cache:
+            del self.cache[starboard_id]
         if guild_id:
-            await self.emoji_cache.delete(guild_id)
-            await self.many_cache.delete(guild_id)
+            if guild_id in self.emoji_cache:
+                del self.emoji_cache[guild_id]
+            if guild_id in self.many_cache:
+                del self.many_cache[guild_id]
 
     async def star_emojis(self, guild_id: int) -> List[str]:
-        r = await self.emoji_cache.get(guild_id)
-        if r:
+        r = self.emoji_cache.get(guild_id, default=MISSING)
+        if r is not MISSING:
             return r
 
         _emojis = await self.db.execute(
@@ -46,31 +48,31 @@ class Starboards:
         else:
             emojis = []
 
-        await self.emoji_cache.set(guild_id, emojis)
+        self.emoji_cache[guild_id] = emojis
         return emojis
 
     async def get(self, starboard_id: int) -> Optional[dict]:
-        r = await self.cache.get(starboard_id)
-        if r:
+        r = self.cache.get(starboard_id, default=MISSING)
+        if r is not MISSING:
             return r
         sql_starboard = await self.db.fetchrow(
             """SELECT * FROM starboards
             WHERE id=$1""",
             starboard_id,
         )
-        await self.cache.set(starboard_id, sql_starboard)
+        self.cache[starboard_id] = sql_starboard
         return sql_starboard
 
     async def get_many(self, guild_id: int) -> List[Dict[Any, Any]]:
-        r = await self.many_cache.get(guild_id)
-        if r:
+        r = self.many_cache.get(guild_id, default=MISSING)
+        if r is not MISSING:
             return r
         sql_starboards = await self.db.fetch(
             """SELECT * FROM starboards
             WHERE guild_id=$1""",
             guild_id,
         )
-        await self.many_cache.set(guild_id, sql_starboards)
+        self.many_cache[guild_id] = sql_starboards
         return sql_starboards
 
     async def create(
@@ -105,7 +107,7 @@ class Starboards:
         except asyncpg.exceptions.UniqueViolationError:
             return True
 
-        await self._starboard_edited(channel_id, guild_id)
+        self._starboard_edited(channel_id, guild_id)
 
         return False
 
@@ -118,7 +120,7 @@ class Starboards:
             """DELETE FROM starboards WHERE id=$1""", starboard_id
         )
 
-        await self._starboard_edited(starboard_id, int(s["guild_id"]))
+        self._starboard_edited(starboard_id, int(s["guild_id"]))
 
     async def set_webhook(self, starboard_id: int, url: Optional[str]):
         """This is not a user customizable setting.
@@ -131,7 +133,7 @@ class Starboards:
             url,
             starboard_id,
         )
-        await self._starboard_edited(starboard_id)
+        self._starboard_edited(starboard_id)
 
     async def edit(
         self, starboard_id: int, **attrs: Union[int, bool, str, None]
@@ -238,7 +240,7 @@ class Starboards:
             starboard_id=starboard_id,
         )
         await self.db.execute(query, *args)
-        await self._starboard_edited(starboard_id, int(s["guild_id"]))
+        self._starboard_edited(starboard_id, int(s["guild_id"]))
 
     async def add_star_emoji(self, starboard_id: int, emoji: str) -> None:
         if not isinstance(emoji, str):
