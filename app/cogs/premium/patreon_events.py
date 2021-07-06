@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING, Any, Dict, List
 import discord
 from discord.ext import tasks
 
+import config
 from app import commands
 from app.i18n import t_
 
@@ -16,8 +17,12 @@ if TYPE_CHECKING:
 
 
 async def alert_patron(bot: "Bot", user_id: int, message: str):
-    user = await bot.cache.fetch_user(321733774414970882)
-    # FIXME: Make this DM the actual patron
+    if config.DEVELOPMENT:
+        user = await bot.cache.fetch_user(config.OWNER_IDS[0])
+    else:
+        user = await bot.cache.fetch_user(user_id)
+    if not user:
+        return
     try:
         await user.send(f"{message} : {user_id}")
     except discord.Forbidden:
