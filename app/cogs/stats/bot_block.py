@@ -30,7 +30,9 @@ class BotBlockStats(commands.Cog):
         ) as resp:
             resp.raise_for_status()
             data = await resp.json()
-            print(data)
+            if len(data["failure"]) != 0:
+                for list, info in data["failure"].items():
+                    print(f"{list} failed: {info}")
 
 
 def setup(bot: "Bot"):
