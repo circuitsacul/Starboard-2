@@ -725,11 +725,11 @@ msgstr "O starboard {0} foi habilitado."
 
 #: app/cogs/starboard/starboard_commands.py:193
 msgid "Whether or not to use webhooks for starboard messages."
-msgstr "Se deve usar ou não webhooks para mensagens de starboard."
+msgstr "Se deve usar ou não webhooks para as mensagens de starboard."
 
 #: app/cogs/starboard/starboard_commands.py:217
 msgid "Sets the avatar for webhook starboard messages."
-msgstr "Define o avatar para os webhooks das mensagens de starboard."
+msgstr "Define o avatar dos webhooks das mensagens de starboard."
 
 #: app/cogs/starboard/starboard_commands.py:233
 #: app/cogs/starboard/starboard_commands.py:278
@@ -755,7 +755,7 @@ msgstr "Avatar redefinido para o padrão."
 
 #: app/cogs/starboard/starboard_commands.py:258
 msgid "Sets the username for webhook starboard messages."
-msgstr "Define o nome de usuário para os webhooks das mensagens de starboard."
+msgstr "Define o nome de usuário dos webhooks das mensagens de starboard."
 
 #: app/cogs/starboard/starboard_commands.py:303
 msgid "Set the emoji to show next to the points."
@@ -1353,7 +1353,7 @@ msgstr ""
 
 #: app/cogs/permroles/pr_commands.py:71
 msgid "Lists PermGroups, or views settings for a PermGroup."
-msgstr "Lista PermGroups ou vê configurações para um PermGroup."
+msgstr "Lista PermGroups ou vê configurações de um PermGroup."
 
 #: app/cogs/permroles/pr_commands.py:84
 msgid "You have no PermGroups."
@@ -1485,11 +1485,11 @@ msgstr "Não há PermRoles para o PermGroup **{0}**."
 #: app/cogs/permroles/pr_commands.py:376
 #, python-brace-format
 msgid "PermRoles for {0}"
-msgstr "PermRoles para {0}"
+msgstr "PermRoles de {0}"
 
 #: app/cogs/permroles/pr_commands.py:395
 msgid "Adds a PermRole to a PermGroup."
-msgstr "Adiciona um PermRole para um PermGroup."
+msgstr "Adiciona um PermRole a um PermGroup."
 
 #: app/cogs/permroles/pr_commands.py:410
 #, python-brace-format
@@ -1536,27 +1536,27 @@ msgstr "Pronto!"
 
 #: app/cogs/permroles/pr_commands.py:460
 msgid "Sets the allowCommands permission for a PermRole."
-msgstr "Define a permissão allowCommands para um PermRole."
+msgstr "Define a permissão allowCommands de um PermRole."
 
 #: app/cogs/permroles/pr_commands.py:489
 msgid "Sets the onStarboard permission for a PermRole."
-msgstr "Define a permissão onStarboard para um PermRole."
+msgstr "Define a permissão onStarboard de um PermRole."
 
 #: app/cogs/permroles/pr_commands.py:513
 msgid "Sets the giveStars permission for a PermRole."
-msgstr "Define a permissão giveStars para um PermRole."
+msgstr "Define a permissão giveStars de um PermRole."
 
 #: app/cogs/permroles/pr_commands.py:536
 msgid "Sets the gainXP permission for a PermRole."
-msgstr "Define a permissão gainXP para um PermRole."
+msgstr "Define a permissão gainXP de um PermRole."
 
 #: app/cogs/permroles/pr_commands.py:559
 msgid "Sets the posRoles permission for a PermRole."
-msgstr "Define a permissão posRoles para um PermRole."
+msgstr "Define a permissão posRoles de um PermRole."
 
 #: app/cogs/permroles/pr_commands.py:582
 msgid "Sets the xpRoles permission for a PermRole."
-msgstr "Define a permissão xpRoles para um PermRole."
+msgstr "Define a permissão xpRoles de um PermRole."
 
 #: app/cogs/profile/profile_commands.py:12
 msgid "Manage personal settings."
@@ -1606,11 +1606,11 @@ msgstr "Informação sobre a Versão Premium:"
 
 #: app/cogs/blacklist/bl_commands.py:13
 msgid "Manage the channel whitelist/blacklist for starboards."
-msgstr "Gerencie a lista branca/negra de starboards."
+msgstr "Gerencie a lista branca/negra dos starboards."
 
 #: app/cogs/blacklist/bl_commands.py:23
 msgid "Lists the channel blacklist/whitelist for a starboard."
-msgstr "Lista a lista branca/negra para um starboard."
+msgstr "Mostra a lista branca/negra de um starboard."
 
 #: app/cogs/blacklist/bl_commands.py:42
 msgid " (All channels are blacklisted, since there are whitelisted channels)"
@@ -1754,12 +1754,12 @@ msgstr "Excluí o PosRole **{0}**."
 
 #: app/cogs/awardroles/ar_commands.py:110
 msgid "Sets the max users for a PosRole."
-msgstr "Define o número máximo de usuários para um PosRole."
+msgstr "Define o número máximo de usuários de um PosRole."
 
 #: app/cogs/awardroles/ar_commands.py:122
 #, python-brace-format
 msgid "Set the maximum users for the PosRole **{0}** to {1}."
-msgstr "Defina o número máximo de usuários para o PosRole **{0}** como {1}."
+msgstr "Defina o número máximo de usuários do PosRole **{0}** como {1}."
 
 #: app/cogs/awardroles/ar_commands.py:131
 msgid "View and manage XPRoles for your server."
@@ -2185,7 +2185,7 @@ msgid ""
 "Your support is greatly appreciated."
 msgstr ""
 "Obrigado por se tornar um patrocinador! Cada dólar que é enviado através do "
-"Patreon será convertido em 1 crédito. DM `@Circuit#5585` se você tiver "
+"Patreon será convertido em 1 crédito. Envie uma mensagem direta para `@Circuit#5585` se você tiver "
 "alguma dúvida.\n"
 "\n"
 "Seu apoio é muito apreciado."
@@ -2497,7 +2497,7 @@ msgstr "Redefini o leaderboard."
 
 #: app/cogs/utility/utility_commands.py:113
 msgid "Sets the XP for a user."
-msgstr "Define os pontos de experiência para um usuário."
+msgstr "Define os pontos de experiência de um usuário."
 
 #: app/cogs/utility/utility_commands.py:119
 msgid "XP cannot be less than 0."
