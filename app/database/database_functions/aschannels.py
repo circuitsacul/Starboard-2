@@ -18,6 +18,10 @@ class ASChannels:
         self.db = db
         self.id_cache = cachetools.TTLCache(5_000, 30)
 
+    def edited(self, aschannel_id: int):
+        if aschannel_id in self.id_cache:
+            del self.id_cache[aschannel_id]
+
     async def get(self, aschannel_id: int) -> Optional[dict]:
         r = self.id_cache.get(aschannel_id, default=MISSING)
         if r is not MISSING:
@@ -69,7 +73,7 @@ class ASChannels:
             )
         except asyncpg.exceptions.UniqueViolationError:
             return True
-        del self.id_cache[channel_id]
+        self.edited(channel_id)
         return False
 
     async def delete(self, aschannel_id: int) -> None:
@@ -78,7 +82,7 @@ class ASChannels:
             WHERE id=$1""",
             aschannel_id,
         )
-        del self.id_cache[aschannel_id]
+        self.edited(aschannel_id)
 
     async def edit(
         self,
@@ -141,7 +145,7 @@ class ASChannels:
         )
 
         await self.db.execute(query, *args)
-        del self.id_cache[aschannel_id]
+        self.edited(aschannel_id)
 
     async def add_asemoji(self, aschannel_id: int, emoji: str) -> None:
         aschannel = await self.get(aschannel_id)

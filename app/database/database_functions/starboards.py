@@ -20,9 +20,7 @@ class Starboards:
         self.many_cache = cachetools.TTLCache(500, 30)
         self.emoji_cache = cachetools.TTLCache(500, 30)
 
-    def _starboard_edited(
-        self, starboard_id: int, guild_id: Optional[int] = None
-    ):
+    def edited(self, starboard_id: int, guild_id: Optional[int] = None):
         if starboard_id in self.cache:
             del self.cache[starboard_id]
         if guild_id:
@@ -107,7 +105,7 @@ class Starboards:
         except asyncpg.exceptions.UniqueViolationError:
             return True
 
-        self._starboard_edited(channel_id, guild_id)
+        self.edited(channel_id, guild_id)
 
         return False
 
@@ -120,7 +118,7 @@ class Starboards:
             """DELETE FROM starboards WHERE id=$1""", starboard_id
         )
 
-        self._starboard_edited(starboard_id, int(s["guild_id"]))
+        self.edited(starboard_id, int(s["guild_id"]))
 
     async def set_webhook(self, starboard_id: int, url: Optional[str]):
         """This is not a user customizable setting.
@@ -133,7 +131,7 @@ class Starboards:
             url,
             starboard_id,
         )
-        self._starboard_edited(starboard_id)
+        self.edited(starboard_id)
 
     async def edit(
         self, starboard_id: int, **attrs: Union[int, bool, str, None]
@@ -240,7 +238,7 @@ class Starboards:
             starboard_id=starboard_id,
         )
         await self.db.execute(query, *args)
-        self._starboard_edited(starboard_id, int(s["guild_id"]))
+        self.edited(starboard_id, int(s["guild_id"]))
 
     async def add_star_emoji(self, starboard_id: int, emoji: str) -> None:
         if not isinstance(emoji, str):

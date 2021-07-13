@@ -23,7 +23,7 @@ class Guilds:
 
     async def delete(self, guild_id: int):
         await self.db.execute("""DELETE FROM guilds WHERE id=$1""", guild_id)
-        del self.cache[guild_id]
+        self.edited(guild_id)
 
     async def add_prefix(self, guild_id: int, prefix: str):
         if len(prefix) > 8:
