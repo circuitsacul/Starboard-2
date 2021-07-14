@@ -3,7 +3,7 @@ betterstatcord.py @ git+git://github.com/CircuitSacul/betterstatcord.py.git@6fed
 jishaku==2.1.0
 discord-ext-wizards==0.3.0
 discord-ext-prettyhelp==0.2.3
-requests==2.25.1
+requests==2.26.0
 discord.py==1.7.3
 humanize==3.10.0
 quart==0.15.1
