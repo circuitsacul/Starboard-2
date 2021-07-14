@@ -3,14 +3,14 @@ betterstatcord.py @ git+git://github.com/CircuitSacul/betterstatcord.py.git@6fed
 jishaku==2.1.0
 discord-ext-wizards==0.3.0
 discord-ext-prettyhelp==0.2.3
-requests==2.25.1
+requests==2.26.0
 discord.py==1.7.3
 humanize==3.10.0
 quart==0.15.1
 alt-discord-flags==0.0.5
 python-dotenv==0.18.0
 websockets==9.1
-uvloop==0.15.2
+uvloop==0.15.3
 asyncpg==0.23.0
 buildpg==0.2.3
 cachetools==4.2.2
