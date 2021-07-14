@@ -10,7 +10,7 @@ quart==0.15.1
 alt-discord-flags==0.0.5
 python-dotenv==0.18.0
 websockets==9.1
-uvloop==0.15.2
+uvloop==0.15.3
 asyncpg==0.23.0
 buildpg==0.2.3
 cachetools==4.2.2
