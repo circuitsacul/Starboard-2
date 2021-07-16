@@ -1,4 +1,4 @@
-CREATE INDEX IF NOT EXISTS
+CREATE UNIQUE INDEX IF NOT EXISTS
     members__user_id__guild_id ON members (user_id, guild_id);
 
 CREATE INDEX IF NOT EXISTS
@@ -10,7 +10,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS
 
 CREATE INDEX IF NOT EXISTS
     reaction_users__reaction_id ON reaction_users
-    (reaction_id);
+    USING HASH (reaction_id);
 
 CREATE UNIQUE INDEX IF NOT EXISTS
     reactions__emoji__message_id ON reactions (emoji, message_id);
