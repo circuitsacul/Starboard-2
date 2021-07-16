@@ -12,7 +12,7 @@ class PermGroups:
     def __init__(self, db: "Database"):
         self.db = db
 
-    async def create(self, guild_id: int, name: str) -> int:
+    async def create(self, guild_id: int, name: str):
         name = name.casefold()
         groups = await self.get_many(guild_id)
         if name in [g["name"] for g in groups]:
@@ -29,7 +29,7 @@ class PermGroups:
         else:
             index = 1
 
-        return await self.db.fetchval(
+        await self.db.fetchval(
             """INSERT INTO permgroups (guild_id, name, index)
             VALUES ($1, $2, $3)""",
             guild_id,
