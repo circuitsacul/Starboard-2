@@ -1,6 +1,10 @@
+from __future__ import annotations
+
+import datetime
 import random
 
 import discord
+from discord import utils
 from discord.ext.prettyhelp import bot_has_permissions
 
 from app import commands, converters, flags, menus
@@ -137,6 +141,8 @@ class Fun(commands.Cog, description=t_("Fun commands for Starboard.", True)):
     @flags.add_flag("--maxstars", "--maxpoints", type=converters.myint)
     @flags.add_flag("--starboard", "--sb", type=converters.Starboard)
     @flags.add_flag("--place", type=converters.myint, default=1)
+    @flags.add_flag("--newerthan", type=converters.timedelta, default=None)
+    @flags.add_flag("--olderthan", type=converters.timedelta, default=None)
     @flags.command(
         name="moststarred", help=t_("Shows the most starred messages.", True)
     )
@@ -163,12 +169,22 @@ class Fun(commands.Cog, description=t_("Fun commands for Starboard.", True)):
         maxpoints = options["maxstars"]
         place = options["place"] - 1
 
+        def td_or_none(arg: datetime.timedelta | None) -> int | None:
+            if arg is None:
+                return None
+            return utils.time_snowflake(arg)
+
+        newer_than = td_or_none(options["newerthan"])
+        older_than = td_or_none(options["olderthan"])
+
         if place < 0:
             raise commands.BadArgument(t_("--place must be greater than 0"))
 
         messages = await self.bot.db.fetch(
             """SELECT * FROM starboard_messages
-            WHERE starboard_id=any($1::numeric[])
+            WHERE ($6::numeric is NULL or id>$6)
+            AND ($7::numeric is NULL or id<$6)
+            AND starboard_id=any($1::numeric[])
             AND ($2::numeric is NULL or starboard_id=$2::numeric)
             AND EXISTS(
                 SELECT * FROM messages
@@ -184,6 +200,8 @@ class Fun(commands.Cog, description=t_("Fun commands for Starboard.", True)):
             author_id,
             channel_id,
             maxpoints,
+            newer_than,
+            older_than,
         )
 
         async def getter(page: int):
