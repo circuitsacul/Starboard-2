@@ -256,6 +256,8 @@ class Fun(commands.Cog, description=t_("Fun commands for Starboard.", True)):
         type=converters.myint,
     )
     @flags.add_flag("--maxstars", "--maxpoints", type=converters.myint)
+    @flags.add_flag("--newerthan", type=converters.timedelta, default=None)
+    @flags.add_flag("--olderthan", type=converters.timedelta, default=None)
     @flags.command(
         name="random",
         aliases=["explore", "rand"],
@@ -283,6 +285,8 @@ class Fun(commands.Cog, description=t_("Fun commands for Starboard.", True)):
         good_messages = await self.bot.db.fetch(
             """SELECT * FROM starboard_messages
             WHERE starboard_id=any($1::numeric[])
+            AND ($7::numeric is NULL or id>$7)
+            AND ($8::numeric is NULL or id<$8)
             AND ($2::numeric is NULL or starboard_id=$2::numeric)
             AND ($3::smallint is NULL or points >= $3::smallint)
             AND ($4::smallint is NULL or points <= $4::smallint)
@@ -299,6 +303,8 @@ class Fun(commands.Cog, description=t_("Fun commands for Starboard.", True)):
             options["maxstars"],
             author_id,
             channel_id,
+            options["newerthan"],
+            options["olderthan"],
         )
         if len(good_messages) == 0:
             await ctx.send(
