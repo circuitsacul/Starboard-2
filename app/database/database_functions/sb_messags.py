@@ -1,12 +1,15 @@
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 import asyncpg
 
 from app import errors
 
+if TYPE_CHECKING:
+    from app.database.database import Database
+
 
 class SBMessages:
-    def __init__(self, db) -> None:
+    def __init__(self, db: "Database") -> None:
         self.db = db
 
     async def get(self, message_id: int) -> Optional[dict]:
