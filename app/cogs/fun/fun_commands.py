@@ -172,7 +172,8 @@ class Fun(commands.Cog, description=t_("Fun commands for Starboard.", True)):
         def td_or_none(arg: datetime.timedelta | None) -> int | None:
             if arg is None:
                 return None
-            return utils.time_snowflake(arg)
+            date = datetime.datetime.utcnow() - arg
+            return utils.time_snowflake(date)
 
         newer_than = td_or_none(options["newerthan"])
         older_than = td_or_none(options["olderthan"])
@@ -282,6 +283,12 @@ class Fun(commands.Cog, description=t_("Fun commands for Starboard.", True)):
             )
         ]
 
+        def td_or_none(arg: datetime.timedelta | None) -> int | None:
+            if arg is None:
+                return None
+            date = datetime.datetime.utcnow() - arg
+            return utils.time_snowflake(date)
+
         good_messages = await self.bot.db.fetch(
             """SELECT * FROM starboard_messages
             WHERE starboard_id=any($1::numeric[])
@@ -303,8 +310,8 @@ class Fun(commands.Cog, description=t_("Fun commands for Starboard.", True)):
             options["maxstars"],
             author_id,
             channel_id,
-            options["newerthan"],
-            options["olderthan"],
+            td_or_none(options["newerthan"]),
+            td_or_none(options["olderthan"]),
         )
         if len(good_messages) == 0:
             await ctx.send(
