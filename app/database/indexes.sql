@@ -19,6 +19,10 @@ CREATE INDEX IF NOT EXISTS
     starboard_messages__starboard_id ON starboard_messages
     USING HASH (starboard_id);
 
+CREATE INDEX iF NOT EXISTS
+    starboard_messages__orig_id ON starboard_messages
+    USING HASH (orig_id);
+
 CREATE INDEX IF NOT EXISTS
     members_posroles__user_id ON members_posroles
     USING HASH (user_id);
