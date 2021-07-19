@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+import datetime
 import re
 from typing import Any, Callable, Tuple, Union
 
@@ -84,6 +87,36 @@ def language(arg: str) -> Tuple[str, str]:
             return lang["code"], lang["name"]
 
     raise errors.InvalidLocale(arg)
+
+
+def timedelta(arg: str) -> datetime.timedelta:
+    # validation
+    if not re.search(r"^(\d+\w *)+$", arg):
+        raise commands.BadArgument(
+            t_(
+                "`{0}` is not a valid time. An example of a "
+                "valid time would be: `4d 3m 99s`"
+            ).format(arg)
+        )
+
+    def gettime(key: str) -> int:
+        match = re.findall(f"\\d+(?={key})", arg)
+        if len(match) == 0:
+            return 0
+        match = match[-1]
+        try:
+            return int(match)
+        except (TypeError, ValueError):
+            return 0
+
+    delta = datetime.timedelta(
+        seconds=gettime("s"),
+        minutes=gettime("m"),
+        hours=gettime("h"),
+        days=gettime("d"),
+    )
+    ts = delta.total_seconds()
+    return ts
 
 
 class OrNone(commands.Converter):
