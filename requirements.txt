@@ -12,7 +12,7 @@ python-dotenv==0.18.0
 websockets==9.1
 uvloop==0.15.3
 asyncpg==0.23.0
-buildpg==0.2.3
+buildpg==0.3
 cachetools==4.2.2
 ujson==4.0.2
 msgpack==1.0.2
