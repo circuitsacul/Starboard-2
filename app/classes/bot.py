@@ -116,7 +116,7 @@ class Bot(commands.AutoShardedBot):
         for ext in kwargs.pop("initial_extensions"):
             self.load_extension(ext)
 
-        self.loop.run_until_complete(self.set_session())
+        self._session: Optional[aiohttp.ClientSession] = None
 
         try:
             self.run(kwargs["token"])
@@ -155,12 +155,14 @@ class Bot(commands.AutoShardedBot):
             self.to_cleanup[message.guild.id] = LimitedList(100)
         self.to_cleanup[message.guild.id].append(message.id)
 
-    async def set_session(self):
-        self.session = aiohttp.ClientSession()
+    async def session(self) -> aiohttp.ClientSession:
+        if self._session is None or self._session.closed:
+            self._session = aiohttp.ClientSession()
+        return self._session
 
-    def get_webhook(self, url: str) -> discord.Webhook:
+    async def get_webhook(self, url: str) -> discord.Webhook:
         return discord.Webhook.from_url(
-            url, adapter=discord.AsyncWebhookAdapter(self.session)
+            url, adapter=discord.AsyncWebhookAdapter(await self.session())
         )
 
     @asynccontextmanager
@@ -203,7 +205,8 @@ class Bot(commands.AutoShardedBot):
 
     async def close(self, *args, **kwargs):
         await self.db.pool.close()
-        await self.session.close()
+        if self._session and not self._session.closed:
+            await self._session.close()
         self.log.info("shutting down")
         await self.websocket.close()
         await super().close()

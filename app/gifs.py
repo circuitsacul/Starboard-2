@@ -51,7 +51,9 @@ async def _get(bot: Bot, url: str, *args, **kwargs) -> dict:
     :return: The json that was returned
     :rtype: dict
     """
-    async with bot.session.get(url, *args, timeout=3, **kwargs) as resp:
+    async with (await bot.session()).get(
+        url, *args, timeout=3, **kwargs
+    ) as resp:
         resp.raise_for_status()
         data = await resp.json()
     return data
