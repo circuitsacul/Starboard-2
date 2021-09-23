@@ -1,6 +1,6 @@
 discord-ext-menus @ git+git://github.com/Rapptz/discord-ext-menus.git@309c70222eec33acacb8c21bbb0fbe9bc57de661
 betterstatcord.py @ git+git://github.com/CircuitSacul/betterstatcord.py.git@6feda6b0653ff30b399d8a73293fa32e448a1cf5
-jishaku==2.2.0
+jishaku==2.3.0
 discord-ext-wizards==0.3.0
 discord-ext-prettyhelp==0.2.3
 requests==2.26.0
