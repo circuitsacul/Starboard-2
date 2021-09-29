@@ -3128,5 +3128,5 @@ msgstr ""
 "permissões apropriadas."
 
 #: app/cogs/awardroles/ar_commands.py:153
-msgid "XP Roles"
+msgid "XPRoles"
 msgstr "XPRoles"
