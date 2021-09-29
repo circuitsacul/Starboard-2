@@ -3129,4 +3129,4 @@ msgstr ""
 
 #: app/cogs/awardroles/ar_commands.py:153
 msgid "XP Roles"
-msgstr ""
+msgstr "XPRoles"
