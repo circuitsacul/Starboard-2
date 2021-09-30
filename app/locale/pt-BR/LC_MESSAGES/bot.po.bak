@@ -8,10 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-04 16:06-0400\n"
+"POT-Creation-Date: 2021-06-08 11:17-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Davi 6596#6596 <d68961978@gmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pt-BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -64,122 +63,6 @@ msgid ""
 msgstr ""
 "Eu não consegui interpretar `{0}` como um número de ponto flutuante. Poir "
 "favor, passe algo como `10.9` ou `6`."
-
-#: app/errors.py:17
-msgid "You don't have enough credits."
-msgstr "Você não tem créditos suficientes."
-
-#: app/errors.py:28
-msgid ""
-"You have reached the limit for starboards, so you can't add any more unless "
-"this server receives premium."
-msgstr ""
-"Você alcançou o limite de starboards; então você não pode adicionar mais "
-"nenhum, exceto se este servidor receber a versão premium."
-
-#: app/errors.py:33
-msgid "You have reached the limit for starboards."
-msgstr "Você alcançou o limite de starboards."
-
-#: app/errors.py:41
-msgid ""
-"You have reached the limit for emojis on this starboard, so you can't add "
-"any more unless this server recieves premium."
-msgstr ""
-"Você alcançou o limite de emojis neste starboard; então você não pode "
-"adicionar mais nenhum, exceto se este servidor receber a versão premium."
-
-#: app/errors.py:47
-msgid "You have reached the limit for emoji on this starboard."
-msgstr "Você alcançou o limite de emojis neste starboard."
-
-#: app/errors.py:56
-msgid ""
-"You have reached the limit for AutoStar channels, so you can't add any more "
-"unless this server receives premium."
-msgstr ""
-"Você alcançou o limite de canais AutoStar; então você não pode adicionar "
-"mais nenhum, exceto se este servidor receber a versão premium."
-
-#: app/errors.py:61
-msgid "You have reached the limit for AutoStar channels."
-msgstr "Você alcançou o limite de canais AutoStar."
-
-#: app/errors.py:69
-msgid ""
-"You have reached the limit for emojis on this AutoStar channel, so you can't "
-"add anymore unless this server receives premium."
-msgstr ""
-"Você alcançou o limite de emojis neste canal AutoStar; então você não pode "
-"adicionar mais nenhum, exceto se este servidor receber a versão premium."
-
-#: app/errors.py:75
-msgid "You have reached the limit for emojis on this AutoStar channel."
-msgstr "Você alcançou o limite de emojis neste canal AutoStar."
-
-#: app/errors.py:85
-msgid ""
-"You have reached the limit for XPRoles, so you can't add any more unless "
-"this server receives premium."
-msgstr ""
-"Você alcançou o limite de XPRoles; então você não pode adicionar mais "
-"nenhum, exceto se este servidor receber a versão premium."
-
-#: app/errors.py:89
-msgid "You have reached the limit for XPRoles."
-msgstr "Você alcançou o limite de XPRoles."
-
-#: app/errors.py:97
-msgid ""
-"You have reached the limit for PosRoles, so you can't add any more unless "
-"this server receives premium."
-msgstr ""
-"Você alcançou o limite de PosRoles; então você não pode adicionar mais "
-"nenhum, exceto se este servidor receber a versão premium."
-
-#: app/errors.py:101
-msgid "You have reached the limit for PosRoles."
-msgstr "Você alcançou o limite de PosRoles."
-
-#: app/errors.py:109
-msgid ""
-"You have reached the limit for PermGroups, so you can't add any more unless "
-"this server receives premium."
-msgstr ""
-"Você alcançou o limite de PermGroups; então você não pode adicionar mais "
-"nenhum, exceto se este servidor receber a versão premium."
-
-#: app/errors.py:113
-msgid "You have reached the limit for PermGroups."
-msgstr "Você alcançou o limite de PermGroups."
-
-#: app/errors.py:121
-msgid ""
-"You have reached the limit for PermRoles on this PermGroup, so you can't add "
-"any more unless this server receives premium."
-msgstr ""
-"Você alcançou o limite de PermRoles neste PermGroup; então você não pode "
-"adicionar mais nenhum, exceto se este servidor receber a versão premium."
-
-#: app/errors.py:127
-msgid "You have reached the limit for PermRoles on this PermGroup"
-msgstr "Você alcançou o limite de PermRoles neste PermGroup"
-
-#: app/errors.py:136
-msgid ""
-"You have reached the limit for prefixes, so you can't add any more unless "
-"this server receives premium."
-msgstr ""
-"Você alcançou o limite de prefixos; então você não pode adicionar nenhum, "
-"exceto se este servidor receber a versão premium."
-
-#: app/errors.py:140
-msgid "You have reached the limit for prefixes."
-msgstr "Você alcançou o limite de prefixos."
-
-#: app/errors.py:134
-msgid "AutoRedeem is already enabled for this server."
-msgstr "AutoRedeem já está habilitado neste servidor."
 
 #: app/errors.py:18
 msgid "A role cannot be both an XPRole and a PosRole."
@@ -413,27 +296,14 @@ msgstr "Este comando só pode ser usado pelo dono do bot."
 msgid "minChars cannot be less than 0."
 msgstr "minChars não pode ser menor que 0."
 
-#: app/database/database_functions/aschannels.py:110
-msgid "minChars cannot be greater than 4,000."
-msgstr "minChars não pode ser maior que 4.000."
-
-#: app/database/database_functions/aschannels.py:113
-msgid "maxChars cannot be less than 0."
-msgstr "maxChars não pode ser menor que 0."
-
-#: app/database/database_functions/aschannels.py:116
-msgid "maxChars cannot be greater than 4,000."
-msgstr "maxChars não pode ser maior que 1.000."
+#: app/database/database_functions/aschannels.py:96
+msgid "minChars cannot be greater than 2,000."
+msgstr "minChars não pode ser maior que 2.000."
 
 #: app/database/database_functions/posroles.py:77
 #: app/database/database_functions/posroles.py:106
 msgid "MaxUsers must be greater than 0."
 msgstr "MaxUsers deve ser maior que 0."
-
-#: app/cogs/settings/settings_commands.py:425
-#, python-brace-format
-msgid "`{0}` is too long (max length is 8 characters)."
-msgstr "`{0}` é muito longo (o comprimento máximo é 8 caracteres)."
 
 #: app/database/database_functions/guilds.py:45
 msgid "The cooldown amount must be greater than 0."
@@ -473,6 +343,35 @@ msgstr "requiredRemove não pode ser maior que 495."
 #: app/database/database_functions/xproles.py:51
 msgid "Required must be greater than 0."
 msgstr "Required deve ser maior que 0."
+
+#: app/buttons/paginator.py:57
+#, python-brace-format
+msgid "Page {0}/{1}"
+msgstr "Página {0}/{1}"
+
+#: app/buttons/paginator.py:95
+msgid "Stop"
+msgstr "Pare"
+
+#: app/buttons/paginator.py:100
+msgid "Prev"
+msgstr "Página anterior"
+
+#: app/buttons/paginator.py:105
+msgid "Next"
+msgstr "Próxima página"
+
+#: app/buttons/buttons.py:98
+msgid "You can't use this menu."
+msgstr "Você não pode usar este menu."
+
+#: app/buttons/confirm.py:40
+msgid "No"
+msgstr "Não"
+
+#: app/buttons/confirm.py:46
+msgid "Yes"
+msgstr "Sim"
 
 #: app/classes/bot.py:57
 msgid "Required Permissions"
@@ -522,18 +421,8 @@ msgid "That is already a starboard. Run the wizard anyways?"
 msgstr "Isso já é um starboard. Executar o assistente mesmo assim?"
 
 #: app/wizards/starboard.py:104
-msgid ""
-"This setup wizard will walk you through setting up a basic starboard and "
-"customizing the most frequently used settings. Type `cancel` at any time to "
-"cancel.\n"
-"\n"
-"Do you want to (1) create a new channel or (2) use an existing channel?"
-msgstr ""
-"Este assistente de configuração irá te guiar através da configuração de um "
-"starboard básico e da personalização das configurações mais frequentemente "
-"utilizadas. Digite `cancel` a qualquer momento para cancelar.\n"
-"\n"
-"Você quer (1) criar um novo canal ou (2) utilizar um canal já existente?"
+msgid "Do you want to (1) create a new channel or (2) use an existing channel?"
+msgstr "Você deseja (1) criar um novo canal ou (2) usar um canal existente?"
 
 #: app/wizards/starboard.py:125
 msgid "What channel should I setup a new starboard in?"
@@ -559,6 +448,34 @@ msgstr "Quais emojis devem contar como \"estrelas\"?"
 #: app/cogs/starboard/starboard_funcs.py:150
 msgid "Creating webhook for starboard messages."
 msgstr "Criando webhook para mensagens do starboard."
+
+#: app/cogs/starboard/starboard_funcs.py:326
+#: app/cogs/starboard/starboard_funcs.py:336
+msgid "*Message was deleted*"
+msgstr "*A mensagem foi excluída*"
+
+#: app/cogs/starboard/starboard_funcs.py:339
+msgid "*File Only*"
+msgstr "*Apenas arquivo*"
+
+#: app/cogs/starboard/starboard_funcs.py:348
+#, python-brace-format
+msgid "**[Replying to {0}]({1})**\n"
+msgstr "**[Respondendo a {0}]({1})**\n"
+
+#: app/cogs/starboard/starboard_funcs.py:353
+#, python-brace-format
+msgid ""
+"**[Replying to Unknown (deleted)](https://discord.com/channels/{0.guild_id}/"
+"{0.channel_id}/{0.message_id})**\n"
+msgstr ""
+"**[Respondendo a um Desconhecido (excluída)](https://discord.com/channels/{0."
+"guild_id}/{0.channel_id}/{0.message_id})**\n"
+
+#: app/cogs/starboard/starboard_funcs.py:362
+#, python-brace-format
+msgid "**[Jump to Message]({0})**"
+msgstr "**[Ir para a Mensagem]({0})**"
 
 #: app/cogs/starboard/starboard_funcs.py:509
 msgid "Trashed Message"
@@ -619,33 +536,6 @@ msgstr "Gerencie starboards."
 msgid "Runs a setup wizard to create a starboard."
 msgstr "Executa um assistente de configuração para criar um starboard."
 
-#: app/cogs/starboard/starboard_commands.py:187
-#: app/cogs/starboard/starboard_commands.py:870
-#: app/cogs/settings/settings_commands.py:480
-#: app/cogs/settings/settings_commands.py:509
-#: app/cogs/permroles/pr_commands.py:244
-#: app/cogs/utility/utility_commands.py:78
-#: app/cogs/utility/utility_commands.py:81
-#: app/cogs/utility/utility_commands.py:85
-#: app/cogs/utility/utility_commands.py:102
-#: app/cogs/utility/utility_commands.py:332
-#: app/cogs/utility/utility_commands.py:400
-msgid "Cancelled."
-msgstr "Cancelado."
-
-#: app/cogs/starboard/starboard_commands.py:31
-msgid "Exitted due to an error."
-msgstr "O assistente de configuração fechou devido a um erro."
-
-#: app/cogs/starboard/starboard_commands.py:33
-msgid "Wizard timed out."
-msgstr "O tempo do assistente de configuração esgotou."
-
-#: app/cogs/starboard/starboard_commands.py:40
-#, python-brace-format
-msgid "Starboard created! View it with `{p}s #{channel.name}`"
-msgstr "Starboard criado! Veja-o com `{p}s #{channel.name}`"
-
 #: app/cogs/starboard/starboard_commands.py:46
 msgid "List starboards."
 msgstr "Liste starboards."
@@ -676,13 +566,6 @@ msgstr ""
 msgid "Deleted Channel {0}"
 msgstr "Canal Excluído {0}"
 
-#: app/cogs/starboard/starboard_commands.py:103
-#, python-brace-format
-msgid ""
-"Note: This starboard has been disabled. Enable it with `{p}s enable #{s}`."
-msgstr ""
-"Nota: Este starboard foi desabilitado. Habilite-o com `{p}s enable #{s}`."
-
 #: app/cogs/starboard/starboard_commands.py:148
 msgid "Adds a starboard."
 msgstr "Adiciona um starboard."
@@ -705,31 +588,27 @@ msgstr "Você tem certeza? Todas as mensagens de starboard serão perdidas."
 msgid "{0} is no longer a starboard."
 msgstr "{0} não é mais um starboard."
 
-#: app/cogs/starboard/starboard_commands.py:200
-msgid "Disables a starboard."
-msgstr "Desabilita um starboard."
-
-#: app/cogs/starboard/starboard_commands.py:209
-#, python-brace-format
-msgid "The starboard {0} has been disabled."
-msgstr "O starboard {0} foi desabilitado."
-
-#: app/cogs/starboard/starboard_commands.py:217
-msgid "Enables a starboard."
-msgstr "Habilita um starboard."
-
-#: app/cogs/starboard/starboard_commands.py:226
-#, python-brace-format
-msgid "The starboard {0} has been enabled."
-msgstr "O starboard {0} foi habilitado."
+#: app/cogs/starboard/starboard_commands.py:187
+#: app/cogs/starboard/starboard_commands.py:870
+#: app/cogs/settings/settings_commands.py:480
+#: app/cogs/settings/settings_commands.py:509
+#: app/cogs/permroles/pr_commands.py:244
+#: app/cogs/utility/utility_commands.py:78
+#: app/cogs/utility/utility_commands.py:81
+#: app/cogs/utility/utility_commands.py:85
+#: app/cogs/utility/utility_commands.py:102
+#: app/cogs/utility/utility_commands.py:332
+#: app/cogs/utility/utility_commands.py:400
+msgid "Cancelled."
+msgstr "Cancelado."
 
 #: app/cogs/starboard/starboard_commands.py:193
 msgid "Whether or not to use webhooks for starboard messages."
-msgstr "Se deve usar ou não webhooks para as mensagens de starboard."
+msgstr "Se deve usar ou não webhooks para mensagens de starboard."
 
 #: app/cogs/starboard/starboard_commands.py:217
 msgid "Sets the avatar for webhook starboard messages."
-msgstr "Define o avatar dos webhooks das mensagens de starboard."
+msgstr "Define o avatar para os webhooks das mensagens de starboard."
 
 #: app/cogs/starboard/starboard_commands.py:233
 #: app/cogs/starboard/starboard_commands.py:278
@@ -755,7 +634,7 @@ msgstr "Avatar redefinido para o padrão."
 
 #: app/cogs/starboard/starboard_commands.py:258
 msgid "Sets the username for webhook starboard messages."
-msgstr "Define o nome de usuário dos webhooks das mensagens de starboard."
+msgstr "Define o nome de usuário para os webhooks das mensagens de starboard."
 
 #: app/cogs/starboard/starboard_commands.py:303
 msgid "Set the emoji to show next to the points."
@@ -858,34 +737,6 @@ msgstr "Limpa todos os starEmojis para um starboard."
 #, python-brace-format
 msgid "Are you sure you want to clear all emojis for {0}?"
 msgstr "Você tem certeza de que deseja limpar todos os emojis para {0}?"
-
-#: app/cogs/starboard/starboard_funcs.py:326
-#: app/cogs/starboard/starboard_funcs.py:336
-msgid "*Message was deleted*"
-msgstr "*A mensagem foi excluída*"
-
-#: app/cogs/starboard/starboard_funcs.py:339
-msgid "*File Only*"
-msgstr "*Apenas arquivo*"
-
-#: app/cogs/starboard/embed_logic.py:46
-#, python-brace-format
-msgid "Replying to {0}, who said:"
-msgstr "Respondendo a {0}, que disse:"
-
-#: app/cogs/starboard/embed_logic.py:47
-msgid "Unknown"
-msgstr "um Desconhecido"
-
-#: app/cogs/starboard/starboard_funcs.py:362
-#, python-brace-format
-msgid "**[Jump to Message]({0})**"
-msgstr "**[Ir para a Mensagem]({0})**"
-
-#: app/cogs/starboard/embed_logic.py:231
-#, python-brace-format
-msgid "{0} additional attachments."
-msgstr "{0} anexos adicionais."
 
 #: app/cogs/starboard/starboard_events.py:28
 #, python-brace-format
@@ -1092,6 +943,11 @@ msgstr "Prefixos de {0}:"
 msgid "Adds a prefix."
 msgstr "Adiciona um prefixo."
 
+#: app/cogs/settings/settings_commands.py:425
+#, python-brace-format
+msgid "`{0}` is too long (max length is 8 characters)."
+msgstr "`{0}` é muito longo (o comprimento máximo é 8 caracteres)."
+
 #: app/cogs/settings/settings_commands.py:442
 #, python-brace-format
 msgid "Added `{0}` to the prefixes."
@@ -1279,11 +1135,6 @@ msgstr "Mostra as mensagens mais estreladas."
 msgid "--place must be greater than 0"
 msgstr "--place deve ser maior que 0"
 
-#: app/cogs/fun/fun_commands.py:212
-#, python-brace-format
-msgid "Page {0}"
-msgstr "Página {0}"
-
 #: app/cogs/fun/fun_commands.py:220
 msgid "Nothing to show."
 msgstr "Nada a mostrar."
@@ -1353,7 +1204,7 @@ msgstr ""
 
 #: app/cogs/permroles/pr_commands.py:71
 msgid "Lists PermGroups, or views settings for a PermGroup."
-msgstr "Lista PermGroups ou vê configurações de um PermGroup."
+msgstr "Lista PermGroups ou vê configurações para um PermGroup."
 
 #: app/cogs/permroles/pr_commands.py:84
 msgid "You have no PermGroups."
@@ -1485,11 +1336,11 @@ msgstr "Não há PermRoles para o PermGroup **{0}**."
 #: app/cogs/permroles/pr_commands.py:376
 #, python-brace-format
 msgid "PermRoles for {0}"
-msgstr "PermRoles de {0}"
+msgstr "PermRoles para {0}"
 
 #: app/cogs/permroles/pr_commands.py:395
 msgid "Adds a PermRole to a PermGroup."
-msgstr "Adiciona um PermRole a um PermGroup."
+msgstr "Adiciona um PermRole para um PermGroup."
 
 #: app/cogs/permroles/pr_commands.py:410
 #, python-brace-format
@@ -1514,49 +1365,46 @@ msgstr "Muda uma posição de um PermRole em um PermGroup."
 msgid "Moved the PermRole {0} from {1} to {2}."
 msgstr "Movi o PermRole {0} de {1} para {2}."
 
-#: app/cogs/permroles/pr_commands.py:457
-msgid ""
-"Sorts the PermRoles in a PermGroup by their order in the server settings."
-msgstr ""
-"Ordena os PermRoles em um PermGroup pela ordem deles nas configurações do "
-"servidor."
-
-#: app/cogs/permroles/pr_commands.py:471
-#, python-brace-format
-msgid ""
-"Are you sure? This will permanently change the order of the PermRoles in the "
-"PermGroup **{0}**."
-msgstr ""
-"Você tem certeza? Isto vai permanentemente mudar a ordem dos PermRoles no "
-"PermGroup **{0}**."
-
-#: app/cogs/permroles/pr_commands.py:487
-msgid "Done!"
-msgstr "Pronto!"
-
 #: app/cogs/permroles/pr_commands.py:460
 msgid "Sets the allowCommands permission for a PermRole."
-msgstr "Define a permissão allowCommands de um PermRole."
+msgstr "Define a permissão allowCommands para um PermRole."
 
 #: app/cogs/permroles/pr_commands.py:489
 msgid "Sets the onStarboard permission for a PermRole."
-msgstr "Define a permissão onStarboard de um PermRole."
+msgstr "Define a permissão onStarboard para um PermRole."
 
 #: app/cogs/permroles/pr_commands.py:513
 msgid "Sets the giveStars permission for a PermRole."
-msgstr "Define a permissão giveStars de um PermRole."
+msgstr "Define a permissão giveStars para um PermRole."
 
 #: app/cogs/permroles/pr_commands.py:536
 msgid "Sets the gainXP permission for a PermRole."
-msgstr "Define a permissão gainXP de um PermRole."
+msgstr "Define a permissão gainXP para um PermRole."
 
 #: app/cogs/permroles/pr_commands.py:559
 msgid "Sets the posRoles permission for a PermRole."
-msgstr "Define a permissão posRoles de um PermRole."
+msgstr "Define a permissão posRoles para um PermRole."
 
 #: app/cogs/permroles/pr_commands.py:582
 msgid "Sets the xpRoles permission for a PermRole."
-msgstr "Define a permissão xpRoles de um PermRole."
+msgstr "Define a permissão xpRoles para um PermRole."
+
+#: app/cogs/slash/slash_commands.py:14
+msgid "Slash commands."
+msgstr "Comandos de barra (/)."
+
+#: app/cogs/slash/slash_commands.py:29
+msgid "Get a link for authorizing slash commands."
+msgstr "Obtenha um link para autorizar comandos de barra."
+
+#: app/cogs/slash/slash_commands.py:38
+msgid ""
+"Try running `/ping` to see if slash commands are working. If not, a server "
+"admin can use [this link]({}) to give me the proper permissions."
+msgstr ""
+"Tente executar `/ping` para ver se comandos de barra estão funcionando. Se "
+"não, um administrador do servidor pode usar [this link]({}) para me dar as "
+"permissões apropriadas."
 
 #: app/cogs/profile/profile_commands.py:12
 msgid "Manage personal settings."
@@ -1606,11 +1454,11 @@ msgstr "Informação sobre a Versão Premium:"
 
 #: app/cogs/blacklist/bl_commands.py:13
 msgid "Manage the channel whitelist/blacklist for starboards."
-msgstr "Gerencie a lista branca/negra dos starboards."
+msgstr "Gerencie a lista branca/negra de starboards."
 
 #: app/cogs/blacklist/bl_commands.py:23
 msgid "Lists the channel blacklist/whitelist for a starboard."
-msgstr "Mostra a lista branca/negra de um starboard."
+msgstr "Lista a lista branca/negra para um starboard."
 
 #: app/cogs/blacklist/bl_commands.py:42
 msgid " (All channels are blacklisted, since there are whitelisted channels)"
@@ -1754,12 +1602,12 @@ msgstr "Excluí o PosRole **{0}**."
 
 #: app/cogs/awardroles/ar_commands.py:110
 msgid "Sets the max users for a PosRole."
-msgstr "Define o número máximo de usuários de um PosRole."
+msgstr "Define o número máximo de usuários para um PosRole."
 
 #: app/cogs/awardroles/ar_commands.py:122
 #, python-brace-format
 msgid "Set the maximum users for the PosRole **{0}** to {1}."
-msgstr "Defina o número máximo de usuários do PosRole **{0}** como {1}."
+msgstr "Defina o número máximo de usuários para o PosRole **{0}** como {1}."
 
 #: app/cogs/awardroles/ar_commands.py:131
 msgid "View and manage XPRoles for your server."
@@ -1772,6 +1620,10 @@ msgstr "Este servidor não tem XPRoles."
 #: app/cogs/awardroles/ar_commands.py:147
 msgid "Stack XPRoles: **{}**"
 msgstr "Empilhar XPRoles: **{}**"
+
+#: app/cogs/awardroles/ar_commands.py:153
+msgid "XP Roles"
+msgstr ""
 
 #: app/cogs/awardroles/ar_commands.py:160
 msgid "Whether or not to stack XPRoles."
@@ -1840,11 +1692,6 @@ msgstr ""
 #, python-brace-format
 msgid "Messages must be at least {0} characters"
 msgstr "Mensagens devem ter pelo menos {0} caracteres."
-
-#: app/cogs/autostarchannels/asc_funcs.py:49
-#, python-brace-format
-msgid "Messages cannot be greater than {0} characters"
-msgstr "Mensagens não podem ter mais que {0] caracteres"
 
 #: app/cogs/autostarchannels/asc_funcs.py:45
 #, python-brace-format
@@ -1952,10 +1799,6 @@ msgid "Sets the minimum number of characters for messages."
 msgstr "Define o número mínimo de caracteres para mensagens."
 
 #: app/cogs/autostarchannels/asc_commands.py:266
-msgid "Sets the maximum number of characters for messages."
-msgstr "Define o número máximo de caracteres para mensagens."
-
-#: app/cogs/autostarchannels/asc_commands.py:266
 msgid "Whether or not messages must include an image."
 msgstr "Se mensagens devem ou não incluir uma imagem."
 
@@ -1963,37 +1806,9 @@ msgstr "Se mensagens devem ou não incluir uma imagem."
 msgid "Whether or not to delete invalid messages."
 msgstr "Se deve ou não excluir mensagens inválidas."
 
-#: app/cogs/premium/premium_events.py:56
-#, python-brace-format
-msgid ""
-"You have AutoRedeem enabled in {0}, and that server ran out of premium, so 3 "
-"credits were taken from your acccount. You can disable AutoRedeem for this "
-"server by running `sb!autoredeem disable {1}`."
-msgstr ""
-"Você tem AutoRedeem habilitado em {0}, e esse servidor ficou sem a versão "
-"premium, então 3 créditos foram retirados da sua conta. Você pode "
-"desabilitar AutoRedeem neste servidor executando `sb!autoredeem disable {1}`."
-
-#: app/cogs/premium/premium_events.py:77
-msgid "Premium has expired for this server."
-msgstr "A versão premium expirou neste servidor."
-
 #: app/cogs/premium/premium_commands.py:11
 msgid "Premium-related commands."
 msgstr "Comandos relacionados à versão premium."
-
-#: app/cogs/premium/premium_commands.py:32
-msgid "Shows the server's current premium status."
-msgstr "Mostra o status da versão premium no servidor."
-
-#: app/cogs/premium/premium_commands.py:37
-#, python-brace-format
-msgid "This server has premium until {0}."
-msgstr "Este servidor tem a versão premium até {0}."
-
-#: app/cogs/premium/premium_commands.py:41
-msgid "This server does not have premium currently."
-msgstr "Este servidor não tem a versão premium atualmente."
 
 #: app/cogs/premium/premium_commands.py:16
 msgid "Refresh your donor/patron roles."
@@ -2002,159 +1817,6 @@ msgstr "Atualize seus cargos de doador/patrocinador."
 #: app/cogs/premium/premium_commands.py:22
 msgid "Your roles should update momentarily."
 msgstr "Seus cargos devem ser atualizados momentaneamente."
-
-#: app/cogs/premium/premium_commands.py:56
-msgid "Uses some of your credits to give the current server premium."
-msgstr ""
-"Usa alguns dos seus créditos para dar a versão premium a este servidor."
-
-#: app/cogs/premium/premium_commands.py:67
-#, python-brace-format
-msgid ""
-"Are you sure you want to do this? This will cost you {0} credits and will "
-"give **{1}** {2} months of premium."
-msgstr ""
-"Você tem certeza de que você quer fazer isto? Isto vai custar {0} créditos e "
-"vai dar **{1}** {2} meses de versão premium."
-
-#: app/cogs/premium/premium_commands.py:79
-msgid "Done."
-msgstr "Pronto."
-
-#: app/cogs/premium/premium_commands.py:84
-msgid "Shows info on premium."
-msgstr "Mostra informações sobre o premium."
-
-#: app/cogs/premium/premium_commands.py:88
-msgid ""
-"We use a credit system for premium. It works like Discord boosts -- every $ "
-"you send to us gives you 1 premium credit, and once you have 3 credits you "
-"can convert that to 1 month of premium for 1 server. You can gain credits by "
-"donating, or by becoming a patron (which will give you X credits/month, "
-"depending on your tier)."
-msgstr ""
-"Nós usamos um sistema de crédito para a versão premium. Funciona como "
-"impulsos em servidores do Discord -- cada dólar que você nos envia lhe dá 1 "
-"crédito premium; e uma vez que você tenha 3 créditos, você pode convertê-los "
-"em 1 mês de premium para 1 servidor. Você pode ganhar créditos doando, ou "
-"tornando-se um patrocinador (o que lhe dará X créditos/mês, dependendo do "
-"seu nível)."
-
-#: app/cogs/premium/premium_commands.py:96
-#, python-brace-format
-msgid "Up to {0} starboards instead of {1}."
-msgstr "Limite máximo de {0} starboards em vez de {1}."
-
-#: app/cogs/premium/premium_commands.py:97
-#, python-brace-format
-msgid "Up to {0} emojis per starboard instead of {1}."
-msgstr "Limite máximo de {0} emojis por starboard em vez de {1}."
-
-#: app/cogs/premium/premium_commands.py:98
-#, python-brace-format
-msgid "Up to {0} AutoStar channels instead of {1}."
-msgstr "Limite máximo de {0} canais AutoStar em vez de {1}."
-
-#: app/cogs/premium/premium_commands.py:100
-#, python-brace-format
-msgid "Up to {0} emojis per AutoStar channel instead of {1}."
-msgstr "Limite máximo de {0} emojis por canal AutoStar em vez de {1}."
-
-#: app/cogs/premium/premium_commands.py:102
-#, python-brace-format
-msgid "Up to {0} XPRoles instead of {1}."
-msgstr "Limite máximo de {0} XPRoles em vez de {1}."
-
-#: app/cogs/premium/premium_commands.py:103
-#, python-brace-format
-msgid "Up to {0} PosRoles instead of {1}."
-msgstr "Limite máximo de {0} PosRoles em vez de {1}."
-
-#: app/cogs/premium/premium_commands.py:104
-#, python-brace-format
-msgid "Up to {0} PermGroups instead of {1}."
-msgstr "Limite máximo de {0} PermGroups em vez de {1}."
-
-#: app/cogs/premium/premium_commands.py:106
-#, python-brace-format
-msgid "Up to {1} PermRoles per PermGroup instead of {1}."
-msgstr "Limite máximo de {1} PosRoles por PermGroup em vez de {1}."
-
-#: app/cogs/premium/premium_commands.py:109
-msgid "**Premium Perks:**"
-msgstr "**Vantagens da Versão Premium:**"
-
-#: app/cogs/premium/premium_commands.py:123
-msgid "Use `sb!profile` to view your credits."
-msgstr "Use `sb!profile` para ver seus créditos."
-
-#: app/cogs/premium/premium_commands.py:130
-msgid ""
-"Manage AutoRedeem for servers.\n"
-"If ran in DMs, will show all servers AutoRedeem is enabled for."
-msgstr ""
-"Gerencie AutoRedeem em servidores.\n"
-"Se executado nas mensagens diretas do bot, ele vai mostrar todos os "
-"servidores em que AutoRedeem é habilitado."
-
-#: app/cogs/premium/premium_commands.py:142
-msgid "You don't have AutoRedeem enabled on any servers."
-msgstr "Você não tem AutoRedeem habilitado em nenhum servidor."
-
-#: app/cogs/premium/premium_commands.py:151
-#, python-brace-format
-msgid "Unknown Guild (`{0}`)"
-msgstr "Servidor Desconhecido (`{0}`)"
-
-#: app/cogs/premium/premium_commands.py:167
-msgid "AutoRedeem is enabled for this server."
-msgstr "AutoRedeem está habilitado neste servidor."
-
-#: app/cogs/premium/premium_commands.py:169
-msgid "AutoRedeem is disabled for this server."
-msgstr "AutoRedeem está desabilitado neste servidor."
-
-#: app/cogs/premium/premium_commands.py:174
-msgid "Enable AutoRedeem for the current server."
-msgstr "Habilite AutoRedeem neste servidor."
-
-#: app/cogs/premium/premium_commands.py:181
-msgid ""
-"Are you sure? When this server runs out of premium, credits will "
-"automatically be taken from your account."
-msgstr ""
-"Você tem certeza disso? Quando este servidor ficar sem a versão premium, "
-"créditos serão automaticamente retirados da sua conta."
-
-#: app/cogs/premium/premium_commands.py:189
-msgid "AutoRedeem has been enabled for this server."
-msgstr "AutoReedem foi habilitado neste servidor."
-
-#: app/cogs/premium/premium_commands.py:194
-msgid "Disable AutoRedeem for a specific server."
-msgstr "Desabilite AutoRedeem em um servidor específico."
-
-#: app/cogs/premium/premium_commands.py:203
-msgid ""
-"Please specify a guild or run this command in the guild you want to disable "
-"AutoRedeem in."
-msgstr ""
-"Por favor, especifique um servidor ou execute este comando no servidor em "
-"que você quer desabilitar AutoRedeem."
-
-#: app/cogs/premium/premium_commands.py:211
-#, python-brace-format
-msgid ""
-"Are you sure? Credits will no longer be taken from your account if {0} runs "
-"out of premium."
-msgstr ""
-"Você tem certeza? Créditos não serão mais retirados da sua conta se {0} "
-"ficar sem a versão premium."
-
-#: app/cogs/premium/premium_commands.py:220
-#, python-brace-format
-msgid "AutoRedeem has been disabled for {0}."
-msgstr "AutoRedeem foi desabilitado em {0}."
 
 #: app/cogs/premium/donate_events.py:57
 #, python-brace-format
@@ -2185,7 +1847,7 @@ msgid ""
 "Your support is greatly appreciated."
 msgstr ""
 "Obrigado por se tornar um patrocinador! Cada dólar que é enviado através do "
-"Patreon será convertido em 1 crédito. Envie uma mensagem direta para `@Circuit#5585` se você tiver "
+"Patreon será convertido em 1 crédito. DM `@Circuit#5585` se você tiver "
 "alguma dúvida.\n"
 "\n"
 "Seu apoio é muito apreciado."
@@ -2497,7 +2159,7 @@ msgstr "Redefini o leaderboard."
 
 #: app/cogs/utility/utility_commands.py:113
 msgid "Sets the XP for a user."
-msgstr "Define os pontos de experiência de um usuário."
+msgstr "Define os pontos de experiência para um usuário."
 
 #: app/cogs/utility/utility_commands.py:119
 msgid "XP cannot be less than 0."
@@ -2529,10 +2191,6 @@ msgstr "Devo recontar pelo menos 1 mensagem."
 #: app/cogs/utility/utility_commands.py:169
 msgid "Can only recount up to 1,000 messages."
 msgstr "Eu só posso recontar no máximo 1.000 mensagens."
-
-#: app/cogs/utility/utility_commands.py:173
-msgid "Finished!"
-msgstr "Completado!"
 
 #: app/cogs/utility/utility_commands.py:178
 msgid "Recounts the reactions on a message."
@@ -2612,10 +2270,6 @@ msgstr "Resultados da Depuração"
 #: app/cogs/utility/utility_commands.py:289
 msgid "Freezes a message."
 msgstr "Congela uma mensagem."
-
-#: app/cogs/utility/utility_commands.py:300
-msgid "Message frozen."
-msgstr "Mensagem congelada."
 
 #: app/cogs/utility/utility_commands.py:302
 msgid "Unfreezes a message."
@@ -3059,74 +2713,419 @@ msgstr "Canais na Lista Branca"
 msgid "Purged"
 msgstr "Descartados"
 
-#: app/database/database_functions/aschannels.py:96
-msgid "minChars cannot be greater than 2,000."
-msgstr "minChars não pode ser maior que 2.000."
+#: app/errors.py:17
+msgid "You don't have enough credits."
+msgstr "Você não tem créditos suficientes."
 
-#: app/buttons/paginator.py:57
+#: app/errors.py:28
+msgid ""
+"You have reached the limit for starboards, so you can't add any more unless "
+"this server receives premium."
+msgstr ""
+"Você alcançou o limite de starboards; então você não pode adicionar mais "
+"nenhum, exceto se este servidor receber a versão premium."
+
+#: app/errors.py:33
+msgid "You have reached the limit for starboards."
+msgstr "Você alcançou o limite de starboards."
+
+#: app/errors.py:41
+msgid ""
+"You have reached the limit for emojis on this starboard, so you can't add "
+"any more unless this server recieves premium."
+msgstr ""
+"Você alcançou o limite de emojis neste starboard; então você não pode "
+"adicionar mais nenhum, exceto se este servidor receber a versão premium."
+
+#: app/errors.py:47
+msgid "You have reached the limit for emoji on this starboard."
+msgstr "Você alcançou o limite de emojis neste starboard."
+
+#: app/errors.py:56
+msgid ""
+"You have reached the limit for AutoStar channels, so you can't add any more "
+"unless this server receives premium."
+msgstr ""
+"Você alcançou o limite de canais AutoStar; então você não pode adicionar "
+"mais nenhum, exceto se este servidor receber a versão premium."
+
+#: app/errors.py:61
+msgid "You have reached the limit for AutoStar channels."
+msgstr "Você alcançou o limite de canais AutoStar."
+
+#: app/errors.py:69
+msgid ""
+"You have reached the limit for emojis on this AutoStar channel, so you can't "
+"add anymore unless this server receives premium."
+msgstr ""
+"Você alcançou o limite de emojis neste canal AutoStar; então você não pode "
+"adicionar mais nenhum, exceto se este servidor receber a versão premium."
+
+#: app/errors.py:75
+msgid "You have reached the limit for emojis on this AutoStar channel."
+msgstr "Você alcançou o limite de emojis neste canal AutoStar."
+
+#: app/errors.py:85
+msgid ""
+"You have reached the limit for XPRoles, so you can't add any more unless "
+"this server receives premium."
+msgstr ""
+"Você alcançou o limite de XPRoles; então você não pode adicionar mais "
+"nenhum, exceto se este servidor receber a versão premium."
+
+#: app/errors.py:89
+msgid "You have reached the limit for XPRoles."
+msgstr "Você alcançou o limite de XPRoles."
+
+#: app/errors.py:97
+msgid ""
+"You have reached the limit for PosRoles, so you can't add any more unless "
+"this server receives premium."
+msgstr ""
+"Você alcançou o limite de PosRoles; então você não pode adicionar mais "
+"nenhum, exceto se este servidor receber a versão premium."
+
+#: app/errors.py:101
+msgid "You have reached the limit for PosRoles."
+msgstr "Você alcançou o limite de PosRoles."
+
+#: app/errors.py:109
+msgid ""
+"You have reached the limit for PermGroups, so you can't add any more unless "
+"this server receives premium."
+msgstr ""
+"Você alcançou o limite de PermGroups; então você não pode adicionar mais "
+"nenhum, exceto se este servidor receber a versão premium."
+
+#: app/errors.py:113
+msgid "You have reached the limit for PermGroups."
+msgstr "Você alcançou o limite de PermGroups."
+
+#: app/errors.py:121
+msgid ""
+"You have reached the limit for PermRoles on this PermGroup, so you can't add "
+"any more unless this server receives premium."
+msgstr ""
+"Você alcançou o limite de PermRoles neste PermGroup; então você não pode "
+"adicionar mais nenhum, exceto se este servidor receber a versão premium."
+
+#: app/errors.py:127
+msgid "You have reached the limit for PermRoles on this PermGroup"
+msgstr "Você alcançou o limite de PermRoles neste PermGroup"
+
+#: app/errors.py:134
+msgid "AutoRedeem is already enabled for this server."
+msgstr "AutoRedeem já está habilitado neste servidor."
+
+#: app/cogs/starboard/embed_logic.py:231
 #, python-brace-format
-msgid "Page {0}/{1}"
-msgstr "Página {0}/{1}"
+msgid "{0} additional attachments."
+msgstr "{0} anexos adicionais."
 
-#: app/buttons/paginator.py:95
-msgid "Stop"
-msgstr "Pare"
+#: app/cogs/premium/premium_events.py:56
+#, python-brace-format
+msgid ""
+"You have AutoRedeem enabled in {0}, and that server ran out of premium, so 3 "
+"credits were taken from your acccount. You can disable AutoRedeem for this "
+"server by running `sb!autoredeem disable {1}`."
+msgstr ""
+"Você tem AutoRedeem habilitado em {0}, e esse servidor ficou sem a versão "
+"premium, então 3 créditos foram retirados da sua conta. Você pode "
+"desabilitar AutoRedeem neste servidor executando `sb!autoredeem disable {1}`."
 
-#: app/buttons/paginator.py:100
-msgid "Prev"
-msgstr "Página anterior"
+#: app/cogs/premium/premium_events.py:77
+msgid "Premium has expired for this server."
+msgstr "A versão premium expirou neste servidor."
 
-#: app/buttons/paginator.py:105
-msgid "Next"
-msgstr "Próxima página"
+#: app/cogs/premium/premium_commands.py:32
+msgid "Shows the server's current premium status."
+msgstr "Mostra o status da versão premium no servidor."
 
-#: app/buttons/buttons.py:98
-msgid "You can't use this menu."
-msgstr "Você não pode usar este menu."
+#: app/cogs/premium/premium_commands.py:37
+#, python-brace-format
+msgid "This server has premium until {0}."
+msgstr "Este servidor tem a versão premium até {0}."
 
-#: app/buttons/confirm.py:40
-msgid "No"
-msgstr "Não"
+#: app/cogs/premium/premium_commands.py:41
+msgid "This server does not have premium currently."
+msgstr "Este servidor não tem a versão premium atualmente."
 
-#: app/buttons/confirm.py:46
-msgid "Yes"
-msgstr "Sim"
+#: app/cogs/premium/premium_commands.py:56
+msgid "Uses some of your credits to give the current server premium."
+msgstr ""
+"Usa alguns dos seus créditos para dar a versão premium a este servidor."
+
+#: app/cogs/premium/premium_commands.py:67
+#, python-brace-format
+msgid ""
+"Are you sure you want to do this? This will cost you {0} credits and will "
+"give **{1}** {2} months of premium."
+msgstr ""
+"Você tem certeza de que você quer fazer isto? Isto vai custar {0} créditos e "
+"vai dar **{1}** {2} meses de versão premium."
+
+#: app/cogs/premium/premium_commands.py:79
+msgid "Done."
+msgstr "Pronto."
+
+#: app/cogs/premium/premium_commands.py:84
+msgid "Shows info on premium."
+msgstr "Mostra informações sobre o premium."
+
+#: app/cogs/premium/premium_commands.py:88
+msgid ""
+"We use a credit system for premium. It works like Discord boosts -- every $ "
+"you send to us gives you 1 premium credit, and once you have 3 credits you "
+"can convert that to 1 month of premium for 1 server. You can gain credits by "
+"donating, or by becoming a patron (which will give you X credits/month, "
+"depending on your tier)."
+msgstr ""
+"Nós usamos um sistema de crédito para a versão premium. Funciona como "
+"impulsos em servidores do Discord -- cada dólar que você nos envia lhe dá 1 "
+"crédito premium; e uma vez que você tenha 3 créditos, você pode convertê-los "
+"em 1 mês de premium para 1 servidor. Você pode ganhar créditos doando, ou "
+"tornando-se um patrocinador (o que lhe dará X créditos/mês, dependendo do "
+"seu nível)."
+
+#: app/cogs/premium/premium_commands.py:96
+#, python-brace-format
+msgid "Up to {0} starboards instead of {1}."
+msgstr "Limite máximo de {0} starboards em vez de {1}."
+
+#: app/cogs/premium/premium_commands.py:97
+#, python-brace-format
+msgid "Up to {0} emojis per starboard instead of {1}."
+msgstr "Limite máximo de {0} emojis por starboard em vez de {1}."
+
+#: app/cogs/premium/premium_commands.py:98
+#, python-brace-format
+msgid "Up to {0} AutoStar channels instead of {1}."
+msgstr "Limite máximo de {0} canais AutoStar em vez de {1}."
+
+#: app/cogs/premium/premium_commands.py:100
+#, python-brace-format
+msgid "Up to {0} emojis per AutoStar channel instead of {1}."
+msgstr "Limite máximo de {0} emojis por canal AutoStar em vez de {1}."
+
+#: app/cogs/premium/premium_commands.py:102
+#, python-brace-format
+msgid "Up to {0} XPRoles instead of {1}."
+msgstr "Limite máximo de {0} XPRoles em vez de {1}."
+
+#: app/cogs/premium/premium_commands.py:103
+#, python-brace-format
+msgid "Up to {0} PosRoles instead of {1}."
+msgstr "Limite máximo de {0} PosRoles em vez de {1}."
+
+#: app/cogs/premium/premium_commands.py:104
+#, python-brace-format
+msgid "Up to {0} PermGroups instead of {1}."
+msgstr "Limite máximo de {0} PermGroups em vez de {1}."
+
+#: app/cogs/premium/premium_commands.py:106
+#, python-brace-format
+msgid "Up to {1} PermRoles per PermGroup instead of {1}."
+msgstr "Limite máximo de {1} PosRoles por PermGroup em vez de {1}."
+
+#: app/cogs/premium/premium_commands.py:109
+msgid "**Premium Perks:**"
+msgstr "**Vantagens da Versão Premium:**"
+
+#: app/cogs/premium/premium_commands.py:123
+msgid "Use `sb!profile` to view your credits."
+msgstr "Use `sb!profile` para ver seus créditos."
+
+#: app/cogs/premium/premium_commands.py:130
+msgid ""
+"Manage AutoRedeem for servers.\n"
+"If ran in DMs, will show all servers AutoRedeem is enabled for."
+msgstr ""
+"Gerencie AutoRedeem em servidores.\n"
+"Se executado nas mensagens diretas do bot, ele vai mostrar todos os "
+"servidores em que AutoRedeem é habilitado."
+
+#: app/cogs/premium/premium_commands.py:142
+msgid "You don't have AutoRedeem enabled on any servers."
+msgstr "Você não tem AutoRedeem habilitado em nenhum servidor."
+
+#: app/cogs/premium/premium_commands.py:151
+#, python-brace-format
+msgid "Unknown Guild (`{0}`)"
+msgstr "Servidor Desconhecido (`{0}`)"
+
+#: app/cogs/premium/premium_commands.py:167
+msgid "AutoRedeem is enabled for this server."
+msgstr "AutoRedeem está habilitado neste servidor."
+
+#: app/cogs/premium/premium_commands.py:169
+msgid "AutoRedeem is disabled for this server."
+msgstr "AutoRedeem está desabilitado neste servidor."
+
+#: app/cogs/premium/premium_commands.py:174
+msgid "Enable AutoRedeem for the current server."
+msgstr "Habilite AutoRedeem neste servidor."
+
+#: app/cogs/premium/premium_commands.py:181
+msgid ""
+"Are you sure? When this server runs out of premium, credits will "
+"automatically be taken from your account."
+msgstr ""
+"Você tem certeza disso? Quando este servidor ficar sem a versão premium, "
+"créditos serão automaticamente retirados da sua conta."
+
+#: app/cogs/premium/premium_commands.py:189
+msgid "AutoRedeem has been enabled for this server."
+msgstr "AutoReedem foi habilitado neste servidor."
+
+#: app/cogs/premium/premium_commands.py:194
+msgid "Disable AutoRedeem for a specific server."
+msgstr "Desabilite AutoRedeem em um servidor específico."
+
+#: app/cogs/premium/premium_commands.py:203
+msgid ""
+"Please specify a guild or run this command in the guild you want to disable "
+"AutoRedeem in."
+msgstr ""
+"Por favor, especifique um servidor ou execute este comando no servidor em "
+"que você quer desabilitar AutoRedeem."
+
+#: app/cogs/premium/premium_commands.py:211
+#, python-brace-format
+msgid ""
+"Are you sure? Credits will no longer be taken from your account if {0} runs "
+"out of premium."
+msgstr ""
+"Você tem certeza? Créditos não serão mais retirados da sua conta se {0} "
+"ficar sem a versão premium."
+
+#: app/cogs/premium/premium_commands.py:220
+#, python-brace-format
+msgid "AutoRedeem has been disabled for {0}."
+msgstr "AutoRedeem foi desabilitado em {0}."
+
+#: app/cogs/utility/utility_commands.py:173
+msgid "Finished!"
+msgstr "Completado!"
+
+#: app/cogs/utility/utility_commands.py:300
+msgid "Message frozen."
+msgstr "Mensagem congelada."
+
+#: app/cogs/starboard/starboard_commands.py:31
+msgid "Exitted due to an error."
+msgstr "O assistente de configuração fechou devido a um erro."
+
+#: app/cogs/starboard/starboard_commands.py:33
+msgid "Wizard timed out."
+msgstr "O tempo do assistente de configuração esgotou."
+
+#: app/cogs/starboard/starboard_commands.py:40
+#, python-brace-format
+msgid "Starboard created! View it with `{p}s #{channel.name}`"
+msgstr "Starboard criado! Veja-o com `{p}s #{channel.name}`"
+
+#: app/errors.py:136
+msgid ""
+"You have reached the limit for prefixes, so you can't add any more unless "
+"this server receives premium."
+msgstr ""
+"Você alcançou o limite de prefixos; então você não pode adicionar nenhum, "
+"exceto se este servidor receber a versão premium."
+
+#: app/errors.py:140
+msgid "You have reached the limit for prefixes."
+msgstr "Você alcançou o limite de prefixos."
+
+#: app/database/database_functions/aschannels.py:110
+msgid "minChars cannot be greater than 4,000."
+msgstr "minChars não pode ser maior que 4.000."
+
+#: app/database/database_functions/aschannels.py:113
+msgid "maxChars cannot be less than 0."
+msgstr "maxChars não pode ser menor que 0."
+
+#: app/database/database_functions/aschannels.py:116
+msgid "maxChars cannot be greater than 4,000."
+msgstr "maxChars não pode ser maior que 1.000."
+
+#: app/cogs/starboard/starboard_commands.py:103
+#, python-brace-format
+msgid ""
+"Note: This starboard has been disabled. Enable it with `{p}s enable #{s}`."
+msgstr ""
+"Nota: Este starboard foi desabilitado. Habilite-o com `{p}s enable #{s}`."
+
+#: app/cogs/starboard/starboard_commands.py:200
+msgid "Disables a starboard."
+msgstr "Desabilita um starboard."
+
+#: app/cogs/starboard/starboard_commands.py:209
+#, python-brace-format
+msgid "The starboard {0} has been disabled."
+msgstr "O starboard {0} foi desabilitado."
+
+#: app/cogs/starboard/starboard_commands.py:217
+msgid "Enables a starboard."
+msgstr "Habilita um starboard."
+
+#: app/cogs/starboard/starboard_commands.py:226
+#, python-brace-format
+msgid "The starboard {0} has been enabled."
+msgstr "O starboard {0} foi habilitado."
+
+#: app/cogs/fun/fun_commands.py:212
+#, python-brace-format
+msgid "Page {0}"
+msgstr "Página {0}"
+
+#: app/cogs/permroles/pr_commands.py:457
+msgid ""
+"Sorts the PermRoles in a PermGroup by their order in the server settings."
+msgstr ""
+"Ordena os PermRoles em um PermGroup pela ordem deles nas configurações do "
+"servidor."
+
+#: app/cogs/permroles/pr_commands.py:471
+#, python-brace-format
+msgid ""
+"Are you sure? This will permanently change the order of the PermRoles in the "
+"PermGroup **{0}**."
+msgstr ""
+"Você tem certeza? Isto vai permanentemente mudar a ordem dos PermRoles no "
+"PermGroup **{0}**."
+
+#: app/cogs/permroles/pr_commands.py:487
+msgid "Done!"
+msgstr "Pronto!"
+
+#: app/cogs/autostarchannels/asc_funcs.py:49
+#, python-brace-format
+msgid "Messages cannot be greater than {0} characters"
+msgstr "Mensagens não podem ter mais que {0] caracteres"
+
+#: app/cogs/autostarchannels/asc_commands.py:266
+msgid "Sets the maximum number of characters for messages."
+msgstr "Define o número máximo de caracteres para mensagens."
 
 #: app/wizards/starboard.py:104
-msgid "Do you want to (1) create a new channel or (2) use an existing channel?"
-msgstr "Você deseja (1) criar um novo canal ou (2) usar um canal existente?"
-
-#: app/cogs/starboard/starboard_funcs.py:348
-#, python-brace-format
-msgid "**[Replying to {0}]({1})**\n"
-msgstr "**[Respondendo a {0}]({1})**\n"
-
-#: app/cogs/starboard/starboard_funcs.py:353
-#, python-brace-format
 msgid ""
-"**[Replying to Unknown (deleted)](https://discord.com/channels/{0.guild_id}/"
-"{0.channel_id}/{0.message_id})**\n"
+"This setup wizard will walk you through setting up a basic starboard and "
+"customizing the most frequently used settings. Type `cancel` at any time to "
+"cancel.\n"
+"\n"
+"Do you want to (1) create a new channel or (2) use an existing channel?"
 msgstr ""
-"**[Respondendo a um Desconhecido (excluída)](https://discord.com/channels/{0."
-"guild_id}/{0.channel_id}/{0.message_id})**\n"
+"Este assistente de configuração irá te guiar através da configuração de um "
+"starboard básico e da personalização das configurações mais frequentemente "
+"utilizadas. Digite `cancel` a qualquer momento para cancelar.\n"
+"\n"
+"Você quer (1) criar um novo canal ou (2) utilizar um canal já existente?"
 
-#: app/cogs/slash/slash_commands.py:14
-msgid "Slash commands."
-msgstr "Comandos de barra (/)."
-
-#: app/cogs/slash/slash_commands.py:29
-msgid "Get a link for authorizing slash commands."
-msgstr "Obtenha um link para autorizar comandos de barra."
-
-#: app/cogs/slash/slash_commands.py:38
-msgid ""
-"Try running `/ping` to see if slash commands are working. If not, a server "
-"admin can use [this link]({}) to give me the proper permissions."
+#: app/cogs/starboard/embed_logic.py:46
+#, python-brace-format
+msgid "Replying to {0}, who said:"
 msgstr ""
-"Tente executar `/ping` para ver se comandos de barra estão funcionando. Se "
-"não, um administrador do servidor pode usar [this link]({}) para me dar as "
-"permissões apropriadas."
 
-#: app/cogs/awardroles/ar_commands.py:153
-msgid "XPRoles"
-msgstr "XPRoles"
+#: app/cogs/starboard/embed_logic.py:47
+msgid "Unknown"
+msgstr ""
