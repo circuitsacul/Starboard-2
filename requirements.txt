@@ -13,7 +13,7 @@ websockets==9.1
 uvloop==0.16.0
 asyncpg==0.24.0
 buildpg==0.3
-cachetools==4.2.2
+cachetools==4.2.4
 ujson==4.2.0
 msgpack==1.0.2
 emoji==1.5.0
