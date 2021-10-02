@@ -371,27 +371,14 @@ msgstr ""
 msgid "minChars cannot be less than 0."
 msgstr ""
 
-#: app/database/database_functions/aschannels.py:110
-msgid "minChars cannot be greater than 4,000."
-msgstr ""
-
-#: app/database/database_functions/aschannels.py:113
-msgid "maxChars cannot be less than 0."
-msgstr ""
-
-#: app/database/database_functions/aschannels.py:116
-msgid "maxChars cannot be greater than 4,000."
+#: app/database/database_functions/aschannels.py:109
+msgid "minChars cannot be greater than 2,000."
 msgstr ""
 
 #: app/database/database_functions/posroles.py:78
 #: app/database/database_functions/posroles.py:117
 msgid "MaxUsers must be greater than 0."
 msgstr ""
-
-#: app/cogs/settings/settings_commands.py:425
-#, python-brace-format
-msgid "`{0}` is too long (max length is 8 characters)."
-msgstr "."
 
 #: app/database/database_functions/guilds.py:60
 msgid "The cooldown amount must be greater than 0."
@@ -469,12 +456,7 @@ msgid "That is already a starboard. Run the wizard anyways?"
 msgstr ""
 
 #: app/wizards/starboard.py:104
-msgid ""
-"This setup wizard will walk you through setting up a basic starboard and "
-"customizing the most frequently used settings. Type `cancel` at any time to "
-"cancel.\n"
-"\n"
-"Do you want to (1) create a new channel or (2) use an existing channel?"
+msgid "Do you want to (1) create a new channel or (2) use an existing channel?"
 msgstr ""
 
 #: app/wizards/starboard.py:125
@@ -545,33 +527,6 @@ msgstr ""
 msgid "Runs a setup wizard to create a starboard."
 msgstr ""
 
-#: app/cogs/starboard/starboard_commands.py:187
-#: app/cogs/starboard/starboard_commands.py:870
-#: app/cogs/settings/settings_commands.py:480
-#: app/cogs/settings/settings_commands.py:509
-#: app/cogs/permroles/pr_commands.py:244
-#: app/cogs/utility/utility_commands.py:78
-#: app/cogs/utility/utility_commands.py:81
-#: app/cogs/utility/utility_commands.py:85
-#: app/cogs/utility/utility_commands.py:102
-#: app/cogs/utility/utility_commands.py:332
-#: app/cogs/utility/utility_commands.py:400
-msgid "Cancelled."
-msgstr ""
-
-#: app/cogs/starboard/starboard_commands.py:31
-msgid "Exitted due to an error."
-msgstr ""
-
-#: app/cogs/starboard/starboard_commands.py:33
-msgid "Wizard timed out."
-msgstr ""
-
-#: app/cogs/starboard/starboard_commands.py:40
-#, python-brace-format
-msgid "Starboard created! View it with `{p}s #{channel.name}`"
-msgstr ""
-
 #: app/cogs/starboard/starboard_commands.py:46
 msgid "List starboards."
 msgstr ""
@@ -599,12 +554,6 @@ msgstr ""
 msgid "Deleted Channel {0}"
 msgstr ""
 
-#: app/cogs/starboard/starboard_commands.py:103
-#, python-brace-format
-msgid ""
-"Note: This starboard has been disabled. Enable it with `{p}s enable #{s}`."
-msgstr ""
-
 #: app/cogs/starboard/starboard_commands.py:148
 msgid "Adds a starboard."
 msgstr ""
@@ -627,22 +576,21 @@ msgstr ""
 msgid "{0} is no longer a starboard."
 msgstr ""
 
-#: app/cogs/starboard/starboard_commands.py:200
-msgid "Disables a starboard."
-msgstr ""
-
-#: app/cogs/starboard/starboard_commands.py:209
-#, python-brace-format
-msgid "The starboard {0} has been disabled."
-msgstr ""
-
-#: app/cogs/starboard/starboard_commands.py:217
-msgid "Enables a starboard."
-msgstr ""
-
-#: app/cogs/starboard/starboard_commands.py:226
-#, python-brace-format
-msgid "The starboard {0} has been enabled."
+#: app/cogs/starboard/starboard_commands.py:187
+#: app/cogs/starboard/starboard_commands.py:867
+#: app/cogs/settings/settings_commands.py:479
+#: app/cogs/settings/settings_commands.py:508
+#: app/cogs/permroles/pr_commands.py:243
+#: app/cogs/premium/premium_commands.py:66
+#: app/cogs/premium/premium_commands.py:177
+#: app/cogs/premium/premium_commands.py:206
+#: app/cogs/utility/utility_commands.py:78
+#: app/cogs/utility/utility_commands.py:81
+#: app/cogs/utility/utility_commands.py:85
+#: app/cogs/utility/utility_commands.py:100
+#: app/cogs/utility/utility_commands.py:329
+#: app/cogs/utility/utility_commands.py:396
+msgid "Cancelled."
 msgstr ""
 
 #: app/cogs/starboard/starboard_commands.py:193
@@ -771,34 +719,6 @@ msgstr ""
 #: app/cogs/autostarchannels/asc_commands.py:224
 #, python-brace-format
 msgid "Are you sure you want to clear all emojis for {0}?"
-msgstr ""
-
-#: app/cogs/starboard/starboard_funcs.py:326
-#: app/cogs/starboard/starboard_funcs.py:336
-msgid "*Message was deleted*"
-msgstr ""
-
-#: app/cogs/starboard/starboard_funcs.py:339
-msgid "*File Only*"
-msgstr ""
-
-#: app/cogs/starboard/embed_logic.py:46
-#, python-brace-format
-msgid "Replying to {0}, who said:"
-msgstr ""
-
-#: app/cogs/starboard/embed_logic.py:47
-msgid "Unknown"
-msgstr ""
-
-#: app/cogs/starboard/starboard_funcs.py:362
-#, python-brace-format
-msgid "**[Jump to Message]({0})**"
-msgstr ""
-
-#: app/cogs/starboard/embed_logic.py:231
-#, python-brace-format
-msgid "{0} additional attachments."
 msgstr ""
 
 #: app/cogs/starboard/embed_logic.py:29 app/cogs/starboard/embed_logic.py:39
@@ -1028,6 +948,11 @@ msgstr ""
 msgid "Adds a prefix."
 msgstr ""
 
+#: app/cogs/settings/settings_commands.py:425
+#, python-brace-format
+msgid "`{0}` is too long (max length is 8 characters)."
+msgstr ""
+
 #: app/cogs/settings/settings_commands.py:442
 #, python-brace-format
 msgid "Added `{0}` to the prefixes."
@@ -1195,11 +1120,6 @@ msgstr ""
 msgid "--place must be greater than 0"
 msgstr ""
 
-#: app/cogs/fun/fun_commands.py:212
-#, python-brace-format
-msgid "Page {0}"
-msgstr ""
-
 #: app/cogs/fun/fun_commands.py:219
 msgid "Nothing to show."
 msgstr ""
@@ -1304,22 +1224,6 @@ msgstr ""
 #: app/cogs/permroles/pr_commands.py:154
 #, python-brace-format
 msgid "Moved the PermGroup **{0}** from {1} to {2}."
-msgstr ""
-
-#: app/cogs/permroles/pr_commands.py:457
-msgid ""
-"Sorts the PermRoles in a PermGroup by their order in the server settings."
-msgstr ""
-
-#: app/cogs/permroles/pr_commands.py:471
-#, python-brace-format
-msgid ""
-"Are you sure? This will permanently change the order of the PermRoles in the "
-"PermGroup **{0}**."
-msgstr ""
-
-#: app/cogs/permroles/pr_commands.py:487
-msgid "Done!"
 msgstr ""
 
 #: app/cogs/permroles/pr_commands.py:162
@@ -1434,22 +1338,6 @@ msgstr ""
 #: app/cogs/permroles/pr_commands.py:449
 #, python-brace-format
 msgid "Moved the PermRole {0} from {1} to {2}."
-msgstr ""
-
-#: app/cogs/permroles/pr_commands.py:457
-msgid ""
-"Sorts the PermRoles in a PermGroup by their order in the server settings."
-msgstr ""
-
-#: app/cogs/permroles/pr_commands.py:471
-#, python-brace-format
-msgid ""
-"Are you sure? This will permanently change the order of the PermRoles in the "
-"PermGroup **{0}**."
-msgstr ""
-
-#: app/cogs/permroles/pr_commands.py:487
-msgid "Done!"
 msgstr ""
 
 #: app/cogs/permroles/pr_commands.py:457
@@ -1749,11 +1637,6 @@ msgstr ""
 msgid "Messages must be at least {0} characters"
 msgstr ""
 
-#: app/cogs/autostarchannels/asc_funcs.py:49
-#, python-brace-format
-msgid "Messages cannot be greater than {0} characters"
-msgstr ""
-
 #: app/cogs/autostarchannels/asc_funcs.py:45
 #, python-brace-format
 msgid "Messages must match `{0}`"
@@ -1850,28 +1733,12 @@ msgstr ""
 msgid "Sets the minimum number of characters for messages."
 msgstr ""
 
-#: app/cogs/autostarchannels/asc_commands.py:266
-msgid "Sets the maximum number of characters for messages."
-msgstr ""
-
 #: app/cogs/autostarchannels/asc_commands.py:265
 msgid "Whether or not messages must include an image."
 msgstr ""
 
 #: app/cogs/autostarchannels/asc_commands.py:344
 msgid "Whether or not to delete invalid messages."
-msgstr ""
-
-#: app/cogs/premium/premium_events.py:56
-#, python-brace-format
-msgid ""
-"You have AutoRedeem enabled in {0}, and that server ran out of premium, so 3 "
-"credits were taken from your acccount. You can disable AutoRedeem for this "
-"server by running `sb!autoredeem disable {1}`."
-msgstr ""
-
-#: app/cogs/premium/premium_events.py:77
-msgid "Premium has expired for this server."
 msgstr ""
 
 #: app/cogs/premium/premium_events.py:56
@@ -2046,141 +1913,6 @@ msgstr ""
 msgid "AutoRedeem has been disabled for {0}."
 msgstr ""
 
-#: app/cogs/premium/premium_commands.py:56
-msgid "Uses some of your credits to give the current server premium."
-msgstr ""
-
-#: app/cogs/premium/premium_commands.py:67
-#, python-brace-format
-msgid ""
-"Are you sure you want to do this? This will cost you {0} credits and will "
-"give **{1}** {2} months of premium."
-msgstr ""
-
-#: app/cogs/premium/premium_commands.py:79
-msgid "Done."
-msgstr ""
-
-#: app/cogs/premium/premium_commands.py:84
-msgid "Shows info on premium."
-msgstr ""
-
-#: app/cogs/premium/premium_commands.py:88
-msgid ""
-"We use a credit system for premium. It works like Discord boosts -- every $ "
-"you send to us gives you 1 premium credit, and once you have 3 credits you "
-"can convert that to 1 month of premium for 1 server. You can gain credits by "
-"donating, or by becoming a patron (which will give you X credits/month, "
-"depending on your tier)."
-msgstr ""
-
-#: app/cogs/premium/premium_commands.py:96
-#, python-brace-format
-msgid "Up to {0} starboards instead of {1}."
-msgstr ""
-
-#: app/cogs/premium/premium_commands.py:97
-#, python-brace-format
-msgid "Up to {0} emojis per starboard instead of {1}."
-msgstr ""
-
-#: app/cogs/premium/premium_commands.py:98
-#, python-brace-format
-msgid "Up to {0} AutoStar channels instead of {1}."
-msgstr ""
-
-#: app/cogs/premium/premium_commands.py:100
-#, python-brace-format
-msgid "Up to {0} emojis per AutoStar channel instead of {1}."
-msgstr ""
-
-#: app/cogs/premium/premium_commands.py:102
-#, python-brace-format
-msgid "Up to {0} XPRoles instead of {1}."
-msgstr ""
-
-#: app/cogs/premium/premium_commands.py:103
-#, python-brace-format
-msgid "Up to {0} PosRoles instead of {1}."
-msgstr ""
-
-#: app/cogs/premium/premium_commands.py:104
-#, python-brace-format
-msgid "Up to {0} PermGroups instead of {1}."
-msgstr ""
-
-#: app/cogs/premium/premium_commands.py:106
-#, python-brace-format
-msgid "Up to {1} PermRoles per PermGroup instead of {1}."
-msgstr ""
-
-#: app/cogs/premium/premium_commands.py:109
-msgid "**Premium Perks:**"
-msgstr ""
-
-#: app/cogs/premium/premium_commands.py:123
-msgid "Use `sb!profile` to view your credits."
-msgstr ""
-
-#: app/cogs/premium/premium_commands.py:130
-msgid ""
-"Manage AutoRedeem for servers.\n"
-"If ran in DMs, will show all servers AutoRedeem is enabled for."
-msgstr ""
-
-#: app/cogs/premium/premium_commands.py:142
-msgid "You don't have AutoRedeem enabled on any servers."
-msgstr ""
-
-#: app/cogs/premium/premium_commands.py:151
-#, python-brace-format
-msgid "Unknown Guild (`{0}`)"
-msgstr ""
-
-#: app/cogs/premium/premium_commands.py:167
-msgid "AutoRedeem is enabled for this server."
-msgstr ""
-
-#: app/cogs/premium/premium_commands.py:169
-msgid "AutoRedeem is disabled for this server."
-msgstr ""
-
-#: app/cogs/premium/premium_commands.py:174
-msgid "Enable AutoRedeem for the current server."
-msgstr ""
-
-#: app/cogs/premium/premium_commands.py:181
-msgid ""
-"Are you sure? When this server runs out of premium, credits will "
-"automatically be taken from your account."
-msgstr ""
-
-#: app/cogs/premium/premium_commands.py:189
-msgid "AutoRedeem has been enabled for this server."
-msgstr ""
-
-#: app/cogs/premium/premium_commands.py:194
-msgid "Disable AutoRedeem for a specific server."
-msgstr ""
-
-#: app/cogs/premium/premium_commands.py:203
-msgid ""
-"Please specify a guild or run this command in the guild you want to disable "
-"AutoRedeem in."
-msgstr ""
-
-#: app/cogs/premium/premium_commands.py:211
-#, python-brace-format
-msgid ""
-"Are you sure? Credits will no longer be taken from your account if {0} runs "
-"out of premium."
-msgstr ""
-
-#: app/cogs/premium/premium_commands.py:220
-#, python-brace-format
-msgid "AutoRedeem has been disabled for {0}."
-msgstr ""
-
 #: app/cogs/premium/donate_events.py:57
 #, python-brace-format
 msgid ""
@@ -2189,14 +1921,14 @@ msgid ""
 "for your donation!"
 msgstr ""
 
-#: app/cogs/premium/patreon_events.py:75
+#: app/cogs/premium/patreon_events.py:76
 msgid ""
 "Looks like your payment on patreon has been declined. Please make sure that "
 "you entered your info on patreon correctly, and feel free to DM "
 "@Circuit#5585 for help."
 msgstr ""
 
-#: app/cogs/premium/patreon_events.py:85
+#: app/cogs/premium/patreon_events.py:86
 msgid ""
 "Thanks for becoming a patron! Each $ that is sent through Patreon will be "
 "converted to 1 credit. DM `@Circuit#5585` if you have any questions.\n"
@@ -2204,14 +1936,14 @@ msgid ""
 "Your support is greatly appreciated."
 msgstr ""
 
-#: app/cogs/premium/patreon_events.py:92
+#: app/cogs/premium/patreon_events.py:93
 #, python-brace-format
 msgid ""
 "Just wanted to alert you that your monthly pledge on Patreon has changed "
 "from ${0} to ${1}. Thanks for supporting Starboard!"
 msgstr ""
 
-#: app/cogs/premium/patreon_events.py:127
+#: app/cogs/premium/patreon_events.py:128
 msgid ""
 "It looks like you removed your pledge on Patreon. We're sorry to see you go, "
 "but we are still grateful for all of your previous support.\n"
@@ -2220,43 +1952,43 @@ msgid ""
 "you currently have."
 msgstr ""
 
-#: app/cogs/base/base_events.py:161
+#: app/cogs/base/base_events.py:194
 #, python-brace-format
 msgid "My prefix is `{0}`."
 msgstr ""
 
-#: app/cogs/base/base_events.py:190
+#: app/cogs/base/base_events.py:223
 #, python-brace-format
 msgid ""
 "I don't have permission to send messages in {0}, so I can't respond to your "
 "command."
 msgstr ""
 
-#: app/cogs/base/base_events.py:196
+#: app/cogs/base/base_events.py:229
 msgid "Something's Not Right"
 msgstr ""
 
-#: app/cogs/base/base_events.py:198
+#: app/cogs/base/base_events.py:231
 msgid ""
 "Something went wrong while running this command. If the problem persists, "
 "please report this in the support server."
 msgstr ""
 
-#: app/cogs/base/base_events.py:250
+#: app/cogs/base/base_events.py:283
 #, python-brace-format
 msgid "{0} Leveled up!"
 msgstr ""
 
-#: app/cogs/base/base_events.py:251
+#: app/cogs/base/base_events.py:284
 #, python-brace-format
 msgid "They are now level **{0}**!"
 msgstr ""
 
-#: app/cogs/base/base_commands.py:16
+#: app/cogs/base/base_commands.py:15
 msgid "Basic informational commands."
 msgstr ""
 
-#: app/cogs/base/base_commands.py:21
+#: app/cogs/base/base_commands.py:20
 msgid ""
 "A Starboard is a bot that allows users of a server to \"vote\" to \"pin\" a "
 "message. The main idea is this:\n"
