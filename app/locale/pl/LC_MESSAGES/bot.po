@@ -2784,3 +2784,7 @@ msgstr ""
 #: app/cogs/autostarchannels/asc_commands.py:266
 msgid "Sets the maximum number of characters for messages."
 msgstr ""
+
+#: app/cogs/awardroles/ar_commands.py:153
+msgid "XPRoles"
+msgstr ""
