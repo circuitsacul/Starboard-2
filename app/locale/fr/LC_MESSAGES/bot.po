@@ -1604,7 +1604,7 @@ msgid "View and manage XPRoles for your server."
 msgstr ""
 
 #: app/cogs/awardroles/ar_commands.py:139
-msgid "This server has no XP Roles."
+msgid "This server has no XPRoles."
 msgstr ""
 
 #: app/cogs/awardroles/ar_commands.py:147
