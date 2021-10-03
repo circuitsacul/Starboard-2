@@ -1612,7 +1612,7 @@ msgid "Stack XPRoles: **{}**"
 msgstr ""
 
 #: app/cogs/awardroles/ar_commands.py:153
-msgid "XP Roles"
+msgid "XPRoles"
 msgstr ""
 
 #: app/cogs/awardroles/ar_commands.py:160
