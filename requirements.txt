@@ -16,7 +16,7 @@ buildpg==0.3
 cachetools==4.2.4
 ujson==4.2.0
 msgpack==1.0.2
-emoji==1.6.0
+emoji==1.6.1
 patreon==0.5.0
 quart-csrf==0.2
 quart-discord==2.1.4
