@@ -8,7 +8,7 @@ discord.py==1.7.3
 humanize==3.12.0
 quart==0.15.1
 alt-discord-flags==0.0.5
-python-dotenv==0.19.1
+python-dotenv==0.19.2
 websockets==9.1
 uvloop==0.16.0
 asyncpg==0.24.0
