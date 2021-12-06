@@ -14,7 +14,7 @@ uvloop==0.16.0
 asyncpg==0.24.0
 buildpg==0.3
 cachetools==4.2.4
-ujson==4.2.0
+ujson==4.3.0
 msgpack==1.0.3
 emoji==1.6.1
 patreon==0.5.0
