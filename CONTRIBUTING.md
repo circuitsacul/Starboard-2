@@ -10,6 +10,13 @@ If you want to contribute, that's great! Please just follow the guidelines, as t
 5.  Make your changes, then push. `black` will automatically format the code.
 6.  Create a pull request from your repo to this repo
 
+### Style Guildelines
+1.  Use `dict[]`, `list[]`, etc. instead of `typing.X` for typehints.
+2.  Use `|` instead of `typing.Union` (for example, `int | str` instead of `Union[int, str]`)
+3.  To use #1 and #2, you need to include `from __future__ import annotations` in the imports.
+4.  Use isort to sort imports. Always run black (#5) after running isort.
+5.  Use black to format all code, with the line length set to 79. (`black . -l 79`)
+
 ## Adding/Updating Translations
 Translation files are found in `app/locale/<locale name>/LC_MESSAGES/bot.po`. They are formated like this:
 ```
