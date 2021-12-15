@@ -1,23 +1,23 @@
 discord-ext-menus @ git+git://github.com/Rapptz/discord-ext-menus.git@309c70222eec33acacb8c21bbb0fbe9bc57de661
 betterstatcord.py @ git+git://github.com/CircuitSacul/betterstatcord.py.git@6feda6b0653ff30b399d8a73293fa32e448a1cf5
-jishaku==2.2.0
+jishaku==2.3.2
 discord-ext-wizards==0.3.0
 discord-ext-prettyhelp==0.2.3
 requests==2.26.0
 discord.py==1.7.3
-humanize==3.11.0
-quart==0.15.1
+humanize==3.13.1
+quart==0.16.2
 alt-discord-flags==0.0.5
-python-dotenv==0.19.0
-websockets==9.1
+python-dotenv==0.19.2
+websockets==10.1
 uvloop==0.16.0
-asyncpg==0.23.0
+asyncpg==0.25.0
 buildpg==0.3
-cachetools==4.2.2
-ujson==4.1.0
-msgpack==1.0.2
-emoji==1.4.2
+cachetools==4.2.4
+ujson==4.3.0
+msgpack==1.0.3
+emoji==1.6.1
 patreon==0.5.0
 quart-csrf==0.2
 quart-discord==2.1.4
-progressbar2==3.53.1
+progressbar2==3.55.0
