@@ -115,8 +115,7 @@ def timedelta(arg: str) -> datetime.timedelta:
         hours=gettime("h"),
         days=gettime("d"),
     )
-    ts = delta.total_seconds()
-    return ts
+    return delta
 
 
 class OrNone(commands.Converter):
