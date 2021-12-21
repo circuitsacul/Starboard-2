@@ -14,7 +14,6 @@ import discord
 import uvloop
 from discord.ext import prettyhelp
 from dotenv import load_dotenv
-from statcord import StatcordClusterClient
 
 import config
 from app import commands, i18n, utils
@@ -81,16 +80,6 @@ class Bot(commands.AutoShardedBot):
             ),
         )
         self._before_invoke = self.before_invoke_hook
-
-        if config.POST_STATCORD:
-            first = 0 in self.shard_ids
-            self.statcord_client = StatcordClusterClient(
-                self,
-                os.getenv("STATCORD_TOKEN"),
-                self.cluster_name,
-                mem_stats=first,
-                net_stats=first,
-            )
 
         self.log = logging.getLogger(f"Cluster#{self.cluster_name}")
         self.log.setLevel(logging.DEBUG)
@@ -261,10 +250,7 @@ class Bot(commands.AutoShardedBot):
             content = data["content"]
             ret = str(await self.exec(content))
         elif cmd == "set_stats":
-            self.stats[msg["author"]] = {
-                "guilds": data["guild_count"],
-                "members": data["member_count"],
-            }
+            self.dispatch("update_stats", msg["author"], data)
         elif cmd == "get_mutual":
             ret = []
             for gid in data:
