@@ -141,7 +141,7 @@ async def get_or_set_webhook(
     sql_starboard = await bot.db.starboards.get(starboard.id)
     webhook = None
     if sql_starboard["webhook_url"]:
-        webhook = bot.get_webhook(sql_starboard["webhook_url"])
+        webhook = await bot.get_webhook(sql_starboard["webhook_url"])
 
     if webhook:
         return webhook
@@ -266,7 +266,7 @@ async def handle_trashed_message(
 ) -> None:
     webhook = None
     if sql_starboard["webhook_url"]:
-        webhook = bot.get_webhook(sql_starboard["webhook_url"])
+        webhook = await bot.get_webhook(sql_starboard["webhook_url"])
 
     sql_starboard_message = await bot.db.fetchrow(
         """SELECT * FROM starboard_messages
@@ -343,7 +343,7 @@ async def handle_starboard(
     if sql_starboard["use_webhook"]:
         webhook = await get_or_set_webhook(bot, starboard)
     elif sql_starboard["webhook_url"]:
-        webhook = bot.get_webhook(sql_starboard["webhook_url"])
+        webhook = await bot.get_webhook(sql_starboard["webhook_url"])
 
     sql_starboard_message = await bot.db.fetchrow(
         """SELECT * FROM starboard_messages

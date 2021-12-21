@@ -59,7 +59,7 @@ class Cache:
             user = await self.bot.fetch_user(user_id)
         except discord.NotFound:
             user = None
-        self.user[user_id] = user
+        self.users[user_id] = user
         return user
 
     async def get_members(

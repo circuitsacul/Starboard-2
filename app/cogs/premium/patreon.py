@@ -99,7 +99,7 @@ class API(object):
             "Authorization": "Bearer {}".format(self.access_token),
             "User-Agent": user_agent_string(),
         }
-        async with self.bot.session.get(
+        async with (await self.bot.session()).get(
             "https://www.patreon.com/api/oauth2/api/{}".format(suffix),
             headers=headers,
         ) as resp:
