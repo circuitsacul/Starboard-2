@@ -59,7 +59,7 @@ class BaseEvents(commands.Cog):
             return
         if not self.uptime_webhook:
             self.uptime_webhook = Webhook.from_url(
-                UPTIME, adapter=AsyncWebhookAdapter(self.bot.session)
+                UPTIME, adapter=AsyncWebhookAdapter(await self.bot.session())
             )
         await self.uptime_webhook.send(content, username="Starboard Uptime")
 
@@ -68,7 +68,7 @@ class BaseEvents(commands.Cog):
             return
         if not self.error_webhook:
             self.error_webhook = Webhook.from_url(
-                ERROR, adapter=AsyncWebhookAdapter(self.bot.session)
+                ERROR, adapter=AsyncWebhookAdapter(await self.bot.session())
             )
         await self.error_webhook.send(content, username="Starboard Errors")
 
@@ -77,7 +77,7 @@ class BaseEvents(commands.Cog):
             return
         if not self.guild_webhook:
             self.guild_webhook = Webhook.from_url(
-                GUILD, adapter=AsyncWebhookAdapter(self.bot.session)
+                GUILD, adapter=AsyncWebhookAdapter(await self.bot.session())
             )
         await self.guild_webhook.send(
             embed=embed, username="Starboard Guild Log"
@@ -88,7 +88,7 @@ class BaseEvents(commands.Cog):
             return
         if not self.vote_webhook:
             self.vote_webhook = Webhook.from_url(
-                VOTE, adapter=AsyncWebhookAdapter(self.bot.session)
+                VOTE, adapter=AsyncWebhookAdapter(await self.bot.session())
             )
         await self.vote_webhook.send(embed=embed, username="Starboard Votes")
 

@@ -25,7 +25,7 @@ class BotBlockStats(commands.Cog):
             "bot_id": self.bot.user.id,
             **config.BOT_LISTS,
         }
-        async with self.bot.session.post(
+        async with (await self.bot.session()).post(
             "https://botblock.org/api/count", data=params
         ) as resp:
             resp.raise_for_status()
