@@ -486,7 +486,7 @@ class Settings(
             WHERE id=$1""",
             ctx.guild.id,
         )
-        await self.bot.db.guilds.cache.delete(ctx.guild.id)
+        del self.bot.db.guilds.cache[ctx.guild.id]
         await ctx.send(t_("Cleared all prefixes and added `sb!`."))
 
     @commands.command(
@@ -583,7 +583,7 @@ class Settings(
             channel.id if channel else None,
             ctx.guild.id,
         )
-        await self.bot.db.guilds.cache.delete(ctx.guild.id)
+        del self.bot.db.guilds.cache[ctx.guild.id]
         if channel:
             await ctx.send(
                 t_("Set the log channel to {0}.").format(channel.mention)
