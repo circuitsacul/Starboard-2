@@ -184,7 +184,7 @@ class Fun(commands.Cog, description=t_("Fun commands for Starboard.", True)):
         messages = await self.bot.db.fetch(
             """SELECT * FROM starboard_messages
             WHERE ($6::numeric is NULL or id>$6)
-            AND ($7::numeric is NULL or id<$6)
+            AND ($7::numeric is NULL or id<$7)
             AND starboard_id=any($1::numeric[])
             AND ($2::numeric is NULL or starboard_id=$2::numeric)
             AND EXISTS(
