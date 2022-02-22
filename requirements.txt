@@ -8,7 +8,7 @@ humanize==3.14.0
 quart==0.16.2
 alt-discord-flags==0.0.5
 python-dotenv==0.19.2
-websockets==10.1
+websockets==10.2
 uvloop==0.16.0
 asyncpg==0.25.0
 buildpg==0.3
