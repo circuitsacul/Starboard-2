@@ -1,5 +1,5 @@
 discord-ext-menus @ git+git://github.com/Rapptz/discord-ext-menus.git@309c70222eec33acacb8c21bbb0fbe9bc57de661
-jishaku==2.3.2
+jishaku==2.4.0
 discord-ext-wizards==0.3.0
 discord-ext-prettyhelp==0.2.3
 requests==2.27.1
