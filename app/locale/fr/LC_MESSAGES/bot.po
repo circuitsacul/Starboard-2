@@ -2604,7 +2604,7 @@ msgid "The cooldown amount must be greater than 0."
 msgstr ""
 
 #: app/cogs/starboard/starboard_commands.py:31
-msgid "Exitted due to an error."
+msgid "Exited due to an error."
 msgstr ""
 
 #: app/cogs/starboard/starboard_commands.py:33
